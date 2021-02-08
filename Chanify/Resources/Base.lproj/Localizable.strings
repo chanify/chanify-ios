@@ -1,0 +1,56 @@
+/* 
+  Localizable.strings (Base)
+  Chanify
+
+  Created by WizJin on 2021/2/8.
+  
+*/
+"OK"="OK";
+"Done"="Done";
+"Close"="Close";
+"Cancel"="Cancel";
+"Enable"="Enable";
+"Disable"="Disable";
+"NewMsg"="Receive an new message";
+"Channels"="Channels";
+"Scan QR Code"="Scan QR Code";
+"New Channel"="New Channel";
+"Nodes"="Nodes";
+"Settings"="Settings";
+"ACCOUNT"="ACCOUNT";
+"User"="User";
+"Device"="Device";
+"GENERAL"="GENERAL";
+"Appearance"="Appearance";
+"Default"="Default";
+"Light"="Light";
+"Dark"="Dark";
+"Notification"="Notification";
+"ABOUT"="ABOUT";
+"Version"="Version";
+"Privacy Policy"="Privacy Policy";
+"Acknowledgements"="Acknowledgements";
+"Contact Us"="Contact Us";
+"Logout"="Logout";
+"Feedback"="Feedback";
+"NoMore"="No more";
+"Channel Detail"="Channel Detail";
+"Can't open url"="Can't open url";
+"No QR code"="No QR code";
+"Tap to reload"="Tap to reload";
+"Release to reload"="Release to reload";
+"Logout failed"="Logout failed";
+"Account copied"="Account copied";
+"Create new account"="Create new account";
+"Import old account"="Import old account";
+"Create account failed"="Create account failed";
+"Import account failed"="Import account failed";
+"Unknown message type"="Unknown message type";
+"Backup Account"="Backup Account";
+"Export failed"="Export failed";
+"Export success"="Export success";
+"UserInfoTitle"="Scan this QR code";
+"UserInfoDetail"="Download the Chanify app on your new device. Within the app, scan this QR code.";
+
+"sys.none"="Uncategorized";
+"sys.device"="Devices";

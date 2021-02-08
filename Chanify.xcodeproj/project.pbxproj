@@ -1,0 +1,1169 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 52;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		55AC77D7F97CF382C0A72C50 /* libPods-Chanify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5B1F40BCE80A4DDFEB56F70 /* libPods-Chanify.a */; };
+		6DC6C1C425D0DCD100512E36 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C1C325D0DCD100512E36 /* AppDelegate.m */; };
+		6DC6C1CA25D0DCD100512E36 /* CHViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C1C925D0DCD100512E36 /* CHViewController.m */; };
+		6DC6C1CF25D0DCD200512E36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DC6C1CE25D0DCD200512E36 /* Assets.xcassets */; };
+		6DC6C1D225D0DCD200512E36 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DC6C1D025D0DCD200512E36 /* LaunchScreen.storyboard */; };
+		6DC6C1D525D0DCD200512E36 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C1D425D0DCD200512E36 /* main.m */; };
+		6DC6C1F425D0E18600512E36 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6DC6C1F325D0E18600512E36 /* Settings.bundle */; };
+		6DC6C1F825D0E1A100512E36 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6DC6C1F625D0E1A100512E36 /* InfoPlist.strings */; };
+		6DC6C1FE25D0E20200512E36 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6DC6C1FC25D0E20200512E36 /* Localizable.strings */; };
+		6DC6C20E25D0F3EF00512E36 /* CHTP.proto in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C20D25D0F3EF00512E36 /* CHTP.proto */; };
+		6DC6C22025D0FB7600512E36 /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C21F25D0FB7600512E36 /* NotificationService.m */; };
+		6DC6C22425D0FB7600512E36 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6DC6C21C25D0FB7600512E36 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		6DC6C23325D0FC7500512E36 /* CHTP.proto in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C20D25D0F3EF00512E36 /* CHTP.proto */; };
+		6DC6C24225D1117A00512E36 /* CHTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C24125D1117A00512E36 /* CHTheme.m */; };
+		6DC6C24925D1122100512E36 /* CHUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C24825D1122100512E36 /* CHUtils.m */; };
+		6DC6C25325D112BB00512E36 /* CHLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C25225D112BB00512E36 /* CHLogger.m */; };
+		6DC6C26025D114E800512E36 /* NSData+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C25F25D114E800512E36 /* NSData+CHExt.m */; };
+		6DC6C26525D1151E00512E36 /* NSString+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C26425D1151E00512E36 /* NSString+CHExt.m */; };
+		6DC6C26A25D1159C00512E36 /* CHRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C26925D1159C00512E36 /* CHRouter.m */; };
+		6DC6C26F25D13D2900512E36 /* CHNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C26E25D13D2900512E36 /* CHNotification.m */; };
+		6DC6C27425D13E5500512E36 /* CHLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C27325D13E5500512E36 /* CHLogic.m */; };
+		6DC6C27B25D13EFA00512E36 /* CHUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C27A25D13EFA00512E36 /* CHUserModel.m */; };
+		6DC6C28225D1408700512E36 /* CHTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C28125D1408700512E36 /* CHTabBarViewController.m */; };
+		6DC6C28925D1410D00512E36 /* UIViewController+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C28825D1410D00512E36 /* UIViewController+CHExt.m */; };
+		6DC6C28F25D1435A00512E36 /* CHLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C28E25D1435A00512E36 /* CHLoginViewController.m */; };
+		6DC6C29A25D143BC00512E36 /* CHWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C29925D143BC00512E36 /* CHWebViewController.m */; };
+		6DC6C2A125D1441100512E36 /* CHWebViewRefresher.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2A025D1441100512E36 /* CHWebViewRefresher.m */; };
+		6DC6C2A625D14BE000512E36 /* CHDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2A525D14BE000512E36 /* CHDevice.m */; };
+		6DC6C2AE25D14C2400512E36 /* CHSecKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2AD25D14C2400512E36 /* CHSecKey.m */; };
+		6DC6C2B525D1592900512E36 /* NSException+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2B425D1592900512E36 /* NSException+CHExt.m */; };
+		6DC6C2C025D15A7900512E36 /* CHIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2BF25D15A7900512E36 /* CHIndicatorView.m */; };
+		6DC6C2C525D15A8600512E36 /* CHIndicatorPanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2C425D15A8600512E36 /* CHIndicatorPanelView.m */; };
+		6DC6C2CD25D15B6300512E36 /* CHScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2CC25D15B6300512E36 /* CHScanViewController.m */; };
+		6DC6C2D625D15CCD00512E36 /* CHManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2D525D15CCD00512E36 /* CHManager.m */; };
+		6DC6C2DD25D15DB100512E36 /* CHUserDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2DC25D15DB100512E36 /* CHUserDataSource.m */; };
+		6DC6C2E225D15E6B00512E36 /* CHChannelModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2E125D15E6B00512E36 /* CHChannelModel.m */; };
+		6DC6C2E725D15EC100512E36 /* CHMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2E625D15EC100512E36 /* CHMessageModel.m */; };
+		6DC6C2EC25D15F9700512E36 /* CHNSDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2EB25D15F9700512E36 /* CHNSDataSource.m */; };
+		6DC6C2F125D15FB700512E36 /* CHNSDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2EB25D15F9700512E36 /* CHNSDataSource.m */; };
+		6DC6C2F625D1602F00512E36 /* NSURL+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2F525D1602F00512E36 /* NSURL+CHExt.m */; };
+		6DC6C2FD25D160C100512E36 /* CHLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C25225D112BB00512E36 /* CHLogger.m */; };
+		6DC6C30025D160C800512E36 /* CHMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2E625D15EC100512E36 /* CHMessageModel.m */; };
+		6DC6C30325D160E100512E36 /* NSURL+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2F525D1602F00512E36 /* NSURL+CHExt.m */; };
+		6DC6C30625D160EA00512E36 /* NSData+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C25F25D114E800512E36 /* NSData+CHExt.m */; };
+		6DC6C30925D160ED00512E36 /* NSString+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C26425D1151E00512E36 /* NSString+CHExt.m */; };
+		6DC6C30C25D160F100512E36 /* NSException+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2B425D1592900512E36 /* NSException+CHExt.m */; };
+		6DC6C31125D1611200512E36 /* NSDictionary+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C31025D1611200512E36 /* NSDictionary+CHExt.m */; };
+		6DC6C31425D1611E00512E36 /* NSDictionary+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C31025D1611200512E36 /* NSDictionary+CHExt.m */; };
+		6DC6C31925D1615100512E36 /* NSFileManager+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C31825D1615100512E36 /* NSFileManager+CHExt.m */; };
+		6DC6C31E25D1617900512E36 /* NSFileManager+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C31825D1615100512E36 /* NSFileManager+CHExt.m */; };
+		6DC6C32725D1626D00512E36 /* CryptoKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C32625D1626D00512E36 /* CryptoKit.swift */; };
+		6DC6C32825D1626D00512E36 /* CryptoKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C32625D1626D00512E36 /* CryptoKit.swift */; };
+		6DC6C33425D1686200512E36 /* CHChannelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C33325D1686200512E36 /* CHChannelCell.m */; };
+		6DC6C33925D168A200512E36 /* CHAvatarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C33825D168A200512E36 /* CHAvatarView.m */; };
+		6DC6C33E25D1694100512E36 /* CHChannelsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C33D25D1694100512E36 /* CHChannelsViewController.m */; };
+		6DC6C34325D169A900512E36 /* UICollectionView+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C34225D169A900512E36 /* UICollectionView+CHExt.m */; };
+		6DC6C34B25D16A7300512E36 /* CHSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C34A25D16A7300512E36 /* CHSettingsViewController.m */; };
+		6DC6C35C25D16B6A00512E36 /* NSPredicate+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C35B25D16B6A00512E36 /* NSPredicate+CHExt.m */; };
+		6DC6C36325D16BCE00512E36 /* CHAcknowledgementsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C36225D16BCE00512E36 /* CHAcknowledgementsViewController.m */; };
+		6DC6C36825D16C1600512E36 /* CHUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C36725D16C1600512E36 /* CHUserInfoViewController.m */; };
+		6DC6C36F25D16C4E00512E36 /* CHQrCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C36E25D16C4E00512E36 /* CHQrCodeView.m */; };
+		6DC6C37625D16CA000512E36 /* UIView+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C37525D16CA000512E36 /* UIView+CHExt.m */; };
+		6DC6C37F25D16E1800512E36 /* CHCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C37E25D16E1800512E36 /* CHCellConfiguration.m */; };
+		6DC6C38625D16E4200512E36 /* CHDateCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C38525D16E4200512E36 /* CHDateCellConfiguration.m */; };
+		6DC6C38B25D16E6A00512E36 /* CHMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C38A25D16E6A00512E36 /* CHMsgCellConfiguration.m */; };
+		6DC6C39025D16EA200512E36 /* CHTextMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C38F25D16EA200512E36 /* CHTextMsgCellConfiguration.m */; };
+		6DC6C39525D16ECA00512E36 /* CHUnknownMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C39425D16ECA00512E36 /* CHUnknownMsgCellConfiguration.m */; };
+		6DC6C39A25D16FAC00512E36 /* CHMessagesHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C39925D16FAC00512E36 /* CHMessagesHeaderView.m */; };
+		6DC6C39F25D16FE600512E36 /* CHMessagesDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C39E25D16FE600512E36 /* CHMessagesDataSource.m */; };
+		6DC6C3A425D1700A00512E36 /* CHChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C3A325D1700A00512E36 /* CHChannelViewController.m */; };
+		6DC6C3A925D1702F00512E36 /* CHChannelNewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C3A825D1702F00512E36 /* CHChannelNewViewController.m */; };
+		6DC6C3AE25D1705100512E36 /* CHChannelDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C3AD25D1705100512E36 /* CHChannelDetailViewController.m */; };
+		E1FF8005990C1480B5C3EF98 /* libPods-NotificationService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77860262C85473FCE5AADE06 /* libPods-NotificationService.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		6DC6C21125D0F41500512E36 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.proto";
+			fileType = pattern.proxy;
+			inputFiles = (
+			);
+			isEditable = 1;
+			outputFiles = (
+				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).pbobjc.h",
+				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).pbobjc.m",
+			);
+			outputFilesCompilerFlags = (
+				"",
+				"-fno-objc-arc",
+			);
+			runOncePerArchitecture = 0;
+			script = "protoc --proto_path=\"$INPUT_FILE_DIR\" --objc_out \"$DERIVED_FILE_DIR\" \"$INPUT_FILE_PATH\"\n";
+		};
+		6DC6C23025D0FC1C00512E36 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.proto";
+			fileType = pattern.proxy;
+			inputFiles = (
+			);
+			isEditable = 1;
+			outputFiles = (
+				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).pbobjc.h",
+				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).pbobjc.m",
+			);
+			outputFilesCompilerFlags = (
+				"",
+				"-fno-objc-arc",
+			);
+			runOncePerArchitecture = 0;
+			script = "protoc --proto_path=\"$INPUT_FILE_DIR\" --objc_out \"$DERIVED_FILE_DIR\" \"$INPUT_FILE_PATH\"\n";
+		};
+/* End PBXBuildRule section */
+
+/* Begin PBXContainerItemProxy section */
+		6DC6C22225D0FB7600512E36 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6DC6C1B725D0DCD100512E36 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6DC6C21B25D0FB7600512E36;
+			remoteInfo = NotificationService;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6DC6C22525D0FB7600512E36 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				6DC6C22425D0FB7600512E36 /* NotificationService.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		518C6AACAB0FE1992637FCE8 /* Pods-Chanify.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chanify.debug.xcconfig"; path = "Target Support Files/Pods-Chanify/Pods-Chanify.debug.xcconfig"; sourceTree = "<group>"; };
+		6DC6C1BF25D0DCD100512E36 /* Chanify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chanify.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6DC6C1C225D0DCD100512E36 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		6DC6C1C325D0DCD100512E36 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		6DC6C1C825D0DCD100512E36 /* CHViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHViewController.h; sourceTree = "<group>"; };
+		6DC6C1C925D0DCD100512E36 /* CHViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHViewController.m; sourceTree = "<group>"; };
+		6DC6C1CE25D0DCD200512E36 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6DC6C1D125D0DCD200512E36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		6DC6C1D325D0DCD200512E36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6DC6C1D425D0DCD200512E36 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6DC6C1F025D0DF2B00512E36 /* Chanify.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Chanify.entitlements; sourceTree = "<group>"; };
+		6DC6C1F325D0E18600512E36 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		6DC6C1F725D0E1A100512E36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6DC6C1FA25D0E1D900512E36 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		6DC6C1FD25D0E20200512E36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6DC6C20025D0E21E00512E36 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		6DC6C20D25D0F3EF00512E36 /* CHTP.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = CHTP.proto; sourceTree = "<group>"; };
+		6DC6C21C25D0FB7600512E36 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		6DC6C21E25D0FB7600512E36 /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
+		6DC6C21F25D0FB7600512E36 /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
+		6DC6C22125D0FB7600512E36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6DC6C22D25D0FBEE00512E36 /* NotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationService.entitlements; sourceTree = "<group>"; };
+		6DC6C24025D1117A00512E36 /* CHTheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHTheme.h; sourceTree = "<group>"; };
+		6DC6C24125D1117A00512E36 /* CHTheme.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHTheme.m; sourceTree = "<group>"; };
+		6DC6C24725D1122100512E36 /* CHUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHUtils.h; sourceTree = "<group>"; };
+		6DC6C24825D1122100512E36 /* CHUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHUtils.m; sourceTree = "<group>"; };
+		6DC6C24E25D1125300512E36 /* CHConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHConfig.h; sourceTree = "<group>"; };
+		6DC6C25125D112BB00512E36 /* CHLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHLogger.h; sourceTree = "<group>"; };
+		6DC6C25225D112BB00512E36 /* CHLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHLogger.m; sourceTree = "<group>"; };
+		6DC6C25825D1131E00512E36 /* Chanify.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Chanify.pch; sourceTree = "<group>"; };
+		6DC6C25E25D114E800512E36 /* NSData+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+CHExt.h"; sourceTree = "<group>"; };
+		6DC6C25F25D114E800512E36 /* NSData+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+CHExt.m"; sourceTree = "<group>"; };
+		6DC6C26325D1151E00512E36 /* NSString+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+CHExt.h"; sourceTree = "<group>"; };
+		6DC6C26425D1151E00512E36 /* NSString+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+CHExt.m"; sourceTree = "<group>"; };
+		6DC6C26825D1159C00512E36 /* CHRouter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHRouter.h; sourceTree = "<group>"; };
+		6DC6C26925D1159C00512E36 /* CHRouter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHRouter.m; sourceTree = "<group>"; };
+		6DC6C26D25D13D2900512E36 /* CHNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNotification.h; sourceTree = "<group>"; };
+		6DC6C26E25D13D2900512E36 /* CHNotification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNotification.m; sourceTree = "<group>"; };
+		6DC6C27225D13E5500512E36 /* CHLogic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHLogic.h; sourceTree = "<group>"; };
+		6DC6C27325D13E5500512E36 /* CHLogic.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHLogic.m; sourceTree = "<group>"; };
+		6DC6C27925D13EFA00512E36 /* CHUserModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHUserModel.h; sourceTree = "<group>"; };
+		6DC6C27A25D13EFA00512E36 /* CHUserModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHUserModel.m; sourceTree = "<group>"; };
+		6DC6C28025D1408700512E36 /* CHTabBarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHTabBarViewController.h; sourceTree = "<group>"; };
+		6DC6C28125D1408700512E36 /* CHTabBarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHTabBarViewController.m; sourceTree = "<group>"; };
+		6DC6C28725D1410D00512E36 /* UIViewController+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+CHExt.h"; sourceTree = "<group>"; };
+		6DC6C28825D1410D00512E36 /* UIViewController+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+CHExt.m"; sourceTree = "<group>"; };
+		6DC6C28D25D1435A00512E36 /* CHLoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHLoginViewController.h; sourceTree = "<group>"; };
+		6DC6C28E25D1435A00512E36 /* CHLoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHLoginViewController.m; sourceTree = "<group>"; };
+		6DC6C29825D143BC00512E36 /* CHWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebViewController.h; sourceTree = "<group>"; };
+		6DC6C29925D143BC00512E36 /* CHWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHWebViewController.m; sourceTree = "<group>"; };
+		6DC6C29F25D1441100512E36 /* CHWebViewRefresher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebViewRefresher.h; sourceTree = "<group>"; };
+		6DC6C2A025D1441100512E36 /* CHWebViewRefresher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHWebViewRefresher.m; sourceTree = "<group>"; };
+		6DC6C2A425D14BE000512E36 /* CHDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHDevice.h; sourceTree = "<group>"; };
+		6DC6C2A525D14BE000512E36 /* CHDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHDevice.m; sourceTree = "<group>"; };
+		6DC6C2AC25D14C2400512E36 /* CHSecKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHSecKey.h; sourceTree = "<group>"; };
+		6DC6C2AD25D14C2400512E36 /* CHSecKey.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHSecKey.m; sourceTree = "<group>"; };
+		6DC6C2B325D1592900512E36 /* NSException+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSException+CHExt.h"; sourceTree = "<group>"; };
+		6DC6C2B425D1592900512E36 /* NSException+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSException+CHExt.m"; sourceTree = "<group>"; };
+		6DC6C2BE25D15A7900512E36 /* CHIndicatorView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHIndicatorView.h; sourceTree = "<group>"; };
+		6DC6C2BF25D15A7900512E36 /* CHIndicatorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHIndicatorView.m; sourceTree = "<group>"; };
+		6DC6C2C325D15A8600512E36 /* CHIndicatorPanelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHIndicatorPanelView.h; sourceTree = "<group>"; };
+		6DC6C2C425D15A8600512E36 /* CHIndicatorPanelView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHIndicatorPanelView.m; sourceTree = "<group>"; };
+		6DC6C2CB25D15B6300512E36 /* CHScanViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHScanViewController.h; sourceTree = "<group>"; };
+		6DC6C2CC25D15B6300512E36 /* CHScanViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHScanViewController.m; sourceTree = "<group>"; };
+		6DC6C2D425D15CCD00512E36 /* CHManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHManager.h; sourceTree = "<group>"; };
+		6DC6C2D525D15CCD00512E36 /* CHManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHManager.m; sourceTree = "<group>"; };
+		6DC6C2DB25D15DB100512E36 /* CHUserDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHUserDataSource.h; sourceTree = "<group>"; };
+		6DC6C2DC25D15DB100512E36 /* CHUserDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHUserDataSource.m; sourceTree = "<group>"; };
+		6DC6C2E025D15E6B00512E36 /* CHChannelModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelModel.h; sourceTree = "<group>"; };
+		6DC6C2E125D15E6B00512E36 /* CHChannelModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelModel.m; sourceTree = "<group>"; };
+		6DC6C2E525D15EC100512E36 /* CHMessageModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHMessageModel.h; sourceTree = "<group>"; };
+		6DC6C2E625D15EC100512E36 /* CHMessageModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHMessageModel.m; sourceTree = "<group>"; };
+		6DC6C2EA25D15F9700512E36 /* CHNSDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNSDataSource.h; sourceTree = "<group>"; };
+		6DC6C2EB25D15F9700512E36 /* CHNSDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNSDataSource.m; sourceTree = "<group>"; };
+		6DC6C2F425D1602F00512E36 /* NSURL+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURL+CHExt.h"; sourceTree = "<group>"; };
+		6DC6C2F525D1602F00512E36 /* NSURL+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSURL+CHExt.m"; sourceTree = "<group>"; };
+		6DC6C30F25D1611200512E36 /* NSDictionary+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+CHExt.h"; sourceTree = "<group>"; };
+		6DC6C31025D1611200512E36 /* NSDictionary+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+CHExt.m"; sourceTree = "<group>"; };
+		6DC6C31725D1615100512E36 /* NSFileManager+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+CHExt.h"; sourceTree = "<group>"; };
+		6DC6C31825D1615100512E36 /* NSFileManager+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+CHExt.m"; sourceTree = "<group>"; };
+		6DC6C32125D161DC00512E36 /* CHCrpyto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHCrpyto.h; sourceTree = "<group>"; };
+		6DC6C32625D1626D00512E36 /* CryptoKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoKit.swift; sourceTree = "<group>"; };
+		6DC6C33225D1686200512E36 /* CHChannelCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelCell.h; sourceTree = "<group>"; };
+		6DC6C33325D1686200512E36 /* CHChannelCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelCell.m; sourceTree = "<group>"; };
+		6DC6C33725D168A200512E36 /* CHAvatarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHAvatarView.h; sourceTree = "<group>"; };
+		6DC6C33825D168A200512E36 /* CHAvatarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHAvatarView.m; sourceTree = "<group>"; };
+		6DC6C33C25D1694100512E36 /* CHChannelsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelsViewController.h; sourceTree = "<group>"; };
+		6DC6C33D25D1694100512E36 /* CHChannelsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelsViewController.m; sourceTree = "<group>"; };
+		6DC6C34125D169A900512E36 /* UICollectionView+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UICollectionView+CHExt.h"; sourceTree = "<group>"; };
+		6DC6C34225D169A900512E36 /* UICollectionView+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UICollectionView+CHExt.m"; sourceTree = "<group>"; };
+		6DC6C34925D16A7300512E36 /* CHSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHSettingsViewController.h; sourceTree = "<group>"; };
+		6DC6C34A25D16A7300512E36 /* CHSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHSettingsViewController.m; sourceTree = "<group>"; };
+		6DC6C35A25D16B6A00512E36 /* NSPredicate+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSPredicate+CHExt.h"; sourceTree = "<group>"; };
+		6DC6C35B25D16B6A00512E36 /* NSPredicate+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSPredicate+CHExt.m"; sourceTree = "<group>"; };
+		6DC6C36125D16BCE00512E36 /* CHAcknowledgementsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHAcknowledgementsViewController.h; sourceTree = "<group>"; };
+		6DC6C36225D16BCE00512E36 /* CHAcknowledgementsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHAcknowledgementsViewController.m; sourceTree = "<group>"; };
+		6DC6C36625D16C1600512E36 /* CHUserInfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHUserInfoViewController.h; sourceTree = "<group>"; };
+		6DC6C36725D16C1600512E36 /* CHUserInfoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHUserInfoViewController.m; sourceTree = "<group>"; };
+		6DC6C36D25D16C4E00512E36 /* CHQrCodeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHQrCodeView.h; sourceTree = "<group>"; };
+		6DC6C36E25D16C4E00512E36 /* CHQrCodeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHQrCodeView.m; sourceTree = "<group>"; };
+		6DC6C37425D16CA000512E36 /* UIView+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+CHExt.h"; sourceTree = "<group>"; };
+		6DC6C37525D16CA000512E36 /* UIView+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+CHExt.m"; sourceTree = "<group>"; };
+		6DC6C37D25D16E1800512E36 /* CHCellConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHCellConfiguration.h; sourceTree = "<group>"; };
+		6DC6C37E25D16E1800512E36 /* CHCellConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHCellConfiguration.m; sourceTree = "<group>"; };
+		6DC6C38425D16E4200512E36 /* CHDateCellConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHDateCellConfiguration.h; sourceTree = "<group>"; };
+		6DC6C38525D16E4200512E36 /* CHDateCellConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHDateCellConfiguration.m; sourceTree = "<group>"; };
+		6DC6C38925D16E6A00512E36 /* CHMsgCellConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHMsgCellConfiguration.h; sourceTree = "<group>"; };
+		6DC6C38A25D16E6A00512E36 /* CHMsgCellConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHMsgCellConfiguration.m; sourceTree = "<group>"; };
+		6DC6C38E25D16EA200512E36 /* CHTextMsgCellConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHTextMsgCellConfiguration.h; sourceTree = "<group>"; };
+		6DC6C38F25D16EA200512E36 /* CHTextMsgCellConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHTextMsgCellConfiguration.m; sourceTree = "<group>"; };
+		6DC6C39325D16ECA00512E36 /* CHUnknownMsgCellConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHUnknownMsgCellConfiguration.h; sourceTree = "<group>"; };
+		6DC6C39425D16ECA00512E36 /* CHUnknownMsgCellConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHUnknownMsgCellConfiguration.m; sourceTree = "<group>"; };
+		6DC6C39825D16FAC00512E36 /* CHMessagesHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHMessagesHeaderView.h; sourceTree = "<group>"; };
+		6DC6C39925D16FAC00512E36 /* CHMessagesHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHMessagesHeaderView.m; sourceTree = "<group>"; };
+		6DC6C39D25D16FE600512E36 /* CHMessagesDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHMessagesDataSource.h; sourceTree = "<group>"; };
+		6DC6C39E25D16FE600512E36 /* CHMessagesDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHMessagesDataSource.m; sourceTree = "<group>"; };
+		6DC6C3A225D1700A00512E36 /* CHChannelViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelViewController.h; sourceTree = "<group>"; };
+		6DC6C3A325D1700A00512E36 /* CHChannelViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelViewController.m; sourceTree = "<group>"; };
+		6DC6C3A725D1702F00512E36 /* CHChannelNewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelNewViewController.h; sourceTree = "<group>"; };
+		6DC6C3A825D1702F00512E36 /* CHChannelNewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelNewViewController.m; sourceTree = "<group>"; };
+		6DC6C3AC25D1705100512E36 /* CHChannelDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelDetailViewController.h; sourceTree = "<group>"; };
+		6DC6C3AD25D1705100512E36 /* CHChannelDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelDetailViewController.m; sourceTree = "<group>"; };
+		77860262C85473FCE5AADE06 /* libPods-NotificationService.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NotificationService.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		84478BB35AC049B8F080A494 /* Pods-NotificationService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationService.debug.xcconfig"; path = "Target Support Files/Pods-NotificationService/Pods-NotificationService.debug.xcconfig"; sourceTree = "<group>"; };
+		88B60DC2DA57301D0741245B /* Pods-NotificationService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationService.release.xcconfig"; path = "Target Support Files/Pods-NotificationService/Pods-NotificationService.release.xcconfig"; sourceTree = "<group>"; };
+		D5B1F40BCE80A4DDFEB56F70 /* libPods-Chanify.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Chanify.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE20795FBEF5ADCF265D5783 /* Pods-Chanify.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chanify.release.xcconfig"; path = "Target Support Files/Pods-Chanify/Pods-Chanify.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6DC6C1BC25D0DCD100512E36 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				55AC77D7F97CF382C0A72C50 /* libPods-Chanify.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6DC6C21925D0FB7600512E36 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1FF8005990C1480B5C3EF98 /* libPods-NotificationService.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		005CB7060C370EAED6BFCAF1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				518C6AACAB0FE1992637FCE8 /* Pods-Chanify.debug.xcconfig */,
+				DE20795FBEF5ADCF265D5783 /* Pods-Chanify.release.xcconfig */,
+				84478BB35AC049B8F080A494 /* Pods-NotificationService.debug.xcconfig */,
+				88B60DC2DA57301D0741245B /* Pods-NotificationService.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		6DC6C1B625D0DCD100512E36 = {
+			isa = PBXGroup;
+			children = (
+				6DC6C1C125D0DCD100512E36 /* Chanify */,
+				6DC6C21D25D0FB7600512E36 /* NotificationService */,
+				6DC6C1C025D0DCD100512E36 /* Products */,
+				005CB7060C370EAED6BFCAF1 /* Pods */,
+				AA9D7AE19CD99A925739E3F6 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		6DC6C1C025D0DCD100512E36 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C1BF25D0DCD100512E36 /* Chanify.app */,
+				6DC6C21C25D0FB7600512E36 /* NotificationService.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6DC6C1C125D0DCD100512E36 /* Chanify */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C1E725D0DE3800512E36 /* Classes */,
+				6DC6C1E925D0DEA700512E36 /* Views */,
+				6DC6C20C25D0F3C500512E36 /* Models */,
+				6DC6C2AB25D14C1300512E36 /* Security */,
+				6DC6C23F25D1114000512E36 /* Services */,
+				6DC6C25D25D114B400512E36 /* Extensions */,
+				6DC6C1EA25D0DEB200512E36 /* Resources */,
+				6DC6C1F025D0DF2B00512E36 /* Chanify.entitlements */,
+			);
+			path = Chanify;
+			sourceTree = "<group>";
+		};
+		6DC6C1E725D0DE3800512E36 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C1C225D0DCD100512E36 /* AppDelegate.h */,
+				6DC6C1C325D0DCD100512E36 /* AppDelegate.m */,
+				6DC6C25125D112BB00512E36 /* CHLogger.h */,
+				6DC6C25225D112BB00512E36 /* CHLogger.m */,
+				6DC6C24725D1122100512E36 /* CHUtils.h */,
+				6DC6C24825D1122100512E36 /* CHUtils.m */,
+				6DC6C24E25D1125300512E36 /* CHConfig.h */,
+				6DC6C25825D1131E00512E36 /* Chanify.pch */,
+				6DC6C1D425D0DCD200512E36 /* main.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		6DC6C1E925D0DEA700512E36 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C33125D1680D00512E36 /* Channels */,
+				6DC6C37B25D16DE600512E36 /* Channel */,
+				6DC6C34825D16A6300512E36 /* Settings */,
+				6DC6C27E25D1406E00512E36 /* TabBar */,
+				6DC6C28C25D1433F00512E36 /* Login */,
+				6DC6C2CA25D15B4100512E36 /* Scan */,
+				6DC6C29725D143AB00512E36 /* Web */,
+				6DC6C29425D1435F00512E36 /* Utils */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		6DC6C1EA25D0DEB200512E36 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C1F325D0E18600512E36 /* Settings.bundle */,
+				6DC6C1F625D0E1A100512E36 /* InfoPlist.strings */,
+				6DC6C1FC25D0E20200512E36 /* Localizable.strings */,
+				6DC6C1CE25D0DCD200512E36 /* Assets.xcassets */,
+				6DC6C1D025D0DCD200512E36 /* LaunchScreen.storyboard */,
+				6DC6C1D325D0DCD200512E36 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		6DC6C20C25D0F3C500512E36 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C20D25D0F3EF00512E36 /* CHTP.proto */,
+				6DC6C27925D13EFA00512E36 /* CHUserModel.h */,
+				6DC6C27A25D13EFA00512E36 /* CHUserModel.m */,
+				6DC6C2E025D15E6B00512E36 /* CHChannelModel.h */,
+				6DC6C2E125D15E6B00512E36 /* CHChannelModel.m */,
+				6DC6C2E525D15EC100512E36 /* CHMessageModel.h */,
+				6DC6C2E625D15EC100512E36 /* CHMessageModel.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		6DC6C21D25D0FB7600512E36 /* NotificationService */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C22D25D0FBEE00512E36 /* NotificationService.entitlements */,
+				6DC6C21E25D0FB7600512E36 /* NotificationService.h */,
+				6DC6C21F25D0FB7600512E36 /* NotificationService.m */,
+				6DC6C22125D0FB7600512E36 /* Info.plist */,
+			);
+			path = NotificationService;
+			sourceTree = "<group>";
+		};
+		6DC6C23F25D1114000512E36 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C27225D13E5500512E36 /* CHLogic.h */,
+				6DC6C27325D13E5500512E36 /* CHLogic.m */,
+				6DC6C24025D1117A00512E36 /* CHTheme.h */,
+				6DC6C24125D1117A00512E36 /* CHTheme.m */,
+				6DC6C26825D1159C00512E36 /* CHRouter.h */,
+				6DC6C26925D1159C00512E36 /* CHRouter.m */,
+				6DC6C2A425D14BE000512E36 /* CHDevice.h */,
+				6DC6C2A525D14BE000512E36 /* CHDevice.m */,
+				6DC6C2D425D15CCD00512E36 /* CHManager.h */,
+				6DC6C2D525D15CCD00512E36 /* CHManager.m */,
+				6DC6C26D25D13D2900512E36 /* CHNotification.h */,
+				6DC6C26E25D13D2900512E36 /* CHNotification.m */,
+				6DC6C2EA25D15F9700512E36 /* CHNSDataSource.h */,
+				6DC6C2EB25D15F9700512E36 /* CHNSDataSource.m */,
+				6DC6C2DB25D15DB100512E36 /* CHUserDataSource.h */,
+				6DC6C2DC25D15DB100512E36 /* CHUserDataSource.m */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		6DC6C25D25D114B400512E36 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C2F425D1602F00512E36 /* NSURL+CHExt.h */,
+				6DC6C2F525D1602F00512E36 /* NSURL+CHExt.m */,
+				6DC6C25E25D114E800512E36 /* NSData+CHExt.h */,
+				6DC6C25F25D114E800512E36 /* NSData+CHExt.m */,
+				6DC6C26325D1151E00512E36 /* NSString+CHExt.h */,
+				6DC6C26425D1151E00512E36 /* NSString+CHExt.m */,
+				6DC6C35A25D16B6A00512E36 /* NSPredicate+CHExt.h */,
+				6DC6C35B25D16B6A00512E36 /* NSPredicate+CHExt.m */,
+				6DC6C2B325D1592900512E36 /* NSException+CHExt.h */,
+				6DC6C2B425D1592900512E36 /* NSException+CHExt.m */,
+				6DC6C30F25D1611200512E36 /* NSDictionary+CHExt.h */,
+				6DC6C31025D1611200512E36 /* NSDictionary+CHExt.m */,
+				6DC6C31725D1615100512E36 /* NSFileManager+CHExt.h */,
+				6DC6C31825D1615100512E36 /* NSFileManager+CHExt.m */,
+				6DC6C37425D16CA000512E36 /* UIView+CHExt.h */,
+				6DC6C37525D16CA000512E36 /* UIView+CHExt.m */,
+				6DC6C28725D1410D00512E36 /* UIViewController+CHExt.h */,
+				6DC6C28825D1410D00512E36 /* UIViewController+CHExt.m */,
+				6DC6C34125D169A900512E36 /* UICollectionView+CHExt.h */,
+				6DC6C34225D169A900512E36 /* UICollectionView+CHExt.m */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		6DC6C27E25D1406E00512E36 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C28025D1408700512E36 /* CHTabBarViewController.h */,
+				6DC6C28125D1408700512E36 /* CHTabBarViewController.m */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		6DC6C28C25D1433F00512E36 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C28D25D1435A00512E36 /* CHLoginViewController.h */,
+				6DC6C28E25D1435A00512E36 /* CHLoginViewController.m */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		6DC6C29425D1435F00512E36 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C1C825D0DCD100512E36 /* CHViewController.h */,
+				6DC6C1C925D0DCD100512E36 /* CHViewController.m */,
+				6DC6C2C325D15A8600512E36 /* CHIndicatorPanelView.h */,
+				6DC6C2C425D15A8600512E36 /* CHIndicatorPanelView.m */,
+				6DC6C2BE25D15A7900512E36 /* CHIndicatorView.h */,
+				6DC6C2BF25D15A7900512E36 /* CHIndicatorView.m */,
+				6DC6C36D25D16C4E00512E36 /* CHQrCodeView.h */,
+				6DC6C36E25D16C4E00512E36 /* CHQrCodeView.m */,
+				6DC6C33725D168A200512E36 /* CHAvatarView.h */,
+				6DC6C33825D168A200512E36 /* CHAvatarView.m */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		6DC6C29725D143AB00512E36 /* Web */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C29825D143BC00512E36 /* CHWebViewController.h */,
+				6DC6C29925D143BC00512E36 /* CHWebViewController.m */,
+				6DC6C29F25D1441100512E36 /* CHWebViewRefresher.h */,
+				6DC6C2A025D1441100512E36 /* CHWebViewRefresher.m */,
+			);
+			path = Web;
+			sourceTree = "<group>";
+		};
+		6DC6C2AB25D14C1300512E36 /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C32125D161DC00512E36 /* CHCrpyto.h */,
+				6DC6C2AC25D14C2400512E36 /* CHSecKey.h */,
+				6DC6C2AD25D14C2400512E36 /* CHSecKey.m */,
+				6DC6C32625D1626D00512E36 /* CryptoKit.swift */,
+			);
+			path = Security;
+			sourceTree = "<group>";
+		};
+		6DC6C2CA25D15B4100512E36 /* Scan */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C2CB25D15B6300512E36 /* CHScanViewController.h */,
+				6DC6C2CC25D15B6300512E36 /* CHScanViewController.m */,
+			);
+			path = Scan;
+			sourceTree = "<group>";
+		};
+		6DC6C33125D1680D00512E36 /* Channels */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C33225D1686200512E36 /* CHChannelCell.h */,
+				6DC6C33325D1686200512E36 /* CHChannelCell.m */,
+				6DC6C33C25D1694100512E36 /* CHChannelsViewController.h */,
+				6DC6C33D25D1694100512E36 /* CHChannelsViewController.m */,
+			);
+			path = Channels;
+			sourceTree = "<group>";
+		};
+		6DC6C34825D16A6300512E36 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C34925D16A7300512E36 /* CHSettingsViewController.h */,
+				6DC6C34A25D16A7300512E36 /* CHSettingsViewController.m */,
+				6DC6C36625D16C1600512E36 /* CHUserInfoViewController.h */,
+				6DC6C36725D16C1600512E36 /* CHUserInfoViewController.m */,
+				6DC6C36125D16BCE00512E36 /* CHAcknowledgementsViewController.h */,
+				6DC6C36225D16BCE00512E36 /* CHAcknowledgementsViewController.m */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		6DC6C37B25D16DE600512E36 /* Channel */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C37C25D16DF600512E36 /* Config */,
+				6DC6C39825D16FAC00512E36 /* CHMessagesHeaderView.h */,
+				6DC6C39925D16FAC00512E36 /* CHMessagesHeaderView.m */,
+				6DC6C39D25D16FE600512E36 /* CHMessagesDataSource.h */,
+				6DC6C39E25D16FE600512E36 /* CHMessagesDataSource.m */,
+				6DC6C3A225D1700A00512E36 /* CHChannelViewController.h */,
+				6DC6C3A325D1700A00512E36 /* CHChannelViewController.m */,
+				6DC6C3A725D1702F00512E36 /* CHChannelNewViewController.h */,
+				6DC6C3A825D1702F00512E36 /* CHChannelNewViewController.m */,
+				6DC6C3AC25D1705100512E36 /* CHChannelDetailViewController.h */,
+				6DC6C3AD25D1705100512E36 /* CHChannelDetailViewController.m */,
+			);
+			path = Channel;
+			sourceTree = "<group>";
+		};
+		6DC6C37C25D16DF600512E36 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C37D25D16E1800512E36 /* CHCellConfiguration.h */,
+				6DC6C37E25D16E1800512E36 /* CHCellConfiguration.m */,
+				6DC6C38425D16E4200512E36 /* CHDateCellConfiguration.h */,
+				6DC6C38525D16E4200512E36 /* CHDateCellConfiguration.m */,
+				6DC6C38925D16E6A00512E36 /* CHMsgCellConfiguration.h */,
+				6DC6C38A25D16E6A00512E36 /* CHMsgCellConfiguration.m */,
+				6DC6C38E25D16EA200512E36 /* CHTextMsgCellConfiguration.h */,
+				6DC6C38F25D16EA200512E36 /* CHTextMsgCellConfiguration.m */,
+				6DC6C39325D16ECA00512E36 /* CHUnknownMsgCellConfiguration.h */,
+				6DC6C39425D16ECA00512E36 /* CHUnknownMsgCellConfiguration.m */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		AA9D7AE19CD99A925739E3F6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D5B1F40BCE80A4DDFEB56F70 /* libPods-Chanify.a */,
+				77860262C85473FCE5AADE06 /* libPods-NotificationService.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6DC6C1BE25D0DCD100512E36 /* Chanify */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6DC6C1D825D0DCD200512E36 /* Build configuration list for PBXNativeTarget "Chanify" */;
+			buildPhases = (
+				397B817758594D1F4B988808 /* [CP] Check Pods Manifest.lock */,
+				6DC6C1BB25D0DCD100512E36 /* Sources */,
+				6DC6C1BC25D0DCD100512E36 /* Frameworks */,
+				6DC6C1BD25D0DCD100512E36 /* Resources */,
+				6DC6C20825D0F36C00512E36 /* ShellScript */,
+				6DC6C22525D0FB7600512E36 /* Embed App Extensions */,
+				3DD8739D1382E08C6F7BFCB5 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+				6DC6C21125D0F41500512E36 /* PBXBuildRule */,
+			);
+			dependencies = (
+				6DC6C22325D0FB7600512E36 /* PBXTargetDependency */,
+			);
+			name = Chanify;
+			productName = Chanify;
+			productReference = 6DC6C1BF25D0DCD100512E36 /* Chanify.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6DC6C21B25D0FB7600512E36 /* NotificationService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6DC6C22825D0FB7600512E36 /* Build configuration list for PBXNativeTarget "NotificationService" */;
+			buildPhases = (
+				2612387A8C9EC60C805686BC /* [CP] Check Pods Manifest.lock */,
+				6DC6C21825D0FB7600512E36 /* Sources */,
+				6DC6C21925D0FB7600512E36 /* Frameworks */,
+				6DC6C21A25D0FB7600512E36 /* Resources */,
+			);
+			buildRules = (
+				6DC6C23025D0FC1C00512E36 /* PBXBuildRule */,
+			);
+			dependencies = (
+			);
+			name = NotificationService;
+			productName = NotificationService;
+			productReference = 6DC6C21C25D0FB7600512E36 /* NotificationService.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6DC6C1B725D0DCD100512E36 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					6DC6C1BE25D0DCD100512E36 = {
+						CreatedOnToolsVersion = 12.4;
+						LastSwiftMigration = 1240;
+					};
+					6DC6C21B25D0FB7600512E36 = {
+						CreatedOnToolsVersion = 12.4;
+						LastSwiftMigration = 1240;
+					};
+				};
+			};
+			buildConfigurationList = 6DC6C1BA25D0DCD100512E36 /* Build configuration list for PBXProject "Chanify" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				"zh-Hans",
+			);
+			mainGroup = 6DC6C1B625D0DCD100512E36;
+			productRefGroup = 6DC6C1C025D0DCD100512E36 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6DC6C1BE25D0DCD100512E36 /* Chanify */,
+				6DC6C21B25D0FB7600512E36 /* NotificationService */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6DC6C1BD25D0DCD100512E36 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6DC6C1FE25D0E20200512E36 /* Localizable.strings in Resources */,
+				6DC6C1D225D0DCD200512E36 /* LaunchScreen.storyboard in Resources */,
+				6DC6C1F825D0E1A100512E36 /* InfoPlist.strings in Resources */,
+				6DC6C1F425D0E18600512E36 /* Settings.bundle in Resources */,
+				6DC6C1CF25D0DCD200512E36 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6DC6C21A25D0FB7600512E36 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2612387A8C9EC60C805686BC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-NotificationService-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		397B817758594D1F4B988808 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Chanify-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3DD8739D1382E08C6F7BFCB5 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Chanify/Pods-Chanify-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Chanify/Pods-Chanify-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Chanify/Pods-Chanify-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6DC6C20825D0F36C00512E36 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "PLISTBUDDY=\"/usr/libexec/PlistBuddy\"\nINFO_PLIST=\"$CODESIGNING_FOLDER_PATH/Info.plist\"\nSETTINGS_PLIST=\"$CODESIGNING_FOLDER_PATH/Settings.bundle/Root.plist\"\nVERSION=\"`$PLISTBUDDY -c \\\"Print CFBundleShortVersionString\\\" \\\"$INFO_PLIST\\\"`\"\n$PLISTBUDDY -c \"Set :PreferenceSpecifiers:1:DefaultValue '$VERSION'\"  \"${SETTINGS_PLIST}\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6DC6C1BB25D0DCD100512E36 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6DC6C2CD25D15B6300512E36 /* CHScanViewController.m in Sources */,
+				6DC6C26525D1151E00512E36 /* NSString+CHExt.m in Sources */,
+				6DC6C38625D16E4200512E36 /* CHDateCellConfiguration.m in Sources */,
+				6DC6C39F25D16FE600512E36 /* CHMessagesDataSource.m in Sources */,
+				6DC6C2A625D14BE000512E36 /* CHDevice.m in Sources */,
+				6DC6C33E25D1694100512E36 /* CHChannelsViewController.m in Sources */,
+				6DC6C2D625D15CCD00512E36 /* CHManager.m in Sources */,
+				6DC6C34325D169A900512E36 /* UICollectionView+CHExt.m in Sources */,
+				6DC6C2E725D15EC100512E36 /* CHMessageModel.m in Sources */,
+				6DC6C2DD25D15DB100512E36 /* CHUserDataSource.m in Sources */,
+				6DC6C3A425D1700A00512E36 /* CHChannelViewController.m in Sources */,
+				6DC6C38B25D16E6A00512E36 /* CHMsgCellConfiguration.m in Sources */,
+				6DC6C24225D1117A00512E36 /* CHTheme.m in Sources */,
+				6DC6C2EC25D15F9700512E36 /* CHNSDataSource.m in Sources */,
+				6DC6C37625D16CA000512E36 /* UIView+CHExt.m in Sources */,
+				6DC6C37F25D16E1800512E36 /* CHCellConfiguration.m in Sources */,
+				6DC6C36325D16BCE00512E36 /* CHAcknowledgementsViewController.m in Sources */,
+				6DC6C33925D168A200512E36 /* CHAvatarView.m in Sources */,
+				6DC6C28925D1410D00512E36 /* UIViewController+CHExt.m in Sources */,
+				6DC6C39025D16EA200512E36 /* CHTextMsgCellConfiguration.m in Sources */,
+				6DC6C1CA25D0DCD100512E36 /* CHViewController.m in Sources */,
+				6DC6C26A25D1159C00512E36 /* CHRouter.m in Sources */,
+				6DC6C39525D16ECA00512E36 /* CHUnknownMsgCellConfiguration.m in Sources */,
+				6DC6C36F25D16C4E00512E36 /* CHQrCodeView.m in Sources */,
+				6DC6C28F25D1435A00512E36 /* CHLoginViewController.m in Sources */,
+				6DC6C2C525D15A8600512E36 /* CHIndicatorPanelView.m in Sources */,
+				6DC6C34B25D16A7300512E36 /* CHSettingsViewController.m in Sources */,
+				6DC6C2C025D15A7900512E36 /* CHIndicatorView.m in Sources */,
+				6DC6C33425D1686200512E36 /* CHChannelCell.m in Sources */,
+				6DC6C24925D1122100512E36 /* CHUtils.m in Sources */,
+				6DC6C32725D1626D00512E36 /* CryptoKit.swift in Sources */,
+				6DC6C2AE25D14C2400512E36 /* CHSecKey.m in Sources */,
+				6DC6C27425D13E5500512E36 /* CHLogic.m in Sources */,
+				6DC6C26025D114E800512E36 /* NSData+CHExt.m in Sources */,
+				6DC6C39A25D16FAC00512E36 /* CHMessagesHeaderView.m in Sources */,
+				6DC6C28225D1408700512E36 /* CHTabBarViewController.m in Sources */,
+				6DC6C31925D1615100512E36 /* NSFileManager+CHExt.m in Sources */,
+				6DC6C2F625D1602F00512E36 /* NSURL+CHExt.m in Sources */,
+				6DC6C27B25D13EFA00512E36 /* CHUserModel.m in Sources */,
+				6DC6C36825D16C1600512E36 /* CHUserInfoViewController.m in Sources */,
+				6DC6C25325D112BB00512E36 /* CHLogger.m in Sources */,
+				6DC6C35C25D16B6A00512E36 /* NSPredicate+CHExt.m in Sources */,
+				6DC6C1C425D0DCD100512E36 /* AppDelegate.m in Sources */,
+				6DC6C29A25D143BC00512E36 /* CHWebViewController.m in Sources */,
+				6DC6C3A925D1702F00512E36 /* CHChannelNewViewController.m in Sources */,
+				6DC6C2B525D1592900512E36 /* NSException+CHExt.m in Sources */,
+				6DC6C3AE25D1705100512E36 /* CHChannelDetailViewController.m in Sources */,
+				6DC6C26F25D13D2900512E36 /* CHNotification.m in Sources */,
+				6DC6C2A125D1441100512E36 /* CHWebViewRefresher.m in Sources */,
+				6DC6C2E225D15E6B00512E36 /* CHChannelModel.m in Sources */,
+				6DC6C31125D1611200512E36 /* NSDictionary+CHExt.m in Sources */,
+				6DC6C1D525D0DCD200512E36 /* main.m in Sources */,
+				6DC6C20E25D0F3EF00512E36 /* CHTP.proto in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6DC6C21825D0FB7600512E36 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6DC6C30025D160C800512E36 /* CHMessageModel.m in Sources */,
+				6DC6C31E25D1617900512E36 /* NSFileManager+CHExt.m in Sources */,
+				6DC6C30325D160E100512E36 /* NSURL+CHExt.m in Sources */,
+				6DC6C32825D1626D00512E36 /* CryptoKit.swift in Sources */,
+				6DC6C30925D160ED00512E36 /* NSString+CHExt.m in Sources */,
+				6DC6C2FD25D160C100512E36 /* CHLogger.m in Sources */,
+				6DC6C22025D0FB7600512E36 /* NotificationService.m in Sources */,
+				6DC6C31425D1611E00512E36 /* NSDictionary+CHExt.m in Sources */,
+				6DC6C2F125D15FB700512E36 /* CHNSDataSource.m in Sources */,
+				6DC6C23325D0FC7500512E36 /* CHTP.proto in Sources */,
+				6DC6C30C25D160F100512E36 /* NSException+CHExt.m in Sources */,
+				6DC6C30625D160EA00512E36 /* NSData+CHExt.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6DC6C22325D0FB7600512E36 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6DC6C21B25D0FB7600512E36 /* NotificationService */;
+			targetProxy = 6DC6C22225D0FB7600512E36 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		6DC6C1D025D0DCD200512E36 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6DC6C1D125D0DCD200512E36 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		6DC6C1F625D0E1A100512E36 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6DC6C1F725D0E1A100512E36 /* Base */,
+				6DC6C1FA25D0E1D900512E36 /* zh-Hans */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		6DC6C1FC25D0E20200512E36 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6DC6C1FD25D0E20200512E36 /* Base */,
+				6DC6C20025D0E21E00512E36 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		6DC6C1D625D0DCD200512E36 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		6DC6C1D725D0DCD200512E36 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6DC6C1D925D0DCD200512E36 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 518C6AACAB0FE1992637FCE8 /* Pods-Chanify.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Chanify/Chanify.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P4XS4AVCLW;
+				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"COCOAPODS=1",
+					"CHUI_ENABLED=1",
+					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Chanify/Resources/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		6DC6C1DA25D0DCD200512E36 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DE20795FBEF5ADCF265D5783 /* Pods-Chanify.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Chanify/Chanify.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P4XS4AVCLW;
+				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"COCOAPODS=1",
+					"CHUI_ENABLED=1",
+					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Chanify/Resources/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		6DC6C22625D0FB7600512E36 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84478BB35AC049B8F080A494 /* Pods-NotificationService.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P4XS4AVCLW;
+				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
+				INFOPLIST_FILE = NotificationService/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationservice;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		6DC6C22725D0FB7600512E36 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 88B60DC2DA57301D0741245B /* Pods-NotificationService.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P4XS4AVCLW;
+				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
+				INFOPLIST_FILE = NotificationService/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationservice;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6DC6C1BA25D0DCD100512E36 /* Build configuration list for PBXProject "Chanify" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6DC6C1D625D0DCD200512E36 /* Debug */,
+				6DC6C1D725D0DCD200512E36 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6DC6C1D825D0DCD200512E36 /* Build configuration list for PBXNativeTarget "Chanify" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6DC6C1D925D0DCD200512E36 /* Debug */,
+				6DC6C1DA25D0DCD200512E36 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6DC6C22825D0FB7600512E36 /* Build configuration list for PBXNativeTarget "NotificationService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6DC6C22625D0FB7600512E36 /* Debug */,
+				6DC6C22725D0FB7600512E36 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6DC6C1B725D0DCD100512E36 /* Project object */;
+}

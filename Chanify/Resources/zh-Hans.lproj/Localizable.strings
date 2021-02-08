@@ -1,0 +1,56 @@
+/* 
+  Localizable.strings (Chinese, Simplified)
+  Chanify
+
+  Created by WizJin on 2021/2/8.
+  
+*/
+"OK"="确定";
+"Done"="完成";
+"Close"="关闭";
+"Cancel"="取消";
+"Enable"="启用";
+"Disable"="禁用";
+"NewMsg"="收到一条新消息";
+"Channels"="频道";
+"Scan QR Code"="扫二维码";
+"New Channel"="添加频道";
+"Nodes"="节点";
+"Settings"="设置";
+"ACCOUNT"="账号";
+"User"="用户";
+"Device"="设备";
+"GENERAL"="通用";
+"Appearance"="外观";
+"Default"="系统默认";
+"Light"="浅色";
+"Dark"="深色";
+"Notification"="通知";
+"ABOUT"="关于";
+"Version"="版本信息";
+"Privacy Policy"="隐私协议";
+"Acknowledgements"="版权声明";
+"Contact Us"="联系我们";
+"Logout"="退出登录";
+"Feedback"="意见反馈";
+"NoMore"="没有更多了";
+"Channel Detail"="频道详情";
+"Can't open url"="无法打开url";
+"No QR code"="没有发现二维码";
+"Tap to reload"="轻触重载页面";
+"Release to reload"="松开重载页面";
+"Logout failed"="退出登录失败";
+"Account copied"="账号已复制";
+"Create new account"="创建新账号";
+"Import old account"="导入旧账号";
+"Create account failed"="创建新账号失败";
+"Import account failed"="导入旧账号失败";
+"Unknown message type"="未知的消息类型";
+"Backup Account"="备份账号";
+"Export failed"="导出失败";
+"Export success"="导出成功";
+"UserInfoTitle"="扫描本二维码";
+"UserInfoDetail"="在您的新设备上下载Chanify应用，并在应用内扫描本二维码";
+
+"sys.none"="未分类消息";
+"sys.device"="设备消息";

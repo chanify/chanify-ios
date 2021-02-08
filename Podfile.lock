@@ -1,0 +1,52 @@
+PODS:
+  - AFNetworking (4.0.1):
+    - AFNetworking/NSURLSession (= 4.0.1)
+    - AFNetworking/Reachability (= 4.0.1)
+    - AFNetworking/Security (= 4.0.1)
+    - AFNetworking/Serialization (= 4.0.1)
+    - AFNetworking/UIKit (= 4.0.1)
+  - AFNetworking/NSURLSession (4.0.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (4.0.1)
+  - AFNetworking/Security (4.0.1)
+  - AFNetworking/Serialization (4.0.1)
+  - AFNetworking/UIKit (4.0.1):
+    - AFNetworking/NSURLSession
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
+  - JLRoutes (2.1)
+  - Masonry (1.1.0)
+  - Protobuf (3.14.0)
+  - XLForm (4.2.0)
+
+DEPENDENCIES:
+  - AFNetworking
+  - FMDB
+  - JLRoutes
+  - Masonry
+  - Protobuf
+  - XLForm
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - AFNetworking
+    - FMDB
+    - JLRoutes
+    - Masonry
+    - Protobuf
+    - XLForm
+
+SPEC CHECKSUMS:
+  AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  JLRoutes: d755245322b94227662ea3e43492fdca94e05c5b
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  Protobuf: 0cde852566359049847168e51bd1c690e0f70056
+  XLForm: eb04ea4104f26250b70a72a7fa2eed3748dca5cd
+
+PODFILE CHECKSUM: 4dddb3c2c41efc3cb683fe4a4affd0988d2cc36e
+
+COCOAPODS: 1.10.0
