@@ -31,6 +31,7 @@
         _alertColor = UIColor.systemRedColor;
         _secureColor = UIColor.systemGreenColor;
         _backgroundColor = UIColor.systemBackgroundColor;
+        _cellBackgroundColor = UIBackgroundConfiguration.listGroupedCellConfiguration.backgroundColor;
         _bubbleBackgroundColor = [UIColor colorNamed:@"BubbleColor"];
         _groupedBackgroundColor = UIColor.systemGroupedBackgroundColor;
         

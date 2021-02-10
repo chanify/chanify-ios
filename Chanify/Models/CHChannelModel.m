@@ -45,8 +45,19 @@
     return model;
 }
 
+- (NSComparisonResult)messageCompare:(CHChannelModel *)rhs {
+    if (self.mid == rhs.mid) {
+        return [self.cid compare:rhs.cid];
+    }
+    return (self.mid > rhs.mid ? NSOrderedAscending : NSOrderedDescending);
+}
+
 - (BOOL)isEqual:(CHChannelModel *)rhs {
     return [self.cid isEqualToString:rhs.cid];
+}
+
+- (NSUInteger)hash {
+    return self.cid.hash;
 }
 
 

@@ -12,7 +12,7 @@
 #import "CHUserDataSource.h"
 #import "CHLogic.h"
 
-#define kCHMessageListPageSize  10
+#define kCHMessageListPageSize  16
 #define kCHMessageListDateDiff  300
 
 @interface CHMessagesDataSource ()

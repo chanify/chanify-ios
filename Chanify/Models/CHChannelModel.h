@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) uint64_t mid;
 
 + (instancetype)modelWithCID:(nullable NSString *)cid name:(NSString *)name icon:(NSString *)icon;
+- (NSComparisonResult)messageCompare:(CHChannelModel *)rhs;
 
 
 @end

@@ -11,6 +11,7 @@
 #import "CHMessageModel.h"
 #import "CHLogic.h"
 #import "CHRouter.h"
+#import "CHMock.h"
 
 @interface CHNotification () <UNUserNotificationCenterDelegate>
 
@@ -78,13 +79,13 @@
 
 #pragma mark - UNUserNotificationCenterDelegate
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
-    [CHLogic.shared recivePushMessage:notification.request.content.userInfo];
+    [CHLogic.shared recivePushMessage:try_mock_notification(notification.request.content.userInfo)];
     completionHandler(0);
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)(void))completionHandler {
     uint64_t mid = 0;
-    NSString *uid = [CHMessageModel parsePacket:response.notification.request.content.userInfo mid:&mid data:nil];
+    NSString *uid = [CHMessageModel parsePacket:try_mock_notification(response.notification.request.content.userInfo) mid:&mid data:nil];
     if (uid.length > 0 && mid > 0) {
         CHLogI("Launch with message %ux", mid);
     }

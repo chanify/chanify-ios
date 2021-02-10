@@ -4,3 +4,14 @@
 
 Chanify iOS Client.
 
+## Build 
+
+```bash
+$ pod install
+```
+
+## Test push in simulator
+
+```bash
+$ make apns text=12345
+```

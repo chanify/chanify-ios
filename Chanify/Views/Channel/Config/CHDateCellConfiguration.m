@@ -40,33 +40,7 @@
 - (void)setConfiguration:(CHDateCellConfiguration *)configuration {
     if (![self.configuration isEqual:configuration]) {
         _configuration = configuration;
-        NSString *dateText = @"";
-        NSDate *date = self.configuration.date;
-        if (date != nil) {
-            NSCalendar *calendar = NSCalendar.currentCalendar;
-            NSDateFormatter *formatter = [NSDateFormatter new];
-            formatter.locale = NSLocale.currentLocale;
-            NSCalendarUnit uint = NSCalendarUnitYear|NSCalendarUnitWeekOfYear|NSCalendarUnitDay;
-            NSDateComponents *c1 = [calendar components:uint fromDate:date];
-            NSDateComponents *c2 = [calendar components:uint fromDate:NSDate.now];
-            if ([calendar isDateInToday:date]) {
-                formatter.timeStyle = NSDateFormatterShortStyle;
-                formatter.dateStyle = NSDateFormatterNoStyle;
-            } else if (c1.year != c2.year) {
-                formatter.timeStyle = NSDateFormatterShortStyle;
-                formatter.dateStyle = NSDateFormatterMediumStyle;
-            } else if (c1.weekOfYear != c2.weekOfYear) {
-                [formatter setLocalizedDateFormatFromTemplate:@"MMMdd HH:mm"];
-            } else if (c1.day < c2.day - 1) {
-                [formatter setLocalizedDateFormatFromTemplate:@"EEE HH:mm"];
-            } else {
-                formatter.timeStyle = NSDateFormatterShortStyle;
-                formatter.dateStyle = NSDateFormatterMediumStyle;
-                formatter.doesRelativeDateFormatting = YES;
-            }
-            dateText = [formatter stringFromDate:date];
-        }
-        self.dateLabel.text = dateText;
+        self.dateLabel.text = self.configuration.date.mediumFormat;
     }
 }
 

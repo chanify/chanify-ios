@@ -18,6 +18,10 @@
 #   import "NSURL+CHExt.h"
 #endif
 
+#if __has_include(<Foundation/NSDate.h>)
+#   import "NSDate+CHExt.h"
+#endif
+
 #if __has_include(<Foundation/NSData.h>)
 #   import "NSData+CHExt.h"
 #endif

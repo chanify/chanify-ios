@@ -18,4 +18,13 @@ class CHCrpyto : NSObject {
         }
         return nil
     }
+    
+    @objc static func aesSeal(key: NSData, data: NSData, nonce: NSData, auth: NSData) -> NSData? {
+        if let sealedBox = try? AES.GCM.seal(data, using: SymmetricKey(data: Data(referencing: key)), nonce: AES.GCM.Nonce(data: nonce), authenticating: Data(referencing: auth)) {
+            if let d = sealedBox.combined {
+                return NSData(data: d)
+            }
+        }
+        return nil
+    }
 }

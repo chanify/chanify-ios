@@ -30,7 +30,6 @@ typedef NS_ENUM(NSInteger, CHMessageType) {
 + (nullable instancetype)modelWithKey:(nullable NSData *)key data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw;
 + (nullable NSString *)parsePacket:(NSDictionary *)info mid:(nullable uint64_t *)mid data:(NSData * _Nullable * _Nullable)data;
 - (void)formatNotification:(UNMutableNotificationContent *)content;
-- (NSString *)dateFormat;
 
 
 @end

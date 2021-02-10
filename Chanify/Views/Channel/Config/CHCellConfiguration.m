@@ -51,7 +51,7 @@
 }
 
 - (NSDate *)date {
-    return [NSDate dateWithTimeIntervalSince1970:self.mid/1000000000.0];
+    return [NSDate dateFromMID:self.mid];
 }
 
 - (BOOL)isEqual:(CHCellConfiguration *)rhs {

@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) UIColor *alertColor;
 @property (nonatomic, readonly, strong) UIColor *secureColor;
 @property (nonatomic, readonly, strong) UIColor *backgroundColor;
+@property (nonatomic, readonly, strong) UIColor *cellBackgroundColor;
 @property (nonatomic, readonly, strong) UIColor *bubbleBackgroundColor;
 @property (nonatomic, readonly, strong) UIColor *groupedBackgroundColor;
 @property (nonatomic, readonly, strong) UIImage *clearImage;

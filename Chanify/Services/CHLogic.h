@@ -10,6 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class CHNSDataSource;
 @class CHUserDataSource;
 
 typedef NS_ENUM(int, CHLCode) {
@@ -27,6 +28,7 @@ typedef void (^CHLogicBlock)(CHLCode result);
 @interface CHLogic : CHManager<id<CHLogicDelegate>>
 
 @property (nonatomic, nullable, readonly, strong) CHUserModel *me;
+@property (nonatomic, nullable, readonly, strong) CHNSDataSource *nsDataSource;
 @property (nonatomic, nullable, readonly, strong) CHUserDataSource *userDataSource;
 
 + (instancetype)shared;

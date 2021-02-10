@@ -80,7 +80,7 @@
 - (NSArray<CHChannelModel *> *)loadChannels {
     __block NSMutableArray<CHChannelModel *> *cids = [NSMutableArray new];
     [self.dbQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet *res = [db executeQuery:@"SELECT `cid`,`name`,`icon`,`unread`,`mid` FROM `channels` ORDER BY `mid` DESC,`cid` DESC;"];
+        FMResultSet *res = [db executeQuery:@"SELECT `cid`,`name`,`icon`,`unread`,`mid` FROM `channels`;"];
         while(res.next) {
             CHChannelModel *model = [CHChannelModel modelWithCID:[res dataForColumnIndex:0].base64 name:[res stringForColumnIndex:1] icon:[res stringForColumnIndex:2]];
             model.mute = [res boolForColumnIndex:3];

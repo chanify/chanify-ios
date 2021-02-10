@@ -7,23 +7,28 @@
 
 #import "CHChannelsViewController.h"
 #import <Masonry/Masonry.h>
-#import "CHChannelCell.h"
+#import "CHChannelConfiguration.h"
 #import "CHUserDataSource.h"
 #import "CHMessageModel.h"
 #import "CHRouter.h"
 #import "CHTheme.h"
 #import "CHLogic.h"
 
-static NSString *const cellIdentifier = @"CHChannelCell";
+typedef UICollectionViewDiffableDataSource<NSString *, CHChannelModel *> CHChannelDataSource;
+typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiffableSnapshot;
 
-@interface CHChannelsViewController () <UICollectionViewDelegate, UICollectionViewDataSource, CHLogicDelegate>
+@interface CHChannelsViewController () <UICollectionViewDelegate, CHLogicDelegate>
 
 @property (nonatomic, readonly, strong) UICollectionView *listView;
-@property (nonatomic, readonly, strong) NSMutableArray<CHChannelModel *> *channels;
+@property (nonatomic, readonly, strong) CHChannelDataSource *dataSource;
 
 @end
 
 @implementation CHChannelsViewController
+
+- (void)dealloc {
+    [CHLogic.shared removeDelegate:self];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -47,59 +52,60 @@ static NSString *const cellIdentifier = @"CHChannelCell";
     [listView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
-    [listView registerClass:CHChannelCell.class forCellWithReuseIdentifier:cellIdentifier];
     listView.backgroundColor = theme.groupedBackgroundColor;
     listView.delegate = self;
-    listView.dataSource = self;
 
-    _channels = [NSMutableArray arrayWithArray:[CHLogic.shared.userDataSource loadChannels]];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+    UICollectionViewCellRegistration *cellRegistration = [UICollectionViewCellRegistration registrationWithCellClass:UICollectionViewCell.class configurationHandler:^(__kindof UICollectionViewCell *cell, NSIndexPath *indexPath, CHChannelModel *item) {
+        cell.contentConfiguration = [CHChannelConfiguration cellConfiguration:item];
+    }];
+    _dataSource = [[CHChannelDataSource alloc] initWithCollectionView:listView cellProvider:^UICollectionViewCell *(UICollectionView *collectionView, NSIndexPath *indexPath, CHChannelConfiguration *item) {
+        return [collectionView dequeueConfiguredReusableCellWithRegistration:cellRegistration forIndexPath:indexPath item:item];
+    }];
+    
+    NSArray<CHChannelModel *> *items = [CHLogic.shared.userDataSource loadChannels];
+    CHChannelDiffableSnapshot *snapshot = [CHChannelDiffableSnapshot new];
+    [snapshot appendSectionsWithIdentifiers:@[@"main"]];
+    [snapshot appendItemsWithIdentifiers:[items sortedArrayUsingSelector:@selector(messageCompare:)]];
+    [self.dataSource applySnapshot:snapshot animatingDifferences:NO];
+    
     [CHLogic.shared addDelegate:self];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [CHLogic.shared removeDelegate:self];
-    [super viewDidDisappear:animated];
 }
 
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-    [CHRouter.shared routeTo:@"/page/channel" withParams:@{ @"cid": [self.channels objectAtIndex:indexPath.row].cid }];
-}
-
-#pragma mark - UICollectionViewDataSource
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.channels.count;
-}
-
-- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CHChannelCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
-    if (cell != nil) {
-        cell.model = [self.channels objectAtIndex:indexPath.row];
-    }
-    return cell;
+    CHChannelModel *item = [self.dataSource itemIdentifierForIndexPath:indexPath];
+    [CHRouter.shared routeTo:@"/page/channel" withParams:@{ @"cid": item.cid }];
 }
 
 #pragma mark - CHLogicDelegate
 - (void)logicMessageUpdated:(NSArray<NSNumber *> *)mids {
     CHUserDataSource *usrDS = CHLogic.shared.userDataSource;
+    [self.dataSource snapshotForSection:@"main"];
+    
+    CHChannelDiffableSnapshot *snapshot = self.dataSource.snapshot;
+    NSArray<CHChannelModel *> *items = [snapshot itemIdentifiersInSectionWithIdentifier:@"main"];
+    NSHashTable *reloadItems = [NSHashTable weakObjectsHashTable];
     for (NSNumber *m in mids) {
         uint64_t mid = m.unsignedLongLongValue;
         CHMessageModel *model = [usrDS messageWithMID:mid];
-        for (CHChannelModel *chan in self.channels) {
-            if ([model.channel.base64 isEqualToString:chan.cid]) {
-                chan.mid = mid;
-                [self.channels removeObject:chan];
-                [self.channels insertObject:chan atIndex:0];
+        NSString *cid = model.channel.base64;
+        for (CHChannelModel *c in items) {
+            if ([c.cid isEqualToString:cid]) {
+                c.mid = mid;
+                [reloadItems addObject:c];
                 break;
             }
         }
     }
-    [self.listView reloadData];
+    if (reloadItems.count != 1 || reloadItems.anyObject != items.firstObject) {
+        // TODO: sort items
+        [snapshot deleteSectionsWithIdentifiers:@[@"main"]];
+        [snapshot appendSectionsWithIdentifiers:@[@"main"]];
+        [snapshot appendItemsWithIdentifiers:[items sortedArrayUsingSelector:@selector(messageCompare:)]];
+    }
+    [snapshot reloadItemsWithIdentifiers:reloadItems.allObjects];
+    [self.dataSource applySnapshot:snapshot animatingDifferences:YES];
 }
 
 

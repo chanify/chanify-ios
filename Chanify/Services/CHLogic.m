@@ -18,7 +18,7 @@
 @property (nonatomic, readonly, strong) NSURL *baseURL;
 @property (nonatomic, readonly, strong) NSString *userAgent;
 @property (nonatomic, readonly, strong) AFURLSessionManager *manager;
-@property (nonatomic, readonly, strong) CHNSDataSource *nsDataSource;
+
 @end
 
 @implementation CHLogic
