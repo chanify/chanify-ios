@@ -5,11 +5,11 @@
 //  Created by WizJin on 2021/2/8.
 //
 
-#import <XLForm/XLFormViewController.h>
+#import "CHFormViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHSettingsViewController : XLFormViewController
+@interface CHSettingsViewController : CHFormViewController
 
 @end
 

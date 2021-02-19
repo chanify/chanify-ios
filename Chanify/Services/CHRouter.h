@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)handleURL:(NSURL *)url;
 - (BOOL)routeTo:(NSString *)url;
 - (BOOL)routeTo:(NSString *)url withParams:(nullable NSDictionary<NSString *, id> *)params;
+- (void)popToRootViewControllerAnimated:(BOOL)animated;
 - (void)presentViewController:(UIViewController *)viewController animated:(BOOL)animated;
 - (void)presentSystemViewController:(UIViewController *)viewController animated:(BOOL)animated;
 - (void)showIndicator:(BOOL)show;

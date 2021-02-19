@@ -15,6 +15,9 @@
 "Channels"="频道";
 "Scan QR Code"="扫二维码";
 "New Channel"="添加频道";
+"Code"="代号";
+"Name"="名称";
+"Create channel failed"="创建频道失败";
 "Nodes"="节点";
 "Settings"="设置";
 "ACCOUNT"="账号";
@@ -35,6 +38,9 @@
 "Feedback"="意见反馈";
 "NoMore"="没有更多了";
 "Channel Detail"="频道详情";
+"Token"="令牌";
+"Token copied"="令牌已复制";
+"Delete channel"="删除频道";
 "Can't open url"="无法打开url";
 "No QR code"="没有发现二维码";
 "Tap to reload"="轻触重载页面";

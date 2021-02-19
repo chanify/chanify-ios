@@ -62,11 +62,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
         return [collectionView dequeueConfiguredReusableCellWithRegistration:cellRegistration forIndexPath:indexPath item:item];
     }];
     
-    NSArray<CHChannelModel *> *items = [CHLogic.shared.userDataSource loadChannels];
-    CHChannelDiffableSnapshot *snapshot = [CHChannelDiffableSnapshot new];
-    [snapshot appendSectionsWithIdentifiers:@[@"main"]];
-    [snapshot appendItemsWithIdentifiers:[items sortedArrayUsingSelector:@selector(messageCompare:)]];
-    [self.dataSource applySnapshot:snapshot animatingDifferences:NO];
+    [self reloadChannels];
     
     [CHLogic.shared addDelegate:self];
 }
@@ -79,7 +75,16 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
 }
 
 #pragma mark - CHLogicDelegate
-- (void)logicMessageUpdated:(NSArray<NSNumber *> *)mids {
+- (void)logicChannelUpdated:(NSString *)cid {
+    // TODO: update channel
+    [self reloadChannels];
+}
+
+- (void)logicChannelsUpdated:(NSArray<NSNumber *> *)cids {
+    [self reloadChannels];
+}
+
+- (void)logicMessagesUpdated:(NSArray<NSNumber *> *)mids {
     CHUserDataSource *usrDS = CHLogic.shared.userDataSource;
     [self.dataSource snapshotForSection:@"main"];
     
@@ -106,6 +111,15 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
     }
     [snapshot reloadItemsWithIdentifiers:reloadItems.allObjects];
     [self.dataSource applySnapshot:snapshot animatingDifferences:YES];
+}
+
+#pragma mark - Private Methods
+- (void)reloadChannels {
+    NSArray<CHChannelModel *> *items = [CHLogic.shared.userDataSource loadChannels];
+    CHChannelDiffableSnapshot *snapshot = [CHChannelDiffableSnapshot new];
+    [snapshot appendSectionsWithIdentifiers:@[@"main"]];
+    [snapshot appendItemsWithIdentifiers:[items sortedArrayUsingSelector:@selector(messageCompare:)]];
+    [self.dataSource applySnapshot:snapshot animatingDifferences:NO];
 }
 
 

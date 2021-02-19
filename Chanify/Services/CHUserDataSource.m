@@ -77,15 +77,54 @@
     }
 }
 
+- (BOOL)insertChannel:(CHChannelModel *)model {
+    __block BOOL res = NO;
+    if (model != nil) {
+        NSData *ccid = [NSData dataFromBase64:model.cid];
+        [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+            if ([db intForQuery:@"SELECT COUNT(*) FROM `channels` WHERE `cid`=?;", ccid] > 0) {
+                res = YES;
+            } else {
+                res = [db executeUpdate:@"INSERT INTO `channels`(`cid`,`name`,`icon`) VALUES(?,?,?);", ccid, model.name, model.icon];
+            }
+        }];
+    }
+    return res;
+}
+
+- (BOOL)updateChannel:(CHChannelModel *)model {
+    __block BOOL res = NO;
+    if (model != nil) {
+        NSData *ccid = [NSData dataFromBase64:model.cid];
+        [self.dbQueue inDatabase:^(FMDatabase *db) {
+            res = [db executeUpdate:@"UPDATE `channels` SET `name`=?,`icon`=? WHERE `cid`=? LIMIT 1;", model.name, model.icon, ccid];
+        }];
+    }
+    return res;
+}
+
+- (BOOL)deleteChannel:(nullable NSString *)cid {
+    __block BOOL res = NO;
+    NSData *ccid = [NSData dataFromBase64:cid];
+    if (ccid.length > 0) {
+        [self.dbQueue inDatabase:^(FMDatabase *db) {
+            res = [db executeUpdate:@"DELETE FROM `channels` WHERE `cid`=?", ccid];
+        }];
+    }
+    return res;
+}
+
 - (NSArray<CHChannelModel *> *)loadChannels {
     __block NSMutableArray<CHChannelModel *> *cids = [NSMutableArray new];
     [self.dbQueue inDatabase:^(FMDatabase *db) {
         FMResultSet *res = [db executeQuery:@"SELECT `cid`,`name`,`icon`,`unread`,`mid` FROM `channels`;"];
         while(res.next) {
             CHChannelModel *model = [CHChannelModel modelWithCID:[res dataForColumnIndex:0].base64 name:[res stringForColumnIndex:1] icon:[res stringForColumnIndex:2]];
-            model.mute = [res boolForColumnIndex:3];
-            model.mid = [res unsignedLongLongIntForColumnIndex:4];
-            [cids addObject:model];
+            if (model != nil) {
+                model.mute = [res boolForColumnIndex:3];
+                model.mid = [res unsignedLongLongIntForColumnIndex:4];
+                [cids addObject:model];
+            }
         }
         [res close];
         [res setParentDB:nil];
@@ -138,20 +177,27 @@
     return model;
 }
 
-- (BOOL)upsertMessageData:(NSData *)data mid:(uint64_t)mid {
+- (BOOL)upsertMessageData:(NSData *)data mid:(uint64_t)mid cid:(NSString **)cid {
     __block BOOL res = NO;
     if (mid > 0) {
         NSData *raw = nil;
         CHMessageModel *model = [CHMessageModel modelWithKey:self.srvkey data:data raw:&raw];
         if (model != nil) {
+            __block NSData *ccid = nil;
             [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+                if ([db intForQuery:@"SELECT COUNT(*) FROM `channels` WHERE `cid`=?;", model.channel] <= 0
+                    && [db executeUpdate:@"INSERT INTO `channels`(`cid`) VALUES(?);", model.channel]) {
+                    ccid = model.channel;
+                }
                 res = [db executeUpdate:@"INSERT OR IGNORE INTO `messages`(`mid`,`cid`,`from`,`raw`) VALUES(?,?,?,?);", @(mid), model.channel, model.from, raw];
                 if (res) {
-                    // TODO: Channel
                     res = [db executeUpdate:@"UPDATE `channels` SET `mid`=? WHERE `cid`=?;", @(mid), model.channel];
                 }
                 *rollback = (res ? NO : YES);
             }];
+            if (cid != nil && ccid != nil) {
+                *cid = ccid.base64;
+            }
         }
     }
     return res;

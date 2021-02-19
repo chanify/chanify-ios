@@ -10,37 +10,51 @@
 
 @implementation CHChannelModel
 
-+ (instancetype)modelWithCID:(nullable NSString *)cid name:(NSString *)name icon:(NSString *)icon {
-    CHChannelModel *model = [self.class new];
-    model->_cid = (cid != nil ? cid : @"");
-    model->_name = name;
-    model->_icon = icon;
-
++ (nullable instancetype)modelWithCID:(nullable NSString *)cid name:(nullable NSString *)name icon:(nullable NSString *)icon {
+    CHChannelModel *model = nil;
     NSError *error = nil;
     CHTPChannel *chan = [CHTPChannel parseFromData:[NSData dataFromBase64:cid] error:&error];
     if (error == nil) {
-        if (chan.type == CHTPChanType_Sys) {
+        if (chan.type == CHTPChanType_User) {
+            model = [self.class new];
+            model->_cid = cid;
+            model->_code = chan.name;
+            model->_name = name;
+            model->_icon = icon;
+            model->_type = CHChanTypeUser;
+        } else if (chan.type == CHTPChanType_Sys) {
+            model = [self.class new];
+            model->_cid = cid;
+            model->_name = name;
+            model->_type = CHChanTypeSys;
             switch (chan.code) {
-                case CHTPChanCode_GPBUnrecognizedEnumeratorValue:
-                    break;
+                case CHTPChanCode_GPBUnrecognizedEnumeratorValue:break;
                 case CHTPChanCode_Uncategorized:
-                    if (name.length <= 0) {
-                        model->_name = @"sys.none".localized;
-                    }
-                    if (icon.length <= 0) {
-                        model->_icon = @"sys://tray.2.fill";
-                    }
+                    model->_code = @"sys.none".localized;
+                    model->_icon = @"sys://tray.2.fill";
                     break;
                 case CHTPChanCode_Device:
-                    if (name.length <= 0) {
-                        model->_name = @"sys.device".localized;
-                    }
-                    if (icon.length <= 0) {
-                        model->_icon = @"sys://iphone";
-                    }
+                    model->_code = @"sys.device".localized;
+                    model->_icon = @"sys://iphone";
                     break;
             }
         }
+    }
+    return model;
+}
+
++ (nullable instancetype)modelWithCode:(NSString *)code name:(nullable NSString *)name icon:(nullable NSString *)icon {
+    CHChannelModel *model = nil;
+    if (code.length > 0) {
+        CHTPChannel *chan = [CHTPChannel new];
+        chan.type = CHTPChanType_User;
+        chan.name = code;
+
+        model = [self.class new];
+        model->_cid = chan.data.base64;
+        model->_code = code;
+        model->_name = name;
+        model->_icon = icon;
     }
     return model;
 }
@@ -50,6 +64,10 @@
         return [self.cid compare:rhs.cid];
     }
     return (self.mid > rhs.mid ? NSOrderedAscending : NSOrderedDescending);
+}
+
+- (NSString *)title {
+    return (self.name.length > 0 ? self.name : self.code);
 }
 
 - (BOOL)isEqual:(CHChannelModel *)rhs {

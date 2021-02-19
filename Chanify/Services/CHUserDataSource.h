@@ -19,11 +19,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)dataSourceWithURL:(NSURL *)url;
 - (void)close;
+- (BOOL)insertChannel:(CHChannelModel *)model;
+- (BOOL)updateChannel:(CHChannelModel *)model;
+- (BOOL)deleteChannel:(nullable NSString *)cid;
 - (NSArray<CHChannelModel *> *)loadChannels;
 - (nullable CHChannelModel *)channelWithCID:(nullable NSString *)cid;
 - (NSArray<CHMessageModel *> *)messageWithCID:(nullable NSString *)cid from:(uint64_t)from to:(uint64_t)to count:(NSUInteger)count;
 - (nullable CHMessageModel *)messageWithMID:(uint64_t)mid;
-- (BOOL)upsertMessageData:(NSData *)data mid:(uint64_t)mid;
+- (BOOL)upsertMessageData:(NSData *)data mid:(uint64_t)mid cid:(NSString * _Nullable * _Nullable)cid;
 
 
 @end

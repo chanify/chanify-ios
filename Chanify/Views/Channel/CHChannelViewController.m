@@ -27,15 +27,19 @@
 
 - (instancetype)initWithParameters:(NSDictionary *)params {
     if (self = [super init]) {
-        _model = [CHLogic.shared.userDataSource channelWithCID:[params valueForKey:@"cid"]];
+        _model = nil;//
+        [self updateChannel:[params valueForKey:@"cid"]];
     }
     return self;
+}
+
+- (void)dealloc {
+    [CHLogic.shared removeDelegate:self];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title = self.model.name;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"⋯" style:UIBarButtonItemStylePlain target:self action:@selector(actionInfo:)];
 
     UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
@@ -51,6 +55,8 @@
 
     listView.delegate = self;
     _dataSource = [CHMessagesDataSource dataSourceWithCollectionView:listView channelID:self.model.cid];
+    
+    [CHLogic.shared addDelegate:self];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -85,13 +91,25 @@
 }
 
 #pragma mark - CHLogicDelegate
-- (void)logicMessageUpdated:(NSArray<NSNumber *> *)mids {
+- (void)logicChannelUpdated:(NSString *)cid {
+    [self updateChannel:cid];
+}
+
+- (void)logicMessagesUpdated:(NSArray<NSNumber *> *)mids {
     [self.dataSource loadLatestMessage:YES];
 }
 
 #pragma mark - Action Methods
 - (void)actionInfo:(id)sender {
     [CHRouter.shared routeTo:@"/page/channel/detail" withParams:@{ @"cid": self.model.cid }];
+}
+
+#pragma mark - Private Methods
+- (void)updateChannel:(NSString *)cid {
+    if (self.model == nil || [cid isEqualToString:self.model.cid]) {
+        _model = [CHLogic.shared.userDataSource channelWithCID:cid];
+        self.title = self.model.title;
+    }
 }
 
 

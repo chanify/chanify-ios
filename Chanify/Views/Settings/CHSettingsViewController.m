@@ -37,16 +37,6 @@
     }
 }
 
-#pragma mark - UITableViewDelegate
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
-    XLFormRowDescriptor *row = [self.form formRowAtIndex:indexPath];
-    if (row.rowType == XLFormRowDescriptorTypeSelectorPush && row.action.formBlock != nil) {
-        row.action.formBlock(row);
-    }
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
 #pragma mark - CHNotificationDelegate
 - (void)notificationStatusChanged {
     XLFormRowDescriptor *row = [self.form formRowWithTag:@"notification"];

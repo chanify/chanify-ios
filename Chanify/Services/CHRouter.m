@@ -83,6 +83,18 @@
     return res;
 }
 
+- (void)popToRootViewControllerAnimated:(BOOL)animated {
+    UIViewController *vc = self.window.rootViewController.topViewController;
+    if ([vc isKindOfClass:UITabBarController.class]) {
+        vc = [(UITabBarController *)vc selectedViewController];
+    }
+    if ([vc isKindOfClass:UINavigationController.class]) {
+        [(UINavigationController *)vc popToRootViewControllerAnimated:animated];
+    } else {
+        [vc.navigationController popToRootViewControllerAnimated:animated];
+    }
+}
+
 - (void)presentViewController:(UIViewController *)viewController animated:(BOOL)animated {
     showViewController(viewController, animated, YES);
 }

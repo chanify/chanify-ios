@@ -82,6 +82,7 @@
 		6DC6C3A925D1702F00512E36 /* CHChannelNewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C3A825D1702F00512E36 /* CHChannelNewViewController.m */; };
 		6DC6C3AE25D1705100512E36 /* CHChannelDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C3AD25D1705100512E36 /* CHChannelDetailViewController.m */; };
 		6DC6C3B525D2193500512E36 /* CHMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C3B425D2193500512E36 /* CHMock.m */; };
+		6DD623CB25DF8CEB00F0D06A /* CHFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD623CA25DF8CEB00F0D06A /* CHFormViewController.m */; };
 		E1FF8005990C1480B5C3EF98 /* libPods-NotificationService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77860262C85473FCE5AADE06 /* libPods-NotificationService.a */; };
 /* End PBXBuildFile section */
 
@@ -278,6 +279,8 @@
 		6DC6C3AD25D1705100512E36 /* CHChannelDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelDetailViewController.m; sourceTree = "<group>"; };
 		6DC6C3B325D2193500512E36 /* CHMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHMock.h; sourceTree = "<group>"; };
 		6DC6C3B425D2193500512E36 /* CHMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHMock.m; sourceTree = "<group>"; };
+		6DD623C925DF8CEB00F0D06A /* CHFormViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormViewController.h; sourceTree = "<group>"; };
+		6DD623CA25DF8CEB00F0D06A /* CHFormViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormViewController.m; sourceTree = "<group>"; };
 		77860262C85473FCE5AADE06 /* libPods-NotificationService.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NotificationService.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84478BB35AC049B8F080A494 /* Pods-NotificationService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationService.debug.xcconfig"; path = "Target Support Files/Pods-NotificationService/Pods-NotificationService.debug.xcconfig"; sourceTree = "<group>"; };
 		88B60DC2DA57301D0741245B /* Pods-NotificationService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationService.release.xcconfig"; path = "Target Support Files/Pods-NotificationService/Pods-NotificationService.release.xcconfig"; sourceTree = "<group>"; };
@@ -495,6 +498,8 @@
 		6DC6C29425D1435F00512E36 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				6DD623C925DF8CEB00F0D06A /* CHFormViewController.h */,
+				6DD623CA25DF8CEB00F0D06A /* CHFormViewController.m */,
 				6DC6C1C825D0DCD100512E36 /* CHViewController.h */,
 				6DC6C1C925D0DCD100512E36 /* CHViewController.m */,
 				6DC6C2C325D15A8600512E36 /* CHIndicatorPanelView.h */,
@@ -827,6 +832,7 @@
 				6DC6C36F25D16C4E00512E36 /* CHQrCodeView.m in Sources */,
 				6DC6C28F25D1435A00512E36 /* CHLoginViewController.m in Sources */,
 				6DC6C2C525D15A8600512E36 /* CHIndicatorPanelView.m in Sources */,
+				6DD623CB25DF8CEB00F0D06A /* CHFormViewController.m in Sources */,
 				6DC6C34B25D16A7300512E36 /* CHSettingsViewController.m in Sources */,
 				6DC6C2C025D15A7900512E36 /* CHIndicatorView.m in Sources */,
 				6DC6C33425D1686200512E36 /* CHChannelConfiguration.m in Sources */,
@@ -1057,7 +1063,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1090,7 +1096,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1114,7 +1120,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1140,7 +1146,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

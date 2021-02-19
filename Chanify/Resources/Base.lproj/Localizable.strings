@@ -15,6 +15,9 @@
 "Channels"="Channels";
 "Scan QR Code"="Scan QR Code";
 "New Channel"="New Channel";
+"Code"="Code";
+"Name"="Name";
+"Create channel failed"="Create channel failed";
 "Nodes"="Nodes";
 "Settings"="Settings";
 "ACCOUNT"="ACCOUNT";
@@ -35,6 +38,9 @@
 "Feedback"="Feedback";
 "NoMore"="No more";
 "Channel Detail"="Channel Detail";
+"Token"="Token";
+"Token copied"="Token Copied";
+"Delete channel"="Delete channel";
 "Can't open url"="Can't open url";
 "No QR code"="No QR code";
 "Tap to reload"="Tap to reload";

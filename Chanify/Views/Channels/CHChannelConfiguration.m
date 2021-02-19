@@ -83,11 +83,13 @@
     if (![self.configuration isEqual:configuration]) {
         _configuration = configuration;
         
-        self.titleLabel.text = self.configuration.model.name;
-        self.detailLabel.text = @"";
-        self.iconView.image = self.configuration.model.icon;
+        CHChannelModel *model = self.configuration.model;
         
-        uint64_t mid = self.configuration.model.mid;
+        self.titleLabel.text = model.title;
+        self.detailLabel.text = @"";
+        self.iconView.image = model.icon;
+        
+        uint64_t mid = model.mid;
         CHMessageModel *m = [CHLogic.shared.userDataSource messageWithMID:mid];
         self.detailLabel.text = m.text;
         self.dateLabel.text = [NSDate dateFromMID:m.mid].shortFormat;

@@ -10,6 +10,7 @@
 #import "CHUserDataSource.h"
 #import "CHNSDataSource.h"
 #import "CHMessageModel.h"
+#import "CHChannelModel.h"
 #import "CHNotification.h"
 #import "CHDevice.h"
 
@@ -128,8 +129,12 @@
     uint64_t mid = 0;
     NSString *uid = [CHMessageModel parsePacket:userInfo mid:&mid data:&data];
     if (uid.length > 0 && [uid isEqualToString:self.me.uid] && mid > 0 && data.length > 0) {
-        if ([self.userDataSource upsertMessageData:data mid:mid]) {
-            [self sendNotifyWithSelector:@selector(logicMessageUpdated:) withObject:@[@(mid)]];
+        NSString *cid = nil;
+        if ([self.userDataSource upsertMessageData:data mid:mid cid:&cid]) {
+            if (cid != nil) {
+                [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[]];
+            }
+            [self sendNotifyWithSelector:@selector(logicMessagesUpdated:) withObject:@[@(mid)]];
             res = YES;
         }
     }
@@ -138,6 +143,34 @@
 
 - (void)updatePushToken:(NSData *)pushToken {
     [self updatePushToken:pushToken retry:YES];
+}
+
+- (BOOL)insertChannel:(NSString *)code name:(NSString *)name icon:(nullable NSString *)icon {
+    BOOL res = NO;
+    CHChannelModel *model = [CHChannelModel modelWithCode:code name:name icon:icon];
+    if (model != nil) {
+        res = [self.userDataSource insertChannel:model];
+        if (res) {
+            [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[model.cid]];
+        }
+    }
+    return res;
+}
+
+- (BOOL)updateChannel:(CHChannelModel *)model {
+    BOOL res = [self.userDataSource updateChannel:model];
+    if (res) {
+        [self sendNotifyWithSelector:@selector(logicChannelUpdated:) withObject:model.cid];
+    }
+    return res;
+}
+
+- (BOOL)deleteChannel:(nullable NSString *)cid {
+    BOOL res = [self.userDataSource deleteChannel:cid];
+    if (res) {
+        [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[cid]];
+    }
+    return res;
 }
 
 #pragma mark - Message Methods
@@ -274,19 +307,27 @@
 - (void)updatePushMessage {
     NSString *uid = self.me.uid;
     if (uid.length > 0) {
+        __block BOOL updateChannel = NO;
         NSMutableArray<NSNumber *> *mids = [NSMutableArray new];
         [self.nsDataSource enumerateMessagesWithUID:uid block:^(uint64_t mid, NSData *data) {
-            if ([self.userDataSource upsertMessageData:data mid:mid]) {
+            NSString *cid = nil;
+            if ([self.userDataSource upsertMessageData:data mid:mid cid:&cid]) {
                 if (mid > 0) {
                     [mids addObject:@(mid)];
+                }
+                if (cid != nil) {
+                    updateChannel = YES;
                 }
             }
         }];
         if (mids.count > 0) {
             [self.nsDataSource removeMessages:mids uid:uid];
-            [self sendNotifyWithSelector:@selector(logicMessageUpdated:) withObject:mids];
+            [self sendNotifyWithSelector:@selector(logicMessagesUpdated:) withObject:mids];
         }
         [self.nsDataSource close];
+        if (updateChannel) {
+            [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[]];
+        }
     }
 }
 
