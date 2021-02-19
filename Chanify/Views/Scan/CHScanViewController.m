@@ -204,10 +204,10 @@
         _isClosed = YES;
         @weakify(self);
         [self closeAnimated:YES completion:^{
+            @strongify(self);
+            id<CHScanViewControllerDelegate> delegate = self.delegate;
             dispatch_main_async(^{
-                @strongify(self);
                 NSURL *url = [NSURL URLWithString:code];
-                id<CHScanViewControllerDelegate> delegate = self.delegate;
                 if (delegate != nil) {
                     [delegate scanFindURL:url];
                 } else {

@@ -307,7 +307,7 @@
 - (void)updatePushMessage {
     NSString *uid = self.me.uid;
     if (uid.length > 0) {
-        __block BOOL updateChannel = NO;
+        __block BOOL channelUpdated = NO;
         NSMutableArray<NSNumber *> *mids = [NSMutableArray new];
         [self.nsDataSource enumerateMessagesWithUID:uid block:^(uint64_t mid, NSData *data) {
             NSString *cid = nil;
@@ -316,7 +316,7 @@
                     [mids addObject:@(mid)];
                 }
                 if (cid != nil) {
-                    updateChannel = YES;
+                    channelUpdated = YES;
                 }
             }
         }];
@@ -325,7 +325,7 @@
             [self sendNotifyWithSelector:@selector(logicMessagesUpdated:) withObject:mids];
         }
         [self.nsDataSource close];
-        if (updateChannel) {
+        if (channelUpdated) {
             [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[]];
         }
     }
