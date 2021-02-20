@@ -75,6 +75,9 @@
 
 - (BOOL)routeTo:(NSString *)url withParams:(nullable NSDictionary<NSString *, id> *)params {
     BOOL res = NO;
+    if ([[params valueForKey:@"singleton"] boolValue]) {
+        [self popToRootViewControllerAnimated:NO];
+    }
     if ([[params valueForKey:@"noauth"] boolValue] || CHLogic.shared.me != nil) {
         res = [self.routes routeURL:[NSURL URLWithString:url] withParameters:params];
     } else {
@@ -102,6 +105,21 @@
 - (void)presentSystemViewController:(UIViewController *)viewController animated:(BOOL)animated {
     viewController.modalPresentationStyle = UIModalPresentationFullScreen;
     [self.window.rootViewController.topViewController presentViewController:viewController animated:animated completion:nil];
+}
+
+- (void)showAlertWithTitle:(NSString *)title action:(NSString *)action handler:(void (^ __nullable)(void))handler {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:@"" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel".localized style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
+    if (action.length <= 0) action = @"OK".localized;
+    UIAlertAction* deleteAction = [UIAlertAction actionWithTitle:action style:UIAlertActionStyleDestructive
+                   handler:^(UIAlertAction * action) {
+        if (handler != nil) {
+            handler();
+        }
+    }];
+    [alert addAction:cancelAction];
+    [alert addAction:deleteAction];
+    [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)showIndicator:(BOOL)show {

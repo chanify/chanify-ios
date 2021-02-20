@@ -38,12 +38,13 @@
     [self.webView removeObserver:self forKeyPath:@"title"];
     [self.webView removeObserver:self forKeyPath:@"URL"];
     [self.webView removeObserver:self forKeyPath:@"hasOnlySecureContent"];
+    [self.webView removeObserver:self forKeyPath:@"canGoBack"];
     self.webView.navigationDelegate = nil;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     CHWebViewRefresher *refreshControl = [CHWebViewRefresher new];
     [refreshControl addTarget:self action:@selector(actionRefresh:) forControlEvents:UIControlEventValueChanged];
 
@@ -53,6 +54,7 @@
     [webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:nil];
     [webView addObserver:self forKeyPath:@"URL" options:NSKeyValueObservingOptionNew context:nil];
     [webView addObserver:self forKeyPath:@"hasOnlySecureContent" options:NSKeyValueObservingOptionNew context:nil];
+    [webView addObserver:self forKeyPath:@"canGoBack" options:NSKeyValueObservingOptionNew context:nil];
     webView.scrollView.refreshControl = (_refresher = refreshControl);
     webView.backgroundColor = CHTheme.shared.backgroundColor;
     webView.allowsBackForwardNavigationGestures = YES;
@@ -127,6 +129,9 @@
             return;
         } else if ([keyPath isEqualToString:@"hasOnlySecureContent"]) {
             self.refresher.hasOnlySecureContent = self.webView.hasOnlySecureContent;
+            return;
+        } else if ([keyPath isEqualToString:@"canGoBack"]) {
+            self.navigationController.interactivePopGestureRecognizer.enabled = !self.webView.canGoBack;
             return;
         }
     }

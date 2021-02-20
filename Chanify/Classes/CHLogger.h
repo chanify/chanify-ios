@@ -12,7 +12,7 @@
 extern "C" {
 #endif
 
-#ifdef DEBUG
+#if DEBUG
     void CHLoggerOutput(char lvl, const char *format, ...);
 #else
 #   define CHLoggerOutput(...)  ((void *)0)

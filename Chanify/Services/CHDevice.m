@@ -34,11 +34,6 @@
         _model = get_sysctl("hw.machine");
         _osInfo = [NSString stringWithFormat:@"%@ %@", device.systemName, device.systemVersion];
         CHLogI("%s version: %s(%d) %s/%s.", self.app.cstr, self.version.cstr, self.build, self.model.cstr, self.osInfo.cstr);
-#ifdef DEBUG
-        _sandbox = YES;
-#else
-        _sandbox = ([bundle.appStoreReceiptURL.path rangeOfString:@"sandboxReceipt"].location != NSNotFound);
-#endif
         _key = [CHSecKey secKeyWithName:@kCHDeviceSecKeyName device:YES created:YES];
         _uuid = self.key.uuid;
         CHLogI("Device uuid: %s", self.uuid.hex.cstr);

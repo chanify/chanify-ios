@@ -1,0 +1,125 @@
+//
+//  CHChannelTableViewCell.m
+//  Chanify
+//
+//  Created by WizJin on 2021/2/20.
+//
+
+#import "CHChannelTableViewCell.h"
+#import <Masonry/Masonry.h>
+#import "CHAvatarView.h"
+#import "CHUserDataSource.h"
+#import "CHMessageModel.h"
+#import "CHRouter.h"
+#import "CHLogic.h"
+#import "CHTheme.h"
+
+@interface CHChannelTableViewCell ()
+
+@property (nonatomic, readonly, strong) CHAvatarView *iconView;
+@property (nonatomic, readonly, strong) UILabel *titleLabel;
+@property (nonatomic, readonly, strong) UILabel *detailLabel;
+@property (nonatomic, readonly, strong) UILabel *dateLabel;
+
+@end
+
+@implementation CHChannelTableViewCell
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        CHTheme *theme = CHTheme.shared;
+        UIBackgroundConfiguration *backgroundConfiguration = UIBackgroundConfiguration.listGroupedCellConfiguration;
+        backgroundConfiguration.backgroundInsets = NSDirectionalEdgeInsetsMake(0, 0, 1, 0);
+        self.backgroundConfiguration = backgroundConfiguration;
+
+        CHAvatarView *iconView = [CHAvatarView new];
+        [self.contentView addSubview:(_iconView = iconView)];
+        [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.contentView).offset(16);
+            make.top.equalTo(self.contentView).offset(10);
+            make.bottom.equalTo(self.contentView).offset(-10);
+            make.width.equalTo(iconView.mas_height);
+        }];
+
+        UILabel *titleLabel = [UILabel new];
+        [self.contentView addSubview:(_titleLabel = titleLabel)];
+        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(iconView.mas_right).offset(16);
+            make.top.equalTo(iconView).offset(3);
+        }];
+        titleLabel.font = [UIFont systemFontOfSize:16];
+        titleLabel.textColor = theme.labelColor;
+        titleLabel.numberOfLines = 1;
+        
+        UILabel *detailLabel = [UILabel new];
+        [self.contentView addSubview:(_detailLabel = detailLabel)];
+        [detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.contentView).offset(-16);
+            make.bottom.equalTo(iconView).offset(-3);
+            make.left.equalTo(titleLabel);
+        }];
+        detailLabel.font = [UIFont systemFontOfSize:16];
+        detailLabel.textColor = theme.minorLabelColor;
+        detailLabel.numberOfLines = 1;
+        
+        UILabel *dateLabel = [UILabel new];
+        [self.contentView addSubview:(_dateLabel = dateLabel)];
+        [dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(titleLabel);
+            make.right.equalTo(detailLabel);
+            make.left.greaterThanOrEqualTo(titleLabel.mas_right).offset(4);
+        }];
+        dateLabel.font = [UIFont systemFontOfSize:12];
+        dateLabel.textColor = theme.lightLabelColor;
+        dateLabel.numberOfLines = 1;
+    }
+    return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    CGRect frame = self.bounds;
+    frame.size.height -= 1;
+    self.contentView.frame = frame;
+}
+
+- (void)setModel:(CHChannelModel *)model {
+    _model = model;
+
+    self.titleLabel.text = model.title;
+    self.iconView.image = model.icon;
+    
+    uint64_t mid = model.mid;
+    CHMessageModel *m = [CHLogic.shared.userDataSource messageWithMID:mid];
+    self.detailLabel.text = m.text;
+    self.dateLabel.text = [NSDate dateFromMID:m.mid].shortFormat;
+}
+
++ (UIContextualAction *)actionInfo:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath {
+    CHChannelModel *model = [[tableView cellForRowAtIndexPath:indexPath] model];
+    UIContextualAction *action = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal title:nil handler:^(UIContextualAction *action, UIView *sourceView, void (^completionHandler)(BOOL)) {
+        [CHRouter.shared routeTo:@"/page/channel/detail" withParams:@{ @"cid": model.cid }];
+        completionHandler(YES);
+    }];
+    action.image = [UIImage systemImageNamed:@"info.circle.fill"];
+    action.backgroundColor = CHTheme.shared.secureColor;
+    return action;
+}
+
++ (nullable UIContextualAction *)actionDelete:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath {
+    UIContextualAction *action = nil;
+    CHChannelModel *model = [[tableView cellForRowAtIndexPath:indexPath] model];
+    if (model != nil && model.type == CHChanTypeUser) {
+        action = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive title:nil handler:^(UIContextualAction *action, UIView *sourceView, void (^completionHandler)(BOOL)) {
+            [CHRouter.shared showAlertWithTitle:@"Delete this channel or not?".localized action:@"Delete".localized handler:^{
+                [CHLogic.shared deleteChannel:model.cid];
+            }];
+            completionHandler(YES);
+        }];
+        action.image = [UIImage systemImageNamed:@"trash.fill"];
+    }
+    return action;
+}
+
+
+@end

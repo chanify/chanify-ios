@@ -126,8 +126,10 @@
         row = [XLFormRowDescriptor formRowDescriptorWithTag:@"delete" rowType:XLFormRowDescriptorTypeButton title:@"Delete channel".localized];
         [row.cellConfig setObject:theme.alertColor forKey:@"textColor"];
         row.action.formBlock = ^(XLFormRowDescriptor *row) {
-            [CHLogic.shared deleteChannel:cid];
-            [CHRouter.shared popToRootViewControllerAnimated:YES];
+            [CHRouter.shared showAlertWithTitle:@"Delete this channel or not?".localized action:@"Delete".localized handler:^{
+                [CHLogic.shared deleteChannel:cid];
+                [CHRouter.shared popToRootViewControllerAnimated:YES];
+            }];
         };
         [section addFormRow:row];
     }

@@ -7,7 +7,7 @@
 
 #import "CHLogger.h"
 
-#ifdef DEBUG
+#if DEBUG
 
 #import <CoreFoundation/CoreFoundation.h>
 #import <stdio.h>

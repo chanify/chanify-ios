@@ -20,7 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) NSString *osInfo;
 @property (nonatomic, readonly, strong) NSString *model;
 @property (nonatomic, readonly, strong) CHSecKey *key;
-@property (nonatomic, readonly, assign) BOOL sandbox;
 @property (nonatomic, readonly, assign) double scale;
 
 + (instancetype)shared;

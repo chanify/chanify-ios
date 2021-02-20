@@ -128,7 +128,7 @@
     };
     [section addFormRow:row];
 
-#ifdef DEBUG
+#if DEBUG
     [form addFormSection:(section = [XLFormSectionDescriptor formSectionWithTitle:@"DEBUG"])];
     row = [XLFormRowDescriptor formRowDescriptorWithTag:@"reset" rowType:XLFormRowDescriptorTypeButton title:@"Reset"];
     [row.cellConfig setObject:theme.alertColor forKey:@"textColor"];

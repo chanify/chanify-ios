@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		55AC77D7F97CF382C0A72C50 /* libPods-Chanify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5B1F40BCE80A4DDFEB56F70 /* libPods-Chanify.a */; };
+		6D278E4125E0ECAC00FC48CD /* CHChannelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278E4025E0ECAC00FC48CD /* CHChannelTableViewCell.m */; };
+		6D278E5025E0F42900FC48CD /* CHChannelTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278E4F25E0F42900FC48CD /* CHChannelTableView.m */; };
 		6D67CBDB25D3BAD700ECF655 /* NSDate+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */; };
 		6D67CBEA25D4298A00ECF655 /* CHCrpyto.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBE925D4298A00ECF655 /* CHCrpyto.m */; };
 		6DC6C1C425D0DCD100512E36 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C1C325D0DCD100512E36 /* AppDelegate.m */; };
@@ -61,10 +63,8 @@
 		6DC6C31E25D1617900512E36 /* NSFileManager+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C31825D1615100512E36 /* NSFileManager+CHExt.m */; };
 		6DC6C32725D1626D00512E36 /* CryptoKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C32625D1626D00512E36 /* CryptoKit.swift */; };
 		6DC6C32825D1626D00512E36 /* CryptoKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C32625D1626D00512E36 /* CryptoKit.swift */; };
-		6DC6C33425D1686200512E36 /* CHChannelConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C33325D1686200512E36 /* CHChannelConfiguration.m */; };
 		6DC6C33925D168A200512E36 /* CHAvatarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C33825D168A200512E36 /* CHAvatarView.m */; };
 		6DC6C33E25D1694100512E36 /* CHChannelsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C33D25D1694100512E36 /* CHChannelsViewController.m */; };
-		6DC6C34325D169A900512E36 /* UICollectionView+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C34225D169A900512E36 /* UICollectionView+CHExt.m */; };
 		6DC6C34B25D16A7300512E36 /* CHSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C34A25D16A7300512E36 /* CHSettingsViewController.m */; };
 		6DC6C35C25D16B6A00512E36 /* NSPredicate+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C35B25D16B6A00512E36 /* NSPredicate+CHExt.m */; };
 		6DC6C36325D16BCE00512E36 /* CHAcknowledgementsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C36225D16BCE00512E36 /* CHAcknowledgementsViewController.m */; };
@@ -153,6 +153,10 @@
 
 /* Begin PBXFileReference section */
 		518C6AACAB0FE1992637FCE8 /* Pods-Chanify.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chanify.debug.xcconfig"; path = "Target Support Files/Pods-Chanify/Pods-Chanify.debug.xcconfig"; sourceTree = "<group>"; };
+		6D278E3F25E0ECAC00FC48CD /* CHChannelTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelTableViewCell.h; sourceTree = "<group>"; };
+		6D278E4025E0ECAC00FC48CD /* CHChannelTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelTableViewCell.m; sourceTree = "<group>"; };
+		6D278E4E25E0F42900FC48CD /* CHChannelTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelTableView.h; sourceTree = "<group>"; };
+		6D278E4F25E0F42900FC48CD /* CHChannelTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelTableView.m; sourceTree = "<group>"; };
 		6D67CBD925D3BAD700ECF655 /* NSDate+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+CHExt.h"; sourceTree = "<group>"; };
 		6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+CHExt.m"; sourceTree = "<group>"; };
 		6D67CBE925D4298A00ECF655 /* CHCrpyto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHCrpyto.m; sourceTree = "<group>"; };
@@ -237,14 +241,10 @@
 		6DC6C31825D1615100512E36 /* NSFileManager+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+CHExt.m"; sourceTree = "<group>"; };
 		6DC6C32125D161DC00512E36 /* CHCrpyto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHCrpyto.h; sourceTree = "<group>"; };
 		6DC6C32625D1626D00512E36 /* CryptoKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoKit.swift; sourceTree = "<group>"; };
-		6DC6C33225D1686200512E36 /* CHChannelConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelConfiguration.h; sourceTree = "<group>"; };
-		6DC6C33325D1686200512E36 /* CHChannelConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelConfiguration.m; sourceTree = "<group>"; };
 		6DC6C33725D168A200512E36 /* CHAvatarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHAvatarView.h; sourceTree = "<group>"; };
 		6DC6C33825D168A200512E36 /* CHAvatarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHAvatarView.m; sourceTree = "<group>"; };
 		6DC6C33C25D1694100512E36 /* CHChannelsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelsViewController.h; sourceTree = "<group>"; };
 		6DC6C33D25D1694100512E36 /* CHChannelsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelsViewController.m; sourceTree = "<group>"; };
-		6DC6C34125D169A900512E36 /* UICollectionView+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UICollectionView+CHExt.h"; sourceTree = "<group>"; };
-		6DC6C34225D169A900512E36 /* UICollectionView+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UICollectionView+CHExt.m"; sourceTree = "<group>"; };
 		6DC6C34925D16A7300512E36 /* CHSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHSettingsViewController.h; sourceTree = "<group>"; };
 		6DC6C34A25D16A7300512E36 /* CHSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHSettingsViewController.m; sourceTree = "<group>"; };
 		6DC6C35A25D16B6A00512E36 /* NSPredicate+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSPredicate+CHExt.h"; sourceTree = "<group>"; };
@@ -471,8 +471,6 @@
 				6DC6C37525D16CA000512E36 /* UIView+CHExt.m */,
 				6DC6C28725D1410D00512E36 /* UIViewController+CHExt.h */,
 				6DC6C28825D1410D00512E36 /* UIViewController+CHExt.m */,
-				6DC6C34125D169A900512E36 /* UICollectionView+CHExt.h */,
-				6DC6C34225D169A900512E36 /* UICollectionView+CHExt.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -549,10 +547,12 @@
 		6DC6C33125D1680D00512E36 /* Channels */ = {
 			isa = PBXGroup;
 			children = (
-				6DC6C33225D1686200512E36 /* CHChannelConfiguration.h */,
-				6DC6C33325D1686200512E36 /* CHChannelConfiguration.m */,
 				6DC6C33C25D1694100512E36 /* CHChannelsViewController.h */,
 				6DC6C33D25D1694100512E36 /* CHChannelsViewController.m */,
+				6D278E3F25E0ECAC00FC48CD /* CHChannelTableViewCell.h */,
+				6D278E4025E0ECAC00FC48CD /* CHChannelTableViewCell.m */,
+				6D278E4E25E0F42900FC48CD /* CHChannelTableView.h */,
+				6D278E4F25E0F42900FC48CD /* CHChannelTableView.m */,
 			);
 			path = Channels;
 			sourceTree = "<group>";
@@ -813,7 +813,6 @@
 				6DC6C2A625D14BE000512E36 /* CHDevice.m in Sources */,
 				6DC6C33E25D1694100512E36 /* CHChannelsViewController.m in Sources */,
 				6DC6C2D625D15CCD00512E36 /* CHManager.m in Sources */,
-				6DC6C34325D169A900512E36 /* UICollectionView+CHExt.m in Sources */,
 				6DC6C2E725D15EC100512E36 /* CHMessageModel.m in Sources */,
 				6DC6C2DD25D15DB100512E36 /* CHUserDataSource.m in Sources */,
 				6DC6C3A425D1700A00512E36 /* CHChannelViewController.m in Sources */,
@@ -833,10 +832,11 @@
 				6DC6C28F25D1435A00512E36 /* CHLoginViewController.m in Sources */,
 				6DC6C2C525D15A8600512E36 /* CHIndicatorPanelView.m in Sources */,
 				6DD623CB25DF8CEB00F0D06A /* CHFormViewController.m in Sources */,
+				6D278E5025E0F42900FC48CD /* CHChannelTableView.m in Sources */,
 				6DC6C34B25D16A7300512E36 /* CHSettingsViewController.m in Sources */,
 				6DC6C2C025D15A7900512E36 /* CHIndicatorView.m in Sources */,
-				6DC6C33425D1686200512E36 /* CHChannelConfiguration.m in Sources */,
 				6DC6C24925D1122100512E36 /* CHUtils.m in Sources */,
+				6D278E4125E0ECAC00FC48CD /* CHChannelTableViewCell.m in Sources */,
 				6DC6C32725D1626D00512E36 /* CryptoKit.swift in Sources */,
 				6DC6C2AE25D14C2400512E36 /* CHSecKey.m in Sources */,
 				6DC6C27425D13E5500512E36 /* CHLogic.m in Sources */,
@@ -1049,7 +1049,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Chanify/Chanify.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1082,7 +1082,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Chanify/Chanify.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1111,7 +1111,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = NotificationService/Info.plist;
@@ -1137,7 +1137,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = NotificationService/Info.plist;

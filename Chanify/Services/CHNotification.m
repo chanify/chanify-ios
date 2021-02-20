@@ -8,6 +8,7 @@
 #import "CHNotification.h"
 #import <UserNotifications/UserNotifications.h>
 #import <UIKit/UIApplication.h>
+#import "CHUserDataSource.h"
 #import "CHMessageModel.h"
 #import "CHLogic.h"
 #import "CHRouter.h"
@@ -85,9 +86,19 @@
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)(void))completionHandler {
     uint64_t mid = 0;
-    NSString *uid = [CHMessageModel parsePacket:try_mock_notification(response.notification.request.content.userInfo) mid:&mid data:nil];
+    NSDictionary *info = try_mock_notification(response.notification.request.content.userInfo);
+    NSString *uid = [CHMessageModel parsePacket:info mid:&mid data:nil];
     if (uid.length > 0 && mid > 0) {
         CHLogI("Launch with message %ux", mid);
+        [CHLogic.shared recivePushMessage:info];
+        CHMessageModel *model = [CHLogic.shared.userDataSource messageWithMID:mid];
+        if (model.channel.length > 0) {
+            NSString *cid = model.channel.base64;
+            dispatch_main_async(^{
+                [CHRouter.shared routeTo:@"/page/channel" withParams:@{ @"cid": cid, @"singleton": @(YES) }];
+            });
+        
+        }
     }
     completionHandler();
 }

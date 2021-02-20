@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)popToRootViewControllerAnimated:(BOOL)animated;
 - (void)presentViewController:(UIViewController *)viewController animated:(BOOL)animated;
 - (void)presentSystemViewController:(UIViewController *)viewController animated:(BOOL)animated;
+- (void)showAlertWithTitle:(NSString *)title action:(NSString *)action handler:(void (^ __nullable)(void))handler;
 - (void)showIndicator:(BOOL)show;
 - (void)makeToast:(NSString *)message;
 

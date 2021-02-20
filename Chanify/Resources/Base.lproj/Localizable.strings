@@ -9,8 +9,11 @@
 "Done"="Done";
 "Close"="Close";
 "Cancel"="Cancel";
+"Delete"="Delete";
 "Enable"="Enable";
 "Disable"="Disable";
+"Copy"="Copy";
+"Copied"="Copied";
 "NewMsg"="Receive an new message";
 "Channels"="Channels";
 "Scan QR Code"="Scan QR Code";
@@ -57,6 +60,8 @@
 "Export success"="Export success";
 "UserInfoTitle"="Scan this QR code";
 "UserInfoDetail"="Download the Chanify app on your new device. Within the app, scan this QR code.";
+
+"Delete this channel or not?"="Delete this channel or not?";
 
 "sys.none"="Uncategorized";
 "sys.device"="Devices";

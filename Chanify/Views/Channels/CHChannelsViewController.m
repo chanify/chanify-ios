@@ -7,19 +7,20 @@
 
 #import "CHChannelsViewController.h"
 #import <Masonry/Masonry.h>
-#import "CHChannelConfiguration.h"
+#import "CHChannelTableView.h"
 #import "CHUserDataSource.h"
 #import "CHMessageModel.h"
 #import "CHRouter.h"
-#import "CHTheme.h"
 #import "CHLogic.h"
 
-typedef UICollectionViewDiffableDataSource<NSString *, CHChannelModel *> CHChannelDataSource;
+typedef UITableViewDiffableDataSource<NSString *, CHChannelModel *> CHChannelDataSource;
 typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiffableSnapshot;
 
-@interface CHChannelsViewController () <UICollectionViewDelegate, CHLogicDelegate>
+static NSString *const cellIdentifier = @"chan";
 
-@property (nonatomic, readonly, strong) UICollectionView *listView;
+@interface CHChannelsViewController () <UITableViewDelegate, CHLogicDelegate>
+
+@property (nonatomic, readonly, strong) CHChannelTableView *tableView;
 @property (nonatomic, readonly, strong) CHChannelDataSource *dataSource;
 
 @end
@@ -33,8 +34,6 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    CHTheme *theme = CHTheme.shared;
-
     NSArray *actions = @[
         [UIAction actionWithTitle:@"Scan QR Code".localized image:[UIImage systemImageNamed:@"qrcode.viewfinder"] identifier:@"scan" handler:^(UIAction *action) {
             [CHRouter.shared routeTo:@"/page/scan"];
@@ -47,19 +46,20 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
     barItem.menu = [UIMenu menuWithChildren:actions];
     self.navigationItem.rightBarButtonItem = barItem;
 
-    UICollectionView *listView = [UICollectionView collectionListViewWithHeight:70];
-    [self.view addSubview:(_listView = listView)];
-    [listView mas_makeConstraints:^(MASConstraintMaker *make) {
+    CHChannelTableView *tableView = [CHChannelTableView new];
+    [self.view addSubview:(_tableView = tableView)];
+    [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
-    listView.backgroundColor = theme.groupedBackgroundColor;
-    listView.delegate = self;
+    [tableView registerClass:CHChannelTableViewCell.class forCellReuseIdentifier:cellIdentifier];
+    tableView.delegate = self;
 
-    UICollectionViewCellRegistration *cellRegistration = [UICollectionViewCellRegistration registrationWithCellClass:UICollectionViewCell.class configurationHandler:^(__kindof UICollectionViewCell *cell, NSIndexPath *indexPath, CHChannelModel *item) {
-        cell.contentConfiguration = [CHChannelConfiguration cellConfiguration:item];
-    }];
-    _dataSource = [[CHChannelDataSource alloc] initWithCollectionView:listView cellProvider:^UICollectionViewCell *(UICollectionView *collectionView, NSIndexPath *indexPath, CHChannelConfiguration *item) {
-        return [collectionView dequeueConfiguredReusableCellWithRegistration:cellRegistration forIndexPath:indexPath item:item];
+    _dataSource = [[CHChannelDataSource alloc] initWithTableView:tableView cellProvider:^UITableViewCell *(UITableView *tableView, NSIndexPath *indexPath, CHChannelModel *item) {
+        CHChannelTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+        if (cell != nil) {
+            cell.model = item;
+        }
+        return cell;
     }];
     
     [self reloadChannels];
@@ -67,11 +67,24 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
     [CHLogic.shared addDelegate:self];
 }
 
-#pragma mark - UICollectionViewDelegate
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+#pragma mark - UITableViewDelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     CHChannelModel *item = [self.dataSource itemIdentifierForIndexPath:indexPath];
-    [CHRouter.shared routeTo:@"/page/channel" withParams:@{ @"cid": item.cid }];
+    if (item != nil) {
+        [CHRouter.shared routeTo:@"/page/channel" withParams:@{ @"cid": item.cid }];
+    }
+}
+
+- (nullable UISwipeActionsConfiguration *)tableView:(UITableView *)tableView trailingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSMutableArray *actions = [NSMutableArray arrayWithObject:[CHChannelTableViewCell actionInfo:tableView indexPath:indexPath]];
+    UIContextualAction *delete = [CHChannelTableViewCell actionDelete:tableView indexPath:indexPath];
+    if (delete != nil) {
+        [actions insertObject:delete atIndex:0];
+    }
+    UISwipeActionsConfiguration *configuration = [UISwipeActionsConfiguration configurationWithActions:actions];
+    configuration.performsFirstActionWithFullSwipe = NO;
+    return configuration;
 }
 
 #pragma mark - CHLogicDelegate
@@ -86,8 +99,6 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
 
 - (void)logicMessagesUpdated:(NSArray<NSNumber *> *)mids {
     CHUserDataSource *usrDS = CHLogic.shared.userDataSource;
-    [self.dataSource snapshotForSection:@"main"];
-    
     CHChannelDiffableSnapshot *snapshot = self.dataSource.snapshot;
     NSArray<CHChannelModel *> *items = [snapshot itemIdentifiersInSectionWithIdentifier:@"main"];
     NSHashTable *reloadItems = [NSHashTable weakObjectsHashTable];

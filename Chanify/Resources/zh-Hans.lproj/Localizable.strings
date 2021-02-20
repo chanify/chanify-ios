@@ -9,8 +9,11 @@
 "Done"="完成";
 "Close"="关闭";
 "Cancel"="取消";
+"Delete"="删除";
 "Enable"="启用";
 "Disable"="禁用";
+"Copy"="复制";
+"Copied"="已复制";
 "NewMsg"="收到一条新消息";
 "Channels"="频道";
 "Scan QR Code"="扫二维码";
@@ -57,6 +60,8 @@
 "Export success"="导出成功";
 "UserInfoTitle"="扫描本二维码";
 "UserInfoDetail"="在您的新设备上下载Chanify应用，并在应用内扫描本二维码";
+
+"Delete this channel or not?"="是否要删除这个频道？";
 
 "sys.none"="未分类消息";
 "sys.device"="设备消息";

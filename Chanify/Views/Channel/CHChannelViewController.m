@@ -27,7 +27,7 @@
 
 - (instancetype)initWithParameters:(NSDictionary *)params {
     if (self = [super init]) {
-        _model = nil;//
+        _model = nil;
         [self updateChannel:[params valueForKey:@"cid"]];
     }
     return self;

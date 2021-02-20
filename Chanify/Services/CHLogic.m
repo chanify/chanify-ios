@@ -218,7 +218,11 @@
             @"device": device.uuid.hex,
             @"user": self.me.uid,
             @"token": pushToken.base64,
-            @"sandbox": @(device.sandbox),
+#if DEBUG
+            @"sandbox": @(YES),
+#else
+            @"sandbox": @(NO),  // TestFlight use production APNS.
+#endif
         };
         @weakify(self);
         [self sendCmd:@"push-token" user:self.me parameters:parameters completion:^(NSURLResponse *response, NSDictionary *result, NSError *error) {

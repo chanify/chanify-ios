@@ -6,6 +6,8 @@
 //
 
 #import "CHTextMsgCellConfiguration.h"
+#import <M80AttributedLabel/M80AttributedLabel.h>
+#import "CHRouter.h"
 #import "CHTheme.h"
 
 static UIFont *textFont;
@@ -20,24 +22,94 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
 
 @interface CHTextMsgCellContentView : CHMsgCellContentView<CHTextMsgCellConfiguration *>
 
-@property (nonatomic, readonly, strong) UILabel *textLabel;
+@property (nonatomic, readonly, strong) M80AttributedLabel *textLabel;
+
+@end
+
+@interface CHTextMsgCellContentView () <M80AttributedLabelDelegate>
+
+@property (nonatomic, readonly, strong) UILongPressGestureRecognizer *longPressRecognizer;
 
 @end
 
 @implementation CHTextMsgCellContentView
 
+- (void)dealloc {
+    if (self.longPressRecognizer != nil) {
+        [self removeGestureRecognizer:self.longPressRecognizer];
+        _longPressRecognizer = nil;
+    }
+}
+
+- (BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
 - (void)setupViews {
-    UILabel *textLabel = [UILabel new];
+    CHTheme *theme = CHTheme.shared;
+
+    M80AttributedLabel *textLabel = [[M80AttributedLabel alloc] initWithFrame:CGRectZero];
     [self.bubbleView addSubview:(_textLabel = textLabel)];
-    textLabel.textColor = CHTheme.shared.labelColor;
+    textLabel.backgroundColor = UIColor.clearColor;
+    textLabel.textColor = theme.labelColor;
+    textLabel.linkColor = theme.tintColor;
+    textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    textLabel.autoDetectLinks = YES;
     textLabel.numberOfLines = 0;
     textLabel.font = textFont;
+    textLabel.delegate = self;
+
+    UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(actionLongPress:)];
+    [self addGestureRecognizer:(_longPressRecognizer = longPressRecognizer)];
+    self.userInteractionEnabled = YES;
 }
 
 - (void)applyConfiguration:(CHTextMsgCellConfiguration *)configuration {
     self.textLabel.text = configuration.text;
     self.textLabel.frame = configuration.textRect;
 }
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    if (previousTraitCollection.userInterfaceStyle != self.traitCollection.userInterfaceStyle) {
+        // Note: Fix dark mode for M80AttributedLabel
+        self.textLabel.text = [(CHTextMsgCellConfiguration *)self.configuration text];
+        [self setNeedsDisplay];
+    }
+    [super traitCollectionDidChange:previousTraitCollection];
+}
+
+#pragma mark - M80AttributedLabelDelegate
+- (void)m80AttributedLabel:(M80AttributedLabel *)label clickedOnLink:(id)linkData {
+    UIMenuController *menu = UIMenuController.sharedMenuController;
+    if (menu.isMenuVisible) {
+        [menu hideMenuFromView:self.bubbleView];
+    }
+    if ([linkData isKindOfClass:NSString.class]) {
+        NSURL *url = [NSURL URLWithString:(NSString *)linkData];
+        if (url.scheme.length <= 0) {
+            url = [NSURL URLWithString:[@"http://" stringByAppendingString:linkData]];
+        }
+        if (url.scheme.length > 0) {
+            [CHRouter.shared handleURL:url];
+        }
+    }
+}
+
+#pragma mark - Action Methods
+- (void)actionLongPress:(UILongPressGestureRecognizer *)recognizer {
+    [self becomeFirstResponder];
+
+    UIMenuController *menu = UIMenuController.sharedMenuController;
+    UIMenuItem *copyItem = [[UIMenuItem alloc]initWithTitle:@"Copy".localized action:@selector(actionCopy:)];
+    menu.menuItems = @[copyItem];
+    [menu showMenuFromView:self.bubbleView rect:self.textLabel.frame];
+}
+
+- (void)actionCopy:(id)sender {
+    UIPasteboard.generalPasteboard.string = self.textLabel.text;
+    [CHRouter.shared makeToast:@"Copied".localized];
+}
+
 
 @end
 

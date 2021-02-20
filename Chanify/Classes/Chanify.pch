@@ -56,10 +56,6 @@
 #   import "UIViewController+CHExt.h"
 #endif
 
-#if __has_include(<UIKit/UICollectionView.h>)
-#   import "UICollectionView+CHExt.h"
-#endif
-
 #endif /* CHUI_ENABLE */
 
 #endif /* __OBJC__ */
