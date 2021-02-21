@@ -20,7 +20,6 @@
 @property (nonatomic, readonly, strong) CHMessagesDataSource *dataSource;
 @property (nonatomic, nullable, strong) UICollectionView *listView;
 
-
 @end
 
 @implementation CHChannelViewController
@@ -57,16 +56,6 @@
     _dataSource = [CHMessagesDataSource dataSourceWithCollectionView:listView channelID:self.model.cid];
     
     [CHLogic.shared addDelegate:self];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [CHLogic.shared addDelegate:self];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [CHLogic.shared removeDelegate:self];
-    [super viewDidDisappear:animated];
 }
 
 #pragma mark - UICollectionViewDelegate

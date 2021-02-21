@@ -122,7 +122,7 @@
 
 #pragma mark - Action Methods
 - (void)actionGotoPrivacy:(id)sender {
-    [CHRouter.shared routeTo:@kCHPrivacyURL withParams:@{ @"title": @"Privacy Policy".localized, @"noauth": @YES }];
+    [CHRouter.shared routeTo:@"/page/privacy" withParams:@{ @"noauth": @YES }];
 }
 
 - (void)actionCreateAccount:(UIButton *)button {

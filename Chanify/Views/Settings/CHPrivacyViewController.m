@@ -1,73 +1,49 @@
 //
-//  CHWebViewController.m
+//  CHPrivacyViewController.m
 //  Chanify
 //
-//  Created by WizJin on 2021/2/8.
+//  Created by WizJin on 2021/2/21.
 //
 
-#import "CHWebViewController.h"
+#import "CHPrivacyViewController.h"
 #import <WebKit/WebKit.h>
 #import <Masonry/Masonry.h>
-#import "CHWebViewRefresher.h"
-#import "CHRouter.h"
 #import "CHTheme.h"
 
-@interface CHWebViewController () <WKNavigationDelegate>
+@interface CHPrivacyViewController () <WKNavigationDelegate>
 
 @property (nonatomic, readonly, strong) WKWebView *webView;
 @property (nonatomic, readonly, strong) UIProgressView *progressView;
-@property (nonatomic, readonly, strong) CHWebViewRefresher * refresher;
-@property (nonatomic, nullable, strong) NSString *defaultTitle;
 @property (nonatomic, nullable, strong) UIView *emptyView;
 @property (nonatomic, readonly, strong) NSURL *url;
 
 @end
 
-@implementation CHWebViewController
-
-- (instancetype)initWithUrl:(NSURL *)url parameters:(nullable NSDictionary<NSString *, id> *)params {
-    if (self = [super init]) {
-        _url = url;
-        _defaultTitle = [params valueForKey:@"title"];
-        self.title = self.defaultTitle;
-    }
-    return self;
-}
+@implementation CHPrivacyViewController
 
 - (void)dealloc {
     [self.webView removeObserver:self forKeyPath:@"estimatedProgress"];
-    [self.webView removeObserver:self forKeyPath:@"title"];
-    [self.webView removeObserver:self forKeyPath:@"URL"];
-    [self.webView removeObserver:self forKeyPath:@"hasOnlySecureContent"];
-    [self.webView removeObserver:self forKeyPath:@"canGoBack"];
     self.webView.navigationDelegate = nil;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"⋯" style:UIBarButtonItemStylePlain target:self action:@selector(actionMore:)];
     
-    CHWebViewRefresher *refreshControl = [CHWebViewRefresher new];
-    [refreshControl addTarget:self action:@selector(actionRefresh:) forControlEvents:UIControlEventValueChanged];
-
+    _url = [NSURL URLWithString:@kCHPrivacyURL];
+    
+    self.title = @"Privacy Policy".localized;
+    
     WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:[WKWebViewConfiguration new]];
     [self.view addSubview:(_webView = webView)];
     [webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
-    [webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:nil];
-    [webView addObserver:self forKeyPath:@"URL" options:NSKeyValueObservingOptionNew context:nil];
-    [webView addObserver:self forKeyPath:@"hasOnlySecureContent" options:NSKeyValueObservingOptionNew context:nil];
-    [webView addObserver:self forKeyPath:@"canGoBack" options:NSKeyValueObservingOptionNew context:nil];
-    webView.scrollView.refreshControl = (_refresher = refreshControl);
     webView.backgroundColor = CHTheme.shared.backgroundColor;
-    webView.allowsBackForwardNavigationGestures = YES;
     webView.navigationDelegate = self;
     webView.alpha = 0;
     [webView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
         make.left.right.bottom.equalTo(self.view);
     }];
-
+    
     UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
     [self.view addSubview:(_progressView = progressView)];
     progressView.progress = 0;
@@ -99,68 +75,22 @@
 
 #pragma mark - Observe Methods
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if (object == self.webView) {
-        if ([keyPath isEqualToString:@"title"]) {
-            NSString *title = self.webView.title;
-            if (self.defaultTitle.length > 0 && !self.webView.canGoBack) {
-                title = self.defaultTitle;
-            }
-            [UIViewPropertyAnimator runningPropertyAnimatorWithDuration:kCHAnimateMediumDuration delay:0 options:0 animations:^{
-                self.title = title;
-            } completion:nil];
-            return;
-        } else if ([keyPath isEqualToString:@"estimatedProgress"]) {
-            CGFloat progress = self.webView.estimatedProgress;
-            if (progress < 1.0) {
-                [self.progressView setProgress:progress animated:YES];
-            } else {
-                [self.progressView setProgress:1.0 animated:NO];
-                [UIViewPropertyAnimator runningPropertyAnimatorWithDuration:kCHAnimateSlowDuration delay:kCHAnimateSlowDuration options:0 animations:^{
-                    self.progressView.alpha = 0;
-                } completion:^(UIViewAnimatingPosition finalPosition) {
-                    self.progressView.alpha = 1;
-                    self.progressView.progress = 0;
-                }];
-            }
-            return;
-        } else if ([keyPath isEqualToString:@"URL"]) {
-            NSString *host = self.webView.URL.host;
-            if ([host hasPrefix:@"www."]) {
-                host = [host substringFromIndex:@"www.".length];
-            }
-            self.refresher.host = host;
-            return;
-        } else if ([keyPath isEqualToString:@"hasOnlySecureContent"]) {
-            self.refresher.hasOnlySecureContent = self.webView.hasOnlySecureContent;
-            return;
-        } else if ([keyPath isEqualToString:@"canGoBack"]) {
-            self.navigationController.interactivePopGestureRecognizer.enabled = !self.webView.canGoBack;
-            return;
+    if (object == self.webView && [keyPath isEqualToString:@"estimatedProgress"]) {
+        CGFloat progress = self.webView.estimatedProgress;
+        if (progress < 1.0) {
+            [self.progressView setProgress:progress animated:YES];
+        } else {
+            [self.progressView setProgress:1.0 animated:NO];
+            [UIViewPropertyAnimator runningPropertyAnimatorWithDuration:kCHAnimateSlowDuration delay:kCHAnimateSlowDuration options:0 animations:^{
+                self.progressView.alpha = 0;
+            } completion:^(UIViewAnimatingPosition finalPosition) {
+                self.progressView.alpha = 1;
+                self.progressView.progress = 0;
+            }];
         }
+        return;
     }
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-}
-
-#pragma mark - Action Methods
-- (void)actionRefresh:(UIRefreshControl *)refresher {
-    [refresher endRefreshing];
-    [self.webView reload];
-}
-
-- (void)actionReload:(id)sender {
-    if (self.webView.URL != nil) {
-        [self.webView reloadFromOrigin];
-    } else {
-        [self.webView loadRequest:[NSURLRequest requestWithURL:self.url]];
-    }
-}
-
-- (void)actionMore:(id)sender {
-    [CHRouter.shared showShareItem:@[self.url] sender:sender handler:^(BOOL completed, NSError * _Nonnull error) {
-        if (error != nil) {
-            CHLogE("Activity failed: %s", error.description.cstr);
-        }
-    }];
 }
 
 #pragma mark - Private Methods
@@ -205,6 +135,10 @@
             [emptyView addGestureRecognizer:tapGestureRecognizer];
         }
     }
+}
+
+- (void)actionReload:(id)sender {
+    [self.webView loadRequest:[NSURLRequest requestWithURL:self.url]];
 }
 
 

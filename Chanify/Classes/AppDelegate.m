@@ -23,6 +23,13 @@
     return res;
 }
 
+- (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void(^)(BOOL succeeded))completionHandler {
+    BOOL res = [CHRouter.shared handleShortcut:shortcutItem.type];
+    if (completionHandler != NULL) {
+        completionHandler(res);
+    }
+}
+
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     [CHRouter.shared active];
 }

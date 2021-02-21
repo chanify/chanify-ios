@@ -101,13 +101,18 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
 
     UIMenuController *menu = UIMenuController.sharedMenuController;
     UIMenuItem *copyItem = [[UIMenuItem alloc]initWithTitle:@"Copy".localized action:@selector(actionCopy:)];
-    menu.menuItems = @[copyItem];
+    UIMenuItem *shareItem = [[UIMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)];
+    menu.menuItems = @[copyItem, shareItem];
     [menu showMenuFromView:self.bubbleView rect:self.textLabel.frame];
 }
 
 - (void)actionCopy:(id)sender {
     UIPasteboard.generalPasteboard.string = self.textLabel.text;
     [CHRouter.shared makeToast:@"Copied".localized];
+}
+
+- (void)actionShare:(id)sender {
+    [CHRouter.shared showShareItem:@[[(CHTextMsgCellConfiguration *)self.configuration text]] sender:sender handler:nil];
 }
 
 

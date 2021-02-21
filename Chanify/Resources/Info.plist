@@ -48,6 +48,17 @@
 	<string>To save export QR code into photo library when you need it.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To picker a QR code from photo when you need it.</string>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconSymbolName</key>
+			<string>qrcode.viewfinder</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Scan QR code</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>scan</string>
+		</dict>
+	</array>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
@@ -63,6 +74,13 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 </dict>
 </plist>

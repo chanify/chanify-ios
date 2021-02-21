@@ -7,6 +7,7 @@
 
 #import "CHSettingsViewController.h"
 #import <XLForm/XLForm.h>
+#import "CHCodeFormatter.h"
 #import "CHNotification.h"
 #import "CHLogic.h"
 #import "CHTheme.h"
@@ -62,7 +63,8 @@
 
     row = [XLFormRowDescriptor formRowDescriptorWithTag:@"user" rowType:XLFormRowDescriptorTypeSelectorPush title:@"User".localized];
     [row.cellConfig setObject:codeFont forKey:@"detailTextLabel.font"];
-    row.value = fixSubStr(CHLogic.shared.me.uid);
+    row.value = CHLogic.shared.me.uid;
+    row.valueFormatter = [CHCodeFormatter new];
     row.action.formBlock = ^(XLFormRowDescriptor *row) {
         [CHRouter.shared routeTo:@"/page/user-info"];
     };
@@ -70,7 +72,8 @@
 
     row = [XLFormRowDescriptor formRowDescriptorWithTag:@"device" rowType:XLFormRowDescriptorTypeSelectorPush title:@"Device".localized];
     [row.cellConfig setObject:codeFont forKey:@"detailTextLabel.font"];
-    row.value = fixSubStr(CHDevice.shared.uuid.hex);
+    row.value = CHDevice.shared.uuid.hex;
+    row.valueFormatter = [CHCodeFormatter new];
     [section addFormRow:row];
 
     // GENERAL
@@ -111,7 +114,7 @@
 
     row = [XLFormRowDescriptor formRowDescriptorWithTag:@"privacy" rowType:XLFormRowDescriptorTypeSelectorPush title:@"Privacy Policy".localized];
     row.action.formBlock = ^(XLFormRowDescriptor *row) {
-        [CHRouter.shared routeTo:@kCHPrivacyURL withParams:@{ @"title": @"Privacy Policy".localized }];
+        [CHRouter.shared routeTo:@"/page/privacy"];
     };
     [section addFormRow:row];
 
@@ -167,13 +170,6 @@
         XLFormRowDescriptor *row = [self.form formRowWithTag:tag];
         [row setHidden:row.hidden];
     }
-}
-
-static inline NSString *fixSubStr(NSString *val) {
-    if (val.length <= 20) {
-        return val;
-    }
-    return [[val substringToIndex:20] stringByAppendingString:@"…"];
 }
 
 

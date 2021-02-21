@@ -10,6 +10,8 @@
 		55AC77D7F97CF382C0A72C50 /* libPods-Chanify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5B1F40BCE80A4DDFEB56F70 /* libPods-Chanify.a */; };
 		6D278E4125E0ECAC00FC48CD /* CHChannelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278E4025E0ECAC00FC48CD /* CHChannelTableViewCell.m */; };
 		6D278E5025E0F42900FC48CD /* CHChannelTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278E4F25E0F42900FC48CD /* CHChannelTableView.m */; };
+		6D278E5E25E1EF7A00FC48CD /* CHPrivacyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278E5D25E1EF7A00FC48CD /* CHPrivacyViewController.m */; };
+		6D278E6925E222C300FC48CD /* CHCodeFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278E6825E222C300FC48CD /* CHCodeFormatter.m */; };
 		6D67CBDB25D3BAD700ECF655 /* NSDate+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */; };
 		6D67CBEA25D4298A00ECF655 /* CHCrpyto.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBE925D4298A00ECF655 /* CHCrpyto.m */; };
 		6DC6C1C425D0DCD100512E36 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C1C325D0DCD100512E36 /* AppDelegate.m */; };
@@ -157,6 +159,10 @@
 		6D278E4025E0ECAC00FC48CD /* CHChannelTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelTableViewCell.m; sourceTree = "<group>"; };
 		6D278E4E25E0F42900FC48CD /* CHChannelTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelTableView.h; sourceTree = "<group>"; };
 		6D278E4F25E0F42900FC48CD /* CHChannelTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelTableView.m; sourceTree = "<group>"; };
+		6D278E5C25E1EF7A00FC48CD /* CHPrivacyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHPrivacyViewController.h; sourceTree = "<group>"; };
+		6D278E5D25E1EF7A00FC48CD /* CHPrivacyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHPrivacyViewController.m; sourceTree = "<group>"; };
+		6D278E6725E222C300FC48CD /* CHCodeFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHCodeFormatter.h; sourceTree = "<group>"; };
+		6D278E6825E222C300FC48CD /* CHCodeFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHCodeFormatter.m; sourceTree = "<group>"; };
 		6D67CBD925D3BAD700ECF655 /* NSDate+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+CHExt.h"; sourceTree = "<group>"; };
 		6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+CHExt.m"; sourceTree = "<group>"; };
 		6D67CBE925D4298A00ECF655 /* CHCrpyto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHCrpyto.m; sourceTree = "<group>"; };
@@ -508,6 +514,8 @@
 				6DC6C36E25D16C4E00512E36 /* CHQrCodeView.m */,
 				6DC6C33725D168A200512E36 /* CHAvatarView.h */,
 				6DC6C33825D168A200512E36 /* CHAvatarView.m */,
+				6D278E6725E222C300FC48CD /* CHCodeFormatter.h */,
+				6D278E6825E222C300FC48CD /* CHCodeFormatter.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -564,6 +572,8 @@
 				6DC6C34A25D16A7300512E36 /* CHSettingsViewController.m */,
 				6DC6C36625D16C1600512E36 /* CHUserInfoViewController.h */,
 				6DC6C36725D16C1600512E36 /* CHUserInfoViewController.m */,
+				6D278E5C25E1EF7A00FC48CD /* CHPrivacyViewController.h */,
+				6D278E5D25E1EF7A00FC48CD /* CHPrivacyViewController.m */,
 				6DC6C36125D16BCE00512E36 /* CHAcknowledgementsViewController.h */,
 				6DC6C36225D16BCE00512E36 /* CHAcknowledgementsViewController.m */,
 			);
@@ -805,10 +815,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D278E6925E222C300FC48CD /* CHCodeFormatter.m in Sources */,
 				6DC6C2CD25D15B6300512E36 /* CHScanViewController.m in Sources */,
 				6D67CBEA25D4298A00ECF655 /* CHCrpyto.m in Sources */,
 				6DC6C26525D1151E00512E36 /* NSString+CHExt.m in Sources */,
 				6DC6C38625D16E4200512E36 /* CHDateCellConfiguration.m in Sources */,
+				6D278E5E25E1EF7A00FC48CD /* CHPrivacyViewController.m in Sources */,
 				6DC6C39F25D16FE600512E36 /* CHMessagesDataSource.m in Sources */,
 				6DC6C2A625D14BE000512E36 /* CHDevice.m in Sources */,
 				6DC6C33E25D1694100512E36 /* CHChannelsViewController.m in Sources */,
@@ -1063,12 +1075,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.0;
+				MARKETING_VERSION = 0.9.1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1096,11 +1108,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.0;
+				MARKETING_VERSION = 0.9.1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -1120,13 +1132,13 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.9.0;
+				MARKETING_VERSION = 0.9.1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1146,12 +1158,12 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.9.0;
+				MARKETING_VERSION = 0.9.1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

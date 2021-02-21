@@ -12,6 +12,6 @@ MSG_FMT=\
 }
 
 apns:
-	@echo '${MSG_FMT}' | xcrun simctl push `echo "${BOOTED_DEVICE}" | sed 's/\([^(]*\)(\([0-9A-F-]*\))\(.*\)/\2/g'` -
+	@echo '${MSG_FMT}' | xcrun simctl push `echo "${BOOTED_DEVICE}" | sed 's/.*(\([0-9A-F-]\{4,\}\)).*/\1/g'` -
 
 .PHONY: apns

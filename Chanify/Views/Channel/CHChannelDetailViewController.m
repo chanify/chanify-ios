@@ -7,6 +7,7 @@
 
 #import "CHChannelDetailViewController.h"
 #import <XLForm/XLForm.h>
+#import "CHCodeFormatter.h"
 #import "CHUserDataSource.h"
 #import "CHNSDataSource.h"
 #import "CHChannelModel.h"
@@ -115,6 +116,7 @@
     row = [XLFormRowDescriptor formRowDescriptorWithTag:@"token" rowType:XLFormRowDescriptorTypeSelectorPush title:@"Token".localized];
     [row.cellConfig setObject:codeFont forKey:@"detailTextLabel.font"];
     row.value = self.token;
+    row.valueFormatter = [CHCodeFormatter new];
     row.action.formBlock = ^(XLFormRowDescriptor *row) {
         UIPasteboard.generalPasteboard.string = row.value;
         [CHRouter.shared makeToast:@"Token copied".localized];

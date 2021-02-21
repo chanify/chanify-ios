@@ -113,9 +113,8 @@
 #pragma mark - Action Methods
 - (void)actionExport:(UIBarButtonItem *)sender {
     @weakify(self);
-    UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:@[self.view.snapshotImage, [NSURL URLWithString:self.url]] applicationActivities:nil];
-    vc.completionWithItemsHandler = ^(UIActivityType activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
-        if (activityError != nil) {
+    [CHRouter.shared showShareItem:@[self.view.snapshotImage, [NSURL URLWithString:self.url]] sender:sender handler:^(BOOL completed, NSError *error) {
+        if (error != nil) {
             [CHRouter.shared makeToast:@"Export failed".localized];
         } else if (completed) {
             [CHRouter.shared makeToast:@"Export success".localized];
@@ -124,11 +123,7 @@
                 [self closeAnimated:YES completion:nil];
             }
         }
-    };
-    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-        vc.popoverPresentationController.barButtonItem = sender;
-    }
-    [CHRouter.shared presentSystemViewController:vc animated:YES];
+    }];
 }
 
 - (void)actionCopyAccount:(UILongPressGestureRecognizer *)recognizer {

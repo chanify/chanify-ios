@@ -9,3 +9,4 @@ CFBundleDisplayName="Chanify";
 NSCameraUsageDescription="在您需要时，用来扫描二维码。";
 NSPhotoLibraryUsageDescription="在您需要时，从相册中获取二维码。";
 NSPhotoLibraryAddUsageDescription="在您需要时，将导出的二维码保存到照片库中。";
+"Scan QR code"="扫一扫";

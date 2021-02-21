@@ -65,6 +65,16 @@
     return YES;
 }
 
+- (BOOL)handleShortcut:(NSString *)type {
+    BOOL res = NO;
+    if (type.length > 0) {
+        if ([type isEqualToString:@"scan"]) {
+            res = [self routeTo:@"/page/scan?show=present"];
+        }
+    }
+    return res;
+}
+
 - (BOOL)handleURL:(NSURL *)url {
     return [self routeTo:url.absoluteString withParams:nil];
 }
@@ -105,6 +115,19 @@
 - (void)presentSystemViewController:(UIViewController *)viewController animated:(BOOL)animated {
     viewController.modalPresentationStyle = UIModalPresentationFullScreen;
     [self.window.rootViewController.topViewController presentViewController:viewController animated:animated completion:nil];
+}
+
+- (void)showShareItem:(NSArray *)items sender:(id)sender handler:(void (^ __nullable)(BOOL completed, NSError *error))handler {
+    UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
+    vc.completionWithItemsHandler = ^(UIActivityType activityType, BOOL completed, NSArray *returnedItems, NSError *error) {
+        if (handler != nil) {
+            handler(completed, error);
+        }
+    };
+    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+        vc.popoverPresentationController.barButtonItem = sender;
+    }
+    [self presentSystemViewController:vc animated:YES];
 }
 
 - (void)showAlertWithTitle:(NSString *)title action:(NSString *)action handler:(void (^ __nullable)(void))handler {
