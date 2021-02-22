@@ -9,7 +9,7 @@
 #define __CHCONFIG_H__
 
 #define kCHPrivacyURL                   "https://www.chanify.net/privacy.html"
-#define kCHAppStoreURL                  "https://itunes.apple.com/us/app/id1531546573?mt=8"
+#define kCHAppStoreURL                  "itms-apps://itunes.apple.com/app/id1531546573"
 #define kCHContactEmail                 "support@chanify.net"
 #define kCHAPIHostname                  "api.chanify.net"
 #define kCHAppGroupName                 "group.net.chanify.share"

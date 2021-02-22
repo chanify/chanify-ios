@@ -18,9 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)badgeForUID:(nullable NSString *)uid;
 - (NSUInteger)nextBadgeForUID:(nullable NSString *)uid;
 - (void)updateBadge:(NSUInteger)badge uid:(nullable NSString *)uid;
-- (nullable CHMessageModel *)pushMessage:(NSData *)data mid:(uint64_t)mid uid:(NSString *)uid;
-- (void)enumerateMessagesWithUID:(nullable NSString *)uid block:(void (NS_NOESCAPE ^)(uint64_t mid, NSData *data))block;
-- (void)removeMessages:(NSArray<NSNumber *> *)mids uid:(nullable NSString *)uid;
+- (nullable CHMessageModel *)pushMessage:(NSData *)data mid:(NSString *)mid uid:(NSString *)uid;
+- (void)enumerateMessagesWithUID:(nullable NSString *)uid block:(void (NS_NOESCAPE ^)(NSString *mid, NSData *data))block;
+- (void)removeMessages:(NSArray<NSString *> *)mids uid:(nullable NSString *)uid;
 
 
 @end

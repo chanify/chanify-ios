@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)localized;
 - (NSString *)code;
 - (const char *)cstr;
+- (uint64_t)uint64Value;
 
 
 @end

@@ -22,7 +22,7 @@ typedef NS_ENUM(NSInteger, CHChanType) {
 @property (nonatomic, strong) NSString *icon;
 @property (nonatomic, assign) CHChanType type;
 @property (nonatomic, assign) BOOL mute;
-@property (nonatomic, assign) uint64_t mid;
+@property (nonatomic, nullable, strong) NSString *mid;
 
 + (nullable instancetype)modelWithCID:(nullable NSString *)cid name:(nullable NSString *)name icon:(nullable NSString *)icon;
 + (nullable instancetype)modelWithCode:(NSString *)code name:(nullable NSString *)name icon:(nullable NSString *)icon;

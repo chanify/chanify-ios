@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly, assign) CGRect bubbleRect;
 
-- (instancetype)initWithMID:(uint64_t)mid bubbleRect:(CGRect)bubbleRect;
+- (instancetype)initWithMID:(NSString *)mid bubbleRect:(CGRect)bubbleRect;
 - (CGSize)calcContentSize:(CGSize)size;
 
 

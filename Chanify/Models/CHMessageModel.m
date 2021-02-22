@@ -12,8 +12,8 @@
 
 @implementation CHMessageModel
 
-+ (nullable instancetype)modelWithData:(nullable NSData *)data mid:(uint64_t)mid {
-    if (data.length > 0 && mid > 0) {
++ (nullable instancetype)modelWithData:(nullable NSData *)data mid:(NSString *)mid {
+    if (data.length > 0 && mid.length > 0) {
         NSError *error = nil;
         CHTPMessage *msg = [CHTPMessage parseFromData:data error:&error];
         if (error != nil) {
@@ -25,28 +25,26 @@
     return nil;
 }
 
-+ (nullable instancetype)modelWithKey:(nullable NSData *)key data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw {
-    if (key.length >= kCHAesGcmKeyBytes * 2 && data.length > kCHAesGcmNonceBytes + kCHAesGcmTagBytes) {
-        uint64_t mid = parseMID(data.bytes);
-        if (mid > 0) {
-            NSData *payload = [CHCrpyto aesOpenWithKey:[key subdataWithRange:NSMakeRange(0, kCHAesGcmKeyBytes)] data:data auth:[key subdataWithRange:NSMakeRange(kCHAesGcmKeyBytes, kCHAesGcmKeyBytes)]];
-            if (payload.length > 0) {
-                if (raw != nil) {
-                    *raw = payload;
-                }
-                return [self.class modelWithData:payload mid:mid];
++ (nullable instancetype)modelWithKey:(nullable NSData *)key mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw {
+    if (key.length >= kCHAesGcmKeyBytes * 2 && mid.length > 0 && data.length > kCHAesGcmNonceBytes + kCHAesGcmTagBytes) {
+        NSData *payload = [CHCrpyto aesOpenWithKey:[key subdataWithRange:NSMakeRange(0, kCHAesGcmKeyBytes)] data:data auth:[key subdataWithRange:NSMakeRange(kCHAesGcmKeyBytes, kCHAesGcmKeyBytes)]];
+        if (payload.length > 0) {
+            if (raw != nil) {
+                *raw = payload;
             }
+            return [self.class modelWithData:payload mid:mid];
         }
     }
     return nil;
 }
 
-+ (nullable NSString *)parsePacket:(NSDictionary *)info mid:(nullable uint64_t *)mid data:(NSData * _Nullable * _Nullable)data {
++ (nullable NSString *)parsePacket:(NSDictionary *)info mid:(NSString * _Nullable * _Nullable)mid data:(NSData * _Nullable * _Nullable)data {
     NSString *uid = [info valueForKey:@"uid"];
+    NSString *src = [info valueForKey:@"src"];
     NSData *payload = [NSData dataFromBase64:[info valueForKey:@"msg"]];
     if (payload.length > kCHAesGcmNonceBytes + kCHAesGcmTagBytes) {
         if (mid != nil) {
-            *mid = parseMID(payload.bytes);
+            *mid = parseMID(payload.bytes, src);
         }
         if (data != nil) {
             *data = payload;
@@ -55,7 +53,7 @@
     return uid;
 }
 
-- (instancetype)initWithID:(uint64_t)mid packet:(CHTPMessage *)msg {
+- (instancetype)initWithID:(NSString *)mid packet:(CHTPMessage *)msg {
     if (self = [super init]) {
         _mid = mid;
         _from = msg.from.base32;
@@ -92,15 +90,22 @@
 }
 
 - (BOOL)isEqual:(CHMessageModel *)rhs {
-    return self.mid == rhs.mid;
+    return [self.mid isEqualToString:rhs.mid];
 }
 
 - (NSUInteger)hash {
-    return self.mid;
+    return self.mid.hash;
 }
 
-inline static uint64_t parseMID(const uint8_t *ptr) {
-    return CFSwapInt64BigToHost(*(uint64_t *)(ptr + 4));
+inline static NSString *parseMID(const uint8_t *ptr, NSString *str) {
+    uint64_t mid = CFSwapInt64BigToHost(*(uint64_t *)(ptr + 4));
+    if (mid <= 0) {
+        return @"";
+    }
+    if (str.length <= 0) {
+        return [NSString stringWithFormat:@"%016llX", mid];
+    }
+    return [NSString stringWithFormat:@"%016llX.%@", mid, str];
 }
 
 

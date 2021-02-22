@@ -60,10 +60,20 @@
 }
 
 - (NSComparisonResult)messageCompare:(CHChannelModel *)rhs {
-    if (self.mid == rhs.mid) {
-        return [self.cid compare:rhs.cid];
+    if (self.mid == nil) {
+        if (rhs.mid == nil) {
+            return NSOrderedSame;
+        }
+        return NSOrderedDescending;
     }
-    return (self.mid > rhs.mid ? NSOrderedAscending : NSOrderedDescending);
+    switch ([self.mid compare:rhs.mid]) {
+        case NSOrderedSame:
+            return [self.cid compare:rhs.cid];
+        case NSOrderedAscending:
+            return NSOrderedDescending;
+        case NSOrderedDescending:
+            return NSOrderedAscending;
+    }
 }
 
 - (NSString *)title {

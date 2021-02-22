@@ -96,7 +96,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
         [self loadLatestMessage:YES];
     } else {
         CHCellConfiguration *item = [self itemIdentifierForIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-        NSArray<CHMessageModel *> *items = [CHLogic.shared.userDataSource messageWithCID:self.cid from:item.mid to:0 count:kCHMessageListPageSize];
+        NSArray<CHMessageModel *> *items = [CHLogic.shared.userDataSource messageWithCID:self.cid from:item.mid to:@"" count:kCHMessageListPageSize];
         self.headerView.status = (items.count < kCHMessageListPageSize ? CHMessagesHeaderStatusFinish : CHMessagesHeaderStatusNormal);
         if (items.count > 0) {
             [self performAndKeepOffset:^{
@@ -111,8 +111,8 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
 
 - (void)loadLatestMessage:(BOOL)animated {
     NSDate *last = nil;
-    uint64_t to = 0;
-    uint64_t from = (~to) >> 1;
+    NSString *to = @"";
+    NSString *from = @"7FFFFFFFFFFFFFFF";
     NSInteger count = [self.collectionView numberOfItemsInSection:0];
     if (count > 0) {
         CHCellConfiguration *item = [self itemIdentifierForIndexPath:[NSIndexPath indexPathForRow:count - 1 inSection:0]];

@@ -25,7 +25,7 @@ typedef void (^CHLogicBlock)(CHLCode result);
 @optional
 - (void)logicChannelUpdated:(NSString *)cid;
 - (void)logicChannelsUpdated:(NSArray<NSString *> *)cids;
-- (void)logicMessagesUpdated:(NSArray<NSNumber *> *)mids;
+- (void)logicMessagesUpdated:(NSArray<NSString *> *)mids;
 @end
 
 @interface CHLogic : CHManager<id<CHLogicDelegate>>

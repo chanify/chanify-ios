@@ -95,11 +95,11 @@
     }
 }
 
-- (nullable CHMessageModel *)pushMessage:(NSData *)data mid:(uint64_t)mid uid:(NSString *)uid {
-    if (uid.length > 0 && mid > 0 && data.length > 0) {
+- (nullable CHMessageModel *)pushMessage:(NSData *)data mid:(NSString *)mid uid:(NSString *)uid {
+    if (uid.length > 0 && mid.length > 0 && data.length > 0) {
         [self.dbQueue inDatabase:^(FMDatabase *db) {
             for (int i = 0; i < 3; i++) {
-                if (![db executeUpdate:@"INSERT OR IGNORE INTO `msgs`(`uid`,`mid`,`data`) VALUES(?,?,?);", uid, @(mid), data]) {
+                if (![db executeUpdate:@"INSERT OR IGNORE INTO `msgs`(`uid`,`mid`,`data`) VALUES(?,?,?);", uid, mid, data]) {
                     switch (db.lastErrorCode) {
                         case SQLITE_BUSY:case SQLITE_LOCKED: continue;
                     }
@@ -107,20 +107,20 @@
                 break;
             }
         }];
-        return [CHMessageModel modelWithKey:[self keyForUID:uid] data:data raw:nil];
+        return [CHMessageModel modelWithKey:[self keyForUID:uid] mid:mid data:data raw:nil];
     }
     return nil;
 }
 
-- (void)enumerateMessagesWithUID:(nullable NSString *)uid block:(void (NS_NOESCAPE ^)(uint64_t mid, NSData *data))block {
+- (void)enumerateMessagesWithUID:(nullable NSString *)uid block:(void (NS_NOESCAPE ^)(NSString *mid, NSData *data))block {
     if (uid.length > 0) {
         [self.dbQueue inDatabase:^(FMDatabase *db) {
             FMResultSet *rows = [db executeQuery:@"SELECT `mid`,`data` FROM `msgs` WHERE `uid`=? ORDER BY `mid` DESC;", uid];
             if (rows != nil) {
                 while ([rows next]) {
-                    uint64_t mid = [rows unsignedLongLongIntForColumnIndex:0];
+                    NSString *mid = [rows stringForColumnIndex:0];
                     NSData *data = [rows dataForColumnIndex:1];
-                    if (mid > 0 && data.length > 0) {
+                    if (mid.length > 0 && data.length > 0) {
                         block(mid, data);
                     }
                 }
@@ -130,10 +130,10 @@
     }
 }
 
-- (void)removeMessages:(NSArray<NSNumber *> *)mids uid:(nullable NSString *)uid {
+- (void)removeMessages:(NSArray<NSString *> *)mids uid:(nullable NSString *)uid {
     if (uid.length > 0) {
         [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            for (NSNumber *mid in mids) {
+            for (NSString *mid in mids) {
                 [db executeUpdate:@"DELETE FROM `msgs` WHERE `uid`=? AND `mid`=?;", uid, mid];
             }
         }];

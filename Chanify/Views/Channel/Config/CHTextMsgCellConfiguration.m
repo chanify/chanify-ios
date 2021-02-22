@@ -132,7 +132,7 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
     return [[self.class allocWithZone:zone] initWithMID:self.mid text:self.text textRC:self.textRect bubbleRC:self.bubbleRect];
 }
 
-- (instancetype)initWithMID:(uint64_t)mid text:(NSString * _Nullable)text textRC:(CGRect)textRect bubbleRC:(CGRect)bubbleRect {
+- (instancetype)initWithMID:(NSString *)mid text:(NSString * _Nullable)text textRC:(CGRect)textRect bubbleRC:(CGRect)bubbleRect {
     if (self = [super initWithMID:mid bubbleRect:bubbleRect]) {
         _text = (text == nil ? @"" : text);
         _textRect = textRect;

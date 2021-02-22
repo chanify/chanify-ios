@@ -124,17 +124,20 @@
 }
 
 - (BOOL)recivePushMessage:(NSDictionary *)userInfo {
+    // TODO: Remove this update call.
+    [self updatePushMessage];
+
     BOOL res = NO;
     NSData *data = nil;
-    uint64_t mid = 0;
+    NSString *mid = nil;
     NSString *uid = [CHMessageModel parsePacket:userInfo mid:&mid data:&data];
-    if (uid.length > 0 && [uid isEqualToString:self.me.uid] && mid > 0 && data.length > 0) {
+    if (uid.length > 0 && [uid isEqualToString:self.me.uid] && mid.length > 0 && data.length > 0) {
         NSString *cid = nil;
         if ([self.userDataSource upsertMessageData:data mid:mid cid:&cid]) {
             if (cid != nil) {
                 [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[]];
             }
-            [self sendNotifyWithSelector:@selector(logicMessagesUpdated:) withObject:@[@(mid)]];
+            [self sendNotifyWithSelector:@selector(logicMessagesUpdated:) withObject:@[mid]];
             res = YES;
         }
     }
@@ -312,12 +315,12 @@
     NSString *uid = self.me.uid;
     if (uid.length > 0) {
         __block BOOL channelUpdated = NO;
-        NSMutableArray<NSNumber *> *mids = [NSMutableArray new];
-        [self.nsDataSource enumerateMessagesWithUID:uid block:^(uint64_t mid, NSData *data) {
+        NSMutableArray<NSString *> *mids = [NSMutableArray new];
+        [self.nsDataSource enumerateMessagesWithUID:uid block:^(NSString *mid, NSData *data) {
             NSString *cid = nil;
             if ([self.userDataSource upsertMessageData:data mid:mid cid:&cid]) {
-                if (mid > 0) {
-                    [mids addObject:@(mid)];
+                if (mid.length > 0) {
+                    [mids addObject:mid];
                 }
                 if (cid != nil) {
                     channelUpdated = YES;

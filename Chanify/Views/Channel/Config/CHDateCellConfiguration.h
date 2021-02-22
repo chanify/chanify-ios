@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CHDateCellConfiguration : CHCellConfiguration
 
-+ (instancetype)cellConfiguration:(uint64_t)mid;
++ (instancetype)cellConfiguration:(NSString *)mid;
 
 
 @end

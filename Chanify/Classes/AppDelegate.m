@@ -6,8 +6,8 @@
 //
 
 #import "AppDelegate.h"
-#import "CHRouter.h"
 #import "CHNotification.h"
+#import "CHRouter.h"
 
 @implementation AppDelegate
 
@@ -21,6 +21,10 @@
         res = [CHRouter.shared handleURL:userActivity.webpageURL];
     }
     return res;
+}
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+    return [CHRouter.shared handleURL:url];
 }
 
 - (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void(^)(BOOL succeeded))completionHandler {

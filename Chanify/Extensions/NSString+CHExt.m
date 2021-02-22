@@ -52,5 +52,33 @@
     return "";
 }
 
+- (uint64_t)uint64Value {
+    NSUInteger len = self.length;
+    if (len > 0) {
+        uint64_t x = 0;
+        len = MIN(len, 16);
+        for (NSUInteger i = 0; i < len; i++) {
+            unichar c = [self characterAtIndex:i];
+            switch (c) {
+                case '0':case '1':case '2':case '3':case '4':case '5':case '6':case '7':case '8':case '9':
+                    x <<= 4;
+                    x |= c - '0';
+                    continue;
+                case 'a':case 'b':case 'c':case 'd':case 'e':case 'f':
+                    x <<= 4;
+                    x |= c - 'a' + 10;
+                    continue;
+                case 'A':case 'B':case 'C':case 'D':case 'E':case 'F':
+                    x <<= 4;
+                    x |= c - 'A' + 10;
+                    continue;
+            }
+            break;
+        }
+        return x;
+    }
+    return 0;
+}
+
 
 @end

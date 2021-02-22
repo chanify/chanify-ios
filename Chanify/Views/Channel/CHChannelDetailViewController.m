@@ -70,7 +70,7 @@
     
     NSCalendar *calender = NSCalendar.currentCalendar;
     NSDate *date = [calender dateBySettingHour:0 minute:0 second:0 ofDate:NSDate.now options:NSCalendarMatchFirst];
-    date = [date dateByAddingTimeInterval:NSCalendar.currentCalendar.timeZone.secondsFromGMT + 30*24*60*60];
+    date = [date dateByAddingTimeInterval:NSCalendar.currentCalendar.timeZone.secondsFromGMT + 90*24*60*60];
 
     NSString *cid = self.model.cid;
     

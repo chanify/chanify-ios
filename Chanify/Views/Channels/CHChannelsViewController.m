@@ -93,17 +93,16 @@ static NSString *const cellIdentifier = @"chan";
     [self reloadChannels];
 }
 
-- (void)logicChannelsUpdated:(NSArray<NSNumber *> *)cids {
+- (void)logicChannelsUpdated:(NSArray<NSString *> *)cids {
     [self reloadChannels];
 }
 
-- (void)logicMessagesUpdated:(NSArray<NSNumber *> *)mids {
+- (void)logicMessagesUpdated:(NSArray<NSString *> *)mids {
     CHUserDataSource *usrDS = CHLogic.shared.userDataSource;
     CHChannelDiffableSnapshot *snapshot = self.dataSource.snapshot;
     NSArray<CHChannelModel *> *items = [snapshot itemIdentifiersInSectionWithIdentifier:@"main"];
     NSHashTable *reloadItems = [NSHashTable weakObjectsHashTable];
-    for (NSNumber *m in mids) {
-        uint64_t mid = m.unsignedLongLongValue;
+    for (NSString *mid in mids) {
         CHMessageModel *model = [usrDS messageWithMID:mid];
         NSString *cid = model.channel.base64;
         for (CHChannelModel *c in items) {

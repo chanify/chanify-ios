@@ -85,10 +85,10 @@
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)(void))completionHandler {
-    uint64_t mid = 0;
+    NSString *mid = nil;
     NSDictionary *info = try_mock_notification(response.notification.request.content.userInfo);
     NSString *uid = [CHMessageModel parsePacket:info mid:&mid data:nil];
-    if (uid.length > 0 && mid > 0) {
+    if (uid.length > 0 && mid.length > 0) {
         CHLogI("Launch with message %ux", mid);
         [CHLogic.shared recivePushMessage:info];
         CHMessageModel *model = [CHLogic.shared.userDataSource messageWithMID:mid];

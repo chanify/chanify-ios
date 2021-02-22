@@ -31,12 +31,12 @@
     self.contentHandler = contentHandler;
     self.attemptContent = [request.content mutableCopy];
     NSData *data = nil;
-    uint64_t mid = 0;
+    NSString *mid = nil;
     NSString *uid = [CHMessageModel parsePacket:self.attemptContent.userInfo mid:&mid data:&data];
     if (uid.length > 0) {
         CHNSDataSource *dbsrc = self.class.sharedDB;
         self.attemptContent.badge = @([dbsrc nextBadgeForUID:uid]);
-        if (mid > 0 && data.length > 0) {
+        if (mid.length > 0 && data.length > 0) {
             CHMessageModel *msg = [dbsrc pushMessage:data mid:mid uid:uid];
             if (msg != nil) {
                 [msg formatNotification:self.attemptContent];

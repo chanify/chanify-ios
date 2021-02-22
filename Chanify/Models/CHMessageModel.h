@@ -20,15 +20,15 @@ typedef NS_ENUM(NSInteger, CHMessageType) {
 
 @interface CHMessageModel : NSObject
 
-@property (nonatomic, readonly, assign) uint64_t mid;
+@property (nonatomic, readonly, strong) NSString *mid;
 @property (nonatomic, readonly, assign) CHMessageType type;
 @property (nonatomic, readonly, strong) NSString *from;
 @property (nonatomic, readonly, strong) NSData *channel;
 @property (nonatomic, readonly, nullable, strong) NSString *text;
 
-+ (nullable instancetype)modelWithData:(nullable NSData *)data mid:(uint64_t)mid;
-+ (nullable instancetype)modelWithKey:(nullable NSData *)key data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw;
-+ (nullable NSString *)parsePacket:(NSDictionary *)info mid:(nullable uint64_t *)mid data:(NSData * _Nullable * _Nullable)data;
++ (nullable instancetype)modelWithData:(nullable NSData *)data mid:(NSString *)mid;
++ (nullable instancetype)modelWithKey:(nullable NSData *)key mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw;
++ (nullable NSString *)parsePacket:(NSDictionary *)info mid:(NSString * _Nullable * _Nullable)mid data:(NSData * _Nullable * _Nullable)data;
 - (void)formatNotification:(UNMutableNotificationContent *)content;
 
 

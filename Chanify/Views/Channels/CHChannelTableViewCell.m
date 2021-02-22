@@ -89,7 +89,7 @@
     self.titleLabel.text = model.title;
     self.iconView.image = model.icon;
     
-    uint64_t mid = model.mid;
+    NSString *mid = model.mid;
     CHMessageModel *m = [CHLogic.shared.userDataSource messageWithMID:mid];
     self.detailLabel.text = m.text;
     self.dateLabel.text = [NSDate dateFromMID:m.mid].shortFormat;

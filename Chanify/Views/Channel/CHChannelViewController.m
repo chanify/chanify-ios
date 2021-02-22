@@ -84,7 +84,8 @@
     [self updateChannel:cid];
 }
 
-- (void)logicMessagesUpdated:(NSArray<NSNumber *> *)mids {
+- (void)logicMessagesUpdated:(NSArray<NSString *> *)mids {
+    // TODO: Fix recive unordered messages.
     [self.dataSource loadLatestMessage:YES];
 }
 

@@ -13,8 +13,8 @@
 #define kCHDefChanCode  "0801"
 #define kCHNSInitSql    \
     "CREATE TABLE IF NOT EXISTS `options`(`key` TEXT PRIMARY KEY,`value` BLOB);"   \
-    "CREATE TABLE IF NOT EXISTS `messages`(`mid` UNSIGNED BIGINT PRIMARY KEY,`cid` BLOB,`from` TEXT,`raw` BLOB);"  \
-    "CREATE TABLE IF NOT EXISTS `channels`(`cid` BLOB PRIMARY KEY,`deleted` BOOLEAN DEFAULT 0,`name` TEXT,`icon` TEXT,`unread` UNSIGNED INTEGER,`mute` BOOLEAN,`mid` UNSIGNED BIGINT);"   \
+    "CREATE TABLE IF NOT EXISTS `messages`(`mid` TEXT PRIMARY KEY,`cid` BLOB,`from` TEXT,`raw` BLOB);"  \
+    "CREATE TABLE IF NOT EXISTS `channels`(`cid` BLOB PRIMARY KEY,`deleted` BOOLEAN DEFAULT 0,`name` TEXT,`icon` TEXT,`unread` UNSIGNED INTEGER,`mute` BOOLEAN,`mid` TEXT);"   \
     "INSERT OR IGNORE INTO `channels`(`cid`) VALUES(X'0801');"      \
     "INSERT OR IGNORE INTO `channels`(`cid`) VALUES(X'08011001');"  \
 
@@ -82,8 +82,8 @@
     if (model != nil) {
         NSData *ccid = [NSData dataFromBase64:model.cid];
         [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            uint64_t mid = [db longForQuery:@"SELECT `mid` FROM `messages` WHERE `cid`=? ORDER BY `mid` DESC LIMIT 1;", ccid];
-            res = [db executeUpdate:@"INSERT INTO `channels`(`cid`,`name`,`icon`,`mid`) VALUES(?,?,?,?) ON CONFLICT(`cid`) DO UPDATE SET `name`=excluded.`name`,`icon`=excluded.`icon`,`mid`=excluded.`mid`,`deleted`=0;", ccid, model.name, model.icon, @(mid)];
+            NSString *mid = [db stringForQuery:@"SELECT `mid` FROM `messages` WHERE `cid`=? ORDER BY `mid` DESC LIMIT 1;", ccid];
+            res = [db executeUpdate:@"INSERT INTO `channels`(`cid`,`name`,`icon`,`mid`) VALUES(?,?,?,?) ON CONFLICT(`cid`) DO UPDATE SET `name`=excluded.`name`,`icon`=excluded.`icon`,`mid`=excluded.`mid`,`deleted`=0;", ccid, model.name, model.icon, mid];
         }];
     }
     return res;
@@ -119,7 +119,7 @@
             CHChannelModel *model = [CHChannelModel modelWithCID:[res dataForColumnIndex:0].base64 name:[res stringForColumnIndex:1] icon:[res stringForColumnIndex:2]];
             if (model != nil) {
                 model.mute = [res boolForColumnIndex:3];
-                model.mid = [res unsignedLongLongIntForColumnIndex:4];
+                model.mid = [res stringForColumnIndex:4];
                 [cids addObject:model];
             }
         }
@@ -138,7 +138,7 @@
         if (res.next) {
             model = [CHChannelModel modelWithCID:[res dataForColumnIndex:0].base64 name:[res stringForColumnIndex:1] icon:[res stringForColumnIndex:2]];
             model.mute = [res boolForColumnIndex:3];
-            model.mid = [res unsignedLongLongIntForColumnIndex:4];
+            model.mid = [res stringForColumnIndex:4];
         }
         [res close];
         [res setParentDB:nil];
@@ -146,14 +146,14 @@
     return model;
 }
 
-- (NSArray<CHMessageModel *> *)messageWithCID:(nullable NSString *)cid from:(uint64_t)from to:(uint64_t)to count:(NSUInteger)count {
+- (NSArray<CHMessageModel *> *)messageWithCID:(nullable NSString *)cid from:(NSString *)from to:(NSString *)to count:(NSUInteger)count {
     NSData *ccid = [NSData dataFromBase64:cid];
     if (ccid == nil) ccid = [NSData dataFromHex:@kCHDefChanCode];
     __block NSMutableArray<CHMessageModel *> *items = [NSMutableArray arrayWithCapacity:count];
     [self.dbQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet *res = [db executeQuery:@"SELECT `mid`,`raw` FROM `messages` WHERE `cid`=? AND `mid`<? AND `mid`>? ORDER BY `mid` DESC LIMIT ?;", ccid, @(from), @(to), @(count)];
+        FMResultSet *res = [db executeQuery:@"SELECT `mid`,`raw` FROM `messages` WHERE `cid`=? AND `mid`<? AND `mid`>? ORDER BY `mid` DESC LIMIT ?;", ccid, from, to, @(count)];
         while(res.next) {
-            CHMessageModel *model = [CHMessageModel modelWithData:[res dataForColumnIndex:1] mid:[res unsignedLongLongIntForColumnIndex:0]];
+            CHMessageModel *model = [CHMessageModel modelWithData:[res dataForColumnIndex:1] mid:[res stringForColumnIndex:0]];
             if (model != nil) {
                 [items addObject:model];
             }
@@ -164,47 +164,46 @@
     return items;
 }
 
-- (nullable CHMessageModel *)messageWithMID:(uint64_t)mid {
+- (nullable CHMessageModel *)messageWithMID:(NSString *)mid {
     __block CHMessageModel *model = nil;
-    if (mid > 0) {
+    if (mid.length > 0) {
         [self.dbQueue inDatabase:^(FMDatabase *db) {
-            NSData *data = [db dataForQuery:@"SELECT `raw` FROM `messages` WHERE `mid`=? LIMIT 1;", @(mid)];
+            NSData *data = [db dataForQuery:@"SELECT `raw` FROM `messages` WHERE `mid`=? LIMIT 1;", mid];
             model = [CHMessageModel modelWithData:data mid:mid];
         }];
     }
     return model;
 }
 
-- (BOOL)upsertMessageData:(NSData *)data mid:(uint64_t)mid cid:(NSString **)cid {
+- (BOOL)upsertMessageData:(NSData *)data mid:(NSString *)mid cid:(NSString **)cid {
     __block BOOL res = NO;
-    if (mid > 0) {
+    if (mid.length > 0) {
         NSData *raw = nil;
-        CHMessageModel *model = [CHMessageModel modelWithKey:self.srvkey data:data raw:&raw];
+        CHMessageModel *model = [CHMessageModel modelWithKey:self.srvkey mid:mid data:data raw:&raw];
         if (model != nil) {
             __block NSString *cidStr = nil;
             [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
                 NSData *ccid = model.channel;
-                res = [db executeUpdate:@"INSERT OR IGNORE INTO `messages`(`mid`,`cid`,`from`,`raw`) VALUES(?,?,?,?);", @(mid), ccid, model.from, raw];
+                res = [db executeUpdate:@"INSERT OR IGNORE INTO `messages`(`mid`,`cid`,`from`,`raw`) VALUES(?,?,?,?);", mid, ccid, model.from, raw];
                 if (!res) {
                     *rollback = YES;
                 } else {
-                    uint64_t oldMid = 0;
+                    NSString *oldMid = nil;
                     BOOL chanFound = NO;
                     FMResultSet *result = [db executeQuery:@"SELECT `mid` FROM `channels` WHERE `cid`=? AND `deleted`=0 LIMIT 1;", ccid];
                     if (result.next) {
-                        oldMid = [result longLongIntForColumnIndex:0];
+                        oldMid = [result stringForColumnIndex:0];
                         chanFound = YES;
                     }
                     [result close];
                     [result setParentDB:nil];
                     if (!chanFound) {
-                        uint64_t mid = [db longForQuery:@"SELECT `mid` FROM `messages` WHERE `cid`=? ORDER BY `mid` DESC LIMIT 1;", ccid];
-                        if([db executeUpdate:@"INSERT INTO `channels`(`cid`,`mid`) VALUES(?,?) ON CONFLICT(`cid`) DO UPDATE SET `mid`=excluded.`mid`,`deleted`=0;", ccid, @(mid)]) {
+                        if([db executeUpdate:@"INSERT INTO `channels`(`cid`,`mid`) VALUES(?,?) ON CONFLICT(`cid`) DO UPDATE SET `mid`=excluded.`mid`,`deleted`=0;", ccid, mid]) {
                             cidStr = ccid.base64;
                         }
                     }
-                    if (oldMid < mid) {
-                        [db executeUpdate:@"UPDATE `channels` SET `mid`=? WHERE `cid`=?;", @(mid), ccid];
+                    if (oldMid.length <= 0 || [oldMid compare:mid] == NSOrderedAscending) {
+                        [db executeUpdate:@"UPDATE `channels` SET `mid`=? WHERE `cid`=?;", mid, ccid];
                     }
                 }
             }];

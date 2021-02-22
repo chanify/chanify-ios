@@ -12,11 +12,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CHCellConfiguration : NSObject<UIContentConfiguration>
 
-@property (nonatomic, readonly, assign) uint64_t mid;
+@property (nonatomic, readonly, strong) NSString *mid;
 
 + (instancetype)cellConfiguration:(CHMessageModel *)model;
 + (NSDictionary<NSString *, UICollectionViewCellRegistration *> *)cellRegistrations;
-- (instancetype)initWithMID:(uint64_t)mid;
+- (instancetype)initWithMID:(NSString *)mid;
 - (NSDate *)date;
 - (CGFloat)calcHeight:(CGSize)size;
 

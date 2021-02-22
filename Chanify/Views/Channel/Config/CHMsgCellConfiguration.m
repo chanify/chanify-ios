@@ -12,7 +12,7 @@
 
 static UIEdgeInsets bubbleInsets = { 0, 20, 0, 30 };
 
-- (instancetype)initWithMID:(uint64_t)mid bubbleRect:(CGRect)bubbleRect {
+- (instancetype)initWithMID:(NSString *)mid bubbleRect:(CGRect)bubbleRect {
     if (self = [super initWithMID:mid]) {
         _bubbleRect = bubbleRect;
     }

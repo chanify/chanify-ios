@@ -48,8 +48,9 @@
 
 @implementation CHDateCellConfiguration
 
-+ (instancetype)cellConfiguration:(uint64_t)mid {
-    return [[self.class alloc] initWithMID:(mid > 0 ? mid - 1 : 0)];
++ (instancetype)cellConfiguration:(NSString *)mid {
+    uint64_t t = mid.uint64Value;
+    return [[self.class alloc] initWithMID:[NSString stringWithFormat:@"%016llX", (t > 0 ? t - 1 : 0)]];
 }
 
 - (__kindof UIView<UIContentView> *)makeContentView {

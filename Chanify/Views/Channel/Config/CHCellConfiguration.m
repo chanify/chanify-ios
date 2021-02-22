@@ -43,7 +43,7 @@
     return self;
 }
 
-- (instancetype)initWithMID:(uint64_t)mid {
+- (instancetype)initWithMID:(NSString *)mid {
     if (self = [super init]) {
         _mid = mid;
     }
@@ -55,11 +55,11 @@
 }
 
 - (BOOL)isEqual:(CHCellConfiguration *)rhs {
-    return self.mid == rhs.mid && self.class == rhs.class;
+    return [self.mid isEqualToString:rhs.mid] && self.class == rhs.class;
 }
 
 - (NSUInteger)hash {
-    return self.mid;
+    return self.mid.hash;
 }
 
 - (CGFloat)calcHeight:(CGSize)size {
