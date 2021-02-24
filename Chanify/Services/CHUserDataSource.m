@@ -118,7 +118,7 @@
         while(res.next) {
             CHChannelModel *model = [CHChannelModel modelWithCID:[res dataForColumnIndex:0].base64 name:[res stringForColumnIndex:1] icon:[res stringForColumnIndex:2]];
             if (model != nil) {
-                model.mute = [res boolForColumnIndex:3];
+                model.unread = [res boolForColumnIndex:3];
                 model.mid = [res stringForColumnIndex:4];
                 [cids addObject:model];
             }
@@ -137,7 +137,7 @@
         FMResultSet *res = [db executeQuery:@"SELECT `cid`,`name`,`icon`,`unread`,`mid` FROM `channels` WHERE `cid`=? LIMIT 1;", ccid];
         if (res.next) {
             model = [CHChannelModel modelWithCID:[res dataForColumnIndex:0].base64 name:[res stringForColumnIndex:1] icon:[res stringForColumnIndex:2]];
-            model.mute = [res boolForColumnIndex:3];
+            model.unread = [res boolForColumnIndex:3];
             model.mid = [res stringForColumnIndex:4];
         }
         [res close];

@@ -72,7 +72,7 @@
                     break;
                 case CHTPMsgType_Text:
                     _type = CHMessageTypeText;
-                    _text = content.text;
+                    _text = [content.text stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
                     break;
                 case CHTPMsgType_Image:
                     _type = CHMessageTypeImage;

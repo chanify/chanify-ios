@@ -12,6 +12,9 @@
 		6D278E5025E0F42900FC48CD /* CHChannelTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278E4F25E0F42900FC48CD /* CHChannelTableView.m */; };
 		6D278E5E25E1EF7A00FC48CD /* CHPrivacyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278E5D25E1EF7A00FC48CD /* CHPrivacyViewController.m */; };
 		6D278E6925E222C300FC48CD /* CHCodeFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278E6825E222C300FC48CD /* CHCodeFormatter.m */; };
+		6D278EA825E4CC9500FC48CD /* CHNodesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278EA725E4CC9500FC48CD /* CHNodesViewController.m */; };
+		6D278EAD25E5598A00FC48CD /* CHTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278EAC25E5598A00FC48CD /* CHTableView.m */; };
+		6D278EB425E55A3B00FC48CD /* CHNodeTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278EB325E55A3B00FC48CD /* CHNodeTableView.m */; };
 		6D67CBDB25D3BAD700ECF655 /* NSDate+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */; };
 		6D67CBEA25D4298A00ECF655 /* CHCrpyto.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBE925D4298A00ECF655 /* CHCrpyto.m */; };
 		6DC6C1C425D0DCD100512E36 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C1C325D0DCD100512E36 /* AppDelegate.m */; };
@@ -163,6 +166,12 @@
 		6D278E5D25E1EF7A00FC48CD /* CHPrivacyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHPrivacyViewController.m; sourceTree = "<group>"; };
 		6D278E6725E222C300FC48CD /* CHCodeFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHCodeFormatter.h; sourceTree = "<group>"; };
 		6D278E6825E222C300FC48CD /* CHCodeFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHCodeFormatter.m; sourceTree = "<group>"; };
+		6D278EA625E4CC9500FC48CD /* CHNodesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNodesViewController.h; sourceTree = "<group>"; };
+		6D278EA725E4CC9500FC48CD /* CHNodesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNodesViewController.m; sourceTree = "<group>"; };
+		6D278EAB25E5598A00FC48CD /* CHTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHTableView.h; sourceTree = "<group>"; };
+		6D278EAC25E5598A00FC48CD /* CHTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHTableView.m; sourceTree = "<group>"; };
+		6D278EB225E55A3B00FC48CD /* CHNodeTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNodeTableView.h; sourceTree = "<group>"; };
+		6D278EB325E55A3B00FC48CD /* CHNodeTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNodeTableView.m; sourceTree = "<group>"; };
 		6D67CBD925D3BAD700ECF655 /* NSDate+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+CHExt.h"; sourceTree = "<group>"; };
 		6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+CHExt.m"; sourceTree = "<group>"; };
 		6D67CBE925D4298A00ECF655 /* CHCrpyto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHCrpyto.m; sourceTree = "<group>"; };
@@ -325,6 +334,17 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		6D278EA125E4CC4800FC48CD /* Nodes */ = {
+			isa = PBXGroup;
+			children = (
+				6D278EA625E4CC9500FC48CD /* CHNodesViewController.h */,
+				6D278EA725E4CC9500FC48CD /* CHNodesViewController.m */,
+				6D278EB225E55A3B00FC48CD /* CHNodeTableView.h */,
+				6D278EB325E55A3B00FC48CD /* CHNodeTableView.m */,
+			);
+			path = Nodes;
+			sourceTree = "<group>";
+		};
 		6DC6C1B625D0DCD100512E36 = {
 			isa = PBXGroup;
 			children = (
@@ -383,6 +403,7 @@
 			children = (
 				6DC6C33125D1680D00512E36 /* Channels */,
 				6DC6C37B25D16DE600512E36 /* Channel */,
+				6D278EA125E4CC4800FC48CD /* Nodes */,
 				6DC6C34825D16A6300512E36 /* Settings */,
 				6DC6C27E25D1406E00512E36 /* TabBar */,
 				6DC6C28C25D1433F00512E36 /* Login */,
@@ -506,6 +527,8 @@
 				6DD623CA25DF8CEB00F0D06A /* CHFormViewController.m */,
 				6DC6C1C825D0DCD100512E36 /* CHViewController.h */,
 				6DC6C1C925D0DCD100512E36 /* CHViewController.m */,
+				6D278EAB25E5598A00FC48CD /* CHTableView.h */,
+				6D278EAC25E5598A00FC48CD /* CHTableView.m */,
 				6DC6C2C325D15A8600512E36 /* CHIndicatorPanelView.h */,
 				6DC6C2C425D15A8600512E36 /* CHIndicatorPanelView.m */,
 				6DC6C2BE25D15A7900512E36 /* CHIndicatorView.h */,
@@ -824,9 +847,11 @@
 				6DC6C39F25D16FE600512E36 /* CHMessagesDataSource.m in Sources */,
 				6DC6C2A625D14BE000512E36 /* CHDevice.m in Sources */,
 				6DC6C33E25D1694100512E36 /* CHChannelsViewController.m in Sources */,
+				6D278EA825E4CC9500FC48CD /* CHNodesViewController.m in Sources */,
 				6DC6C2D625D15CCD00512E36 /* CHManager.m in Sources */,
 				6DC6C2E725D15EC100512E36 /* CHMessageModel.m in Sources */,
 				6DC6C2DD25D15DB100512E36 /* CHUserDataSource.m in Sources */,
+				6D278EAD25E5598A00FC48CD /* CHTableView.m in Sources */,
 				6DC6C3A425D1700A00512E36 /* CHChannelViewController.m in Sources */,
 				6DC6C38B25D16E6A00512E36 /* CHMsgCellConfiguration.m in Sources */,
 				6DC6C24225D1117A00512E36 /* CHTheme.m in Sources */,
@@ -863,6 +888,7 @@
 				6DC6C25325D112BB00512E36 /* CHLogger.m in Sources */,
 				6DC6C35C25D16B6A00512E36 /* NSPredicate+CHExt.m in Sources */,
 				6DC6C3B525D2193500512E36 /* CHMock.m in Sources */,
+				6D278EB425E55A3B00FC48CD /* CHNodeTableView.m in Sources */,
 				6DC6C1C425D0DCD100512E36 /* AppDelegate.m in Sources */,
 				6DC6C29A25D143BC00512E36 /* CHWebViewController.m in Sources */,
 				6DC6C3A925D1702F00512E36 /* CHChannelNewViewController.m in Sources */,
@@ -1061,7 +1087,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Chanify/Chanify.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1075,7 +1101,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.2;
+				MARKETING_VERSION = 0.9.3;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1094,7 +1120,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Chanify/Chanify.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1108,7 +1134,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.2;
+				MARKETING_VERSION = 0.9.3;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1123,7 +1149,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = NotificationService/Info.plist;
@@ -1132,7 +1158,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.9.2;
+				MARKETING_VERSION = 0.9.3;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1149,7 +1175,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = NotificationService/Info.plist;
@@ -1158,7 +1184,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.9.2;
+				MARKETING_VERSION = 0.9.3;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
