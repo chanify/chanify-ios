@@ -9,6 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class CHNodeModel;
 @class CHChannelModel;
 @class CHMessageModel;
 
@@ -19,13 +20,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)dataSourceWithURL:(NSURL *)url;
 - (void)close;
+- (BOOL)deleteNode:(nullable NSString *)nid;
+- (NSArray<CHNodeModel *> *)loadNodes;
+- (nullable CHNodeModel *)nodeWithNID:(nullable NSString *)nid;
 - (BOOL)insertChannel:(CHChannelModel *)model;
 - (BOOL)updateChannel:(CHChannelModel *)model;
 - (BOOL)deleteChannel:(nullable NSString *)cid;
 - (NSArray<CHChannelModel *> *)loadChannels;
 - (nullable CHChannelModel *)channelWithCID:(nullable NSString *)cid;
 - (NSArray<CHMessageModel *> *)messageWithCID:(nullable NSString *)cid from:(NSString *)from to:(NSString *)to count:(NSUInteger)count;
-- (nullable CHMessageModel *)messageWithMID:(NSString *)mid;
+- (nullable CHMessageModel *)messageWithMID:(nullable NSString *)mid;
 - (BOOL)upsertMessageData:(NSData *)data mid:(NSString *)mid cid:(NSString * _Nullable * _Nullable)cid;
 
 

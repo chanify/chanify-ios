@@ -1,7 +1,7 @@
 # Chanify
 
-[![GitHub](https://img.shields.io/github/license/chanify/chanify-ios)](LICENSE)
-[![iTunes App Store](https://img.shields.io/itunes/v/1531546573)](https://itunes.apple.com/app/id1531546573)
+[![iTunes App Store](https://img.shields.io/itunes/v/1531546573?logo=apple&style=flat-square)](https://itunes.apple.com/app/id1531546573)
+[![GitHub](https://img.shields.io/github/license/chanify/chanify-ios?style=flat-square)](LICENSE)
 
 Chanify is a simple messages app.
 

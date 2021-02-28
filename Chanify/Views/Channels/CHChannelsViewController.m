@@ -7,7 +7,8 @@
 
 #import "CHChannelsViewController.h"
 #import <Masonry/Masonry.h>
-#import "CHChannelTableView.h"
+#import "CHChannelTableViewCell.h"
+#import "CHTableView.h"
 #import "CHUserDataSource.h"
 #import "CHMessageModel.h"
 #import "CHRouter.h"
@@ -20,7 +21,7 @@ static NSString *const cellIdentifier = @"chan";
 
 @interface CHChannelsViewController () <UITableViewDelegate, CHLogicDelegate>
 
-@property (nonatomic, readonly, strong) CHChannelTableView *tableView;
+@property (nonatomic, readonly, strong) CHTableView *tableView;
 @property (nonatomic, readonly, strong) CHChannelDataSource *dataSource;
 
 @end
@@ -46,12 +47,13 @@ static NSString *const cellIdentifier = @"chan";
     barItem.menu = [UIMenu menuWithChildren:actions];
     self.navigationItem.rightBarButtonItem = barItem;
 
-    CHChannelTableView *tableView = [CHChannelTableView new];
+    CHTableView *tableView = [CHTableView new];
     [self.view addSubview:(_tableView = tableView)];
     [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
     [tableView registerClass:CHChannelTableViewCell.class forCellReuseIdentifier:cellIdentifier];
+    tableView.rowHeight = 71;
     tableView.delegate = self;
 
     _dataSource = [[CHChannelDataSource alloc] initWithTableView:tableView cellProvider:^UITableViewCell *(UITableView *tableView, NSIndexPath *indexPath, CHChannelModel *item) {
@@ -61,10 +63,9 @@ static NSString *const cellIdentifier = @"chan";
         }
         return cell;
     }];
-    
-    [self reloadChannels];
-    
+
     [CHLogic.shared addDelegate:self];
+    [self reloadData];
 }
 
 #pragma mark - UITableViewDelegate
@@ -90,11 +91,11 @@ static NSString *const cellIdentifier = @"chan";
 #pragma mark - CHLogicDelegate
 - (void)logicChannelUpdated:(NSString *)cid {
     // TODO: update channel
-    [self reloadChannels];
+    [self reloadData];
 }
 
 - (void)logicChannelsUpdated:(NSArray<NSString *> *)cids {
-    [self reloadChannels];
+    [self reloadData];
 }
 
 - (void)logicMessagesUpdated:(NSArray<NSString *> *)mids {
@@ -124,7 +125,7 @@ static NSString *const cellIdentifier = @"chan";
 }
 
 #pragma mark - Private Methods
-- (void)reloadChannels {
+- (void)reloadData {
     NSArray<CHChannelModel *> *items = [CHLogic.shared.userDataSource loadChannels];
     CHChannelDiffableSnapshot *snapshot = [CHChannelDiffableSnapshot new];
     [snapshot appendSectionsWithIdentifiers:@[@"main"]];

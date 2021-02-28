@@ -105,6 +105,21 @@
     };
     [section addFormRow:row];
     
+    // HELP
+    [form addFormSection:(section = [XLFormSectionDescriptor formSectionWithTitle:@"HELP".localized])];
+
+    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"quick" rowType:XLFormRowDescriptorTypeSelectorPush title:@"Quick Start".localized];
+    row.action.formBlock = ^(XLFormRowDescriptor *row) {
+        [CHRouter.shared routeTo:@kQuickStartURL withParams:@{ @"title": @"Quick Start".localized }];
+    };
+    [section addFormRow:row];
+    
+    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"usage" rowType:XLFormRowDescriptorTypeSelectorPush title:@"Usage Manual".localized];
+    row.action.formBlock = ^(XLFormRowDescriptor *row) {
+        [CHRouter.shared routeTo:@kUsageManualURL withParams:@{ @"title": @"Usage Manual".localized }];
+    };
+    [section addFormRow:row];
+    
     // ABOUT
     [form addFormSection:(section = [XLFormSectionDescriptor formSectionWithTitle:@"ABOUT".localized])];
 
@@ -130,20 +145,6 @@
         [CHRouter.shared routeTo:@"/action/sendemail" withParams:@{ @"email": @kCHContactEmail }];
     };
     [section addFormRow:row];
-
-#if DEBUG
-    [form addFormSection:(section = [XLFormSectionDescriptor formSectionWithTitle:@"DEBUG"])];
-    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"reset" rowType:XLFormRowDescriptorTypeButton title:@"Reset"];
-    [row.cellConfig setObject:theme.alertColor forKey:@"textColor"];
-    row.action.formBlock = ^(XLFormRowDescriptor *row) {
-        [CHRouter.shared showIndicator:YES];
-        [CHLogic.shared resetData];
-        dispatch_main_after(1.0, ^{
-            exit(0);
-        });
-    };
-    [section addFormRow:row];
-#endif
     
     // Logout
     [form addFormSection:(section = [XLFormSectionDescriptor formSection])];

@@ -21,8 +21,16 @@
 "New Channel"="New Channel";
 "Code"="Code";
 "Name"="Name";
+"Host"="Host";
 "Create channel failed"="Create channel failed";
+"Channel Detail"="Channel Detail";
+"Token"="Token";
+"Token copied"="Token Copied";
+"Delete channel"="Delete channel";
 "Nodes"="Nodes";
+"Node Detail"="Node Detail";
+"Features"="Features";
+"Delete node"="Delete node";
 "Settings"="Settings";
 "ACCOUNT"="ACCOUNT";
 "User"="User";
@@ -33,6 +41,9 @@
 "Light"="Light";
 "Dark"="Dark";
 "Notification"="Notification";
+"HELP"="HELP";
+"Quick Start"="Quick Start";
+"Usage Manual"="Usage Manual";
 "ABOUT"="ABOUT";
 "Version"="Version";
 "Privacy Policy"="Privacy Policy";
@@ -41,10 +52,6 @@
 "Logout"="Logout";
 "Feedback"="Feedback";
 "NoMore"="No more";
-"Channel Detail"="Channel Detail";
-"Token"="Token";
-"Token copied"="Token Copied";
-"Delete channel"="Delete channel";
 "Can't open url"="Can't open url";
 "No QR code"="No QR code";
 "Tap to reload"="Tap to reload";
@@ -63,6 +70,9 @@
 "UserInfoDetail"="Download the Chanify app on your new device. Within the app, scan this QR code.";
 
 "Delete this channel or not?"="Delete this channel or not?";
+"Delete this node or not?"="Delete this node or not?";
 
 "sys.none"="Uncategorized";
 "sys.device"="Devices";
+
+"msg.text"="Text message";

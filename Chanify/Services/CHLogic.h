@@ -23,6 +23,8 @@ typedef void (^CHLogicBlock)(CHLCode result);
 
 @protocol CHLogicDelegate <NSObject>
 @optional
+- (void)logicNodeUpdated:(NSString *)nid;
+- (void)logicNodesUpdated:(NSArray<NSString *> *)nids;
 - (void)logicChannelUpdated:(NSString *)cid;
 - (void)logicChannelsUpdated:(NSArray<NSString *> *)cids;
 - (void)logicMessagesUpdated:(NSArray<NSString *> *)mids;
@@ -44,6 +46,7 @@ typedef void (^CHLogicBlock)(CHLCode result);
 - (void)importAccount:(NSString *)key completion:(nullable CHLogicBlock)completion;
 - (BOOL)recivePushMessage:(NSDictionary *)userInfo;
 - (void)updatePushToken:(NSData *)pushToken;
+- (BOOL)deleteNode:(nullable NSString *)nid;
 - (BOOL)insertChannel:(NSString *)code name:(nullable NSString *)name icon:(nullable NSString *)icon;
 - (BOOL)updateChannel:(CHChannelModel *)model;
 - (BOOL)deleteChannel:(nullable NSString *)cid;

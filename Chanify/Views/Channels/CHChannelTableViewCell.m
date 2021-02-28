@@ -7,9 +7,9 @@
 
 #import "CHChannelTableViewCell.h"
 #import <Masonry/Masonry.h>
-#import "CHAvatarView.h"
 #import "CHUserDataSource.h"
 #import "CHMessageModel.h"
+#import "CHAvatarView.h"
 #import "CHRouter.h"
 #import "CHLogic.h"
 #import "CHTheme.h"
@@ -28,9 +28,6 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         CHTheme *theme = CHTheme.shared;
-        UIBackgroundConfiguration *backgroundConfiguration = UIBackgroundConfiguration.listGroupedCellConfiguration;
-        backgroundConfiguration.backgroundInsets = NSDirectionalEdgeInsetsMake(0, 0, 1, 0);
-        self.backgroundConfiguration = backgroundConfiguration;
 
         CHAvatarView *iconView = [CHAvatarView new];
         [self.contentView addSubview:(_iconView = iconView)];
@@ -74,13 +71,6 @@
         dateLabel.numberOfLines = 1;
     }
     return self;
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    CGRect frame = self.bounds;
-    frame.size.height -= 1;
-    self.contentView.frame = frame;
 }
 
 - (void)setModel:(CHChannelModel *)model {

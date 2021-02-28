@@ -148,6 +148,14 @@
     [self updatePushToken:pushToken retry:YES];
 }
 
+- (BOOL)deleteNode:(nullable NSString *)nid {
+    BOOL res = [self.userDataSource deleteChannel:nid];
+    if (res) {
+        [self sendNotifyWithSelector:@selector(logicNodesUpdated:) withObject:@[nid]];
+    }
+    return res;
+}
+
 - (BOOL)insertChannel:(NSString *)code name:(NSString *)name icon:(nullable NSString *)icon {
     BOOL res = NO;
     CHChannelModel *model = [CHChannelModel modelWithCode:code name:name icon:icon];

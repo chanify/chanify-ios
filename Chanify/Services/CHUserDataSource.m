@@ -9,14 +9,17 @@
 #import <FMDB/FMDB.h>
 #import "CHMessageModel.h"
 #import "CHChannelModel.h"
+#import "CHNodeModel.h"
 
 #define kCHDefChanCode  "0801"
 #define kCHNSInitSql    \
     "CREATE TABLE IF NOT EXISTS `options`(`key` TEXT PRIMARY KEY,`value` BLOB);"   \
     "CREATE TABLE IF NOT EXISTS `messages`(`mid` TEXT PRIMARY KEY,`cid` BLOB,`from` TEXT,`raw` BLOB);"  \
     "CREATE TABLE IF NOT EXISTS `channels`(`cid` BLOB PRIMARY KEY,`deleted` BOOLEAN DEFAULT 0,`name` TEXT,`icon` TEXT,`unread` UNSIGNED INTEGER,`mute` BOOLEAN,`mid` TEXT);"   \
+    "CREATE TABLE IF NOT EXISTS `nodes`(`nid` TEXT PRIMARY KEY,`deleted` BOOLEAN DEFAULT 0,`name` TEXT,`url` TEXT,`icon` TEXT);" \
     "INSERT OR IGNORE INTO `channels`(`cid`) VALUES(X'0801');"      \
     "INSERT OR IGNORE INTO `channels`(`cid`) VALUES(X'08011001');"  \
+    "INSERT OR IGNORE INTO `nodes`(`nid`) VALUES(\"\");"  \
 
 @interface CHUserDataSource ()
 
@@ -75,6 +78,50 @@
             }
         }];
     }
+}
+
+- (BOOL)deleteNode:(nullable NSString *)nid {
+    __block BOOL res = NO;
+    if (nid.length > 0) {
+        [self.dbQueue inDatabase:^(FMDatabase *db) {
+            res = [db executeUpdate:@"UPDATE `nodes` SET `deleted`=1 WHERE `nid`=? LIMIT 1;", nid];
+        }];
+    }
+    return res;
+}
+
+- (NSArray<CHNodeModel *> *)loadNodes {
+    __block NSMutableArray<CHNodeModel *> *nodes = [NSMutableArray new];
+    [self.dbQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet *res = [db executeQuery:@"SELECT `nid`,`name`,`url`,`icon` FROM `nodes` WHERE `deleted`=0;"];
+        while(res.next) {
+            CHNodeModel *model = [CHNodeModel modelWithNID:[res stringForColumnIndex:0] name:[res stringForColumnIndex:1] url:[res stringForColumnIndex:2]];
+            if (model != nil) {
+                model.icon = [res stringForColumnIndex:3];
+                [nodes addObject:model];
+            }
+        }
+        [res close];
+        [res setParentDB:nil];
+    }];
+    return nodes;
+}
+
+- (nullable CHNodeModel *)nodeWithNID:(nullable NSString *)nid {
+    __block CHNodeModel *model = nil;
+    if (nid == nil) nid = @"";
+    [self.dbQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet *res = [db executeQuery:@"SELECT `nid`,`name`,`url`,`icon` FROM `nodes` WHERE `nid`=? LIMIT 1;", nid];
+        if (res.next) {
+            model = [CHNodeModel modelWithNID:[res stringForColumnIndex:0] name:[res stringForColumnIndex:1] url:[res stringForColumnIndex:2]];
+            if (model != nil) {
+                model.icon = [res stringForColumnIndex:3];
+            }
+        }
+        [res close];
+        [res setParentDB:nil];
+    }];
+    return model;
 }
 
 - (BOOL)insertChannel:(CHChannelModel *)model {
@@ -137,8 +184,10 @@
         FMResultSet *res = [db executeQuery:@"SELECT `cid`,`name`,`icon`,`unread`,`mid` FROM `channels` WHERE `cid`=? LIMIT 1;", ccid];
         if (res.next) {
             model = [CHChannelModel modelWithCID:[res dataForColumnIndex:0].base64 name:[res stringForColumnIndex:1] icon:[res stringForColumnIndex:2]];
-            model.unread = [res boolForColumnIndex:3];
-            model.mid = [res stringForColumnIndex:4];
+            if (model != nil) {
+                model.unread = [res boolForColumnIndex:3];
+                model.mid = [res stringForColumnIndex:4];
+            }
         }
         [res close];
         [res setParentDB:nil];
@@ -164,7 +213,7 @@
     return items;
 }
 
-- (nullable CHMessageModel *)messageWithMID:(NSString *)mid {
+- (nullable CHMessageModel *)messageWithMID:(nullable NSString *)mid {
     __block CHMessageModel *model = nil;
     if (mid.length > 0) {
         [self.dbQueue inDatabase:^(FMDatabase *db) {

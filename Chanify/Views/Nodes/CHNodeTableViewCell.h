@@ -1,18 +1,18 @@
 //
-//  CHChannelTableViewCell.h
+//  CHNodeTableViewCell.h
 //  Chanify
 //
-//  Created by WizJin on 2021/2/20.
+//  Created by WizJin on 2021/2/25.
 //
 
 #import "CHTableViewCell.h"
-#import "CHChannelModel.h"
+#import "CHNodeModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHChannelTableViewCell : CHTableViewCell
+@interface CHNodeTableViewCell : CHTableViewCell
 
-@property (nonatomic, nullable, strong) CHChannelModel *model;
+@property (nonatomic, nullable, strong) CHNodeModel *model;
 
 + (UIContextualAction *)actionInfo:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath;
 + (nullable UIContextualAction *)actionDelete:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath;

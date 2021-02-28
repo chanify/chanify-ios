@@ -8,6 +8,8 @@
 #ifndef __CHCONFIG_H__
 #define __CHCONFIG_H__
 
+#define kQuickStartURL                  "https://github.com/chanify/chanify-ios"
+#define kUsageManualURL                 "https://github.com/chanify/chanify"
 #define kCHPrivacyURL                   "https://www.chanify.net/privacy.html"
 #define kCHAppStoreURL                  "itms-apps://itunes.apple.com/app/id1531546573"
 #define kCHContactEmail                 "support@chanify.net"
