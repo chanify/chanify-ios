@@ -15,6 +15,7 @@
 		6D278EAD25E5598A00FC48CD /* CHTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278EAC25E5598A00FC48CD /* CHTableView.m */; };
 		6D67CBDB25D3BAD700ECF655 /* NSDate+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */; };
 		6D67CBEA25D4298A00ECF655 /* CHCrpyto.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBE925D4298A00ECF655 /* CHCrpyto.m */; };
+		6D8F9EAC25EF45E800A8912C /* CHFormItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F9EAB25EF45E800A8912C /* CHFormItem.m */; };
 		6DC6C1C425D0DCD100512E36 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C1C325D0DCD100512E36 /* AppDelegate.m */; };
 		6DC6C1CA25D0DCD100512E36 /* CHViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C1C925D0DCD100512E36 /* CHViewController.m */; };
 		6DC6C1CF25D0DCD200512E36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DC6C1CE25D0DCD200512E36 /* Assets.xcassets */; };
@@ -173,6 +174,8 @@
 		6D67CBD925D3BAD700ECF655 /* NSDate+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+CHExt.h"; sourceTree = "<group>"; };
 		6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+CHExt.m"; sourceTree = "<group>"; };
 		6D67CBE925D4298A00ECF655 /* CHCrpyto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHCrpyto.m; sourceTree = "<group>"; };
+		6D8F9EAA25EF45E800A8912C /* CHFormItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormItem.h; sourceTree = "<group>"; };
+		6D8F9EAB25EF45E800A8912C /* CHFormItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormItem.m; sourceTree = "<group>"; };
 		6DC6C1BF25D0DCD100512E36 /* Chanify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chanify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DC6C1C225D0DCD100512E36 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6DC6C1C325D0DCD100512E36 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -349,6 +352,15 @@
 				6DDC86B325E7446A00C26203 /* CHNodeTableViewCell.m */,
 			);
 			path = Nodes;
+			sourceTree = "<group>";
+		};
+		6D8F9EA025EF435000A8912C /* Form */ = {
+			isa = PBXGroup;
+			children = (
+				6D8F9EAA25EF45E800A8912C /* CHFormItem.h */,
+				6D8F9EAB25EF45E800A8912C /* CHFormItem.m */,
+			);
+			path = Form;
 			sourceTree = "<group>";
 		};
 		6DC6C1B625D0DCD100512E36 = {
@@ -532,6 +544,7 @@
 		6DC6C29425D1435F00512E36 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				6D8F9EA025EF435000A8912C /* Form */,
 				6DDC86B925E7457B00C26203 /* IndicatorView */,
 				6DDC86B725E7456000C26203 /* TableView */,
 				6DD623C925DF8CEB00F0D06A /* CHFormViewController.h */,
@@ -898,6 +911,7 @@
 				6DC6C33925D168A200512E36 /* CHAvatarView.m in Sources */,
 				6DDC86BE25E745AF00C26203 /* CHTableViewCell.m in Sources */,
 				6DC6C28925D1410D00512E36 /* UIViewController+CHExt.m in Sources */,
+				6D8F9EAC25EF45E800A8912C /* CHFormItem.m in Sources */,
 				6DC6C39025D16EA200512E36 /* CHTextMsgCellConfiguration.m in Sources */,
 				6DC6C1CA25D0DCD100512E36 /* CHViewController.m in Sources */,
 				6DC6C26A25D1159C00512E36 /* CHRouter.m in Sources */,

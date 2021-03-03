@@ -10,6 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class CHNodeModel;
 @class CHChannelModel;
 @class CHNSDataSource;
 @class CHUserDataSource;
@@ -46,7 +47,9 @@ typedef void (^CHLogicBlock)(CHLCode result);
 - (void)importAccount:(NSString *)key completion:(nullable CHLogicBlock)completion;
 - (BOOL)recivePushMessage:(NSDictionary *)userInfo;
 - (void)updatePushToken:(NSData *)pushToken;
+- (BOOL)updateNode:(CHNodeModel *)model;
 - (BOOL)deleteNode:(nullable NSString *)nid;
+- (void)insertNode:(CHNodeModel *)model completion:(nullable CHLogicBlock)completion;
 - (BOOL)insertChannel:(NSString *)code name:(nullable NSString *)name icon:(nullable NSString *)icon;
 - (BOOL)updateChannel:(CHChannelModel *)model;
 - (BOOL)deleteChannel:(nullable NSString *)cid;

@@ -47,8 +47,8 @@
     [self.indicatorView startAnimating];
 }
 
-- (void)stopAnimating {
-    [self.indicatorView stopAnimating];
+- (void)stopAnimating:(dispatch_block_t)complation {
+    [self.indicatorView stopAnimating:complation];
 }
 
 

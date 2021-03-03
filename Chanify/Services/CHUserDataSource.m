@@ -16,10 +16,10 @@
     "CREATE TABLE IF NOT EXISTS `options`(`key` TEXT PRIMARY KEY,`value` BLOB);"   \
     "CREATE TABLE IF NOT EXISTS `messages`(`mid` TEXT PRIMARY KEY,`cid` BLOB,`from` TEXT,`raw` BLOB);"  \
     "CREATE TABLE IF NOT EXISTS `channels`(`cid` BLOB PRIMARY KEY,`deleted` BOOLEAN DEFAULT 0,`name` TEXT,`icon` TEXT,`unread` UNSIGNED INTEGER,`mute` BOOLEAN,`mid` TEXT);"   \
-    "CREATE TABLE IF NOT EXISTS `nodes`(`nid` TEXT PRIMARY KEY,`deleted` BOOLEAN DEFAULT 0,`name` TEXT,`url` TEXT,`icon` TEXT);" \
+    "CREATE TABLE IF NOT EXISTS `nodes`(`nid` TEXT PRIMARY KEY,`deleted` BOOLEAN DEFAULT 0,`name` TEXT,`endpoint` TEXT,`icon` TEXT,`features` TEXT,`secret` BLOB);" \
     "INSERT OR IGNORE INTO `channels`(`cid`) VALUES(X'0801');"      \
     "INSERT OR IGNORE INTO `channels`(`cid`) VALUES(X'08011001');"  \
-    "INSERT OR IGNORE INTO `nodes`(`nid`) VALUES(\"\");"  \
+    "INSERT OR IGNORE INTO `nodes`(`nid`,`features`) VALUES(\"sys\",\"store.device,msg.text\");"  \
 
 @interface CHUserDataSource ()
 
@@ -80,6 +80,26 @@
     }
 }
 
+- (BOOL)insertNode:(CHNodeModel *)model secret:(NSData *)secret {
+    __block BOOL res = NO;
+    if (model != nil) {
+        [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+            res = [db executeUpdate:@"INSERT INTO `nodes`(`nid`,`name`,`endpoint`,`icon`,`features`,`secret`) VALUES(?,?,?,?,?,?) ON CONFLICT(`nid`) DO UPDATE SET `name`=excluded.`name`,`endpoint`=excluded.`endpoint`,`icon`=excluded.`icon`,`features`=excluded.`features`,`secret`=excluded.`secret`,`deleted`=0;", model.nid, model.name, model.endpoint, model.icon, [model.features componentsJoinedByString:@","], secret];
+        }];
+    }
+    return res;
+}
+
+- (BOOL)updateNode:(CHNodeModel *)model {
+    __block BOOL res = NO;
+    if (model != nil) {
+        [self.dbQueue inDatabase:^(FMDatabase *db) {
+            res = [db executeUpdate:@"UPDATE `nodes` SET `name`=?,`endpoint`=?,`icon`=?,`features`=? WHERE `nid`=? LIMIT 1;", model.name, model.endpoint, model.icon, [model.features componentsJoinedByString:@","], model.nid];
+        }];
+    }
+    return res;
+}
+
 - (BOOL)deleteNode:(nullable NSString *)nid {
     __block BOOL res = NO;
     if (nid.length > 0) {
@@ -93,11 +113,11 @@
 - (NSArray<CHNodeModel *> *)loadNodes {
     __block NSMutableArray<CHNodeModel *> *nodes = [NSMutableArray new];
     [self.dbQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet *res = [db executeQuery:@"SELECT `nid`,`name`,`url`,`icon` FROM `nodes` WHERE `deleted`=0;"];
+        FMResultSet *res = [db executeQuery:@"SELECT `nid`,`name`,`endpoint`,`features`,`icon` FROM `nodes` WHERE `deleted`=0;"];
         while(res.next) {
-            CHNodeModel *model = [CHNodeModel modelWithNID:[res stringForColumnIndex:0] name:[res stringForColumnIndex:1] url:[res stringForColumnIndex:2]];
+            CHNodeModel *model = [CHNodeModel modelWithNID:[res stringForColumnIndex:0] name:[res stringForColumnIndex:1] endpoint:[res stringForColumnIndex:2] features:[res stringForColumnIndex:3]];
             if (model != nil) {
-                model.icon = [res stringForColumnIndex:3];
+                model.icon = [res stringForColumnIndex:4];
                 [nodes addObject:model];
             }
         }
@@ -111,11 +131,11 @@
     __block CHNodeModel *model = nil;
     if (nid == nil) nid = @"";
     [self.dbQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet *res = [db executeQuery:@"SELECT `nid`,`name`,`url`,`icon` FROM `nodes` WHERE `nid`=? LIMIT 1;", nid];
+        FMResultSet *res = [db executeQuery:@"SELECT `nid`,`name`,`endpoint`,`features`,`icon` FROM `nodes` WHERE `nid`=? AND `deleted`=0; LIMIT 1;", nid];
         if (res.next) {
-            model = [CHNodeModel modelWithNID:[res stringForColumnIndex:0] name:[res stringForColumnIndex:1] url:[res stringForColumnIndex:2]];
+            model = [CHNodeModel modelWithNID:[res stringForColumnIndex:0] name:[res stringForColumnIndex:1] endpoint:[res stringForColumnIndex:2] features:[res stringForColumnIndex:3]];
             if (model != nil) {
-                model.icon = [res stringForColumnIndex:3];
+                model.icon = [res stringForColumnIndex:4];
             }
         }
         [res close];

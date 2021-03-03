@@ -29,7 +29,7 @@ Content-Type:
 
 ```bash
 # Send message
-$ curl --form-string="text=hello" "https://api.chanify.net/v1/sender/<token>"
+$ curl --form-string "text=hello" "https://api.chanify.net/v1/sender/<token>"
 # Send text file
 $ cat message.txt | curl -H "Content-Type: text/plain" --data-binary @- "https://api.chanify.net/v1/sender/<token>"
 ```

@@ -57,7 +57,7 @@
         switch (self.status) {
             case CHMessagesHeaderStatusNormal:
                 self.tipLabel.alpha = 0;
-                [self.indicatorView stopAnimating];
+                [self.indicatorView stopAnimating:nil];
                 break;
             case CHMessagesHeaderStatusLoading:
                 self.tipLabel.alpha = 0;
@@ -65,7 +65,7 @@
                 break;
             case CHMessagesHeaderStatusFinish:
                 self.tipLabel.alpha = 1;
-                [self.indicatorView stopAnimating];
+                [self.indicatorView stopAnimating:nil];
                 break;
         }
     }

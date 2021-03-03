@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CHIndicatorPanelView : UIView
 
 - (void)startAnimating;
-- (void)stopAnimating;
+- (void)stopAnimating:(dispatch_block_t)complation;
 
 
 @end

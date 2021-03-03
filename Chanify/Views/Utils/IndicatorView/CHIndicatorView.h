@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGFloat lineWidth;
 
 - (void)startAnimating;
-- (void)stopAnimating;
+- (void)stopAnimating:(nullable dispatch_block_t)complation;
 
 
 @end

@@ -19,8 +19,6 @@
 
 @interface CHRouter () <MFMailComposeViewControllerDelegate>
 
-@property (nonatomic, readonly, strong) JLRoutes *routes;
-
 @end
 
 @implementation CHRouter
@@ -36,8 +34,7 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        _routes = [JLRoutes routesForScheme:@"_internal"];
-        [self initRouters:self.routes];
+        [self initRouters:JLRoutes.globalRoutes];
     }
     return self;
 }
@@ -89,9 +86,9 @@
         [self popToRootViewControllerAnimated:NO];
     }
     if ([[params valueForKey:@"noauth"] boolValue] || CHLogic.shared.me != nil) {
-        res = [self.routes routeURL:[NSURL URLWithString:url] withParameters:params];
+        res = [JLRoutes routeURL:[NSURL URLWithString:url] withParameters:params];
     } else {
-        res = [self.routes routeURL:[NSURL URLWithString:@"/page/login"]];
+        res = [JLRoutes routeURL:[NSURL URLWithString:@"/page/login"]];
     }
     return res;
 }
@@ -238,6 +235,17 @@
         }
         return res;
     }];
+    // chanify router
+    JLRoutes *chanify = [JLRoutes routesForScheme:@"chanify"];
+    [chanify addRoute:@"node" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
+        BOOL res = NO;
+        NSString *endpoint = [parameters valueForKey:@"endpoint"];
+        if (endpoint.length > 0) {
+            res = [JLRoutes routeURL:[NSURL URLWithString:@"/page/node"] withParameters:@{ @"endpoint": endpoint, @"show": @"present" }];
+        }
+        return res;
+    }];
+    // unmatched router
     routes.unmatchedURLHandler = ^(JLRoutes *routes, NSURL *url, NSDictionary<NSString *, id> *parameters) {
         NSString *scheme = url.scheme;
         if ([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"]) {
@@ -357,7 +365,10 @@ static inline void showIndicator(BOOL show) {
     static CHIndicatorPanelView *alert = nil;
     if (!show) {
         if (alert != nil) {
-            [alert stopAnimating];
+            CHIndicatorPanelView *alertView = alert;
+            [alert stopAnimating:^{
+                [alertView removeFromSuperview];
+            }];
             alert = nil;
         }
     } else {

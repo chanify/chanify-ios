@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)dataSourceWithURL:(NSURL *)url;
 - (void)close;
+- (BOOL)insertNode:(CHNodeModel *)model secret:(NSData *)secret;
+- (BOOL)updateNode:(CHNodeModel *)model;
 - (BOOL)deleteNode:(nullable NSString *)nid;
 - (NSArray<CHNodeModel *> *)loadNodes;
 - (nullable CHNodeModel *)nodeWithNID:(nullable NSString *)nid;

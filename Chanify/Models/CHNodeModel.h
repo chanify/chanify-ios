@@ -13,10 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly, strong) NSString *nid;
 @property (nonatomic, readonly, strong) NSString *name;
-@property (nonatomic, readonly, strong) NSString *url;
+@property (nonatomic, readonly, strong) NSString *endpoint;
 @property (nonatomic, nullable, strong) NSString *icon;
+@property (nonatomic, readonly, strong) NSArray<NSString *> *features;
 
-+ (instancetype)modelWithNID:(nullable NSString *)nid name:(nullable NSString *)name url:(nullable NSString *)url;
++ (instancetype)modelWithNID:(nullable NSString *)nid name:(nullable NSString *)name endpoint:(nullable NSString *)url features:(nullable NSString *)features;
+- (BOOL)isFullEqual:(CHNodeModel *)rhs;
 
 
 @end

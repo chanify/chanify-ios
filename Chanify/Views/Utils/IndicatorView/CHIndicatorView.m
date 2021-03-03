@@ -95,7 +95,7 @@
     }
 }
 
-- (void)stopAnimating {
+- (void)stopAnimating:(nullable dispatch_block_t)complation {
     if ([self.circle animationForKey:@kCHIndicatorAnimation] == nil) {
         self.alpha = 0;
     } else {
@@ -107,6 +107,7 @@
         } completion:^(UIViewAnimatingPosition finalPosition) {
             @strongify(self);
             self.alpha = 0;
+            if (complation != nil) complation();
         }];
     }
 }

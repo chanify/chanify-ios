@@ -11,8 +11,10 @@
 #import "CHNSDataSource.h"
 #import "CHMessageModel.h"
 #import "CHChannelModel.h"
+#import "CHNodeModel.h"
 #import "CHNotification.h"
 #import "CHDevice.h"
+#import "CHCrpyto.h"
 
 @interface CHLogic ()
 
@@ -148,12 +150,60 @@
     [self updatePushToken:pushToken retry:YES];
 }
 
-- (BOOL)deleteNode:(nullable NSString *)nid {
-    BOOL res = [self.userDataSource deleteChannel:nid];
+
+- (BOOL)updateNode:(CHNodeModel *)model {
+    BOOL res = [self.userDataSource updateNode:model];
     if (res) {
-        [self sendNotifyWithSelector:@selector(logicNodesUpdated:) withObject:@[nid]];
+        [self sendNotifyWithSelector:@selector(logicNodeUpdated:) withObject:model.nid];
     }
     return res;
+}
+
+- (BOOL)insertNode:(CHNodeModel *)model secret:(NSData *)secret {
+    BOOL res = [self.userDataSource insertNode:model secret:secret];
+    if (res) {
+        [self sendNotifyWithSelector:@selector(logicNodesUpdated:) withObject:@[model.nid]];
+    }
+    return res;
+}
+
+- (BOOL)deleteNode:(nullable NSString *)nid {
+    BOOL res = [self.userDataSource deleteNode:nid];
+    if (res) {
+        [self sendNotifyWithSelector:@selector(logicNodesUpdated:) withObject:@[]];
+    }
+    return res;
+}
+
+- (void)insertNode:(CHNodeModel *)model completion:(nullable CHLogicBlock)completion {
+    if (model.endpoint.length <= 0) {
+        call_completion(completion, CHLCodeFailed);
+    } else {
+        @weakify(self);
+        CHUserModel *user = self.me;
+        NSDictionary *parameters = @{
+            @"user": @{
+                    @"uid": user.uid,
+                    @"key": user.key.pubkey.base64,
+            },
+        };
+        NSURL *url = [NSURL URLWithString:@"/rest/v1/" relativeToURL:[NSURL URLWithString:model.endpoint]];
+        [self sendToEndpoint:url cmd:@"bind-user" user:self.me parameters:parameters completion:^(NSURLResponse *response, NSDictionary *result, NSError *error) {
+            @strongify(self);
+            CHLCode ret = CHLCodeFailed;
+            if (error != nil) {
+                CHLogE("Bind node user failed: %s", error.description.cstr);
+            } else {
+                CHLogI("Bind node user success.");
+                NSData *key = [user.key decode:[NSData dataFromBase64:[result valueForKey:@"key"]]];
+                if (key.length > 0 && [self insertNode:model secret:key]) {
+                    [self.nsDataSource updateKey:key uid:[NSString stringWithFormat:@"%@.%@", self.me.uid, model.nid]];
+                    ret = CHLCodeOK;
+                }
+            }
+            call_completion(completion, ret);
+        }];
+    }
 }
 
 - (BOOL)insertChannel:(NSString *)code name:(NSString *)name icon:(nullable NSString *)icon {
@@ -264,6 +314,24 @@
     [request setValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     [request setValue:[device.key sign:data].base64 forHTTPHeaderField:@"CHDevSign"];
+    [request setValue:[user.key sign:data].base64 forHTTPHeaderField:@"CHUserSign"];
+    [request setHTTPBody:data];
+    NSURLSessionDataTask *task = [self.manager dataTaskWithRequest:request uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, NSDictionary *result, NSError *error) {
+        if (completion != nil) {
+            completion(response, result, error);
+        }
+    }];
+    [task resume];
+}
+
+- (void)sendToEndpoint:(NSURL *)endpoint cmd:(NSString *)cmd user:(CHUserModel *)user parameters:(NSDictionary *)parameters completion:(nullable void (^)(NSURLResponse *response, NSDictionary *result, NSError *error))completion {
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:parameters];
+    [params setValue:@((uint64_t)(NSDate.date.timeIntervalSince1970 * 1000)) forKey:@"nonce"];
+    NSData *data = params.json;
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:cmd relativeToURL:endpoint]];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
+    [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     [request setValue:[user.key sign:data].base64 forHTTPHeaderField:@"CHUserSign"];
     [request setHTTPBody:data];
     NSURLSessionDataTask *task = [self.manager dataTaskWithRequest:request uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, NSDictionary *result, NSError *error) {

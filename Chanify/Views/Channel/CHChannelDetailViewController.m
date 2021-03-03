@@ -11,6 +11,7 @@
 #import "CHUserDataSource.h"
 #import "CHNSDataSource.h"
 #import "CHChannelModel.h"
+#import "CHNodeModel.h"
 #import "CHCrpyto.h"
 #import "CHDevice.h"
 #import "CHRouter.h"
@@ -21,7 +22,6 @@
 @interface CHChannelDetailViewController () <UICollectionViewDelegate, XLFormViewControllerDelegate>
 
 @property (nonatomic, readonly, strong) CHChannelModel *model;
-@property (nonatomic, readonly, strong) NSString *token;
 
 @end
 
@@ -85,10 +85,6 @@
     if (chan.type == CHTPChanType_Sys && chan.code == CHTPChanCode_Device) {
         tk.deviceId = CHDevice.shared.uuid;
     }
-    NSData *token = tk.data;
-    NSData *key = [CHLogic.shared.nsDataSource keyForUID:tk.userId];
-    NSData *sign = [CHCrpyto hmacSha256:token secret:[key subdataWithRange:NSMakeRange(0, 256/8)]];
-    _token = [NSString stringWithFormat:@"%@.%@", token.base64, sign.base64];
     
     UIFont *codeFont = [UIFont fontWithName:@kCHCodeFontName size:14];
 
@@ -113,16 +109,28 @@
         [section addFormRow:row];
     }
 
-    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"token" rowType:XLFormRowDescriptorTypeSelectorPush title:@"Token".localized];
-    [row.cellConfig setObject:codeFont forKey:@"detailTextLabel.font"];
-    row.value = self.token;
-    row.valueFormatter = [CHCodeFormatter new];
-    row.action.formBlock = ^(XLFormRowDescriptor *row) {
-        UIPasteboard.generalPasteboard.string = row.value;
-        [CHRouter.shared makeToast:@"Token copied".localized];
-    };
-    [section addFormRow:row];
-    
+    [form addFormSection:(section = [XLFormSectionDescriptor formSectionWithTitle:@"Token".localized])];
+    for (CHNodeModel *model in [CHLogic.shared.userDataSource loadNodes]) {
+        if ([model.nid isEqualToString:@"sys"]) {
+            tk.nodeId = nil;
+        } else {
+            tk.nodeId = model.nid;
+        }
+        NSData *token = tk.data;
+        NSData *key = [CHLogic.shared.nsDataSource keyForUID:tk.userId];
+        NSData *sign = [CHCrpyto hmacSha256:token secret:[key subdataWithRange:NSMakeRange(0, 256/8)]];
+        NSString *tokenValue = [NSString stringWithFormat:@"%@.%@", token.base64, sign.base64];
+        row = [XLFormRowDescriptor formRowDescriptorWithTag:[@"token." stringByAppendingString:model.nid] rowType:XLFormRowDescriptorTypeSelectorPush title:model.name];
+        [row.cellConfig setObject:codeFont forKey:@"detailTextLabel.font"];
+        row.value = tokenValue;
+        row.valueFormatter = [CHCodeFormatter new];
+        row.action.formBlock = ^(XLFormRowDescriptor *row) {
+            UIPasteboard.generalPasteboard.string = row.value;
+            [CHRouter.shared makeToast:@"Token copied".localized];
+        };
+        [section addFormRow:row];
+    }
+
     if (self.model.type == CHChanTypeUser) {
         [form addFormSection:(section = [XLFormSectionDescriptor formSection])];
         row = [XLFormRowDescriptor formRowDescriptorWithTag:@"delete" rowType:XLFormRowDescriptorTypeButton title:@"Delete channel".localized];
