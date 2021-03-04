@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)insertNode:(CHNodeModel *)model secret:(NSData *)secret;
 - (BOOL)updateNode:(CHNodeModel *)model;
 - (BOOL)deleteNode:(nullable NSString *)nid;
+- (nullable NSData *)keyForNodeID:(nullable NSString *)nid;
 - (NSArray<CHNodeModel *> *)loadNodes;
 - (nullable CHNodeModel *)nodeWithNID:(nullable NSString *)nid;
 - (BOOL)insertChannel:(CHChannelModel *)model;
@@ -32,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable CHChannelModel *)channelWithCID:(nullable NSString *)cid;
 - (NSArray<CHMessageModel *> *)messageWithCID:(nullable NSString *)cid from:(NSString *)from to:(NSString *)to count:(NSUInteger)count;
 - (nullable CHMessageModel *)messageWithMID:(nullable NSString *)mid;
-- (BOOL)upsertMessageData:(NSData *)data mid:(NSString *)mid cid:(NSString * _Nullable * _Nullable)cid;
+- (BOOL)upsertMessageData:(NSData *)data uid:(NSString *)uid mid:(NSString *)mid cid:(NSString * _Nullable * _Nullable)cid;
 
 
 @end

@@ -10,6 +10,7 @@
 #import "CHMessageModel.h"
 #import "CHChannelModel.h"
 #import "CHNodeModel.h"
+#import "CHLogic.h"
 
 #define kCHDefChanCode  "0801"
 #define kCHNSInitSql    \
@@ -105,6 +106,16 @@
     if (nid.length > 0) {
         [self.dbQueue inDatabase:^(FMDatabase *db) {
             res = [db executeUpdate:@"UPDATE `nodes` SET `deleted`=1 WHERE `nid`=? LIMIT 1;", nid];
+        }];
+    }
+    return res;
+}
+
+- (nullable NSData *)keyForNodeID:(nullable NSString *)nid {
+    __block NSData *res = nil;
+    if (nid.length > 0) {
+        [self.dbQueue inDatabase:^(FMDatabase *db) {
+            res = [db dataForQuery:@"SELECT `secret` FROM `nodes` WHERE `nid`=? LIMIT 1;", nid];
         }];
     }
     return res;
@@ -244,11 +255,11 @@
     return model;
 }
 
-- (BOOL)upsertMessageData:(NSData *)data mid:(NSString *)mid cid:(NSString **)cid {
+- (BOOL)upsertMessageData:(NSData *)data uid:(NSString *)uid mid:(NSString *)mid cid:(NSString **)cid {
     __block BOOL res = NO;
     if (mid.length > 0) {
         NSData *raw = nil;
-        CHMessageModel *model = [CHMessageModel modelWithKey:self.srvkey mid:mid data:data raw:&raw];
+        CHMessageModel *model = [CHMessageModel modelWithKey:self.srvkey ds:CHLogic.shared.userDataSource mid:mid data:data raw:&raw];
         if (model != nil) {
             __block NSString *cidStr = nil;
             [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {

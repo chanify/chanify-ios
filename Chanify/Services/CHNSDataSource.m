@@ -107,14 +107,14 @@
                 break;
             }
         }];
-        return [CHMessageModel modelWithKey:[self keyForUID:uid] mid:mid data:data raw:nil];
+        return [CHMessageModel modelWithDS:self uid:uid mid:mid data:data raw:nil];
     }
     return nil;
 }
 
 - (void)enumerateMessagesWithUID:(nullable NSString *)uid block:(void (NS_NOESCAPE ^)(NSString *mid, NSData *data))block {
-    if (uid.length > 0) {
-        [self.dbQueue inDatabase:^(FMDatabase *db) {
+    if (uid.length > 0 && block != nil) {
+        [self.dbQueue inSavePoint:^(FMDatabase * _Nonnull db, BOOL * _Nonnull rollback) {
             FMResultSet *rows = [db executeQuery:@"SELECT `mid`,`data` FROM `msgs` WHERE `uid`=? ORDER BY `mid` DESC;", uid];
             if (rows != nil) {
                 while ([rows next]) {
@@ -127,6 +127,26 @@
                 [rows close];
             }
         }];
+        
+//        __block NSMutableArray *mids = [NSMutableArray new];
+//        __block NSMutableArray *datas = [NSMutableArray new];
+//        [self.dbQueue inDatabase:^(FMDatabase *db) {
+//            FMResultSet *rows = [db executeQuery:@"SELECT `mid`,`data` FROM `msgs` WHERE `uid`=? ORDER BY `mid` DESC;", uid];
+//            if (rows != nil) {
+//                while ([rows next]) {
+//                    NSString *mid = [rows stringForColumnIndex:0];
+//                    NSData *data = [rows dataForColumnIndex:1];
+//                    if (mid.length > 0 && data.length > 0) {
+//                        [mids addObject:mid];
+//                        [datas addObject:data];
+//                    }
+//                }
+//                [rows close];
+//            }
+//        }];
+//        for (NSInteger i = 0; i < mids.count; i++) {
+//            block([mids objectAtIndex:i], [datas objectAtIndex:i]);
+//        }
     }
 }
 

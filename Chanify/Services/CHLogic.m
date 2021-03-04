@@ -135,7 +135,7 @@
     NSString *uid = [CHMessageModel parsePacket:userInfo mid:&mid data:&data];
     if (uid.length > 0 && [uid isEqualToString:self.me.uid] && mid.length > 0 && data.length > 0) {
         NSString *cid = nil;
-        if ([self.userDataSource upsertMessageData:data mid:mid cid:&cid]) {
+        if ([self.userDataSource upsertMessageData:data uid:uid mid:mid cid:&cid]) {
             if (cid != nil) {
                 [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[]];
             }
@@ -394,7 +394,7 @@
         NSMutableArray<NSString *> *mids = [NSMutableArray new];
         [self.nsDataSource enumerateMessagesWithUID:uid block:^(NSString *mid, NSData *data) {
             NSString *cid = nil;
-            if ([self.userDataSource upsertMessageData:data mid:mid cid:&cid]) {
+            if ([self.userDataSource upsertMessageData:data uid:uid mid:mid cid:&cid]) {
                 if (mid.length > 0) {
                     [mids addObject:mid];
                 }

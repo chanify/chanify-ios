@@ -52,4 +52,5 @@ message Message {
     bytes       from        = 1;
     bytes       channel     = 2; // Channel
     bytes       content     = 3; // MsgContent
+    bytes       ciphertext  = 4; // Encrypt MsgContent
 }

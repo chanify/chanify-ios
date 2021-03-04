@@ -105,20 +105,20 @@
     };
     [section addFormRow:row];
     
-    // HELP
-    [form addFormSection:(section = [XLFormSectionDescriptor formSectionWithTitle:@"HELP".localized])];
-
-    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"quick" rowType:XLFormRowDescriptorTypeSelectorPush title:@"Quick Start".localized];
-    row.action.formBlock = ^(XLFormRowDescriptor *row) {
-        [CHRouter.shared routeTo:@kQuickStartURL withParams:@{ @"title": @"Quick Start".localized }];
-    };
-    [section addFormRow:row];
-    
-    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"usage" rowType:XLFormRowDescriptorTypeSelectorPush title:@"Usage Manual".localized];
-    row.action.formBlock = ^(XLFormRowDescriptor *row) {
-        [CHRouter.shared routeTo:@kUsageManualURL withParams:@{ @"title": @"Usage Manual".localized }];
-    };
-    [section addFormRow:row];
+//    // HELP
+//    [form addFormSection:(section = [XLFormSectionDescriptor formSectionWithTitle:@"HELP".localized])];
+//
+//    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"quick" rowType:XLFormRowDescriptorTypeSelectorPush title:@"Quick Start".localized];
+//    row.action.formBlock = ^(XLFormRowDescriptor *row) {
+//        [CHRouter.shared routeTo:@kQuickStartURL withParams:@{ @"title": @"Quick Start".localized }];
+//    };
+//    [section addFormRow:row];
+//    
+//    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"usage" rowType:XLFormRowDescriptorTypeSelectorPush title:@"Usage Manual".localized];
+//    row.action.formBlock = ^(XLFormRowDescriptor *row) {
+//        [CHRouter.shared routeTo:@kUsageManualURL withParams:@{ @"title": @"Usage Manual".localized }];
+//    };
+//    [section addFormRow:row];
     
     // ABOUT
     [form addFormSection:(section = [XLFormSectionDescriptor formSectionWithTitle:@"ABOUT".localized])];
