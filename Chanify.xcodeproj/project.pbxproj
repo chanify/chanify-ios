@@ -13,6 +13,10 @@
 		6D278E6925E222C300FC48CD /* CHCodeFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278E6825E222C300FC48CD /* CHCodeFormatter.m */; };
 		6D278EA825E4CC9500FC48CD /* CHNodesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278EA725E4CC9500FC48CD /* CHNodesViewController.m */; };
 		6D278EAD25E5598A00FC48CD /* CHTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278EAC25E5598A00FC48CD /* CHTableView.m */; };
+		6D4416F925F264A70041EBA0 /* CHFormButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4416F825F264A70041EBA0 /* CHFormButtonItem.m */; };
+		6D4416FE25F2655C0041EBA0 /* CHFormValueItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4416FD25F2655C0041EBA0 /* CHFormValueItem.m */; };
+		6D44170525F273150041EBA0 /* CHFormCodeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D44170425F273150041EBA0 /* CHFormCodeItem.m */; };
+		6D44170C25F278D80041EBA0 /* CHFormSelectorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D44170B25F278D80041EBA0 /* CHFormSelectorItem.m */; };
 		6D67CBDB25D3BAD700ECF655 /* NSDate+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */; };
 		6D67CBEA25D4298A00ECF655 /* CHCrpyto.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBE925D4298A00ECF655 /* CHCrpyto.m */; };
 		6D8F9EAC25EF45E800A8912C /* CHFormItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F9EAB25EF45E800A8912C /* CHFormItem.m */; };
@@ -86,7 +90,10 @@
 		6DC6C3A925D1702F00512E36 /* CHChannelNewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C3A825D1702F00512E36 /* CHChannelNewViewController.m */; };
 		6DC6C3AE25D1705100512E36 /* CHChannelDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C3AD25D1705100512E36 /* CHChannelDetailViewController.m */; };
 		6DC6C3B525D2193500512E36 /* CHMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C3B425D2193500512E36 /* CHMock.m */; };
-		6DD623CB25DF8CEB00F0D06A /* CHFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD623CA25DF8CEB00F0D06A /* CHFormViewController.m */; };
+		6DD623CB25DF8CEB00F0D06A /* CHXLFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD623CA25DF8CEB00F0D06A /* CHXLFormViewController.m */; };
+		6DD6954625F1FF6C0047FF08 /* CHFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD6954525F1FF6C0047FF08 /* CHFormViewController.m */; };
+		6DD6954B25F20BFD0047FF08 /* CHForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD6954A25F20BFD0047FF08 /* CHForm.m */; };
+		6DD6955025F20C140047FF08 /* CHFormSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD6954F25F20C140047FF08 /* CHFormSection.m */; };
 		6DDC86A925E7408E00C26203 /* CHNodeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDC86A825E7408E00C26203 /* CHNodeModel.m */; };
 		6DDC86B425E7446A00C26203 /* CHNodeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDC86B325E7446A00C26203 /* CHNodeTableViewCell.m */; };
 		6DDC86BE25E745AF00C26203 /* CHTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDC86BD25E745AF00C26203 /* CHTableViewCell.m */; };
@@ -171,6 +178,14 @@
 		6D278EA725E4CC9500FC48CD /* CHNodesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNodesViewController.m; sourceTree = "<group>"; };
 		6D278EAB25E5598A00FC48CD /* CHTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHTableView.h; sourceTree = "<group>"; };
 		6D278EAC25E5598A00FC48CD /* CHTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHTableView.m; sourceTree = "<group>"; };
+		6D4416F725F264A70041EBA0 /* CHFormButtonItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormButtonItem.h; sourceTree = "<group>"; };
+		6D4416F825F264A70041EBA0 /* CHFormButtonItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormButtonItem.m; sourceTree = "<group>"; };
+		6D4416FC25F2655C0041EBA0 /* CHFormValueItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormValueItem.h; sourceTree = "<group>"; };
+		6D4416FD25F2655C0041EBA0 /* CHFormValueItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormValueItem.m; sourceTree = "<group>"; };
+		6D44170325F273150041EBA0 /* CHFormCodeItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormCodeItem.h; sourceTree = "<group>"; };
+		6D44170425F273150041EBA0 /* CHFormCodeItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormCodeItem.m; sourceTree = "<group>"; };
+		6D44170A25F278D80041EBA0 /* CHFormSelectorItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormSelectorItem.h; sourceTree = "<group>"; };
+		6D44170B25F278D80041EBA0 /* CHFormSelectorItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormSelectorItem.m; sourceTree = "<group>"; };
 		6D67CBD925D3BAD700ECF655 /* NSDate+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+CHExt.h"; sourceTree = "<group>"; };
 		6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+CHExt.m"; sourceTree = "<group>"; };
 		6D67CBE925D4298A00ECF655 /* CHCrpyto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHCrpyto.m; sourceTree = "<group>"; };
@@ -295,8 +310,14 @@
 		6DC6C3AD25D1705100512E36 /* CHChannelDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelDetailViewController.m; sourceTree = "<group>"; };
 		6DC6C3B325D2193500512E36 /* CHMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHMock.h; sourceTree = "<group>"; };
 		6DC6C3B425D2193500512E36 /* CHMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHMock.m; sourceTree = "<group>"; };
-		6DD623C925DF8CEB00F0D06A /* CHFormViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormViewController.h; sourceTree = "<group>"; };
-		6DD623CA25DF8CEB00F0D06A /* CHFormViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormViewController.m; sourceTree = "<group>"; };
+		6DD623C925DF8CEB00F0D06A /* CHXLFormViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHXLFormViewController.h; sourceTree = "<group>"; };
+		6DD623CA25DF8CEB00F0D06A /* CHXLFormViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHXLFormViewController.m; sourceTree = "<group>"; };
+		6DD6954425F1FF6C0047FF08 /* CHFormViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormViewController.h; sourceTree = "<group>"; };
+		6DD6954525F1FF6C0047FF08 /* CHFormViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormViewController.m; sourceTree = "<group>"; };
+		6DD6954925F20BFD0047FF08 /* CHForm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHForm.h; sourceTree = "<group>"; };
+		6DD6954A25F20BFD0047FF08 /* CHForm.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHForm.m; sourceTree = "<group>"; };
+		6DD6954E25F20C140047FF08 /* CHFormSection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormSection.h; sourceTree = "<group>"; };
+		6DD6954F25F20C140047FF08 /* CHFormSection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormSection.m; sourceTree = "<group>"; };
 		6DDC86A725E7408E00C26203 /* CHNodeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNodeModel.h; sourceTree = "<group>"; };
 		6DDC86A825E7408E00C26203 /* CHNodeModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNodeModel.m; sourceTree = "<group>"; };
 		6DDC86B225E7446A00C26203 /* CHNodeTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNodeTableViewCell.h; sourceTree = "<group>"; };
@@ -354,11 +375,33 @@
 			path = Nodes;
 			sourceTree = "<group>";
 		};
-		6D8F9EA025EF435000A8912C /* Form */ = {
+		6D4416F425F264540041EBA0 /* Item */ = {
 			isa = PBXGroup;
 			children = (
 				6D8F9EAA25EF45E800A8912C /* CHFormItem.h */,
 				6D8F9EAB25EF45E800A8912C /* CHFormItem.m */,
+				6D4416FC25F2655C0041EBA0 /* CHFormValueItem.h */,
+				6D4416FD25F2655C0041EBA0 /* CHFormValueItem.m */,
+				6D44170325F273150041EBA0 /* CHFormCodeItem.h */,
+				6D44170425F273150041EBA0 /* CHFormCodeItem.m */,
+				6D4416F725F264A70041EBA0 /* CHFormButtonItem.h */,
+				6D4416F825F264A70041EBA0 /* CHFormButtonItem.m */,
+				6D44170A25F278D80041EBA0 /* CHFormSelectorItem.h */,
+				6D44170B25F278D80041EBA0 /* CHFormSelectorItem.m */,
+			);
+			path = Item;
+			sourceTree = "<group>";
+		};
+		6D8F9EA025EF435000A8912C /* Form */ = {
+			isa = PBXGroup;
+			children = (
+				6D4416F425F264540041EBA0 /* Item */,
+				6DD6954925F20BFD0047FF08 /* CHForm.h */,
+				6DD6954A25F20BFD0047FF08 /* CHForm.m */,
+				6DD6954E25F20C140047FF08 /* CHFormSection.h */,
+				6DD6954F25F20C140047FF08 /* CHFormSection.m */,
+				6DD6954425F1FF6C0047FF08 /* CHFormViewController.h */,
+				6DD6954525F1FF6C0047FF08 /* CHFormViewController.m */,
 			);
 			path = Form;
 			sourceTree = "<group>";
@@ -428,6 +471,7 @@
 				6DC6C28C25D1433F00512E36 /* Login */,
 				6DC6C2CA25D15B4100512E36 /* Scan */,
 				6DC6C29725D143AB00512E36 /* Web */,
+				6D8F9EA025EF435000A8912C /* Form */,
 				6DC6C29425D1435F00512E36 /* Utils */,
 			);
 			path = Views;
@@ -544,11 +588,10 @@
 		6DC6C29425D1435F00512E36 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				6D8F9EA025EF435000A8912C /* Form */,
 				6DDC86B925E7457B00C26203 /* IndicatorView */,
 				6DDC86B725E7456000C26203 /* TableView */,
-				6DD623C925DF8CEB00F0D06A /* CHFormViewController.h */,
-				6DD623CA25DF8CEB00F0D06A /* CHFormViewController.m */,
+				6DD623C925DF8CEB00F0D06A /* CHXLFormViewController.h */,
+				6DD623CA25DF8CEB00F0D06A /* CHXLFormViewController.m */,
 				6DC6C1C825D0DCD100512E36 /* CHViewController.h */,
 				6DC6C1C925D0DCD100512E36 /* CHViewController.m */,
 				6DC6C36D25D16C4E00512E36 /* CHQrCodeView.h */,
@@ -893,6 +936,7 @@
 				6DC6C38625D16E4200512E36 /* CHDateCellConfiguration.m in Sources */,
 				6D278E5E25E1EF7A00FC48CD /* CHPrivacyViewController.m in Sources */,
 				6DC6C39F25D16FE600512E36 /* CHMessagesDataSource.m in Sources */,
+				6D44170525F273150041EBA0 /* CHFormCodeItem.m in Sources */,
 				6DC6C2A625D14BE000512E36 /* CHDevice.m in Sources */,
 				6DC6C33E25D1694100512E36 /* CHChannelsViewController.m in Sources */,
 				6D278EA825E4CC9500FC48CD /* CHNodesViewController.m in Sources */,
@@ -903,6 +947,7 @@
 				6DDC86A925E7408E00C26203 /* CHNodeModel.m in Sources */,
 				6DC6C3A425D1700A00512E36 /* CHChannelViewController.m in Sources */,
 				6DC6C38B25D16E6A00512E36 /* CHMsgCellConfiguration.m in Sources */,
+				6DD6955025F20C140047FF08 /* CHFormSection.m in Sources */,
 				6DC6C24225D1117A00512E36 /* CHTheme.m in Sources */,
 				6DC6C2EC25D15F9700512E36 /* CHNSDataSource.m in Sources */,
 				6DC6C37625D16CA000512E36 /* UIView+CHExt.m in Sources */,
@@ -913,23 +958,26 @@
 				6DC6C28925D1410D00512E36 /* UIViewController+CHExt.m in Sources */,
 				6D8F9EAC25EF45E800A8912C /* CHFormItem.m in Sources */,
 				6DC6C39025D16EA200512E36 /* CHTextMsgCellConfiguration.m in Sources */,
+				6D4416FE25F2655C0041EBA0 /* CHFormValueItem.m in Sources */,
 				6DC6C1CA25D0DCD100512E36 /* CHViewController.m in Sources */,
 				6DC6C26A25D1159C00512E36 /* CHRouter.m in Sources */,
 				6DC6C39525D16ECA00512E36 /* CHUnknownMsgCellConfiguration.m in Sources */,
 				6DC6C36F25D16C4E00512E36 /* CHQrCodeView.m in Sources */,
 				6DC6C28F25D1435A00512E36 /* CHLoginViewController.m in Sources */,
 				6DC6C2C525D15A8600512E36 /* CHIndicatorPanelView.m in Sources */,
-				6DD623CB25DF8CEB00F0D06A /* CHFormViewController.m in Sources */,
+				6DD623CB25DF8CEB00F0D06A /* CHXLFormViewController.m in Sources */,
 				6DC6C34B25D16A7300512E36 /* CHSettingsViewController.m in Sources */,
 				6DC6C2C025D15A7900512E36 /* CHIndicatorView.m in Sources */,
 				6DC6C24925D1122100512E36 /* CHUtils.m in Sources */,
 				6D278E4125E0ECAC00FC48CD /* CHChannelTableViewCell.m in Sources */,
 				6DC6C32725D1626D00512E36 /* CryptoKit.swift in Sources */,
+				6DD6954B25F20BFD0047FF08 /* CHForm.m in Sources */,
 				6DC6C2AE25D14C2400512E36 /* CHSecKey.m in Sources */,
 				6DC6C27425D13E5500512E36 /* CHLogic.m in Sources */,
 				6DC6C26025D114E800512E36 /* NSData+CHExt.m in Sources */,
 				6DC6C39A25D16FAC00512E36 /* CHMessagesHeaderView.m in Sources */,
 				6DC6C28225D1408700512E36 /* CHTabBarViewController.m in Sources */,
+				6DD6954625F1FF6C0047FF08 /* CHFormViewController.m in Sources */,
 				6DC6C31925D1615100512E36 /* NSFileManager+CHExt.m in Sources */,
 				6DC6C2F625D1602F00512E36 /* NSURL+CHExt.m in Sources */,
 				6DC6C27B25D13EFA00512E36 /* CHUserModel.m in Sources */,
@@ -943,12 +991,14 @@
 				6DC6C3A925D1702F00512E36 /* CHChannelNewViewController.m in Sources */,
 				6DC6C2B525D1592900512E36 /* NSException+CHExt.m in Sources */,
 				6DC6C3AE25D1705100512E36 /* CHChannelDetailViewController.m in Sources */,
+				6D4416F925F264A70041EBA0 /* CHFormButtonItem.m in Sources */,
 				6DC6C26F25D13D2900512E36 /* CHNotification.m in Sources */,
 				6DC6C2A125D1441100512E36 /* CHWebViewRefresher.m in Sources */,
 				6DC6C2E225D15E6B00512E36 /* CHChannelModel.m in Sources */,
 				6DC6C31125D1611200512E36 /* NSDictionary+CHExt.m in Sources */,
 				6DC6C1D525D0DCD200512E36 /* main.m in Sources */,
 				6DDC86B425E7446A00C26203 /* CHNodeTableViewCell.m in Sources */,
+				6D44170C25F278D80041EBA0 /* CHFormSelectorItem.m in Sources */,
 				6DC6C20E25D0F3EF00512E36 /* CHTP.proto in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1137,7 +1187,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Chanify/Chanify.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1151,7 +1201,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.3;
+				MARKETING_VERSION = 0.9.4;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1170,7 +1220,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Chanify/Chanify.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1184,7 +1234,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.3;
+				MARKETING_VERSION = 0.9.4;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1199,7 +1249,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = NotificationService/Info.plist;
@@ -1208,7 +1258,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.9.3;
+				MARKETING_VERSION = 0.9.4;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1225,7 +1275,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = NotificationService/Info.plist;
@@ -1234,7 +1284,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.9.3;
+				MARKETING_VERSION = 0.9.4;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

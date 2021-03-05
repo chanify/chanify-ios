@@ -6,14 +6,11 @@
 //
 
 #import "CHNodeViewController.h"
-#import <Masonry/Masonry.h>
-#import "CHFormItem.h"
 #import "CHUserDataSource.h"
 #import "CHNSDataSource.h"
 #import "CHNodeModel.h"
 #import "CHLogic.h"
 #import "CHRouter.h"
-#import "CHTheme.h"
 #import "CHLogic.h"
 #import "CHCrpyto.h"
 
@@ -24,18 +21,10 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
     CHNodeVCStatusUpdate    = 3,
 };
 
-typedef UITableViewDiffableDataSource<NSString *, CHFormItem *> CHNodeDataSource;
-typedef NSDiffableDataSourceSnapshot<NSString *, CHFormItem *> CHNodeDiffableSnapshot;
-
-static NSString *const cellIdentifier = @"cell";
-static NSString *const headIdentifier = @"head";
-
 @interface CHNodeViewController () <UITableViewDelegate>
 
 @property (nonatomic, readonly, assign) CHNodeVCStatus status;
 @property (nonatomic, readonly, strong) CHNodeModel *model;
-@property (nonatomic, readonly, strong) CHNodeDataSource *dataSource;
-@property (nonatomic, readonly, strong) NSString *token;
 
 @end
 
@@ -86,107 +75,9 @@ static NSString *const headIdentifier = @"head";
                 [CHRouter.shared makeToast:@"Connect node server failed".localized];
             });
         }
+        [self initializeForm];
     }
     return self;
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    @weakify(self);
-    
-    self.title = @"Node Detail".localized;
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
-    [self.view addSubview:tableView];
-    [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
-    [tableView registerClass:UITableViewHeaderFooterView.class forHeaderFooterViewReuseIdentifier:headIdentifier];
-    [tableView registerClass:UITableViewCell.class forCellReuseIdentifier:cellIdentifier];
-    tableView.delegate = self;
-    
-    _dataSource = [[CHNodeDataSource alloc] initWithTableView:tableView cellProvider:^UITableViewCell *(UITableView *tableView, NSIndexPath *indexPath, CHFormItem *item) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-        if (cell != nil) {
-            cell.contentConfiguration = item.configuration;
-        }
-        return cell;
-    }];
-    
-    NSMutableArray<CHFormItem *> *features = [NSMutableArray arrayWithCapacity:self.model.features.count];
-    for (NSString *feature in self.model.features) {
-        [features addObject: [CHFormItem itemWithName:feature image:[self featureIconWithName:feature]]];
-    }
-
-    CHNodeDiffableSnapshot *snapshot = [CHNodeDiffableSnapshot new];
-    [snapshot appendSectionsWithIdentifiers:@[@"Information".localized]];
-    [snapshot appendItemsWithIdentifiers:@[
-        [CHFormItem itemWithName:@"Name" value:self.model.name],
-        [CHFormItem itemWithName:@"Endpoint" value:self.model.endpoint],
-    ]];
-    [snapshot appendSectionsWithIdentifiers:@[@"Features".localized]];
-    [snapshot appendItemsWithIdentifiers:features];
-
-    [snapshot appendSectionsWithIdentifiers:@[@""]];
-    switch (self.status) {
-        case CHNodeVCStatusNone:
-            break;
-        case CHNodeVCStatusShow:
-        {
-            [snapshot appendItemsWithIdentifiers:@[[CHFormItem itemWithName:@"Delete node" action:^{
-                @strongify(self);
-                [self actionDeleteNode];
-            }]]];
-        }
-            break;
-        case CHNodeVCStatusNew:
-        {
-            [snapshot appendItemsWithIdentifiers:@[[CHFormItem itemWithName:@"Add node" action:^{
-                @strongify(self);
-                [self actionAddNode];
-            }]]];
-        }
-            break;
-        case CHNodeVCStatusUpdate:
-        {
-            [snapshot appendItemsWithIdentifiers:@[[CHFormItem itemWithName:@"Update node" action:^{
-                @strongify(self);
-                [self actionUpdateNode];
-            }]]];
-        }
-            break;
-    }
-    [self.dataSource applySnapshot:snapshot animatingDifferences:NO];
-}
-
-#pragma mark - UITableViewDelegate
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    CHFormItem *item = [self.dataSource itemIdentifierForIndexPath:indexPath];
-    if (item.action != nil) {
-        item.action();
-    }
-}
-
-- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UITableViewHeaderFooterView *headerView = nil;
-    NSArray<NSString *> *sections = [self.dataSource.snapshot sectionIdentifiers];
-    if (section < sections.count) {
-        headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:headIdentifier];
-        if (headerView != nil) {
-            headerView.textLabel.text = [sections objectAtIndex:section];
-        }
-    }
-    return headerView;
 }
 
 #pragma mark - Action Methods
@@ -213,6 +104,61 @@ static NSString *const headIdentifier = @"head";
 }
 
 #pragma mark - Private Methods
+- (void)initializeForm {
+    CHFormItem *item;
+    CHFormSection *section;
+    CHForm *form = [CHForm formWithTitle:@"Node Detail".localized];
+    
+    section = [CHFormSection sectionWithTitle:@"Information".localized];
+    item = [CHFormValueItem itemWithName:@"name" title:@"Name".localized value:self.model.name];
+    [section addFormItem:item];
+    item = [CHFormValueItem itemWithName:@"endpoint" title:@"Endpoint".localized value:self.model.endpoint];
+    [section addFormItem:item];
+    [form addFormSection:section];
+    
+    section = [CHFormSection sectionWithTitle:@"Features".localized];
+    for (NSString *feature in self.model.features) {
+        item = [CHFormValueItem itemWithName:feature title:feature.localized];
+        item.icon = [self featureIconWithName:feature];
+        [section addFormItem:item];
+    }
+    [form addFormSection:section];
+    
+    section = [CHFormSection section];
+    @weakify(self);
+    switch (self.status) {
+        case CHNodeVCStatusNone:
+            break;
+        case CHNodeVCStatusShow:
+        {
+            [section addFormItem:[CHFormButtonItem itemWithName:@"delete-node" title:@"Delete node" action:^(CHFormItem *item){
+                @strongify(self);
+                [self actionDeleteNode];
+            }]];
+        }
+            break;
+        case CHNodeVCStatusNew:
+        {
+            [section addFormItem:[CHFormButtonItem itemWithName:@"add-node" title:@"Add node" action:^(CHFormItem *item){
+                @strongify(self);
+                [self actionAddNode];
+            }]];
+        }
+            break;
+        case CHNodeVCStatusUpdate:
+        {
+            [section addFormItem:[CHFormButtonItem itemWithName:@"update-node" title:@"Update node" action:^(CHFormItem *item){
+                @strongify(self);
+                [self actionUpdateNode];
+            }]];
+        }
+            break;
+    }
+    [form addFormSection:section];
+    
+    self.form = form;
+}
+
 - (UIImage *)featureIconWithName:(NSString *)name {
     UIImage *image = nil;
     if ([name hasPrefix:@"msg.text"]) {

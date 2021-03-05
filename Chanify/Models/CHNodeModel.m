@@ -20,7 +20,7 @@
     if (self = [super init]) {
         _nid = nid;
         _name = name;
-        _endpoint = (endpoint == nil ? @"" : endpoint);
+        _endpoint = (endpoint ?: @"");
         _features = [features componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@","]];
         if ([nid isEqualToString:@"sys"]) {
             if (name.length <= 0) _name = @"Chanify".localized;

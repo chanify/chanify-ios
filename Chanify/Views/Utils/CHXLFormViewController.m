@@ -1,14 +1,14 @@
 //
-//  CHFormViewController.m
+//  CHXLFormViewController.m
 //  Chanify
 //
 //  Created by WizJin on 2021/2/19.
 //
 
-#import "CHFormViewController.h"
+#import "CHXLFormViewController.h"
 #import <XLForm/XLForm.h>
 
-@implementation CHFormViewController
+@implementation CHXLFormViewController
 
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

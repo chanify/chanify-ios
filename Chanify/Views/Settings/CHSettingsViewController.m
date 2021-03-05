@@ -6,13 +6,11 @@
 //
 
 #import "CHSettingsViewController.h"
-#import <XLForm/XLForm.h>
-#import "CHCodeFormatter.h"
 #import "CHNotification.h"
 #import "CHLogic.h"
-#import "CHTheme.h"
 #import "CHDevice.h"
 #import "CHRouter.h"
+#import "CHTheme.h"
 
 @interface CHSettingsViewController () <CHNotificationDelegate>
 
@@ -40,117 +38,82 @@
 
 #pragma mark - CHNotificationDelegate
 - (void)notificationStatusChanged {
-    XLFormRowDescriptor *row = [self.form formRowWithTag:@"notification"];
-    NSString *value = (CHNotification.shared.enabled ? @"Enable".localized : @"Disable".localized);
-    if (![value isEqualToString:row.value]) {
-        row.value = value;
-        [self reloadFormRow:row];
-    }
+    [self updateNotificationItem];
 }
 
 #pragma mark - Private Methods
 - (void)initializeForm {
-    CHTheme *theme = CHTheme.shared;
-
-    XLFormRowDescriptor *row;
-    XLFormSectionDescriptor *section;
-    XLFormDescriptor *form = [XLFormDescriptor formDescriptorWithTitle:self.title];
-
-    UIFont *codeFont = [UIFont fontWithName:@kCHCodeFontName size:14];
-
+    CHFormItem *item;
+    CHFormSection *section;
+    CHForm *form = [CHForm formWithTitle:self.title];
     // ACCOUNT
-    [form addFormSection:(section = [XLFormSectionDescriptor formSectionWithTitle:@"ACCOUNT".localized])];
-
-    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"user" rowType:XLFormRowDescriptorTypeSelectorPush title:@"User".localized];
-    [row.cellConfig setObject:codeFont forKey:@"detailTextLabel.font"];
-    row.value = CHLogic.shared.me.uid;
-    row.valueFormatter = [CHCodeFormatter new];
-    row.action.formBlock = ^(XLFormRowDescriptor *row) {
+    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"ACCOUNT".localized])];
+    item = [CHFormCodeItem itemWithName:@"user" title:@"User".localized code:CHLogic.shared.me.uid];
+    item.action = ^(CHFormItem *itm) {
         [CHRouter.shared routeTo:@"/page/user-info"];
     };
-    [section addFormRow:row];
-
-    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"device" rowType:XLFormRowDescriptorTypeSelectorPush title:@"Device".localized];
-    [row.cellConfig setObject:codeFont forKey:@"detailTextLabel.font"];
-    row.value = CHDevice.shared.uuid.hex;
-    row.valueFormatter = [CHCodeFormatter new];
-    [section addFormRow:row];
-
-    // GENERAL
-    [form addFormSection:(section = [XLFormSectionDescriptor formSectionWithTitle:@"GENERAL".localized])];
-
-    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"appearance" rowType:XLFormRowDescriptorTypeSelectorActionSheet title:@"Appearance".localized];
-    row.cellConfig[@"accessoryType"] = @(UITableViewCellAccessoryDisclosureIndicator);
-    row.selectorOptions = @[
-        [XLFormOptionsObject formOptionsObjectWithValue:@(UIUserInterfaceStyleUnspecified) displayText:@"Default".localized],
-        [XLFormOptionsObject formOptionsObjectWithValue:@(UIUserInterfaceStyleLight) displayText:@"Light".localized],
-        [XLFormOptionsObject formOptionsObjectWithValue:@(UIUserInterfaceStyleDark) displayText:@"Dark".localized],
-    ];
-    for (XLFormOptionsObject *option in row.selectorOptions) {
-        if ([option.formValue integerValue] == theme.userInterfaceStyle) {
-            [row setValue:option];
-            row.value = option;
-            [self reloadFormRow:row];
-            break;
-        }
-    }
-    row.onChangeBlock = ^(id oldValue, XLFormOptionsObject *newValue, XLFormRowDescriptor *rowDescriptor) {
-        CHTheme.shared.userInterfaceStyle = [newValue.formValue integerValue];
+    [section addFormItem:item];
+    item = [CHFormCodeItem itemWithName:@"device" title:@"Device".localized code:CHDevice.shared.uuid.hex];
+    item.action = ^(CHFormItem *itm) {};
+    [section addFormItem:item];
+    
+    //GENERAL
+    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"GENERAL".localized])];
+    item = [CHFormSelectorItem itemWithName:@"appearance" title:@"Appearance".localized options:@[
+        [CHFormOption formOptionWithValue:@(UIUserInterfaceStyleUnspecified) title:@"Default".localized],
+        [CHFormOption formOptionWithValue:@(UIUserInterfaceStyleLight) title:@"Light".localized],
+        [CHFormOption formOptionWithValue:@(UIUserInterfaceStyleDark) title:@"Dark".localized],
+    ]];
+    CHFormSelectorItem *selectItem = (CHFormSelectorItem *)item;
+    selectItem.selected = @(CHTheme.shared.userInterfaceStyle);
+    selectItem.onChanged = ^(CHFormItem *item, id oldValue, id newValue) {
+        CHTheme.shared.userInterfaceStyle = [newValue integerValue];
     };
-    [section addFormRow:row];
-
-    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"notification" rowType:XLFormRowDescriptorTypeSelectorPush title:@"Notification".localized];
-    row.action.formBlock = ^(XLFormRowDescriptor *row) {
+    [section addFormItem:item];
+    
+    item = [CHFormValueItem itemWithName:@"notification" title:@"Notification".localized value:@""];
+    item.action = ^(CHFormItem *itm) {
         [CHRouter.shared routeTo:@"/action/openurl" withParams:@{ @"url": UIApplicationOpenSettingsURLString }];
     };
-    [section addFormRow:row];
+    [section addFormItem:item];
     
-//    // HELP
-//    [form addFormSection:(section = [XLFormSectionDescriptor formSectionWithTitle:@"HELP".localized])];
-//
-//    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"quick" rowType:XLFormRowDescriptorTypeSelectorPush title:@"Quick Start".localized];
-//    row.action.formBlock = ^(XLFormRowDescriptor *row) {
+    // HELP
+//    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"HELP".localized])];
+//    item = [CHFormItem itemWithName:@"quick" title:@"Quick Start".localized];
+//    item.action = ^(CHFormItem *itm) {
 //        [CHRouter.shared routeTo:@kQuickStartURL withParams:@{ @"title": @"Quick Start".localized }];
 //    };
-//    [section addFormRow:row];
-//    
-//    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"usage" rowType:XLFormRowDescriptorTypeSelectorPush title:@"Usage Manual".localized];
-//    row.action.formBlock = ^(XLFormRowDescriptor *row) {
-//        [CHRouter.shared routeTo:@kUsageManualURL withParams:@{ @"title": @"Usage Manual".localized }];
+//    [section addFormItem:item];
+//    item = [CHFormItem itemWithName:@"manual" title:@"Usage Manual".localized];
+//    item.action = ^(CHFormItem *itm) {
+//        [CHRouter.shared routeTo:@kQuickStartURL withParams:@{ @"title": @"Quick Start".localized }];
 //    };
-//    [section addFormRow:row];
+//    [section addFormItem:item];
     
     // ABOUT
-    [form addFormSection:(section = [XLFormSectionDescriptor formSectionWithTitle:@"ABOUT".localized])];
-
-    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"version" rowType:XLFormRowDescriptorTypeInfo title:@"Version".localized];
-    row.value = CHDevice.shared.version;
-    [section addFormRow:row];
-
-    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"privacy" rowType:XLFormRowDescriptorTypeSelectorPush title:@"Privacy Policy".localized];
-    row.action.formBlock = ^(XLFormRowDescriptor *row) {
+    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"ABOUT".localized])];
+    item = [CHFormValueItem itemWithName:@"version" title:@"Version".localized value:CHDevice.shared.version];
+    [section addFormItem:item];
+    item = [CHFormValueItem itemWithName:@"privacy" title:@"Privacy Policy".localized];
+    item.action = ^(CHFormItem *itm) {
         [CHRouter.shared routeTo:@"/page/privacy"];
     };
-    [section addFormRow:row];
-
-    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"acknowledgements" rowType:XLFormRowDescriptorTypeSelectorPush title:@"Acknowledgements".localized];
-    row.action.formBlock = ^(XLFormRowDescriptor *row) {
+    [section addFormItem:item];
+    item = [CHFormValueItem itemWithName:@"acknowledgements" title:@"Acknowledgements".localized];
+    item.action = ^(CHFormItem *itm) {
         [CHRouter.shared routeTo:@"/page/acknowledgements"];
     };
-    [section addFormRow:row];
-
-    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"contact-us" rowType:XLFormRowDescriptorTypeSelectorPush title:@"Contact Us".localized];
-    row.hidden = [NSPredicate predicateWithObject:CHRouter.shared attribute:@"canSendMail" expected:@NO];
-    row.action.formBlock = ^(XLFormRowDescriptor *row) {
+    [section addFormItem:item];
+    item = [CHFormValueItem itemWithName:@"contact-us" title:@"Contact Us".localized];
+    item.hidden = [NSPredicate predicateWithObject:CHRouter.shared attribute:@"canSendMail" expected:@NO];
+    item.action = ^(CHFormItem *itm) {
         [CHRouter.shared routeTo:@"/action/sendemail" withParams:@{ @"email": @kCHContactEmail }];
     };
-    [section addFormRow:row];
+    [section addFormItem:item];
     
     // Logout
-    [form addFormSection:(section = [XLFormSectionDescriptor formSection])];
-    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"logout" rowType:XLFormRowDescriptorTypeButton title:@"Logout".localized];
-    [row.cellConfig setObject:theme.alertColor forKey:@"textColor"];
-    row.action.formBlock = ^(XLFormRowDescriptor *row) {
+    [form addFormSection:(section = [CHFormSection section])];
+    item = [CHFormButtonItem itemWithName:@"logout" title:@"Logout".localized action:^(CHFormItem *itm) {
         [CHRouter.shared showIndicator:YES];
         [CHLogic.shared logoutWithCompletion:^(CHLCode result) {
             [CHRouter.shared showIndicator:NO];
@@ -160,16 +123,19 @@
                 [CHRouter.shared makeToast:@"Logout failed".localized];
             }
         }];
-    };
-    [section addFormRow:row];
+    }];
+    [section addFormItem:item];
 
     self.form = form;
+    
+    [self updateNotificationItem];
 }
 
-- (void)updateRowHiddenWithTag:(NSString *)tag {
-    if (self.form != nil) {
-        XLFormRowDescriptor *row = [self.form formRowWithTag:tag];
-        [row setHidden:row.hidden];
+- (void)updateNotificationItem {
+    CHFormSelectorItem *item = (CHFormSelectorItem *)[self.form formItemWithName:@"notification"];
+    if (item != nil) {
+        item.value = (CHNotification.shared.enabled ? @"Enable".localized : @"Disable".localized);
+        [self reloadItem:item];
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  CHFormViewController.h
+//  CHXLFormViewController.h
 //  Chanify
 //
 //  Created by WizJin on 2021/2/19.
@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHFormViewController : XLFormViewController
+@interface CHXLFormViewController : XLFormViewController
 
 @end
 

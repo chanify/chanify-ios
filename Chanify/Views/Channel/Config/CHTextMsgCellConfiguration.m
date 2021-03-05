@@ -134,7 +134,7 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
 
 - (instancetype)initWithMID:(NSString *)mid text:(NSString * _Nullable)text textRC:(CGRect)textRect bubbleRC:(CGRect)bubbleRect {
     if (self = [super initWithMID:mid bubbleRect:bubbleRect]) {
-        _text = (text == nil ? @"" : text);
+        _text = (text ?: @"");
         _textRect = textRect;
     }
     return self;
