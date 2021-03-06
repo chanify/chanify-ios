@@ -16,6 +16,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)reloadItem:(CHFormItem *)item;
 - (void)showActionSheet:(UIAlertController *)alertController item:(CHFormItem *)item animated:(BOOL)animated;
+- (nullable UITableViewCell *)cellForItem:(CHFormItem *)item;
+- (BOOL)itemIsLastInput:(CHFormInputItem *)item;
+- (BOOL)itemShouldInputReturn:(CHFormInputItem *)item;
+- (UIToolbar *)itemAccessoryView:(CHFormInputItem *)item;
+- (void)itemBecomeFirstResponder:(CHFormInputItem *)item;
 
 
 @end

@@ -13,7 +13,6 @@ target $project_name do
 	pod 'Masonry'
 	pod 'M80AttributedLabel'
 	pod 'Protobuf'
-	pod 'XLForm'
 end
 
 target 'NotificationService' do

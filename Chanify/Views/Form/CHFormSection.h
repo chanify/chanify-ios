@@ -7,17 +7,20 @@
 
 #import "CHFormCodeItem.h"
 #import "CHFormButtonItem.h"
+#import "CHFormInputItem.h"
 #import "CHFormSelectorItem.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class CHForm;
+
 @interface CHFormSection : NSObject
 
 @property (nonatomic, readonly, strong) NSString *title;
+@property (nonatomic, weak) CHForm *form;
 
 + (instancetype)sectionWithTitle:(NSString *)title;
 + (instancetype)section;
-- (void)setViewController:(CHFormViewController *)viewController;
 - (NSArray<CHFormItem *> *)items;
 - (NSArray<CHFormItem *> *)allItems;
 - (void)addFormItem:(CHFormItem *)item;

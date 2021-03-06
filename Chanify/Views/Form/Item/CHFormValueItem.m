@@ -6,10 +6,7 @@
 //
 
 #import "CHFormValueItem.h"
-
-@interface CHFormValueItem ()
-
-@end
+#import "CHTheme.h"
 
 @implementation CHFormValueItem
 
@@ -25,6 +22,7 @@
     if (self = [super initWithName:name]) {
         _value = nil;
         UIListContentConfiguration *configuration = UIListContentConfiguration.valueCellConfiguration;
+        configuration.secondaryTextProperties.color = CHTheme.shared.minorLabelColor;
         configuration.text = title;
         _configuration = configuration;
         self.value = value;
@@ -34,6 +32,17 @@
 
 - (id<UIContentConfiguration>)contentConfiguration {
     return self.configuration;
+}
+
+- (void)setValue:(id)value {
+    if (_value != value && ![_value isEqual:value]) {
+        _value = value;
+        self.configuration.secondaryText = self.textValue;
+    }
+}
+
+- (void)setIcon:(nullable UIImage *)icon {
+    self.configuration.image = icon;
 }
 
 - (UITableViewCellAccessoryType)accessoryType {
@@ -53,13 +62,6 @@
         }
     }
     return @"";
-}
-
-- (void)setValue:(id)value {
-    if (_value != value && ![_value isEqual:value]) {
-        _value = value;
-        self.configuration.secondaryText = self.textValue;
-    }
 }
 
 

@@ -17,6 +17,7 @@
 		6D4416FE25F2655C0041EBA0 /* CHFormValueItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4416FD25F2655C0041EBA0 /* CHFormValueItem.m */; };
 		6D44170525F273150041EBA0 /* CHFormCodeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D44170425F273150041EBA0 /* CHFormCodeItem.m */; };
 		6D44170C25F278D80041EBA0 /* CHFormSelectorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D44170B25F278D80041EBA0 /* CHFormSelectorItem.m */; };
+		6D44171325F330630041EBA0 /* CHFormInputItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D44171225F330630041EBA0 /* CHFormInputItem.m */; };
 		6D67CBDB25D3BAD700ECF655 /* NSDate+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */; };
 		6D67CBEA25D4298A00ECF655 /* CHCrpyto.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBE925D4298A00ECF655 /* CHCrpyto.m */; };
 		6D8F9EAC25EF45E800A8912C /* CHFormItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F9EAB25EF45E800A8912C /* CHFormItem.m */; };
@@ -90,7 +91,6 @@
 		6DC6C3A925D1702F00512E36 /* CHChannelNewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C3A825D1702F00512E36 /* CHChannelNewViewController.m */; };
 		6DC6C3AE25D1705100512E36 /* CHChannelDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C3AD25D1705100512E36 /* CHChannelDetailViewController.m */; };
 		6DC6C3B525D2193500512E36 /* CHMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C3B425D2193500512E36 /* CHMock.m */; };
-		6DD623CB25DF8CEB00F0D06A /* CHXLFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD623CA25DF8CEB00F0D06A /* CHXLFormViewController.m */; };
 		6DD6954625F1FF6C0047FF08 /* CHFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD6954525F1FF6C0047FF08 /* CHFormViewController.m */; };
 		6DD6954B25F20BFD0047FF08 /* CHForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD6954A25F20BFD0047FF08 /* CHForm.m */; };
 		6DD6955025F20C140047FF08 /* CHFormSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD6954F25F20C140047FF08 /* CHFormSection.m */; };
@@ -186,6 +186,8 @@
 		6D44170425F273150041EBA0 /* CHFormCodeItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormCodeItem.m; sourceTree = "<group>"; };
 		6D44170A25F278D80041EBA0 /* CHFormSelectorItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormSelectorItem.h; sourceTree = "<group>"; };
 		6D44170B25F278D80041EBA0 /* CHFormSelectorItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormSelectorItem.m; sourceTree = "<group>"; };
+		6D44171125F330630041EBA0 /* CHFormInputItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormInputItem.h; sourceTree = "<group>"; };
+		6D44171225F330630041EBA0 /* CHFormInputItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormInputItem.m; sourceTree = "<group>"; };
 		6D67CBD925D3BAD700ECF655 /* NSDate+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+CHExt.h"; sourceTree = "<group>"; };
 		6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+CHExt.m"; sourceTree = "<group>"; };
 		6D67CBE925D4298A00ECF655 /* CHCrpyto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHCrpyto.m; sourceTree = "<group>"; };
@@ -310,8 +312,6 @@
 		6DC6C3AD25D1705100512E36 /* CHChannelDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelDetailViewController.m; sourceTree = "<group>"; };
 		6DC6C3B325D2193500512E36 /* CHMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHMock.h; sourceTree = "<group>"; };
 		6DC6C3B425D2193500512E36 /* CHMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHMock.m; sourceTree = "<group>"; };
-		6DD623C925DF8CEB00F0D06A /* CHXLFormViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHXLFormViewController.h; sourceTree = "<group>"; };
-		6DD623CA25DF8CEB00F0D06A /* CHXLFormViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHXLFormViewController.m; sourceTree = "<group>"; };
 		6DD6954425F1FF6C0047FF08 /* CHFormViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormViewController.h; sourceTree = "<group>"; };
 		6DD6954525F1FF6C0047FF08 /* CHFormViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormViewController.m; sourceTree = "<group>"; };
 		6DD6954925F20BFD0047FF08 /* CHForm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHForm.h; sourceTree = "<group>"; };
@@ -386,6 +386,8 @@
 				6D44170425F273150041EBA0 /* CHFormCodeItem.m */,
 				6D4416F725F264A70041EBA0 /* CHFormButtonItem.h */,
 				6D4416F825F264A70041EBA0 /* CHFormButtonItem.m */,
+				6D44171125F330630041EBA0 /* CHFormInputItem.h */,
+				6D44171225F330630041EBA0 /* CHFormInputItem.m */,
 				6D44170A25F278D80041EBA0 /* CHFormSelectorItem.h */,
 				6D44170B25F278D80041EBA0 /* CHFormSelectorItem.m */,
 			);
@@ -468,10 +470,10 @@
 				6DDC86C125E74EF900C26203 /* Node */,
 				6DC6C34825D16A6300512E36 /* Settings */,
 				6DC6C27E25D1406E00512E36 /* TabBar */,
+				6D8F9EA025EF435000A8912C /* Form */,
 				6DC6C28C25D1433F00512E36 /* Login */,
 				6DC6C2CA25D15B4100512E36 /* Scan */,
 				6DC6C29725D143AB00512E36 /* Web */,
-				6D8F9EA025EF435000A8912C /* Form */,
 				6DC6C29425D1435F00512E36 /* Utils */,
 			);
 			path = Views;
@@ -590,8 +592,6 @@
 			children = (
 				6DDC86B925E7457B00C26203 /* IndicatorView */,
 				6DDC86B725E7456000C26203 /* TableView */,
-				6DD623C925DF8CEB00F0D06A /* CHXLFormViewController.h */,
-				6DD623CA25DF8CEB00F0D06A /* CHXLFormViewController.m */,
 				6DC6C1C825D0DCD100512E36 /* CHViewController.h */,
 				6DC6C1C925D0DCD100512E36 /* CHViewController.m */,
 				6DC6C36D25D16C4E00512E36 /* CHQrCodeView.h */,
@@ -750,7 +750,6 @@
 				6DC6C1BD25D0DCD100512E36 /* Resources */,
 				6DC6C20825D0F36C00512E36 /* ShellScript */,
 				6DC6C22525D0FB7600512E36 /* Embed App Extensions */,
-				3DD8739D1382E08C6F7BFCB5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 				6DC6C21125D0F41500512E36 /* PBXBuildRule */,
@@ -887,23 +886,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3DD8739D1382E08C6F7BFCB5 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Chanify/Pods-Chanify-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Chanify/Pods-Chanify-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Chanify/Pods-Chanify-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		6DC6C20825D0F36C00512E36 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -949,6 +931,7 @@
 				6DC6C38B25D16E6A00512E36 /* CHMsgCellConfiguration.m in Sources */,
 				6DD6955025F20C140047FF08 /* CHFormSection.m in Sources */,
 				6DC6C24225D1117A00512E36 /* CHTheme.m in Sources */,
+				6D44171325F330630041EBA0 /* CHFormInputItem.m in Sources */,
 				6DC6C2EC25D15F9700512E36 /* CHNSDataSource.m in Sources */,
 				6DC6C37625D16CA000512E36 /* UIView+CHExt.m in Sources */,
 				6DC6C37F25D16E1800512E36 /* CHCellConfiguration.m in Sources */,
@@ -965,7 +948,6 @@
 				6DC6C36F25D16C4E00512E36 /* CHQrCodeView.m in Sources */,
 				6DC6C28F25D1435A00512E36 /* CHLoginViewController.m in Sources */,
 				6DC6C2C525D15A8600512E36 /* CHIndicatorPanelView.m in Sources */,
-				6DD623CB25DF8CEB00F0D06A /* CHXLFormViewController.m in Sources */,
 				6DC6C34B25D16A7300512E36 /* CHSettingsViewController.m in Sources */,
 				6DC6C2C025D15A7900512E36 /* CHIndicatorView.m in Sources */,
 				6DC6C24925D1122100512E36 /* CHUtils.m in Sources */,

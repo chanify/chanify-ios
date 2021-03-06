@@ -6,17 +6,14 @@
 //
 
 #import "CHChannelNewViewController.h"
-#import <XLForm/XLForm.h>
 #import "CHUserDataSource.h"
 #import "CHRouter.h"
 #import "CHLogic.h"
 
-@interface CHChannelNewViewController () <XLFormDescriptorDelegate>
-
+@interface CHChannelNewViewController () <CHFormDelegate>
 @end
 
 @implementation CHChannelNewViewController
-
 
 - (instancetype)init {
     if (self = [super init]) {
@@ -30,31 +27,36 @@
 
 #pragma mark - Private Methods
 - (void)initializeForm {
-    XLFormRowDescriptor *row;
-    XLFormSectionDescriptor *section;
-    XLFormDescriptor *form = [XLFormDescriptor formDescriptorWithTitle:@"New Channel".localized];
+    CHFormInputItem *item;
+    CHForm *form = [CHForm formWithTitle:@"New Channel".localized];
     form.assignFirstResponderOnShow = YES;
     form.delegate = self;
 
-    [form addFormSection:(section = [XLFormSectionDescriptor formSection])];
-    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"code" rowType:XLFormRowDescriptorTypeAccount title:@"Code".localized];
-    row.required = YES;
-    [section addFormRow:row];
-
-    row = [XLFormRowDescriptor formRowDescriptorWithTag:@"name" rowType:XLFormRowDescriptorTypeText title:@"Name".localized];
-    [section addFormRow:row];
-
+    CHFormSection *section = [CHFormSection section];
+    [form addFormSection:section];
+    
+    // Account
+    item = [CHFormInputItem itemWithName:@"code" title:@"Code".localized];
+    item.inputType = CHFormInputTypeAccount;
+    item.required = YES;
+    [section addFormItem:item];
+    
+    // Text
+    item = [CHFormInputItem itemWithName:@"name" title:@"Name".localized];
+    item.inputType = CHFormInputTypeText;
+    [section addFormItem:item];
+    
     self.form = form;
 }
 
-#pragma mark - XLFormDescriptorDelegate
--(void)formRowDescriptorValueHasChanged:(XLFormRowDescriptor *)formRow oldValue:(id)oldValue newValue:(id)newValue {
-    self.navigationItem.rightBarButtonItem.enabled = (self.formValidationErrors.count <= 0);
+#pragma mark - CHFormDelegate
+- (void)formItemValueHasChanged:(CHFormItem *)item oldValue:(id)oldValue newValue:(id)newValue {
+    self.navigationItem.rightBarButtonItem.enabled = (self.form.errorItems.count <= 0);
 }
 
 #pragma mark - Action Methods
 - (void)actionDone:(id)sender {
-    if (self.formValidationErrors.count <= 0) {
+    if (self.form.errorItems.count <= 0) {
         NSDictionary *values = self.form.formValues;
         if ([CHLogic.shared insertChannel:[values valueForKey:@"code"] name:[values valueForKey:@"name"] icon:nil]) {
             [self closeAnimated:YES completion:nil];

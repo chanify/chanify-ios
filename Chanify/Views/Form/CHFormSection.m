@@ -31,12 +31,6 @@
     return self;
 }
 
-- (void)setViewController:(CHFormViewController *)viewController {
-    for (CHFormItem *item in self.itemList) {
-        item.viewController = viewController;
-    }
-}
-
 - (NSArray<CHFormItem *> *)items {
     NSMutableArray<CHFormItem *> *rows = [NSMutableArray arrayWithCapacity:self.itemList.count];
     for (CHFormItem *item in self.itemList) {
@@ -53,6 +47,7 @@
 
 - (void)addFormItem:(CHFormItem *)item {
     [self.itemList addObject:item];
+    item.section = self;
 }
 
 

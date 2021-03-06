@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class CHFormItem;
-@class CHFormViewController;
+@class CHFormSection;
 
 typedef void (^CHFormItemActionBlock)(__kindof CHFormItem *item);
 typedef void (^CHFormItemOnChangedBlock)(__kindof CHFormItem *item, __nullable id newValue, __nullable id oldValue);
@@ -19,13 +19,13 @@ typedef void (^CHFormItemOnChangedBlock)(__kindof CHFormItem *item, __nullable i
 
 @property (nonatomic, readonly, strong) NSString *name;
 @property (nonatomic, nullable, strong) NSPredicate *hidden;
-@property (nonatomic, nullable, weak) CHFormViewController *viewController;
+@property (nonatomic, nullable, weak) CHFormSection *section;
 @property (nonatomic, nullable, copy) CHFormItemActionBlock action;
 
 - (instancetype)initWithName:(NSString *)name;
 - (id<UIContentConfiguration>)contentConfiguration;
 - (UITableViewCellAccessoryType)accessoryType;
-- (void)setIcon:(nullable UIImage *)icon;
+- (void)updateStatus;
 - (BOOL)isHidden;
 
 

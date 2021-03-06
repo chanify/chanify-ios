@@ -21,7 +21,6 @@ PODS:
   - M80AttributedLabel (1.9.9)
   - Masonry (1.1.0)
   - Protobuf (3.14.0)
-  - XLForm (4.2.0)
 
 DEPENDENCIES:
   - AFNetworking
@@ -30,7 +29,6 @@ DEPENDENCIES:
   - M80AttributedLabel
   - Masonry
   - Protobuf
-  - XLForm
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -40,7 +38,6 @@ SPEC REPOS:
     - M80AttributedLabel
     - Masonry
     - Protobuf
-    - XLForm
 
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
@@ -49,8 +46,7 @@ SPEC CHECKSUMS:
   M80AttributedLabel: 77fedfe63804c989a6de0fa4d400ea8cad3ab441
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   Protobuf: 0cde852566359049847168e51bd1c690e0f70056
-  XLForm: eb04ea4104f26250b70a72a7fa2eed3748dca5cd
 
-PODFILE CHECKSUM: 1294f107080d7cbcbfaffca73aa9fd6d53ae50f3
+PODFILE CHECKSUM: af530fe69b3572f5fb323dc68d8e4c010f7c3a16
 
 COCOAPODS: 1.10.0

@@ -9,7 +9,7 @@
 
 @interface CHFormItem ()
 
-@property (nonatomic, readonly, strong) UIListContentConfiguration *configuration;
+@property (nonatomic, readonly, assign) BOOL isHidden;
 
 @end
 
@@ -19,32 +19,24 @@
     if (self = [super init]) {
         _name = name;
         _hidden = nil;
+        _isHidden = NO;
     }
     return self;
 }
 
-- (void)setConfiguration:(UIListContentConfiguration *)configuration {
-    _configuration = configuration;
-}
-
 - (id<UIContentConfiguration>)contentConfiguration {
-    return self.configuration;
+    return nil;
 }
 
 - (UITableViewCellAccessoryType)accessoryType {
     return UITableViewCellAccessoryNone;
 }
 
-- (void)setIcon:(nullable UIImage *)icon {
-    self.configuration.image = icon;
-}
-
-- (BOOL)isHidden {
-    BOOL res = NO;
+- (void)updateStatus {
+    _isHidden = NO;
     if (self.hidden != nil) {
-        return [self.hidden evaluateWithObject:self];
+        _isHidden = [self.hidden evaluateWithObject:self];
     }
-    return res;
 }
 
 - (BOOL)isEqual:(CHFormItem *)rhs {

@@ -5,11 +5,11 @@
 //  Created by WizJin on 2021/2/8.
 //
 
-#import "CHXLFormViewController.h"
+#import "CHFormViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHChannelNewViewController : CHXLFormViewController
+@interface CHChannelNewViewController : CHFormViewController
 
 @end
 

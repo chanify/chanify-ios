@@ -33,12 +33,10 @@
 
 - (instancetype)initWithName:(NSString *)name title:(NSString *)title options:(NSArray<CHFormOption *> *)options {
     if (self = [super initWithName:name title:title value:nil]) {
-        @weakify(self);
         _selected = nil;
         _options = options;
-        self.action = ^(CHFormItem *item) {
-            @strongify(self);
-            [self doSelectItem:item];
+        self.action = ^(CHFormSelectorItem *item) {
+            [item doSelectItem];
         };
     }
     return self;
@@ -61,7 +59,7 @@
     }
 }
 
-- (void)doSelectItem:(CHFormItem *)itm {
+- (void)doSelectItem {
     if (self.options.count > 0) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         @weakify(self);
@@ -75,7 +73,7 @@
             [alert addAction:act];
         }
         [alert addAction:[UIAlertAction actionWithTitle:@"Cancel".localized style:UIAlertActionStyleCancel handler:nil]];
-        [self.viewController showActionSheet:alert item:itm animated:YES];
+        [self.section.form.viewController showActionSheet:alert item:self animated:YES];
     }
 }
 
@@ -85,7 +83,7 @@
             self.onChanged(self, self.selected, option.value);
         }
         [self setSelected:option.value];
-        [self.viewController reloadItem:self];
+        [self.section.form.viewController reloadItem:self];
     }
 }
 

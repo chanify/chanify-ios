@@ -118,12 +118,12 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
     
     section = [CHFormSection sectionWithTitle:@"Features".localized];
     for (NSString *feature in self.model.features) {
-        item = [CHFormValueItem itemWithName:feature title:feature.localized];
+        CHFormValueItem *item = [CHFormValueItem itemWithName:feature title:feature.localized];
         item.icon = [self featureIconWithName:feature];
         [section addFormItem:item];
     }
     [form addFormSection:section];
-    
+
     section = [CHFormSection section];
     @weakify(self);
     switch (self.status) {

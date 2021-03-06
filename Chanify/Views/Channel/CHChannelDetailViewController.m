@@ -6,8 +6,6 @@
 //
 
 #import "CHChannelDetailViewController.h"
-#import <XLForm/XLForm.h>
-#import "CHCodeFormatter.h"
 #import "CHUserDataSource.h"
 #import "CHNSDataSource.h"
 #import "CHChannelModel.h"
@@ -19,7 +17,7 @@
 #import "CHTheme.h"
 #import "CHTP.pbobjc.h"
 
-@interface CHChannelDetailViewController () <UICollectionViewDelegate, XLFormViewControllerDelegate>
+@interface CHChannelDetailViewController ()
 
 @property (nonatomic, readonly, strong) CHChannelModel *model;
 
@@ -37,7 +35,7 @@
 
 - (void)dealloc {
     if (self.model.type == CHChanTypeUser) {
-        NSString *name = [self.formValues valueForKey:@"name"];
+        NSString *name = [self.form.formValues valueForKey:@"name"];
         if (![self.model.name isEqualToString:name]) {
             self.model.name = name;
             [CHLogic.shared updateChannel:self.model];
@@ -45,35 +43,14 @@
     }
 }
 
-#pragma mark - XLFormViewControllerDelegate
-- (void)beginEditing:(XLFormRowDescriptor *)row {
-    if ([row.tag isEqualToString:@"name"]) {
-        if (![[row.cellConfig valueForKey:@"textField.textAlignment"] isEqual:@(NSTextAlignmentLeft)]) {
-            [row.cellConfig setValue:@(NSTextAlignmentLeft) forKey:@"textField.textAlignment"];
-            [self updateFormRow:row];
-        }
-    }
-}
-
-- (void)endEditing:(XLFormRowDescriptor *)row {
-    if ([row.tag isEqualToString:@"name"]) {
-        if (![[row.cellConfig valueForKey:@"textField.textAlignment"] isEqual:@(NSTextAlignmentRight)]) {
-            [row.cellConfig setValue:@(NSTextAlignmentRight) forKey:@"textField.textAlignment"];
-            [self updateFormRow:row];
-        }
-    }
-}
-
 #pragma mark - Private Methods
 - (void)initializeForm {
-    CHTheme *theme = CHTheme.shared;
-    
     NSCalendar *calender = NSCalendar.currentCalendar;
     NSDate *date = [calender dateBySettingHour:0 minute:0 second:0 ofDate:NSDate.now options:NSCalendarMatchFirst];
     date = [date dateByAddingTimeInterval:NSCalendar.currentCalendar.timeZone.secondsFromGMT + 90*24*60*60];
 
     NSString *cid = self.model.cid;
-    
+
     NSData *channel = [NSData dataFromBase64:cid];
 
     CHTPToken *tk = [CHTPToken new];
@@ -86,30 +63,21 @@
         tk.deviceId = CHDevice.shared.uuid;
     }
     
-    UIFont *codeFont = [UIFont fontWithName:@kCHCodeFontName size:14];
-
-    XLFormRowDescriptor *row;
-    XLFormSectionDescriptor *section;
-    XLFormDescriptor *form = [XLFormDescriptor formDescriptorWithTitle:@"Channel Detail".localized];
-    [form addFormSection:(section = [XLFormSectionDescriptor formSection])];
+    CHFormSection *section;
+    CHForm *form = [CHForm formWithTitle:@"Channel Detail".localized];
     
+    [form addFormSection:(section = [CHFormSection section])];
     if (self.model.type == CHChanTypeSys) {
-        row = [XLFormRowDescriptor formRowDescriptorWithTag:@"name" rowType:XLFormRowDescriptorTypeInfo title:@"Name".localized];
-        row.value = self.model.title;
-        [section addFormRow:row];
+        [section addFormItem:[CHFormValueItem itemWithName:@"name" title:@"Name".localized value:self.model.title]];
     } else if (self.model.type == CHChanTypeUser) {
-        row = [XLFormRowDescriptor formRowDescriptorWithTag:@"code" rowType:XLFormRowDescriptorTypeInfo title:@"Code".localized];
-        row.value = self.model.code;
-        [section addFormRow:row];
-
-        row = [XLFormRowDescriptor formRowDescriptorWithTag:@"name" rowType:XLFormRowDescriptorTypeText title:@"Name".localized];
-        [row.cellConfig setObject:@(NSTextAlignmentRight) forKey:@"textField.textAlignment"];
-        [row.cellConfig setObject:theme.minorLabelColor forKey:@"textField.textColor"];
-        row.value = self.model.name;
-        [section addFormRow:row];
+        [section addFormItem:[CHFormValueItem itemWithName:@"code" title:@"Code".localized value:self.model.code]];
+        
+        CHFormInputItem *item = [CHFormInputItem itemWithName:@"name" title:@"Name".localized];
+        item.value = self.model.name;
+        [section addFormItem:item];
     }
-
-    [form addFormSection:(section = [XLFormSectionDescriptor formSectionWithTitle:@"Token".localized])];
+    
+    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"Token".localized])];
     for (CHNodeModel *model in [CHLogic.shared.userDataSource loadNodes]) {
         if ([model.nid isEqualToString:@"sys"]) {
             tk.nodeId = nil;
@@ -120,31 +88,26 @@
         NSData *key = [CHLogic.shared.nsDataSource keyForUID:tk.userId];
         NSData *sign = [CHCrpyto hmacSha256:token secret:[key subdataWithRange:NSMakeRange(0, 256/8)]];
         NSString *tokenValue = [NSString stringWithFormat:@"%@.%@", token.base64, sign.base64];
-        row = [XLFormRowDescriptor formRowDescriptorWithTag:[@"token." stringByAppendingString:model.nid] rowType:XLFormRowDescriptorTypeSelectorPush title:model.name];
-        [row.cellConfig setObject:codeFont forKey:@"detailTextLabel.font"];
-        row.value = tokenValue;
-        row.valueFormatter = [CHCodeFormatter new];
-        row.action.formBlock = ^(XLFormRowDescriptor *row) {
-            UIPasteboard.generalPasteboard.string = row.value;
+        
+        CHFormCodeItem *item = [CHFormCodeItem itemWithName:[@"token." stringByAppendingString:model.nid] title:model.name code:tokenValue];
+        item.action = ^(CHFormCodeItem *item) {
+            UIPasteboard.generalPasteboard.string = item.value;
             [CHRouter.shared makeToast:@"Token copied".localized];
         };
-        [section addFormRow:row];
+        [section addFormItem:item];
     }
-
+    
     if (self.model.type == CHChanTypeUser) {
-        [form addFormSection:(section = [XLFormSectionDescriptor formSection])];
-        row = [XLFormRowDescriptor formRowDescriptorWithTag:@"delete" rowType:XLFormRowDescriptorTypeButton title:@"Delete channel".localized];
-        [row.cellConfig setObject:theme.alertColor forKey:@"textColor"];
-        row.action.formBlock = ^(XLFormRowDescriptor *row) {
+        [form addFormSection:(section = [CHFormSection section])];
+        CHFormButtonItem *item = [CHFormButtonItem itemWithName:@"delete" title:@"Delete channel".localized action:^(CHFormButtonItem *item) {
             [CHRouter.shared showAlertWithTitle:@"Delete this channel or not?".localized action:@"Delete".localized handler:^{
                 [CHLogic.shared deleteChannel:cid];
                 [CHRouter.shared popToRootViewControllerAnimated:YES];
             }];
-        };
-        [section addFormRow:row];
+        }];
+        [section addFormItem:item];
     }
 
-    self.form.delegate = self;
     self.form = form;
 }
 

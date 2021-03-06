@@ -10,6 +10,7 @@
 @interface CHForm ()
 
 @property (nonatomic, readonly, strong) NSMutableArray<CHFormSection *> *sectionList;
+@property (nonatomic, readonly, strong) NSMutableArray<CHFormInputItem *> *editItems;
 
 @end
 
@@ -23,13 +24,22 @@
     if (self = [super init]) {
         _title = title;
         _sectionList = [NSMutableArray new];
+        _editItems = [NSMutableArray new];
+        _assignFirstResponderOnShow = NO;
+        _errorItems = [NSHashTable weakObjectsHashTable];
     }
     return self;
 }
 
-- (void)setViewController:(CHFormViewController *)viewController {
+- (void)reloadData {
+    [self.editItems removeAllObjects];
     for (CHFormSection *section in self.sectionList) {
-        section.viewController = viewController;
+        for (CHFormItem *item in section.allItems) {
+            [item updateStatus];
+            if ([item isKindOfClass:CHFormInputItem.class] && !item.isHidden) {
+                [self.editItems addObject:(CHFormInputItem *)item];
+            }
+        }
     }
 }
 
@@ -39,6 +49,7 @@
 
 - (void)addFormSection:(CHFormSection *)section {
     [self.sectionList addObject:section];
+    section.form = self;
 }
 
 - (nullable CHFormItem *)formItemWithName:(NSString *)name {
@@ -50,6 +61,18 @@
         }
     }
     return nil;
+}
+
+- (NSArray<CHFormInputItem *> *)inputItems {
+    return self.editItems;
+}
+
+- (NSDictionary<NSString *, id> *)formValues {
+    NSMutableDictionary<NSString *, id> *values = [NSMutableDictionary new];
+    for (CHFormInputItem *item in self.inputItems) {
+        [values setValue:item.value forKey:item.name];
+    }
+    return values;
 }
 
 
