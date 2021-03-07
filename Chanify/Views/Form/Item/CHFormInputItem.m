@@ -35,10 +35,6 @@
     [self.section.form.viewController itemBecomeFirstResponder:self];
 }
 
-- (void)setValue:(id)value {
-    [super setValue:value];
-}
-
 - (UITextField *)editView {
     UIListContentView *contentView = (UIListContentView *)[[self.section.form.viewController cellForItem:self] contentView];
     UITextField *textField = [contentView viewWithTag:kCHFormTextFieldTag];
@@ -104,7 +100,7 @@
     if (![textField.text isEqualToString:self.value]) {
         id old = self.value;
         self.value = textField.text;
-        [self.section.form notifyItemValueHasChanged:self oldValue:old newValue:self.value];
+        [self.section.form notifyItemValueHasChanged:self oldValue:old newValue:textField.text];
     }
 }
 

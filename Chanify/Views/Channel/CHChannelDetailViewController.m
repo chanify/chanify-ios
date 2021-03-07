@@ -35,9 +35,18 @@
 
 - (void)dealloc {
     if (self.model.type == CHChanTypeUser) {
+        BOOL needUpdate = NO;
         NSString *name = [self.form.formValues valueForKey:@"name"];
         if (![self.model.name isEqualToString:name]) {
             self.model.name = name;
+            needUpdate = YES;
+        }
+        NSString *icon = [self.form.formValues valueForKey:@"icon"];
+        if (![(self.model.icon?:@"") isEqualToString:icon]) {
+            self.model.icon = (icon.length > 0 ? icon : nil);
+            needUpdate = YES;
+        }
+        if (needUpdate) {
             [CHLogic.shared updateChannel:self.model];
         }
     }

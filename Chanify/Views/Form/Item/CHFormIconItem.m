@@ -7,8 +7,13 @@
 
 #import "CHFormIconItem.h"
 #import "CHFormViewController.h"
+#import "CHIconsViewController.h"
 #import "CHIconView.h"
 #import "CHRouter.h"
+
+@interface CHFormIconItem () <CHIconsViewControllerDelegate>
+
+@end
 
 @implementation CHFormIconItem
 
@@ -27,7 +32,7 @@
     [super setValue:value];
     CHIconView *iconView = [self iconViewForCell:[self.section.form.viewController cellForItem:self]];
     if (iconView != nil) {
-        iconView.image = self.value;
+        iconView.image = [self formatImage:self.value];
     }
 }
 
@@ -35,13 +40,27 @@
     [super prepareCell:cell];
     CHIconView *iconView = [self iconViewForCell:cell];
     if (iconView != nil) {
-        iconView.image = self.value;
+        iconView.image = [self formatImage:self.value];
+    }
+}
+
+#pragma mark - CHIconsViewControllerDelegate
+- (void)iconChanged:(NSString *)icon {
+    if (icon.length > 0) {
+        icon = [@"sys://" stringByAppendingString:icon];
+    }
+    if (![self.value isEqualToString:icon]) {
+        id old = self.value;
+        self.value = icon;
+        [self.section.form notifyItemValueHasChanged:self oldValue:old newValue:icon];
     }
 }
 
 #pragma mark - Private Methods
 - (void)doSelectIcon {
-    [CHRouter.shared routeTo:@"/page/icons" withParams:@{ @"icon": self.value }];
+    CHIconsViewController *vc = [[CHIconsViewController alloc] initWithIcon:[self formatImage:self.value]];
+    vc.delegate = self;
+    [CHRouter.shared presentViewController:vc animated:YES];
 }
 
 - (nullable CHIconView *)iconViewForCell:(nullable UITableViewCell *)cell {
@@ -63,6 +82,16 @@
         }
     }
     return iconView;
+}
+
+- (NSString *)formatImage:(NSString *)value {
+    NSString *icon = value;
+    if ([icon hasPrefix:@"sys://"]) {
+        icon = [icon substringFromIndex:6];
+    } else {
+        icon = @"";
+    }
+    return icon;
 }
 
 

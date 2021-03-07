@@ -9,7 +9,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol CHIconsViewControllerDelegate <NSObject>
+- (void)iconChanged:(NSString *)icon;
+@end
+
 @interface CHIconsViewController : CHViewController
+
+@property (nonatomic, nullable, weak) id<CHIconsViewControllerDelegate> delegate;
+
+- (instancetype)initWithIcon:(NSString *)icon;
+
 
 @end
 

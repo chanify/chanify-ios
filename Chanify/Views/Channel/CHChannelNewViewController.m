@@ -58,7 +58,9 @@
 - (void)actionDone:(id)sender {
     if (self.form.errorItems.count <= 0) {
         NSDictionary *values = self.form.formValues;
-        if ([CHLogic.shared insertChannel:[values valueForKey:@"code"] name:[values valueForKey:@"name"] icon:nil]) {
+        NSString *icon = [values valueForKey:@"icon"];
+        if (icon.length <= 0) icon = nil;
+        if ([CHLogic.shared insertChannel:[values valueForKey:@"code"] name:[values valueForKey:@"name"] icon:icon]) {
             [self closeAnimated:YES completion:nil];
         } else {
             [CHRouter.shared makeToast:@"Create channel failed".localized];
