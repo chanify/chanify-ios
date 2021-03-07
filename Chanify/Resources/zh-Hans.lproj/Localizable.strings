@@ -21,6 +21,7 @@
 "New Channel"="添加频道";
 "Code"="代号";
 "Name"="名称";
+"Icon"="图标";
 "Endpoint"="入口";
 "Create channel failed"="创建频道失败";
 "Channel Detail"="频道详情";

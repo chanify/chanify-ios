@@ -28,6 +28,11 @@
     return nil;
 }
 
+- (void)prepareCell:(UITableViewCell *)cell {
+    cell.accessoryType = self.accessoryType;
+    cell.contentConfiguration = self.contentConfiguration;
+}
+
 - (UITableViewCellAccessoryType)accessoryType {
     return UITableViewCellAccessoryNone;
 }

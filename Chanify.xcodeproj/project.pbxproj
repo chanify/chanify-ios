@@ -94,10 +94,14 @@
 		6DD6954625F1FF6C0047FF08 /* CHFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD6954525F1FF6C0047FF08 /* CHFormViewController.m */; };
 		6DD6954B25F20BFD0047FF08 /* CHForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD6954A25F20BFD0047FF08 /* CHForm.m */; };
 		6DD6955025F20C140047FF08 /* CHFormSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD6954F25F20C140047FF08 /* CHFormSection.m */; };
+		6DD969C625F479B800EEEECF /* CHIconsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD969C525F479B800EEEECF /* CHIconsViewController.m */; };
+		6DD969CD25F47A6300EEEECF /* CHFormIconItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD969CC25F47A6300EEEECF /* CHFormIconItem.m */; };
+		6DD969D425F4A1E700EEEECF /* CHIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD969D325F4A1E700EEEECF /* CHIconView.m */; };
 		6DDC86A925E7408E00C26203 /* CHNodeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDC86A825E7408E00C26203 /* CHNodeModel.m */; };
 		6DDC86B425E7446A00C26203 /* CHNodeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDC86B325E7446A00C26203 /* CHNodeTableViewCell.m */; };
 		6DDC86BE25E745AF00C26203 /* CHTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDC86BD25E745AF00C26203 /* CHTableViewCell.m */; };
 		6DDC86C425E74F0C00C26203 /* CHNodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDC86C325E74F0C00C26203 /* CHNodeViewController.m */; };
+		6DEC569E25F4F6F600AD6DC9 /* CHIconConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC569D25F4F6F600AD6DC9 /* CHIconConfiguration.m */; };
 		E1FF8005990C1480B5C3EF98 /* libPods-NotificationService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77860262C85473FCE5AADE06 /* libPods-NotificationService.a */; };
 /* End PBXBuildFile section */
 
@@ -318,6 +322,12 @@
 		6DD6954A25F20BFD0047FF08 /* CHForm.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHForm.m; sourceTree = "<group>"; };
 		6DD6954E25F20C140047FF08 /* CHFormSection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormSection.h; sourceTree = "<group>"; };
 		6DD6954F25F20C140047FF08 /* CHFormSection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormSection.m; sourceTree = "<group>"; };
+		6DD969C425F479B800EEEECF /* CHIconsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHIconsViewController.h; sourceTree = "<group>"; };
+		6DD969C525F479B800EEEECF /* CHIconsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHIconsViewController.m; sourceTree = "<group>"; };
+		6DD969CB25F47A6300EEEECF /* CHFormIconItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormIconItem.h; sourceTree = "<group>"; };
+		6DD969CC25F47A6300EEEECF /* CHFormIconItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormIconItem.m; sourceTree = "<group>"; };
+		6DD969D225F4A1E700EEEECF /* CHIconView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHIconView.h; sourceTree = "<group>"; };
+		6DD969D325F4A1E700EEEECF /* CHIconView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHIconView.m; sourceTree = "<group>"; };
 		6DDC86A725E7408E00C26203 /* CHNodeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNodeModel.h; sourceTree = "<group>"; };
 		6DDC86A825E7408E00C26203 /* CHNodeModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNodeModel.m; sourceTree = "<group>"; };
 		6DDC86B225E7446A00C26203 /* CHNodeTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNodeTableViewCell.h; sourceTree = "<group>"; };
@@ -326,6 +336,8 @@
 		6DDC86BD25E745AF00C26203 /* CHTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHTableViewCell.m; sourceTree = "<group>"; };
 		6DDC86C225E74F0C00C26203 /* CHNodeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNodeViewController.h; sourceTree = "<group>"; };
 		6DDC86C325E74F0C00C26203 /* CHNodeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNodeViewController.m; sourceTree = "<group>"; };
+		6DEC569C25F4F6F600AD6DC9 /* CHIconConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHIconConfiguration.h; sourceTree = "<group>"; };
+		6DEC569D25F4F6F600AD6DC9 /* CHIconConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHIconConfiguration.m; sourceTree = "<group>"; };
 		77860262C85473FCE5AADE06 /* libPods-NotificationService.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NotificationService.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84478BB35AC049B8F080A494 /* Pods-NotificationService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationService.debug.xcconfig"; path = "Target Support Files/Pods-NotificationService/Pods-NotificationService.debug.xcconfig"; sourceTree = "<group>"; };
 		88B60DC2DA57301D0741245B /* Pods-NotificationService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationService.release.xcconfig"; path = "Target Support Files/Pods-NotificationService/Pods-NotificationService.release.xcconfig"; sourceTree = "<group>"; };
@@ -386,6 +398,8 @@
 				6D44170425F273150041EBA0 /* CHFormCodeItem.m */,
 				6D4416F725F264A70041EBA0 /* CHFormButtonItem.h */,
 				6D4416F825F264A70041EBA0 /* CHFormButtonItem.m */,
+				6DD969CB25F47A6300EEEECF /* CHFormIconItem.h */,
+				6DD969CC25F47A6300EEEECF /* CHFormIconItem.m */,
 				6D44171125F330630041EBA0 /* CHFormInputItem.h */,
 				6D44171225F330630041EBA0 /* CHFormInputItem.m */,
 				6D44170A25F278D80041EBA0 /* CHFormSelectorItem.h */,
@@ -471,6 +485,7 @@
 				6DC6C34825D16A6300512E36 /* Settings */,
 				6DC6C27E25D1406E00512E36 /* TabBar */,
 				6D8F9EA025EF435000A8912C /* Form */,
+				6DD969C325F4799B00EEEECF /* Icons */,
 				6DC6C28C25D1433F00512E36 /* Login */,
 				6DC6C2CA25D15B4100512E36 /* Scan */,
 				6DC6C29725D143AB00512E36 /* Web */,
@@ -697,6 +712,19 @@
 			path = Config;
 			sourceTree = "<group>";
 		};
+		6DD969C325F4799B00EEEECF /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				6DD969C425F479B800EEEECF /* CHIconsViewController.h */,
+				6DD969C525F479B800EEEECF /* CHIconsViewController.m */,
+				6DEC569C25F4F6F600AD6DC9 /* CHIconConfiguration.h */,
+				6DEC569D25F4F6F600AD6DC9 /* CHIconConfiguration.m */,
+				6DD969D225F4A1E700EEEECF /* CHIconView.h */,
+				6DD969D325F4A1E700EEEECF /* CHIconView.m */,
+			);
+			path = Icons;
+			sourceTree = "<group>";
+		};
 		6DDC86B725E7456000C26203 /* TableView */ = {
 			isa = PBXGroup;
 			children = (
@@ -921,6 +949,7 @@
 				6D44170525F273150041EBA0 /* CHFormCodeItem.m in Sources */,
 				6DC6C2A625D14BE000512E36 /* CHDevice.m in Sources */,
 				6DC6C33E25D1694100512E36 /* CHChannelsViewController.m in Sources */,
+				6DEC569E25F4F6F600AD6DC9 /* CHIconConfiguration.m in Sources */,
 				6D278EA825E4CC9500FC48CD /* CHNodesViewController.m in Sources */,
 				6DC6C2D625D15CCD00512E36 /* CHManager.m in Sources */,
 				6DC6C2E725D15EC100512E36 /* CHMessageModel.m in Sources */,
@@ -934,18 +963,21 @@
 				6D44171325F330630041EBA0 /* CHFormInputItem.m in Sources */,
 				6DC6C2EC25D15F9700512E36 /* CHNSDataSource.m in Sources */,
 				6DC6C37625D16CA000512E36 /* UIView+CHExt.m in Sources */,
+				6DD969D425F4A1E700EEEECF /* CHIconView.m in Sources */,
 				6DC6C37F25D16E1800512E36 /* CHCellConfiguration.m in Sources */,
 				6DC6C36325D16BCE00512E36 /* CHAcknowledgementsViewController.m in Sources */,
 				6DC6C33925D168A200512E36 /* CHAvatarView.m in Sources */,
 				6DDC86BE25E745AF00C26203 /* CHTableViewCell.m in Sources */,
 				6DC6C28925D1410D00512E36 /* UIViewController+CHExt.m in Sources */,
 				6D8F9EAC25EF45E800A8912C /* CHFormItem.m in Sources */,
+				6DD969CD25F47A6300EEEECF /* CHFormIconItem.m in Sources */,
 				6DC6C39025D16EA200512E36 /* CHTextMsgCellConfiguration.m in Sources */,
 				6D4416FE25F2655C0041EBA0 /* CHFormValueItem.m in Sources */,
 				6DC6C1CA25D0DCD100512E36 /* CHViewController.m in Sources */,
 				6DC6C26A25D1159C00512E36 /* CHRouter.m in Sources */,
 				6DC6C39525D16ECA00512E36 /* CHUnknownMsgCellConfiguration.m in Sources */,
 				6DC6C36F25D16C4E00512E36 /* CHQrCodeView.m in Sources */,
+				6DD969C625F479B800EEEECF /* CHIconsViewController.m in Sources */,
 				6DC6C28F25D1435A00512E36 /* CHLoginViewController.m in Sources */,
 				6DC6C2C525D15A8600512E36 /* CHIndicatorPanelView.m in Sources */,
 				6DC6C34B25D16A7300512E36 /* CHSettingsViewController.m in Sources */,
@@ -1169,7 +1201,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Chanify/Chanify.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1183,7 +1215,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.4;
+				MARKETING_VERSION = 0.9.5;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1202,7 +1234,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Chanify/Chanify.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1216,7 +1248,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.4;
+				MARKETING_VERSION = 0.9.5;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1231,7 +1263,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = NotificationService/Info.plist;
@@ -1240,7 +1272,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.9.4;
+				MARKETING_VERSION = 0.9.5;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1257,7 +1289,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = NotificationService/Info.plist;
@@ -1266,7 +1298,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.9.4;
+				MARKETING_VERSION = 0.9.5;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

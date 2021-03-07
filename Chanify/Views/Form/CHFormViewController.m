@@ -14,7 +14,7 @@ static NSString *const headIdentifier = @"head";
 typedef UITableViewDiffableDataSource<CHFormSection *, CHFormItem *> CHFormDataSource;
 typedef NSDiffableDataSourceSnapshot<CHFormSection *, CHFormItem *> CHFormDiffableSnapshot;
 
-@interface CHFormViewController () <UITableViewDelegate>
+@interface CHFormViewController () <UITableViewDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, readonly, strong) UITableView *tableView;
 @property (nonatomic, nullable, strong) UIToolbar *inputAccessoryView;
@@ -42,8 +42,7 @@ typedef NSDiffableDataSourceSnapshot<CHFormSection *, CHFormItem *> CHFormDiffab
     _dataSource = [[CHFormDataSource alloc] initWithTableView:tableView cellProvider:^UITableViewCell *(UITableView *tableView, NSIndexPath *indexPath, CHFormItem *item) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
         if (cell != nil) {
-            cell.accessoryType = item.accessoryType;
-            cell.contentConfiguration = item.contentConfiguration;
+            [item prepareCell:cell];
         }
         return cell;
     }];
@@ -55,7 +54,10 @@ typedef NSDiffableDataSourceSnapshot<CHFormSection *, CHFormItem *> CHFormDiffab
     [super viewDidAppear:animated];
     if (self.form != nil && self.form.assignFirstResponderOnShow) {
         self.form.assignFirstResponderOnShow = NO;
-        //[self.form setFirstResponder:self];
+        NSArray<CHFormInputItem *> *items = self.form.inputItems;
+        if (items.count > 0) {
+            [items.firstObject startEditing];
+        }
     }
 }
 
@@ -128,6 +130,9 @@ typedef NSDiffableDataSourceSnapshot<CHFormSection *, CHFormItem *> CHFormDiffab
     if (item.action != nil) {
         item.action(item);
     }
+    if (![item isKindOfClass:CHFormInputItem.class]) {
+        [tableView endEditing:YES];
+    }
 }
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -143,6 +148,11 @@ typedef NSDiffableDataSourceSnapshot<CHFormSection *, CHFormItem *> CHFormDiffab
         }
     }
     return headerView;
+}
+
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    [self.tableView endEditing:YES];
 }
 
 #pragma mark - Action Methods

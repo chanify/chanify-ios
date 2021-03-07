@@ -34,17 +34,17 @@
 
     CHFormSection *section = [CHFormSection section];
     [form addFormSection:section];
-    
-    // Account
+
     item = [CHFormInputItem itemWithName:@"code" title:@"Code".localized];
     item.inputType = CHFormInputTypeAccount;
     item.required = YES;
     [section addFormItem:item];
     
-    // Text
     item = [CHFormInputItem itemWithName:@"name" title:@"Name".localized];
     item.inputType = CHFormInputTypeText;
     [section addFormItem:item];
+
+    [section addFormItem:[CHFormIconItem itemWithName:@"icon" title:@"Icon".localized]];
     
     self.form = form;
 }

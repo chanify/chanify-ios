@@ -18,9 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface CHFormSelectorItem : CHFormValueItem
+@interface CHFormSelectorItem : CHFormValueItem<CHFormEditableItem>
 
 @property (nonatomic, nullable, strong) id selected;
+@property (nonatomic, assign) BOOL required;
 @property (nonatomic, nullable, copy) CHFormItemOnChangedBlock onChanged;
 
 + (instancetype)itemWithName:(NSString *)name title:(NSString *)title options:(NSArray<CHFormOption *> *)options;

@@ -105,26 +105,21 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
 
 #pragma mark - Private Methods
 - (void)initializeForm {
-    CHFormItem *item;
     CHFormSection *section;
     CHForm *form = [CHForm formWithTitle:@"Node Detail".localized];
     
-    section = [CHFormSection sectionWithTitle:@"Information".localized];
-    item = [CHFormValueItem itemWithName:@"name" title:@"Name".localized value:self.model.name];
-    [section addFormItem:item];
-    item = [CHFormValueItem itemWithName:@"endpoint" title:@"Endpoint".localized value:self.model.endpoint];
-    [section addFormItem:item];
-    [form addFormSection:section];
-    
-    section = [CHFormSection sectionWithTitle:@"Features".localized];
+    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"Information".localized])];
+    [section addFormItem:[CHFormValueItem itemWithName:@"name" title:@"Name".localized value:self.model.name]];
+    [section addFormItem:[CHFormValueItem itemWithName:@"endpoint" title:@"Endpoint".localized value:self.model.endpoint]];
+
+    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"Features".localized])];
     for (NSString *feature in self.model.features) {
         CHFormValueItem *item = [CHFormValueItem itemWithName:feature title:feature.localized];
         item.icon = [self featureIconWithName:feature];
         [section addFormItem:item];
     }
-    [form addFormSection:section];
 
-    section = [CHFormSection section];
+    [form addFormSection:(section = [CHFormSection section])];
     @weakify(self);
     switch (self.status) {
         case CHNodeVCStatusNone:
@@ -154,8 +149,6 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
         }
             break;
     }
-    [form addFormSection:section];
-    
     self.form = form;
 }
 

@@ -6,6 +6,7 @@
 //
 
 #import "CHFormCodeItem.h"
+#import "CHFormIconItem.h"
 #import "CHFormButtonItem.h"
 #import "CHFormInputItem.h"
 #import "CHFormSelectorItem.h"

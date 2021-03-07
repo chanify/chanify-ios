@@ -52,6 +52,16 @@
     return NSData.data;
 }
 
++ (instancetype)dataFromBundleURL:(NSURL *)url {
+    NSError *error = nil;
+    NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:&error];
+    if (error != nil) {
+        data = nil;
+        CHLogE("Load file failed: %s", error.description.cstr);
+    }
+    return data;
+}
+
 - (NSString *)hex {
     static const char *tbl = "0123456789ABCDEF";
 

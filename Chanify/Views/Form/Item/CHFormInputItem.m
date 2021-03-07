@@ -9,17 +9,11 @@
 #import "CHFormViewController.h"
 #import "CHTheme.h"
 
-#define kTextFieldTag   1000
-
 @interface CHFormInputItem () <UITextFieldDelegate>
 
 @end
 
 @implementation CHFormInputItem
-
-+ (instancetype)itemWithName:(NSString *)name title:(NSString *)title {
-    return [[self.class alloc] initWithName:name title:title value:nil];
-}
 
 - (instancetype)initWithName:(NSString *)name title:(NSString *)title value:(nullable id)value {
     if (self = [super initWithName:name title:title value:value ?: @""]) {
@@ -43,17 +37,11 @@
 
 - (void)setValue:(id)value {
     [super setValue:value];
-    [self validateInputValue];
-}
-
-- (void)setRequired:(BOOL)required {
-    _required = required;
-    [self validateInputValue];
 }
 
 - (UITextField *)editView {
     UIListContentView *contentView = (UIListContentView *)[[self.section.form.viewController cellForItem:self] contentView];
-    UITextField *textField = [contentView viewWithTag:kTextFieldTag];
+    UITextField *textField = [contentView viewWithTag:kCHFormTextFieldTag];
     if (textField == nil) {
         textField = [UITextField new];
         [contentView addSubview:textField];
@@ -61,12 +49,12 @@
         [contentView addConstraints:@[
             [textField.topAnchor constraintEqualToAnchor:contentView.topAnchor],
             [textField.bottomAnchor constraintEqualToAnchor:contentView.bottomAnchor],
-            [textField.rightAnchor constraintEqualToAnchor:contentView.rightAnchor constant:-10],
+            [textField.rightAnchor constraintEqualToAnchor:contentView.secondaryTextLayoutGuide.rightAnchor],
             [textField.leftAnchor constraintEqualToAnchor:contentView.textLayoutGuide.rightAnchor constant:10],
         ]];
         [textField addTarget:self action:@selector(textFieldDidChanged:) forControlEvents:UIControlEventEditingChanged];
         textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        textField.tag = kTextFieldTag;
+        textField.tag = kCHFormTextFieldTag;
         textField.delegate = self;
         switch (self.inputType) {
             case CHFormInputTypeText:
@@ -116,18 +104,7 @@
     if (![textField.text isEqualToString:self.value]) {
         id old = self.value;
         self.value = textField.text;
-        if ([self.section.form.delegate respondsToSelector:@selector(formItemValueHasChanged:oldValue:newValue:)]) {
-            [self.section.form.delegate formItemValueHasChanged:self oldValue:old newValue:self.value];
-        }
-    }
-}
-
-#pragma mark - Private Methods
-- (void)validateInputValue {
-    if (self.required && (self.value == nil || ((NSString *)self.value).length <= 0)) {
-        [self.section.form.errorItems addObject:self];
-    } else {
-        [self.section.form.errorItems removeObject:self];
+        [self.section.form notifyItemValueHasChanged:self oldValue:old newValue:self.value];
     }
 }
 

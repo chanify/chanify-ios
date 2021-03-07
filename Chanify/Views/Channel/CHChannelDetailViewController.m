@@ -71,12 +71,10 @@
         [section addFormItem:[CHFormValueItem itemWithName:@"name" title:@"Name".localized value:self.model.title]];
     } else if (self.model.type == CHChanTypeUser) {
         [section addFormItem:[CHFormValueItem itemWithName:@"code" title:@"Code".localized value:self.model.code]];
-        
-        CHFormInputItem *item = [CHFormInputItem itemWithName:@"name" title:@"Name".localized];
-        item.value = self.model.name;
-        [section addFormItem:item];
+        [section addFormItem:[CHFormInputItem itemWithName:@"name" title:@"Name".localized value:self.model.name]];
+        [section addFormItem:[CHFormIconItem itemWithName:@"icon" title:@"Icon".localized value:self.model.icon]];
     }
-    
+
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"Token".localized])];
     for (CHNodeModel *model in [CHLogic.shared.userDataSource loadNodes]) {
         if ([model.nid isEqualToString:@"sys"]) {
@@ -89,7 +87,7 @@
         NSData *sign = [CHCrpyto hmacSha256:token secret:[key subdataWithRange:NSMakeRange(0, 256/8)]];
         NSString *tokenValue = [NSString stringWithFormat:@"%@.%@", token.base64, sign.base64];
         
-        CHFormCodeItem *item = [CHFormCodeItem itemWithName:[@"token." stringByAppendingString:model.nid] title:model.name code:tokenValue];
+        CHFormCodeItem *item = [CHFormCodeItem itemWithName:[@"token." stringByAppendingString:model.nid] title:model.name value:tokenValue];
         item.action = ^(CHFormCodeItem *item) {
             UIPasteboard.generalPasteboard.string = item.value;
             [CHRouter.shared makeToast:@"Token copied".localized];

@@ -11,8 +11,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CHFormCodeItem : CHFormValueItem
 
-+ (instancetype)itemWithName:(NSString *)name title:(NSString *)title code:(nullable id)code;
-
 
 @end
 

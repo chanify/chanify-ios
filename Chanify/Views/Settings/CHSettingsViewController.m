@@ -48,12 +48,12 @@
     CHForm *form = [CHForm formWithTitle:self.title];
     // ACCOUNT
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"ACCOUNT".localized])];
-    item = [CHFormCodeItem itemWithName:@"user" title:@"User".localized code:CHLogic.shared.me.uid];
+    item = [CHFormCodeItem itemWithName:@"user" title:@"User".localized value:CHLogic.shared.me.uid];
     item.action = ^(CHFormItem *itm) {
         [CHRouter.shared routeTo:@"/page/user-info"];
     };
     [section addFormItem:item];
-    item = [CHFormCodeItem itemWithName:@"device" title:@"Device".localized code:CHDevice.shared.uuid.hex];
+    item = [CHFormCodeItem itemWithName:@"device" title:@"Device".localized value:CHDevice.shared.uuid.hex];
     item.action = ^(CHFormItem *itm) {};
     [section addFormItem:item];
     

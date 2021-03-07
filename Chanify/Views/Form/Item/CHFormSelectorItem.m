@@ -33,6 +33,7 @@
 
 - (instancetype)initWithName:(NSString *)name title:(NSString *)title options:(NSArray<CHFormOption *> *)options {
     if (self = [super initWithName:name title:title value:nil]) {
+        _required = NO;
         _selected = nil;
         _options = options;
         self.action = ^(CHFormSelectorItem *item) {
@@ -79,9 +80,9 @@
 
 - (void)itemSelected:(CHFormOption *)option {
     if (self.selected != option.value) {
-        if (self.onChanged != nil) {
-            self.onChanged(self, self.selected, option.value);
-        }
+        id oldValue = self.selected;
+        self.selected = option.value;
+        [self.section.form notifyItemValueHasChanged:self oldValue:oldValue newValue:option.value];
         [self setSelected:option.value];
         [self.section.form.viewController reloadItem:self];
     }

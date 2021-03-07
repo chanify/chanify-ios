@@ -32,6 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray<CHFormInputItem *> *)inputItems;
 - (NSDictionary<NSString *, id> *)formValues;
 
+- (void)notifyItemValueHasChanged:(id<CHFormEditableItem>)item oldValue:(id)oldValue newValue:(id)newValue;
+
 
 @end
 

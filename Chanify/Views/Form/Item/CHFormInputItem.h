@@ -14,12 +14,12 @@ typedef NS_ENUM(NSInteger, CHFormInputType) {
     CHFormInputTypeAccount = 1,
 };
 
-@interface CHFormInputItem : CHFormValueItem
+@interface CHFormInputItem : CHFormValueItem<CHFormEditableItem>
 
 @property (nonatomic, assign) BOOL required;
+@property (nonatomic, nullable, copy) CHFormItemOnChangedBlock onChanged;
 @property (nonatomic, assign) CHFormInputType inputType;
 
-+ (instancetype)itemWithName:(NSString *)name title:(NSString *)title;
 - (void)startEditing;
 - (__kindof UIView *)editView;
 

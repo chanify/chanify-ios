@@ -16,10 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)itemWithName:(NSString *)name title:(NSString *)title value:(nullable id)value;
 + (instancetype)itemWithName:(NSString *)name title:(NSString *)title;
-- (instancetype)initWithName:(NSString *)name title:(NSString *)title value:(nullable id)value;
+- (instancetype)initWithName:(NSString *)name title:(NSString *)title value:(nullable id)value NS_DESIGNATED_INITIALIZER;
 - (void)setIcon:(nullable UIImage *)icon;
 - (UITableViewCellAccessoryType)accessoryType;
-- (NSString *)textValue;
+- (__kindof NSString *)textValue;
 
 
 @end

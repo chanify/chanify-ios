@@ -52,7 +52,7 @@
     return UITableViewCellAccessoryNone;
 }
 
-- (NSString *)textValue {
+- (__kindof NSString *)textValue {
     if (self.value != nil) {
         if ([self.value isKindOfClass:NSString.class]) {
             return self.value;

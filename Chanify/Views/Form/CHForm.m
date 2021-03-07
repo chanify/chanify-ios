@@ -10,7 +10,8 @@
 @interface CHForm ()
 
 @property (nonatomic, readonly, strong) NSMutableArray<CHFormSection *> *sectionList;
-@property (nonatomic, readonly, strong) NSMutableArray<CHFormInputItem *> *editItems;
+@property (nonatomic, readonly, strong) NSMutableArray<CHFormInputItem *> *inputItemList;
+@property (nonatomic, readonly, strong) NSHashTable<id<CHFormEditableItem>> *editItems;
 
 @end
 
@@ -24,7 +25,8 @@
     if (self = [super init]) {
         _title = title;
         _sectionList = [NSMutableArray new];
-        _editItems = [NSMutableArray new];
+        _inputItemList = [NSMutableArray new];
+        _editItems = [NSHashTable weakObjectsHashTable];
         _assignFirstResponderOnShow = NO;
         _errorItems = [NSHashTable weakObjectsHashTable];
     }
@@ -32,12 +34,18 @@
 }
 
 - (void)reloadData {
+    [self.errorItems removeAllObjects];
     [self.editItems removeAllObjects];
+    [self.inputItemList removeAllObjects];
     for (CHFormSection *section in self.sectionList) {
         for (CHFormItem *item in section.allItems) {
             [item updateStatus];
             if ([item isKindOfClass:CHFormInputItem.class] && !item.isHidden) {
-                [self.editItems addObject:(CHFormInputItem *)item];
+                [self.inputItemList addObject:(CHFormInputItem *)item];
+            }
+            if ([item conformsToProtocol:@protocol(CHFormEditableItem)]) {
+                id<CHFormEditableItem> itm = (id<CHFormEditableItem>)item;
+                [self.editItems addObject:itm];
             }
         }
     }
@@ -64,15 +72,37 @@
 }
 
 - (NSArray<CHFormInputItem *> *)inputItems {
-    return self.editItems;
+    return self.inputItemList;
 }
 
 - (NSDictionary<NSString *, id> *)formValues {
     NSMutableDictionary<NSString *, id> *values = [NSMutableDictionary new];
-    for (CHFormInputItem *item in self.inputItems) {
+    for (id<CHFormEditableItem> item in self.editItems) {
         [values setValue:item.value forKey:item.name];
     }
     return values;
+}
+
+- (void)notifyItemValueHasChanged:(id<CHFormEditableItem>)item oldValue:(id)oldValue newValue:(id)newValue {
+    [self validateItemValue:item];
+    if (item.onChanged != nil) {
+        item.onChanged(item, oldValue, newValue);
+    }
+    if ([self.delegate respondsToSelector:@selector(formItemValueHasChanged:oldValue:newValue:)]) {
+        [self.delegate formItemValueHasChanged:item oldValue:oldValue newValue:newValue];
+    }
+}
+
+#pragma mark - Private Methods
+- (void)validateItemValue:(id<CHFormEditableItem>)item {
+    if (item.required) {
+        id value = item.value;
+        if (value == nil || [value length] <= 0) {
+            [self.errorItems addObject:self];
+            return;
+        }
+    }
+    [self.errorItems removeObject:self];
 }
 
 

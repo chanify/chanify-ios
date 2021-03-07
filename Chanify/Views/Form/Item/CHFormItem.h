@@ -9,11 +9,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#define kCHFormTextFieldTag     1000
+#define kCHFormImageViewTag     1001
+
 @class CHFormItem;
 @class CHFormSection;
 
 typedef void (^CHFormItemActionBlock)(__kindof CHFormItem *item);
-typedef void (^CHFormItemOnChangedBlock)(__kindof CHFormItem *item, __nullable id newValue, __nullable id oldValue);
+typedef void (^CHFormItemOnChangedBlock)(__kindof CHFormItem *item, __nullable id oldValue, __nullable id newValue);
 
 @interface CHFormItem : NSObject
 
@@ -25,9 +28,19 @@ typedef void (^CHFormItemOnChangedBlock)(__kindof CHFormItem *item, __nullable i
 - (instancetype)initWithName:(NSString *)name;
 - (id<UIContentConfiguration>)contentConfiguration;
 - (UITableViewCellAccessoryType)accessoryType;
+- (void)prepareCell:(UITableViewCell *)cell;
 - (void)updateStatus;
 - (BOOL)isHidden;
 
+
+@end
+
+@protocol CHFormEditableItem <NSObject>
+
+@property (nonatomic, readonly, strong) NSString *name;
+@property (nonatomic, nullable, strong) id value;
+@property (nonatomic, assign) BOOL required;
+@property (nonatomic, nullable, copy) CHFormItemOnChangedBlock onChanged;
 
 @end
 

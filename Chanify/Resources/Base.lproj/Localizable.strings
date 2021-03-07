@@ -21,6 +21,7 @@
 "New Channel"="New Channel";
 "Code"="Code";
 "Name"="Name";
+"Icon"="Icon";
 "Endpoint"="Endpoint";
 "Create channel failed"="Create channel failed";
 "Channel Detail"="Channel Detail";

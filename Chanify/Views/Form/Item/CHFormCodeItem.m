@@ -10,14 +10,10 @@
 
 @implementation CHFormCodeItem
 
-+ (instancetype)itemWithName:(NSString *)name title:(NSString *)title code:(nullable id)code {
-    return [[self.class alloc] initWithName:name title:title code:code];
-}
-
-- (instancetype)initWithName:(NSString *)name title:(NSString *)title code:(nullable id)code {
+- (instancetype)initWithName:(NSString *)name title:(NSString *)title value:(nullable id)value {
     if (self = [super initWithName:name title:title value:nil]) {
         self.configuration.secondaryTextProperties.font = [UIFont fontWithName:@kCHCodeFontName size:14];
-        self.value = code;
+        self.value = value ?: @"";
     }
     return self;
 }

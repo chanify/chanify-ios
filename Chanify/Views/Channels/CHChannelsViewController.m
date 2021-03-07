@@ -43,7 +43,7 @@ static NSString *const cellIdentifier = @"chan";
             [CHRouter.shared routeTo:@"/page/channel/new"];
         }]
     ];
-    UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithPrimaryAction:actions[1]];
+    UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithPrimaryAction:actions[0]];
     barItem.menu = [UIMenu menuWithChildren:actions];
     self.navigationItem.rightBarButtonItem = barItem;
 
