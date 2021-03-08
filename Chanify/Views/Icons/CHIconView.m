@@ -21,7 +21,7 @@
     if (self = [super initWithFrame:frame]) {
         _image = nil;
         _iconImage = nil;
-        _tintColor = UIColor.whiteColor;
+        self.tintColor = UIColor.whiteColor;
         self.clipsToBounds = YES;
         self.backgroundColor = CHTheme.shared.tintColor;
         self.contentMode = UIViewContentModeScaleAspectFit;
@@ -32,15 +32,27 @@
 - (void)setImage:(NSString *)image {
     if (![self.image isEqualToString:image?:@""]) {
         _image = image;
-        _iconImage = [self.symbolImage imageWithTintColor:self.tintColor];
-        [self setNeedsDisplay];
-    }
-}
+        UIImage *symbolImage = nil;
+        UIColor *tintColor = nil;
+        UIColor *backgroundColor = nil;
+        NSURLComponents *components = [NSURLComponents componentsWithString:image?:@""];
+        if ([components.scheme isEqualToString:@"sys"]) {
+            if (components.host.length > 0) {
+                symbolImage = [UIImage systemImageNamed:components.host];
+            }
+            for (NSURLQueryItem *item in components.queryItems) {
+                if (item.value.length > 0) {
+                    if ([item.name isEqualToString:@"c"]) {
+                        tintColor = [UIColor colorWithRGB:(uint32_t)item.value.uint64Hex];
+                    } else if ([item.name isEqualToString:@"b"]) {
+                        backgroundColor = [UIColor colorWithRGB:(uint32_t)item.value.uint64Hex];
+                    }
+                }
 
-- (void)setTintColor:(UIColor *)tintColor {
-    if (![_tintColor isEqual:tintColor]) {
-        _tintColor = tintColor;
-        _iconImage = [self.symbolImage imageWithTintColor:self.tintColor];
+            }
+        }
+        _iconImage = [(symbolImage?:[UIImage imageNamed:@"Channel"]) imageWithTintColor:(tintColor ?: self.tintColor)];
+        self.backgroundColor = (backgroundColor ?: CHTheme.shared.tintColor);
         [self setNeedsDisplay];
     }
 }
@@ -61,18 +73,6 @@
         rc.size.height -= rc.origin.y * 2.0;
         [self.iconImage drawInRect:AVMakeRectWithAspectRatioInsideRect(self.iconImage.size, rc)];
     }
-}
-
-#pragma mark - Private Methods
-- (UIImage *)symbolImage {
-    UIImage *symbolImage = nil;
-    if (self.image.length > 0) {
-        symbolImage = [UIImage systemImageNamed:self.image];
-    }
-    if (symbolImage == nil) {
-        symbolImage = [UIImage imageNamed:@"Channel"];
-    }
-    return symbolImage;
 }
 
 

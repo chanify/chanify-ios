@@ -11,7 +11,7 @@
 
 + (nullable instancetype)dateFromMID:(NSString *)mid {
     if (mid.length > 0) {
-        uint64_t t = mid.uint64Value;
+        uint64_t t = mid.uint64Hex;
         if (t > 0) {
             return [NSDate dateWithTimeIntervalSince1970:t/1000000000.0];
         }

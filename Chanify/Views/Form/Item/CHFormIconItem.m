@@ -32,7 +32,7 @@
     [super setValue:value];
     CHIconView *iconView = [self iconViewForCell:[self.section.form.viewController cellForItem:self]];
     if (iconView != nil) {
-        iconView.image = [self formatImage:self.value];
+        iconView.image = self.value;
     }
 }
 
@@ -40,15 +40,12 @@
     [super prepareCell:cell];
     CHIconView *iconView = [self iconViewForCell:cell];
     if (iconView != nil) {
-        iconView.image = [self formatImage:self.value];
+        iconView.image = self.value;
     }
 }
 
 #pragma mark - CHIconsViewControllerDelegate
 - (void)iconChanged:(NSString *)icon {
-    if (icon.length > 0) {
-        icon = [@"sys://" stringByAppendingString:icon];
-    }
     if (![self.value isEqualToString:icon]) {
         id old = self.value;
         self.value = icon;
@@ -58,7 +55,7 @@
 
 #pragma mark - Private Methods
 - (void)doSelectIcon {
-    CHIconsViewController *vc = [[CHIconsViewController alloc] initWithIcon:[self formatImage:self.value]];
+    CHIconsViewController *vc = [[CHIconsViewController alloc] initWithIcon:self.value];
     vc.delegate = self;
     [CHRouter.shared presentViewController:vc animated:YES];
 }
@@ -82,16 +79,6 @@
         }
     }
     return iconView;
-}
-
-- (NSString *)formatImage:(NSString *)value {
-    NSString *icon = value;
-    if ([icon hasPrefix:@"sys://"]) {
-        icon = [icon substringFromIndex:6];
-    } else {
-        icon = @"";
-    }
-    return icon;
 }
 
 

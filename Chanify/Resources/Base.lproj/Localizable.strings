@@ -22,6 +22,9 @@
 "Code"="Code";
 "Name"="Name";
 "Icon"="Icon";
+"Shape"="Shape";
+"Color"="Color";
+"Background"="Background";
 "Endpoint"="Endpoint";
 "Create channel failed"="Create channel failed";
 "Channel Detail"="Channel Detail";

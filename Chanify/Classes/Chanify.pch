@@ -48,6 +48,10 @@
 
 #ifdef CHUI_ENABLED
 
+#if __has_include(<UIKit/UIColor.h>)
+#   import "UIColor+CHExt.h"
+#endif
+
 #if __has_include(<UIKit/UIView.h>)
 #   import "UIView+CHExt.h"
 #endif

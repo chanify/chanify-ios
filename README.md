@@ -5,6 +5,18 @@
 
 Chanify is a simple messages app.
 
+## Getting Started
+
+1. Install [iOS App](https://itunes.apple.com/us/app/id1531546573).
+2. Get token from channel detail
+   
+    ![Get token](Doc/GetToken.gif)
+
+3. Send message
+4. You can create your channel
+
+    ![NewChannel](Doc/NewChannel.gif)
+
 ## Usage
 
 #### Http API

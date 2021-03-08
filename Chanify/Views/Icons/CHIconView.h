@@ -12,7 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CHIconView : UIView
 
 @property (nonatomic, strong) NSString *image;
-@property (nonatomic, strong) UIColor *tintColor;
 
 
 @end

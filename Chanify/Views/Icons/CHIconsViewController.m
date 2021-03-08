@@ -8,6 +8,7 @@
 #import "CHIconsViewController.h"
 #import <Masonry/Masonry.h>
 #import "CHIconConfiguration.h"
+#import "CHColorConfiguration.h"
 #import "CHIconView.h"
 #import "CHTheme.h"
 
@@ -18,9 +19,14 @@ typedef NSDiffableDataSourceSnapshot<NSString *, NSString *> CHIconDiffableSnaps
 
 @property (nonatomic, readonly, strong) NSString *iconImage;
 @property (nonatomic, readonly, strong) CHIconView *iconView;
-@property (nonatomic, readonly, strong) UICollectionView *listView;
-@property (nonatomic, readonly, strong) CHIconDataSource *dataSource;
-@property (nonatomic, readonly, strong) NSArray<NSString *> *icons;
+@property (nonatomic, readonly, strong) UICollectionView *shapesView;
+@property (nonatomic, readonly, strong) UICollectionView *colorsView;
+@property (nonatomic, readonly, strong) UICollectionView *bgrndsView;
+@property (nonatomic, readonly, strong) CHIconDataSource *shapesDataSource;
+@property (nonatomic, readonly, strong) CHIconDataSource *colorsDataSource;
+@property (nonatomic, readonly, strong) CHIconDataSource *bgrndsDataSource;
+@property (nonatomic, readonly, strong) NSArray<UIView *> *panelViews;
+@property (nonatomic, readonly, strong) UISegmentedControl *segmentedControl;
 
 @end
 
@@ -28,7 +34,6 @@ typedef NSDiffableDataSourceSnapshot<NSString *, NSString *> CHIconDiffableSnaps
 
 - (instancetype)initWithParameters:(NSDictionary *)params {
     if (self = [super init]) {
-        _icons = self.loadIcons;
         _iconImage = [params valueForKey:@"icon"] ?: @"";
     }
     return self;
@@ -46,15 +51,17 @@ typedef NSDiffableDataSourceSnapshot<NSString *, NSString *> CHIconDiffableSnaps
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    CHTheme *theme = CHTheme.shared;
+    
     self.title = @"Icon".localized;
     
-    self.view.backgroundColor = CHTheme.shared.groupedBackgroundColor;
+    self.view.backgroundColor = theme.groupedBackgroundColor;
     
     UIView *panel = [UIView new];
     [self.view addSubview:panel];
     [panel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
-        make.height.equalTo(self.view.mas_height).multipliedBy(0.5);
+        make.height.equalTo(self.view.mas_height).multipliedBy(0.4);
         make.left.right.equalTo(self.view);
     }];
     
@@ -66,44 +73,264 @@ typedef NSDiffableDataSourceSnapshot<NSString *, NSString *> CHIconDiffableSnaps
     }];
     iconView.image = self.iconImage;
 
-    UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
-    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    layout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
-    layout.minimumInteritemSpacing = 5;
-    layout.minimumLineSpacing = 10;
-    UICollectionView *listView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-    [self.view addSubview:(_listView = listView)];
-    [listView mas_makeConstraints:^(MASConstraintMaker *make) {
+    UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Shape".localized, @"Color".localized, @"Background".localized]];
+    [self.view addSubview:(_segmentedControl = segmentedControl)];
+    [segmentedControl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(panel.mas_bottom);
-        make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
         make.left.right.equalTo(self.view);
+        make.height.mas_equalTo(40);
     }];
-    listView.backgroundColor = CHTheme.shared.groupedBackgroundColor;
-    listView.alwaysBounceHorizontal = YES;
-    listView.pagingEnabled = YES;
-    listView.delegate = self;
+    [segmentedControl addTarget:self action:@selector(actionSegmentChanged:) forControlEvents:UIControlEventValueChanged];
 
-    UICollectionViewCellRegistration *cellRegistration = [UICollectionViewCellRegistration registrationWithCellClass:UICollectionViewCell.class configurationHandler:^(UICollectionViewCell *cell, NSIndexPath *indexPath, NSString *item) {
-        cell.contentConfiguration = [CHIconConfiguration configurationWithIcon:item tintColor:UIColor.whiteColor];
-    }];
-    _dataSource = [[CHIconDataSource alloc] initWithCollectionView:listView cellProvider:^UICollectionViewCell *(UICollectionView *collectionView, NSIndexPath *indexPath, NSString *item) {
-        return [collectionView dequeueConfiguredReusableCellWithRegistration:cellRegistration forIndexPath:indexPath item:item];
-    }];
-
-    CHIconDiffableSnapshot *snapshot = [CHIconDiffableSnapshot new];
-    [snapshot appendSectionsWithIdentifiers:@[@""]];
-    [snapshot appendItemsWithIdentifiers:self.icons];
-    [self.dataSource applySnapshot:snapshot animatingDifferences:NO];
+    _panelViews = @[self.shapesCollectionView, self.colorsCollectionView, self.bgrndsCollectionView];
+    NSInteger i = 0;
+    for (UIView *view in self.panelViews) {
+        view.tag = i++;
+    }
+    segmentedControl.selectedSegmentIndex = 0;
 }
 
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-    self.iconView.image = [self.dataSource itemIdentifierForIndexPath:indexPath];
+    if (collectionView.tag == 0) {
+        NSString *item = [self.shapesDataSource itemIdentifierForIndexPath:indexPath];
+        if (item.length <= 0) {
+            self.iconView.image = @"";
+        } else {
+            NSURLComponents *components = [NSURLComponents componentsWithString:self.iconView.image];
+            if (![components.scheme isEqualToString:@"sys"]) {
+                components.scheme = @"sys";
+            }
+            components.host = [self.shapesDataSource itemIdentifierForIndexPath:indexPath];
+            self.iconView.image = components.URL.absoluteString;
+        }
+    } else if (collectionView.tag == 1) {
+        NSString *item = [self.colorsDataSource itemIdentifierForIndexPath:indexPath];
+        NSURLComponents *components = [NSURLComponents componentsWithString:self.iconView.image];
+        components.scheme = @"sys";
+        NSMutableArray<NSURLQueryItem *> *items = [NSMutableArray new];
+        for (NSURLQueryItem *itm in components.queryItems) {
+            if (![itm.name isEqualToString:@"c"]) {
+                [items addObject:itm];
+            }
+        }
+        if (item.length > 0) {
+            [items addObject:[NSURLQueryItem queryItemWithName:@"c" value:item]];
+        }
+        if (components.host.length <= 0 && items.count <= 0) {
+            self.iconView.image = @"";
+        } else {
+            components.queryItems = (items.count > 0 ? items : nil);
+            self.iconView.image = components.URL.absoluteString;
+        }
+    } else if (collectionView.tag == 2) {
+        NSString *item = [self.bgrndsDataSource itemIdentifierForIndexPath:indexPath];
+        NSURLComponents *components = [NSURLComponents componentsWithString:self.iconView.image];
+        components.scheme = @"sys";
+        NSMutableArray<NSURLQueryItem *> *items = [NSMutableArray new];
+        for (NSURLQueryItem *itm in components.queryItems) {
+            if (![itm.name isEqualToString:@"b"]) {
+                [items addObject:itm];
+            }
+        }
+        if (item.length > 0) {
+            [items addObject:[NSURLQueryItem queryItemWithName:@"b" value:item]];
+        }
+        if (components.host.length <= 0 && items.count <= 0) {
+            self.iconView.image = @"";
+        } else {
+            components.queryItems = (items.count > 0 ? items : nil);
+            self.iconView.image = components.URL.absoluteString;
+        }
+    }
+}
+
+#pragma mark - Action Methods
+- (void)actionSegmentChanged:(UISegmentedControl *)segment {
+    NSInteger selected = segment.selectedSegmentIndex;
+    for (NSInteger i = 0; i < self.panelViews.count; i++) {
+        [[self.panelViews objectAtIndex:i] setHidden:(selected != i ? YES : NO)];
+    }
 }
 
 #pragma mark - Private Methods
-- (NSArray<NSString *> *)loadIcons {
+- (UICollectionView *)shapesCollectionView {
+    if (_shapesView == nil) {
+        UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
+        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        layout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
+        layout.minimumInteritemSpacing = 5;
+        layout.minimumLineSpacing = 10;
+        UICollectionView *shapesView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+        [self.view addSubview:(_shapesView = shapesView)];
+        [shapesView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.segmentedControl.mas_bottom);
+            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
+            make.left.right.equalTo(self.view);
+        }];
+        shapesView.backgroundColor = CHTheme.shared.groupedBackgroundColor;
+        shapesView.alwaysBounceHorizontal = YES;
+        shapesView.pagingEnabled = YES;
+        shapesView.delegate = self;
+
+        UICollectionViewCellRegistration *cellRegistration = [UICollectionViewCellRegistration registrationWithCellClass:UICollectionViewCell.class configurationHandler:^(UICollectionViewCell *cell, NSIndexPath *indexPath, NSString *item) {
+            NSString *icon = (item.length > 0 ? [@"sys://" stringByAppendingString:item] : @"");
+            cell.contentConfiguration = [CHIconConfiguration configurationWithIcon:icon];
+        }];
+        _shapesDataSource = [[CHIconDataSource alloc] initWithCollectionView:shapesView cellProvider:^UICollectionViewCell *(UICollectionView *collectionView, NSIndexPath *indexPath, NSString *item) {
+            return [collectionView dequeueConfiguredReusableCellWithRegistration:cellRegistration forIndexPath:indexPath item:item];
+        }];
+
+        CHIconDiffableSnapshot *snapshot = [CHIconDiffableSnapshot new];
+        [snapshot appendSectionsWithIdentifiers:@[@""]];
+        [snapshot appendItemsWithIdentifiers:self.icons];
+        [self.shapesDataSource applySnapshot:snapshot animatingDifferences:NO];
+    }
+    return _shapesView;
+}
+
+- (UICollectionView *)colorsCollectionView {
+    if (_colorsView == nil) {
+        UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
+        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        layout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
+        layout.minimumInteritemSpacing = 5;
+        layout.minimumLineSpacing = 10;
+        UICollectionView *colorsView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+        [self.view addSubview:(_colorsView = colorsView)];
+        [colorsView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.segmentedControl.mas_bottom);
+            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
+            make.left.right.equalTo(self.view);
+        }];
+        colorsView.backgroundColor = CHTheme.shared.groupedBackgroundColor;
+        colorsView.alwaysBounceHorizontal = YES;
+        colorsView.pagingEnabled = YES;
+        colorsView.delegate = self;
+        [colorsView setHidden:YES];
+
+        UICollectionViewCellRegistration *cellRegistration = [UICollectionViewCellRegistration registrationWithCellClass:UICollectionViewCell.class configurationHandler:^(UICollectionViewCell *cell, NSIndexPath *indexPath, NSString *item) {
+            CHColorConfiguration *colorConfiguration = [CHColorConfiguration configurationWithColor:item];
+            colorConfiguration.defaultColor = UIColor.whiteColor;
+            cell.contentConfiguration = colorConfiguration;
+        }];
+        _colorsDataSource = [[CHIconDataSource alloc] initWithCollectionView:colorsView cellProvider:^UICollectionViewCell *(UICollectionView *collectionView, NSIndexPath *indexPath, NSString *item) {
+            return [collectionView dequeueConfiguredReusableCellWithRegistration:cellRegistration forIndexPath:indexPath item:item];
+        }];
+
+        CHIconDiffableSnapshot *snapshot = [CHIconDiffableSnapshot new];
+        [snapshot appendSectionsWithIdentifiers:@[@""]];
+        [snapshot appendItemsWithIdentifiers:self.colors];
+        [self.colorsDataSource applySnapshot:snapshot animatingDifferences:NO];
+    }
+    return _colorsView;
+}
+
+- (UICollectionView *)bgrndsCollectionView {
+    if (_bgrndsView == nil) {
+        UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
+        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        layout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
+        layout.minimumInteritemSpacing = 5;
+        layout.minimumLineSpacing = 10;
+        UICollectionView *bgrndsView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+        [self.view addSubview:(_bgrndsView = bgrndsView)];
+        [bgrndsView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.segmentedControl.mas_bottom);
+            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
+            make.left.right.equalTo(self.view);
+        }];
+        bgrndsView.backgroundColor = CHTheme.shared.groupedBackgroundColor;
+        bgrndsView.alwaysBounceHorizontal = YES;
+        bgrndsView.pagingEnabled = YES;
+        bgrndsView.delegate = self;
+        [bgrndsView setHidden:YES];
+
+        UICollectionViewCellRegistration *cellRegistration = [UICollectionViewCellRegistration registrationWithCellClass:UICollectionViewCell.class configurationHandler:^(UICollectionViewCell *cell, NSIndexPath *indexPath, NSString *item) {
+            CHColorConfiguration *colorConfiguration = [CHColorConfiguration configurationWithColor:item];
+            colorConfiguration.defaultColor = CHTheme.shared.tintColor;
+            cell.contentConfiguration = colorConfiguration;
+        }];
+        _bgrndsDataSource = [[CHIconDataSource alloc] initWithCollectionView:bgrndsView cellProvider:^UICollectionViewCell *(UICollectionView *collectionView, NSIndexPath *indexPath, NSString *item) {
+            return [collectionView dequeueConfiguredReusableCellWithRegistration:cellRegistration forIndexPath:indexPath item:item];
+        }];
+
+        CHIconDiffableSnapshot *snapshot = [CHIconDiffableSnapshot new];
+        [snapshot appendSectionsWithIdentifiers:@[@""]];
+        [snapshot appendItemsWithIdentifiers:self.bgrnds];
+        [self.bgrndsDataSource applySnapshot:snapshot animatingDifferences:NO];
+    }
+    return _bgrndsView;
+}
+
+- (NSArray<NSString *> *)colors {
+    return @[
+        @"",
+        @"000000",
+        @"007aff",
+        @"34c759",
+        @"5856d6",
+        @"ff9500",
+        @"ff2d55",
+        @"af52de",
+        @"ff3b30",
+        @"ffcc00",
+    ];
+}
+
+- (NSArray<NSString *> *)bgrnds {
+    return @[
+        @"",
+        @"000000",
+        @"ffffff",
+        @"34c759",
+        @"5856d6",
+        @"ff9500",
+        @"ff2d55",
+        @"af52de",
+        @"ff3b30",
+        @"ffcc00",
+        @"264653",
+        @"2a9d8f",
+        @"e9c46a",
+        @"f4a261",
+        @"fde8cd",
+        @"e76f51",
+        @"433520",
+        @"025955",
+        @"440a67",
+        @"93329e",
+        @"b4aee8",
+        @"ffe3fe",
+        @"c8c6a7",
+        @"92967d",
+        @"6e7c7c",
+        @"435560",
+        @"ffefa1",
+        @"94ebcd",
+        @"6ddccf",
+        @"822659",
+        @"b34180",
+        @"e36bae",
+        @"f8a1d1",
+        @"493323",
+        @"91684a",
+        @"eaac7f",
+        @"ffdf91",
+        @"52057b",
+        @"892cdc",
+        @"bc6ff1",
+        @"e23e57",
+        @"522546",
+        @"3490de",
+        @"769fcd",
+        @"b9d7ea",
+        @"d6e6f2",
+    ];
+}
+
+- (NSArray<NSString *> *)icons {
     return @[
         @"",
         @"a.circle",
@@ -933,11 +1160,18 @@ typedef NSDiffableDataSourceSnapshot<NSString *, NSString *> CHIconDiffableSnaps
         @"printer.dotmatrix.fill.and.paper.fill",
         @"printer.fill",
         @"printer.fill.and.paper.fill",
+        @"slowmo",
         @"smoke",
         @"smoke.fill",
         @"snow",
         @"sparkle",
         @"sparkles",
+        @"speedometer",
+        @"sportscourt",
+        @"sportscourt.fill",
+        @"square.stack.fill",
+        @"square.tophalf.fill",
+        @"squares.below.rectangle",
         @"star",
         @"star.circle",
         @"star.circle.fill",
@@ -949,6 +1183,9 @@ typedef NSDiffableDataSourceSnapshot<NSString *, NSString *> CHIconDiffableSnaps
         @"staroflife.circle.fill",
         @"staroflife.fill",
         @"stethoscope",
+        @"stopwatch",
+        @"stopwatch.fill",
+        @"studentdesk",
         @"suit.club",
         @"suit.club.fill",
         @"suit.diamond",
@@ -969,16 +1206,24 @@ typedef NSDiffableDataSourceSnapshot<NSString *, NSString *> CHIconDiffableSnaps
         @"sunrise.fill",
         @"sunset",
         @"sunset.fill",
+        @"switch.2",
+        @"tablecells",
+        @"tablecells.fill",
         @"tag",
         @"tag.circle",
         @"tag.circle.fill",
         @"tag.fill",
+        @"target",
+        @"terminal",
+        @"terminal.fill",
         @"text.book.closed",
         @"text.book.closed.fill",
         @"thermometer",
         @"thermometer.snowflake",
         @"thermometer.sun",
         @"thermometer.sun.fill",
+        @"ticket",
+        @"ticket.fill",
         @"timer",
         @"timer.square",
         @"togglepower",
@@ -994,8 +1239,34 @@ typedef NSDiffableDataSourceSnapshot<NSString *, NSString *> CHIconDiffableSnaps
         @"trash.circle",
         @"trash.circle.fill",
         @"trash.fill",
+        @"tray",
+        @"tray.2",
+        @"tray.2.fill",
+        @"tray.circle",
+        @"tray.circle.fill",
+        @"tray.fill",
+        @"tray.full",
+        @"tray.full.fill",
+        @"tropicalstorm",
+        @"tuningfork",
+        @"tv",
+        @"tv.and.hifispeaker.fill",
+        @"tv.and.mediabox",
+        @"tv.music.note",
+        @"tv.music.note.fill",
         @"umbrella",
         @"umbrella.fill",
+        @"wake",
+        @"wallet.pass",
+        @"wallet.pass.fill",
+        @"waveform",
+        @"waveform.circle",
+        @"waveform.circle.fill",
+        @"waveform.path",
+        @"waveform.path.ecg",
+        @"waveform.path.ecg.rectangle",
+        @"waveform.path.ecg.rectangle.fill",
+        @"wifi",
         @"wrench",
         @"wrench.and.screwdriver",
         @"wrench.and.screwdriver.fill",

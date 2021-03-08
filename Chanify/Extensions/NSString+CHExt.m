@@ -52,7 +52,7 @@
     return "";
 }
 
-- (uint64_t)uint64Value {
+- (uint64_t)uint64Hex {
     NSUInteger len = self.length;
     if (len > 0) {
         uint64_t x = 0;

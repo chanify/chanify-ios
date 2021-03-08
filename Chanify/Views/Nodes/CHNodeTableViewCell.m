@@ -7,14 +7,14 @@
 
 #import "CHNodeTableViewCell.h"
 #import <Masonry/Masonry.h>
-#import "CHAvatarView.h"
+#import "CHIconView.h"
 #import "CHRouter.h"
 #import "CHLogic.h"
 #import "CHTheme.h"
 
 @interface CHNodeTableViewCell ()
 
-@property (nonatomic, readonly, strong) CHAvatarView *iconView;
+@property (nonatomic, readonly, strong) CHIconView *iconView;
 @property (nonatomic, readonly, strong) UILabel *nameLabel;
 
 @end
@@ -25,7 +25,7 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         CHTheme *theme = CHTheme.shared;
 
-        CHAvatarView *iconView = [CHAvatarView new];
+        CHIconView *iconView = [CHIconView new];
         [self.contentView addSubview:(_iconView = iconView)];
         [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.contentView).offset(16);

@@ -9,14 +9,14 @@
 #import <Masonry/Masonry.h>
 #import "CHUserDataSource.h"
 #import "CHMessageModel.h"
-#import "CHAvatarView.h"
+#import "CHIconView.h"
 #import "CHRouter.h"
 #import "CHLogic.h"
 #import "CHTheme.h"
 
 @interface CHChannelTableViewCell ()
 
-@property (nonatomic, readonly, strong) CHAvatarView *iconView;
+@property (nonatomic, readonly, strong) CHIconView *iconView;
 @property (nonatomic, readonly, strong) UILabel *titleLabel;
 @property (nonatomic, readonly, strong) UILabel *detailLabel;
 @property (nonatomic, readonly, strong) UILabel *dateLabel;
@@ -29,7 +29,7 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         CHTheme *theme = CHTheme.shared;
 
-        CHAvatarView *iconView = [CHAvatarView new];
+        CHIconView *iconView = [CHIconView new];
         [self.contentView addSubview:(_iconView = iconView)];
         [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.contentView).offset(16);

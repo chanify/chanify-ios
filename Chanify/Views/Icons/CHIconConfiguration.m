@@ -27,34 +27,34 @@
 
 - (void)setConfiguration:(CHIconConfiguration *)configuration {
     _configuration = configuration;
-    NSString *name = configuration.icon.lowercaseString;
-    name = [name stringByReplacingOccurrencesOfString:@" " withString:@"-"];
-    self.image = name;
-    self.tintColor = configuration.tintColor;
+    self.tintColor = CHTheme.shared.minorLabelColor;
+    self.image = configuration.icon;
+    self.backgroundColor = UIColor.clearColor;
 }
 
 @end
 
 @implementation CHIconConfiguration
 
-+ (instancetype)configurationWithIcon:(NSString *)icon tintColor:(UIColor *)tintColor {
-    return [[self.class alloc] initWithIcon:icon tintColor:tintColor];
++ (instancetype)configurationWithIcon:(NSString *)icon {
+    return [[self.class alloc] initWithIcon:icon];
 }
 
-- (instancetype)initWithIcon:(NSString *)icon tintColor:(UIColor *)tintColor {
+- (instancetype)initWithIcon:(NSString *)icon {
     if (self = [super init]) {
         _icon = icon;
-        _tintColor = tintColor;
     }
     return self;
 }
 
 - (nonnull id)copyWithZone:(nullable NSZone *)zone {
-    return [[self.class allocWithZone:zone] initWithIcon:self.icon tintColor:self.tintColor];
+    return [[self.class allocWithZone:zone] initWithIcon:self.icon];
 }
 
 - (nonnull CHIconContentView *)makeContentView {
-    return [[CHIconContentView alloc] initWithConfiguration:self];
+    CHIconContentView *iconView = [[CHIconContentView alloc] initWithConfiguration:self];
+    iconView.backgroundColor = UIColor.clearColor;
+    return iconView;
 }
 
 - (nonnull instancetype)updatedConfigurationForState:(nonnull id<UIConfigurationState>)state {

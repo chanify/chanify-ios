@@ -49,7 +49,7 @@
 @implementation CHDateCellConfiguration
 
 + (instancetype)cellConfiguration:(NSString *)mid {
-    uint64_t t = mid.uint64Value;
+    uint64_t t = mid.uint64Hex;
     return [[self.class alloc] initWithMID:[NSString stringWithFormat:@"%016llX", (t > 0 ? t - 1 : 0)]];
 }
 
