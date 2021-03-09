@@ -89,6 +89,10 @@
     [self.dataSource loadLatestMessage:YES];
 }
 
+- (void)logicMessageDeleted:(CHMessageModel *)model {
+    [self.dataSource deleteMessage:model animated:YES];
+}
+
 #pragma mark - Action Methods
 - (void)actionInfo:(id)sender {
     [CHRouter.shared routeTo:@"/page/channel/detail" withParams:@{ @"cid": self.model.cid }];

@@ -226,6 +226,20 @@
     return model;
 }
 
+- (BOOL)deleteMessage:(NSString *)mid {
+    if (mid.length > 0) {
+        [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+            NSData *cid = [db dataForQuery:@"SELECT `cid` FROM `channels` WHERE `mid`=? LIMIT 1;", mid];
+            [db executeUpdate:@"DELETE FROM `messages` WHERE `mid`=? LIMIT 1;", mid];
+            if (cid.length > 0) {
+                NSString *msg = [db stringForQuery:@"SELECT `mid` FROM `messages` WHERE `cid`=? AND `mid`<? ORDER BY `mid` DESC LIMIT 1;", cid, mid];
+                [db executeUpdate:@"UPDATE `channels` SET `mid`=? WHERE `cid`=?;", msg, cid];
+            }
+        }];
+    }
+    return YES;
+}
+
 - (NSArray<CHMessageModel *> *)messageWithCID:(nullable NSString *)cid from:(NSString *)from to:(NSString *)to count:(NSUInteger)count {
     NSData *ccid = [NSData dataFromBase64:cid];
     if (ccid == nil) ccid = [NSData dataFromHex:@kCHDefChanCode];

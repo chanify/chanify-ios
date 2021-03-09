@@ -8,6 +8,7 @@
 #import "CHTextMsgCellConfiguration.h"
 #import <M80AttributedLabel/M80AttributedLabel.h>
 #import "CHRouter.h"
+#import "CHLogic.h"
 #import "CHTheme.h"
 
 static UIFont *textFont;
@@ -102,7 +103,8 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
     UIMenuController *menu = UIMenuController.sharedMenuController;
     UIMenuItem *copyItem = [[UIMenuItem alloc]initWithTitle:@"Copy".localized action:@selector(actionCopy:)];
     UIMenuItem *shareItem = [[UIMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)];
-    menu.menuItems = @[copyItem, shareItem];
+    UIMenuItem *deleteItem = [[UIMenuItem alloc]initWithTitle:@"Delete".localized action:@selector(actionDelete:)];
+    menu.menuItems = @[copyItem, shareItem, deleteItem];
     [menu showMenuFromView:self.bubbleView rect:self.textLabel.frame];
 }
 
@@ -113,6 +115,15 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
 
 - (void)actionShare:(id)sender {
     [CHRouter.shared showShareItem:@[[(CHTextMsgCellConfiguration *)self.configuration text]] sender:sender handler:nil];
+}
+
+- (void)actionDelete:(id)sender {
+    NSString *mid = self.configuration.mid;
+    if (mid.length > 0) {
+        [CHRouter.shared showAlertWithTitle:@"Delete this message or not?".localized action:@"Delete".localized handler:^{
+            [CHLogic.shared deleteMessage:mid];
+        }];
+    }
 }
 
 

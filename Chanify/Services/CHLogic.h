@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class CHNodeModel;
 @class CHChannelModel;
+@class CHMessageModel;
 @class CHNSDataSource;
 @class CHUserDataSource;
 
@@ -29,6 +30,7 @@ typedef void (^CHLogicBlock)(CHLCode result);
 - (void)logicChannelUpdated:(NSString *)cid;
 - (void)logicChannelsUpdated:(NSArray<NSString *> *)cids;
 - (void)logicMessagesUpdated:(NSArray<NSString *> *)mids;
+- (void)logicMessageDeleted:(CHMessageModel *)mid;
 @end
 
 @interface CHLogic : CHManager<id<CHLogicDelegate>>
@@ -47,6 +49,7 @@ typedef void (^CHLogicBlock)(CHLCode result);
 - (void)importAccount:(NSString *)key completion:(nullable CHLogicBlock)completion;
 - (BOOL)recivePushMessage:(NSDictionary *)userInfo;
 - (void)updatePushToken:(NSData *)pushToken;
+- (BOOL)deleteMessage:(nullable NSString *)mid;
 - (BOOL)updateNode:(CHNodeModel *)model;
 - (BOOL)deleteNode:(nullable NSString *)nid;
 - (void)insertNode:(CHNodeModel *)model completion:(nullable CHLogicBlock)completion;

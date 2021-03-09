@@ -150,6 +150,15 @@
     [self updatePushToken:pushToken retry:YES];
 }
 
+- (BOOL)deleteMessage:(nullable NSString *)mid {
+    CHMessageModel *model = [self.userDataSource messageWithMID:mid];
+    BOOL res = [self.userDataSource deleteMessage:mid];
+    if (res) {
+        [self sendNotifyWithSelector:@selector(logicMessageDeleted:) withObject:model];
+        [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[]];
+    }
+    return res;
+}
 
 - (BOOL)updateNode:(CHNodeModel *)model {
     BOOL res = [self.userDataSource updateNode:model];

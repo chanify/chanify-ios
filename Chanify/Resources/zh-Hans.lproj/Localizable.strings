@@ -76,6 +76,7 @@
 "UserInfoTitle"="扫描本二维码";
 "UserInfoDetail"="在您的新设备上下载Chanify应用，并在应用内扫描本二维码";
 "Connect node server failed"="Connect node server failed";
+"Delete this message or not?"="是否要删除这条消息？";
 "Delete this channel or not?"="是否要删除这个频道？";
 "Delete this node or not?"="是否要删除这个节点？";
 "Add node failed"="添加节点失败";

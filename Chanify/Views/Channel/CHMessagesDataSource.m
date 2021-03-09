@@ -133,6 +133,31 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     }
 }
 
+- (void)deleteMessage:(nullable CHMessageModel *)model animated:(BOOL)animated {
+    if (model != nil) {
+        CHConversationDiffableSnapshot *snapshot = self.snapshot;
+        CHCellConfiguration *item = [CHCellConfiguration cellConfiguration:model];
+        NSMutableArray<CHCellConfiguration *> *deleteItems = [NSMutableArray arrayWithObject:item];
+        NSInteger idx = [snapshot indexOfItemIdentifier:item];
+        if (idx > 0) {
+            NSArray *items = snapshot.itemIdentifiers;
+            CHCellConfiguration *prev = [items objectAtIndex:idx - 1];
+            if ([prev isKindOfClass:CHDateCellConfiguration.class]) {
+                if (idx + 1 >= items.count) {
+                    [deleteItems addObject:prev];
+                } else {
+                    CHCellConfiguration *next = [items objectAtIndex:idx + 1];
+                    if ([next isKindOfClass:CHDateCellConfiguration.class]) {
+                        [deleteItems addObject:prev];
+                    }
+                }
+            }
+        }
+        [snapshot deleteItemsWithIdentifiers:deleteItems];
+        [self applySnapshot:snapshot animatingDifferences:animated];
+    }
+}
+
 #pragma mark - Private Methods
 - (void)updateHeaderView {
     if (self.headerView != nil && self.headerView.status != CHMessagesHeaderStatusLoading) {

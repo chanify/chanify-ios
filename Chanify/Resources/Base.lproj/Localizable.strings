@@ -76,6 +76,7 @@
 "UserInfoTitle"="Scan this QR code";
 "UserInfoDetail"="Download the Chanify app on your new device. Within the app, scan this QR code.";
 "Connect node server failed"="Connect node server failed";
+"Delete this message or not?"="Delete this message or not?";
 "Delete this channel or not?"="Delete this channel or not?";
 "Delete this node or not?"="Delete this node or not?";
 "Add node failed"="Add node failed";
