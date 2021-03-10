@@ -58,7 +58,7 @@
 + (UIContextualAction *)actionInfo:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath {
     CHNodeModel *model = [[tableView cellForRowAtIndexPath:indexPath] model];
     UIContextualAction *action = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal title:nil handler:^(UIContextualAction *action, UIView *sourceView, void (^completionHandler)(BOOL)) {
-        [CHRouter.shared routeTo:@"/page/node" withParams:@{ @"nid": model.nid }];
+        [CHRouter.shared routeTo:@"/page/node" withParams:@{ @"nid": model.nid, @"show": @"detail" }];
         completionHandler(YES);
     }];
     action.image = [UIImage systemImageNamed:@"info.circle.fill"];

@@ -60,7 +60,7 @@ static NSString *const cellIdentifier = @"node";
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     CHNodeModel *item = [self.dataSource itemIdentifierForIndexPath:indexPath];
     if (item != nil) {
-        [CHRouter.shared routeTo:@"/page/node" withParams:@{ @"nid": item.nid }];
+        [CHRouter.shared routeTo:@"/page/node" withParams:@{ @"nid": item.nid, @"show": @"detail" }];
     }
 }
 
@@ -86,7 +86,7 @@ static NSString *const cellIdentifier = @"node";
 
 #pragma mark - Action Methods
 - (void)actionAddNode:(id)sender {
-    [CHRouter.shared routeTo:@"/page/scan"];
+    [CHRouter.shared routeTo:@"/page/scan" withParams:@{ @"show": @"detail" }];
 }
 
 #pragma mark - Private Methods

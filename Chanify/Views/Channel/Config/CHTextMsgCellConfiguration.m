@@ -66,6 +66,7 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
 }
 
 - (void)applyConfiguration:(CHTextMsgCellConfiguration *)configuration {
+    [super applyConfiguration:configuration];
     self.textLabel.text = configuration.text;
     self.textLabel.frame = configuration.textRect;
 }
@@ -153,6 +154,10 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
 
 - (__kindof UIView<UIContentView> *)makeContentView {
     return [[CHTextMsgCellContentView alloc] initWithConfiguration:self];
+}
+
+- (void)setNeedRecalcContentLayout {
+    _textRect = CGRectZero;
 }
 
 - (CGSize)calcContentSize:(CGSize)size {

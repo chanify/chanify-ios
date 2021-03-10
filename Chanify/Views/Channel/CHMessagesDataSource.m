@@ -80,6 +80,13 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     return CGSizeMake(self.collectionView.bounds.size.width, 30);
 }
 
+- (void)setNeedRecalcLayout {
+    CHConversationDiffableSnapshot *snapshot = self.snapshot;
+    for (CHCellConfiguration *cell in snapshot.itemIdentifiers) {
+        [cell setNeedRecalcLayout];
+    }
+}
+
 - (void)scrollViewDidScroll {
     if (self.headerView != nil && self.headerView.status == CHMessagesHeaderStatusNormal) {
         self.headerView.status = CHMessagesHeaderStatusLoading;

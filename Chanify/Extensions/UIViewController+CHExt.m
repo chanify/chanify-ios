@@ -8,6 +8,7 @@
 #import "UIViewController+CHExt.h"
 #import <UIKit/UINavigationBar.h>
 #import <UIKit/UIImage.h>
+#import "CHRouter.h"
 
 @implementation UIViewController (CHExt)
 
@@ -37,21 +38,7 @@
 }
 
 - (void)closeAnimated:(BOOL)animated completion: (void (^ __nullable)(void))completion {
-    if (self.presentedViewController != nil) {
-        [self dismissViewControllerAnimated:animated completion:completion];
-    } else {
-        UINavigationController *navigationController = self.navigationController;
-        if (navigationController != nil) {
-            if (navigationController.navigationBar.items.count <= 1) {
-                [navigationController dismissViewControllerAnimated:animated completion:completion];
-            } else {
-                [navigationController popViewControllerAnimated:animated];
-                if (completion != nil) {
-                    dispatch_main_async(completion);
-                }
-            }
-        }
-    }
+    [CHRouter.shared closeViewController:self animated:animated completion:completion];
 }
 
 #pragma mark - Action Methods

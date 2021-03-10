@@ -6,10 +6,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CHRouter.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHTabBarViewController : UITabBarController
+@interface CHTabBarViewController : UITabBarController<CHMainViewController>
 
 @end
 

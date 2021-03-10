@@ -58,6 +58,18 @@
     [CHLogic.shared addDelegate:self];
 }
 
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    @weakify(self);
+    [coordinator animateAlongsideTransitionInView:self.view
+    animation:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        @strongify(self);
+        [self.dataSource setNeedRecalcLayout];
+        [self.listView.collectionViewLayout invalidateLayout];
+    }];
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+}
+
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];

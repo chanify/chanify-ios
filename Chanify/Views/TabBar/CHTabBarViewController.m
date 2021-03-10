@@ -8,6 +8,10 @@
 #import "CHTabBarViewController.h"
 #import "CHTheme.h"
 
+@interface CHTabBarViewController () <UITabBarControllerDelegate>
+
+@end
+
 @implementation CHTabBarViewController
 
 - (void)viewDidLoad {
@@ -18,6 +22,20 @@
         tabBarItemWithName(@"Nodes", @"Network"),
         tabBarItemWithName(@"Settings", @"Settings"),
     ];
+    self.delegate = self;
+}
+
+#pragma mark - UITabBarControllerDelegate
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    [CHRouter.shared resetDetailViewController];
+}
+
+#pragma mark - CHMainViewController
+- (void)viewReset {
+    [self setSelectedIndex:0];
+    if ([self.selectedViewController isKindOfClass:UINavigationController.class]) {
+        [(UINavigationController *)self.selectedViewController popToRootViewControllerAnimated:NO];
+    }
 }
 
 #pragma mark - Private Methods

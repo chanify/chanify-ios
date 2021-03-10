@@ -23,6 +23,7 @@
 		6D8F9EAC25EF45E800A8912C /* CHFormItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F9EAB25EF45E800A8912C /* CHFormItem.m */; };
 		6DBA92BE25F609CD00B792FE /* CHColorConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92BD25F609CD00B792FE /* CHColorConfiguration.m */; };
 		6DBA92C525F60B3B00B792FE /* UIColor+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92C425F60B3B00B792FE /* UIColor+CHExt.m */; };
+		6DBA92DF25F8A83700B792FE /* CHSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92DE25F8A83700B792FE /* CHSplitViewController.m */; };
 		6DC6C1C425D0DCD100512E36 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C1C325D0DCD100512E36 /* AppDelegate.m */; };
 		6DC6C1CA25D0DCD100512E36 /* CHViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C1C925D0DCD100512E36 /* CHViewController.m */; };
 		6DC6C1CF25D0DCD200512E36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DC6C1CE25D0DCD200512E36 /* Assets.xcassets */; };
@@ -202,6 +203,8 @@
 		6DBA92BD25F609CD00B792FE /* CHColorConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHColorConfiguration.m; sourceTree = "<group>"; };
 		6DBA92C325F60B3B00B792FE /* UIColor+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+CHExt.h"; sourceTree = "<group>"; };
 		6DBA92C425F60B3B00B792FE /* UIColor+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+CHExt.m"; sourceTree = "<group>"; };
+		6DBA92DD25F8A83700B792FE /* CHSplitViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHSplitViewController.h; sourceTree = "<group>"; };
+		6DBA92DE25F8A83700B792FE /* CHSplitViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHSplitViewController.m; sourceTree = "<group>"; };
 		6DC6C1BF25D0DCD100512E36 /* Chanify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chanify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DC6C1C225D0DCD100512E36 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6DC6C1C325D0DCD100512E36 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -425,6 +428,15 @@
 			path = Form;
 			sourceTree = "<group>";
 		};
+		6DBA92DC25F8A82100B792FE /* Split​View​ */ = {
+			isa = PBXGroup;
+			children = (
+				6DBA92DD25F8A83700B792FE /* CHSplitViewController.h */,
+				6DBA92DE25F8A83700B792FE /* CHSplitViewController.m */,
+			);
+			path = "Split​View​";
+			sourceTree = "<group>";
+		};
 		6DC6C1B625D0DCD100512E36 = {
 			isa = PBXGroup;
 			children = (
@@ -481,6 +493,7 @@
 		6DC6C1E925D0DEA700512E36 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6DBA92DC25F8A82100B792FE /* Split​View​ */,
 				6DC6C33125D1680D00512E36 /* Channels */,
 				6DC6C37B25D16DE600512E36 /* Channel */,
 				6D278EA125E4CC4800FC48CD /* Nodes */,
@@ -1013,6 +1026,7 @@
 				6DC6C3AE25D1705100512E36 /* CHChannelDetailViewController.m in Sources */,
 				6D4416F925F264A70041EBA0 /* CHFormButtonItem.m in Sources */,
 				6DC6C26F25D13D2900512E36 /* CHNotification.m in Sources */,
+				6DBA92DF25F8A83700B792FE /* CHSplitViewController.m in Sources */,
 				6DC6C2A125D1441100512E36 /* CHWebViewRefresher.m in Sources */,
 				6DC6C2E225D15E6B00512E36 /* CHChannelModel.m in Sources */,
 				6DC6C31125D1611200512E36 /* NSDictionary+CHExt.m in Sources */,

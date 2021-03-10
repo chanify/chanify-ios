@@ -19,6 +19,14 @@ static UIEdgeInsets bubbleInsets = { 0, 20, 0, 30 };
     return self;
 }
 
+- (void)setNeedRecalcLayout {
+    _bubbleRect = CGRectZero;
+    [self setNeedRecalcContentLayout];
+}
+
+- (void)setNeedRecalcContentLayout {
+}
+
 - (CGFloat)calcHeight:(CGSize)size {
     if (CGRectIsEmpty(self.bubbleRect)) {
         _bubbleRect.origin.x = bubbleInsets.left;
@@ -57,17 +65,12 @@ static UIEdgeInsets bubbleInsets = { 0, 20, 0, 30 };
 }
 
 - (void)setConfiguration:(CHMsgCellConfiguration *)configuration {
-    if (![self.configuration isEqual:configuration]) {
-        _configuration = configuration;
-
-        self.bubbleView.frame = configuration.bubbleRect;
-        
-        [self applyConfiguration:configuration];
-    }
+    _configuration = configuration;
+    [self applyConfiguration:configuration];
 }
 
 - (void)applyConfiguration:(CHMsgCellConfiguration *)configuration {
-    
+    self.bubbleView.frame = configuration.bubbleRect;
 }
 
 - (void)setupViews {

@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSDictionary<NSString *, UICollectionViewCellRegistration *> *)cellRegistrations;
 - (instancetype)initWithMID:(NSString *)mid;
 - (NSDate *)date;
+- (void)setNeedRecalcLayout;
 - (CGFloat)calcHeight:(CGSize)size;
 
 

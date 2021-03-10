@@ -10,12 +10,19 @@
 #import <JLRoutes/JLRoutes.h>
 #import <Masonry/Masonry.h>
 #import "CHTabBarViewController.h"
+#import "CHSplitViewController.h"
 #import "CHLoginViewController.h"
 #import "CHWebViewController.h"
 #import "CHIndicatorPanelView.h"
 #import "CHDevice.h"
 #import "CHTheme.h"
 #import "CHLogic.h"
+
+typedef NS_ENUM(NSInteger, CHRouterShowMode) {
+    CHRouterShowModePush    = 0,
+    CHRouterShowModePresent = 1,
+    CHRouterShowModeDetail  = 2,
+};
 
 @interface CHRouter () <MFMailComposeViewControllerDelegate>
 
@@ -66,7 +73,7 @@
     BOOL res = NO;
     if (type.length > 0) {
         if ([type isEqualToString:@"scan"]) {
-            res = [self routeTo:@"/page/scan?show=present"];
+            res = [self routeTo:@"/page/scan?show=present&jump=1"];
         }
     }
     return res;
@@ -93,8 +100,19 @@
     return res;
 }
 
+- (void)resetDetailViewController {
+    UIViewController *vc = self.window.rootViewController;
+    if ([vc isKindOfClass:CHSplitViewController.class]) {
+        [(CHSplitViewController *)vc showDetailViewController:nil];
+    }
+}
+
 - (void)popToRootViewControllerAnimated:(BOOL)animated {
     UIViewController *vc = self.window.rootViewController.topViewController;
+    if ([vc isKindOfClass:CHSplitViewController.class]) {
+        [(CHSplitViewController *)vc showDetailViewController:nil];
+        return;
+    }
     if ([vc isKindOfClass:UITabBarController.class]) {
         vc = [(UITabBarController *)vc selectedViewController];
     }
@@ -106,12 +124,41 @@
 }
 
 - (void)presentViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    showViewController(viewController, animated, YES);
+    showViewController(viewController, animated, CHRouterShowModePush);
 }
 
 - (void)presentSystemViewController:(UIViewController *)viewController animated:(BOOL)animated {
     viewController.modalPresentationStyle = UIModalPresentationFullScreen;
     [self.window.rootViewController.topViewController presentViewController:viewController animated:animated completion:nil];
+}
+
+- (void)closeViewController:(UIViewController *)vc animated:(BOOL)animated completion: (void (^ __nullable)(void))completion {
+    if (vc.presentedViewController != nil) {
+        [vc dismissViewControllerAnimated:animated completion:completion];
+    } else {
+        UIViewController *rootVC = self.window.rootViewController;
+        if ([rootVC isKindOfClass:CHSplitViewController.class]) {
+            CHSplitViewController *splitVC = (CHSplitViewController *)rootVC;
+            if (splitVC.detailViewController == vc.navigationController || splitVC.detailViewController == vc) {
+                [splitVC showDetailViewController:nil];
+                if (completion != nil) {
+                    dispatch_main_async(completion);
+                }
+                return;
+            }
+        }
+        UINavigationController *navigationController = vc.navigationController;
+        if (navigationController != nil) {
+            if (navigationController.navigationBar.items.count <= 1) {
+                [navigationController dismissViewControllerAnimated:animated completion:completion];
+            } else {
+                [navigationController popViewControllerAnimated:animated];
+                if (completion != nil) {
+                    dispatch_main_async(completion);
+                }
+            }
+        }
+    }
 }
 
 - (void)showShareItem:(NSArray *)items sender:(id)sender handler:(void (^ __nullable)(BOOL completed, NSError *error))handler {
@@ -170,10 +217,9 @@
 
 - (void)initRouters:(JLRoutes *)routes {
     [routes addRoute:@"/page/main" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
-        CHTabBarViewController *vc = (CHTabBarViewController *)setRootViewController(self.window, CHTabBarViewController.class);
-        [vc setSelectedIndex:0];
-        if ([vc.selectedViewController isKindOfClass:UINavigationController.class]) {
-            [(UINavigationController *)vc.selectedViewController popToRootViewControllerAnimated:NO];
+        UIViewController *vc = setRootViewController(self.window, (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad ? CHSplitViewController.class : CHTabBarViewController.class));
+        if ([vc conformsToProtocol:@protocol(CHMainViewController)]) {
+            [(id<CHMainViewController>)vc viewReset];
         }
         return YES;
     }];
@@ -205,7 +251,13 @@
                         vc = [vc init];
                     }
 #pragma clang diagnostic pop
-                    res = showViewController(vc, YES, ![show isEqualToString:@"present"]);
+                    CHRouterShowMode mode = CHRouterShowModePush;
+                    if ([show isEqualToString:@"present"]) {
+                        mode = CHRouterShowModePresent;
+                    } else if ([show isEqualToString:@"detail"]) {
+                        mode = CHRouterShowModeDetail;
+                    }
+                    res = showViewController(vc, YES, mode);
                 }
             }
         }
@@ -230,7 +282,7 @@
                 mailVC.title = @"Feedback".localized;
                 [mailVC setToRecipients:@[email]];
                 [mailVC setSubject:[NSString stringWithFormat:@"[%@] %@", CHDevice.shared.app, mailVC.title]];
-                res = showViewController(mailVC, YES, NO);
+                res = showViewController(mailVC, YES, CHRouterShowModePresent);
             }
         }
         return res;
@@ -249,7 +301,7 @@
     routes.unmatchedURLHandler = ^(JLRoutes *routes, NSURL *url, NSDictionary<NSString *, id> *parameters) {
         NSString *scheme = url.scheme;
         if ([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"]) {
-            if (showViewController([[CHWebViewController alloc] initWithUrl:url parameters:parameters], YES, YES)) {
+            if (showViewController([[CHWebViewController alloc] initWithUrl:url parameters:parameters], YES, CHRouterShowModePush)) {
                 return;
             }
         }
@@ -275,19 +327,35 @@ static inline UIViewController *setRootViewController(UIWindow *window, Class cl
     return rootVC;
 }
 
-static inline BOOL showViewController(UIViewController *vc, BOOL animated, BOOL tryPush) {
-    return showViewControllerToVC(vc, CHRouter.shared.window.rootViewController, animated, tryPush);
+static inline BOOL showViewController(UIViewController *vc, BOOL animated, CHRouterShowMode showMode) {
+    return showViewControllerToVC(vc, CHRouter.shared.window.rootViewController, animated, showMode);
 }
 
-static inline BOOL showViewControllerToVC(UIViewController *vc, UIViewController *rootViewController, BOOL animated, BOOL tryPush) {
+static inline BOOL showViewControllerToVC(UIViewController *vc, UIViewController *rootViewController, BOOL animated, CHRouterShowMode showMode) {
     UIViewController *topViewController = rootViewController.topViewController;
-    if (tryPush) {
+    if (showMode == CHRouterShowModeDetail) {
+        if ([rootViewController isKindOfClass:CHSplitViewController.class]) {
+            if ([(CHSplitViewController *)rootViewController showDetailViewController:vc]) {
+                return YES;
+            }
+        }
+    }
+    if (showMode != CHRouterShowModePresent) {
         BOOL hiddenBottomBar = NO;
         if ([topViewController isKindOfClass:UITabBarController.class]) {
             topViewController = ((UITabBarController *)topViewController).selectedViewController;
             hiddenBottomBar = YES;
         }
         UINavigationController *navigationController = nil;
+        if ([topViewController isKindOfClass:CHSplitViewController.class]) {
+            CHSplitViewController *splitVC = (CHSplitViewController *)topViewController;
+            if (splitVC.detailViewController != nil) {
+                navigationController = splitVC.detailViewController;
+            } else {
+                [splitVC showDetailViewController:vc];
+                return YES;
+            }
+        }
         if ([topViewController isKindOfClass:UINavigationController.class]) {
             navigationController = (UINavigationController *)topViewController;
         } else if (topViewController.navigationController != nil) {
@@ -330,6 +398,12 @@ static inline BOOL tryJumpViewController(Class clz) {
         // TODO: Check presentation controller
         [vc dismissViewControllerAnimated:NO completion:nil];
     }
+    if ([rootViewController isKindOfClass:CHSplitViewController.class]) {
+        CHSplitViewController *splitVC = (CHSplitViewController *)rootViewController;
+        if (checkNavViewController(splitVC.detailViewController, clz)) {
+            return YES;
+        }
+    }
     if ([rootViewController isKindOfClass:CHTabBarViewController.class]) {
         CHTabBarViewController *tabVC = (CHTabBarViewController *)rootViewController;
         if ([tabVC.selectedViewController.topViewController isKindOfClass:clz]) {
@@ -341,18 +415,25 @@ static inline BOOL tryJumpViewController(Class clz) {
         } else {
             nav = [tabVC.selectedViewController navigationController];
         }
-        if (nav != nil) {
-            for (UIViewController *vc in nav.viewControllers) {
-                if ([vc isKindOfClass:clz]) {
-                    [nav popToViewController:vc animated:NO];
-                    return YES;
-                }
-            }
+        if (checkNavViewController(nav, clz)) {
+            return YES;
         }
         for (UIViewController *vc in tabVC.viewControllers) {
             if ([vc.topViewController isKindOfClass:clz]) {
                 [nav popToRootViewControllerAnimated:NO];
                 [tabVC setSelectedViewController:vc];
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
+
+static inline BOOL checkNavViewController(UINavigationController *nav, Class clz) {
+    if (nav != nil) {
+        for (UIViewController *vc in nav.viewControllers) {
+            if ([vc isKindOfClass:clz]) {
+                [nav popToViewController:vc animated:NO];
                 return YES;
             }
         }

@@ -50,7 +50,7 @@
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"ACCOUNT".localized])];
     item = [CHFormCodeItem itemWithName:@"user" title:@"User".localized value:CHLogic.shared.me.uid];
     item.action = ^(CHFormItem *itm) {
-        [CHRouter.shared routeTo:@"/page/user-info"];
+        [CHRouter.shared routeTo:@"/page/user-info" withParams:@{ @"show": @"detail" }];
     };
     [section addFormItem:item];
     item = [CHFormCodeItem itemWithName:@"device" title:@"Device".localized value:CHDevice.shared.uuid.hex];
@@ -73,7 +73,7 @@
     
     item = [CHFormValueItem itemWithName:@"notification" title:@"Notification".localized value:@""];
     item.action = ^(CHFormItem *itm) {
-        [CHRouter.shared routeTo:@"/action/openurl" withParams:@{ @"url": UIApplicationOpenSettingsURLString }];
+        [CHRouter.shared routeTo:@"/action/openurl" withParams:@{ @"url": UIApplicationOpenSettingsURLString, @"show": @"detail" }];
     };
     [section addFormItem:item];
     
@@ -81,12 +81,12 @@
 //    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"HELP".localized])];
 //    item = [CHFormItem itemWithName:@"quick" title:@"Quick Start".localized];
 //    item.action = ^(CHFormItem *itm) {
-//        [CHRouter.shared routeTo:@kQuickStartURL withParams:@{ @"title": @"Quick Start".localized }];
+//        [CHRouter.shared routeTo:@kQuickStartURL withParams:@{ @"title": @"Quick Start".localized, @"show": @"detail" }];
 //    };
 //    [section addFormItem:item];
 //    item = [CHFormItem itemWithName:@"manual" title:@"Usage Manual".localized];
 //    item.action = ^(CHFormItem *itm) {
-//        [CHRouter.shared routeTo:@kQuickStartURL withParams:@{ @"title": @"Quick Start".localized }];
+//        [CHRouter.shared routeTo:@kQuickStartURL withParams:@{ @"title": @"Quick Start".localized, @"show": @"detail" }];
 //    };
 //    [section addFormItem:item];
     
@@ -96,18 +96,18 @@
     [section addFormItem:item];
     item = [CHFormValueItem itemWithName:@"privacy" title:@"Privacy Policy".localized];
     item.action = ^(CHFormItem *itm) {
-        [CHRouter.shared routeTo:@"/page/privacy"];
+        [CHRouter.shared routeTo:@"/page/privacy" withParams:@{ @"show": @"detail" }];
     };
     [section addFormItem:item];
     item = [CHFormValueItem itemWithName:@"acknowledgements" title:@"Acknowledgements".localized];
     item.action = ^(CHFormItem *itm) {
-        [CHRouter.shared routeTo:@"/page/acknowledgements"];
+        [CHRouter.shared routeTo:@"/page/acknowledgements" withParams:@{ @"show": @"detail" }];
     };
     [section addFormItem:item];
     item = [CHFormValueItem itemWithName:@"contact-us" title:@"Contact Us".localized];
     item.hidden = [NSPredicate predicateWithObject:CHRouter.shared attribute:@"canSendMail" expected:@NO];
     item.action = ^(CHFormItem *itm) {
-        [CHRouter.shared routeTo:@"/action/sendemail" withParams:@{ @"email": @kCHContactEmail }];
+        [CHRouter.shared routeTo:@"/action/sendemail" withParams:@{ @"email": @kCHContactEmail, @"show": @"detail" }];
     };
     [section addFormItem:item];
     

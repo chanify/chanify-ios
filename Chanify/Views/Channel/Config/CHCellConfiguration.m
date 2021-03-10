@@ -62,6 +62,9 @@
     return self.mid.hash;
 }
 
+- (void)setNeedRecalcLayout {
+}
+
 - (CGFloat)calcHeight:(CGSize)size {
     return size.height;
 }

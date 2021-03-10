@@ -126,7 +126,7 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
             break;
         case CHNodeVCStatusShow:
         {
-            [section addFormItem:[CHFormButtonItem itemWithName:@"delete-node" title:@"Delete node" action:^(CHFormItem *item){
+            [section addFormItem:[CHFormButtonItem itemWithName:@"delete-node" title:@"Delete node".localized action:^(CHFormItem *item){
                 @strongify(self);
                 [self actionDeleteNode];
             }]];
@@ -134,7 +134,7 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
             break;
         case CHNodeVCStatusNew:
         {
-            [section addFormItem:[CHFormButtonItem itemWithName:@"add-node" title:@"Add node" action:^(CHFormItem *item){
+            [section addFormItem:[CHFormButtonItem itemWithName:@"add-node" title:@"Add node".localized action:^(CHFormItem *item){
                 @strongify(self);
                 [self actionAddNode];
             }]];
@@ -142,7 +142,7 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
             break;
         case CHNodeVCStatusUpdate:
         {
-            [section addFormItem:[CHFormButtonItem itemWithName:@"update-node" title:@"Update node" action:^(CHFormItem *item){
+            [section addFormItem:[CHFormButtonItem itemWithName:@"update-node" title:@"Update node".localized action:^(CHFormItem *item){
                 @strongify(self);
                 [self actionUpdateNode];
             }]];

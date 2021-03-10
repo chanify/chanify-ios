@@ -37,10 +37,10 @@ static NSString *const cellIdentifier = @"chan";
 
     NSArray *actions = @[
         [UIAction actionWithTitle:@"Scan QR Code".localized image:[UIImage systemImageNamed:@"qrcode.viewfinder"] identifier:@"scan" handler:^(UIAction *action) {
-            [CHRouter.shared routeTo:@"/page/scan"];
+            [CHRouter.shared routeTo:@"/page/scan" withParams:@{ @"show": @"detail" }];
         }],
         [UIAction actionWithTitle:@"New Channel".localized image:[UIImage systemImageNamed:@"plus"] identifier:@"new" handler:^(UIAction *action) {
-            [CHRouter.shared routeTo:@"/page/channel/new"];
+            [CHRouter.shared routeTo:@"/page/channel/new" withParams:@{ @"show": @"detail" }];
         }]
     ];
     UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithPrimaryAction:actions[0]];
@@ -73,7 +73,7 @@ static NSString *const cellIdentifier = @"chan";
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     CHChannelModel *item = [self.dataSource itemIdentifierForIndexPath:indexPath];
     if (item != nil) {
-        [CHRouter.shared routeTo:@"/page/channel" withParams:@{ @"cid": item.cid }];
+        [CHRouter.shared routeTo:@"/page/channel" withParams:@{ @"cid": item.cid, @"show": @"detail" }];
     }
 }
 

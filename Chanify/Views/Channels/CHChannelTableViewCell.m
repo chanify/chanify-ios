@@ -88,7 +88,7 @@
 + (UIContextualAction *)actionInfo:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath {
     CHChannelModel *model = [[tableView cellForRowAtIndexPath:indexPath] model];
     UIContextualAction *action = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal title:nil handler:^(UIContextualAction *action, UIView *sourceView, void (^completionHandler)(BOOL)) {
-        [CHRouter.shared routeTo:@"/page/channel/detail" withParams:@{ @"cid": model.cid }];
+        [CHRouter.shared routeTo:@"/page/channel/detail" withParams:@{ @"cid": model.cid, @"show": @"detail" }];
         completionHandler(YES);
     }];
     action.image = [UIImage systemImageNamed:@"info.circle.fill"];
