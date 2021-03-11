@@ -52,6 +52,10 @@
     }
 }
 
+- (BOOL)isEqualToViewController:(CHChannelDetailViewController *)rhs {
+    return [self.model isEqual:rhs.model];
+}
+
 #pragma mark - Private Methods
 - (void)initializeForm {
     NSCalendar *calender = NSCalendar.currentCalendar;

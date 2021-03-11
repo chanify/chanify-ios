@@ -21,5 +21,9 @@
     self.view.backgroundColor = CHTheme.shared.backgroundColor;
 }
 
+- (BOOL)isEqualToViewController:(__kindof CHViewController *)rhs {
+    return YES;
+}
+
 
 @end

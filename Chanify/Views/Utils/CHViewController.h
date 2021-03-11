@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CHViewController : UIViewController
 
+- (BOOL)isEqualToViewController:(__kindof CHViewController *)rhs;
+
 
 @end
 

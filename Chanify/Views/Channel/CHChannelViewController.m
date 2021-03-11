@@ -70,6 +70,10 @@
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
+- (BOOL)isEqualToViewController:(CHChannelViewController *)rhs {
+    return [self.model isEqual:rhs.model];
+}
+
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];

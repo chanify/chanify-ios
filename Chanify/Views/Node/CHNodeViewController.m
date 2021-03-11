@@ -80,6 +80,10 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
     return self;
 }
 
+- (BOOL)isEqualToViewController:(CHNodeViewController *)rhs {
+    return [self.model isEqual:rhs.model];
+}
+
 #pragma mark - Action Methods
 - (void)actionAddNode {
     [CHRouter.shared showIndicator:YES];

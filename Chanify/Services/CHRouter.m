@@ -240,7 +240,6 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
                 if ([[parameters valueForKey:@"jump"] boolValue]) {
                     res = tryJumpViewController(clz);
                 }
-                NSString *show = [parameters valueForKey:@"show"];
                 if (res == NO) {
                     UIViewController *vc = [clz alloc];
 #pragma clang diagnostic push
@@ -251,13 +250,7 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
                         vc = [vc init];
                     }
 #pragma clang diagnostic pop
-                    CHRouterShowMode mode = CHRouterShowModePush;
-                    if ([show isEqualToString:@"present"]) {
-                        mode = CHRouterShowModePresent;
-                    } else if ([show isEqualToString:@"detail"]) {
-                        mode = CHRouterShowModeDetail;
-                    }
-                    res = showViewController(vc, YES, mode);
+                    res = showViewController(vc, YES, parseShowMode([parameters valueForKey:@"show"]));
                 }
             }
         }
@@ -301,12 +294,24 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     routes.unmatchedURLHandler = ^(JLRoutes *routes, NSURL *url, NSDictionary<NSString *, id> *parameters) {
         NSString *scheme = url.scheme;
         if ([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"]) {
-            if (showViewController([[CHWebViewController alloc] initWithUrl:url parameters:parameters], YES, CHRouterShowModePush)) {
+            if (showViewController([[CHWebViewController alloc] initWithUrl:url parameters:parameters], YES, parseShowMode([parameters valueForKey:@"show"]))) {
                 return;
             }
         }
         [self makeToast:@"Can't open url".localized];
     };
+}
+
+static inline CHRouterShowMode parseShowMode(NSString *show) {
+    CHRouterShowMode mode = CHRouterShowModePush;
+    if (show.length > 0) {
+        if ([show isEqualToString:@"present"]) {
+            mode = CHRouterShowModePresent;
+        } else if ([show isEqualToString:@"detail"]) {
+            mode = CHRouterShowModeDetail;
+        }
+    }
+    return mode;
 }
 
 static inline UIViewController *setRootViewController(UIWindow *window, Class clz) {

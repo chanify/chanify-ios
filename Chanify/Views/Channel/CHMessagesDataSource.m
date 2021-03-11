@@ -18,8 +18,6 @@
 @interface CHMessagesDataSource ()
 
 @property (nonatomic, readonly, strong) NSString *cid;
-@property (nonatomic, readonly, strong) NSDictionary<NSString *, UICollectionViewCellRegistration *> *cellRegistrations;
-@property (nonatomic, readonly, strong) UICollectionViewCellRegistration *unknownCellRegistration;
 @property (nonatomic, nullable, strong) CHMessagesHeaderView *headerView;
 @property (nonatomic, readonly, weak) UICollectionView *collectionView;
 
@@ -35,14 +33,14 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
 
 - (instancetype)initWithCollectionView:(UICollectionView *)collectionView channelID:(NSString *)cid {
     _cid = cid;
-    _cellRegistrations = CHCellConfiguration.cellRegistrations;
-    _unknownCellRegistration = [self.cellRegistrations objectForKey:NSStringFromClass(CHUnknownMsgCellConfiguration.class)];
+    NSDictionary<NSString *, UICollectionViewCellRegistration *> *cellRegistrations = CHCellConfiguration.cellRegistrations;
+    UICollectionViewCellRegistration *unknownCellRegistration = [cellRegistrations objectForKey:NSStringFromClass(CHUnknownMsgCellConfiguration.class)];
     UICollectionViewDiffableDataSourceCellProvider cellProvider = ^UICollectionViewCell *(UICollectionView *collectionView, NSIndexPath *indexPath, CHCellConfiguration *item) {
-        UICollectionViewCellRegistration *cellRegistration = [self.cellRegistrations objectForKey:NSStringFromClass(item.class)];
+        UICollectionViewCellRegistration *cellRegistration = [cellRegistrations objectForKey:NSStringFromClass(item.class)];
         if (cellRegistration != nil) {
             return [collectionView dequeueConfiguredReusableCellWithRegistration:cellRegistration forIndexPath:indexPath item:item];
         }
-        return [collectionView dequeueConfiguredReusableCellWithRegistration:self.unknownCellRegistration forIndexPath:indexPath item:item];
+        return [collectionView dequeueConfiguredReusableCellWithRegistration:unknownCellRegistration forIndexPath:indexPath item:item];
     };
     if (self = [super initWithCollectionView:collectionView cellProvider:cellProvider]) {
         _collectionView = collectionView;

@@ -22,17 +22,18 @@
 @implementation CHPrivacyViewController
 
 - (void)dealloc {
-    [self.webView removeObserver:self forKeyPath:@"estimatedProgress"];
     self.webView.navigationDelegate = nil;
+    [self.webView stopLoading];
+    [self.webView removeObserver:self forKeyPath:@"estimatedProgress"];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     _url = [NSURL URLWithString:@kCHPrivacyURL];
-    
+
     self.title = @"Privacy Policy".localized;
-    
+
     WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:[WKWebViewConfiguration new]];
     [self.view addSubview:(_webView = webView)];
     [webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
@@ -63,8 +64,10 @@
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     if (webView.alpha < 1.0) {
+        @weakify(self);
         [UIViewPropertyAnimator runningPropertyAnimatorWithDuration:kCHAnimateMediumDuration delay:0 options:0 animations:^{
-            webView.alpha = 1;
+            @strongify(self);
+            self.webView.alpha = 1;
         } completion:nil];
     }
 }
@@ -81,9 +84,12 @@
             [self.progressView setProgress:progress animated:YES];
         } else {
             [self.progressView setProgress:1.0 animated:NO];
+            @weakify(self);
             [UIViewPropertyAnimator runningPropertyAnimatorWithDuration:kCHAnimateSlowDuration delay:kCHAnimateSlowDuration options:0 animations:^{
+                @strongify(self);
                 self.progressView.alpha = 0;
             } completion:^(UIViewAnimatingPosition finalPosition) {
+                @strongify(self);
                 self.progressView.alpha = 1;
                 self.progressView.progress = 0;
             }];

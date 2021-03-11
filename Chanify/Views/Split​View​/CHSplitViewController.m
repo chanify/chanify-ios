@@ -7,6 +7,7 @@
 
 #import "CHSplitViewController.h"
 #import "CHTabBarViewController.h"
+#import "CHViewController.h"
 #import "CHTheme.h"
 
 @interface CHSplitViewController ()
@@ -35,6 +36,12 @@
     if (vc == nil) {
         self.detailViewController = self.emptyViewController;
     } else {
+        if (self.detailViewController != nil) {
+            UIViewController *topVC = self.detailViewController.topViewController;
+            if ([topVC isKindOfClass:CHViewController.class] && [vc.class isEqual:topVC.class] && [(CHViewController *)topVC isEqualToViewController:(CHViewController *)vc]) {
+                return YES;
+            }
+        }
         if ([vc isKindOfClass:UINavigationController.class]) {
             self.detailViewController = (UINavigationController *)vc.navigation;
         } else {

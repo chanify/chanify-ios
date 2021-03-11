@@ -35,12 +35,17 @@
 }
 
 - (void)dealloc {
+    self.webView.navigationDelegate = nil;
+    [self.webView stopLoading];
     [self.webView removeObserver:self forKeyPath:@"estimatedProgress"];
     [self.webView removeObserver:self forKeyPath:@"title"];
     [self.webView removeObserver:self forKeyPath:@"URL"];
     [self.webView removeObserver:self forKeyPath:@"hasOnlySecureContent"];
     [self.webView removeObserver:self forKeyPath:@"canGoBack"];
-    self.webView.navigationDelegate = nil;
+}
+
+- (BOOL)isEqualToViewController:(CHWebViewController *)rhs {
+    return [self.url isEqual:rhs.url];
 }
 
 - (void)viewDidLoad {
@@ -87,8 +92,10 @@
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     if (webView.alpha < 1.0) {
+        @weakify(self);
         [UIViewPropertyAnimator runningPropertyAnimatorWithDuration:kCHAnimateMediumDuration delay:0 options:0 animations:^{
-            webView.alpha = 1;
+            @strongify(self);
+            self.webView.alpha = 1;
         } completion:nil];
     }
 }
@@ -105,7 +112,9 @@
             if (self.defaultTitle.length > 0 && !self.webView.canGoBack) {
                 title = self.defaultTitle;
             }
+            @weakify(self);
             [UIViewPropertyAnimator runningPropertyAnimatorWithDuration:kCHAnimateMediumDuration delay:0 options:0 animations:^{
+                @strongify(self);
                 self.title = title;
             } completion:nil];
             return;
@@ -115,9 +124,12 @@
                 [self.progressView setProgress:progress animated:YES];
             } else {
                 [self.progressView setProgress:1.0 animated:NO];
+                @weakify(self);
                 [UIViewPropertyAnimator runningPropertyAnimatorWithDuration:kCHAnimateSlowDuration delay:kCHAnimateSlowDuration options:0 animations:^{
+                    @strongify(self);
                     self.progressView.alpha = 0;
                 } completion:^(UIViewAnimatingPosition finalPosition) {
+                    @strongify(self);
                     self.progressView.alpha = 1;
                     self.progressView.progress = 0;
                 }];
