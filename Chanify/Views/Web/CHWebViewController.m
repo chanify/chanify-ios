@@ -86,6 +86,24 @@
 }
 
 #pragma mark - WKNavigationDelegate
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    if (navigationAction.navigationType == WKNavigationTypeLinkActivated) {
+        NSURL *url = navigationAction.request.URL;
+        if (url != nil) {
+            NSString *scheme = url.scheme.lowercaseString;
+            if (![scheme isEqualToString:@"http"] && ![scheme isEqualToString:@"https"]) {
+                NSString *host = self.webView.URL.host.lowercaseString;
+                if ([scheme isEqualToString:@"chanify"] || ([host isEqualToString:@"chanify.net"] || [host isEqualToString:@"www.chanify.net"])) {
+                    [UIApplication.sharedApplication openURL:url options:@{} completionHandler:nil];
+                    decisionHandler(WKNavigationActionPolicyCancel);
+                    return;
+                }
+            }
+        }
+    }
+    decisionHandler(WKNavigationActionPolicyAllow);
+}
+
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
     [self showEmpty:NO];
 }

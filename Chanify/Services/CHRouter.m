@@ -14,6 +14,7 @@
 #import "CHLoginViewController.h"
 #import "CHWebViewController.h"
 #import "CHIndicatorPanelView.h"
+#import "CHToken.h"
 #import "CHDevice.h"
 #import "CHTheme.h"
 #import "CHLogic.h"
@@ -289,6 +290,11 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
             res = [JLRoutes routeURL:[NSURL URLWithString:@"/page/node"] withParameters:@{ @"endpoint": endpoint, @"show": @"present" }];
         }
         return res;
+    }];
+    [chanify addRoute:@"/action/token/default" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
+        UIPasteboard.generalPasteboard.string = CHToken.defaultToken.stringValue;
+        [CHRouter.shared makeToast:@"Token copied".localized];
+        return YES;
     }];
     // unmatched router
     routes.unmatchedURLHandler = ^(JLRoutes *routes, NSURL *url, NSDictionary<NSString *, id> *parameters) {

@@ -93,6 +93,7 @@
 		6DC6C3A925D1702F00512E36 /* CHChannelNewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C3A825D1702F00512E36 /* CHChannelNewViewController.m */; };
 		6DC6C3AE25D1705100512E36 /* CHChannelDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C3AD25D1705100512E36 /* CHChannelDetailViewController.m */; };
 		6DC6C3B525D2193500512E36 /* CHMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C3B425D2193500512E36 /* CHMock.m */; };
+		6DCC882D25FB62D70028B473 /* CHToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC882C25FB62D70028B473 /* CHToken.m */; };
 		6DD6954625F1FF6C0047FF08 /* CHFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD6954525F1FF6C0047FF08 /* CHFormViewController.m */; };
 		6DD6954B25F20BFD0047FF08 /* CHForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD6954A25F20BFD0047FF08 /* CHForm.m */; };
 		6DD6955025F20C140047FF08 /* CHFormSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD6954F25F20C140047FF08 /* CHFormSection.m */; };
@@ -322,6 +323,8 @@
 		6DC6C3AD25D1705100512E36 /* CHChannelDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelDetailViewController.m; sourceTree = "<group>"; };
 		6DC6C3B325D2193500512E36 /* CHMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHMock.h; sourceTree = "<group>"; };
 		6DC6C3B425D2193500512E36 /* CHMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHMock.m; sourceTree = "<group>"; };
+		6DCC882B25FB62D70028B473 /* CHToken.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHToken.h; sourceTree = "<group>"; };
+		6DCC882C25FB62D70028B473 /* CHToken.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHToken.m; sourceTree = "<group>"; };
 		6DD6954425F1FF6C0047FF08 /* CHFormViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormViewController.h; sourceTree = "<group>"; };
 		6DD6954525F1FF6C0047FF08 /* CHFormViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormViewController.m; sourceTree = "<group>"; };
 		6DD6954925F20BFD0047FF08 /* CHForm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHForm.h; sourceTree = "<group>"; };
@@ -527,6 +530,8 @@
 			isa = PBXGroup;
 			children = (
 				6DC6C20D25D0F3EF00512E36 /* CHTP.proto */,
+				6DCC882B25FB62D70028B473 /* CHToken.h */,
+				6DCC882C25FB62D70028B473 /* CHToken.m */,
 				6DC6C27925D13EFA00512E36 /* CHUserModel.h */,
 				6DC6C27A25D13EFA00512E36 /* CHUserModel.m */,
 				6DDC86A725E7408E00C26203 /* CHNodeModel.h */,
@@ -1016,6 +1021,7 @@
 				6DC6C27B25D13EFA00512E36 /* CHUserModel.m in Sources */,
 				6D67CBDB25D3BAD700ECF655 /* NSDate+CHExt.m in Sources */,
 				6DC6C36825D16C1600512E36 /* CHUserInfoViewController.m in Sources */,
+				6DCC882D25FB62D70028B473 /* CHToken.m in Sources */,
 				6DC6C25325D112BB00512E36 /* CHLogger.m in Sources */,
 				6DC6C35C25D16B6A00512E36 /* NSPredicate+CHExt.m in Sources */,
 				6DC6C3B525D2193500512E36 /* CHMock.m in Sources */,
