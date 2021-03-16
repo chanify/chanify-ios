@@ -90,15 +90,31 @@
     if (navigationAction.navigationType == WKNavigationTypeLinkActivated) {
         NSURL *url = navigationAction.request.URL;
         if (url != nil) {
+            BOOL appOpen = NO;
             NSString *scheme = url.scheme.lowercaseString;
-            if (![scheme isEqualToString:@"http"] && ![scheme isEqualToString:@"https"]) {
-                NSString *host = self.webView.URL.host.lowercaseString;
-                if ([scheme isEqualToString:@"chanify"] || ([host isEqualToString:@"chanify.net"] || [host isEqualToString:@"www.chanify.net"])) {
+            if ([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"]) {
+                NSString *host = url.host.lowercaseString;
+                appOpen = [host isEqualToString:@"itunes.apple.com"];
+            } else {
+                if (![scheme isEqualToString:@"chanify"]) {
+                    appOpen = YES;
+                } else {
+                    NSString *host = self.url.host.lowercaseString;
+                    if ([host isEqualToString:@"chanify.net"] || [host isEqualToString:@"www.chanify.net"]) {
+                        appOpen = YES;
+                    }
+                }
+            }
+            if (appOpen) {
+                if ([UIApplication.sharedApplication canOpenURL:url]) {
                     [UIApplication.sharedApplication openURL:url options:@{} completionHandler:nil];
                     decisionHandler(WKNavigationActionPolicyCancel);
                     return;
                 }
             }
+        }
+        if (navigationAction.targetFrame == nil) {
+            [webView loadRequest:navigationAction.request];
         }
     }
     decisionHandler(WKNavigationActionPolicyAllow);

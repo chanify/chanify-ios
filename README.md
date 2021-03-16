@@ -68,6 +68,30 @@ res = Net::HTTP.post_form(uri, 'text' => 'hello')
 puts res.body
 ```
 
+```javascript
+const https = require('https')
+const querystring = require('querystring');
+
+const data = querystring.stringify({ text: 'hello' })
+const options = {
+    hostname: 'api.chanify.net',
+    port: 443,
+    path: '/v1/sender/token',
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': data.length
+        }
+    }
+    var req = https.request(options, (res) => {
+    res.on('data', (d) => {
+        process.stdout.write(d);
+    });
+});  
+req.write(data);
+req.end();
+```
+
 ## Build
 
 ```bash
