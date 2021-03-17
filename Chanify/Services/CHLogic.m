@@ -188,16 +188,26 @@
     if (model.endpoint.length <= 0) {
         call_completion(completion, CHLCodeFailed);
     } else {
+        BOOL device = model.flags&CHNodeModelFlagsStoreDevice;
         @weakify(self);
         CHUserModel *user = self.me;
-        NSDictionary *parameters = @{
+        NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{
             @"user": @{
                     @"uid": user.uid,
                     @"key": user.key.pubkey.base64,
             },
-        };
+        }];
+        if (device) {
+            CHDevice *device = CHDevice.shared;
+            [parameters setValue:@{
+                @"uuid": device.uuid.hex,
+                @"key": device.key.pubkey.base64,
+                @"name": device.name,
+                @"model": device.model,
+            } forKey:@"device"];
+        }
         NSURL *url = [NSURL URLWithString:@"/rest/v1/" relativeToURL:[NSURL URLWithString:model.endpoint]];
-        [self sendToEndpoint:url cmd:@"bind-user" user:self.me parameters:parameters completion:^(NSURLResponse *response, NSDictionary *result, NSError *error) {
+        [self sendToEndpoint:url device:device cmd:@"bind-user" user:self.me parameters:parameters completion:^(NSURLResponse *response, NSDictionary *result, NSError *error) {
             @strongify(self);
             CHLCode ret = CHLCodeFailed;
             if (error != nil) {
@@ -314,26 +324,10 @@
 }
 
 - (void)sendCmd:(NSString *)cmd user:(CHUserModel *)user parameters:(NSDictionary *)parameters completion:(nullable void (^)(NSURLResponse *response, NSDictionary *result, NSError *error))completion {
-    CHDevice *device = CHDevice.shared;
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:parameters];
-    [params setValue:@((uint64_t)(NSDate.date.timeIntervalSince1970 * 1000)) forKey:@"nonce"];
-    NSData *data = params.json;
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:cmd relativeToURL:self.baseURL]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
-    [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:[device.key sign:data].base64 forHTTPHeaderField:@"CHDevSign"];
-    [request setValue:[user.key sign:data].base64 forHTTPHeaderField:@"CHUserSign"];
-    [request setHTTPBody:data];
-    NSURLSessionDataTask *task = [self.manager dataTaskWithRequest:request uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, NSDictionary *result, NSError *error) {
-        if (completion != nil) {
-            completion(response, result, error);
-        }
-    }];
-    [task resume];
+    [self sendToEndpoint:[NSURL URLWithString:cmd relativeToURL:self.baseURL] device:YES cmd:cmd user:user parameters:parameters completion:completion];
 }
 
-- (void)sendToEndpoint:(NSURL *)endpoint cmd:(NSString *)cmd user:(CHUserModel *)user parameters:(NSDictionary *)parameters completion:(nullable void (^)(NSURLResponse *response, NSDictionary *result, NSError *error))completion {
+- (void)sendToEndpoint:(NSURL *)endpoint device:(BOOL)device cmd:(NSString *)cmd user:(CHUserModel *)user parameters:(NSDictionary *)parameters completion:(nullable void (^)(NSURLResponse *response, NSDictionary *result, NSError *error))completion {
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:parameters];
     [params setValue:@((uint64_t)(NSDate.date.timeIntervalSince1970 * 1000)) forKey:@"nonce"];
     NSData *data = params.json;
@@ -341,6 +335,9 @@
     [request setHTTPMethod:@"POST"];
     [request setValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    if (device) {
+        [request setValue:[CHDevice.shared.key sign:data].base64 forHTTPHeaderField:@"CHDevSign"];
+    }
     [request setValue:[user.key sign:data].base64 forHTTPHeaderField:@"CHUserSign"];
     [request setHTTPBody:data];
     NSURLSessionDataTask *task = [self.manager dataTaskWithRequest:request uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, NSDictionary *result, NSError *error) {

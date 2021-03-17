@@ -21,6 +21,7 @@
 		6D67CBDB25D3BAD700ECF655 /* NSDate+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */; };
 		6D67CBEA25D4298A00ECF655 /* CHCrpyto.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBE925D4298A00ECF655 /* CHCrpyto.m */; };
 		6D8F9EAC25EF45E800A8912C /* CHFormItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F9EAB25EF45E800A8912C /* CHFormItem.m */; };
+		6D9C209426020A4200F40CDD /* CHFormSwitchItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9C209326020A4200F40CDD /* CHFormSwitchItem.m */; };
 		6DBA92BE25F609CD00B792FE /* CHColorConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92BD25F609CD00B792FE /* CHColorConfiguration.m */; };
 		6DBA92C525F60B3B00B792FE /* UIColor+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92C425F60B3B00B792FE /* UIColor+CHExt.m */; };
 		6DBA92DF25F8A83700B792FE /* CHSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92DE25F8A83700B792FE /* CHSplitViewController.m */; };
@@ -200,6 +201,8 @@
 		6D67CBE925D4298A00ECF655 /* CHCrpyto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHCrpyto.m; sourceTree = "<group>"; };
 		6D8F9EAA25EF45E800A8912C /* CHFormItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormItem.h; sourceTree = "<group>"; };
 		6D8F9EAB25EF45E800A8912C /* CHFormItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormItem.m; sourceTree = "<group>"; };
+		6D9C209226020A4200F40CDD /* CHFormSwitchItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormSwitchItem.h; sourceTree = "<group>"; };
+		6D9C209326020A4200F40CDD /* CHFormSwitchItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormSwitchItem.m; sourceTree = "<group>"; };
 		6DBA92BC25F609CD00B792FE /* CHColorConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHColorConfiguration.h; sourceTree = "<group>"; };
 		6DBA92BD25F609CD00B792FE /* CHColorConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHColorConfiguration.m; sourceTree = "<group>"; };
 		6DBA92C325F60B3B00B792FE /* UIColor+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+CHExt.h"; sourceTree = "<group>"; };
@@ -405,6 +408,8 @@
 				6D4416FD25F2655C0041EBA0 /* CHFormValueItem.m */,
 				6D44170325F273150041EBA0 /* CHFormCodeItem.h */,
 				6D44170425F273150041EBA0 /* CHFormCodeItem.m */,
+				6D9C209226020A4200F40CDD /* CHFormSwitchItem.h */,
+				6D9C209326020A4200F40CDD /* CHFormSwitchItem.m */,
 				6D4416F725F264A70041EBA0 /* CHFormButtonItem.h */,
 				6D4416F825F264A70041EBA0 /* CHFormButtonItem.m */,
 				6DD969CB25F47A6300EEEECF /* CHFormIconItem.h */,
@@ -1006,6 +1011,7 @@
 				6DC6C2C525D15A8600512E36 /* CHIndicatorPanelView.m in Sources */,
 				6DC6C34B25D16A7300512E36 /* CHSettingsViewController.m in Sources */,
 				6DC6C2C025D15A7900512E36 /* CHIndicatorView.m in Sources */,
+				6D9C209426020A4200F40CDD /* CHFormSwitchItem.m in Sources */,
 				6DC6C24925D1122100512E36 /* CHUtils.m in Sources */,
 				6D278E4125E0ECAC00FC48CD /* CHChannelTableViewCell.m in Sources */,
 				6DC6C32725D1626D00512E36 /* CryptoKit.swift in Sources */,

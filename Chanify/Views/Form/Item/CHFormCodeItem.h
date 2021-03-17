@@ -11,7 +11,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CHFormCodeItem : CHFormValueItem
 
-
 @end
 
 NS_ASSUME_NONNULL_END

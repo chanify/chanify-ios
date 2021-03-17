@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #define kCHFormTextFieldTag     1000
 #define kCHFormImageViewTag     1001
+#define kCHFormSwitchViewTag    1002
 
 @class CHFormItem;
 @class CHFormSection;

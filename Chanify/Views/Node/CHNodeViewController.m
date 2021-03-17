@@ -42,16 +42,13 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
             if (info.count > 0) {
                 NSString *nid = [info valueForKey:@"nodeid"];
                 if (nid.length > 0) {
-                    _model = [CHNodeModel modelWithNID:nid name:[info valueForKey:@"name"] endpoint:[info valueForKey:@"endpoint"] features:[[info valueForKey:@"features"] componentsJoinedByString:@","]];
+                    _model = [CHNodeModel modelWithNID:nid name:[info valueForKey:@"name"] endpoint:[info valueForKey:@"endpoint"] flags:0 features:[[info valueForKey:@"features"] componentsJoinedByString:@","]];
                     CHNodeModel *model = [CHLogic.shared.userDataSource nodeWithNID:nid];
                     if (model == nil) {
                         _status = CHNodeVCStatusNew;
                     } else {
-                        if ([self.model isFullEqual:model]) {
-                            _status = CHNodeVCStatusShow;
-                        } else {
-                            _status = CHNodeVCStatusUpdate;
-                        }
+                        self.model.flags = model.flags;
+                        _status = CHNodeVCStatusUpdate;
                     }
                 }
             }
@@ -118,9 +115,26 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
 
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"Features".localized])];
     for (NSString *feature in self.model.features) {
-        CHFormValueItem *item = [CHFormValueItem itemWithName:feature title:feature.localized];
-        item.icon = [self featureIconWithName:feature];
-        [section addFormItem:item];
+        if ([feature isEqualToString:@"store.device"] && self.status != CHNodeVCStatusNone) {
+            @weakify(self);
+            CHFormSwitchItem *item = [CHFormSwitchItem itemWithName:feature title:feature.localized];
+            item.icon = [self featureIconWithName:feature];
+            item.value = @(self.model.flags & CHNodeModelFlagsStoreDevice);
+            item.enbaled = (self.status != CHNodeVCStatusShow);
+            item.onChanged = ^(CHFormSwitchItem *item, id oldValue, NSNumber *newValue) {
+                @strongify(self);
+                if ([newValue boolValue]) {
+                    self.model.flags |= CHNodeModelFlagsStoreDevice;
+                } else {
+                    self.model.flags &= ~CHNodeModelFlagsStoreDevice;
+                }
+            };
+            [section addFormItem:item];
+        } else {
+            CHFormValueItem *item = [CHFormValueItem itemWithName:feature title:feature.localized];
+            item.icon = [self featureIconWithName:feature];
+            [section addFormItem:item];
+        }
     }
 
     [form addFormSection:(section = [CHFormSection section])];
