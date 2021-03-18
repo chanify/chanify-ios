@@ -80,6 +80,7 @@
 "Delete this channel or not?"="Delete this channel or not?";
 "Delete this node or not?"="Delete this node or not?";
 "Add node failed"="Add node failed";
+"Update node failed"="Update node failed";
 
 "sys.none"="Uncategorized";
 "sys.device"="Devices";

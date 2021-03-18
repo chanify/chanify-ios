@@ -56,4 +56,9 @@
             && (self.features == rhs.features || [[self.features componentsJoinedByString:@","] isEqualToString:[rhs.features componentsJoinedByString:@","]]));
 }
 
+- (NSURL *)apiURL {
+    return [NSURL URLWithString:@"/rest/v1/" relativeToURL:[NSURL URLWithString:self.endpoint]];
+}
+
+
 @end

@@ -95,8 +95,15 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
 }
 
 - (void)actionUpdateNode {
-    [CHLogic.shared updateNode:self.model];
-    [self closeAnimated:YES completion:nil];
+    [CHRouter.shared showIndicator:YES];
+    [CHLogic.shared insertNode:self.model completion:^(CHLCode result) {
+        [CHRouter.shared showIndicator:NO];
+        if (result != CHLCodeOK) {
+            [CHRouter.shared makeToast:@"Update node failed".localized];
+        } else {
+            [self closeAnimated:YES completion:nil];
+        }
+    }];
 }
 
 - (void)actionDeleteNode {

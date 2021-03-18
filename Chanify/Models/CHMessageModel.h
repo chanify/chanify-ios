@@ -9,9 +9,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class CHNSDataSource;
 @class CHUserDataSource;
 @class UNMutableNotificationContent;
+@protocol CHKeyStorage;
 
 typedef NS_ENUM(NSInteger, CHMessageType) {
     CHMessageTypeNone       = -1,
@@ -29,8 +29,8 @@ typedef NS_ENUM(NSInteger, CHMessageType) {
 @property (nonatomic, readonly, nullable, strong) NSString *text;
 
 + (nullable instancetype)modelWithData:(nullable NSData *)data mid:(NSString *)mid;
-+ (nullable instancetype)modelWithDS:(CHNSDataSource *)ds uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw;
-+ (nullable instancetype)modelWithKey:(nullable NSData *)key ds:(CHUserDataSource *)ds mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw;
++ (nullable instancetype)modelWithKS:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw;
+//+ (nullable instancetype)modelWithKey:(nullable NSData *)key ds:(CHUserDataSource *)ds mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw;
 + (nullable NSString *)parsePacket:(NSDictionary *)info mid:(NSString * _Nullable * _Nullable)mid data:(NSData * _Nullable * _Nullable)data;
 - (void)formatNotification:(UNMutableNotificationContent *)content;
 

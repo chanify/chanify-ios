@@ -107,46 +107,26 @@
                 break;
             }
         }];
-        return [CHMessageModel modelWithDS:self uid:uid mid:mid data:data raw:nil];
+        return [CHMessageModel modelWithKS:self uid:uid mid:mid data:data raw:nil];
     }
     return nil;
 }
 
-- (void)enumerateMessagesWithUID:(nullable NSString *)uid block:(void (NS_NOESCAPE ^)(NSString *mid, NSData *data))block {
+- (void)enumerateMessagesWithUID:(nullable NSString *)uid block:(void (NS_NOESCAPE ^)(FMDatabase *db, NSString *mid, NSData *data))block {
     if (uid.length > 0 && block != nil) {
-        [self.dbQueue inSavePoint:^(FMDatabase * _Nonnull db, BOOL * _Nonnull rollback) {
+        [self.dbQueue inTransaction:^(FMDatabase * _Nonnull db, BOOL * _Nonnull rollback) {
             FMResultSet *rows = [db executeQuery:@"SELECT `mid`,`data` FROM `msgs` WHERE `uid`=? ORDER BY `mid` DESC;", uid];
             if (rows != nil) {
                 while ([rows next]) {
                     NSString *mid = [rows stringForColumnIndex:0];
                     NSData *data = [rows dataForColumnIndex:1];
                     if (mid.length > 0 && data.length > 0) {
-                        block(mid, data);
+                        block(db, mid, data);
                     }
                 }
                 [rows close];
             }
         }];
-        
-//        __block NSMutableArray *mids = [NSMutableArray new];
-//        __block NSMutableArray *datas = [NSMutableArray new];
-//        [self.dbQueue inDatabase:^(FMDatabase *db) {
-//            FMResultSet *rows = [db executeQuery:@"SELECT `mid`,`data` FROM `msgs` WHERE `uid`=? ORDER BY `mid` DESC;", uid];
-//            if (rows != nil) {
-//                while ([rows next]) {
-//                    NSString *mid = [rows stringForColumnIndex:0];
-//                    NSData *data = [rows dataForColumnIndex:1];
-//                    if (mid.length > 0 && data.length > 0) {
-//                        [mids addObject:mid];
-//                        [datas addObject:data];
-//                    }
-//                }
-//                [rows close];
-//            }
-//        }];
-//        for (NSInteger i = 0; i < mids.count; i++) {
-//            block([mids objectAtIndex:i], [datas objectAtIndex:i]);
-//        }
     }
 }
 
@@ -160,5 +140,35 @@
     }
 }
 
+@end
+
+@interface CHTempKeyStorage ()
+
+@property (nonatomic, readonly, strong) FMDatabase *db;
 
 @end
+
+@implementation CHTempKeyStorage
+
++ (instancetype)keyStorage:(FMDatabase *)db {
+    return [[self.class alloc] initWithDB:db];
+}
+
+- (instancetype)initWithDB:(FMDatabase *)db {
+    if (self = [super init]) {
+        _db = db;
+    }
+    return self;
+}
+
+- (nullable NSData *)keyForUID:(nullable NSString *)uid {
+    __block NSData *key = nil;
+    if (uid.length > 0) {
+        key = [self.db dataForQuery:@"SELECT `key` FROM `keys` WHERE `uid`=? LIMIT 1;", uid];
+    }
+    return key;
+}
+
+
+@end
+

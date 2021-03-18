@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithConfiguration:(CHMsgCellConfiguration *)configuration;
 - (void)applyConfiguration:(Configuration)configuration;
 - (void)setupViews;
+- (NSArray<UIMenuItem *> *)menuActions;
 
 
 @end

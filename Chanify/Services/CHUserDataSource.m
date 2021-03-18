@@ -277,11 +277,11 @@
     return model;
 }
 
-- (BOOL)upsertMessageData:(NSData *)data uid:(NSString *)uid mid:(NSString *)mid cid:(NSString **)cid {
+- (BOOL)upsertMessageData:(NSData *)data ks:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid cid:(NSString **)cid {
     __block BOOL res = NO;
     if (mid.length > 0) {
         NSData *raw = nil;
-        CHMessageModel *model = [CHMessageModel modelWithKey:self.srvkey ds:CHLogic.shared.userDataSource mid:mid data:data raw:&raw];
+        CHMessageModel *model = [CHMessageModel modelWithKS:ks uid:uid mid:mid data:data raw:&raw];
         if (model != nil) {
             __block NSString *cidStr = nil;
             [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {

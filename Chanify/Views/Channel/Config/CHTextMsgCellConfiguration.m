@@ -29,24 +29,13 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
 
 @interface CHTextMsgCellContentView () <M80AttributedLabelDelegate>
 
-@property (nonatomic, readonly, strong) UILongPressGestureRecognizer *longPressRecognizer;
-
 @end
 
 @implementation CHTextMsgCellContentView
 
-- (void)dealloc {
-    if (self.longPressRecognizer != nil) {
-        [self removeGestureRecognizer:self.longPressRecognizer];
-        _longPressRecognizer = nil;
-    }
-}
-
-- (BOOL)canBecomeFirstResponder {
-    return YES;
-}
-
 - (void)setupViews {
+    [super setupViews];
+    
     CHTheme *theme = CHTheme.shared;
 
     M80AttributedLabel *textLabel = [[M80AttributedLabel alloc] initWithFrame:CGRectZero];
@@ -59,10 +48,6 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
     textLabel.numberOfLines = 0;
     textLabel.font = textFont;
     textLabel.delegate = self;
-
-    UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(actionLongPress:)];
-    [self addGestureRecognizer:(_longPressRecognizer = longPressRecognizer)];
-    self.userInteractionEnabled = YES;
 }
 
 - (void)applyConfiguration:(CHTextMsgCellConfiguration *)configuration {
@@ -97,18 +82,16 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
     }
 }
 
-#pragma mark - Action Methods
-- (void)actionLongPress:(UILongPressGestureRecognizer *)recognizer {
-    [self becomeFirstResponder];
-
-    UIMenuController *menu = UIMenuController.sharedMenuController;
-    UIMenuItem *copyItem = [[UIMenuItem alloc]initWithTitle:@"Copy".localized action:@selector(actionCopy:)];
-    UIMenuItem *shareItem = [[UIMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)];
-    UIMenuItem *deleteItem = [[UIMenuItem alloc]initWithTitle:@"Delete".localized action:@selector(actionDelete:)];
-    menu.menuItems = @[copyItem, shareItem, deleteItem];
-    [menu showMenuFromView:self.bubbleView rect:self.textLabel.frame];
+- (NSArray<UIMenuItem *> *)menuActions {
+    NSMutableArray *items = [NSMutableArray arrayWithArray:@[
+        [[UIMenuItem alloc]initWithTitle:@"Copy".localized action:@selector(actionCopy:)],
+        [[UIMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)],
+    ]];
+    [items addObjectsFromArray:super.menuActions];
+    return items;
 }
 
+#pragma mark - Action Methods
 - (void)actionCopy:(id)sender {
     UIPasteboard.generalPasteboard.string = self.textLabel.text;
     [CHRouter.shared makeToast:@"Copied".localized];
@@ -116,15 +99,6 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
 
 - (void)actionShare:(id)sender {
     [CHRouter.shared showShareItem:@[[(CHTextMsgCellConfiguration *)self.configuration text]] sender:sender handler:nil];
-}
-
-- (void)actionDelete:(id)sender {
-    NSString *mid = self.configuration.mid;
-    if (mid.length > 0) {
-        [CHRouter.shared showAlertWithTitle:@"Delete this message or not?".localized action:@"Delete".localized handler:^{
-            [CHLogic.shared deleteMessage:mid];
-        }];
-    }
 }
 
 

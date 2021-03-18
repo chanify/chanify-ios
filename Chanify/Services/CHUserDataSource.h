@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class CHNodeModel;
 @class CHChannelModel;
 @class CHMessageModel;
+@protocol CHKeyStorage;
 
 @interface CHUserDataSource : NSObject
 
@@ -34,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)deleteMessage:(NSString *)mid;
 - (NSArray<CHMessageModel *> *)messageWithCID:(nullable NSString *)cid from:(NSString *)from to:(NSString *)to count:(NSUInteger)count;
 - (nullable CHMessageModel *)messageWithMID:(nullable NSString *)mid;
-- (BOOL)upsertMessageData:(NSData *)data uid:(NSString *)uid mid:(NSString *)mid cid:(NSString * _Nullable * _Nullable)cid;
+- (BOOL)upsertMessageData:(NSData *)data ks:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid cid:(NSString * _Nullable * _Nullable)cid;
 
 
 @end

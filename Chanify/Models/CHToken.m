@@ -59,9 +59,11 @@
     }
 }
 
-- (NSString *)stringValue {
+- (NSString *)formatString:(nullable NSString *)source {
+    NSMutableArray *items = [NSMutableArray arrayWithObject:self.token.userId];
+    if (source.length > 0) [items addObject:source];
     NSData *token = self.token.data;
-    NSData *key = [CHLogic.shared.nsDataSource keyForUID:self.token.userId];
+    NSData *key = [CHLogic.shared.nsDataSource keyForUID:[items componentsJoinedByString:@"."]];
     NSData *sign = [CHCrpyto hmacSha256:token secret:[key subdataWithRange:NSMakeRange(0, 256/8)]];
     return [NSString stringWithFormat:@"%@.%@", token.base64, sign.base64];
 }

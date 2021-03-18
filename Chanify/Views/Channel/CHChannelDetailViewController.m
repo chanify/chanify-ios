@@ -78,7 +78,7 @@
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"Token".localized])];
     for (CHNodeModel *model in [CHLogic.shared.userDataSource loadNodes]) {
         tk.node = model;
-        NSString *tokenValue = tk.stringValue;
+        NSString *tokenValue = [tk formatString:(model.flags&CHNodeModelFlagsStoreDevice ? model.nid : nil)];
         CHFormCodeItem *item = [CHFormCodeItem itemWithName:[@"token." stringByAppendingString:model.nid] title:model.name value:tokenValue];
         item.action = ^(CHFormCodeItem *item) {
             UIPasteboard.generalPasteboard.string = item.value;

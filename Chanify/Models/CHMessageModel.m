@@ -27,29 +27,38 @@
     return nil;
 }
 
-+ (nullable instancetype)modelWithDS:(CHNSDataSource *)ds uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw {
-    NSData *key = [ds keyForUID:uid];
-    if (key.length >= kCHAesGcmKeyBytes * 2 && mid.length > 0 && data.length > kCHAesGcmNonceBytes + kCHAesGcmTagBytes) {
-        NSData *payload = [CHCrpyto aesOpenWithKey:[key subdataWithRange:NSMakeRange(0, kCHAesGcmKeyBytes)] data:data auth:[key subdataWithRange:NSMakeRange(kCHAesGcmKeyBytes, kCHAesGcmKeyBytes)]];
-        if (payload.length > 0) {
-            NSError *error = nil;
-            CHTPMessage *msg = [CHTPMessage parseFromData:payload error:&error];
-            if (error == nil && msg != nil) {
-                if (msg.ciphertext.length > kCHAesGcmNonceBytes + kCHAesGcmTagBytes) {
-                    key = [ds keyForUID:[NSString stringWithFormat:@"%@.%@", uid, msg.from.base32]];
-                    if (key.length >= kCHAesGcmKeyBytes * 2) {
-                        NSData *outdata = [CHCrpyto aesOpenWithKey:[key subdataWithRange:NSMakeRange(0, kCHAesGcmKeyBytes)] data:msg.ciphertext auth:[key subdataWithRange:NSMakeRange(kCHAesGcmKeyBytes, kCHAesGcmKeyBytes)]];
-                        if (outdata.length > 0) {
-                            msg.content = outdata;
-                            msg.ciphertext = nil;
-                            payload = msg.data;
++ (nullable instancetype)modelWithKS:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw {
+    if (mid.length > 0) {
+        NSString *keyID = uid;
+        NSString *src = getSrcFromMID(mid);
+        if (src.length > 0) keyID = [keyID stringByAppendingFormat:@".%@", src];
+
+        NSData *key = [ks keyForUID:keyID];
+        if (key.length >= kCHAesGcmKeyBytes * 2 && data.length > kCHAesGcmNonceBytes + kCHAesGcmTagBytes) {
+            NSData *payload = [CHCrpyto aesOpenWithKey:[key subdataWithRange:NSMakeRange(0, kCHAesGcmKeyBytes)] data:data auth:[key subdataWithRange:NSMakeRange(kCHAesGcmKeyBytes, kCHAesGcmKeyBytes)]];
+            if (payload.length > 0) {
+                NSError *error = nil;
+                CHTPMessage *msg = [CHTPMessage parseFromData:payload error:&error];
+                if (error == nil && msg != nil) {
+                    if (msg.ciphertext.length > kCHAesGcmNonceBytes + kCHAesGcmTagBytes) {
+                        key = [ks keyForUID:[NSString stringWithFormat:@"%@.%@", uid, msg.from.base32]];
+                        if (key.length >= kCHAesGcmKeyBytes * 2) {
+                            NSData *outdata = [CHCrpyto aesOpenWithKey:[key subdataWithRange:NSMakeRange(0, kCHAesGcmKeyBytes)] data:msg.ciphertext auth:[key subdataWithRange:NSMakeRange(kCHAesGcmKeyBytes, kCHAesGcmKeyBytes)]];
+                            if (outdata.length <= 0) {
+                                CHLogE("Invalid message key");
+                                return nil;
+                            } else {
+                                msg.content = outdata;
+                                msg.ciphertext = nil;
+                                payload = msg.data;
+                            }
                         }
                     }
+                    if (raw != nil) {
+                        *raw = payload;
+                    }
+                    return [self.class modelWithData:payload mid:mid];
                 }
-                if (raw != nil) {
-                    *raw = payload;
-                }
-                return [self.class modelWithData:payload mid:mid];
             }
         }
     }
@@ -141,6 +150,17 @@
 
 - (NSUInteger)hash {
     return self.mid.hash;
+}
+
+inline static NSString *getSrcFromMID(NSString *mid) {
+    NSString *res = nil;
+    if (mid.length > 0) {
+        NSArray *items = [mid componentsSeparatedByString:@"."];
+        if (items.count > 1) {
+            res = [items objectAtIndex:1];
+        }
+    }
+    return res;
 }
 
 inline static NSString *parseMID(const uint8_t *ptr, NSString *str) {

@@ -80,6 +80,7 @@
 "Delete this channel or not?"="是否要删除这个频道？";
 "Delete this node or not?"="是否要删除这个节点？";
 "Add node failed"="添加节点失败";
+"Update node failed"="更新节点失败";
 
 "sys.none"="未分类消息";
 "sys.device"="设备消息";

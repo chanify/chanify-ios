@@ -211,7 +211,9 @@
                 if (delegate != nil) {
                     [delegate scanFindURL:url];
                 } else {
-                    [CHRouter.shared handleURL:url];
+                    dispatch_main_after(kCHAnimateMediumDuration, ^{
+                        [CHRouter.shared handleURL:url];
+                    });
                 }
             });
         }];

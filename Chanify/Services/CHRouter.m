@@ -292,7 +292,7 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
         return res;
     }];
     [chanify addRoute:@"/action/token/default" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
-        UIPasteboard.generalPasteboard.string = CHToken.defaultToken.stringValue;
+        UIPasteboard.generalPasteboard.string = [CHToken.defaultToken formatString:nil];
         [CHRouter.shared makeToast:@"Token copied".localized];
         return YES;
     }];

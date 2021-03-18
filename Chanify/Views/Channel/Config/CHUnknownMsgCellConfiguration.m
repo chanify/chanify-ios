@@ -28,6 +28,8 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
 @implementation CHUnknownMsgCellContentView
 
 - (void)setupViews {
+    [super setupViews];
+
     UILabel *textLabel = [UILabel new];
     [self.bubbleView addSubview:(_textLabel = textLabel)];
     textLabel.textColor = CHTheme.shared.tintColor;
@@ -36,6 +38,7 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
 }
 
 - (void)applyConfiguration:(CHUnknownMsgCellConfiguration *)configuration {
+    [super applyConfiguration:configuration];
     self.textLabel.text = @kUnknownMessageText;
     self.textLabel.frame = configuration.textRect;
 }
@@ -65,6 +68,10 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
 
 - (__kindof UIView<UIContentView> *)makeContentView {
     return [[CHUnknownMsgCellContentView alloc] initWithConfiguration:self];
+}
+
+- (void)setNeedRecalcContentLayout {
+    _textRect = CGRectZero;
 }
 
 - (CGSize)calcContentSize:(CGSize)size {

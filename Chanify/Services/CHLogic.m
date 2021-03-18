@@ -91,6 +91,9 @@
 }
 
 - (void)logoutWithCompletion:(nullable CHLogicBlock)completion {
+    for (CHNodeModel *node in self.userDataSource.loadNodes) {
+        [self unbindNode:node];
+    }
     if (_me == nil) {
         call_completion(completion, CHLCodeOK);
     } else {
@@ -121,7 +124,16 @@
     if (seckey == nil) {
         call_completion(completion, CHLCodeFailed);
     } else {
-        [self bindAccount:seckey completion:completion];
+        @weakify(self);
+        [self bindAccount:seckey completion:^(CHLCode result) {
+            if (completion != nil) {
+                completion(result);
+            }
+            if (result == CHLCodeOK) {
+                @strongify(self);
+                [self updateNodeBind];
+            }
+        }];
     }
 }
 
@@ -135,7 +147,7 @@
     NSString *uid = [CHMessageModel parsePacket:userInfo mid:&mid data:&data];
     if (uid.length > 0 && [uid isEqualToString:self.me.uid] && mid.length > 0 && data.length > 0) {
         NSString *cid = nil;
-        if ([self.userDataSource upsertMessageData:data uid:uid mid:mid cid:&cid]) {
+        if ([self.userDataSource upsertMessageData:data ks:self.nsDataSource uid:uid mid:mid cid:&cid]) {
             if (cid != nil) {
                 [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[]];
             }
@@ -147,7 +159,12 @@
 }
 
 - (void)updatePushToken:(NSData *)pushToken {
-    [self updatePushToken:pushToken retry:YES];
+    [self updatePushToken:pushToken endpoint:self.baseURL retry:YES];
+    for (CHNodeModel *node in self.userDataSource.loadNodes) {
+        if (node.flags&CHNodeModelFlagsStoreDevice) {
+            [self updatePushToken:pushToken endpoint:node.apiURL retry:NO];
+        }
+    }
 }
 
 - (BOOL)deleteMessage:(nullable NSString *)mid {
@@ -177,6 +194,7 @@
 }
 
 - (BOOL)deleteNode:(nullable NSString *)nid {
+    [self unbindNode:[self.userDataSource nodeWithNID:nid]];
     BOOL res = [self.userDataSource deleteNode:nid];
     if (res) {
         [self sendNotifyWithSelector:@selector(logicNodesUpdated:) withObject:@[]];
@@ -191,23 +209,22 @@
         BOOL device = model.flags&CHNodeModelFlagsStoreDevice;
         @weakify(self);
         CHUserModel *user = self.me;
-        NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{
+        NSDictionary *parameters = @{
             @"user": @{
                     @"uid": user.uid,
                     @"key": user.key.pubkey.base64,
             },
-        }];
+        };
         if (device) {
             CHDevice *device = CHDevice.shared;
-            [parameters setValue:@{
+            NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:parameters];
+            [params setValue:@{
                 @"uuid": device.uuid.hex,
                 @"key": device.key.pubkey.base64,
-                @"name": device.name,
-                @"model": device.model,
             } forKey:@"device"];
+            parameters = params;
         }
-        NSURL *url = [NSURL URLWithString:@"/rest/v1/" relativeToURL:[NSURL URLWithString:model.endpoint]];
-        [self sendToEndpoint:url device:device cmd:@"bind-user" user:self.me parameters:parameters completion:^(NSURLResponse *response, NSDictionary *result, NSError *error) {
+        [self sendToEndpoint:model.apiURL device:device cmd:@"bind-user" user:self.me parameters:parameters completion:^(NSURLResponse *response, NSDictionary *result, NSError *error) {
             @strongify(self);
             CHLCode ret = CHLCodeFailed;
             if (error != nil) {
@@ -291,7 +308,7 @@
     }
 }
 
-- (void)updatePushToken:(NSData *)pushToken retry:(BOOL)retry {
+- (void)updatePushToken:(NSData *)pushToken endpoint:(NSURL *)endpoint retry:(BOOL)retry {
     if (self.me != nil) {
         CHDevice *device = CHDevice.shared;
         NSDictionary *parameters = @{
@@ -305,7 +322,7 @@
 #endif
         };
         @weakify(self);
-        [self sendCmd:@"push-token" user:self.me parameters:parameters completion:^(NSURLResponse *response, NSDictionary *result, NSError *error) {
+        [self sendToEndpoint:endpoint device:YES cmd:@"push-token" user:self.me parameters:parameters completion:^(NSURLResponse *response, NSDictionary *result, NSError *error) {
             if (error == nil) {
                 CHLogI("Update push token success.");
             } else {
@@ -315,11 +332,30 @@
                     @strongify(self);
                     [self bindAccount:nil completion:^(CHLCode result) {
                         @strongify(self);
-                        [self updatePushToken:pushToken retry:NO];
+                        [self updatePushToken:pushToken endpoint:endpoint retry:NO];
                     }];
                 }
             }
         }];
+    }
+}
+
+- (void)updateNodeBind {
+    for (CHNodeModel *node in self.userDataSource.loadNodes) {
+        if (node.flags&CHNodeModelFlagsStoreDevice) {
+            [self insertNode:node completion:nil];
+        }
+    }
+}
+
+- (void)unbindNode:(nullable CHNodeModel *)node {
+    if (node != nil && node.flags&CHNodeModelFlagsStoreDevice) {
+        CHDevice *device = CHDevice.shared;
+        NSDictionary *parameters = @{
+            @"device": device.uuid.hex,
+            @"user": self.me.uid,
+        };
+        [self sendToEndpoint:node.apiURL device:YES cmd:@"unbind-user" user:self.me parameters:parameters completion:nil];
     }
 }
 
@@ -398,9 +434,9 @@
     if (uid.length > 0) {
         __block BOOL channelUpdated = NO;
         NSMutableArray<NSString *> *mids = [NSMutableArray new];
-        [self.nsDataSource enumerateMessagesWithUID:uid block:^(NSString *mid, NSData *data) {
+        [self.nsDataSource enumerateMessagesWithUID:uid block:^(FMDatabase *db, NSString *mid, NSData *data) {
             NSString *cid = nil;
-            if ([self.userDataSource upsertMessageData:data uid:uid mid:mid cid:&cid]) {
+            if ([self.userDataSource upsertMessageData:data ks:[CHTempKeyStorage keyStorage:db] uid:uid mid:mid cid:&cid]) {
                 if (mid.length > 0) {
                     [mids addObject:mid];
                 }

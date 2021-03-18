@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)defaultToken;
 - (void)setChannel:(NSData *)channel;
 - (void)setNode:(CHNodeModel *)node;
-- (NSString *)stringValue;
+- (NSString *)formatString:(nullable NSString *)source;
 
 
 @end

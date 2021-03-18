@@ -6,6 +6,8 @@
 //
 
 #import "CHMsgCellConfiguration.h"
+#import "CHRouter.h"
+#import "CHLogic.h"
 #import "CHTheme.h"
 
 @implementation CHMsgCellConfiguration
@@ -46,6 +48,12 @@ static UIEdgeInsets bubbleInsets = { 0, 20, 0, 30 };
 
 @end
 
+@interface CHMsgCellContentView ()
+
+@property (nonatomic, readonly, strong) UILongPressGestureRecognizer *longPressRecognizer;
+
+@end
+
 @implementation CHMsgCellContentView
 
 - (instancetype)initWithConfiguration:(CHMsgCellConfiguration *)configuration {
@@ -59,9 +67,20 @@ static UIEdgeInsets bubbleInsets = { 0, 20, 0, 30 };
         
         [self setupViews];
         
+        UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(actionLongPress:)];
+        [self addGestureRecognizer:(_longPressRecognizer = longPressRecognizer)];
+        self.userInteractionEnabled = YES;
+        
         self.configuration = configuration;
     }
     return self;
+}
+
+- (void)dealloc {
+    if (self.longPressRecognizer != nil) {
+        [self removeGestureRecognizer:self.longPressRecognizer];
+        _longPressRecognizer = nil;
+    }
 }
 
 - (void)setConfiguration:(CHMsgCellConfiguration *)configuration {
@@ -74,7 +93,34 @@ static UIEdgeInsets bubbleInsets = { 0, 20, 0, 30 };
 }
 
 - (void)setupViews {
-    
+}
+
+- (BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
+
+#pragma mark - Actions Methods
+- (void)actionLongPress:(UILongPressGestureRecognizer *)recognizer {
+    [self becomeFirstResponder];
+
+    UIMenuController *menu = UIMenuController.sharedMenuController;
+    menu.menuItems = self.menuActions;
+    [menu showMenuFromView:self.bubbleView rect:self.bubbleView.bounds];
+}
+
+- (NSArray<UIMenuItem *> *)menuActions {
+    UIMenuItem *deleteItem = [[UIMenuItem alloc]initWithTitle:@"Delete".localized action:@selector(actionDelete:)];
+    return @[deleteItem];
+}
+
+- (void)actionDelete:(id)sender {
+    NSString *mid = self.configuration.mid;
+    if (mid.length > 0) {
+        [CHRouter.shared showAlertWithTitle:@"Delete this message or not?".localized action:@"Delete".localized handler:^{
+            [CHLogic.shared deleteMessage:mid];
+        }];
+    }
 }
 
 
