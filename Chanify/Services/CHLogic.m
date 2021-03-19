@@ -16,11 +16,18 @@
 #import "CHDevice.h"
 #import "CHCrpyto.h"
 
+#if DEBUG
+#   define kSandbox    YES
+#else
+#   define kSandbox    NO  // TestFlight use production APNS.
+#endif
+
 @interface CHLogic ()
 
 @property (nonatomic, readonly, strong) NSURL *baseURL;
 @property (nonatomic, readonly, strong) NSString *userAgent;
 @property (nonatomic, readonly, strong) AFURLSessionManager *manager;
+@property (nonatomic, readonly, strong) NSData *pushToken;
 
 @end
 
@@ -38,6 +45,7 @@
 - (instancetype)init {
     if (self = [super init]) {
         CHDevice *device = CHDevice.shared;
+        _pushToken = nil;
         _me = [CHUserModel modelWithKey:[CHSecKey secKeyWithName:@kCHUserSecKeyName device:NO created:NO]];
         _baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://%s/rest/v1/", kCHAPIHostname]];
         _userAgent = [NSString stringWithFormat:@"%@/%@-%d (%@; %@; Scale/%0.2f)", device.app, device.version, device.build, device.model, device.osInfo, device.scale];
@@ -159,6 +167,7 @@
 }
 
 - (void)updatePushToken:(NSData *)pushToken {
+    _pushToken = pushToken;
     [self updatePushToken:pushToken endpoint:self.baseURL retry:YES];
     for (CHNodeModel *node in self.userDataSource.loadNodes) {
         if (node.flags&CHNodeModelFlagsStoreDevice) {
@@ -221,6 +230,8 @@
             [params setValue:@{
                 @"uuid": device.uuid.hex,
                 @"key": device.key.pubkey.base64,
+                @"push-token": self.pushToken.base64,
+                @"sandbox": @(kSandbox),
             } forKey:@"device"];
             parameters = params;
         }
@@ -315,11 +326,7 @@
             @"device": device.uuid.hex,
             @"user": self.me.uid,
             @"token": pushToken.base64,
-#if DEBUG
-            @"sandbox": @(YES),
-#else
-            @"sandbox": @(NO),  // TestFlight use production APNS.
-#endif
+            @"sandbox": @(kSandbox),
         };
         @weakify(self);
         [self sendToEndpoint:endpoint device:YES cmd:@"push-token" user:self.me parameters:parameters completion:^(NSURLResponse *response, NSDictionary *result, NSError *error) {
