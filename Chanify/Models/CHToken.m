@@ -59,13 +59,22 @@
     }
 }
 
-- (NSString *)formatString:(nullable NSString *)source {
-    NSMutableArray *items = [NSMutableArray arrayWithObject:self.token.userId];
-    if (source.length > 0) [items addObject:source];
+- (NSString *)formatString:(nullable NSString *)source direct:(BOOL)direct {
+    if (source.length <= 0) source = @"sys";
+    NSMutableArray<NSString *> *items = [NSMutableArray new];
     NSData *token = self.token.data;
-    NSData *key = [CHLogic.shared.nsDataSource keyForUID:[items componentsJoinedByString:@"."]];
-    NSData *sign = [CHCrpyto hmacSha256:token secret:[key subdataWithRange:NSMakeRange(0, 256/8)]];
-    return [NSString stringWithFormat:@"%@.%@", token.base64, sign.base64];
+    [items addObject:token.base64];
+    if ([source isEqualToString:@"sys"] || !direct) {
+        NSData *key = [CHLogic.shared.nsDataSource keyForUID:self.token.userId];
+        NSData *sign = [CHCrpyto hmacSha256:token secret:[key subdataWithRange:NSMakeRange(0, 256/8)]];
+        [items addObject:sign.base64];
+    }
+    if (![source isEqualToString:@"sys"]) {
+        NSData *key = [CHLogic.shared.nsDataSource keyForUID:[self.token.userId stringByAppendingFormat:@".%@", source]];
+        NSData *sign = [CHCrpyto hmacSha256:token secret:[key subdataWithRange:NSMakeRange(0, 256/8)]];
+        [items addObject:sign.base64];
+    }
+    return [items componentsJoinedByString:@"."];
 }
 
 
