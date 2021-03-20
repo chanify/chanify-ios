@@ -64,7 +64,9 @@
     NSMutableArray<NSString *> *items = [NSMutableArray new];
     NSData *token = self.token.data;
     [items addObject:token.base64];
-    if ([source isEqualToString:@"sys"] || !direct) {
+    if (![source isEqualToString:@"sys"] && direct) {
+        [items addObject:@""];
+    } else {
         NSData *key = [CHLogic.shared.nsDataSource keyForUID:self.token.userId];
         NSData *sign = [CHCrpyto hmacSha256:token secret:[key subdataWithRange:NSMakeRange(0, 256/8)]];
         [items addObject:sign.base64];
