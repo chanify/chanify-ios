@@ -65,34 +65,6 @@
     return nil;
 }
 
-+ (nullable instancetype)modelWithKey:(nullable NSData *)key ds:(CHUserDataSource *)ds mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw {
-    if (key.length >= kCHAesGcmKeyBytes * 2 && mid.length > 0 && data.length > kCHAesGcmNonceBytes + kCHAesGcmTagBytes) {
-        NSData *payload = [CHCrpyto aesOpenWithKey:[key subdataWithRange:NSMakeRange(0, kCHAesGcmKeyBytes)] data:data auth:[key subdataWithRange:NSMakeRange(kCHAesGcmKeyBytes, kCHAesGcmKeyBytes)]];
-        if (payload.length > 0) {
-            NSError *error = nil;
-            CHTPMessage *msg = [CHTPMessage parseFromData:payload error:&error];
-            if (error == nil && msg != nil) {
-                if (msg.ciphertext.length > kCHAesGcmNonceBytes + kCHAesGcmTagBytes) {
-                    key = [ds keyForNodeID:msg.from.base32];
-                    if (key.length >= kCHAesGcmKeyBytes * 2) {
-                        NSData *outdata = [CHCrpyto aesOpenWithKey:[key subdataWithRange:NSMakeRange(0, kCHAesGcmKeyBytes)] data:msg.ciphertext auth:[key subdataWithRange:NSMakeRange(kCHAesGcmKeyBytes, kCHAesGcmKeyBytes)]];
-                        if (outdata.length > 0) {
-                            msg.content = outdata;
-                            msg.ciphertext = nil;
-                            payload = msg.data;
-                        }
-                    }
-                }
-                if (raw != nil) {
-                    *raw = payload;
-                }
-                return [self.class modelWithData:payload mid:mid];
-            }
-        }
-    }
-    return nil;
-}
-
 + (nullable NSString *)parsePacket:(NSDictionary *)info mid:(NSString * _Nullable * _Nullable)mid data:(NSData * _Nullable * _Nullable)data {
     NSString *uid = [info valueForKey:@"uid"];
     NSString *src = [info valueForKey:@"src"];
