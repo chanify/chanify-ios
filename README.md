@@ -7,6 +7,29 @@
 
 Chanify is a safe and simple notification tools. For developers, system administrators, and everyone can push notifications with API.
 
+<!-- TABLE OF CONTENTS -->
+<details open="open">
+  <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
+  <ol>
+    <li><a href="#getting-started">Getting Started</a></li>
+    <li>
+        <a href="#usage">Usage</a>
+        <ul>
+            <li><a href="#http-api">HTTP API</a></li>
+            <li><a href="#command-line">Command Line</a></li>
+            <li><a href="#python-3">Python 3</a></li>
+            <li><a href="#ruby">Ruby</a></li>
+            <li><a href="#nodejs">NodeJS</a></li>
+        </ul>
+    </li>
+    <li><a href="#build">Build</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+  </ol>
+</details>
+
+
+
 ## Getting Started
 
 1. Install [iOS App](https://itunes.apple.com/us/app/id1531546573).
@@ -21,7 +44,7 @@ Chanify is a safe and simple notification tools. For developers, system administ
 
 ## Usage
 
-#### Http API
+### Http API
 
 - __GET__
 ```
@@ -39,7 +62,19 @@ Content-Type:
 - ```multipart/form-data```: The block of data("text") is text message
 - ```application/x-www-form-urlencoded```: ```text=<url encoded text message>```
 
-#### Command Line
+Additional params
+
+| Key   | Description                               |
+| ----- | ----------------------------------------- |
+| sound | `1` enable sound, otherwise disable sound |
+
+E.g.
+
+```
+https://api.chanify.net/v1/sender/<token>?sound=1
+```
+
+### Command Line
 
 ```bash
 # Send message
@@ -48,7 +83,7 @@ $ curl --form-string "text=hello" "https://api.chanify.net/v1/sender/<token>"
 $ cat message.txt | curl -H "Content-Type: text/plain" --data-binary @- "https://api.chanify.net/v1/sender/<token>"
 ```
 
-#### Python 3
+### Python 3
 
 ```python
 from urllib import request, parse
@@ -58,7 +93,7 @@ req = request.Request("https://api.chanify.net/v1/sender/<token>", data=data)
 request.urlopen(req)
 ```
 
-#### Ruby
+### Ruby
 
 ```ruby
 require 'net/http'
@@ -68,7 +103,7 @@ res = Net::HTTP.post_form(uri, 'text' => 'hello')
 puts res.body
 ```
 
-#### NodeJS
+### NodeJS
 
 ```javascript
 const https = require('https')
@@ -96,12 +131,28 @@ req.end();
 
 ## Build
 
+Init project
+
 ```bash
 $ pod install
 ```
 
-## Test push in simulator
+Test push in simulator
 
 ```bash
 $ make apns text=hello
 ```
+
+## Contributing
+
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+Distributed under the MIT License. See [`LICENSE`](LICENSE) for more information.

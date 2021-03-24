@@ -85,6 +85,12 @@
         _mid = mid;
         _from = msg.from.base32;
         _channel = msg.channel;
+        _sound = nil;
+        CHTPSound *sound = msg.sound;
+        if (sound != nil && sound.type == CHTPSoundType_NormalSound) {
+            _sound = sound.name;
+        }
+        
         NSError *error = nil;
         CHTPMsgContent *content = [CHTPMsgContent parseFromData:msg.content error:&error];
         if (error != nil) {
@@ -114,6 +120,9 @@
 - (void)formatNotification:(UNMutableNotificationContent *)content {
     content.body = self.text;
     content.categoryIdentifier = self.channel.sha1.base64;
+    if (self.sound.length > 0) {
+        content.sound = [UNNotificationSound defaultSound];
+    }
 }
 
 - (BOOL)isEqual:(CHMessageModel *)rhs {

@@ -26,6 +26,7 @@ typedef NS_ENUM(NSInteger, CHMessageType) {
 @property (nonatomic, readonly, assign) CHMessageType type;
 @property (nonatomic, readonly, strong) NSString *from;
 @property (nonatomic, readonly, strong) NSData *channel;
+@property (nonatomic, readonly, nullable, strong) NSString *sound;
 @property (nonatomic, readonly, nullable, strong) NSString *text;
 
 + (nullable instancetype)modelWithData:(nullable NSData *)data mid:(NSString *)mid;
