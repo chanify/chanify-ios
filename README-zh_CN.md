@@ -3,56 +3,56 @@
 [![iTunes App Store](https://img.shields.io/itunes/v/1531546573?logo=apple&style=flat-square)](https://itunes.apple.com/app/id1531546573)
 [![GitHub](https://img.shields.io/github/license/chanify/chanify-ios?style=flat-square)](LICENSE)
 
-English | [简体中文](README-zh_CN.md)
+[English](README.md) | 简体中文
 
-Chanify is a safe and simple notification tools. For developers, system administrators, and everyone can push notifications with API.
+Chanify是一个简单的消息推送工具。每一个人都可以利用提供的API来发送消息推送到自己的iOS设备上。
 
-You can deploy your own [server](https://github.com/chanify/chanify).
+你还可以部署自己的[服务器](https://github.com/chanify/chanify)。
 
 <details open="open">
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
   <ol>
-    <li><a href="#getting-started">Getting Started</a></li>
+    <li><a href="#入门">入门</a></li>
     <li>
-        <a href="#usage">Usage</a>
+        <a href="#usage">用法</a>
         <ul>
             <li><a href="#http-api">HTTP API</a></li>
-            <li><a href="#command-line">Command Line</a></li>
+            <li><a href="#命令行">命令行</a></li>
             <li><a href="#python-3">Python 3</a></li>
             <li><a href="#ruby">Ruby</a></li>
             <li><a href="#nodejs">NodeJS</a></li>
         </ul>
     </li>
-    <li><a href="#for-developer">For Developer</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
+    <li><a href="#开发者">开发者</a></li>
+    <li><a href="#贡献">贡献</a></li>
+    <li><a href="#许可证">许可证</a></li>
   </ol>
 </details>
 
 
 
-## Getting Started
+## 入门
 
-1. Install [iOS App](https://itunes.apple.com/us/app/id1531546573).
-2. Get token from channel detail
-   
+1. 从AppStore安装[iOS应用](https://itunes.apple.com/cn/app/id1531546573)（1.0.0或以上版本）。
+2. 从频道详情页面来获取发送使用的令牌```token```。
+
     ![Get token](Doc/GetToken.gif)
 
-3. Send message
-4. You can create your channel
+3. 使用API来发送消息。
+4. 也可以通过长按扫描二维码图标来进入创建频道，创建自定义的频道。
 
     ![NewChannel](Doc/NewChannel.gif)
 
-## Usage
+## 用法
 
 ### Http API
 
-- __GET__
+- __GET__ 方式
 ```
 https://api.chanify.net/v1/sender/<token>/<message>
 ```
 
-- __POST__
+- __POST__ 方式
 ```
 https://api.chanify.net/v1/sender/<token>
 ```
@@ -63,26 +63,26 @@ Content-Type:
 - ```multipart/form-data```: The block of data("text") is text message
 - ```application/x-www-form-urlencoded```: ```text=<url encoded text message>```
 
-Additional params
+支持以下参数：
 
-| Key      | Description                               |
-| -------- | ----------------------------------------- |
-| sound    | `1` enable sound, otherwise disable sound |
-| priority | `10` default, or `5`                      |
+| 参数名    | 描述                               |
+| -------- | --------------------------------- |
+| sound    | `1` 启用声音提示, 其他情况会静音推送   |
+| priority | `10` 默认优先级, 或者 `5` 较低优先级  |
 
-E.g.
+例如：
 
 ```
 https://api.chanify.net/v1/sender/<token>?sound=1
 ```
 
-### Command Line
+### 命令行
 
 ```bash
-# Send message
+# 发送文本消息
 $ curl --form-string "text=hello" "https://api.chanify.net/v1/sender/<token>"
 
-# Send text file
+# 发送文本文件
 $ cat message.txt | curl -H "Content-Type: text/plain" --data-binary @- "https://api.chanify.net/v1/sender/<token>"
 ```
 
@@ -132,30 +132,30 @@ req.write(data);
 req.end();
 ```
 
-## For Developer
+## 开发者
 
-Init project
+初始化项目依赖
 
 ```bash
 $ pod install
 ```
 
-Test push in simulator
+可以使用下列命令给模拟器发送推送用于测试
 
 ```bash
 $ make apns text=hello
 ```
 
-## Contributing
+## 贡献
 
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+贡献使开源社区成为了一个令人赞叹的学习，启发和创造场所。 **十分感谢**您做出的任何贡献。
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. Fork本项目
+2. 创建您的Feature分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交您的更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 开启一个Pull Request
 
-## License
+## 许可证
 
-Distributed under the MIT License. See [`LICENSE`](LICENSE) for more information.
+根据MIT许可证分发，详情查看[`LICENSE`](LICENSE)。
