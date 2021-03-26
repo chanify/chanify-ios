@@ -11,22 +11,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CHMsgCellConfiguration : CHCellConfiguration
 
-@property (nonatomic, readonly, assign) CGRect bubbleRect;
-
-- (instancetype)initWithMID:(NSString *)mid bubbleRect:(CGRect)bubbleRect;
+- (instancetype)initWithMID:(NSString *)mid;
 - (CGSize)calcContentSize:(CGSize)size;
 
 
 @end
 
-@interface CHMsgCellContentView<Configuration: CHMsgCellConfiguration*> : UIView<UIContentView>
+@interface CHMsgCellContentView<Configuration: __kindof CHMsgCellConfiguration*> : UIView<UIContentView>
 
 @property (nonatomic, nullable, copy) CHMsgCellConfiguration *configuration;
-@property (nonatomic, readonly, strong) UIView *bubbleView;
 
 - (instancetype)initWithConfiguration:(CHMsgCellConfiguration *)configuration;
 - (void)applyConfiguration:(Configuration)configuration;
 - (void)setupViews;
+- (UIView *)contentView;
 - (NSArray<UIMenuItem *> *)menuActions;
 
 

@@ -19,7 +19,7 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
 
 @end
 
-@interface CHUnknownMsgCellContentView : CHMsgCellContentView<CHUnknownMsgCellConfiguration *>
+@interface CHUnknownMsgCellContentView : CHBubbleMsgCellContentView<CHUnknownMsgCellConfiguration *>
 
 @property (nonatomic, readonly, strong) UILabel *textLabel;
 

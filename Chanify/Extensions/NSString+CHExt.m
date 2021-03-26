@@ -11,10 +11,6 @@
 
 @implementation NSString (CHExt)
 
-- (NSString *)localized {
-    return [NSBundle.mainBundle localizedStringForKey:self value:@"" table:nil];
-}
-
 - (NSString *)code {
     NSString *name = self;
     NSUInteger length = self.length;

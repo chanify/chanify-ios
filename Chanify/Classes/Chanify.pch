@@ -28,6 +28,7 @@
 
 #if __has_include(<Foundation/NSString.h>)
 #   import "NSString+CHExt.h"
+#   import "NSString+CHLocalized.h"
 #endif
 
 #if __has_include(<Foundation/NSPredicate.h>)

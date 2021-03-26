@@ -181,8 +181,10 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
     UIImage *image = nil;
     if ([name hasPrefix:@"msg.text"]) {
         image = [UIImage systemImageNamed:@"doc.plaintext"];
+    } else if ([name isEqualToString:@"msg.image"]) {
+        image = [UIImage systemImageNamed:@"photo"];
     } else if ([name isEqualToString:@"store.device"]) {
-        image = [UIImage systemImageNamed:@"apps.iphone"];
+        image = [UIImage systemImageNamed:@"externaldrive.badge.person.crop"];
     }
     return image;
 }

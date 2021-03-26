@@ -67,13 +67,14 @@ Content-Type:
 
 | 参数名    | 描述                               |
 | -------- | --------------------------------- |
+| title    | 通知消息的标题                      |
 | sound    | `1` 启用声音提示, 其他情况会静音推送   |
 | priority | `10` 默认优先级, 或者 `5` 较低优先级  |
 
 例如：
 
 ```
-https://api.chanify.net/v1/sender/<token>?sound=1
+https://api.chanify.net/v1/sender/<token>?sound=1&priority=10&title=hello
 ```
 
 ### 命令行

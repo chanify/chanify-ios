@@ -18,6 +18,8 @@ typedef NS_ENUM(NSInteger, CHMessageType) {
     CHMessageTypeSystem     = 0,
     CHMessageTypeText       = 1,
     CHMessageTypeImage      = 2,
+    CHMessageTypeVideo      = 3,
+    CHMessageTypeAudio      = 4,
 };
 
 @interface CHMessageModel : NSObject
@@ -27,7 +29,9 @@ typedef NS_ENUM(NSInteger, CHMessageType) {
 @property (nonatomic, readonly, strong) NSString *from;
 @property (nonatomic, readonly, strong) NSData *channel;
 @property (nonatomic, readonly, nullable, strong) NSString *sound;
+@property (nonatomic, readonly, nullable, strong) NSString *title;
 @property (nonatomic, readonly, nullable, strong) NSString *text;
+@property (nonatomic, readonly, nullable, strong) NSString *image;
 
 + (nullable instancetype)modelWithData:(nullable NSData *)data mid:(NSString *)mid;
 + (nullable instancetype)modelWithKS:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw;

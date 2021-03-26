@@ -331,9 +331,9 @@
         @weakify(self);
         [self sendToEndpoint:endpoint device:YES cmd:@"push-token" user:self.me parameters:parameters completion:^(NSURLResponse *response, NSDictionary *result, NSError *error) {
             if (error == nil) {
-                CHLogI("Update push token success.");
+                CHLogI("Update push token to %s success.", endpoint.host.cstr);
             } else {
-                CHLogW("Update push token failed: %s", error.description.cstr);
+                CHLogW("Update push token to %s failed: %s", endpoint.host.cstr, error.description.cstr);
                 NSHTTPURLResponse *resp = (NSHTTPURLResponse *)response;
                 if (resp.statusCode == 404 && retry) {
                     @strongify(self);
@@ -444,12 +444,12 @@
         [self.nsDataSource enumerateMessagesWithUID:uid block:^(FMDatabase *db, NSString *mid, NSData *data) {
             NSString *cid = nil;
             if ([self.userDataSource upsertMessageData:data ks:[CHTempKeyStorage keyStorage:db] uid:uid mid:mid cid:&cid]) {
-                if (mid.length > 0) {
-                    [mids addObject:mid];
-                }
                 if (cid != nil) {
                     channelUpdated = YES;
                 }
+            }
+            if (mid.length > 0) {
+                [mids addObject:mid];
             }
         }];
         if (mids.count > 0) {

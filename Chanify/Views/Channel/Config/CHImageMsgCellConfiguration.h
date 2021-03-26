@@ -1,15 +1,15 @@
 //
-//  CHTextMsgCellConfiguration.h
+//  CHImageMsgCellConfiguration.h
 //  Chanify
 //
-//  Created by WizJin on 2021/2/8.
+//  Created by WizJin on 2021/3/26.
 //
 
 #import "CHBubbleMsgCellConfiguration.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHTextMsgCellConfiguration : CHBubbleMsgCellConfiguration
+@interface CHImageMsgCellConfiguration : CHMsgCellConfiguration
 
 + (instancetype)cellConfiguration:(CHMessageModel *)model;
 

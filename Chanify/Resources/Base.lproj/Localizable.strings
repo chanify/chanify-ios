@@ -48,6 +48,7 @@
 "Light"="Light";
 "Dark"="Dark";
 "Notification"="Notification";
+"Sound"="Sound";
 "HELP"="HELP";
 "Quick Start"="Quick Start";
 "Usage Manual"="Usage Manual";
@@ -82,8 +83,13 @@
 "Add node failed"="Add node failed";
 "Update node failed"="Update node failed";
 
+"Image"="[Image]";
+"Video"="[Video]";
+"Audio"="[Audio]";
+
 "sys.none"="Uncategorized";
 "sys.device"="Devices";
 
 "store.device"="Store device info";
 "msg.text"="Send text message";
+"msg.image"="Send image message";

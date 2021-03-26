@@ -77,6 +77,12 @@
     };
     [section addFormItem:item];
     
+//    item = [CHFormValueItem itemWithName:@"sound" title:@"Sound".localized value:@""];
+//    item.action = ^(CHFormItem *itm) {
+//        [CHRouter.shared routeTo:@"/page/sounds" withParams:@{ @"show": @"detail" }];
+//    };
+//    [section addFormItem:item];
+
     // HELP
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"HELP".localized])];
     item = [CHFormValueItem itemWithName:@"quick" title:@"Quick Start".localized];

@@ -85,7 +85,7 @@
         _mid = mid;
         _from = msg.from.base32;
         _channel = msg.channel;
-        _sound = nil;
+
         CHTPSound *sound = msg.sound;
         if (sound != nil && sound.type == CHTPSoundType_NormalSound) {
             _sound = sound.name;
@@ -105,11 +105,23 @@
                     break;
                 case CHTPMsgType_Text:
                     _type = CHMessageTypeText;
+                    if (content.title.length > 0) {
+                        _title = content.title;
+                    }
                     _text = [content.text stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
                     break;
                 case CHTPMsgType_Image:
                     _type = CHMessageTypeImage;
-                    _text = @"Image";
+                    _text = @"Image".localized;
+                    _image = content.image;
+                    break;
+                case CHTPMsgType_Video:
+                    _type = CHMessageTypeVideo;
+                    _text = @"Video".localized;
+                    break;
+                case CHTPMsgType_Audio:
+                    _type = CHMessageTypeAudio;
+                    _text = @"Audio".localized;
                     break;
             }
         }
@@ -118,8 +130,13 @@
 }
 
 - (void)formatNotification:(UNMutableNotificationContent *)content {
-    content.body = self.text;
     content.categoryIdentifier = self.channel.sha1.base64;
+    if (self.text.length > 0) {
+        content.body = self.text;
+    }
+    if (self.title.length > 0) {
+        content.title = self.title;
+    }
     if (self.sound.length > 0) {
         content.sound = [UNNotificationSound defaultSound];
     }

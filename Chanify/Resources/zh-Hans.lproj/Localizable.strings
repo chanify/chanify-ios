@@ -48,6 +48,7 @@
 "Light"="浅色";
 "Dark"="深色";
 "Notification"="通知";
+"Sound"="铃声";
 "HELP"="帮助";
 "Quick Start"="快速开始";
 "Usage Manual"="使用手册";
@@ -82,8 +83,13 @@
 "Add node failed"="添加节点失败";
 "Update node failed"="更新节点失败";
 
+"Image"="[图片]";
+"Video"="[视频]";
+"Audio"="[音频]";
+
 "sys.none"="未分类消息";
 "sys.device"="设备消息";
 
 "store.device"="存储设备信息";
 "msg.text"="发送文本消息";
+"msg.image"="发送图片消息";

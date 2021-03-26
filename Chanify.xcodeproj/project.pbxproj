@@ -98,6 +98,11 @@
 		6DD6954625F1FF6C0047FF08 /* CHFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD6954525F1FF6C0047FF08 /* CHFormViewController.m */; };
 		6DD6954B25F20BFD0047FF08 /* CHForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD6954A25F20BFD0047FF08 /* CHForm.m */; };
 		6DD6955025F20C140047FF08 /* CHFormSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD6954F25F20C140047FF08 /* CHFormSection.m */; };
+		6DD7B5A9260DC360001D5DCB /* CHSoundsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD7B5A8260DC360001D5DCB /* CHSoundsViewController.m */; };
+		6DD7B5B0260DE2D4001D5DCB /* CHImageMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD7B5AF260DE2D4001D5DCB /* CHImageMsgCellConfiguration.m */; };
+		6DD7B5B7260DE63B001D5DCB /* CHBubbleMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD7B5B6260DE63B001D5DCB /* CHBubbleMsgCellConfiguration.m */; };
+		6DD7B5D9260DF520001D5DCB /* NSString+CHLocalized.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD7B5D8260DF520001D5DCB /* NSString+CHLocalized.m */; };
+		6DD7B5E6260DF5C7001D5DCB /* NSString+CHNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD7B5DE260DF588001D5DCB /* NSString+CHNotification.m */; };
 		6DD969C625F479B800EEEECF /* CHIconsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD969C525F479B800EEEECF /* CHIconsViewController.m */; };
 		6DD969CD25F47A6300EEEECF /* CHFormIconItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD969CC25F47A6300EEEECF /* CHFormIconItem.m */; };
 		6DD969D425F4A1E700EEEECF /* CHIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD969D325F4A1E700EEEECF /* CHIconView.m */; };
@@ -334,6 +339,15 @@
 		6DD6954A25F20BFD0047FF08 /* CHForm.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHForm.m; sourceTree = "<group>"; };
 		6DD6954E25F20C140047FF08 /* CHFormSection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormSection.h; sourceTree = "<group>"; };
 		6DD6954F25F20C140047FF08 /* CHFormSection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormSection.m; sourceTree = "<group>"; };
+		6DD7B5A7260DC360001D5DCB /* CHSoundsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHSoundsViewController.h; sourceTree = "<group>"; };
+		6DD7B5A8260DC360001D5DCB /* CHSoundsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHSoundsViewController.m; sourceTree = "<group>"; };
+		6DD7B5AE260DE2D4001D5DCB /* CHImageMsgCellConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHImageMsgCellConfiguration.h; sourceTree = "<group>"; };
+		6DD7B5AF260DE2D4001D5DCB /* CHImageMsgCellConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHImageMsgCellConfiguration.m; sourceTree = "<group>"; };
+		6DD7B5B5260DE63B001D5DCB /* CHBubbleMsgCellConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHBubbleMsgCellConfiguration.h; sourceTree = "<group>"; };
+		6DD7B5B6260DE63B001D5DCB /* CHBubbleMsgCellConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHBubbleMsgCellConfiguration.m; sourceTree = "<group>"; };
+		6DD7B5D7260DF520001D5DCB /* NSString+CHLocalized.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+CHLocalized.h"; sourceTree = "<group>"; };
+		6DD7B5D8260DF520001D5DCB /* NSString+CHLocalized.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+CHLocalized.m"; sourceTree = "<group>"; };
+		6DD7B5DE260DF588001D5DCB /* NSString+CHNotification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+CHNotification.m"; sourceTree = "<group>"; };
 		6DD969C425F479B800EEEECF /* CHIconsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHIconsViewController.h; sourceTree = "<group>"; };
 		6DD969C525F479B800EEEECF /* CHIconsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHIconsViewController.m; sourceTree = "<group>"; };
 		6DD969CB25F47A6300EEEECF /* CHFormIconItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormIconItem.h; sourceTree = "<group>"; };
@@ -594,6 +608,9 @@
 				6DC6C25F25D114E800512E36 /* NSData+CHExt.m */,
 				6DC6C26325D1151E00512E36 /* NSString+CHExt.h */,
 				6DC6C26425D1151E00512E36 /* NSString+CHExt.m */,
+				6DD7B5D7260DF520001D5DCB /* NSString+CHLocalized.h */,
+				6DD7B5D8260DF520001D5DCB /* NSString+CHLocalized.m */,
+				6DD7B5DE260DF588001D5DCB /* NSString+CHNotification.m */,
 				6DC6C35A25D16B6A00512E36 /* NSPredicate+CHExt.h */,
 				6DC6C35B25D16B6A00512E36 /* NSPredicate+CHExt.m */,
 				6DC6C2B325D1592900512E36 /* NSException+CHExt.h */,
@@ -695,6 +712,8 @@
 				6DC6C34A25D16A7300512E36 /* CHSettingsViewController.m */,
 				6DC6C36625D16C1600512E36 /* CHUserInfoViewController.h */,
 				6DC6C36725D16C1600512E36 /* CHUserInfoViewController.m */,
+				6DD7B5A7260DC360001D5DCB /* CHSoundsViewController.h */,
+				6DD7B5A8260DC360001D5DCB /* CHSoundsViewController.m */,
 				6D278E5C25E1EF7A00FC48CD /* CHPrivacyViewController.h */,
 				6D278E5D25E1EF7A00FC48CD /* CHPrivacyViewController.m */,
 				6DC6C36125D16BCE00512E36 /* CHAcknowledgementsViewController.h */,
@@ -730,8 +749,12 @@
 				6DC6C38525D16E4200512E36 /* CHDateCellConfiguration.m */,
 				6DC6C38925D16E6A00512E36 /* CHMsgCellConfiguration.h */,
 				6DC6C38A25D16E6A00512E36 /* CHMsgCellConfiguration.m */,
+				6DD7B5B5260DE63B001D5DCB /* CHBubbleMsgCellConfiguration.h */,
+				6DD7B5B6260DE63B001D5DCB /* CHBubbleMsgCellConfiguration.m */,
 				6DC6C38E25D16EA200512E36 /* CHTextMsgCellConfiguration.h */,
 				6DC6C38F25D16EA200512E36 /* CHTextMsgCellConfiguration.m */,
+				6DD7B5AE260DE2D4001D5DCB /* CHImageMsgCellConfiguration.h */,
+				6DD7B5AF260DE2D4001D5DCB /* CHImageMsgCellConfiguration.m */,
 				6DC6C39325D16ECA00512E36 /* CHUnknownMsgCellConfiguration.h */,
 				6DC6C39425D16ECA00512E36 /* CHUnknownMsgCellConfiguration.m */,
 			);
@@ -977,6 +1000,7 @@
 				6D44170525F273150041EBA0 /* CHFormCodeItem.m in Sources */,
 				6DC6C2A625D14BE000512E36 /* CHDevice.m in Sources */,
 				6DC6C33E25D1694100512E36 /* CHChannelsViewController.m in Sources */,
+				6DD7B5B0260DE2D4001D5DCB /* CHImageMsgCellConfiguration.m in Sources */,
 				6DEC569E25F4F6F600AD6DC9 /* CHIconConfiguration.m in Sources */,
 				6D278EA825E4CC9500FC48CD /* CHNodesViewController.m in Sources */,
 				6DC6C2D625D15CCD00512E36 /* CHManager.m in Sources */,
@@ -1007,13 +1031,16 @@
 				6DC6C39525D16ECA00512E36 /* CHUnknownMsgCellConfiguration.m in Sources */,
 				6DC6C36F25D16C4E00512E36 /* CHQrCodeView.m in Sources */,
 				6DD969C625F479B800EEEECF /* CHIconsViewController.m in Sources */,
+				6DD7B5D9260DF520001D5DCB /* NSString+CHLocalized.m in Sources */,
 				6DC6C28F25D1435A00512E36 /* CHLoginViewController.m in Sources */,
+				6DD7B5A9260DC360001D5DCB /* CHSoundsViewController.m in Sources */,
 				6DC6C2C525D15A8600512E36 /* CHIndicatorPanelView.m in Sources */,
 				6DC6C34B25D16A7300512E36 /* CHSettingsViewController.m in Sources */,
 				6DC6C2C025D15A7900512E36 /* CHIndicatorView.m in Sources */,
 				6D9C209426020A4200F40CDD /* CHFormSwitchItem.m in Sources */,
 				6DC6C24925D1122100512E36 /* CHUtils.m in Sources */,
 				6D278E4125E0ECAC00FC48CD /* CHChannelTableViewCell.m in Sources */,
+				6DD7B5B7260DE63B001D5DCB /* CHBubbleMsgCellConfiguration.m in Sources */,
 				6DC6C32725D1626D00512E36 /* CryptoKit.swift in Sources */,
 				6DD6954B25F20BFD0047FF08 /* CHForm.m in Sources */,
 				6DC6C2AE25D14C2400512E36 /* CHSecKey.m in Sources */,
@@ -1065,6 +1092,7 @@
 				6DC6C23325D0FC7500512E36 /* CHTP.proto in Sources */,
 				6DC6C30C25D160F100512E36 /* NSException+CHExt.m in Sources */,
 				6DC6C30625D160EA00512E36 /* NSData+CHExt.m in Sources */,
+				6DD7B5E6260DF5C7001D5DCB /* NSString+CHNotification.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -67,13 +67,14 @@ Additional params
 
 | Key      | Description                               |
 | -------- | ----------------------------------------- |
+| title    | The title for notification message.       |
 | sound    | `1` enable sound, otherwise disable sound |
 | priority | `10` default, or `5`                      |
 
 E.g.
 
 ```
-https://api.chanify.net/v1/sender/<token>?sound=1
+https://api.chanify.net/v1/sender/<token>?sound=1&priority=10&title=hello
 ```
 
 ### Command Line

@@ -11,7 +11,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSString (CHExt)
 
-- (NSString *)localized;
 - (NSString *)code;
 - (const char *)cstr;
 - (uint64_t)uint64Hex;
