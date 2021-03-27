@@ -93,3 +93,6 @@
 "store.device"="Store device info";
 "msg.text"="Send text message";
 "msg.image"="Send image message";
+"msg.video"="Send video message";
+"msg.audio"="Send audio message";
+"msg.timeline"="Send timeline message";

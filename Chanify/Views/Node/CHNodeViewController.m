@@ -178,15 +178,23 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
 }
 
 - (UIImage *)featureIconWithName:(NSString *)name {
-    UIImage *image = nil;
-    if ([name hasPrefix:@"msg.text"]) {
-        image = [UIImage systemImageNamed:@"doc.plaintext"];
-    } else if ([name isEqualToString:@"msg.image"]) {
-        image = [UIImage systemImageNamed:@"photo"];
-    } else if ([name isEqualToString:@"store.device"]) {
-        image = [UIImage systemImageNamed:@"externaldrive.badge.person.crop"];
+    static NSDictionary<NSString *, NSString *> *iconTable;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        iconTable = @{
+            @"msg.text": @"doc.plaintext",
+            @"msg.image": @"photo",
+            @"msg.video": @"video",
+            @"msg.audio": @"waveform",
+            @"msg.timeline": @"waveform.path.ecg",
+            @"store.device": @"externaldrive.badge.person.crop",
+        };
+    });
+    NSString *image = [iconTable objectForKey:name];
+    if (image.length > 0) {
+        return [UIImage systemImageNamed:image];
     }
-    return image;
+    return nil;
 }
 
 

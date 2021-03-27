@@ -52,7 +52,7 @@
     return NSData.data;
 }
 
-+ (instancetype)dataFromBundleURL:(NSURL *)url {
++ (instancetype)dataFromNoCacheURL:(NSURL *)url {
     NSError *error = nil;
     NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:&error];
     if (error != nil) {

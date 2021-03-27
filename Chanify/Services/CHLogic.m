@@ -7,6 +7,7 @@
 
 #import "CHLogic.h"
 #import <AFNetworking/AFNetworking.h>
+#import "CHWebFileManager.h"
 #import "CHUserDataSource.h"
 #import "CHNSDataSource.h"
 #import "CHMessageModel.h"
@@ -44,14 +45,16 @@
 
 - (instancetype)init {
     if (self = [super init]) {
+        NSFileManager *fileManager = NSFileManager.defaultManager;
         CHDevice *device = CHDevice.shared;
         _pushToken = nil;
         _me = [CHUserModel modelWithKey:[CHSecKey secKeyWithName:@kCHUserSecKeyName device:NO created:NO]];
         _baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://%s/rest/v1/", kCHAPIHostname]];
         _userAgent = [NSString stringWithFormat:@"%@/%@-%d (%@; %@; Scale/%0.2f)", device.app, device.version, device.build, device.model, device.osInfo, device.scale];
         _manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:NSURLSessionConfiguration.ephemeralSessionConfiguration];
-        _nsDataSource = [CHNSDataSource dataSourceWithURL:[NSFileManager.defaultManager URLForGroupId:@kCHAppGroupName path:@kCHDBNotificationServiceName]];
+        _nsDataSource = [CHNSDataSource dataSourceWithURL:[fileManager URLForGroupId:@kCHAppGroupName path:@kCHDBNotificationServiceName]];
         _userDataSource = nil;
+        _imageFileManager = nil;
     }
     return self;
 }
@@ -429,10 +432,16 @@
         if (uid.length <= 0 || ![self.userDataSource.dsURL isEqual:dbpath]) {
             [self.userDataSource close];
             _userDataSource = nil;
+            
+            [self.imageFileManager close];
+            _imageFileManager = nil;
         }
     }
     if (uid.length > 0 && self.userDataSource == nil) {
         _userDataSource = [CHUserDataSource dataSourceWithURL:dbpath];
+
+        NSURL *webFilePath = [dbpath.URLByDeletingLastPathComponent URLByAppendingPathComponent:@kCHWebFileBasePath];
+        _imageFileManager = [CHWebFileManager webFileManagerWithURL:[webFilePath URLByAppendingPathComponent:@"images"] userAgent:self.userAgent];
     }
 }
 

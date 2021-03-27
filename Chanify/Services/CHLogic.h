@@ -7,6 +7,7 @@
 
 #import "CHUserModel.h"
 #import "CHManager.h"
+#import "CHWebImageView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -35,9 +36,10 @@ typedef void (^CHLogicBlock)(CHLCode result);
 
 @interface CHLogic : CHManager<id<CHLogicDelegate>>
 
+@property (nonatomic, readonly, strong) CHNSDataSource *nsDataSource;
 @property (nonatomic, nullable, readonly, strong) CHUserModel *me;
-@property (nonatomic, nullable, readonly, strong) CHNSDataSource *nsDataSource;
 @property (nonatomic, nullable, readonly, strong) CHUserDataSource *userDataSource;
+@property (nonatomic, nullable, readonly, strong) CHWebFileManager<CHWebImageView *> *imageFileManager;
 
 + (instancetype)shared;
 - (void)launch;

@@ -113,7 +113,7 @@
                 case CHTPMsgType_Image:
                     _type = CHMessageTypeImage;
                     _text = @"Image".localized;
-                    _image = content.image;
+                    _file = content.file;
                     break;
                 case CHTPMsgType_Video:
                     _type = CHMessageTypeVideo;
@@ -140,6 +140,16 @@
     if (self.sound.length > 0) {
         content.sound = [UNNotificationSound defaultSound];
     }
+}
+
+- (nullable NSString *)fileURL {
+    if (self.file.length > 0) {
+        if ([self.file characterAtIndex:0] == '/' && self.from.length > 0) {
+            return [NSString stringWithFormat:@"%@:%@", self.from, self.file];
+        }
+        return self.file;
+    }
+    return nil;
 }
 
 - (BOOL)isEqual:(CHMessageModel *)rhs {

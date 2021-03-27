@@ -20,6 +20,8 @@
 #define kCHUserSecKeyName               "net.chanify.user.key"
 #define kCHDBDataName                   "data.db"
 #define kCHDBNotificationServiceName    "notification-service.db"
+#define kCHWebFileBasePath              "files"
+#define kCHWebFileDownloadTimeout       30
 #define kCHCodeFontName                 "Menlo-Regular"
 #define kCHSecKeySizeInBits             256
 #define kCHAesGcmKeyBytes               32

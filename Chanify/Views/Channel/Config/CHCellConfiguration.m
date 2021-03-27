@@ -30,6 +30,7 @@
     return @{
         CellConfiguration(CHDateCellConfiguration),
         CellConfiguration(CHTextMsgCellConfiguration),
+        CellConfiguration(CHImageMsgCellConfiguration),
         CellConfiguration(CHUnknownMsgCellConfiguration),
     };
 }

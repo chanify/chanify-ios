@@ -77,7 +77,7 @@
 #pragma mark - Private Methods
 - (NSDictionary *)loadPlist:(NSURL *)url {
     NSDictionary *result = nil;
-    NSData *data = [NSData dataFromBundleURL:url];
+    NSData *data = [NSData dataFromNoCacheURL:url];
     if (data.length > 0) {
         NSError *error = nil;
         NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:data options:0 format:nil error:&error];

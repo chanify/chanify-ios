@@ -31,12 +31,13 @@ typedef NS_ENUM(NSInteger, CHMessageType) {
 @property (nonatomic, readonly, nullable, strong) NSString *sound;
 @property (nonatomic, readonly, nullable, strong) NSString *title;
 @property (nonatomic, readonly, nullable, strong) NSString *text;
-@property (nonatomic, readonly, nullable, strong) NSString *image;
+@property (nonatomic, readonly, nullable, strong) NSString *file;
 
 + (nullable instancetype)modelWithData:(nullable NSData *)data mid:(NSString *)mid;
 + (nullable instancetype)modelWithKS:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw;
 + (nullable NSString *)parsePacket:(NSDictionary *)info mid:(NSString * _Nullable * _Nullable)mid data:(NSData * _Nullable * _Nullable)data;
 - (void)formatNotification:(UNMutableNotificationContent *)content;
+- (nullable NSString *)fileURL;
 
 
 @end
