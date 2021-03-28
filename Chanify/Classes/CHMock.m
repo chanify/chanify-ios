@@ -17,8 +17,14 @@ NSDictionary *try_mock_notification(NSDictionary* info) {
     NSString *uid = me.uid;
     uint64_t mid = get_utc_time64();
     CHTPMsgContent *content = [CHTPMsgContent new];
-    content.type = CHTPMsgType_Text;
-    content.text = [info valueForKeyPath:@"aps.alert.body"];
+    NSString *file = [info valueForKeyPath:@"aps.alert.image"];
+    if (file.length > 0) {
+        content.type = CHTPMsgType_Image;
+        content.file = file;
+    } else {
+        content.type = CHTPMsgType_Text;
+        content.text = [info valueForKeyPath:@"aps.alert.text"];
+    }
     CHTPMessage *msg = [CHTPMessage new];
     msg.channel = [NSData dataFromHex:@"0801"];
     msg.content = content.data;

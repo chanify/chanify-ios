@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CHImageMsgCellConfiguration : CHMsgCellConfiguration
 
-+ (instancetype)cellConfiguration:(CHMessageModel *)model;
++ (instancetype)cellConfiguration:(CHMessageModel *)model source:(CHMessagesDataSource *)source;
 
 
 @end

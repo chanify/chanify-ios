@@ -7,10 +7,11 @@
 
 #import "CHUserModel.h"
 #import "CHManager.h"
-#import "CHWebImageView.h"
+#import "CHWebFileManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class UIImage;
 @class CHNodeModel;
 @class CHChannelModel;
 @class CHMessageModel;
@@ -39,7 +40,7 @@ typedef void (^CHLogicBlock)(CHLCode result);
 @property (nonatomic, readonly, strong) CHNSDataSource *nsDataSource;
 @property (nonatomic, nullable, readonly, strong) CHUserModel *me;
 @property (nonatomic, nullable, readonly, strong) CHUserDataSource *userDataSource;
-@property (nonatomic, nullable, readonly, strong) CHWebFileManager<CHWebImageView *> *imageFileManager;
+@property (nonatomic, nullable, readonly, strong) CHWebFileManager<UIImage *> *imageFileManager;
 
 + (instancetype)shared;
 - (void)launch;

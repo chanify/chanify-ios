@@ -78,11 +78,17 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     return CGSizeMake(self.collectionView.bounds.size.width, 30);
 }
 
+- (void)setNeedRecalcLayoutItem:(CHCellConfiguration *)cell {
+    [cell setNeedRecalcLayout];
+    [self.collectionView.collectionViewLayout invalidateLayout];
+}
+
 - (void)setNeedRecalcLayout {
     CHConversationDiffableSnapshot *snapshot = self.snapshot;
     for (CHCellConfiguration *cell in snapshot.itemIdentifiers) {
         [cell setNeedRecalcLayout];
     }
+    [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
 - (void)scrollViewDidScroll {
@@ -141,7 +147,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
 - (void)deleteMessage:(nullable CHMessageModel *)model animated:(BOOL)animated {
     if (model != nil) {
         CHConversationDiffableSnapshot *snapshot = self.snapshot;
-        CHCellConfiguration *item = [CHCellConfiguration cellConfiguration:model];
+        CHCellConfiguration *item = [CHCellConfiguration cellConfiguration:model source:self];
         NSMutableArray<CHCellConfiguration *> *deleteItems = [NSMutableArray arrayWithObject:item];
         NSInteger idx = [snapshot indexOfItemIdentifier:item];
         if (idx > 0) {
@@ -194,7 +200,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     NSInteger count = items.count;
     NSMutableArray<CHCellConfiguration *> *cells = [NSMutableArray arrayWithCapacity:items.count];
     for (NSInteger index = count - 1; index >= 0; index--) {
-        CHCellConfiguration *item = [CHCellConfiguration cellConfiguration:[items objectAtIndex:index]];
+        CHCellConfiguration *item = [CHCellConfiguration cellConfiguration:[items objectAtIndex:index] source:self];
         if (last == nil || [item.date timeIntervalSinceDate:last] > kCHMessageListDateDiff) {
             CHCellConfiguration *itm = [CHDateCellConfiguration cellConfiguration:item.mid];
             last = itm.date;

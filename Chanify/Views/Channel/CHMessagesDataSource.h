@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)dataSourceWithCollectionView:(UICollectionView *)collectionView channelID:(NSString *)cid;
 - (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath;
 - (CGSize)sizeForHeaderInSection:(NSInteger)section;
+- (void)setNeedRecalcLayoutItem:(CHCellConfiguration *)cell;
 - (void)setNeedRecalcLayout;
 - (void)scrollViewDidScroll;
 - (void)loadLatestMessage:(BOOL)animated;

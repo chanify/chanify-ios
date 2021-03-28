@@ -11,15 +11,27 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol CHWebFileItem <NSObject>
 
-- (BOOL)webFileUpdated:(nullable NSData *)data;
+- (void)webFileUpdated:(nullable id)item;
 
 @end
 
-@interface CHWebFileManager<Item: id<CHWebFileItem>> : NSObject
+@protocol CHWebFileDecoder <NSObject>
 
-+ (instancetype)webFileManagerWithURL:(NSURL *)fileBaseDir userAgent:(NSString *)userAgent;
+- (nullable id)webFileDecode:(nullable NSData *)data;
+
+@end
+
+@interface CHWebImageFileDecoder : NSObject<CHWebFileDecoder>
+
+@end
+
+
+@interface CHWebFileManager<Item> : NSObject
+
++ (instancetype)webFileManagerWithURL:(NSURL *)fileBaseDir decoder:(id<CHWebFileDecoder>)decoder userAgent:(NSString *)userAgent;
 - (void)close;
-- (void)loadFileURL:(nullable NSString *)fileURL toItem:(Item)item;
+- (void)loadFileURL:(nullable NSString *)fileURL toItem:(id<CHWebFileItem>)item;
+- (nullable Item)loadLocalFile:(nullable NSString *)fileURL;
 
 
 @end

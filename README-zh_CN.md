@@ -144,7 +144,7 @@ $ pod install
 可以使用下列命令给模拟器发送推送用于测试
 
 ```bash
-$ make apns text=hello
+$ ./send.swift text=hello
 ```
 
 ## 贡献

@@ -10,11 +10,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class CHMessagesDataSource;
+
 @interface CHCellConfiguration : NSObject<UIContentConfiguration>
 
 @property (nonatomic, readonly, strong) NSString *mid;
 
-+ (instancetype)cellConfiguration:(CHMessageModel *)model;
++ (instancetype)cellConfiguration:(CHMessageModel *)model source:(CHMessagesDataSource *)source;
 + (NSDictionary<NSString *, UICollectionViewCellRegistration *> *)cellRegistrations;
 - (instancetype)initWithMID:(NSString *)mid;
 - (NSDate *)date;

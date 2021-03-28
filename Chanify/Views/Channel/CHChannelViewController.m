@@ -65,7 +65,6 @@
     } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         @strongify(self);
         [self.dataSource setNeedRecalcLayout];
-        [self.listView.collectionViewLayout invalidateLayout];
     }];
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }

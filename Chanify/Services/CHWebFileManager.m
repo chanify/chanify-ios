@@ -6,13 +6,14 @@
 //
 
 #import "CHWebFileManager.h"
+#import <UIKit/UIImage.h>
 
 @interface CHWebFileTask : NSObject
 
 @property (nonatomic, readonly, strong) NSString *fileURL;
 @property (nonatomic, readonly, strong) NSHashTable<id<CHWebFileItem>> *items;
 @property (nonatomic, nullable, strong) NSURLSessionDataTask *dataTask;
-@property (nonatomic, nullable, strong) NSData *data;
+@property (nonatomic, nullable, strong) id result;
 
 @end
 
@@ -27,11 +28,11 @@
 }
 
 - (void)dealloc {
-    NSData *data = self.data;
+    id result = self.result;
     NSHashTable<id<CHWebFileItem>> *items = self.items;
     dispatch_main_async(^{
         for (id<CHWebFileItem> item in items) {
-            [item webFileUpdated:data];
+            [item webFileUpdated:result];
         }
     });
 }
@@ -42,26 +43,31 @@
 
 @property (nonatomic, readonly, strong) NSURL *fileBaseDir;
 @property (nonatomic, readonly, strong) NSString *userAgent;
+@property (nonatomic, readonly, strong) id<CHWebFileDecoder> decoder;
 @property (nonatomic, readonly, strong) NSURLSession *session;
 @property (nonatomic, readonly, strong) NSMutableDictionary<NSString *, CHWebFileTask *> *tasks;
+@property (nonatomic, readonly, strong) NSCache<NSString *, id> *dataCache;
 @property (nonatomic, readonly, strong) dispatch_queue_t workerQueue;
 
 @end
 
 @implementation CHWebFileManager
 
-+ (instancetype)webFileManagerWithURL:(NSURL *)fileBaseDir userAgent:(NSString *)userAgent {
-    return [[self.class alloc] initWithURL:fileBaseDir userAgent:userAgent];
++ (instancetype)webFileManagerWithURL:(NSURL *)fileBaseDir decoder:(id<CHWebFileDecoder>)decoder userAgent:(NSString *)userAgent {
+    return [[self.class alloc] initWithURL:fileBaseDir decoder:decoder userAgent:userAgent];
 }
 
-- (instancetype)initWithURL:(NSURL *)fileBaseDir userAgent:(NSString *)userAgent {
+- (instancetype)initWithURL:(NSURL *)fileBaseDir decoder:(id<CHWebFileDecoder>)decoder userAgent:(NSString *)userAgent {
     if (self = [super init]) {
         _fileBaseDir = fileBaseDir;
+        _decoder = decoder;
         _userAgent = userAgent;
         _tasks = [NSMutableDictionary new];
+        _dataCache = [NSCache new];
         _session = [NSURLSession sessionWithConfiguration:NSURLSessionConfiguration.ephemeralSessionConfiguration];
         _workerQueue = dispatch_queue_create_for(self, DISPATCH_QUEUE_SERIAL);
         [NSFileManager.defaultManager fixDirectory:self.fileBaseDir];
+        self.dataCache.countLimit = 10;
     }
     return self;
 }
@@ -79,15 +85,14 @@
             _session = nil;
         }
         [self.tasks removeAllObjects];
+        [self.dataCache removeAllObjects];
     });
 }
 
 - (void)loadFileURL:(nullable NSString *)fileURL toItem:(id<CHWebFileItem>)item {
     if (fileURL.length > 0) {
-        NSString *name = fileURL2Name(fileURL);
-        NSURL *filePath = [self.fileBaseDir URLByAppendingPathComponent:name];
-        NSData *data = [NSData dataFromNoCacheURL:filePath];
-        if (data.length > 0) {
+        id data = [self loadLocalFile:fileURL];
+        if (data != nil) {
             [item webFileUpdated:data];
             return;
         }
@@ -101,10 +106,25 @@
                 task = [[CHWebFileTask alloc] initWithFileURL:fileURL];
                 [self.tasks setObject:task forKey:fileURL];
                 [task.items addObject:item];
-                [self asyncStartTask:task fileURL:filePath];
+                [self asyncStartTask:task fileURL:[self fileURL2Path:fileURL]];
             }
         });
     }
+}
+
+- (nullable id)loadLocalFile:(nullable NSString *)fileURL {
+    id res = nil;
+    if (fileURL.length > 0) {
+        NSURL *url = [self fileURL2Path:fileURL];
+        res = [self.dataCache objectForKey:url.absoluteString];
+        if (res == nil) {
+            res = [self.decoder webFileDecode:[NSData dataFromNoCacheURL:url]];
+            if (res != nil) {
+                [self.dataCache setObject:res forKey:url.absoluteString];
+            }
+        }
+    }
+    return res;
 }
 
 #pragma mark - Private Methods
@@ -122,7 +142,10 @@
                     @strongify(self);
                     if (error == nil) {
                         if (data.length > 0 && [data writeToURL:fileURL atomically:YES]) {
-                            task.data = data;
+                            task.result = [self.decoder webFileDecode:data];
+                            if (task.result != nil) {
+                                [self.dataCache setObject:task.result forKey:fileURL.absoluteString];
+                            }
                         }
                     }
                     [self.tasks removeObjectForKey:task.fileURL];
@@ -133,9 +156,22 @@
     });
 }
 
-static inline NSString *fileURL2Name(NSString *url) {
-    return [url dataUsingEncoding:NSUTF8StringEncoding].sha1.hex;
+- (NSURL *)fileURL2Path:(NSString *)fileURL {
+    NSString *name = [fileURL dataUsingEncoding:NSUTF8StringEncoding].sha1.hex;
+    return [self.fileBaseDir URLByAppendingPathComponent:name];
 }
 
+
+@end
+
+
+@implementation CHWebImageFileDecoder
+
+- (nullable id)webFileDecode:(nullable NSData *)data {
+    if (data.length > 0) {
+        return [UIImage imageWithData:data];
+    }
+    return nil;
+}
 
 @end

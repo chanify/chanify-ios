@@ -144,7 +144,7 @@ $ pod install
 Test push in simulator
 
 ```bash
-$ make apns text=hello
+$ ./send.swift text=hello
 ```
 
 ## Contributing

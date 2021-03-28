@@ -13,12 +13,12 @@
 
 @implementation CHCellConfiguration
 
-+ (instancetype)cellConfiguration:(CHMessageModel *)model {
++ (instancetype)cellConfiguration:(CHMessageModel *)model source:(CHMessagesDataSource *)source {
     switch (model.type) {
         case CHMessageTypeText:
             return [CHTextMsgCellConfiguration cellConfiguration:model];
         case CHMessageTypeImage:
-            return [CHImageMsgCellConfiguration cellConfiguration:model];
+            return [CHImageMsgCellConfiguration cellConfiguration:model source:source];
         default:
             break;
     }

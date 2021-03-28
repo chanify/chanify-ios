@@ -27,14 +27,14 @@
 }
 
 #pragma mark - CHWebFileItem
-- (BOOL)webFileUpdated:(nullable NSData *)data {
-    if (data.length <= 0) {
-        self.image = nil;
-    } else {
-        self.image = [UIImage imageWithData:data];
+- (void)webFileUpdated:(nullable UIImage *)item {
+    if (self.image != item) {
+        self.image = item;
+        if (self.delegate != nil) {
+            [self.delegate webImageViewUpdated:self];
+        }
     }
     [self setNeedsDisplay];
-    return (self.image != nil);
 }
 
 

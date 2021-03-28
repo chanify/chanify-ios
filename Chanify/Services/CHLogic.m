@@ -441,7 +441,7 @@
         _userDataSource = [CHUserDataSource dataSourceWithURL:dbpath];
 
         NSURL *webFilePath = [dbpath.URLByDeletingLastPathComponent URLByAppendingPathComponent:@kCHWebFileBasePath];
-        _imageFileManager = [CHWebFileManager webFileManagerWithURL:[webFilePath URLByAppendingPathComponent:@"images"] userAgent:self.userAgent];
+        _imageFileManager = [CHWebFileManager webFileManagerWithURL:[webFilePath URLByAppendingPathComponent:@"images"] decoder:[CHWebImageFileDecoder new] userAgent:self.userAgent];
     }
 }
 
