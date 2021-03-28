@@ -57,7 +57,6 @@
     NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:&error];
     if (error != nil) {
         data = nil;
-        CHLogE("Load file failed: %s", error.description.cstr);
     }
     return data;
 }

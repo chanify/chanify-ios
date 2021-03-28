@@ -22,7 +22,14 @@
 @implementation CHToken
 
 + (instancetype)tokenWithTimeInterval:(NSTimeInterval)timeInterval {
-    return [[self.class alloc] initWithTimeInterval:timeInterval];
+    NSCalendar *calender = NSCalendar.currentCalendar;
+    NSDate *date = [calender dateBySettingHour:0 minute:0 second:0 ofDate:NSDate.now options:NSCalendarMatchFirst];
+    date = [date dateByAddingTimeInterval:NSCalendar.currentCalendar.timeZone.secondsFromGMT + timeInterval];
+    return [[self.class alloc] initWithUTC:date.timeIntervalSince1970];
+}
+
++ (instancetype)tokenWithTimeOffset:(NSTimeInterval)timeOffset {
+    return [[self.class alloc] initWithUTC:NSDate.now.timeIntervalSince1970 +  timeOffset];
 }
 
 + (instancetype)defaultToken {
@@ -31,13 +38,10 @@
     return token;
 }
 
-- (instancetype)initWithTimeInterval:(NSTimeInterval)timeInterval {
-    NSCalendar *calender = NSCalendar.currentCalendar;
-    NSDate *date = [calender dateBySettingHour:0 minute:0 second:0 ofDate:NSDate.now options:NSCalendarMatchFirst];
-    date = [date dateByAddingTimeInterval:NSCalendar.currentCalendar.timeZone.secondsFromGMT + timeInterval];
+- (instancetype)initWithUTC:(uint64_t)utc {
     if (self = [super init]) {
         _token = [CHTPToken new];
-        self.token.expires = date.timeIntervalSince1970;
+        self.token.expires = utc;
         self.token.userId = CHLogic.shared.me.uid;
     }
     return self;
@@ -57,6 +61,10 @@
     } else {
         self.token.nodeId = node.nid;
     }
+}
+
+- (void)setDataHash:(nullable NSData *)data {
+    self.token.dataHash = data.sha1;
 }
 
 - (NSString *)formatString:(nullable NSString *)source direct:(BOOL)direct {

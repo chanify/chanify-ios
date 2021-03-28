@@ -14,9 +14,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CHToken : NSObject
 
 + (instancetype)tokenWithTimeInterval:(NSTimeInterval)timeInterval;
++ (instancetype)tokenWithTimeOffset:(NSTimeInterval)timeOffset;
 + (instancetype)defaultToken;
 - (void)setChannel:(NSData *)channel;
 - (void)setNode:(CHNodeModel *)node;
+- (void)setDataHash:(nullable NSData *)data;
 - (NSString *)formatString:(nullable NSString *)source direct:(BOOL)direct;
 
 

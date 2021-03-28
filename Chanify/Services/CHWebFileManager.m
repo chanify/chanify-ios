@@ -7,6 +7,10 @@
 
 #import "CHWebFileManager.h"
 #import <UIKit/UIImage.h>
+#import "CHUserDataSource.h"
+#import "CHNodeModel.h"
+#import "CHToken.h"
+#import "CHLogic.h"
 
 @interface CHWebFileTask : NSObject
 
@@ -133,10 +137,8 @@
     dispatch_async(self.workerQueue, ^{
         @strongify(self);
         if (self.session != nil) {
-            NSURL *url = [NSURL URLWithString:task.fileURL];
-            if (url != nil) {
-                NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:0 timeoutInterval:kCHWebFileDownloadTimeout];
-                [request setValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
+            NSURLRequest *request = [self webRequestWithFileURL:task.fileURL];
+            if (request != nil) {
                 @weakify(self);
                 task.dataTask = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                     @strongify(self);
@@ -156,6 +158,36 @@
     });
 }
 
+- (nullable NSMutableURLRequest *)webRequestWithFileURL:(NSString *)fileURL {
+    NSMutableURLRequest *request = nil;
+    if (fileURL.length > 0) {
+        if ([fileURL characterAtIndex:0] != '!') {
+            request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:fileURL] cachePolicy:0 timeoutInterval:kCHWebFileDownloadTimeout];
+        } else {
+            NSRange index = [fileURL rangeOfString:@":"];
+            if (index.location != NSNotFound) {
+                index.length = index.location - 1;
+                index.location = 1;
+                NSString *nodeId = [fileURL substringWithRange:index];
+                NSString *path = [fileURL substringFromIndex:index.length + 2];
+                CHNodeModel *node = [CHLogic.shared.userDataSource nodeWithNID:nodeId];
+                if (node != nil) {
+                    NSURL *url = [NSURL URLWithString:path relativeToURL:[NSURL URLWithString:node.endpoint]];
+                    request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:0 timeoutInterval:kCHWebFileDownloadTimeout];
+                    CHToken *token = [CHToken tokenWithTimeOffset:3600];
+                    token.node = node;
+                    token.dataHash = [url.path dataUsingEncoding:NSUTF8StringEncoding];
+                    [request setValue:[token formatString:node.nid direct:YES] forHTTPHeaderField:@"Token"];
+                }
+            }
+        }
+        if (request != nil) {
+            [request setValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
+        }
+    }
+    return request;
+}
+
 - (NSURL *)fileURL2Path:(NSString *)fileURL {
     NSString *name = [fileURL dataUsingEncoding:NSUTF8StringEncoding].sha1.hex;
     return [self.fileBaseDir URLByAppendingPathComponent:name];
@@ -173,5 +205,6 @@
     }
     return nil;
 }
+
 
 @end

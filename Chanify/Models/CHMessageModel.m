@@ -145,7 +145,7 @@
 - (nullable NSString *)fileURL {
     if (self.file.length > 0) {
         if ([self.file characterAtIndex:0] == '/' && self.from.length > 0) {
-            return [NSString stringWithFormat:@"%@:%@", self.from, self.file];
+            return [NSString stringWithFormat:@"!%@:%@", self.from, self.file];
         }
         return self.file;
     }
