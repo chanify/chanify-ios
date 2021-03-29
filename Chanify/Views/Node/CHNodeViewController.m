@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
         NSString *endpoint = [params valueForKey:@"endpoint"];
         if (endpoint.length > 0) {
             [CHRouter.shared showIndicator:YES];
-            NSURL *url = [NSURL URLWithString:@"/rest/v1/info" relativeToURL:[NSURL URLWithString:endpoint]];
+            NSURL *url = [[NSURL URLWithString:endpoint] URLByAppendingPathComponent:@"/rest/v1/info"];
             NSDictionary *info = [NSDictionary dictionaryWithJSONData:[NSData dataWithContentsOfURL:url]];
             [CHRouter.shared showIndicator:NO];
             if (info.count > 0) {

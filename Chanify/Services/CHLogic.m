@@ -370,14 +370,14 @@
 }
 
 - (void)sendCmd:(NSString *)cmd user:(CHUserModel *)user parameters:(NSDictionary *)parameters completion:(nullable void (^)(NSURLResponse *response, NSDictionary *result, NSError *error))completion {
-    [self sendToEndpoint:[NSURL URLWithString:cmd relativeToURL:self.baseURL] device:YES cmd:cmd user:user parameters:parameters completion:completion];
+    [self sendToEndpoint:self.baseURL device:YES cmd:cmd user:user parameters:parameters completion:completion];
 }
 
 - (void)sendToEndpoint:(NSURL *)endpoint device:(BOOL)device cmd:(NSString *)cmd user:(CHUserModel *)user parameters:(NSDictionary *)parameters completion:(nullable void (^)(NSURLResponse *response, NSDictionary *result, NSError *error))completion {
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:parameters];
     [params setValue:@((uint64_t)(NSDate.date.timeIntervalSince1970 * 1000)) forKey:@"nonce"];
     NSData *data = params.json;
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:cmd relativeToURL:endpoint]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[endpoint URLByAppendingPathComponent:cmd]];
     [request setHTTPMethod:@"POST"];
     [request setValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
@@ -432,16 +432,22 @@
         if (uid.length <= 0 || ![self.userDataSource.dsURL isEqual:dbpath]) {
             [self.userDataSource close];
             _userDataSource = nil;
-            
-            [self.imageFileManager close];
-            _imageFileManager = nil;
         }
     }
-    if (uid.length > 0 && self.userDataSource == nil) {
-        _userDataSource = [CHUserDataSource dataSourceWithURL:dbpath];
-
+    if (self.imageFileManager != nil && ![self.imageFileManager.uid isEqualToString:uid]) {
+        [self.imageFileManager close];
+        _imageFileManager = nil;
+    }
+    if (uid.length > 0) {
+        if (self.userDataSource == nil) {
+            _userDataSource = [CHUserDataSource dataSourceWithURL:dbpath];
+        }
+        
         NSURL *webFilePath = [dbpath.URLByDeletingLastPathComponent URLByAppendingPathComponent:@kCHWebFileBasePath];
-        _imageFileManager = [CHWebFileManager webFileManagerWithURL:[webFilePath URLByAppendingPathComponent:@"images"] decoder:[CHWebImageFileDecoder new] userAgent:self.userAgent];
+        if (_imageFileManager == nil) {
+            _imageFileManager = [CHWebFileManager webFileManagerWithURL:[webFilePath URLByAppendingPathComponent:@"images"] decoder:[CHWebImageFileDecoder new] userAgent:self.userAgent];
+            self.imageFileManager.uid = uid;
+        }
     }
 }
 

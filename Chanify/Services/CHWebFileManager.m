@@ -63,6 +63,7 @@
 
 - (instancetype)initWithURL:(NSURL *)fileBaseDir decoder:(id<CHWebFileDecoder>)decoder userAgent:(NSString *)userAgent {
     if (self = [super init]) {
+        _uid = nil;
         _fileBaseDir = fileBaseDir;
         _decoder = decoder;
         _userAgent = userAgent;
@@ -74,10 +75,6 @@
         self.dataCache.countLimit = 10;
     }
     return self;
-}
-
-- (void)dealloc {
-    [self close];
 }
 
 - (void)close {
@@ -172,7 +169,7 @@
                 NSString *path = [fileURL substringFromIndex:index.length + 2];
                 CHNodeModel *node = [CHLogic.shared.userDataSource nodeWithNID:nodeId];
                 if (node != nil) {
-                    NSURL *url = [NSURL URLWithString:path relativeToURL:[NSURL URLWithString:node.endpoint]];
+                    NSURL *url = [[NSURL URLWithString:node.endpoint] URLByAppendingPathComponent:path];
                     request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:0 timeoutInterval:kCHWebFileDownloadTimeout];
                     CHToken *token = [CHToken tokenWithTimeOffset:3600];
                     token.node = node;

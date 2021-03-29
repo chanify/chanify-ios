@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CHWebFileManager<Item> : NSObject
 
+@property (nonatomic, nullable, strong) NSString *uid;
+
 + (instancetype)webFileManagerWithURL:(NSURL *)fileBaseDir decoder:(id<CHWebFileDecoder>)decoder userAgent:(NSString *)userAgent;
 - (void)close;
 - (void)loadFileURL:(nullable NSString *)fileURL toItem:(id<CHWebFileItem>)item;

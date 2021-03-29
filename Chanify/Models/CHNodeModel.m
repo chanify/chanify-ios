@@ -57,7 +57,7 @@
 }
 
 - (NSURL *)apiURL {
-    return [NSURL URLWithString:@"/rest/v1/" relativeToURL:[NSURL URLWithString:self.endpoint]];
+    return [[NSURL URLWithString:self.endpoint] URLByAppendingPathComponent:@"/rest/v1/"];
 }
 
 
