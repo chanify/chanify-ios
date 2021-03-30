@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable, strong) NSString *fileURL;
 @property (nonatomic, nullable, weak) id<CHWebImageViewDelegate> delegate;
 
+- (nullable NSURL *)localFileURL;
+
 
 @end
 

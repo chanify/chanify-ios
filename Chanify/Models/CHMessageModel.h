@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CHThumbnailModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -32,6 +33,7 @@ typedef NS_ENUM(NSInteger, CHMessageType) {
 @property (nonatomic, readonly, nullable, strong) NSString *title;
 @property (nonatomic, readonly, nullable, strong) NSString *text;
 @property (nonatomic, readonly, nullable, strong) NSString *file;
+@property (nonatomic, readonly, nullable, strong) CHThumbnailModel *thumbnail;
 
 + (nullable instancetype)modelWithData:(nullable NSData *)data mid:(NSString *)mid;
 + (nullable instancetype)modelWithKS:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw;

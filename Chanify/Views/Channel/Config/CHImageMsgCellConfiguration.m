@@ -12,8 +12,10 @@
 #import "CHLogic.h"
 #import "CHTheme.h"
 
-#define kCHImageMessageWidth    150
-#define kCHImageMessageHeight   300
+#define kCHImageMessageWidth        150
+#define kCHImageMessageHeight       300
+#define kCHImageMessageMinWidth     80
+#define kCHImageMessageMinHeight    80
 
 @interface CHImageMsgCellContentView : CHMsgCellContentView<CHImageMsgCellConfiguration *>
 
@@ -24,6 +26,7 @@
 @interface CHImageMsgCellConfiguration ()
 
 @property (nonatomic, readonly, nullable, strong) NSString *imageURL;
+@property (nonatomic, readonly, nullable, strong) CHThumbnailModel *thumbnail;
 @property (nonatomic, readonly, assign) CGRect imageRect;
 @property (nonatomic, readonly, weak) CHMessagesDataSource *source;
 
@@ -34,18 +37,19 @@
 static UIEdgeInsets imageInsets = { 0, 20, 0, 30 };
 
 + (instancetype)cellConfiguration:(CHMessageModel *)model source:(CHMessagesDataSource *)source {
-    return [[self.class alloc] initWithMID:model.mid imageURL:model.fileURL imageRect:CGRectZero source:source];
+    return [[self.class alloc] initWithMID:model.mid imageURL:model.fileURL imageRect:CGRectZero thumbnail:model.thumbnail source:source];
 }
 
 - (nonnull id)copyWithZone:(nullable NSZone *)zone {
-    return [[self.class allocWithZone:zone] initWithMID:self.mid imageURL:self.imageURL imageRect:self.imageRect source:self.source];
+    return [[self.class allocWithZone:zone] initWithMID:self.mid imageURL:self.imageURL imageRect:self.imageRect thumbnail:self.thumbnail source:self.source];
 }
 
-- (instancetype)initWithMID:(NSString *)mid imageURL:(NSString * _Nullable)imageURL imageRect:(CGRect)imageRect source:(CHMessagesDataSource *)source {
+- (instancetype)initWithMID:(NSString *)mid imageURL:(NSString * _Nullable)imageURL imageRect:(CGRect)imageRect thumbnail:(CHThumbnailModel *)thumbnail source:(CHMessagesDataSource *)source {
     if (self = [super initWithMID:mid]) {
         _source = source;
         _imageURL = (imageURL ?: @"");
         _imageRect = imageRect;
+        _thumbnail = thumbnail;
     }
     return self;
 }
@@ -58,11 +62,21 @@ static UIEdgeInsets imageInsets = { 0, 20, 0, 30 };
     _imageRect = CGRectZero;
 }
 
+- (nullable NSString *)mediaThumbnailURL {
+    return self.imageURL;
+}
+
 - (CGFloat)calcHeight:(CGSize)size {
     if (CGRectIsEmpty(self.imageRect)) {
         size.width -= imageInsets.left + imageInsets.right;
         size.height = kCHImageMessageHeight;
-        CGSize imageSize = [[CHLogic.shared.imageFileManager loadLocalFile:self.imageURL] size];
+        CGSize imageSize = CGSizeZero;
+        if (self.thumbnail != nil) {
+            imageSize = CGSizeMake(self.thumbnail.width, self.thumbnail.height);
+        }
+        if (imageSize.width <= 0 || imageSize.height <= 0) {
+            imageSize = [[CHLogic.shared.imageFileManager loadLocalFile:self.imageURL] size];
+        }
         size = [self calcImageSize:imageSize targetSize:size];
         _imageRect = CGRectMake(imageInsets.left, imageInsets.top, size.width, size.height);
     }
@@ -79,12 +93,15 @@ static UIEdgeInsets imageInsets = { 0, 20, 0, 30 };
             targetSize.height = imageSize.height * targetSize.width / imageSize.width;
         }
     }
-    return targetSize;
+    return CGSizeMake(MAX(targetSize.width, kCHImageMessageMinWidth), MAX(targetSize.height, kCHImageMessageMinHeight));
 }
+
 
 @end
 
 @interface CHImageMsgCellContentView () <CHWebImageViewDelegate>
+
+@property (nonatomic, readonly, strong) UITapGestureRecognizer *tapGestureRecognizer;
 
 @end
 
@@ -98,6 +115,17 @@ static UIEdgeInsets imageInsets = { 0, 20, 0, 30 };
     imageView.backgroundColor = CHTheme.shared.bubbleBackgroundColor;
     imageView.layer.cornerRadius = 8;
     imageView.delegate = self;
+    imageView.userInteractionEnabled = TRUE;
+    
+    _tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionShowDetail:)];
+    [imageView addGestureRecognizer:self.tapGestureRecognizer];
+}
+
+- (void)dealloc {
+    if (self.tapGestureRecognizer != nil) {
+        [self.imageView removeGestureRecognizer:self.tapGestureRecognizer];
+        _tapGestureRecognizer = nil;
+    }
 }
 
 - (UIView *)contentView {
@@ -133,6 +161,14 @@ static UIEdgeInsets imageInsets = { 0, 20, 0, 30 };
 #pragma mark - Action Methods
 - (void)actionShare:(id)sender {
     [CHRouter.shared showShareItem:@[self.imageView.image] sender:sender handler:nil];
+}
+
+- (void)actionShowDetail:(id)sender {
+    NSURL *localFileURL = self.imageView.localFileURL;
+    if (localFileURL != nil) {
+        CHImageMsgCellConfiguration *configuration = (CHImageMsgCellConfiguration *)self.configuration;
+        [configuration.source previewImageWithMID:configuration.mid];
+    }
 }
 
 

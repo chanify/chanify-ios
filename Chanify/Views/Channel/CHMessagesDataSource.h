@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)scrollViewDidScroll;
 - (void)loadLatestMessage:(BOOL)animated;
 - (void)deleteMessage:(nullable CHMessageModel *)model animated:(BOOL)animated;
+- (void)previewImageWithMID:(NSString *)mid;
 
 
 @end

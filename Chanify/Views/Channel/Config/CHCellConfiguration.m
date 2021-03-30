@@ -54,6 +54,10 @@
     return self;
 }
 
+- (nullable NSString *)mediaThumbnailURL {
+    return nil;
+}
+
 - (NSDate *)date {
     return [NSDate dateFromMID:self.mid];
 }

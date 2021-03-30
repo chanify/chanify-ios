@@ -22,6 +22,10 @@
 		6D67CBEA25D4298A00ECF655 /* CHCrpyto.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBE925D4298A00ECF655 /* CHCrpyto.m */; };
 		6D8F9EAC25EF45E800A8912C /* CHFormItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F9EAB25EF45E800A8912C /* CHFormItem.m */; };
 		6D9C209426020A4200F40CDD /* CHFormSwitchItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9C209326020A4200F40CDD /* CHFormSwitchItem.m */; };
+		6DABBB212612BDFC00FCBDD3 /* CHThumbnailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DABBB202612BDFC00FCBDD3 /* CHThumbnailModel.m */; };
+		6DABBB242612C0FA00FCBDD3 /* CHThumbnailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DABBB202612BDFC00FCBDD3 /* CHThumbnailModel.m */; };
+		6DABBB292612D9EA00FCBDD3 /* CHPreviewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DABBB282612D9EA00FCBDD3 /* CHPreviewItem.m */; };
+		6DABBB312612E33D00FCBDD3 /* CHPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DABBB302612E33D00FCBDD3 /* CHPreviewController.m */; };
 		6DBA92BE25F609CD00B792FE /* CHColorConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92BD25F609CD00B792FE /* CHColorConfiguration.m */; };
 		6DBA92C525F60B3B00B792FE /* UIColor+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92C425F60B3B00B792FE /* UIColor+CHExt.m */; };
 		6DBA92DF25F8A83700B792FE /* CHSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92DE25F8A83700B792FE /* CHSplitViewController.m */; };
@@ -210,6 +214,12 @@
 		6D8F9EAB25EF45E800A8912C /* CHFormItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormItem.m; sourceTree = "<group>"; };
 		6D9C209226020A4200F40CDD /* CHFormSwitchItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormSwitchItem.h; sourceTree = "<group>"; };
 		6D9C209326020A4200F40CDD /* CHFormSwitchItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormSwitchItem.m; sourceTree = "<group>"; };
+		6DABBB1F2612BDFC00FCBDD3 /* CHThumbnailModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHThumbnailModel.h; sourceTree = "<group>"; };
+		6DABBB202612BDFC00FCBDD3 /* CHThumbnailModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHThumbnailModel.m; sourceTree = "<group>"; };
+		6DABBB272612D9EA00FCBDD3 /* CHPreviewItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHPreviewItem.h; sourceTree = "<group>"; };
+		6DABBB282612D9EA00FCBDD3 /* CHPreviewItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHPreviewItem.m; sourceTree = "<group>"; };
+		6DABBB2F2612E33D00FCBDD3 /* CHPreviewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHPreviewController.h; sourceTree = "<group>"; };
+		6DABBB302612E33D00FCBDD3 /* CHPreviewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHPreviewController.m; sourceTree = "<group>"; };
 		6DBA92BC25F609CD00B792FE /* CHColorConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHColorConfiguration.h; sourceTree = "<group>"; };
 		6DBA92BD25F609CD00B792FE /* CHColorConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHColorConfiguration.m; sourceTree = "<group>"; };
 		6DBA92C325F60B3B00B792FE /* UIColor+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+CHExt.h"; sourceTree = "<group>"; };
@@ -456,6 +466,17 @@
 			path = Form;
 			sourceTree = "<group>";
 		};
+		6DABBB2E2612E2F200FCBDD3 /* Preview */ = {
+			isa = PBXGroup;
+			children = (
+				6DABBB272612D9EA00FCBDD3 /* CHPreviewItem.h */,
+				6DABBB282612D9EA00FCBDD3 /* CHPreviewItem.m */,
+				6DABBB2F2612E33D00FCBDD3 /* CHPreviewController.h */,
+				6DABBB302612E33D00FCBDD3 /* CHPreviewController.m */,
+			);
+			path = Preview;
+			sourceTree = "<group>";
+		};
 		6DBA92DC25F8A82100B792FE /* Split​View​ */ = {
 			isa = PBXGroup;
 			children = (
@@ -565,6 +586,8 @@
 				6DC6C2E125D15E6B00512E36 /* CHChannelModel.m */,
 				6DC6C2E525D15EC100512E36 /* CHMessageModel.h */,
 				6DC6C2E625D15EC100512E36 /* CHMessageModel.m */,
+				6DABBB1F2612BDFC00FCBDD3 /* CHThumbnailModel.h */,
+				6DABBB202612BDFC00FCBDD3 /* CHThumbnailModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -658,6 +681,7 @@
 		6DC6C29425D1435F00512E36 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				6DABBB2E2612E2F200FCBDD3 /* Preview */,
 				6DDC86B925E7457B00C26203 /* IndicatorView */,
 				6DDC86B725E7456000C26203 /* TableView */,
 				6DC6C1C825D0DCD100512E36 /* CHViewController.h */,
@@ -1017,10 +1041,12 @@
 				6DC6C2D625D15CCD00512E36 /* CHManager.m in Sources */,
 				6DC6C2E725D15EC100512E36 /* CHMessageModel.m in Sources */,
 				6DC6C2DD25D15DB100512E36 /* CHUserDataSource.m in Sources */,
+				6DABBB312612E33D00FCBDD3 /* CHPreviewController.m in Sources */,
 				6D278EAD25E5598A00FC48CD /* CHTableView.m in Sources */,
 				6DDC86A925E7408E00C26203 /* CHNodeModel.m in Sources */,
 				6DC6C3A425D1700A00512E36 /* CHChannelViewController.m in Sources */,
 				6DBA92BE25F609CD00B792FE /* CHColorConfiguration.m in Sources */,
+				6DABBB292612D9EA00FCBDD3 /* CHPreviewItem.m in Sources */,
 				6DC6C38B25D16E6A00512E36 /* CHMsgCellConfiguration.m in Sources */,
 				6DD6955025F20C140047FF08 /* CHFormSection.m in Sources */,
 				6DC6C24225D1117A00512E36 /* CHTheme.m in Sources */,
@@ -1059,6 +1085,7 @@
 				6DC6C27425D13E5500512E36 /* CHLogic.m in Sources */,
 				6DC6C26025D114E800512E36 /* NSData+CHExt.m in Sources */,
 				6DC6C39A25D16FAC00512E36 /* CHMessagesHeaderView.m in Sources */,
+				6DABBB212612BDFC00FCBDD3 /* CHThumbnailModel.m in Sources */,
 				6DC6C28225D1408700512E36 /* CHTabBarViewController.m in Sources */,
 				6DD6954625F1FF6C0047FF08 /* CHFormViewController.m in Sources */,
 				6DC6C31925D1615100512E36 /* NSFileManager+CHExt.m in Sources */,
@@ -1101,6 +1128,7 @@
 				6DC6C22025D0FB7600512E36 /* NotificationService.m in Sources */,
 				6DC6C31425D1611E00512E36 /* NSDictionary+CHExt.m in Sources */,
 				6DC6C2F125D15FB700512E36 /* CHNSDataSource.m in Sources */,
+				6DABBB242612C0FA00FCBDD3 /* CHThumbnailModel.m in Sources */,
 				6DC6C23325D0FC7500512E36 /* CHTP.proto in Sources */,
 				6DC6C30C25D160F100512E36 /* NSException+CHExt.m in Sources */,
 				6DC6C30625D160EA00512E36 /* NSData+CHExt.m in Sources */,
@@ -1273,7 +1301,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Chanify/Chanify.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1287,7 +1315,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1306,7 +1334,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Chanify/Chanify.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1320,7 +1348,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1335,7 +1363,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = NotificationService/Info.plist;
@@ -1344,7 +1372,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1361,7 +1389,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = NotificationService/Info.plist;
@@ -1370,7 +1398,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

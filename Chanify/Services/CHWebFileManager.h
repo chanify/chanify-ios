@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)close;
 - (void)loadFileURL:(nullable NSString *)fileURL toItem:(id<CHWebFileItem>)item;
 - (nullable Item)loadLocalFile:(nullable NSString *)fileURL;
+- (nullable NSURL *)localFileURL:(nullable NSString *)fileURL;
 
 
 @end

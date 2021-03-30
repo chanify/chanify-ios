@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)cellConfiguration:(CHMessageModel *)model source:(CHMessagesDataSource *)source;
 + (NSDictionary<NSString *, UICollectionViewCellRegistration *> *)cellRegistrations;
 - (instancetype)initWithMID:(NSString *)mid;
+- (nullable NSString *)mediaThumbnailURL;
 - (NSDate *)date;
 - (void)setNeedRecalcLayout;
 - (CGFloat)calcHeight:(CGSize)size;

@@ -26,6 +26,10 @@
     }
 }
 
+- (nullable NSURL *)localFileURL {
+    return [CHLogic.shared.imageFileManager localFileURL:self.fileURL];
+}
+
 #pragma mark - CHWebFileItem
 - (void)webFileUpdated:(nullable UIImage *)item {
     if (self.image != item) {

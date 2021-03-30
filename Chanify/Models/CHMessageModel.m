@@ -114,6 +114,14 @@
                     _type = CHMessageTypeImage;
                     _text = @"Image".localized;
                     _file = content.file;
+                    if (content.hasThumbnail) {
+                        CHTPThumbnail *thumbnail = content.thumbnail;
+                        if (thumbnail.type == 0) {
+                            NSData *preview = thumbnail.data_p;
+                            if (preview.length <= 0) preview = nil;
+                            _thumbnail = [CHThumbnailModel thumbnailWithWidth:thumbnail.width height:thumbnail.height preview:preview];
+                        }
+                    }
                     break;
                 case CHTPMsgType_Video:
                     _type = CHMessageTypeVideo;

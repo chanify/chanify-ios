@@ -7,9 +7,11 @@
 
 #import "CHMessagesDataSource.h"
 #import "CHMessagesHeaderView.h"
+#import "CHPreviewController.h"
 #import "CHUnknownMsgCellConfiguration.h"
 #import "CHDateCellConfiguration.h"
 #import "CHUserDataSource.h"
+#import "CHRouter.h"
 #import "CHLogic.h"
 
 #define kCHMessageListPageSize  16
@@ -151,7 +153,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
         NSMutableArray<CHCellConfiguration *> *deleteItems = [NSMutableArray arrayWithObject:item];
         NSInteger idx = [snapshot indexOfItemIdentifier:item];
         if (idx > 0) {
-            NSArray *items = snapshot.itemIdentifiers;
+            NSArray<CHCellConfiguration *> *items = snapshot.itemIdentifiers;
             CHCellConfiguration *prev = [items objectAtIndex:idx - 1];
             if ([prev isKindOfClass:CHDateCellConfiguration.class]) {
                 if (idx + 1 >= items.count) {
@@ -166,6 +168,31 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
         }
         [snapshot deleteItemsWithIdentifiers:deleteItems];
         [self applySnapshot:snapshot animatingDifferences:animated];
+    }
+}
+
+- (void)previewImageWithMID:(NSString *)mid {
+    NSInteger idx = 0;
+    NSInteger selected = 0;
+    NSMutableArray<CHPreviewItem *> *items = [NSMutableArray new];
+    CHWebFileManager *webFileManager = CHLogic.shared.imageFileManager;
+    for (CHCellConfiguration *cell in self.snapshot.itemIdentifiers) {
+        NSString *thumbnailUrl = cell.mediaThumbnailURL;
+        if (thumbnailUrl.length > 0) {
+            NSURL *url = [webFileManager localFileURL:thumbnailUrl];
+            if (url != nil) {
+                CHPreviewItem *item = [CHPreviewItem itemWithURL:url title:cell.date.mediumFormat uti:@"public.jpeg"];
+                [items addObject:item];
+                if ([cell.mid isEqualToString:mid]) {
+                    selected = idx;
+                }
+                idx++;
+            }
+        }
+    }
+    if (items.count > 0) {
+        CHPreviewController *vc = [CHPreviewController previewImages:items selected:selected];
+        [CHRouter.shared presentSystemViewController:vc animated:YES];
     }
 }
 

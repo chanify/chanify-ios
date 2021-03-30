@@ -128,6 +128,17 @@
     return res;
 }
 
+- (nullable NSURL *)localFileURL:(nullable NSString *)fileURL {
+    NSURL *url = nil;
+    if (fileURL.length > 0) {
+        NSURL *filepath = [self fileURL2Path:fileURL];
+        if ([NSFileManager.defaultManager isReadableFileAtPath:filepath.path]) {
+            url = filepath;
+        }
+    }
+    return url;
+}
+
 #pragma mark - Private Methods
 - (void)asyncStartTask:(CHWebFileTask *)task fileURL:(NSURL *)fileURL {
     @weakify(self);
