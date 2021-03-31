@@ -16,6 +16,7 @@
 
 @property (nonatomic, readonly, strong) CHIconView *iconView;
 @property (nonatomic, readonly, strong) UILabel *nameLabel;
+@property (nonatomic, readonly, strong) UIImageView *statusIcon;
 
 @end
 
@@ -34,12 +35,21 @@
             make.width.equalTo(iconView.mas_height);
         }];
         
+        UIImageView *statusIcon = [UIImageView new];
+        [self.contentView addSubview:(_statusIcon = statusIcon)];
+        [statusIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(30);
+            make.centerY.equalTo(self.contentView);
+            make.right.equalTo(self.contentView).offset(-16);
+        }];
+        statusIcon.contentMode = UIViewContentModeScaleAspectFit;
+        
         UILabel *nameLabel = [UILabel new];
         [self.contentView addSubview:(_nameLabel = nameLabel)];
         [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(iconView.mas_right).offset(10);
             make.centerY.equalTo(iconView);
-            make.right.lessThanOrEqualTo(self.contentView).offset(-16);
+            make.right.lessThanOrEqualTo(statusIcon.mas_left).offset(-16);
         }];
         nameLabel.font = [UIFont systemFontOfSize:16];
         nameLabel.textColor = theme.labelColor;
@@ -53,6 +63,14 @@
 
     self.nameLabel.text = model.name;
     self.iconView.image = model.icon;
+    self.statusIcon.hidden = !model.isStoreDevice;
+    if ([CHLogic.shared nodeIsConnected:model.nid]) {
+        self.statusIcon.image = [UIImage systemImageNamed:@"checkmark.icloud.fill"];
+        self.statusIcon.tintColor = CHTheme.shared.secureColor;
+    } else {
+        self.statusIcon.image = [UIImage systemImageNamed:@"xmark.icloud.fill"];
+        self.statusIcon.tintColor = CHTheme.shared.alertColor;
+    }
 }
 
 + (UIContextualAction *)actionInfo:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath {
@@ -69,7 +87,7 @@
 + (nullable UIContextualAction *)actionDelete:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath {
     UIContextualAction *action = nil;
     CHNodeModel *model = [[tableView cellForRowAtIndexPath:indexPath] model];
-    if (model != nil && model.nid.length > 0) {
+    if (model != nil && !model.isSystem) {
         action = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive title:nil handler:^(UIContextualAction *action, UIView *sourceView, void (^completionHandler)(BOOL)) {
             [CHRouter.shared showAlertWithTitle:@"Delete this node or not?".localized action:@"Delete".localized handler:^{
                 [CHLogic.shared deleteNode:model.nid];
@@ -77,6 +95,26 @@
             completionHandler(YES);
         }];
         action.image = [UIImage systemImageNamed:@"trash.fill"];
+    }
+    return action;
+}
+
++ (nullable UIContextualAction *)actionReconnect:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath {
+    UIContextualAction *action = nil;
+    CHNodeModel *model = [[tableView cellForRowAtIndexPath:indexPath] model];
+    if (model != nil && model.isStoreDevice) {
+        action = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal title:nil handler:^(UIContextualAction *action, UIView *sourceView, void (^completionHandler)(BOOL)) {
+            [CHLogic.shared reconnectNode:model.nid completion:^(CHLCode result) {
+                if (result == CHLCodeOK) {
+                    [CHRouter.shared makeToast:@"Sync device info success".localized];
+                } else {
+                    [CHRouter.shared makeToast:@"Sync device info failed".localized];
+                }
+            }];
+            completionHandler(YES);
+        }];
+        action.image = [UIImage systemImageNamed:@"arrow.triangle.2.circlepath"];
+        action.backgroundColor = CHTheme.shared.warnColor;
     }
     return action;
 }

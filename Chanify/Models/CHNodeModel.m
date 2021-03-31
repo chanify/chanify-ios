@@ -60,5 +60,13 @@
     return [[NSURL URLWithString:self.endpoint] URLByAppendingPathComponent:@"/rest/v1/"];
 }
 
+- (BOOL)isStoreDevice {
+    return (self != nil && self.flags&CHNodeModelFlagsStoreDevice);
+}
+
+- (BOOL)isSystem {
+    return (self.nid.length <= 0 || [self.nid isEqualToString:@"sys"]);
+}
+
 
 @end

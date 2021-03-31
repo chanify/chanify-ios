@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (UIContextualAction *)actionInfo:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath;
 + (nullable UIContextualAction *)actionDelete:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath;
++ (nullable UIContextualAction *)actionReconnect:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath;
 
 
 @end

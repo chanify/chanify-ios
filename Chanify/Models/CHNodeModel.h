@@ -26,6 +26,8 @@ typedef NS_OPTIONS(NSUInteger, CHNodeModelFlags) {
 + (instancetype)modelWithNID:(nullable NSString *)nid name:(nullable NSString *)name endpoint:(nullable NSString *)url flags:(CHNodeModelFlags)flags features:(nullable NSString *)features;
 - (BOOL)isFullEqual:(CHNodeModel *)rhs;
 - (NSURL *)apiURL;
+- (BOOL)isStoreDevice;
+- (BOOL)isSystem;
 
 
 @end

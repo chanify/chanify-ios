@@ -82,6 +82,9 @@
 "Delete this node or not?"="是否要删除这个节点？";
 "Add node failed"="添加节点失败";
 "Update node failed"="更新节点失败";
+"The request has been rejected"="请求已被拒绝";
+"Sync device info failed"="上传设备信息失败";
+"Sync device info success"="上传设备信息成功";
 
 "Image"="[图片]";
 "Video"="[视频]";
@@ -90,6 +93,7 @@
 "sys.none"="未分类消息";
 "sys.device"="设备消息";
 
+"register.limit"="限制公开注册";
 "store.device"="存储设备信息";
 "msg.text"="发送文本消息";
 "msg.image"="发送图片消息";

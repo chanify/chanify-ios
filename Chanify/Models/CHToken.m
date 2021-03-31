@@ -56,7 +56,7 @@
 }
 
 - (void)setNode:(CHNodeModel *)node {
-    if ([node.nid isEqualToString:@"sys"]) {
+    if (node.isSystem) {
         self.token.nodeId = nil;
     } else {
         self.token.nodeId = node.nid;

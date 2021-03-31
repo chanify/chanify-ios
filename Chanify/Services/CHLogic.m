@@ -29,6 +29,7 @@
 @property (nonatomic, readonly, strong) NSString *userAgent;
 @property (nonatomic, readonly, strong) AFURLSessionManager *manager;
 @property (nonatomic, readonly, strong) NSData *pushToken;
+@property (nonatomic, readonly, strong) NSMutableSet<NSString *> *invalidNodes;
 
 @end
 
@@ -55,6 +56,7 @@
         _nsDataSource = [CHNSDataSource dataSourceWithURL:[fileManager URLForGroupId:@kCHAppGroupName path:@kCHDBNotificationServiceName]];
         _userDataSource = nil;
         _imageFileManager = nil;
+        _invalidNodes = [NSMutableSet new];
     }
     return self;
 }
@@ -171,10 +173,10 @@
 
 - (void)updatePushToken:(NSData *)pushToken {
     _pushToken = pushToken;
-    [self updatePushToken:pushToken endpoint:self.baseURL retry:YES];
+    [self updatePushToken:pushToken endpoint:self.baseURL nodeId:nil completion:nil retry:YES];
     for (CHNodeModel *node in self.userDataSource.loadNodes) {
-        if (node.flags&CHNodeModelFlagsStoreDevice) {
-            [self updatePushToken:pushToken endpoint:node.apiURL retry:NO];
+        if (node.isStoreDevice) {
+            [self updatePushToken:pushToken endpoint:node.apiURL nodeId:node.nid completion:nil retry:NO];
         }
     }
 }
@@ -218,7 +220,7 @@
     if (model.endpoint.length <= 0) {
         call_completion(completion, CHLCodeFailed);
     } else {
-        BOOL device = model.flags&CHNodeModelFlagsStoreDevice;
+        BOOL device = model.isStoreDevice;
         @weakify(self);
         CHUserModel *user = self.me;
         NSDictionary *parameters = @{
@@ -228,11 +230,11 @@
             },
         };
         if (device) {
-            CHDevice *device = CHDevice.shared;
+            CHDevice *dev = CHDevice.shared;
             NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:parameters];
             [params setValue:@{
-                @"uuid": device.uuid.hex,
-                @"key": device.key.pubkey.base64,
+                @"uuid": dev.uuid.hex,
+                @"key": dev.key.pubkey.base64,
                 @"push-token": self.pushToken.base64,
                 @"sandbox": @(kSandbox),
             } forKey:@"device"];
@@ -242,6 +244,9 @@
             @strongify(self);
             CHLCode ret = CHLCodeFailed;
             if (error != nil) {
+                if ([response isKindOfClass:NSHTTPURLResponse.class] && [(NSHTTPURLResponse *)response statusCode] == 406) {
+                    ret = CHLCodeReject;
+                }
                 CHLogE("Bind node user failed: %s", error.description.cstr);
             } else {
                 CHLogI("Bind node user success.");
@@ -284,6 +289,22 @@
     return res;
 }
 
+- (BOOL)nodeIsConnected:(nullable NSString *)nid {
+    if (nid.length > 0) {
+        return ![self.invalidNodes containsObject:nid];
+    }
+    return NO;
+}
+
+- (void)reconnectNode:(nullable NSString *)nid completion:(nullable CHLogicBlock)completion {
+    if (nid.length > 0) {
+        CHNodeModel *node = [self.userDataSource nodeWithNID:nid];
+        if (node.isStoreDevice) {
+            [self updatePushToken:self.pushToken endpoint:node.apiURL nodeId:nid completion:completion retry:NO];
+        }
+    }
+}
+
 #pragma mark - Message Methods
 - (void)bindAccount:(CHSecKey *)key completion:(nullable CHLogicBlock)completion {
     CHDevice *device = CHDevice.shared;
@@ -322,7 +343,7 @@
     }
 }
 
-- (void)updatePushToken:(NSData *)pushToken endpoint:(NSURL *)endpoint retry:(BOOL)retry {
+- (void)updatePushToken:(NSData *)pushToken endpoint:(NSURL *)endpoint nodeId:(nullable NSString *)nodeId completion:(nullable CHLogicBlock)completion retry:(BOOL)retry {
     if (self.me != nil) {
         CHDevice *device = CHDevice.shared;
         NSDictionary *parameters = @{
@@ -333,39 +354,67 @@
         };
         @weakify(self);
         [self sendToEndpoint:endpoint device:YES cmd:@"push-token" user:self.me parameters:parameters completion:^(NSURLResponse *response, NSDictionary *result, NSError *error) {
+            CHLCode ret = CHLCodeFailed;
+            @strongify(self);
             if (error == nil) {
                 CHLogI("Update push token to %s success.", endpoint.host.cstr);
+                [self tryUpdateNodeStatus:nodeId status:YES];
+                ret = CHLCodeOK;
             } else {
                 CHLogW("Update push token to %s failed: %s", endpoint.host.cstr, error.description.cstr);
                 NSHTTPURLResponse *resp = (NSHTTPURLResponse *)response;
                 if (resp.statusCode == 404 && retry) {
-                    @strongify(self);
                     [self bindAccount:nil completion:^(CHLCode result) {
                         @strongify(self);
-                        [self updatePushToken:pushToken endpoint:endpoint retry:NO];
+                        [self updatePushToken:pushToken endpoint:endpoint nodeId:nodeId completion:completion retry:NO];
                     }];
+                } else {
+                    [self tryUpdateNodeStatus:nodeId status:NO];
                 }
             }
+            call_completion(completion, ret);
         }];
     }
 }
 
 - (void)updateNodeBind {
     for (CHNodeModel *node in self.userDataSource.loadNodes) {
-        if (node.flags&CHNodeModelFlagsStoreDevice) {
+        if (node.isStoreDevice) {
             [self insertNode:node completion:nil];
         }
     }
 }
 
 - (void)unbindNode:(nullable CHNodeModel *)node {
-    if (node != nil && node.flags&CHNodeModelFlagsStoreDevice) {
+    if (node.isStoreDevice) {
         CHDevice *device = CHDevice.shared;
         NSDictionary *parameters = @{
             @"device": device.uuid.hex,
             @"user": self.me.uid,
         };
         [self sendToEndpoint:node.apiURL device:YES cmd:@"unbind-user" user:self.me parameters:parameters completion:nil];
+    }
+}
+
+
+- (void)tryUpdateNodeStatus:(nullable NSString *)nodeId status:(BOOL)status {
+    if (nodeId.length > 0) {
+        @weakify(self);
+        dispatch_main_async(^{
+            @strongify(self);
+            [self updateNodeStatus:nodeId status:status];
+        });
+    }
+}
+
+- (void)updateNodeStatus:(nullable NSString *)nodeId status:(BOOL)status {
+    if ([self.invalidNodes containsObject:nodeId] == status) {
+        if (status) {
+            [self.invalidNodes removeObject:nodeId];
+        } else {
+            [self.invalidNodes addObject:nodeId];
+        }
+        [self sendNotifyWithSelector:@selector(logicNodeUpdated:) withObject:nodeId];
     }
 }
 

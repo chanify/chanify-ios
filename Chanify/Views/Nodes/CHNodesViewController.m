@@ -65,11 +65,17 @@ static NSString *const cellIdentifier = @"node";
 }
 
 - (nullable UISwipeActionsConfiguration *)tableView:(UITableView *)tableView trailingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSMutableArray *actions = [NSMutableArray arrayWithObject:[CHNodeTableViewCell actionInfo:tableView indexPath:indexPath]];
+    NSMutableArray *actions = [NSMutableArray arrayWithCapacity:1];
     UIContextualAction *delete = [CHNodeTableViewCell actionDelete:tableView indexPath:indexPath];
     if (delete != nil) {
-        [actions insertObject:delete atIndex:0];
+        [actions addObject:delete];
     }
+    UIContextualAction *reconnect = [CHNodeTableViewCell actionReconnect:tableView indexPath:indexPath];
+    if (reconnect != nil) {
+        [actions addObject:reconnect];
+    }
+    [actions addObject:[CHNodeTableViewCell actionInfo:tableView indexPath:indexPath]];
+
     UISwipeActionsConfiguration *configuration = [UISwipeActionsConfiguration configurationWithActions:actions];
     configuration.performsFirstActionWithFullSwipe = NO;
     return configuration;
@@ -77,7 +83,14 @@ static NSString *const cellIdentifier = @"node";
 
 #pragma mark - CHLogicDelegate
 - (void)logicNodeUpdated:(NSString *)nid {
-    [self reloadData];
+    CHNodeModel *node = [CHLogic.shared.userDataSource nodeWithNID:nid];
+    if (node == nil) {
+        [self reloadData];
+    } else {
+        CHNodeDiffableSnapshot *snapshot = self.dataSource.snapshot;
+        [snapshot reloadItemsWithIdentifiers:@[node]];
+        [self.dataSource applySnapshot:snapshot animatingDifferences:YES];
+    }
 }
 
 - (void)logicNodesUpdated:(NSArray<NSString *> *)nids {

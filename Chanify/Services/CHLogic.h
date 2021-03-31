@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(int, CHLCode) {
     CHLCodeOK       = 200,
+    CHLCodeReject   = 406,
     CHLCodeFailed   = 500,
 };
 
@@ -59,6 +60,8 @@ typedef void (^CHLogicBlock)(CHLCode result);
 - (BOOL)insertChannel:(NSString *)code name:(nullable NSString *)name icon:(nullable NSString *)icon;
 - (BOOL)updateChannel:(CHChannelModel *)model;
 - (BOOL)deleteChannel:(nullable NSString *)cid;
+- (BOOL)nodeIsConnected:(nullable NSString *)nid;
+- (void)reconnectNode:(nullable NSString *)nid completion:(nullable CHLogicBlock)completion;
 
 
 @end

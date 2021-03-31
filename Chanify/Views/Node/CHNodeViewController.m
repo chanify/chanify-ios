@@ -61,7 +61,7 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
             }
         }
         if (_model != nil) {
-            if ([self.model.nid isEqualToString:@"sys"]) {
+            if (self.model.isSystem) {
                 _status = CHNodeVCStatusNone;
             }
         } else {
@@ -86,10 +86,12 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
     [CHRouter.shared showIndicator:YES];
     [CHLogic.shared insertNode:self.model completion:^(CHLCode result) {
         [CHRouter.shared showIndicator:NO];
-        if (result != CHLCodeOK) {
-            [CHRouter.shared makeToast:@"Add node failed".localized];
-        } else {
+        if (result == CHLCodeOK) {
             [self closeAnimated:YES completion:nil];
+        } else if (result == CHLCodeReject) {
+            [CHRouter.shared makeToast:@"The request has been rejected".localized];
+        } else {
+            [CHRouter.shared makeToast:@"Add node failed".localized];
         }
     }];
 }
@@ -188,6 +190,7 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
             @"msg.audio": @"waveform",
             @"msg.timeline": @"waveform.path.ecg",
             @"store.device": @"externaldrive.badge.person.crop",
+            @"register.limit": @"lock.shield",
         };
     });
     NSString *image = [iconTable objectForKey:name];

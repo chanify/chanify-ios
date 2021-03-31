@@ -82,6 +82,9 @@
 "Delete this node or not?"="Delete this node or not?";
 "Add node failed"="Add node failed";
 "Update node failed"="Update node failed";
+"The request has been rejected"="The request has been rejected";
+"Sync device info failed"="Upload device info failed";
+"Sync device info success"="Upload device info success";
 
 "Image"="[Image]";
 "Video"="[Video]";
@@ -90,6 +93,7 @@
 "sys.none"="Uncategorized";
 "sys.device"="Devices";
 
+"register.limit"="Public registration disabled";
 "store.device"="Store device info";
 "msg.text"="Send text message";
 "msg.image"="Send image message";
