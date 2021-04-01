@@ -26,6 +26,7 @@
 		6DABBB242612C0FA00FCBDD3 /* CHThumbnailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DABBB202612BDFC00FCBDD3 /* CHThumbnailModel.m */; };
 		6DABBB292612D9EA00FCBDD3 /* CHPreviewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DABBB282612D9EA00FCBDD3 /* CHPreviewItem.m */; };
 		6DABBB312612E33D00FCBDD3 /* CHPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DABBB302612E33D00FCBDD3 /* CHPreviewController.m */; };
+		6DAE516B26155C8C00AF9E90 /* CHPasteboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DAE516A26155C8C00AF9E90 /* CHPasteboard.m */; };
 		6DBA92BE25F609CD00B792FE /* CHColorConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92BD25F609CD00B792FE /* CHColorConfiguration.m */; };
 		6DBA92C525F60B3B00B792FE /* UIColor+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92C425F60B3B00B792FE /* UIColor+CHExt.m */; };
 		6DBA92DF25F8A83700B792FE /* CHSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92DE25F8A83700B792FE /* CHSplitViewController.m */; };
@@ -220,6 +221,8 @@
 		6DABBB282612D9EA00FCBDD3 /* CHPreviewItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHPreviewItem.m; sourceTree = "<group>"; };
 		6DABBB2F2612E33D00FCBDD3 /* CHPreviewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHPreviewController.h; sourceTree = "<group>"; };
 		6DABBB302612E33D00FCBDD3 /* CHPreviewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHPreviewController.m; sourceTree = "<group>"; };
+		6DAE516926155C8C00AF9E90 /* CHPasteboard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHPasteboard.h; sourceTree = "<group>"; };
+		6DAE516A26155C8C00AF9E90 /* CHPasteboard.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHPasteboard.m; sourceTree = "<group>"; };
 		6DBA92BC25F609CD00B792FE /* CHColorConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHColorConfiguration.h; sourceTree = "<group>"; };
 		6DBA92BD25F609CD00B792FE /* CHColorConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHColorConfiguration.m; sourceTree = "<group>"; };
 		6DBA92C325F60B3B00B792FE /* UIColor+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+CHExt.h"; sourceTree = "<group>"; };
@@ -616,6 +619,8 @@
 				6DC6C2A525D14BE000512E36 /* CHDevice.m */,
 				6DC6C2D425D15CCD00512E36 /* CHManager.h */,
 				6DC6C2D525D15CCD00512E36 /* CHManager.m */,
+				6DAE516926155C8C00AF9E90 /* CHPasteboard.h */,
+				6DAE516A26155C8C00AF9E90 /* CHPasteboard.m */,
 				6DC6C26D25D13D2900512E36 /* CHNotification.h */,
 				6DC6C26E25D13D2900512E36 /* CHNotification.m */,
 				6DC6C2EA25D15F9700512E36 /* CHNSDataSource.h */,
@@ -1028,6 +1033,7 @@
 				6DC6C2CD25D15B6300512E36 /* CHScanViewController.m in Sources */,
 				6D67CBEA25D4298A00ECF655 /* CHCrpyto.m in Sources */,
 				6DC6C26525D1151E00512E36 /* NSString+CHExt.m in Sources */,
+				6DAE516B26155C8C00AF9E90 /* CHPasteboard.m in Sources */,
 				6DC6C38625D16E4200512E36 /* CHDateCellConfiguration.m in Sources */,
 				6D278E5E25E1EF7A00FC48CD /* CHPrivacyViewController.m in Sources */,
 				6DC6C39F25D16FE600512E36 /* CHMessagesDataSource.m in Sources */,

@@ -15,7 +15,6 @@
 "Share"="Share";
 "Copy"="Copy";
 "Copied"="Copied";
-"NewMsg"="Receive an new message";
 "Channels"="Channels";
 "Scan QR Code"="Scan QR Code";
 "New Channel"="New Channel";
@@ -25,11 +24,14 @@
 "Shape"="Shape";
 "Color"="Color";
 "Background"="Background";
+"NodeID"="Node ID";
 "Endpoint"="Endpoint";
+"Endpoint URL"="Endpoint URL";
 "Create channel failed"="Create channel failed";
 "Channel Detail"="Channel Detail";
+"Message"="Message";
+"Account"="Account";
 "Token"="Token";
-"Token copied"="Token Copied";
 "Delete channel"="Delete channel";
 "Nodes"="Nodes";
 "Node Detail"="Node Detail";
@@ -65,7 +67,6 @@
 "Tap to reload"="Tap to reload";
 "Release to reload"="Release to reload";
 "Logout failed"="Logout failed";
-"Account copied"="Account copied";
 "Create new account"="Create new account";
 "Import old account"="Import old account";
 "Create account failed"="Create account failed";
@@ -86,9 +87,13 @@
 "Sync device info failed"="Upload device info failed";
 "Sync device info success"="Upload device info success";
 
-"Image"="[Image]";
-"Video"="[Video]";
-"Audio"="[Audio]";
+"%@ copied"="%@ Copied";
+
+"NewMsg"="Receive an new message";
+"ImageMsg"="[Image]";
+"VideoMsg"="[Video]";
+"AudioMsg"="[Audio]";
+"LinkMsg"="[Link]";
 
 "sys.none"="Uncategorized";
 "sys.device"="Devices";

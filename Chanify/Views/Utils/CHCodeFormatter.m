@@ -11,6 +11,15 @@
 
 @implementation CHCodeFormatter
 
++ (instancetype)shared {
+    static CHCodeFormatter *formatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        formatter = [CHCodeFormatter new];
+    });
+    return formatter;
+}
+
 - (nullable NSString *)stringForObjectValue:(NSString *)val {
     NSUInteger len = val.length;
     if (len <= kCHCodeFormatterLength) {

@@ -9,9 +9,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define kCHFormTextFieldTag     1000
-#define kCHFormImageViewTag     1001
-#define kCHFormSwitchViewTag    1002
+#define kCHFormFirstViewTag     1000
+#define kCHFormTextFieldTag     1001
+#define kCHFormImageViewTag     1002
+#define kCHFormSwitchViewTag    1003
 
 @class CHFormItem;
 @class CHFormSection;
@@ -29,8 +30,10 @@ typedef void (^CHFormItemOnChangedBlock)(__kindof CHFormItem *item, __nullable i
 - (instancetype)initWithName:(NSString *)name;
 - (id<UIContentConfiguration>)contentConfiguration;
 - (UITableViewCellAccessoryType)accessoryType;
+- (nullable UIView *)accessoryView;
 - (void)prepareCell:(UITableViewCell *)cell;
 - (void)updateStatus;
+- (BOOL)tryDoAction;
 - (BOOL)isHidden;
 
 

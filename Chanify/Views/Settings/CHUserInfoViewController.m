@@ -7,6 +7,7 @@
 
 #import "CHUserInfoViewController.h"
 #import <Masonry/Masonry.h>
+#import "CHPasteboard.h"
 #import "CHQrCodeView.h"
 #import "CHRouter.h"
 #import "CHTheme.h"
@@ -127,8 +128,7 @@
 }
 
 - (void)actionCopyAccount:(UILongPressGestureRecognizer *)recognizer {
-    UIPasteboard.generalPasteboard.string = self.accountLabel.text;
-    [CHRouter.shared makeToast:@"Account copied".localized];
+    [CHPasteboard.shared copyWithName:@"Account".localized value:self.accountLabel.text];
 }
 
 

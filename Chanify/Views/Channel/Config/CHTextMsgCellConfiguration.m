@@ -7,6 +7,7 @@
 
 #import "CHTextMsgCellConfiguration.h"
 #import <M80AttributedLabel/M80AttributedLabel.h>
+#import "CHPasteboard.h"
 #import "CHRouter.h"
 #import "CHLogic.h"
 #import "CHTheme.h"
@@ -120,8 +121,7 @@ static CGFloat titleSpace = 4;
         [items addObject:self.titleLabel.text];
     }
     [items addObject:self.textLabel.text];
-    UIPasteboard.generalPasteboard.string = [items componentsJoinedByString:@"\n"];
-    [CHRouter.shared makeToast:@"Copied".localized];
+    [CHPasteboard.shared copyWithName:@"Message".localized value:[items componentsJoinedByString:@"\n"]];
 }
 
 - (void)actionShare:(id)sender {

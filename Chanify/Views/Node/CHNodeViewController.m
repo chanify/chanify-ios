@@ -8,6 +8,7 @@
 #import "CHNodeViewController.h"
 #import "CHUserDataSource.h"
 #import "CHNSDataSource.h"
+#import "CHPasteboard.h"
 #import "CHNodeModel.h"
 #import "CHLogic.h"
 #import "CHRouter.h"
@@ -48,6 +49,7 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
                         _status = CHNodeVCStatusNew;
                     } else {
                         self.model.flags = model.flags;
+                        self.model.icon = model.icon ?: self.model.icon;
                         _status = CHNodeVCStatusUpdate;
                     }
                 }
@@ -75,6 +77,23 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
         [self initializeForm];
     }
     return self;
+}
+
+- (void)dealloc {
+    if (!self.model.isSystem) {
+        CHNodeModel *node = [CHLogic.shared.userDataSource nodeWithNID:self.model.nid];
+        if (node != nil) {
+            BOOL needUpdate = NO;
+            NSString *icon = [self.form.formValues valueForKey:@"icon"];
+            if (![(node.icon?:@"") isEqualToString:icon]) {
+                node.icon = (icon.length > 0 ? icon : nil);
+                needUpdate = YES;
+            }
+            if (needUpdate) {
+                [CHLogic.shared updateNode:node];
+            }
+        }
+    }
 }
 
 - (BOOL)isEqualToViewController:(CHNodeViewController *)rhs {
@@ -116,11 +135,21 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
 #pragma mark - Private Methods
 - (void)initializeForm {
     CHFormSection *section;
+    CHFormValueItem *item;
     CHForm *form = [CHForm formWithTitle:@"Node Detail".localized];
-    
+
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"Information".localized])];
+    
     [section addFormItem:[CHFormValueItem itemWithName:@"name" title:@"Name".localized value:self.model.name]];
-    [section addFormItem:[CHFormValueItem itemWithName:@"endpoint" title:@"Endpoint".localized value:self.model.endpoint]];
+    if (!self.model.isSystem) {
+        [section addFormItem:(item = [CHFormCodeItem itemWithName:@"nodeid" title:@"NodeID".localized value:self.model.nid])];
+        item.copiedName = @"NodeID".localized;
+    }
+    [section addFormItem:(item = [CHFormValueItem itemWithName:@"endpoint" title:@"Endpoint".localized value:self.model.endpoint])];
+    item.copiedName = @"Endpoint URL".localized;
+    if (!self.model.isSystem) {
+        [section addFormItem:[CHFormIconItem itemWithName:@"icon" title:@"Icon".localized value:self.model.icon]];
+    }
 
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"Features".localized])];
     for (NSString *feature in self.model.features) {

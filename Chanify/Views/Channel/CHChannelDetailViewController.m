@@ -10,6 +10,7 @@
 #import "CHNSDataSource.h"
 #import "CHChannelModel.h"
 #import "CHNodeModel.h"
+#import "CHPasteboard.h"
 #import "CHCrpyto.h"
 #import "CHDevice.h"
 #import "CHRouter.h"
@@ -80,11 +81,8 @@
         tk.node = model;
         NSString *tokenValue = [tk formatString:model.nid direct:model.flags&CHNodeModelFlagsStoreDevice];
         CHFormCodeItem *item = [CHFormCodeItem itemWithName:[@"token." stringByAppendingString:model.nid] title:model.name value:tokenValue];
-        item.action = ^(CHFormCodeItem *item) {
-            UIPasteboard.generalPasteboard.string = item.value;
-            [CHRouter.shared makeToast:@"Token copied".localized];
-        };
         [section addFormItem:item];
+        item.copiedName = @"Token".localized;
     }
     
     if (self.model.type == CHChanTypeUser) {

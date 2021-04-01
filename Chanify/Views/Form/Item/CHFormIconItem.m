@@ -20,7 +20,6 @@
 - (instancetype)initWithName:(NSString *)name title:(NSString *)title value:(nullable id)value {
     if (self = [super initWithName:name title:title value:value?:@""]) {
         _required = NO;
-        self.configuration.secondaryTextProperties.color = UIColor.clearColor;
         self.action = ^(CHFormIconItem *item) {
             [item doSelectIcon];
         };
@@ -34,6 +33,10 @@
     if (iconView != nil) {
         iconView.image = self.value;
     }
+}
+
+- (__kindof NSString *)textValue {
+    return @"";
 }
 
 - (void)prepareCell:(UITableViewCell *)cell {

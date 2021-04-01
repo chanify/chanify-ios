@@ -31,10 +31,21 @@
 - (void)prepareCell:(UITableViewCell *)cell {
     cell.accessoryType = self.accessoryType;
     cell.contentConfiguration = self.contentConfiguration;
+    UIView *accessoryView = nil;
+    if (cell.accessoryType == UITableViewCellAccessoryNone) {
+        accessoryView = self.accessoryView;
+    }
+    if (cell.accessoryView != accessoryView) {
+        cell.accessoryView = accessoryView;
+    }
 }
 
 - (UITableViewCellAccessoryType)accessoryType {
     return UITableViewCellAccessoryNone;
+}
+
+- (nullable UIView *)accessoryView {
+    return nil;
 }
 
 - (void)updateStatus {
@@ -42,6 +53,15 @@
     if (self.hidden != nil) {
         _isHidden = [self.hidden evaluateWithObject:self];
     }
+}
+
+- (BOOL)tryDoAction {
+    BOOL res = NO;
+    if (self.action != nil) {
+        self.action(self);
+        res = YES;
+    }
+    return res;
 }
 
 - (BOOL)isEqual:(CHFormItem *)rhs {

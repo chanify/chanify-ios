@@ -14,6 +14,7 @@
 #import "CHLoginViewController.h"
 #import "CHWebViewController.h"
 #import "CHIndicatorPanelView.h"
+#import "CHPasteboard.h"
 #import "CHToken.h"
 #import "CHDevice.h"
 #import "CHTheme.h"
@@ -292,8 +293,7 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
         return res;
     }];
     [chanify addRoute:@"/action/token/default" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
-        UIPasteboard.generalPasteboard.string = [CHToken.defaultToken formatString:nil direct:YES];
-        [CHRouter.shared makeToast:@"Token copied".localized];
+        [CHPasteboard.shared copyWithName:@"Token".localized value:[CHToken.defaultToken formatString:nil direct:YES]];
         return YES;
     }];
     // unmatched router

@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly, strong) UIListContentConfiguration *configuration;
 @property (nonatomic, nullable, strong) id value;
+@property (nonatomic, nullable, strong) NSString* copiedName;
 
 + (instancetype)itemWithName:(NSString *)name title:(NSString *)title value:(nullable id)value;
 + (instancetype)itemWithName:(NSString *)name title:(NSString *)title;

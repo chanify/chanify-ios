@@ -127,9 +127,7 @@ typedef NSDiffableDataSourceSnapshot<CHFormSection *, CHFormItem *> CHFormDiffab
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     CHFormItem *item = [self.dataSource itemIdentifierForIndexPath:indexPath];
-    if (item.action != nil) {
-        item.action(item);
-    }
+    [item tryDoAction];
     if (![item isKindOfClass:CHFormInputItem.class]) {
         [tableView endEditing:YES];
     }

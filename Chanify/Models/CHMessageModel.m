@@ -112,7 +112,7 @@
                     break;
                 case CHTPMsgType_Image:
                     _type = CHMessageTypeImage;
-                    _text = @"Image".localized;
+                    _text = @"ImageMsg".localized;
                     _file = content.file;
                     if (content.hasThumbnail) {
                         CHTPThumbnail *thumbnail = content.thumbnail;
@@ -125,11 +125,16 @@
                     break;
                 case CHTPMsgType_Video:
                     _type = CHMessageTypeVideo;
-                    _text = @"Video".localized;
+                    _text = @"VideoMsg".localized;
                     break;
                 case CHTPMsgType_Audio:
                     _type = CHMessageTypeAudio;
-                    _text = @"Audio".localized;
+                    _text = @"AudioMsg".localized;
+                    break;
+                case CHTPMsgType_Link:
+                    _type = CHMessageTypeLink;
+                    _text = @"LinkMsg".localized;
+                    _link = [NSURL URLWithString:content.link];
                     break;
             }
         }

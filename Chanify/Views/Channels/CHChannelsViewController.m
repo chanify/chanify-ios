@@ -90,7 +90,6 @@ static NSString *const cellIdentifier = @"chan";
 
 #pragma mark - CHLogicDelegate
 - (void)logicChannelUpdated:(NSString *)cid {
-    // TODO: update channel
     [self reloadData];
 }
 

@@ -83,14 +83,7 @@ static NSString *const cellIdentifier = @"node";
 
 #pragma mark - CHLogicDelegate
 - (void)logicNodeUpdated:(NSString *)nid {
-    CHNodeModel *node = [CHLogic.shared.userDataSource nodeWithNID:nid];
-    if (node == nil) {
-        [self reloadData];
-    } else {
-        CHNodeDiffableSnapshot *snapshot = self.dataSource.snapshot;
-        [snapshot reloadItemsWithIdentifiers:@[node]];
-        [self.dataSource applySnapshot:snapshot animatingDifferences:YES];
-    }
+    [self reloadData];
 }
 
 - (void)logicNodesUpdated:(NSArray<NSString *> *)nids {

@@ -42,6 +42,8 @@ func buildAPNS() -> String {
             body["text"] = String(arg.suffix(arg.count - 5))
         } else if arg.hasPrefix("image=") {
             body["image"] = String(arg.suffix(arg.count - 6))
+        } else if arg.hasPrefix("link=") {
+            body["link"] = String(arg.suffix(arg.count - 5))
         }
     }
     let msg = [

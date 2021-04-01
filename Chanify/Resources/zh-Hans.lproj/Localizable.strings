@@ -15,7 +15,6 @@
 "Share"="分享";
 "Copy"="复制";
 "Copied"="已复制";
-"NewMsg"="收到一条新消息";
 "Channels"="频道";
 "Scan QR Code"="扫二维码";
 "New Channel"="添加频道";
@@ -25,11 +24,14 @@
 "Shape"="形状";
 "Color"="颜色";
 "Background"="背景";
-"Endpoint"="入口";
+"NodeID"="节点编号";
+"Endpoint"="入口链接";
+"Endpoint URL"="入口链接";
 "Create channel failed"="创建频道失败";
 "Channel Detail"="频道详情";
+"Message"="消息";
+"Account"="账号";
 "Token"="令牌";
-"Token copied"="令牌已复制";
 "Delete channel"="删除频道";
 "Nodes"="节点";
 "Node Detail"="节点详情";
@@ -65,7 +67,6 @@
 "Tap to reload"="轻触重载页面";
 "Release to reload"="松开重载页面";
 "Logout failed"="退出登录失败";
-"Account copied"="账号已复制";
 "Create new account"="创建新账号";
 "Import old account"="导入旧账号";
 "Create account failed"="创建新账号失败";
@@ -86,9 +87,13 @@
 "Sync device info failed"="上传设备信息失败";
 "Sync device info success"="上传设备信息成功";
 
-"Image"="[图片]";
-"Video"="[视频]";
-"Audio"="[音频]";
+"%@ copied"="%@已复制";
+
+"NewMsg"="收到一条新消息";
+"ImageMsg"="[图片]";
+"VideoMsg"="[视频]";
+"AudioMsg"="[音频]";
+"LinkMsg"="[链接]";
 
 "sys.none"="未分类消息";
 "sys.device"="设备消息";

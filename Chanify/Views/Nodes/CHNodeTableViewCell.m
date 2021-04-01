@@ -16,6 +16,7 @@
 
 @property (nonatomic, readonly, strong) CHIconView *iconView;
 @property (nonatomic, readonly, strong) UILabel *nameLabel;
+@property (nonatomic, readonly, strong) UILabel *endpointLabel;
 @property (nonatomic, readonly, strong) UIImageView *statusIcon;
 
 @end
@@ -48,12 +49,23 @@
         [self.contentView addSubview:(_nameLabel = nameLabel)];
         [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(iconView.mas_right).offset(10);
-            make.centerY.equalTo(iconView);
+            make.top.equalTo(iconView).offset(2);
             make.right.lessThanOrEqualTo(statusIcon.mas_left).offset(-16);
         }];
         nameLabel.font = [UIFont systemFontOfSize:16];
         nameLabel.textColor = theme.labelColor;
         nameLabel.numberOfLines = 1;
+        
+        UILabel *endpointLabel = [UILabel new];
+        [self.contentView addSubview:(_endpointLabel = endpointLabel)];
+        [endpointLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(nameLabel);
+            make.right.equalTo(nameLabel);
+            make.bottom.equalTo(iconView).offset(-3);
+        }];
+        endpointLabel.font = [UIFont systemFontOfSize:12];
+        endpointLabel.textColor = theme.minorLabelColor;
+        endpointLabel.numberOfLines = 1;
     }
     return self;
 }
@@ -62,6 +74,7 @@
     _model = model;
 
     self.nameLabel.text = model.name;
+    self.endpointLabel.text = model.endpoint;
     self.iconView.image = model.icon;
     self.statusIcon.hidden = !model.isStoreDevice;
     if ([CHLogic.shared nodeIsConnected:model.nid]) {

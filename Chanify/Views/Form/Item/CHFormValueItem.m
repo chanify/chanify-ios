@@ -6,6 +6,7 @@
 //
 
 #import "CHFormValueItem.h"
+#import "CHPasteboard.h"
 #import "CHTheme.h"
 
 @implementation CHFormValueItem
@@ -21,6 +22,7 @@
 - (instancetype)initWithName:(NSString *)name title:(NSString *)title value:(nullable id)value {
     if (self = [super initWithName:name]) {
         _value = nil;
+        _copiedName = nil;
         UIListContentConfiguration *configuration = UIListContentConfiguration.valueCellConfiguration;
         configuration.secondaryTextProperties.color = CHTheme.shared.minorLabelColor;
         configuration.text = title;
@@ -50,6 +52,24 @@
         return UITableViewCellAccessoryDisclosureIndicator;
     }
     return UITableViewCellAccessoryNone;
+}
+
+- (nullable UIView *)accessoryView {
+    if (self.copiedName != nil) {
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage systemImageNamed:@"doc.on.doc"]];
+        imageView.tintColor = CHTheme.shared.lightLabelColor;
+        return imageView;
+    }
+    return nil;
+}
+
+- (BOOL)tryDoAction {
+    BOOL res = [super tryDoAction];
+    if (!res && self.copiedName != nil) {
+        [CHPasteboard.shared copyWithName:self.copiedName value:self.value];
+        res = YES;
+    }
+    return res;
 }
 
 - (__kindof NSString *)textValue {

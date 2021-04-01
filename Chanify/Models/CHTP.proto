@@ -43,6 +43,7 @@ enum MsgType {
     Image                   = 2;
     Video                   = 3;
     Audio                   = 4;
+    Link                    = 5;
 }
 
 message Thumbnail {
@@ -59,6 +60,8 @@ message MsgContent {
     string      title       = 4;
     Thumbnail   thumbnail   = 5;
     uint64      duration    = 6;
+    uint64      size        = 7;
+    string      link        = 8;
 }
 
 enum SoundType {
