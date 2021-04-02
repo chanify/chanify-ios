@@ -12,7 +12,7 @@
 
 - (instancetype)initWithName:(NSString *)name title:(NSString *)title value:(nullable id)value {
     if (self = [super initWithName:name title:title value:nil]) {
-        self.configuration.secondaryTextProperties.font = [UIFont fontWithName:@kCHCodeFontName size:14];
+        self.configuration.secondaryTextProperties.font = [UIFont fontWithName:@kCHCodeFontName size:15];
         self.value = value ?: @"";
     }
     return self;

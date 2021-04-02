@@ -173,10 +173,10 @@
 
 - (void)updatePushToken:(NSData *)pushToken {
     _pushToken = pushToken;
-    [self updatePushToken:pushToken endpoint:self.baseURL nodeId:nil completion:nil retry:YES];
+    [self updatePushToken:pushToken endpoint:self.baseURL node:nil completion:nil retry:YES];
     for (CHNodeModel *node in self.userDataSource.loadNodes) {
         if (node.isStoreDevice) {
-            [self updatePushToken:pushToken endpoint:node.apiURL nodeId:node.nid completion:nil retry:NO];
+            [self updatePushToken:pushToken endpoint:node.apiURL node:node completion:nil retry:NO];
         }
     }
 }
@@ -191,6 +191,50 @@
     return res;
 }
 
+- (void)updateNodeInfo:(nullable NSString*)nid completion:(nullable CHLogicBlock)completion {
+    CHNodeModel *node = [self.userDataSource nodeWithNID:nid];
+    if (node != nil && !node.isSystem) {
+        @weakify(self);
+        [CHLogic.shared loadNodeWitEndpoint:node.endpoint completion:^(CHLCode result, NSDictionary *info) {
+            CHLCode ret = CHLCodeFailed;
+            if (result == CHLCodeOK) {
+                NSString *nid = [info valueForKey:@"nodeid"];
+                if ([node.nid isEqualToString:nid]) {
+                    NSData *pubKey = [NSData dataFromBase64:[info valueForKey:@"pubkey"]];
+                    if (pubKey.length > 0 && [CHNodeModel verifyNID:nid pubkey:pubKey]) {
+                        BOOL needUpdated = NO;
+                        if (![pubKey isEqualToData:node.pubkey]) {
+                            node.pubkey = pubKey;
+                            needUpdated = YES;
+                        }
+                        NSString *version = [info valueForKey:@"version"];
+                        if (version.length > 0 && ![version isEqualToString:node.version]) {
+                            node.version = version;
+                            needUpdated = YES;
+                        }
+                        NSString *endpoint = [info valueForKey:@"endpoint"];
+                        if (![node.endpoint isEqualToString:endpoint]) {
+                            node.endpoint = endpoint;
+                            needUpdated = YES;
+                        }
+                        NSString *features = [[info valueForKey:@"features"] componentsJoinedByString:@","];
+                        if (features.length > 0) {
+                            node.features = features;
+                            needUpdated = YES;
+                        }
+                        if (needUpdated) {
+                            @strongify(self);
+                            [self updateNode:node];
+                        }
+                        ret = CHLCodeOK;
+                    }
+                }
+            }
+            completion(ret);
+        }];
+    }
+}
+
 - (BOOL)updateNode:(CHNodeModel *)model {
     BOOL res = [self.userDataSource updateNode:model];
     if (res) {
@@ -198,8 +242,6 @@
     }
     return res;
 }
-
-
 
 - (BOOL)insertNode:(CHNodeModel *)model secret:(NSData *)secret {
     BOOL res = [self.userDataSource insertNode:model secret:secret];
@@ -242,7 +284,7 @@
             } forKey:@"device"];
             parameters = params;
         }
-        [self sendToEndpoint:model.apiURL device:device cmd:@"bind-user" user:self.me parameters:parameters completion:^(NSURLResponse *response, NSDictionary *result, NSError *error) {
+        [self sendToEndpoint:model.apiURL cmd:@"bind-user" device:device seckey:model.requestChiper user:self.me parameters:parameters completion:^(NSURLResponse *response, NSDictionary *result, NSError *error) {
             @strongify(self);
             CHLCode ret = CHLCodeFailed;
             if (error != nil) {
@@ -261,6 +303,37 @@
             call_completion(completion, ret);
         }];
     }
+}
+
+- (void)loadNodeWitEndpoint:(NSString *)endpoint completion:(nullable CHLogicResultBlock)completion {
+    NSURL *url = [NSURL URLWithString:[endpoint stringByAppendingPathComponent:@"/rest/v1/info"]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setTimeoutInterval:kCHNodeServerRequestTimeout];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
+    [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Accept"];
+    NSURLSessionDataTask *task = [self.manager.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        CHLCode ret = CHLCodeFailed;
+        NSDictionary *result = nil;
+        if (error == nil) {
+            result = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];;
+            if (result != nil) {
+                ret = CHLCodeOK;
+            }
+            if ([[result valueForKey:@"version"] compareAsVersion:@kCHNodeCanCipherVersion]) {
+                ret = CHLCodeFailed;
+                CHSecKey *secKey = [CHSecKey secKeyWithPublicKeyData:[NSData dataFromBase64:[result valueForKey:@"pubkey"]]];
+                if (secKey != nil) {
+                    NSData *sign = [NSData dataFromBase64:[(NSHTTPURLResponse *)response valueForHTTPHeaderField:@"CHSign-Node"]];
+                    if ([secKey verify:data sign:sign]) {
+                        ret = CHLCodeOK;
+                    }
+                }
+            }
+        }
+        call_completion_data(completion, ret, result);
+    }];
+    [task resume];
 }
 
 - (BOOL)insertChannel:(NSString *)code name:(NSString *)name icon:(nullable NSString *)icon {
@@ -302,7 +375,7 @@
     if (nid.length > 0) {
         CHNodeModel *node = [self.userDataSource nodeWithNID:nid];
         if (node.isStoreDevice) {
-            [self updatePushToken:self.pushToken endpoint:node.apiURL nodeId:nid completion:completion retry:NO];
+            [self updatePushToken:self.pushToken endpoint:node.apiURL node:node completion:completion retry:NO];
         }
     }
 }
@@ -345,7 +418,7 @@
     }
 }
 
-- (void)updatePushToken:(NSData *)pushToken endpoint:(NSURL *)endpoint nodeId:(nullable NSString *)nodeId completion:(nullable CHLogicBlock)completion retry:(BOOL)retry {
+- (void)updatePushToken:(NSData *)pushToken endpoint:(NSURL *)endpoint node:(nullable CHNodeModel *)node completion:(nullable CHLogicBlock)completion retry:(BOOL)retry {
     if (self.me != nil) {
         CHDevice *device = CHDevice.shared;
         NSDictionary *parameters = @{
@@ -355,12 +428,12 @@
             @"sandbox": @(kSandbox),
         };
         @weakify(self);
-        [self sendToEndpoint:endpoint device:YES cmd:@"push-token" user:self.me parameters:parameters completion:^(NSURLResponse *response, NSDictionary *result, NSError *error) {
+        [self sendToEndpoint:endpoint cmd:@"push-token" device:YES seckey:node.requestChiper user:self.me parameters:parameters completion:^(NSURLResponse *response, NSDictionary *result, NSError *error) {
             CHLCode ret = CHLCodeFailed;
             @strongify(self);
             if (error == nil) {
                 CHLogI("Update push token to %s success.", endpoint.host.cstr);
-                [self tryUpdateNodeStatus:nodeId status:YES];
+                [self tryUpdateNodeStatus:node.nid status:YES];
                 ret = CHLCodeOK;
             } else {
                 CHLogW("Update push token to %s failed: %s", endpoint.host.cstr, error.description.cstr);
@@ -368,10 +441,10 @@
                 if (resp.statusCode == 404 && retry) {
                     [self bindAccount:nil completion:^(CHLCode result) {
                         @strongify(self);
-                        [self updatePushToken:pushToken endpoint:endpoint nodeId:nodeId completion:completion retry:NO];
+                        [self updatePushToken:pushToken endpoint:endpoint node:node completion:completion retry:NO];
                     }];
                 } else {
-                    [self tryUpdateNodeStatus:nodeId status:NO];
+                    [self tryUpdateNodeStatus:node.nid status:NO];
                 }
             }
             call_completion(completion, ret);
@@ -394,10 +467,9 @@
             @"device": device.uuid.hex,
             @"user": self.me.uid,
         };
-        [self sendToEndpoint:node.apiURL device:YES cmd:@"unbind-user" user:self.me parameters:parameters completion:nil];
+        [self sendToEndpoint:node.apiURL cmd:@"unbind-user" device:YES seckey:node.requestChiper user:self.me parameters:parameters completion:nil];
     }
 }
-
 
 - (void)tryUpdateNodeStatus:(nullable NSString *)nodeId status:(BOOL)status {
     if (nodeId.length > 0) {
@@ -421,17 +493,23 @@
 }
 
 - (void)sendCmd:(NSString *)cmd user:(CHUserModel *)user parameters:(NSDictionary *)parameters completion:(nullable void (^)(NSURLResponse *response, NSDictionary *result, NSError *error))completion {
-    [self sendToEndpoint:self.baseURL device:YES cmd:cmd user:user parameters:parameters completion:completion];
+    [self sendToEndpoint:self.baseURL cmd:cmd device:YES seckey:nil user:user parameters:parameters completion:completion];
 }
 
-- (void)sendToEndpoint:(NSURL *)endpoint device:(BOOL)device cmd:(NSString *)cmd user:(CHUserModel *)user parameters:(NSDictionary *)parameters completion:(nullable void (^)(NSURLResponse *response, NSDictionary *result, NSError *error))completion {
+- (void)sendToEndpoint:(NSURL *)endpoint cmd:(NSString *)cmd device:(BOOL)device seckey:(nullable CHSecKey *)seckey user:(CHUserModel *)user parameters:(NSDictionary *)parameters completion:(nullable void (^)(NSURLResponse *response, NSDictionary *result, NSError *error))completion {
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:parameters];
     [params setValue:@((uint64_t)(NSDate.date.timeIntervalSince1970 * 1000)) forKey:@"nonce"];
     NSData *data = params.json;
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[endpoint URLByAppendingPathComponent:cmd]];
+    [request setTimeoutInterval:kCHNodeServerRequestTimeout];
     [request setHTTPMethod:@"POST"];
     [request setValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
-    [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    if (seckey == nil) {
+        [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    } else {
+        [request setValue:@"application/x-chsec-json" forHTTPHeaderField:@"Content-Type"];
+        data = [seckey encode:data];
+    }
     if (device) {
         [request setValue:[CHDevice.shared.key sign:data].base64 forHTTPHeaderField:@"CHDevSign"];
     }
@@ -533,6 +611,14 @@ static inline void call_completion(CHLogicBlock completion, CHLCode result) {
     if (completion != nil) {
         dispatch_main_async(^{
             completion(result);
+        });
+    }
+}
+
+static inline void call_completion_data(CHLogicResultBlock completion, CHLCode result, NSDictionary *data) {
+    if (completion != nil) {
+        dispatch_main_async(^{
+            completion(result, data);
         });
     }
 }

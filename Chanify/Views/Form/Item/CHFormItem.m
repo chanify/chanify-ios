@@ -29,6 +29,12 @@
 }
 
 - (void)prepareCell:(UITableViewCell *)cell {
+    for (UIView *view in cell.contentView.subviews) {
+        if (view.tag >= kCHFormFirstViewTag) {
+            [view removeFromSuperview];
+        }
+    }
+
     cell.accessoryType = self.accessoryType;
     cell.contentConfiguration = self.contentConfiguration;
     UIView *accessoryView = nil;

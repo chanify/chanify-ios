@@ -76,5 +76,23 @@
     return 0;
 }
 
+- (BOOL)compareAsVersion:(nullable NSString *)rhs {
+    BOOL res = NO;
+    if (self.length > 0 && rhs.length > 0) {
+        NSArray<NSString *> *v1 = [self componentsSeparatedByString:@"."];
+        NSArray<NSString *> *v2 = [rhs componentsSeparatedByString:@"."];
+        if (v1.count >= 3 && v2.count >= 3) {
+            res = YES;
+            for (int i = 0; i < 3; i++){
+                if ([[v1 objectAtIndex:i] integerValue] < [[v2 objectAtIndex:i] integerValue]) {
+                    res = NO;
+                    break;
+                }
+            }
+        }
+    }
+    return res;
+}
+
 
 @end

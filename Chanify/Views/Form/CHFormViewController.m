@@ -47,7 +47,7 @@ typedef NSDiffableDataSourceSnapshot<CHFormSection *, CHFormItem *> CHFormDiffab
         return cell;
     }];
     
-    [self updateForm];
+    [self updateForm:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -62,8 +62,15 @@ typedef NSDiffableDataSourceSnapshot<CHFormSection *, CHFormItem *> CHFormDiffab
 }
 
 - (void)setForm:(CHForm *)form {
+    if (self.form != nil) {
+        if (self.dataSource != nil) {
+            CHFormDiffableSnapshot *snapshot = self.dataSource.snapshot;
+            [snapshot deleteAllItems];
+            [self.dataSource applySnapshot:snapshot animatingDifferences:NO];
+        }
+    }
     _form = form;
-    [self updateForm];
+    [self updateForm:NO];
 }
 
 - (void)reloadItem:(CHFormItem *)item {
@@ -179,7 +186,7 @@ typedef NSDiffableDataSourceSnapshot<CHFormSection *, CHFormItem *> CHFormDiffab
 }
 
 #pragma mark - Private Methods
-- (void)updateForm {
+- (void)updateForm:(BOOL)animated {
     if (self.form != nil) {
         [self.form reloadData];
         self.title = self.form.title;
@@ -189,7 +196,7 @@ typedef NSDiffableDataSourceSnapshot<CHFormSection *, CHFormItem *> CHFormDiffab
             for (CHFormSection *section in self.form.sections) {
                 [snapshot appendItemsWithIdentifiers:section.items intoSectionWithIdentifier:section];
             }
-            [self.dataSource applySnapshot:snapshot animatingDifferences:self.canAnimated];
+            [self.dataSource applySnapshot:snapshot animatingDifferences:self.canAnimated && animated];
         }
         self.form.viewController = self;
     }

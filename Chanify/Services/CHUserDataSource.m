@@ -12,12 +12,13 @@
 #import "CHNodeModel.h"
 #import "CHLogic.h"
 
-#define kCHDefChanCode  "0801"
-#define kCHNSInitSql    \
+#define kCHUserDBVersion    2
+#define kCHDefChanCode      "0801"
+#define kCHNSInitSql        \
     "CREATE TABLE IF NOT EXISTS `options`(`key` TEXT PRIMARY KEY,`value` BLOB);"   \
     "CREATE TABLE IF NOT EXISTS `messages`(`mid` TEXT PRIMARY KEY,`cid` BLOB,`from` TEXT,`raw` BLOB);"  \
     "CREATE TABLE IF NOT EXISTS `channels`(`cid` BLOB PRIMARY KEY,`deleted` BOOLEAN DEFAULT 0,`name` TEXT,`icon` TEXT,`unread` UNSIGNED INTEGER,`mute` BOOLEAN,`mid` TEXT);"   \
-    "CREATE TABLE IF NOT EXISTS `nodes`(`nid` TEXT PRIMARY KEY,`deleted` BOOLEAN DEFAULT 0,`name` TEXT,`endpoint` TEXT,`icon` TEXT,`flags` INTEGER DEFAULT 0,`features` TEXT,`secret` BLOB);" \
+    "CREATE TABLE IF NOT EXISTS `nodes`(`nid` TEXT PRIMARY KEY,`deleted` BOOLEAN DEFAULT 0,`name` TEXT,`version` TEXT,`endpoint` TEXT,`pubkey` BLOB,`icon` TEXT,`flags` INTEGER DEFAULT 0,`features` TEXT,`secret` BLOB);" \
     "INSERT OR IGNORE INTO `channels`(`cid`) VALUES(X'0801');"      \
     "INSERT OR IGNORE INTO `channels`(`cid`) VALUES(X'08011001');"  \
     "INSERT OR IGNORE INTO `nodes`(`nid`,`features`) VALUES(\"sys\",\"store.device,msg.text\");"  \
@@ -46,12 +47,22 @@
             if ([db executeStatements:@kCHNSInitSql]) {
                 CHLogI("Open database: %s", db.databaseURL.path.cstr);
             }
-            if (db.applicationID < 1) {
-                // Fix data
-                if (![db columnExists:@"flags" inTableWithName:@"nodes"]) {
-                    if ([db executeStatements:@"ALTER TABLE `nodes` ADD COLUMN `flags` INTEGER DEFAULT 0;"]) {
-                        db.applicationID = 1;
-                    }
+            if (db.applicationID < kCHUserDBVersion) {
+                BOOL res = YES;
+                if (![db columnExists:@"version" inTableWithName:@"nodes"]
+                    && ![db executeStatements:@"ALTER TABLE `nodes` ADD COLUMN `version` TEXT;"]) {
+                    res = NO;
+                }
+                if (![db columnExists:@"flags" inTableWithName:@"nodes"]
+                    && ![db executeStatements:@"ALTER TABLE `nodes` ADD COLUMN `flags` INTEGER DEFAULT 0;"]) {
+                    res = NO;
+                }
+                if (![db columnExists:@"pubkey" inTableWithName:@"nodes"]
+                    && ![db executeStatements:@"ALTER TABLE `nodes` ADD COLUMN `pubkey` BLOB;"]) {
+                    res = NO;
+                }
+                if (res) {
+                    db.applicationID = kCHUserDBVersion;
                 }
             }
         }];
@@ -76,7 +87,7 @@
     if (![self.srvkeyCache isEqual:srvkey]) {
         [self.dbQueue inDatabase:^(FMDatabase *db) {
             BOOL res = NO;
-            if (srvkey.length > 0 ) {
+            if (srvkey.length > 0) {
                 res = [db executeUpdate:@"INSERT INTO `options`(`key`,`value`) VALUES(\"srvkey\",?) ON CONFLICT(`key`) DO UPDATE SET `value`=excluded.`value`;", srvkey];
             } else {
                 [db executeUpdate:@"DELETE FROM `options` WHERE `key`=\"srvkey\";"];
@@ -93,7 +104,7 @@
     __block BOOL res = NO;
     if (model != nil) {
         [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            res = [db executeUpdate:@"INSERT INTO `nodes`(`nid`,`name`,`endpoint`,`icon`,`flags`,`features`,`secret`) VALUES(?,?,?,?,?,?,?) ON CONFLICT(`nid`) DO UPDATE SET `name`=excluded.`name`,`endpoint`=excluded.`endpoint`,`icon`=excluded.`icon`,`flags`=excluded.`flags`,`features`=excluded.`features`,`secret`=excluded.`secret`,`deleted`=0;", model.nid, model.name, model.endpoint, model.icon, @(model.flags), [model.features componentsJoinedByString:@","], secret];
+            res = [db executeUpdate:@"INSERT INTO `nodes`(`nid`,`name`,`version`,`endpoint`,`pubkey`,`icon`,`flags`,`features`,`secret`) VALUES(?,?,?,?,?,?,?,?,?) ON CONFLICT(`nid`) DO UPDATE SET `name`=excluded.`name`,`version`=excluded.`version`,`endpoint`=excluded.`endpoint`,`pubkey`=excluded.`pubkey`,`icon`=excluded.`icon`,`flags`=excluded.`flags`,`features`=excluded.`features`,`secret`=excluded.`secret`,`deleted`=0;", model.nid, model.name, model.version, model.endpoint, model.pubkey, model.icon, @(model.flags), [model.features componentsJoinedByString:@","], secret];
         }];
     }
     return res;
@@ -103,7 +114,7 @@
     __block BOOL res = NO;
     if (model != nil) {
         [self.dbQueue inDatabase:^(FMDatabase *db) {
-            res = [db executeUpdate:@"UPDATE `nodes` SET `name`=?,`endpoint`=?,`icon`=?,`flags`=?,`features`=? WHERE `nid`=? LIMIT 1;", model.name, model.endpoint, model.icon, @(model.flags), [model.features componentsJoinedByString:@","], model.nid];
+            res = [db executeUpdate:@"UPDATE `nodes` SET `name`=?,`version`=?,`endpoint`=?,`pubkey`=?,`icon`=?,`flags`=?,`features`=? WHERE `nid`=? LIMIT 1;", model.name, model.version, model.endpoint, model.pubkey, model.icon, @(model.flags), [model.features componentsJoinedByString:@","], model.nid];
         }];
     }
     return res;
@@ -132,11 +143,11 @@
 - (NSArray<CHNodeModel *> *)loadNodes {
     __block NSMutableArray<CHNodeModel *> *nodes = [NSMutableArray new];
     [self.dbQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet *res = [db executeQuery:@"SELECT `nid`,`name`,`endpoint`,`flags`,`features`,`icon` FROM `nodes` WHERE `deleted`=0;"];
+        FMResultSet *res = [db executeQuery:@"SELECT `nid`,`name`,`version`,`endpoint`,`pubkey`,`flags`,`features`,`icon` FROM `nodes` WHERE `deleted`=0;"];
         while(res.next) {
-            CHNodeModel *model = [CHNodeModel modelWithNID:[res stringForColumnIndex:0] name:[res stringForColumnIndex:1] endpoint:[res stringForColumnIndex:2] flags:[res unsignedLongLongIntForColumnIndex:3] features:[res stringForColumnIndex:4]];
+            CHNodeModel *model = [CHNodeModel modelWithNID:[res stringForColumnIndex:0] name:[res stringForColumnIndex:1] version:[res stringForColumnIndex:2] endpoint:[res stringForColumnIndex:3] pubkey:[res dataForColumnIndex:4] flags:[res unsignedLongLongIntForColumnIndex:5] features:[res stringForColumnIndex:6]];
             if (model != nil) {
-                model.icon = [res stringForColumnIndex:5];
+                model.icon = [res stringForColumnIndex:7];
                 [nodes addObject:model];
             }
         }
@@ -150,11 +161,11 @@
     __block CHNodeModel *model = nil;
     if (nid == nil) nid = @"";
     [self.dbQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet *res = [db executeQuery:@"SELECT `nid`,`name`,`endpoint`,`flags`,`features`,`icon` FROM `nodes` WHERE `nid`=? AND `deleted`=0; LIMIT 1;", nid];
+        FMResultSet *res = [db executeQuery:@"SELECT `nid`,`name`,`version`,`endpoint`,`pubkey`,`flags`,`features`,`icon` FROM `nodes` WHERE `nid`=? AND `deleted`=0; LIMIT 1;", nid];
         if (res.next) {
-            model = [CHNodeModel modelWithNID:[res stringForColumnIndex:0] name:[res stringForColumnIndex:1] endpoint:[res stringForColumnIndex:2] flags:[res unsignedLongLongIntForColumnIndex:3] features:[res stringForColumnIndex:4]];
+            model = [CHNodeModel modelWithNID:[res stringForColumnIndex:0] name:[res stringForColumnIndex:1] version:[res stringForColumnIndex:2] endpoint:[res stringForColumnIndex:3] pubkey:[res dataForColumnIndex:4] flags:[res unsignedLongLongIntForColumnIndex:5] features:[res stringForColumnIndex:6]];
             if (model != nil) {
-                model.icon = [res stringForColumnIndex:5];
+                model.icon = [res stringForColumnIndex:7];
             }
         }
         [res close];

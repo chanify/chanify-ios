@@ -25,6 +25,7 @@ typedef NS_ENUM(int, CHLCode) {
 };
 
 typedef void (^CHLogicBlock)(CHLCode result);
+typedef void (^CHLogicResultBlock)(CHLCode result, NSDictionary *data);
 
 @protocol CHLogicDelegate <NSObject>
 @optional
@@ -54,9 +55,11 @@ typedef void (^CHLogicBlock)(CHLCode result);
 - (BOOL)recivePushMessage:(NSDictionary *)userInfo;
 - (void)updatePushToken:(NSData *)pushToken;
 - (BOOL)deleteMessage:(nullable NSString *)mid;
+- (void)updateNodeInfo:(nullable NSString*)nid completion:(nullable CHLogicBlock)completion;
 - (BOOL)updateNode:(CHNodeModel *)model;
 - (BOOL)deleteNode:(nullable NSString *)nid;
 - (void)insertNode:(CHNodeModel *)model completion:(nullable CHLogicBlock)completion;
+- (void)loadNodeWitEndpoint:(NSString *)endpoint completion:(nullable CHLogicResultBlock)completion;
 - (BOOL)insertChannel:(NSString *)code name:(nullable NSString *)name icon:(nullable NSString *)icon;
 - (BOOL)updateChannel:(CHChannelModel *)model;
 - (BOOL)deleteChannel:(nullable NSString *)cid;

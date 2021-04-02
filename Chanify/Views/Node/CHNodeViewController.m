@@ -36,45 +36,10 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
         _status = CHNodeVCStatusNone;
         NSString *endpoint = [params valueForKey:@"endpoint"];
         if (endpoint.length > 0) {
-            [CHRouter.shared showIndicator:YES];
-            NSURL *url = [[NSURL URLWithString:endpoint] URLByAppendingPathComponent:@"/rest/v1/info"];
-            NSDictionary *info = [NSDictionary dictionaryWithJSONData:[NSData dataWithContentsOfURL:url]];
-            [CHRouter.shared showIndicator:NO];
-            if (info.count > 0) {
-                NSString *nid = [info valueForKey:@"nodeid"];
-                if (nid.length > 0) {
-                    _model = [CHNodeModel modelWithNID:nid name:[info valueForKey:@"name"] endpoint:[info valueForKey:@"endpoint"] flags:0 features:[[info valueForKey:@"features"] componentsJoinedByString:@","]];
-                    CHNodeModel *model = [CHLogic.shared.userDataSource nodeWithNID:nid];
-                    if (model == nil) {
-                        _status = CHNodeVCStatusNew;
-                    } else {
-                        self.model.flags = model.flags;
-                        self.model.icon = model.icon ?: self.model.icon;
-                        _status = CHNodeVCStatusUpdate;
-                    }
-                }
-            }
-        }
-        if (_model == nil) {
-            NSString *nid = [params valueForKey:@"nid"];
-            if (nid.length > 0) {
-                _model = [CHLogic.shared.userDataSource nodeWithNID:nid];
-                _status = CHNodeVCStatusShow;
-            }
-        }
-        if (_model != nil) {
-            if (self.model.isSystem) {
-                _status = CHNodeVCStatusNone;
-            }
+            [self loadWithEndpoint:endpoint];
         } else {
-            @weakify(self);
-            dispatch_main_async(^{
-                @strongify(self);
-                [self closeAnimated:YES completion:nil];
-                [CHRouter.shared makeToast:@"Connect node server failed".localized];
-            });
+            [self loadNode:[params valueForKey:@"nid"]];
         }
-        [self initializeForm];
     }
     return self;
 }
@@ -96,14 +61,38 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
     }
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    if (self.status == CHNodeVCStatusShow) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"arrow.triangle.2.circlepath.circle"] style:UIBarButtonItemStylePlain target:self action:@selector(actionRefresh:)];
+    }
+}
+
 - (BOOL)isEqualToViewController:(CHNodeViewController *)rhs {
     return [self.model isEqual:rhs.model];
 }
 
 #pragma mark - Action Methods
+- (void)actionRefresh:(id)sender {
+    @weakify(self);
+    [CHRouter.shared showIndicator:YES];
+    [CHLogic.shared updateNodeInfo:self.model.nid completion:^(CHLCode result) {
+        @strongify(self);
+        [CHRouter.shared showIndicator:NO];
+        if (result != CHLCodeOK) {
+            [CHRouter.shared makeToast:@"Connect node server failed".localized];
+        } else {
+            [self loadNode:self.model.nid];
+            [CHRouter.shared makeToast:@"Update node success".localized];
+        }
+    }];
+}
+
 - (void)actionAddNode {
+    @weakify(self);
     [CHRouter.shared showIndicator:YES];
     [CHLogic.shared insertNode:self.model completion:^(CHLCode result) {
+        @strongify(self);
         [CHRouter.shared showIndicator:NO];
         if (result == CHLCodeOK) {
             [self closeAnimated:YES completion:nil];
@@ -116,8 +105,10 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
 }
 
 - (void)actionUpdateNode {
+    @weakify(self);
     [CHRouter.shared showIndicator:YES];
     [CHLogic.shared insertNode:self.model completion:^(CHLCode result) {
+        @strongify(self);
         [CHRouter.shared showIndicator:NO];
         if (result != CHLCodeOK) {
             [CHRouter.shared makeToast:@"Update node failed".localized];
@@ -133,6 +124,64 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
 }
 
 #pragma mark - Private Methods
+- (void)loadWithEndpoint:(nullable NSString *)endpoint {
+    @weakify(self);
+    [CHRouter.shared showIndicator:YES];
+    [CHLogic.shared loadNodeWitEndpoint:endpoint completion:^(CHLCode result, NSDictionary *data) {
+        @strongify(self);
+        if (result != CHLCodeOK || ![self loadWithInfo:data]) {
+            @weakify(self);
+            dispatch_main_async(^{
+                @strongify(self);
+                [self closeAnimated:YES completion:nil];
+                [CHRouter.shared makeToast:@"Connect node server failed".localized];
+            });
+        }
+        [CHRouter.shared showIndicator:NO];
+    }];
+}
+
+- (BOOL)loadWithInfo:(NSDictionary *)info {
+    BOOL res = NO;
+    if (info.count > 0) {
+        NSString *nid = [info valueForKey:@"nodeid"];
+        if (nid.length > 0) {
+            NSData *pubKey = [NSData dataFromBase64:[info valueForKey:@"pubkey"]];
+            if (pubKey.length > 0 && [CHNodeModel verifyNID:nid pubkey:pubKey]) {
+                _model = [CHNodeModel modelWithNID:nid name:[info valueForKey:@"name"] version:[info valueForKey:@"version"] endpoint:[info valueForKey:@"endpoint"] pubkey:pubKey flags:0 features:[[info valueForKey:@"features"] componentsJoinedByString:@","]];
+                CHNodeModel *model = [CHLogic.shared.userDataSource nodeWithNID:nid];
+                if (model == nil) {
+                    _status = CHNodeVCStatusNew;
+                } else {
+                    self.model.flags = model.flags;
+                    self.model.icon = model.icon ?: self.model.icon;
+                    _status = CHNodeVCStatusUpdate;
+                }
+                [self initializeForm];
+                res = YES;
+            }
+        }
+    }
+    return res;
+}
+
+- (void)loadNode:(NSString *)nid {
+    _model = [CHLogic.shared.userDataSource nodeWithNID:nid];
+    if (_model == nil) {
+        @weakify(self);
+        dispatch_main_async(^{
+            @strongify(self);
+            [self closeAnimated:YES completion:nil];
+            [CHRouter.shared makeToast:@"Open node server failed".localized];
+        });
+    } else {
+        if (!self.model.isSystem) {
+            _status = CHNodeVCStatusShow;
+        }
+        [self initializeForm];
+    }
+}
+
 - (void)initializeForm {
     CHFormSection *section;
     CHFormValueItem *item;
@@ -142,6 +191,7 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
     
     [section addFormItem:[CHFormValueItem itemWithName:@"name" title:@"Name".localized value:self.model.name]];
     if (!self.model.isSystem) {
+        [section addFormItem:[CHFormValueItem itemWithName:@"version" title:@"Version".localized value:self.model.version]];
         [section addFormItem:(item = [CHFormCodeItem itemWithName:@"nodeid" title:@"NodeID".localized value:self.model.nid])];
         item.copiedName = @"NodeID".localized;
     }

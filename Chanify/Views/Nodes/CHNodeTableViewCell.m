@@ -126,7 +126,7 @@
             }];
             completionHandler(YES);
         }];
-        action.image = [UIImage systemImageNamed:@"arrow.triangle.2.circlepath"];
+        action.image = [UIImage systemImageNamed:@"arrow.clockwise.icloud.fill"];
         action.backgroundColor = CHTheme.shared.warnColor;
     }
     return action;

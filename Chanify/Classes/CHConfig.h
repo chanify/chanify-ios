@@ -22,6 +22,8 @@
 #define kCHDBNotificationServiceName    "notification-service.db"
 #define kCHWebFileBasePath              "files"
 #define kCHWebFileDownloadTimeout       30
+#define kCHNodeServerRequestTimeout     10
+#define kCHNodeCanCipherVersion         "1.0.5"
 #define kCHCodeFontName                 "Menlo-Regular"
 #define kCHSecKeySizeInBits             256
 #define kCHAesGcmKeyBytes               32

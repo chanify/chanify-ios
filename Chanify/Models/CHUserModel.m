@@ -18,22 +18,10 @@
 
 - (instancetype)initWithKey:(nullable CHSecKey *)key {
     if (self = [super init]) {
-        _uid = calc_userid(key);
+        _uid = [key formatID:0x00];
         _key = key;
     }
     return self;
-}
-
-#pragma mark - Private Methods
-static inline NSString *calc_userid(CHSecKey *seckey) {
-    NSData *key = seckey.pubkey;
-    NSMutableData *data = [NSMutableData dataWithData:key.sha256];
-    [data appendData:key];
-    key = data.sha1;
-    data.length = 1;
-    *(uint8_t *)data.mutableBytes = 0x00;
-    [data appendData:key];
-    return data.base32;
 }
 
 
