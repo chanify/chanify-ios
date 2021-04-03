@@ -184,7 +184,7 @@
                     request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:0 timeoutInterval:kCHWebFileDownloadTimeout];
                     CHToken *token = [CHToken tokenWithTimeOffset:3600];
                     token.node = node;
-                    token.dataHash = [url.path dataUsingEncoding:NSUTF8StringEncoding];
+                    token.dataHash = [path dataUsingEncoding:NSUTF8StringEncoding];
                     [request setValue:[token formatString:node.nid direct:YES] forHTTPHeaderField:@"Token"];
                 }
             }

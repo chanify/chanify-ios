@@ -170,7 +170,7 @@
 
 - (BOOL)verify:(NSData *)data sign:(NSData *)sign {
     BOOL res = NO;
-    if (pubKey != NULL) {
+    if (pubKey != NULL && data.length > 0 && sign.length > 0) {
         res = SecKeyVerifySignature(pubKey, kSecKeyAlgorithmECDSASignatureMessageX962SHA256, (CFDataRef)data, (CFDataRef)sign, NULL);
     }
     return res;
@@ -214,7 +214,7 @@
 }
 
 - (NSData *)sign:(NSData *)data {
-    if (secKey != NULL) {
+    if (secKey != NULL && data.length > 0) {
         return CFBridgingRelease(SecKeyCreateSignature(secKey, kSecKeyAlgorithmECDSASignatureMessageX962SHA256, (CFDataRef)data, NULL));
     }
     return [NSData new];
