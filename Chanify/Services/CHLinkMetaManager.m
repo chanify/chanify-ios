@@ -116,7 +116,9 @@
         @strongify(self);
         if (error == nil && metadata != nil) {
             NSMutableDictionary *result = [NSMutableDictionary new];
-            [result setObject:metadata.title forKey:@"title"];
+            if (metadata.title.length > 0) {
+                [result setObject:metadata.title forKey:@"title"];
+            }
             NSItemProvider *icon = metadata.iconProvider;
             if (icon != nil && icon.registeredTypeIdentifiers.count > 0) {
                 @weakify(self);

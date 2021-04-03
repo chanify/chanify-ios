@@ -46,10 +46,11 @@
     titleLabel.backgroundColor = UIColor.clearColor;
     titleLabel.textColor = theme.labelColor;
     titleLabel.numberOfLines = 1;
-    titleLabel.font = [UIFont boldSystemFontOfSize:18];
+    titleLabel.font = [UIFont boldSystemFontOfSize:16];
     
     UIImageView *iconView = [UIImageView new];
     [self.bubbleView addSubview:(_iconView = iconView)];
+    iconView.contentMode = UIViewContentModeScaleAspectFill;
     iconView.backgroundColor = theme.lightLabelColor;
     iconView.layer.cornerRadius = 8;
     iconView.clipsToBounds = YES;
@@ -60,7 +61,7 @@
     detailLabel.backgroundColor = UIColor.clearColor;
     detailLabel.textColor = theme.minorLabelColor;
     detailLabel.numberOfLines = 2;
-    detailLabel.font = [UIFont systemFontOfSize:16];
+    detailLabel.font = [UIFont systemFontOfSize:15];
     
     UILabel *linkLabel = [UILabel new];
     [self.bubbleView addSubview:(_linkLabel = linkLabel)];
@@ -90,9 +91,9 @@
 
     CGSize size = configuration.bubbleRect.size;
     self.iconView.frame = CGRectMake(size.width - 60, 12, 50, 50);
-    self.titleLabel.frame = CGRectMake(12, 8, size.width - 80, 30);
-    self.detailLabel.frame = CGRectMake(12, 40, size.width - 80, 40);
-    self.linkLabel.frame = CGRectMake(12, size.height - 40, size.width - 24, 30);
+    self.titleLabel.frame = CGRectMake(12, 8, size.width - 80, 26);
+    self.detailLabel.frame = CGRectMake(12, 36, size.width - 80, 48);
+    self.linkLabel.frame = CGRectMake(12, size.height - 32, size.width - 24, 24);
     
     [CHLogic.shared.linkMetaManager loadMetaFromURL:configuration.link toItem:self];
 }
@@ -155,7 +156,7 @@
 }
 
 - (CGSize)calcContentSize:(CGSize)size {
-    return CGSizeMake(MIN(size.width, 300), 122);
+    return CGSizeMake(MIN(size.width, 300), 120);
 }
 
 

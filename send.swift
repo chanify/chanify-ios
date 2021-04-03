@@ -39,11 +39,13 @@ func buildAPNS() -> String {
     var body = [ "body": " " ]
     for arg in CommandLine.arguments {
         if arg.hasPrefix("text=") {
-            body["text"] = String(arg.suffix(arg.count - 5))
+            body["text"] = String(arg.suffix(arg.count - 5)).replacingOccurrences(of: "\\n", with: "\n")
         } else if arg.hasPrefix("image=") {
             body["image"] = String(arg.suffix(arg.count - 6))
         } else if arg.hasPrefix("link=") {
             body["link"] = String(arg.suffix(arg.count - 5))
+        } else if arg.hasPrefix("title=") {
+            body["title"] = String(arg.suffix(arg.count - 6))
         }
     }
     let msg = [

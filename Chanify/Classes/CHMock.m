@@ -26,6 +26,7 @@ NSDictionary *try_mock_notification(NSDictionary* info) {
     } else {
         content.type = CHTPMsgType_Text;
         content.text = [info valueForKeyPath:@"aps.alert.text"];
+        content.title = [info valueForKeyPath:@"aps.alert.title"];
     }
     CHTPMessage *msg = [CHTPMessage new];
     msg.channel = [NSData dataFromHex:@"0801"];
