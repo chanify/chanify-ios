@@ -8,6 +8,7 @@
 #import "CHCellConfiguration.h"
 #import "CHDateCellConfiguration.h"
 #import "CHTextMsgCellConfiguration.h"
+#import "CHLinkMsgCellConfiguration.h"
 #import "CHImageMsgCellConfiguration.h"
 #import "CHUnknownMsgCellConfiguration.h"
 
@@ -17,6 +18,8 @@
     switch (model.type) {
         case CHMessageTypeText:
             return [CHTextMsgCellConfiguration cellConfiguration:model];
+        case CHMessageTypeLink:
+            return [CHLinkMsgCellConfiguration cellConfiguration:model];
         case CHMessageTypeImage:
             return [CHImageMsgCellConfiguration cellConfiguration:model source:source];
         default:
@@ -30,6 +33,7 @@
     return @{
         CellConfiguration(CHDateCellConfiguration),
         CellConfiguration(CHTextMsgCellConfiguration),
+        CellConfiguration(CHLinkMsgCellConfiguration),
         CellConfiguration(CHImageMsgCellConfiguration),
         CellConfiguration(CHUnknownMsgCellConfiguration),
     };

@@ -8,6 +8,7 @@
 #import "CHLogic.h"
 #import <AFNetworking/AFNetworking.h>
 #import "CHWebFileManager.h"
+#import "CHLinkMetaManager.h"
 #import "CHUserDataSource.h"
 #import "CHNSDataSource.h"
 #import "CHMessageModel.h"
@@ -48,7 +49,7 @@
     if (self = [super init]) {
         NSFileManager *fileManager = NSFileManager.defaultManager;
         CHDevice *device = CHDevice.shared;
-        _pushToken = nil;
+        _pushToken = [NSData new];
         _me = [CHUserModel modelWithKey:[CHSecKey secKeyWithName:@kCHUserSecKeyName device:NO created:NO]];
         _baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://%s/rest/v1/", kCHAPIHostname]];
         _userAgent = [NSString stringWithFormat:@"%@/%@-%d (%@; %@; Scale/%0.2f)", device.app, device.version, device.build, device.model, device.osInfo, device.scale];
@@ -56,6 +57,7 @@
         _nsDataSource = [CHNSDataSource dataSourceWithURL:[fileManager URLForGroupId:@kCHAppGroupName path:@kCHDBNotificationServiceName]];
         _userDataSource = nil;
         _imageFileManager = nil;
+        _linkMetaManager = nil;
         _invalidNodes = [NSMutableSet new];
     }
     return self;
@@ -172,7 +174,7 @@
 }
 
 - (void)updatePushToken:(NSData *)pushToken {
-    _pushToken = pushToken;
+    _pushToken = pushToken ?: [NSData new];
     [self updatePushToken:pushToken endpoint:self.baseURL node:nil completion:nil retry:YES];
     for (CHNodeModel *node in self.userDataSource.loadNodes) {
         if (node.isStoreDevice) {
@@ -567,6 +569,11 @@
         [self.imageFileManager close];
         _imageFileManager = nil;
     }
+    if (self.linkMetaManager != nil && ![self.linkMetaManager.uid isEqualToString:uid]) {
+        [self.linkMetaManager close];
+        _linkMetaManager = nil;
+    }
+    
     if (uid.length > 0) {
         if (self.userDataSource == nil) {
             _userDataSource = [CHUserDataSource dataSourceWithURL:dbpath];
@@ -576,6 +583,11 @@
         if (_imageFileManager == nil) {
             _imageFileManager = [CHWebFileManager webFileManagerWithURL:[webFilePath URLByAppendingPathComponent:@"images"] decoder:[CHWebImageFileDecoder new] userAgent:self.userAgent];
             self.imageFileManager.uid = uid;
+        }
+
+        if (_linkMetaManager == nil) {
+            _linkMetaManager = [CHLinkMetaManager linkManagerWithURL:[webFilePath URLByAppendingPathComponent:@"links"]];
+            self.linkMetaManager.uid = uid;
         }
     }
 }

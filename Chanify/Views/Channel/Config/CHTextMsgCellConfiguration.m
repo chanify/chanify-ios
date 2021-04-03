@@ -44,7 +44,7 @@ static CGFloat titleSpace = 4;
     
     CHTheme *theme = CHTheme.shared;
 
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    UILabel *titleLabel = [UILabel new];
     [self.bubbleView addSubview:(_titleLabel = titleLabel)];
     titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     titleLabel.backgroundColor = UIColor.clearColor;

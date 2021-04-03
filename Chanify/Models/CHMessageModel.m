@@ -112,7 +112,6 @@
                     break;
                 case CHTPMsgType_Image:
                     _type = CHMessageTypeImage;
-                    _text = @"ImageMsg".localized;
                     _file = content.file;
                     if (content.hasThumbnail) {
                         CHTPThumbnail *thumbnail = content.thumbnail;
@@ -125,15 +124,12 @@
                     break;
                 case CHTPMsgType_Video:
                     _type = CHMessageTypeVideo;
-                    _text = @"VideoMsg".localized;
                     break;
                 case CHTPMsgType_Audio:
                     _type = CHMessageTypeAudio;
-                    _text = @"AudioMsg".localized;
                     break;
                 case CHTPMsgType_Link:
                     _type = CHMessageTypeLink;
-                    _text = @"LinkMsg".localized;
                     _link = [NSURL URLWithString:content.link];
                     break;
             }
@@ -144,15 +140,37 @@
 
 - (void)formatNotification:(UNMutableNotificationContent *)content {
     content.categoryIdentifier = self.channel.sha1.base64;
-    if (self.text.length > 0) {
-        content.body = self.text;
-    }
+    content.body = self.summaryTextBody;
     if (self.title.length > 0) {
         content.title = self.title;
     }
     if (self.sound.length > 0) {
         content.sound = [UNNotificationSound defaultSound];
     }
+}
+
+- (NSString *)summaryTextBody {
+    NSString *txt = (self.title.length > 0 ? self.title : self.text);
+    if (txt.length <= 0) {
+        switch (self.type) {
+            case CHMessageTypeImage:
+                txt = @"ImageMsg".localized;
+                break;
+            case CHMessageTypeVideo:
+                txt = @"VideoMsg".localized;
+                break;
+            case CHMessageTypeAudio:
+                txt = @"AudioMsg".localized;
+                break;
+            case CHMessageTypeLink:
+                txt = @"LinkMsg".localized;
+                break;
+            default:
+                txt = @"NewMsg".localized;
+                break;
+        }
+    }
+    return txt;
 }
 
 - (nullable NSString *)fileURL {
