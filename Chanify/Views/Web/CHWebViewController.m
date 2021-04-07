@@ -65,7 +65,6 @@
     [webView addObserver:self forKeyPath:@"canGoBack" options:NSKeyValueObservingOptionNew context:nil];
     webView.scrollView.refreshControl = (_refresher = refreshControl);
     webView.backgroundColor = CHTheme.shared.backgroundColor;
-    webView.allowsBackForwardNavigationGestures = YES;
     webView.navigationDelegate = self;
     webView.alpha = 0;
     [webView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -81,8 +80,18 @@
         make.left.right.equalTo(self.view);
         make.height.mas_equalTo(1);
     }];
-    
+
     [webView loadRequest:[NSURLRequest requestWithURL:self.url]];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.webView.allowsBackForwardNavigationGestures = YES;
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    self.webView.allowsBackForwardNavigationGestures = NO;
+    [super viewDidDisappear:animated];
 }
 
 #pragma mark - WKNavigationDelegate
@@ -135,6 +144,13 @@
 }
 
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
+    if (error.code == 0) {
+        NSString *url = [error.userInfo valueForKey:NSURLErrorFailingURLStringErrorKey];
+        if (url.length > 0) {
+            [UIApplication.sharedApplication openURL:[NSURL URLWithString:url] options:@{} completionHandler:nil];
+            return;
+        }
+    }
     [self showEmpty:YES];
 }
 
