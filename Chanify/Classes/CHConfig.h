@@ -20,7 +20,7 @@
 #define kCHUserSecKeyName               "net.chanify.user.key"
 #define kCHDBDataName                   "data.db"
 #define kCHDBNotificationServiceName    "notification-service.db"
-#define kCHWebFileBasePath              "files"
+#define kCHWebBasePath                  "files"
 #define kCHWebFileDownloadTimeout       30
 #define kCHNodeServerRequestTimeout     10
 #define kCHNodeCanCipherVersion         "1.0.5"

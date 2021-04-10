@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CHPreviewController : QLPreviewController
 
 + (instancetype)previewImages:(NSArray<CHPreviewItem *> *)images selected:(NSInteger)selected;
++ (instancetype)previewFile:(NSURL *)fileURL;
 
 
 @end

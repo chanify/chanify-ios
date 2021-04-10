@@ -12,19 +12,25 @@
 
 @interface CHPreviewController () <QLPreviewControllerDataSource>
 
-@property (nonatomic, readonly, strong) NSArray<CHPreviewItem *> *items;
+@property (nonatomic, readonly, assign) BOOL isImage;
+@property (nonatomic, readonly, strong) NSArray<id<QLPreviewItem>> *items;
 
 @end
 
 @implementation CHPreviewController
 
 + (instancetype)previewImages:(NSArray<CHPreviewItem *> *)images selected:(NSInteger)selected {
-    return [[self.class alloc] initWithImages:images selected:selected];
+    return [[self.class alloc] initWithFiles:images selected:selected isImage:YES];
 }
 
-- (instancetype)initWithImages:(NSArray<CHPreviewItem *> *)images selected:(NSInteger)selected {
++ (instancetype)previewFile:(NSURL *)fileURL {
+    return [[self.class alloc] initWithFiles:@[fileURL] selected:0 isImage:NO];
+}
+
+- (instancetype)initWithFiles:(NSArray<id<QLPreviewItem>> *)images selected:(NSInteger)selected isImage:(BOOL)isImage {
     if (self = [super init]) {
         _items = images;
+        _isImage = isImage;
         self.dataSource = self;
         self.currentPreviewItemIndex = selected;
     }
@@ -33,7 +39,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"square.and.arrow.down"] style:UIBarButtonItemStylePlain target:self action:@selector(actionShared:)];
+    if (self.isImage) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"square.and.arrow.down"] style:UIBarButtonItemStylePlain target:self action:@selector(actionShared:)];
+    }
 }
 
 #pragma mark - QLPreviewControllerDataSource

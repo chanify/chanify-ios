@@ -6,8 +6,11 @@
 //
 
 #import "CHFileMsgCellConfiguration.h"
+#import "CHPreviewController.h"
+#import "CHWebFileManager.h"
 #import "CHPasteboard.h"
 #import "CHRouter.h"
+#import "CHLogic.h"
 #import "CHTheme.h"
 
 @interface CHFileMsgCellConfiguration ()
@@ -25,7 +28,11 @@
 @property (nonatomic, readonly, strong) UILabel *detailLabel;
 @property (nonatomic, readonly, strong) UIImageView *iconView;
 @property (nonatomic, readonly, strong) UITapGestureRecognizer *tapGestureRecognizer;
+@property (nonatomic, nullable, readonly, strong) NSURL *loaclFileURL;
 
+@end
+
+@interface CHFileMsgCellContentView () <CHWebFileItem>
 @end
 
 @implementation CHFileMsgCellContentView
@@ -88,22 +95,37 @@
         self.detailLabel.frame = CGRectMake(60, 30, size.width - 80, size.height - 38);
         self.titleLabel.numberOfLines = 1;
     }
+    
+    _loaclFileURL = nil;
+    [CHLogic.shared.webFileManager loadFileURL:configuration.fileURL filename:configuration.filename toItem:self];
 }
 
 - (NSArray<UIMenuItem *> *)menuActions {
     NSMutableArray *items = [NSMutableArray new];
-    [items addObject:[[UIMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)]];
+    if (self.loaclFileURL != nil) {
+        [items addObject:[[UIMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)]];
+    }
     [items addObjectsFromArray:super.menuActions];
     return items;
 }
 
+#pragma mark - CHWebFileItem
+- (void)webFileUpdated:(nullable NSURL *)item {
+    _loaclFileURL = item;
+}
+
 #pragma mark - Action Methods
 - (void)actionShare:(id)sender {
-    //[CHRouter.shared showShareItem:@[[(CHFileMsgCellConfiguration *)self.configuration fileURL]] sender:sender handler:nil];
+    if (self.loaclFileURL != nil) {
+        [CHRouter.shared showShareItem:@[self.loaclFileURL] sender:sender handler:nil];
+    }
 }
 
 - (void)actionShowFile:(id)sender {
-    //[CHRouter.shared handleURL:nil];
+    if (self.loaclFileURL != nil) {
+        CHPreviewController *vc = [CHPreviewController previewFile:self.loaclFileURL];
+        [CHRouter.shared presentSystemViewController:vc animated:YES];
+    }
 }
 
 @end

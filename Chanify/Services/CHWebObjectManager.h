@@ -25,7 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-
 @interface CHWebObjectManager<Item> : NSObject
 
 @property (nonatomic, nullable, strong) NSString *uid;

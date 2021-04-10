@@ -8,6 +8,7 @@
 #import "CHLogic.h"
 #import <AFNetworking/AFNetworking.h>
 #import "CHWebObjectManager.h"
+#import "CHWebFileManager.h"
 #import "CHLinkMetaManager.h"
 #import "CHUserDataSource.h"
 #import "CHNSDataSource.h"
@@ -57,6 +58,7 @@
         _nsDataSource = [CHNSDataSource dataSourceWithURL:[fileManager URLForGroupId:@kCHAppGroupName path:@kCHDBNotificationServiceName]];
         _userDataSource = nil;
         _webImageManager = nil;
+        _webFileManager = nil;
         _linkMetaManager = nil;
         _invalidNodes = [NSMutableSet new];
     }
@@ -569,24 +571,30 @@
         [self.webImageManager close];
         _webImageManager = nil;
     }
+    if (self.webFileManager != nil && ![self.webFileManager.uid isEqualToString:uid]) {
+        [self.webFileManager close];
+        _webFileManager = nil;
+    }
     if (self.linkMetaManager != nil && ![self.linkMetaManager.uid isEqualToString:uid]) {
         [self.linkMetaManager close];
         _linkMetaManager = nil;
     }
-    
     if (uid.length > 0) {
         if (self.userDataSource == nil) {
             _userDataSource = [CHUserDataSource dataSourceWithURL:dbpath];
         }
         
-        NSURL *webFilePath = [dbpath.URLByDeletingLastPathComponent URLByAppendingPathComponent:@kCHWebFileBasePath];
+        NSURL *basePath = [dbpath.URLByDeletingLastPathComponent URLByAppendingPathComponent:@kCHWebBasePath];
         if (_webImageManager == nil) {
-            _webImageManager = [CHWebObjectManager webObjectManagerWithURL:[webFilePath URLByAppendingPathComponent:@"images"] decoder:[CHWebImageDecoder new] userAgent:self.userAgent];
+            _webImageManager = [CHWebObjectManager webObjectManagerWithURL:[basePath URLByAppendingPathComponent:@"images"] decoder:[CHWebImageDecoder new] userAgent:self.userAgent];
             self.webImageManager.uid = uid;
         }
-
+        if (_webFileManager == nil) {
+            _webFileManager = [CHWebFileManager webFileManagerWithURL:[basePath URLByAppendingPathComponent:@"files"] userAgent:self.userAgent];
+            self.webFileManager.uid = uid;
+        }
         if (_linkMetaManager == nil) {
-            _linkMetaManager = [CHLinkMetaManager linkManagerWithURL:[webFilePath URLByAppendingPathComponent:@"links"]];
+            _linkMetaManager = [CHLinkMetaManager linkManagerWithURL:[basePath URLByAppendingPathComponent:@"links"]];
             self.linkMetaManager.uid = uid;
         }
     }
