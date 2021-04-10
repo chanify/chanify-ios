@@ -7,7 +7,7 @@
 
 #import "CHUserModel.h"
 #import "CHManager.h"
-#import "CHWebFileManager.h"
+#import "CHWebObjectManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -44,7 +44,7 @@ typedef void (^CHLogicResultBlock)(CHLCode result, NSDictionary *data);
 @property (nonatomic, nullable, readonly, strong) CHUserModel *me;
 @property (nonatomic, nullable, readonly, strong) CHUserDataSource *userDataSource;
 @property (nonatomic, nullable, readonly, strong) CHLinkMetaManager *linkMetaManager;
-@property (nonatomic, nullable, readonly, strong) CHWebFileManager<UIImage *> *imageFileManager;
+@property (nonatomic, nullable, readonly, strong) CHWebObjectManager<UIImage *> *webImageManager;
 
 + (instancetype)shared;
 - (void)launch;

@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CHWebFileManager.h"
+#import "CHWebObjectManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)webImageViewUpdated:(CHWebImageView *)imageView;
 @end
 
-@interface CHWebImageView : UIImageView<CHWebFileItem>
+@interface CHWebImageView : UIImageView<CHWebObjectItem>
 
 @property (nonatomic, nullable, strong) NSString *fileURL;
 @property (nonatomic, nullable, weak) id<CHWebImageViewDelegate> delegate;

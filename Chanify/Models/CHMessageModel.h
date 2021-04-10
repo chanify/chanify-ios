@@ -22,6 +22,7 @@ typedef NS_ENUM(NSInteger, CHMessageType) {
     CHMessageTypeVideo      = 3,
     CHMessageTypeAudio      = 4,
     CHMessageTypeLink       = 5,
+    CHMessageTypeFile       = 6,
 };
 
 @interface CHMessageModel : NSObject
@@ -35,6 +36,7 @@ typedef NS_ENUM(NSInteger, CHMessageType) {
 @property (nonatomic, readonly, nullable, strong) NSString *text;
 @property (nonatomic, readonly, nullable, strong) NSString *file;
 @property (nonatomic, readonly, nullable, strong) NSURL *link;
+@property (nonatomic, readonly, nullable, strong) NSString *filename;
 @property (nonatomic, readonly, nullable, strong) CHThumbnailModel *thumbnail;
 
 + (nullable instancetype)modelWithData:(nullable NSData *)data mid:(NSString *)mid;

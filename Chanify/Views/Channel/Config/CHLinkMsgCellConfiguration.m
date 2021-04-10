@@ -86,7 +86,7 @@
     [super applyConfiguration:configuration];
     
     self.titleLabel.text = configuration.title ?: configuration.link.host;
-    //self.detailLabel.text = configuration.text ?: configuration.text;
+    self.detailLabel.text = configuration.text ?: @"";
     self.linkLabel.text = configuration.link.absoluteString;
 
     CGSize size = configuration.bubbleRect.size;

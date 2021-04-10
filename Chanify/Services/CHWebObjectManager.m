@@ -1,27 +1,27 @@
 //
-//  CHWebFileManager.m
+//  CHWebObjectManager.m
 //  Chanify
 //
 //  Created by WizJin on 2021/3/27.
 //
 
-#import "CHWebFileManager.h"
+#import "CHWebObjectManager.h"
 #import <UIKit/UIImage.h>
 #import "CHUserDataSource.h"
 #import "CHNodeModel.h"
 #import "CHToken.h"
 #import "CHLogic.h"
 
-@interface CHWebFileTask : NSObject
+@interface CHWebObjectTask : NSObject
 
 @property (nonatomic, readonly, strong) NSString *fileURL;
-@property (nonatomic, readonly, strong) NSHashTable<id<CHWebFileItem>> *items;
+@property (nonatomic, readonly, strong) NSHashTable<id<CHWebObjectItem>> *items;
 @property (nonatomic, nullable, strong) NSURLSessionDataTask *dataTask;
 @property (nonatomic, nullable, strong) id result;
 
 @end
 
-@implementation CHWebFileTask
+@implementation CHWebObjectTask
 
 - (instancetype)initWithFileURL:(NSString *)fileURL {
     if (self = [super init]) {
@@ -33,35 +33,35 @@
 
 - (void)dealloc {
     id result = self.result;
-    NSHashTable<id<CHWebFileItem>> *items = self.items;
+    NSHashTable<id<CHWebObjectItem>> *items = self.items;
     dispatch_main_async(^{
-        for (id<CHWebFileItem> item in items) {
-            [item webFileUpdated:result];
+        for (id<CHWebObjectItem> item in items) {
+            [item webObjectUpdated:result];
         }
     });
 }
 
 @end
 
-@interface CHWebFileManager ()
+@interface CHWebObjectManager ()
 
 @property (nonatomic, readonly, strong) NSURL *fileBaseDir;
 @property (nonatomic, readonly, strong) NSString *userAgent;
-@property (nonatomic, readonly, strong) id<CHWebFileDecoder> decoder;
+@property (nonatomic, readonly, strong) id<CHWebObjectDecoder> decoder;
 @property (nonatomic, readonly, strong) NSURLSession *session;
-@property (nonatomic, readonly, strong) NSMutableDictionary<NSString *, CHWebFileTask *> *tasks;
+@property (nonatomic, readonly, strong) NSMutableDictionary<NSString *, CHWebObjectTask *> *tasks;
 @property (nonatomic, readonly, strong) NSCache<NSString *, id> *dataCache;
 @property (nonatomic, readonly, strong) dispatch_queue_t workerQueue;
 
 @end
 
-@implementation CHWebFileManager
+@implementation CHWebObjectManager
 
-+ (instancetype)webFileManagerWithURL:(NSURL *)fileBaseDir decoder:(id<CHWebFileDecoder>)decoder userAgent:(NSString *)userAgent {
++ (instancetype)webObjectManagerWithURL:(NSURL *)fileBaseDir decoder:(id<CHWebObjectDecoder>)decoder userAgent:(NSString *)userAgent {
     return [[self.class alloc] initWithURL:fileBaseDir decoder:decoder userAgent:userAgent];
 }
 
-- (instancetype)initWithURL:(NSURL *)fileBaseDir decoder:(id<CHWebFileDecoder>)decoder userAgent:(NSString *)userAgent {
+- (instancetype)initWithURL:(NSURL *)fileBaseDir decoder:(id<CHWebObjectDecoder>)decoder userAgent:(NSString *)userAgent {
     if (self = [super init]) {
         _uid = nil;
         _fileBaseDir = fileBaseDir;
@@ -90,21 +90,21 @@
     });
 }
 
-- (void)loadFileURL:(nullable NSString *)fileURL toItem:(id<CHWebFileItem>)item {
+- (void)loadFileURL:(nullable NSString *)fileURL toItem:(id<CHWebObjectItem>)item {
     if (fileURL.length > 0) {
         id data = [self loadLocalFile:fileURL];
         if (data != nil) {
-            [item webFileUpdated:data];
+            [item webObjectUpdated:data];
             return;
         }
         @weakify(self);
         dispatch_sync(self.workerQueue, ^{
             @strongify(self);
-            CHWebFileTask *task = [self.tasks objectForKey:fileURL];
+            CHWebObjectTask *task = [self.tasks objectForKey:fileURL];
             if (task != nil) {
                 [task.items addObject:item];
             } else {
-                task = [[CHWebFileTask alloc] initWithFileURL:fileURL];
+                task = [[CHWebObjectTask alloc] initWithFileURL:fileURL];
                 [self.tasks setObject:task forKey:fileURL];
                 [task.items addObject:item];
                 [self asyncStartTask:task fileURL:[self fileURL2Path:fileURL]];
@@ -119,7 +119,7 @@
         NSURL *url = [self fileURL2Path:fileURL];
         res = [self.dataCache objectForKey:url.absoluteString];
         if (res == nil) {
-            res = [self.decoder webFileDecode:[NSData dataFromNoCacheURL:url]];
+            res = [self.decoder webObjectDecode:[NSData dataFromNoCacheURL:url]];
             if (res != nil) {
                 [self.dataCache setObject:res forKey:url.absoluteString];
             }
@@ -140,7 +140,7 @@
 }
 
 #pragma mark - Private Methods
-- (void)asyncStartTask:(CHWebFileTask *)task fileURL:(NSURL *)fileURL {
+- (void)asyncStartTask:(CHWebObjectTask *)task fileURL:(NSURL *)fileURL {
     @weakify(self);
     dispatch_async(self.workerQueue, ^{
         @strongify(self);
@@ -152,7 +152,7 @@
                     @strongify(self);
                     if (error == nil) {
                         if (data.length > 0 && [data writeToURL:fileURL atomically:YES]) {
-                            task.result = [self.decoder webFileDecode:data];
+                            task.result = [self.decoder webObjectDecode:data];
                             if (task.result != nil) {
                                 [self.dataCache setObject:task.result forKey:fileURL.absoluteString];
                             }
@@ -205,9 +205,9 @@
 @end
 
 
-@implementation CHWebImageFileDecoder
+@implementation CHWebImageDecoder
 
-- (nullable id)webFileDecode:(nullable NSData *)data {
+- (nullable id)webObjectDecode:(nullable NSData *)data {
     if (data.length > 0) {
         return [UIImage imageWithData:data];
     }

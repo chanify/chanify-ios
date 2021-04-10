@@ -44,6 +44,10 @@ func buildAPNS() -> String {
             body["image"] = String(arg.suffix(arg.count - 6))
         } else if arg.hasPrefix("link=") {
             body["link"] = String(arg.suffix(arg.count - 5))
+        } else if arg.hasPrefix("file=") {
+            body["file"] = String(arg.suffix(arg.count - 5))
+        } else if arg.hasPrefix("filename=") {
+            body["filename"] = String(arg.suffix(arg.count - 9))
         } else if arg.hasPrefix("title=") {
             body["title"] = String(arg.suffix(arg.count - 6))
         }

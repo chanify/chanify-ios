@@ -22,16 +22,16 @@
 - (void)setFileURL:(nullable NSString *)fileURL {
     if (self.fileURL != fileURL && ![self.fileURL isEqualToString:fileURL]) {
         _fileURL = fileURL;
-        [CHLogic.shared.imageFileManager loadFileURL:fileURL toItem:self];
+        [CHLogic.shared.webImageManager loadFileURL:fileURL toItem:self];
     }
 }
 
 - (nullable NSURL *)localFileURL {
-    return [CHLogic.shared.imageFileManager localFileURL:self.fileURL];
+    return [CHLogic.shared.webImageManager localFileURL:self.fileURL];
 }
 
-#pragma mark - CHWebFileItem
-- (void)webFileUpdated:(nullable UIImage *)item {
+#pragma mark - CHWebObjectItem
+- (void)webObjectUpdated:(nullable UIImage *)item {
     if (self.image != item) {
         self.image = item;
         if (self.delegate != nil) {

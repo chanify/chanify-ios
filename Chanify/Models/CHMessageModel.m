@@ -132,6 +132,19 @@
                     _type = CHMessageTypeLink;
                     _link = [NSURL URLWithString:content.link];
                     break;
+                case CHTPMsgType_File:
+                    _type = CHMessageTypeFile;
+                    _file = content.file;
+                    if (content.filename.length > 0) {
+                        _filename = content.filename;
+                    }
+                    if (content.title.length > 0) {
+                        _title = content.title;
+                    }
+                    if (content.text.length > 0) {
+                        _text = content.text;
+                    }
+                    break;
             }
         }
     }
@@ -164,6 +177,19 @@
                 break;
             case CHMessageTypeLink:
                 txt = @"LinkMsg".localized;
+                if (self.link != nil) {
+                    txt = [txt stringByAppendingFormat:@" %@", self.link.absoluteString];
+                }
+                break;
+            case CHMessageTypeFile:
+                txt = @"FileMsg".localized;
+                if (self.title.length > 0) {
+                    txt = [txt stringByAppendingFormat:@" %@", self.title];
+                } else if (self.text.length > 0) {
+                    txt = [txt stringByAppendingFormat:@" %@", self.text];
+                } else if (self.filename.length > 0) {
+                    txt = [txt stringByAppendingFormat:@" %@", self.filename];
+                }
                 break;
             default:
                 txt = @"NewMsg".localized;

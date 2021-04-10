@@ -264,9 +264,11 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
     dispatch_once(&onceToken, ^{
         iconTable = @{
             @"msg.text": @"doc.plaintext",
+            @"msg.link": @"link",
             @"msg.image": @"photo",
             @"msg.video": @"video",
             @"msg.audio": @"waveform",
+            @"msg.file": @"doc.richtext",
             @"msg.timeline": @"waveform.path.ecg",
             @"store.device": @"externaldrive.badge.person.crop",
             @"register.limit": @"lock.shield",

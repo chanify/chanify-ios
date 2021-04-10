@@ -75,7 +75,7 @@ static UIEdgeInsets imageInsets = { 0, 20, 0, 30 };
             imageSize = CGSizeMake(self.thumbnail.width, self.thumbnail.height);
         }
         if (imageSize.width <= 0 || imageSize.height <= 0) {
-            imageSize = [[CHLogic.shared.imageFileManager loadLocalFile:self.imageURL] size];
+            imageSize = [[CHLogic.shared.webImageManager loadLocalFile:self.imageURL] size];
         }
         size = [self calcImageSize:imageSize targetSize:size];
         _imageRect = CGRectMake(imageInsets.left, imageInsets.top, size.width, size.height);

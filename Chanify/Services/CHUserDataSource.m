@@ -21,7 +21,7 @@
     "CREATE TABLE IF NOT EXISTS `nodes`(`nid` TEXT PRIMARY KEY,`deleted` BOOLEAN DEFAULT 0,`name` TEXT,`version` TEXT,`endpoint` TEXT,`pubkey` BLOB,`icon` TEXT,`flags` INTEGER DEFAULT 0,`features` TEXT,`secret` BLOB);" \
     "INSERT OR IGNORE INTO `channels`(`cid`) VALUES(X'0801');"      \
     "INSERT OR IGNORE INTO `channels`(`cid`) VALUES(X'08011001');"  \
-    "INSERT OR IGNORE INTO `nodes`(`nid`,`features`) VALUES(\"sys\",\"store.device,msg.text\");"  \
+    "INSERT OR IGNORE INTO `nodes`(`nid`,`features`) VALUES(\"sys\",\"store.device,msg.text,msg.link\") ON CONFLICT(`nid`) DO UPDATE SET `features`=excluded.`features` WHERE `features`!=excluded.`features`;"  \
 
 @interface CHUserDataSource ()
 

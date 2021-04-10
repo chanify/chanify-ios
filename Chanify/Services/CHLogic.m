@@ -7,7 +7,7 @@
 
 #import "CHLogic.h"
 #import <AFNetworking/AFNetworking.h>
-#import "CHWebFileManager.h"
+#import "CHWebObjectManager.h"
 #import "CHLinkMetaManager.h"
 #import "CHUserDataSource.h"
 #import "CHNSDataSource.h"
@@ -56,7 +56,7 @@
         _manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:NSURLSessionConfiguration.ephemeralSessionConfiguration];
         _nsDataSource = [CHNSDataSource dataSourceWithURL:[fileManager URLForGroupId:@kCHAppGroupName path:@kCHDBNotificationServiceName]];
         _userDataSource = nil;
-        _imageFileManager = nil;
+        _webImageManager = nil;
         _linkMetaManager = nil;
         _invalidNodes = [NSMutableSet new];
     }
@@ -565,9 +565,9 @@
             _userDataSource = nil;
         }
     }
-    if (self.imageFileManager != nil && ![self.imageFileManager.uid isEqualToString:uid]) {
-        [self.imageFileManager close];
-        _imageFileManager = nil;
+    if (self.webImageManager != nil && ![self.webImageManager.uid isEqualToString:uid]) {
+        [self.webImageManager close];
+        _webImageManager = nil;
     }
     if (self.linkMetaManager != nil && ![self.linkMetaManager.uid isEqualToString:uid]) {
         [self.linkMetaManager close];
@@ -580,9 +580,9 @@
         }
         
         NSURL *webFilePath = [dbpath.URLByDeletingLastPathComponent URLByAppendingPathComponent:@kCHWebFileBasePath];
-        if (_imageFileManager == nil) {
-            _imageFileManager = [CHWebFileManager webFileManagerWithURL:[webFilePath URLByAppendingPathComponent:@"images"] decoder:[CHWebImageFileDecoder new] userAgent:self.userAgent];
-            self.imageFileManager.uid = uid;
+        if (_webImageManager == nil) {
+            _webImageManager = [CHWebObjectManager webObjectManagerWithURL:[webFilePath URLByAppendingPathComponent:@"images"] decoder:[CHWebImageDecoder new] userAgent:self.userAgent];
+            self.webImageManager.uid = uid;
         }
 
         if (_linkMetaManager == nil) {

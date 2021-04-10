@@ -96,6 +96,7 @@
 "VideoMsg"="[视频]";
 "AudioMsg"="[音频]";
 "LinkMsg"="[链接]";
+"FileMsg"="[文件]";
 
 "sys.none"="未分类消息";
 "sys.device"="设备消息";
@@ -103,7 +104,9 @@
 "register.limit"="限制公开注册";
 "store.device"="存储设备信息";
 "msg.text"="发送文本消息";
+"msg.link"="发送链接消息";
 "msg.image"="发送图片消息";
 "msg.video"="发送视频消息";
 "msg.audio"="发送音频消息";
+"msg.file"="发送文件消息";
 "msg.timeline"="发送时间线消息";

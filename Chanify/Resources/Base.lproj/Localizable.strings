@@ -96,6 +96,7 @@
 "VideoMsg"="[Video]";
 "AudioMsg"="[Audio]";
 "LinkMsg"="[Link]";
+"FileMsg"="[File]";
 
 "sys.none"="Uncategorized";
 "sys.device"="Devices";
@@ -103,7 +104,9 @@
 "register.limit"="Public registration disabled";
 "store.device"="Store device info";
 "msg.text"="Send text message";
+"msg.link"="Send link message";
 "msg.image"="Send image message";
 "msg.video"="Send video message";
 "msg.audio"="Send audio message";
+"msg.file"="Send file message";
 "msg.timeline"="Send timeline message";

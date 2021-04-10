@@ -175,11 +175,11 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     NSInteger idx = 0;
     NSInteger selected = 0;
     NSMutableArray<CHPreviewItem *> *items = [NSMutableArray new];
-    CHWebFileManager *webFileManager = CHLogic.shared.imageFileManager;
+    CHWebObjectManager *webImageManager = CHLogic.shared.webImageManager;
     for (CHCellConfiguration *cell in self.snapshot.itemIdentifiers) {
         NSString *thumbnailUrl = cell.mediaThumbnailURL;
         if (thumbnailUrl.length > 0) {
-            NSURL *url = [webFileManager localFileURL:thumbnailUrl];
+            NSURL *url = [webImageManager localFileURL:thumbnailUrl];
             if (url != nil) {
                 CHPreviewItem *item = [CHPreviewItem itemWithURL:url title:cell.date.mediumFormat uti:@"public.jpeg"];
                 [items addObject:item];

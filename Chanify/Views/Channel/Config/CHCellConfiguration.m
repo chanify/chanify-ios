@@ -9,6 +9,7 @@
 #import "CHDateCellConfiguration.h"
 #import "CHTextMsgCellConfiguration.h"
 #import "CHLinkMsgCellConfiguration.h"
+#import "CHFileMsgCellConfiguration.h"
 #import "CHImageMsgCellConfiguration.h"
 #import "CHUnknownMsgCellConfiguration.h"
 
@@ -20,6 +21,8 @@
             return [CHTextMsgCellConfiguration cellConfiguration:model];
         case CHMessageTypeLink:
             return [CHLinkMsgCellConfiguration cellConfiguration:model];
+        case CHMessageTypeFile:
+            return [CHFileMsgCellConfiguration cellConfiguration:model];
         case CHMessageTypeImage:
             return [CHImageMsgCellConfiguration cellConfiguration:model source:source];
         default:
@@ -34,6 +37,7 @@
         CellConfiguration(CHDateCellConfiguration),
         CellConfiguration(CHTextMsgCellConfiguration),
         CellConfiguration(CHLinkMsgCellConfiguration),
+        CellConfiguration(CHFileMsgCellConfiguration),
         CellConfiguration(CHImageMsgCellConfiguration),
         CellConfiguration(CHUnknownMsgCellConfiguration),
     };
