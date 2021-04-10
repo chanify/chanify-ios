@@ -151,7 +151,8 @@
                 @weakify(self);
                 task.dataTask = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                     @strongify(self);
-                    if (error == nil) {
+                    NSHTTPURLResponse *resp = (NSHTTPURLResponse *)response;
+                    if (error == nil && resp.statusCode == 200) {
                         if (data.length > 0 && [data writeToURL:fileURL atomically:YES]) {
                             task.result = [self.decoder webObjectDecode:data];
                             if (task.result != nil) {

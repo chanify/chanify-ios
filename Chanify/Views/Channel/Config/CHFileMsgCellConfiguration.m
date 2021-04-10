@@ -125,6 +125,8 @@
     if (self.loaclFileURL != nil) {
         CHPreviewController *vc = [CHPreviewController previewFile:self.loaclFileURL];
         [CHRouter.shared presentSystemViewController:vc animated:YES];
+    } else {
+        [CHRouter.shared makeToast:@"File downloading".localized];
     }
 }
 
@@ -133,7 +135,7 @@
 @implementation CHFileMsgCellConfiguration
 
 + (instancetype)cellConfiguration:(CHMessageModel *)model {
-    return [[self.class alloc] initWithMID:model.mid text:model.text title:model.title filename:model.filename fileURL:model.file bubbleRect:CGRectZero];
+    return [[self.class alloc] initWithMID:model.mid text:model.text title:model.title filename:model.filename fileURL:model.fileURL bubbleRect:CGRectZero];
 }
 
 - (nonnull id)copyWithZone:(nullable NSZone *)zone {
