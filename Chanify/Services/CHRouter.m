@@ -260,10 +260,15 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     }];
     [routes addRoute:@"/action/openurl" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
         BOOL res = NO;
-        NSString *url = [parameters valueForKey:@"url"];
-        if (url.length > 0) {
-            [UIApplication.sharedApplication openURL:[NSURL URLWithString:url] options:@{} completionHandler:nil];
-            res = YES;
+        id u = [parameters valueForKey:@"url"];
+        if (u != nil) {
+            NSURL *url = nil;
+            if ([u isKindOfClass:NSURL.class]) {
+                url = u;
+            } else if ([u isKindOfClass:NSString.class] && [u length] > 0) {
+                url = [NSURL URLWithString:u];
+            }
+            res = openURL(url);
         }
         return res;
     }];
@@ -304,12 +309,21 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
                 return;
             }
         }
+        openURL(url);
+    };
+}
+
+static inline BOOL openURL(NSURL *url) {
+    BOOL res = NO;
+    if (url != nil) {
         [UIApplication.sharedApplication openURL:url options:@{} completionHandler:^(BOOL success) {
             if (!success) {
                 [CHRouter.shared makeToast:@"Can't open url".localized];
             }
         }];
-    };
+        res = YES;
+    }
+    return res;
 }
 
 static inline CHRouterShowMode parseShowMode(NSString *show) {

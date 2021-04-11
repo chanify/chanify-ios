@@ -103,6 +103,7 @@
     NSMutableArray *items = [NSMutableArray arrayWithArray:@[
         [[UIMenuItem alloc]initWithTitle:@"Copy".localized action:@selector(actionCopy:)],
         [[UIMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)],
+        [[UIMenuItem alloc]initWithTitle:@"Safari" action:@selector(actionOpen:)],
     ]];
     [items addObjectsFromArray:super.menuActions];
     return items;
@@ -123,15 +124,23 @@
 
 #pragma mark - Action Methods
 - (void)actionCopy:(id)sender {
-    [CHPasteboard.shared copyWithName:@"Message".localized value:self.linkLabel.text];
+    [CHPasteboard.shared copyWithName:@"Message".localized value:self.linkURL.absoluteString];
+}
+
+- (void)actionOpen:(id)sender {
+    [CHRouter.shared routeTo:@"/action/openurl" withParams:@{ @"url": self.linkURL }];
 }
 
 - (void)actionShare:(id)sender {
-    [CHRouter.shared showShareItem:@[[(CHLinkMsgCellConfiguration *)self.configuration link]] sender:sender handler:nil];
+    [CHRouter.shared showShareItem:@[self.linkURL] sender:sender handler:nil];
 }
 
 - (void)actionShowURL:(id)sender {
-    [CHRouter.shared handleURL:[(CHLinkMsgCellConfiguration *)self.configuration link]];
+    [CHRouter.shared handleURL:self.linkURL];
+}
+
+- (NSURL *)linkURL {
+    return [(CHLinkMsgCellConfiguration *)self.configuration link];
 }
 
 
