@@ -152,7 +152,8 @@
 }
 
 - (void)formatNotification:(UNMutableNotificationContent *)content {
-    content.categoryIdentifier = self.channel.sha1.base64;
+    content.categoryIdentifier = @"general";
+    content.threadIdentifier = self.channel.sha1.base64;
     content.body = self.summaryTextBody;
     if (self.title.length > 0) {
         content.title = self.title;

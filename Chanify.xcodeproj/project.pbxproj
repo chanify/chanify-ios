@@ -23,6 +23,10 @@
 		6D67CBEA25D4298A00ECF655 /* CHCrpyto.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBE925D4298A00ECF655 /* CHCrpyto.m */; };
 		6D8F9EAC25EF45E800A8912C /* CHFormItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F9EAB25EF45E800A8912C /* CHFormItem.m */; };
 		6D9C209426020A4200F40CDD /* CHFormSwitchItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9C209326020A4200F40CDD /* CHFormSwitchItem.m */; };
+		6DA2A7072622F8F100D898C7 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DA2A7062622F8F100D898C7 /* UserNotifications.framework */; };
+		6DA2A7092622F8F100D898C7 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DA2A7082622F8F100D898C7 /* UserNotificationsUI.framework */; };
+		6DA2A70D2622F8F100D898C7 /* NotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DA2A70C2622F8F100D898C7 /* NotificationViewController.m */; };
+		6DA2A7142622F8F100D898C7 /* NotificationContent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6DA2A7052622F8F100D898C7 /* NotificationContent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6DABBB212612BDFC00FCBDD3 /* CHThumbnailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DABBB202612BDFC00FCBDD3 /* CHThumbnailModel.m */; };
 		6DABBB242612C0FA00FCBDD3 /* CHThumbnailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DABBB202612BDFC00FCBDD3 /* CHThumbnailModel.m */; };
 		6DABBB292612D9EA00FCBDD3 /* CHPreviewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DABBB282612D9EA00FCBDD3 /* CHPreviewItem.m */; };
@@ -167,6 +171,13 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
+		6DA2A7122622F8F100D898C7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6DC6C1B725D0DCD100512E36 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6DA2A7042622F8F000D898C7;
+			remoteInfo = NotificationContent;
+		};
 		6DC6C22225D0FB7600512E36 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6DC6C1B725D0DCD100512E36 /* Project object */;
@@ -184,6 +195,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				6DC6C22425D0FB7600512E36 /* NotificationService.appex in Embed App Extensions */,
+				6DA2A7142622F8F100D898C7 /* NotificationContent.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -221,6 +233,13 @@
 		6D8F9EAB25EF45E800A8912C /* CHFormItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormItem.m; sourceTree = "<group>"; };
 		6D9C209226020A4200F40CDD /* CHFormSwitchItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormSwitchItem.h; sourceTree = "<group>"; };
 		6D9C209326020A4200F40CDD /* CHFormSwitchItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormSwitchItem.m; sourceTree = "<group>"; };
+		6DA2A7052622F8F100D898C7 /* NotificationContent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationContent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		6DA2A7062622F8F100D898C7 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		6DA2A7082622F8F100D898C7 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
+		6DA2A70B2622F8F100D898C7 /* NotificationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationViewController.h; sourceTree = "<group>"; };
+		6DA2A70C2622F8F100D898C7 /* NotificationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationViewController.m; sourceTree = "<group>"; };
+		6DA2A7112622F8F100D898C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6DA2A72C2622FAD400D898C7 /* NotificationContent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationContent.entitlements; sourceTree = "<group>"; };
 		6DABBB1F2612BDFC00FCBDD3 /* CHThumbnailModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHThumbnailModel.h; sourceTree = "<group>"; };
 		6DABBB202612BDFC00FCBDD3 /* CHThumbnailModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHThumbnailModel.m; sourceTree = "<group>"; };
 		6DABBB272612D9EA00FCBDD3 /* CHPreviewItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHPreviewItem.h; sourceTree = "<group>"; };
@@ -403,6 +422,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6DA2A7022622F8F000D898C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6DA2A7092622F8F100D898C7 /* UserNotificationsUI.framework in Frameworks */,
+				6DA2A7072622F8F100D898C7 /* UserNotifications.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6DC6C1BC25D0DCD100512E36 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -481,6 +509,17 @@
 			path = Form;
 			sourceTree = "<group>";
 		};
+		6DA2A70A2622F8F100D898C7 /* NotificationContent */ = {
+			isa = PBXGroup;
+			children = (
+				6DA2A72C2622FAD400D898C7 /* NotificationContent.entitlements */,
+				6DA2A70B2622F8F100D898C7 /* NotificationViewController.h */,
+				6DA2A70C2622F8F100D898C7 /* NotificationViewController.m */,
+				6DA2A7112622F8F100D898C7 /* Info.plist */,
+			);
+			path = NotificationContent;
+			sourceTree = "<group>";
+		};
 		6DABBB2E2612E2F200FCBDD3 /* Preview */ = {
 			isa = PBXGroup;
 			children = (
@@ -506,6 +545,7 @@
 			children = (
 				6DC6C1C125D0DCD100512E36 /* Chanify */,
 				6DC6C21D25D0FB7600512E36 /* NotificationService */,
+				6DA2A70A2622F8F100D898C7 /* NotificationContent */,
 				6DC6C1C025D0DCD100512E36 /* Products */,
 				005CB7060C370EAED6BFCAF1 /* Pods */,
 				AA9D7AE19CD99A925739E3F6 /* Frameworks */,
@@ -517,6 +557,7 @@
 			children = (
 				6DC6C1BF25D0DCD100512E36 /* Chanify.app */,
 				6DC6C21C25D0FB7600512E36 /* NotificationService.appex */,
+				6DA2A7052622F8F100D898C7 /* NotificationContent.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -871,6 +912,8 @@
 			children = (
 				D5B1F40BCE80A4DDFEB56F70 /* libPods-Chanify.a */,
 				77860262C85473FCE5AADE06 /* libPods-NotificationService.a */,
+				6DA2A7062622F8F100D898C7 /* UserNotifications.framework */,
+				6DA2A7082622F8F100D898C7 /* UserNotificationsUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -878,6 +921,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		6DA2A7042622F8F000D898C7 /* NotificationContent */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6DA2A7172622F8F100D898C7 /* Build configuration list for PBXNativeTarget "NotificationContent" */;
+			buildPhases = (
+				6DA2A7012622F8F000D898C7 /* Sources */,
+				6DA2A7022622F8F000D898C7 /* Frameworks */,
+				6DA2A7032622F8F000D898C7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NotificationContent;
+			productName = NotificationContent;
+			productReference = 6DA2A7052622F8F100D898C7 /* NotificationContent.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		6DC6C1BE25D0DCD100512E36 /* Chanify */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6DC6C1D825D0DCD200512E36 /* Build configuration list for PBXNativeTarget "Chanify" */;
@@ -894,6 +954,7 @@
 			);
 			dependencies = (
 				6DC6C22325D0FB7600512E36 /* PBXTargetDependency */,
+				6DA2A7132622F8F100D898C7 /* PBXTargetDependency */,
 			);
 			name = Chanify;
 			productName = Chanify;
@@ -927,6 +988,9 @@
 			attributes = {
 				LastUpgradeCheck = 1240;
 				TargetAttributes = {
+					6DA2A7042622F8F000D898C7 = {
+						CreatedOnToolsVersion = 12.4;
+					};
 					6DC6C1BE25D0DCD100512E36 = {
 						CreatedOnToolsVersion = 12.4;
 						LastSwiftMigration = 1240;
@@ -953,11 +1017,19 @@
 			targets = (
 				6DC6C1BE25D0DCD100512E36 /* Chanify */,
 				6DC6C21B25D0FB7600512E36 /* NotificationService */,
+				6DA2A7042622F8F000D898C7 /* NotificationContent */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6DA2A7032622F8F000D898C7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6DC6C1BD25D0DCD100512E36 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1044,6 +1116,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6DA2A7012622F8F000D898C7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6DA2A70D2622F8F100D898C7 /* NotificationViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6DC6C1BB25D0DCD100512E36 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1169,6 +1249,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		6DA2A7132622F8F100D898C7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6DA2A7042622F8F000D898C7 /* NotificationContent */;
+			targetProxy = 6DA2A7122622F8F100D898C7 /* PBXContainerItemProxy */;
+		};
 		6DC6C22325D0FB7600512E36 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6DC6C21B25D0FB7600512E36 /* NotificationService */;
@@ -1206,6 +1291,48 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		6DA2A7152622F8F100D898C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = NotificationContent/NotificationContent.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 19;
+				DEVELOPMENT_TEAM = P4XS4AVCLW;
+				INFOPLIST_FILE = NotificationContent/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.7;
+				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationcontent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6DA2A7162622F8F100D898C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = NotificationContent/NotificationContent.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 19;
+				DEVELOPMENT_TEAM = P4XS4AVCLW;
+				INFOPLIST_FILE = NotificationContent/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.7;
+				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationcontent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		6DC6C1D625D0DCD200512E36 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1440,6 +1567,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6DA2A7172622F8F100D898C7 /* Build configuration list for PBXNativeTarget "NotificationContent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6DA2A7152622F8F100D898C7 /* Debug */,
+				6DA2A7162622F8F100D898C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6DC6C1BA25D0DCD100512E36 /* Build configuration list for PBXProject "Chanify" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
