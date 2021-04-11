@@ -72,6 +72,15 @@
 
 - (void)loadMetaFromURL:(nullable NSURL *)url toItem:(id<CHLinkMetaItem>)item {
     if (url != nil) {
+        NSString *scheme = url.scheme.lowercaseString;
+        if (![scheme isEqualToString:@"http"] && ![scheme isEqualToString:@"https"]) {
+            [item linkMetaUpdated:@{
+                @"host-desc": url.scheme ?: @"",
+                @"icon": [UIImage systemImageNamed:@"link.circle"],
+                @"title": @"URLScheme clicked".localized,
+            }];
+            return;
+        }
         NSDictionary *data = [self loadLocalMeta:url];
         if (data != nil) {
             [item linkMetaUpdated:data];
@@ -89,6 +98,12 @@
     }
 }
 
+#pragma mark - Private Methods
+- (NSURL *)url2Path:(NSURL *)url {
+    NSString *name = [url.absoluteString dataUsingEncoding:NSUTF8StringEncoding].sha1.hex;
+    return [self.fileBaseDir URLByAppendingPathComponent:name];
+}
+
 - (nullable id)loadLocalMeta:(nullable NSURL *)url {
     id res = nil;
     if (url != nil) {
@@ -102,12 +117,6 @@
         }
     }
     return res;
-}
-
-#pragma mark - Private Methods
-- (NSURL *)url2Path:(NSURL *)url {
-    NSString *name = [url.absoluteString dataUsingEncoding:NSUTF8StringEncoding].sha1.hex;
-    return [self.fileBaseDir URLByAppendingPathComponent:name];
 }
 
 - (void)asyncStartTask:(CHLinkMetaTask *)task fileURL:(NSURL *)fileURL {

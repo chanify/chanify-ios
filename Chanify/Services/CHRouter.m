@@ -304,7 +304,11 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
                 return;
             }
         }
-        [self makeToast:@"Can't open url".localized];
+        [UIApplication.sharedApplication openURL:url options:@{} completionHandler:^(BOOL success) {
+            if (!success) {
+                [CHRouter.shared makeToast:@"Can't open url".localized];
+            }
+        }];
     };
 }
 

@@ -88,6 +88,7 @@
 "The request has been rejected"="请求已被拒绝";
 "Sync device info failed"="上传设备信息失败";
 "Sync device info success"="上传设备信息成功";
+"URLScheme clicked"="点击该链接将会打开其他App，并且离开Chanify";
 "File downloading"="文件下载中...";
 
 "%@ copied"="%@已复制";

@@ -88,6 +88,7 @@
 "The request has been rejected"="The request has been rejected";
 "Sync device info failed"="Upload device info failed";
 "Sync device info success"="Upload device info success";
+"URLScheme clicked"="Click this link to open other App and leave Chanify";
 "File downloading"="File downloading...";
 
 "%@ copied"="%@ Copied";

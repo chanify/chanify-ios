@@ -52,6 +52,7 @@
     [self.bubbleView addSubview:(_iconView = iconView)];
     iconView.contentMode = UIViewContentModeScaleAspectFill;
     iconView.backgroundColor = theme.lightLabelColor;
+    iconView.tintColor = theme.labelColor;
     iconView.layer.cornerRadius = 8;
     iconView.clipsToBounds = YES;
     
@@ -110,6 +111,10 @@
 #pragma mark - CHLinkMetaItem
 - (void)linkMetaUpdated:(nullable NSDictionary *)item {
     if (item.count > 0) {
+        NSString *hostDesc = [item objectForKey:@"host-desc"];
+        if (hostDesc.length > 0) {
+            self.titleLabel.text = hostDesc;
+        }
         self.iconView.image = [item objectForKey:@"icon"];
         self.detailLabel.text = [item objectForKey:@"title"] ?: @"";
         [self setNeedsDisplay];
