@@ -108,6 +108,9 @@
                     if (content.title.length > 0) {
                         _title = content.title;
                     }
+                    if (content.copytext.length > 0) {
+                        _copytext = content.copytext;
+                    }
                     _text = [content.text stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
                     break;
                 case CHTPMsgType_Image:
@@ -153,6 +156,28 @@
 
 - (void)formatNotification:(UNMutableNotificationContent *)content {
     content.categoryIdentifier = @"general";
+    switch (self.type) {
+        default: break;
+        case CHMessageTypeText:
+        {
+            NSString *copy = self.copyTextString;
+            if (copy.length > 0) {
+                NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:content.userInfo];
+                [userInfo setValue:copy forKey:@"copy"];
+                content.userInfo = userInfo;
+                content.categoryIdentifier = @"text";
+            }
+        }
+            break;
+        case CHMessageTypeLink:
+            if (self.link != nil) {
+                NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:content.userInfo];
+                [userInfo setValue:self.link.absoluteString forKey:@"link"];
+                content.userInfo = userInfo;
+                content.categoryIdentifier = @"link";
+            }
+            break;
+    }
     content.threadIdentifier = self.channel.sha1.base64;
     content.body = self.summaryTextBody;
     if (self.title.length > 0) {
@@ -208,6 +233,12 @@
         return self.file;
     }
     return nil;
+}
+
+- (nullable NSString *)copyTextString {
+    NSString *copy = self.copytext;
+    if (copy.length <= 0) copy = self.text;
+    return copy;
 }
 
 - (BOOL)isEqual:(CHMessageModel *)rhs {

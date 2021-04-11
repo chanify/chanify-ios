@@ -38,6 +38,7 @@ typedef NS_ENUM(NSInteger, CHMessageType) {
 @property (nonatomic, readonly, nullable, strong) NSURL *link;
 @property (nonatomic, readonly, nullable, strong) NSString *filename;
 @property (nonatomic, readonly, nullable, strong) CHThumbnailModel *thumbnail;
+@property (nonatomic, readonly, nullable, strong) NSString *copytext;
 
 + (nullable instancetype)modelWithData:(nullable NSData *)data mid:(NSString *)mid;
 + (nullable instancetype)modelWithKS:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw;
@@ -45,6 +46,7 @@ typedef NS_ENUM(NSInteger, CHMessageType) {
 - (void)formatNotification:(UNMutableNotificationContent *)content;
 - (NSString *)summaryTextBody;
 - (nullable NSString *)fileURL;
+- (nullable NSString *)copyTextString;
 
 
 @end

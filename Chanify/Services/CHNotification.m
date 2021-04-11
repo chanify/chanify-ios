@@ -36,6 +36,17 @@
         _enabled = NO;
         _center = UNUserNotificationCenter.currentNotificationCenter;
         self.center.delegate = self;
+        NSMutableSet<UNNotificationCategory *> *categories = [NSMutableSet new];
+        // General
+        [categories addObject:[UNNotificationCategory categoryWithIdentifier:@"text" actions:@[
+            [UNNotificationAction actionWithIdentifier:@"copy" title:@"Copy".localized options:UNNotificationActionOptionForeground],
+        ] intentIdentifiers:@[] options:UNNotificationCategoryOptionCustomDismissAction]];
+        // Link
+        [categories addObject:[UNNotificationCategory categoryWithIdentifier:@"link" actions:@[
+            [UNNotificationAction actionWithIdentifier:@"open-link" title:@"Open Link".localized options:UNNotificationActionOptionForeground],
+            [UNNotificationAction actionWithIdentifier:@"copy" title:@"Copy".localized options:UNNotificationActionOptionForeground],
+        ] intentIdentifiers:@[] options:UNNotificationCategoryOptionCustomDismissAction]];
+        [self.center setNotificationCategories: categories];
     }
     return self;
 }
