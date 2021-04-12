@@ -21,6 +21,7 @@ Chanify是一个简单的消息推送工具。每一个人都可以利用提供�
             <li><a href="#python-3">Python 3</a></li>
             <li><a href="#ruby">Ruby</a></li>
             <li><a href="#nodejs">NodeJS</a></li>
+            <li><a href="#php">PHP</a></li>
         </ul>
     </li>
     <li><a href="#开发者">开发者</a></li>
@@ -34,7 +35,7 @@ Chanify是一个简单的消息推送工具。每一个人都可以利用提供�
 ## 入门
 
 1. 从AppStore安装[iOS应用](https://itunes.apple.com/cn/app/id1531546573)（1.0.0或以上版本）。
-2. 从频道详情页面来获取发送使用的令牌```token```。
+2. 从频道详情页面来获取发送使用的令牌`token`。
 
     ![Get token](Doc/GetToken.gif)
 
@@ -59,9 +60,9 @@ https://api.chanify.net/v1/sender/<token>
 
 Content-Type: 
 
-- ```text/plain```: Body is text message
-- ```multipart/form-data```: The block of data("text") is text message
-- ```application/x-www-form-urlencoded```: ```text=<url encoded text message>```
+- `text/plain`: Body is text message
+- `multipart/form-data`: The block of data("text") is text message
+- `application/x-www-form-urlencoded`: `text=<url encoded text message>`
 
 支持以下参数：
 
@@ -141,10 +142,7 @@ $curl = curl_init();
 curl_setopt_array($curl, [
     CURLOPT_URL           => 'http://<address>:<port>/v1/sender/<token>',
     CURLOPT_CUSTOMREQUEST => 'POST',
-    CURLOPT_POSTFIELDS    => [
-        'text' => 'hello',
-        // 'link' => 'https://api.chanify.net'
-    ],
+    CURLOPT_POSTFIELDS    => [ 'text' => 'hello' ],
 ]);
 
 $response = curl_exec($curl);

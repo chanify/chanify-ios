@@ -96,6 +96,7 @@
         if (error != nil) {
             CHLogE("Invalid message content: %s", error.description.cstr);
         } else {
+            _flags = content.flags;
             switch (content.type) {
                 case CHTPMsgType_GPBUnrecognizedEnumeratorValue:
                     _type = CHMessageTypeNone;
@@ -164,6 +165,9 @@
             if (copy.length > 0) {
                 NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:content.userInfo];
                 [userInfo setValue:copy forKey:@"copy"];
+                if (self.flags & CHMessageFlagAutoCopy) {
+                    [userInfo setValue:@(TRUE) forKey:@"autocopy"];
+                }
                 content.userInfo = userInfo;
                 content.categoryIdentifier = @"text";
             }

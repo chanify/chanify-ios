@@ -30,19 +30,19 @@
 				<string>text</string>
 				<string>link</string>
 			</array>
-			<key>UNNotificationExtensionInitialContentSizeRatio</key>
-			<real>0.0001</real>
 			<key>UNNotificationExtensionDefaultContentHidden</key>
 			<false/>
+			<key>UNNotificationExtensionInitialContentSizeRatio</key>
+			<real>0.0001</real>
 			<key>UNNotificationExtensionOverridesDefaultTitle</key>
 			<false/>
 			<key>UNNotificationExtensionUserInteractionEnabled</key>
 			<true/>
 		</dict>
-		<key>NSExtensionPrincipalClass</key>
-		<string>NotificationViewController</string>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.usernotifications.content-extension</string>
+		<key>NSExtensionPrincipalClass</key>
+		<string>NotificationViewController</string>
 	</dict>
 </dict>
 </plist>

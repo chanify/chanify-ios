@@ -21,6 +21,7 @@ You can deploy your own [server](https://github.com/chanify/chanify).
             <li><a href="#python-3">Python 3</a></li>
             <li><a href="#ruby">Ruby</a></li>
             <li><a href="#nodejs">NodeJS</a></li>
+            <li><a href="#php">PHP</a></li>
         </ul>
     </li>
     <li><a href="#for-developer">For Developer</a></li>
@@ -59,9 +60,9 @@ https://api.chanify.net/v1/sender/<token>
 
 Content-Type: 
 
-- ```text/plain```: Body is text message
-- ```multipart/form-data```: The block of data("text") is text message
-- ```application/x-www-form-urlencoded```: ```text=<url encoded text message>```
+- `text/plain`: Body is text message
+- `multipart/form-data`: The block of data("text") is text message
+- `application/x-www-form-urlencoded`: `text=<url encoded text message>`
 
 Additional params
 
@@ -133,7 +134,7 @@ req.write(data);
 req.end();
 ```
 
-#### PHP
+### PHP
 
 ```php
 $curl = curl_init();
@@ -141,10 +142,7 @@ $curl = curl_init();
 curl_setopt_array($curl, [
     CURLOPT_URL           => 'http://<address>:<port>/v1/sender/<token>',
     CURLOPT_CUSTOMREQUEST => 'POST',
-    CURLOPT_POSTFIELDS    => [
-        'text' => 'hello',
-        // 'link' => 'https://api.chanify.net'
-    ],
+    CURLOPT_POSTFIELDS    => [ 'text' => 'hello' ],
 ]);
 
 $response = curl_exec($curl);

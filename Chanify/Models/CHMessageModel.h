@@ -25,10 +25,15 @@ typedef NS_ENUM(NSInteger, CHMessageType) {
     CHMessageTypeFile       = 6,
 };
 
+typedef NS_OPTIONS(NSUInteger, CHMessageFlags) {
+    CHMessageFlagAutoCopy   = 1 << 0,
+};
+
 @interface CHMessageModel : NSObject
 
 @property (nonatomic, readonly, strong) NSString *mid;
 @property (nonatomic, readonly, assign) CHMessageType type;
+@property (nonatomic, readonly, assign) CHMessageFlags flags;
 @property (nonatomic, readonly, strong) NSString *from;
 @property (nonatomic, readonly, strong) NSData *channel;
 @property (nonatomic, readonly, nullable, strong) NSString *sound;

@@ -65,6 +65,7 @@ message MsgContent {
     string      link        = 8;
     string      filename    = 9;
     // actions
+    uint64      flags       = 15;  // 1: autocopy
     string      copytext    = 16;
 }
 
