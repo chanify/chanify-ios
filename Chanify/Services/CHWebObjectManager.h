@@ -11,7 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol CHWebObjectItem <NSObject>
 
-- (void)webObjectUpdated:(nullable id)item;
+- (void)webObjectUpdated:(nullable id)item fileURL:(nullable NSString *)fileURL;
+- (void)webObjectProgress:(double)progress fileURL:(nullable NSString *)fileURL;
 
 @end
 
@@ -31,7 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)webObjectManagerWithURL:(NSURL *)fileBaseDir decoder:(id<CHWebObjectDecoder>)decoder userAgent:(NSString *)userAgent;
 - (void)close;
-- (void)loadFileURL:(nullable NSString *)fileURL toItem:(id<CHWebObjectItem>)item;
+- (void)loadFileURL:(nullable NSString *)fileURL toItem:(id<CHWebObjectItem>)item expectedSize:(uint64_t)expectedSize;
+- (void)resetFileURLFailed:(nullable NSString *)fileURL;
 - (nullable Item)loadLocalFile:(nullable NSString *)fileURL;
 - (nullable NSURL *)localFileURL:(nullable NSString *)fileURL;
 

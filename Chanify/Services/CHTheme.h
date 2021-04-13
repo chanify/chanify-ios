@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CHTheme : NSObject
 
 @property (nonatomic, readonly, strong) UIColor *tintColor;
+@property (nonatomic, readonly, strong) UIColor *lightTintColor;
 @property (nonatomic, readonly, strong) UIColor *labelColor;
 @property (nonatomic, readonly, strong) UIColor *minorLabelColor;
 @property (nonatomic, readonly, strong) UIColor *lightLabelColor;

@@ -27,6 +27,7 @@
 
 @property (nonatomic, readonly, nullable, strong) NSString *imageURL;
 @property (nonatomic, readonly, nullable, strong) CHThumbnailModel *thumbnail;
+@property (nonatomic, readonly, assign) uint64_t fileSize;
 @property (nonatomic, readonly, assign) CGRect imageRect;
 @property (nonatomic, readonly, weak) CHMessagesDataSource *source;
 
@@ -37,16 +38,17 @@
 static UIEdgeInsets imageInsets = { 0, 20, 0, 30 };
 
 + (instancetype)cellConfiguration:(CHMessageModel *)model source:(CHMessagesDataSource *)source {
-    return [[self.class alloc] initWithMID:model.mid imageURL:model.fileURL imageRect:CGRectZero thumbnail:model.thumbnail source:source];
+    return [[self.class alloc] initWithMID:model.mid imageURL:model.fileURL fileSize:model.fileSize imageRect:CGRectZero thumbnail:model.thumbnail source:source];
 }
 
 - (nonnull id)copyWithZone:(nullable NSZone *)zone {
-    return [[self.class allocWithZone:zone] initWithMID:self.mid imageURL:self.imageURL imageRect:self.imageRect thumbnail:self.thumbnail source:self.source];
+    return [[self.class allocWithZone:zone] initWithMID:self.mid imageURL:self.imageURL fileSize:self.fileSize imageRect:self.imageRect thumbnail:self.thumbnail source:self.source];
 }
 
-- (instancetype)initWithMID:(NSString *)mid imageURL:(NSString * _Nullable)imageURL imageRect:(CGRect)imageRect thumbnail:(CHThumbnailModel *)thumbnail source:(CHMessagesDataSource *)source {
+- (instancetype)initWithMID:(NSString *)mid imageURL:(NSString * _Nullable)imageURL fileSize:(uint64_t)fileSize imageRect:(CGRect)imageRect thumbnail:(CHThumbnailModel *)thumbnail source:(CHMessagesDataSource *)source {
     if (self = [super initWithMID:mid]) {
         _source = source;
+        _fileSize = fileSize;
         _imageURL = (imageURL ?: @"");
         _imageRect = imageRect;
         _thumbnail = thumbnail;
@@ -134,7 +136,7 @@ static UIEdgeInsets imageInsets = { 0, 20, 0, 30 };
 
 - (void)applyConfiguration:(CHImageMsgCellConfiguration *)configuration {
     self.imageView.frame = configuration.imageRect;
-    self.imageView.fileURL = configuration.imageURL;
+    [self.imageView loadFileURL:configuration.imageURL expectedSize:configuration.fileSize];
 }
 
 - (NSArray<UIMenuItem *> *)menuActions {

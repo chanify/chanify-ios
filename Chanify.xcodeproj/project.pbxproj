@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		55AC77D7F97CF382C0A72C50 /* libPods-Chanify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5B1F40BCE80A4DDFEB56F70 /* libPods-Chanify.a */; };
+		6D12BC342625A0DA005659EA /* CHLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D12BC332625A0DA005659EA /* CHLoadingView.m */; };
 		6D180E01262441BC000BDE82 /* NSString+CHNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD7B5DE260DF588001D5DCB /* NSString+CHNotification.m */; };
 		6D278E4125E0ECAC00FC48CD /* CHChannelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278E4025E0ECAC00FC48CD /* CHChannelTableViewCell.m */; };
 		6D278E5E25E1EF7A00FC48CD /* CHPrivacyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278E5D25E1EF7A00FC48CD /* CHPrivacyViewController.m */; };
@@ -205,6 +206,8 @@
 
 /* Begin PBXFileReference section */
 		518C6AACAB0FE1992637FCE8 /* Pods-Chanify.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chanify.debug.xcconfig"; path = "Target Support Files/Pods-Chanify/Pods-Chanify.debug.xcconfig"; sourceTree = "<group>"; };
+		6D12BC322625A0DA005659EA /* CHLoadingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHLoadingView.h; sourceTree = "<group>"; };
+		6D12BC332625A0DA005659EA /* CHLoadingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHLoadingView.m; sourceTree = "<group>"; };
 		6D278E3F25E0ECAC00FC48CD /* CHChannelTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelTableViewCell.h; sourceTree = "<group>"; };
 		6D278E4025E0ECAC00FC48CD /* CHChannelTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelTableViewCell.m; sourceTree = "<group>"; };
 		6D278E5C25E1EF7A00FC48CD /* CHPrivacyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHPrivacyViewController.h; sourceTree = "<group>"; };
@@ -753,6 +756,8 @@
 				6DC6C36E25D16C4E00512E36 /* CHQrCodeView.m */,
 				6D278E6725E222C300FC48CD /* CHCodeFormatter.h */,
 				6D278E6825E222C300FC48CD /* CHCodeFormatter.m */,
+				6D12BC322625A0DA005659EA /* CHLoadingView.h */,
+				6D12BC332625A0DA005659EA /* CHLoadingView.m */,
 				6DD5A101260EFB9900799032 /* CHWebImageView.h */,
 				6DD5A102260EFB9900799032 /* CHWebImageView.m */,
 			);
@@ -1211,6 +1216,7 @@
 				6DC6C3B525D2193500512E36 /* CHMock.m in Sources */,
 				6DC6C1C425D0DCD100512E36 /* AppDelegate.m in Sources */,
 				6DC6C29A25D143BC00512E36 /* CHWebViewController.m in Sources */,
+				6D12BC342625A0DA005659EA /* CHLoadingView.m in Sources */,
 				6DC6C3A925D1702F00512E36 /* CHChannelNewViewController.m in Sources */,
 				6DC6C2B525D1592900512E36 /* NSException+CHExt.m in Sources */,
 				6DC6C3AE25D1705100512E36 /* CHChannelDetailViewController.m in Sources */,

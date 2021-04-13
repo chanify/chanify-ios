@@ -16,12 +16,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)webImageViewUpdated:(CHWebImageView *)imageView;
 @end
 
-@interface CHWebImageView : UIImageView<CHWebObjectItem>
+@interface CHWebImageView : UIView<CHWebObjectItem>
 
-@property (nonatomic, nullable, strong) NSString *fileURL;
+@property (nonatomic, readonly, nullable, strong) UIImage *image;
+@property (nonatomic, readonly, nullable, strong) NSString *fileURL;
 @property (nonatomic, nullable, weak) id<CHWebImageViewDelegate> delegate;
 
 - (nullable NSURL *)localFileURL;
+- (void)loadFileURL:(nullable NSString *)fileURL expectedSize:(uint64_t)expectedSize;
 
 
 @end

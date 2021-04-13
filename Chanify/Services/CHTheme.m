@@ -24,6 +24,7 @@
 - (instancetype)init {
     if (self = [super init]) {
         _tintColor = [UIColor colorNamed:@"AccentColor"];
+        _lightTintColor = [self.tintColor colorWithAlphaComponent:0.6];
         _labelColor = UIColor.labelColor;
         _minorLabelColor = UIColor.secondaryLabelColor;
         _lightLabelColor = UIColor.tertiaryLabelColor;
