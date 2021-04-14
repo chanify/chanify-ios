@@ -50,7 +50,8 @@ typedef NS_OPTIONS(NSUInteger, CHMessageFlags) {
 + (nullable instancetype)modelWithKS:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw;
 + (nullable NSString *)parsePacket:(NSDictionary *)info mid:(NSString * _Nullable * _Nullable)mid data:(NSData * _Nullable * _Nullable)data;
 - (void)formatNotification:(UNMutableNotificationContent *)content;
-- (NSString *)summaryTextBody;
+- (NSString *)summaryText;
+- (NSString *)summaryBodyText;
 - (nullable NSString *)fileURL;
 - (nullable NSString *)copyTextString;
 

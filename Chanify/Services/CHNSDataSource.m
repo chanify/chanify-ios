@@ -115,7 +115,7 @@
 - (void)enumerateMessagesWithUID:(nullable NSString *)uid block:(void (NS_NOESCAPE ^)(FMDatabase *db, NSString *mid, NSData *data))block {
     if (uid.length > 0 && block != nil) {
         [self.dbQueue inTransaction:^(FMDatabase * _Nonnull db, BOOL * _Nonnull rollback) {
-            FMResultSet *rows = [db executeQuery:@"SELECT `mid`,`data` FROM `msgs` WHERE `uid`=? ORDER BY `mid` DESC;", uid];
+            FMResultSet *rows = [db executeQuery:@"SELECT `mid`,`data` FROM `msgs` WHERE `uid`=? ORDER BY `mid` ASC;", uid];
             if (rows != nil) {
                 while ([rows next]) {
                     NSString *mid = [rows stringForColumnIndex:0];

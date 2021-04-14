@@ -81,7 +81,7 @@
     
     NSString *mid = model.mid;
     CHMessageModel *m = [CHLogic.shared.userDataSource messageWithMID:mid];
-    self.detailLabel.text = m.summaryTextBody;
+    self.detailLabel.text = m.summaryText;
     self.dateLabel.text = [NSDate dateFromMID:m.mid].shortFormat;
 }
 

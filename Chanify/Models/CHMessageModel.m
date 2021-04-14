@@ -184,7 +184,7 @@
             break;
     }
     content.threadIdentifier = self.channel.sha1.base64;
-    content.body = self.summaryTextBody;
+    content.body = self.summaryBodyText;
     if (self.title.length > 0) {
         content.title = self.title;
     }
@@ -193,8 +193,12 @@
     }
 }
 
-- (NSString *)summaryTextBody {
-    NSString *txt = (self.title.length > 0 ? self.title : self.text);
+- (NSString *)summaryText {
+    return (self.title.length > 0 ? self.title : self.summaryBodyText);
+}
+
+- (NSString *)summaryBodyText {
+    NSString *txt = self.text;
     if (txt.length <= 0) {
         switch (self.type) {
             case CHMessageTypeImage:
