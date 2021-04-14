@@ -15,6 +15,8 @@
 "Share"="Share";
 "Copy"="Copy";
 "Copied"="Copied";
+"Clear"="Clear";
+"Select"="Select";
 "Channels"="Channels";
 "Open Link"="Open Link";
 "Scan QR Code"="Scan QR Code";
@@ -90,9 +92,10 @@
 "Sync device info failed"="Upload device info failed";
 "Sync device info success"="Upload device info success";
 "URLScheme clicked"="Click this link to open other App and leave Chanify";
-"File downloading"="File downloading...";
+"Download failed and click to retry"="Download failed and click to retry";
 
 "%@ copied"="%@ Copied";
+"Downloading %6.02f%%"="Downloading %6.02f%%";
 
 "NewMsg"="Receive an new message";
 "ImageMsg"="[Image]";

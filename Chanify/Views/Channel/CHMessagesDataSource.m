@@ -35,14 +35,14 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
 
 - (instancetype)initWithCollectionView:(UICollectionView *)collectionView channelID:(NSString *)cid {
     _cid = cid;
-    NSDictionary<NSString *, UICollectionViewCellRegistration *> *cellRegistrations = CHCellConfiguration.cellRegistrations;
+    NSDictionary<NSString *, UICollectionViewCellRegistration *> *cellRegistrations = [CHCellConfiguration cellRegistrations];
     UICollectionViewCellRegistration *unknownCellRegistration = [cellRegistrations objectForKey:NSStringFromClass(CHUnknownMsgCellConfiguration.class)];
     UICollectionViewDiffableDataSourceCellProvider cellProvider = ^UICollectionViewCell *(UICollectionView *collectionView, NSIndexPath *indexPath, CHCellConfiguration *item) {
         UICollectionViewCellRegistration *cellRegistration = [cellRegistrations objectForKey:NSStringFromClass(item.class)];
         if (cellRegistration != nil) {
-            return [collectionView dequeueConfiguredReusableCellWithRegistration:cellRegistration forIndexPath:indexPath item:item];
+            return fixCell(collectionView, [collectionView dequeueConfiguredReusableCellWithRegistration:cellRegistration forIndexPath:indexPath item:item]);
         }
-        return [collectionView dequeueConfiguredReusableCellWithRegistration:unknownCellRegistration forIndexPath:indexPath item:item];
+        return fixCell(collectionView, [collectionView dequeueConfiguredReusableCellWithRegistration:unknownCellRegistration forIndexPath:indexPath item:item]);
     };
     if (self = [super initWithCollectionView:collectionView cellProvider:cellProvider]) {
         _collectionView = collectionView;
@@ -149,7 +149,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
 - (void)deleteMessage:(nullable CHMessageModel *)model animated:(BOOL)animated {
     if (model != nil) {
         CHConversationDiffableSnapshot *snapshot = self.snapshot;
-        CHCellConfiguration *item = [CHCellConfiguration cellConfiguration:model source:self];
+        CHCellConfiguration *item = [CHCellConfiguration cellConfiguration:model];
         NSMutableArray<CHCellConfiguration *> *deleteItems = [NSMutableArray arrayWithObject:item];
         NSInteger idx = [snapshot indexOfItemIdentifier:item];
         if (idx > 0) {
@@ -196,6 +196,13 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     }
 }
 
+- (void)beginEditing {
+    id delegate = self.collectionView.delegate;
+    if ([delegate conformsToProtocol:@protocol(CHMessagesDataSourceDelegate)]) {
+        [(id<CHMessagesDataSourceDelegate>)delegate messagesDataSourceBeginEditing:self];
+    }
+}
+
 #pragma mark - Private Methods
 - (void)updateHeaderView {
     if (self.headerView != nil && self.headerView.status != CHMessagesHeaderStatusLoading) {
@@ -227,7 +234,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     NSInteger count = items.count;
     NSMutableArray<CHCellConfiguration *> *cells = [NSMutableArray arrayWithCapacity:items.count];
     for (NSInteger index = count - 1; index >= 0; index--) {
-        CHCellConfiguration *item = [CHCellConfiguration cellConfiguration:[items objectAtIndex:index] source:self];
+        CHCellConfiguration *item = [CHCellConfiguration cellConfiguration:[items objectAtIndex:index]];
         if (last == nil || [item.date timeIntervalSinceDate:last] > kCHMessageListDateDiff) {
             CHCellConfiguration *itm = [CHDateCellConfiguration cellConfiguration:item.mid];
             last = itm.date;
@@ -236,6 +243,17 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
         [cells addObject:item];
     }
     return cells;
+}
+
+static inline UICollectionViewCell *fixCell(UICollectionView *collectionView, UICollectionViewCell *cell) {
+    UIView *contentView = cell.contentView;
+    if ([contentView isKindOfClass:CHMsgCellContentView.class]) {
+        id source = collectionView.dataSource;
+        if ([source isKindOfClass:CHMessagesDataSource.class]) {
+            [(CHMsgCellContentView *)contentView setSource:collectionView.dataSource];
+        }
+    }
+    return cell;
 }
 
 

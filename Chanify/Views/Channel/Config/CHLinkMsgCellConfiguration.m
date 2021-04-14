@@ -26,7 +26,6 @@
 @property (nonatomic, readonly, strong) UILabel *detailLabel;
 @property (nonatomic, readonly, strong) UILabel *linkLabel;
 @property (nonatomic, readonly, strong) UIImageView *iconView;
-@property (nonatomic, readonly, strong) UITapGestureRecognizer *tapGestureRecognizer;
 
 @end
 
@@ -71,16 +70,6 @@
     linkLabel.textColor = theme.tintColor;
     linkLabel.numberOfLines = 1;
     linkLabel.font = [UIFont systemFontOfSize:16];
-
-    _tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionShowURL:)];
-    [self.contentView addGestureRecognizer:self.tapGestureRecognizer];
-}
-
-- (void)dealloc {
-    if (self.tapGestureRecognizer != nil) {
-        [self.contentView removeGestureRecognizer:self.tapGestureRecognizer];
-        _tapGestureRecognizer = nil;
-    }
 }
 
 - (void)applyConfiguration:(CHLinkMsgCellConfiguration *)configuration {
@@ -135,7 +124,7 @@
     [CHRouter.shared showShareItem:@[self.linkURL] sender:sender handler:nil];
 }
 
-- (void)actionShowURL:(id)sender {
+- (void)actionClicked:(UITapGestureRecognizer *)sender {
     [CHRouter.shared handleURL:self.linkURL];
 }
 

@@ -37,6 +37,17 @@
     return self;
 }
 
+- (void)dealloc {
+    id result = self.result;
+    NSString *fileURL = self.fileURL;
+    NSHashTable<id<CHWebObjectItem>> *items = self.items;
+    dispatch_main_async(^{
+        for (id<CHWebObjectItem> item in items) {
+            [item webObjectUpdated:result fileURL:fileURL];
+        }
+    });
+}
+
 - (void)updateProgress:(int64_t)progress expectedSize:(int64_t)expectedSize {
     NSHashTable<id<CHWebObjectItem>> *items = self.items;
     if (expectedSize <= 0) expectedSize = self.expectedSize;
@@ -52,24 +63,11 @@
 }
 
 - (void)addTaskItem:(id<CHWebObjectItem>)item {
-    if (![self.items containsObject:item]) {
-        [self.items addObject:item];
-        @weakify(self);
-        dispatch_main_async(^{
-            @strongify(self);
-            [item webObjectProgress:self.lastProgress fileURL:self.fileURL];
-        });
-    }
-}
-
-- (void)dealloc {
-    id result = self.result;
-    NSString *fileURL = self.fileURL;
-    NSHashTable<id<CHWebObjectItem>> *items = self.items;
+    [self.items addObject:item];
+    @weakify(self);
     dispatch_main_async(^{
-        for (id<CHWebObjectItem> item in items) {
-            [item webObjectUpdated:result fileURL:fileURL];
-        }
+        @strongify(self);
+        [item webObjectProgress:self.lastProgress fileURL:self.fileURL];
     });
 }
 

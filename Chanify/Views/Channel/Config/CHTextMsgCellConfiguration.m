@@ -33,7 +33,7 @@ static CGFloat titleSpace = 4;
 
 @end
 
-@interface CHTextMsgCellContentView () <M80AttributedLabelDelegate>
+@interface CHTextMsgCellContentView ()
 
 @end
 
@@ -55,13 +55,13 @@ static CGFloat titleSpace = 4;
     M80AttributedLabel *textLabel = [[M80AttributedLabel alloc] initWithFrame:CGRectZero];
     [self.bubbleView addSubview:(_textLabel = textLabel)];
     textLabel.backgroundColor = UIColor.clearColor;
+    textLabel.userInteractionEnabled = NO;
     textLabel.textColor = theme.labelColor;
     textLabel.linkColor = theme.tintColor;
     textLabel.lineBreakMode = NSLineBreakByWordWrapping;
     textLabel.autoDetectLinks = YES;
     textLabel.numberOfLines = 0;
     textLabel.font = textFont;
-    textLabel.delegate = self;
 }
 
 - (void)applyConfiguration:(CHTextMsgCellConfiguration *)configuration {
@@ -88,23 +88,6 @@ static CGFloat titleSpace = 4;
     [super traitCollectionDidChange:previousTraitCollection];
 }
 
-#pragma mark - M80AttributedLabelDelegate
-- (void)m80AttributedLabel:(M80AttributedLabel *)label clickedOnLink:(id)linkData {
-    UIMenuController *menu = UIMenuController.sharedMenuController;
-    if (menu.isMenuVisible) {
-        [menu hideMenuFromView:self.bubbleView];
-    }
-    if ([linkData isKindOfClass:NSString.class]) {
-        NSURL *url = [NSURL URLWithString:(NSString *)linkData];
-        if (url.scheme.length <= 0) {
-            url = [NSURL URLWithString:[@"http://" stringByAppendingString:linkData]];
-        }
-        if (url.scheme.length > 0) {
-            [CHRouter.shared handleURL:url];
-        }
-    }
-}
-
 - (NSArray<UIMenuItem *> *)menuActions {
     NSMutableArray *items = [NSMutableArray arrayWithArray:@[
         [[UIMenuItem alloc]initWithTitle:@"Copy".localized action:@selector(actionCopy:)],
@@ -115,6 +98,20 @@ static CGFloat titleSpace = 4;
 }
 
 #pragma mark - Action Methods
+- (void)actionClicked:(UITapGestureRecognizer *)sender {
+    UIMenuController *menu = UIMenuController.sharedMenuController;
+    if (menu.isMenuVisible) {
+        [menu hideMenuFromView:self.bubbleView];
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+    if ([self.textLabel respondsToSelector:@selector(linkDataForPoint:)]) {
+        CGPoint pt = [sender locationInView:self.textLabel];
+        [self clickedOnLink:[self.textLabel performSelector:@selector(linkDataForPoint:) withObject:@(pt)]];
+    }
+#pragma clang diagnostic pop
+}
+
 - (void)actionCopy:(id)sender {
     NSMutableArray<NSString *> *items = [NSMutableArray new];
     if (self.titleLabel.text.length > 0) {
@@ -126,6 +123,19 @@ static CGFloat titleSpace = 4;
 
 - (void)actionShare:(id)sender {
     [CHRouter.shared showShareItem:@[[(CHTextMsgCellConfiguration *)self.configuration text]] sender:sender handler:nil];
+}
+
+#pragma mark - Private Methods
+- (void)clickedOnLink:(id)linkData {
+    if (linkData != nil && [linkData isKindOfClass:NSString.class]) {
+        NSURL *url = [NSURL URLWithString:(NSString *)linkData];
+        if (url.scheme.length <= 0) {
+            url = [NSURL URLWithString:[@"http://" stringByAppendingString:linkData]];
+        }
+        if (url.scheme.length > 0) {
+            [CHRouter.shared handleURL:url];
+        }
+    }
 }
 
 

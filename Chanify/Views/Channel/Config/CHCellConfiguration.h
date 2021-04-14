@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly, strong) NSString *mid;
 
-+ (instancetype)cellConfiguration:(CHMessageModel *)model source:(CHMessagesDataSource *)source;
++ (instancetype)cellConfiguration:(CHMessageModel *)model;
 + (NSDictionary<NSString *, UICollectionViewCellRegistration *> *)cellRegistrations;
 - (instancetype)initWithMID:(NSString *)mid;
 - (nullable NSString *)mediaThumbnailURL;

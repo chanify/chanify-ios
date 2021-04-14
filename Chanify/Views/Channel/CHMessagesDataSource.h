@@ -11,6 +11,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class CHMessageModel;
 @class CHCellConfiguration;
+@class CHMessagesDataSource;
+
+@protocol CHMessagesDataSourceDelegate <NSObject>
+- (void)messagesDataSourceBeginEditing:(CHMessagesDataSource *)dataSource;
+@end
 
 @interface CHMessagesDataSource : UICollectionViewDiffableDataSource<NSString *, CHCellConfiguration *>
 
@@ -23,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)loadLatestMessage:(BOOL)animated;
 - (void)deleteMessage:(nullable CHMessageModel *)model animated:(BOOL)animated;
 - (void)previewImageWithMID:(NSString *)mid;
+- (void)beginEditing;
 
 
 @end

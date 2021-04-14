@@ -15,6 +15,8 @@
 "Share"="分享";
 "Copy"="复制";
 "Copied"="已复制";
+"Clear"="清除";
+"Select"="多选";
 "Channels"="频道";
 "Open Link"="打开链接";
 "Scan QR Code"="扫二维码";
@@ -90,9 +92,10 @@
 "Sync device info failed"="上传设备信息失败";
 "Sync device info success"="上传设备信息成功";
 "URLScheme clicked"="点击该链接将会打开其他App，并且离开Chanify";
-"File downloading"="文件下载中...";
+"Download failed and click to retry"="下载失败，点击重试";
 
 "%@ copied"="%@已复制";
+"Downloading %6.02f%%"="下载中 %6.02f%%";
 
 "NewMsg"="收到一条新消息";
 "ImageMsg"="[图片]";

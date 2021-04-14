@@ -15,7 +15,7 @@
 
 @implementation CHCellConfiguration
 
-+ (instancetype)cellConfiguration:(CHMessageModel *)model source:(CHMessagesDataSource *)source {
++ (instancetype)cellConfiguration:(CHMessageModel *)model {
     switch (model.type) {
         case CHMessageTypeText:
             return [CHTextMsgCellConfiguration cellConfiguration:model];
@@ -24,7 +24,7 @@
         case CHMessageTypeFile:
             return [CHFileMsgCellConfiguration cellConfiguration:model];
         case CHMessageTypeImage:
-            return [CHImageMsgCellConfiguration cellConfiguration:model source:source];
+            return [CHImageMsgCellConfiguration cellConfiguration:model];
         default:
             break;
     }

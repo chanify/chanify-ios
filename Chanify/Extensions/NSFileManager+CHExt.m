@@ -16,7 +16,7 @@
 - (BOOL)fixDirectory:(NSURL *)path {
     BOOL isDirectory = NO;
     NSString *dirpath = path.path;
-    if (![self fileExistsAtPath:dirpath isDirectory:&isDirectory]) {
+    if ([self fileExistsAtPath:dirpath isDirectory:&isDirectory]) {
         if (isDirectory) {
             return YES;
         } else {

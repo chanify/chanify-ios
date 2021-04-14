@@ -13,11 +13,14 @@
 #import "CHLogic.h"
 #import "CHTheme.h"
 
+#define kCHFileMsgCellIconWidth     40
+
 @interface CHFileMsgCellConfiguration ()
 
 @property (nonatomic, nullable, readonly, strong) NSString *text;
 @property (nonatomic, nullable, readonly, strong) NSString *title;
 @property (nonatomic, nullable, readonly, strong) NSString *filename;
+@property (nonatomic, readonly, assign) uint64_t fileSize;
 @property (nonatomic, readonly, strong) NSString *fileURL;
 
 @end
@@ -26,9 +29,9 @@
 
 @property (nonatomic, readonly, strong) UILabel *titleLabel;
 @property (nonatomic, readonly, strong) UILabel *detailLabel;
+@property (nonatomic, readonly, strong) UILabel *statusLabel;
 @property (nonatomic, readonly, strong) UIImageView *iconView;
-@property (nonatomic, readonly, strong) UITapGestureRecognizer *tapGestureRecognizer;
-@property (nonatomic, nullable, readonly, strong) NSURL *loaclFileURL;
+@property (nonatomic, nullable, readonly, strong) NSURL *localFileURL;
 
 @end
 
@@ -58,20 +61,18 @@
     detailLabel.numberOfLines = 2;
     detailLabel.font = [UIFont systemFontOfSize:15];
     
+    UILabel *statusLabel = [UILabel new];
+    [self.bubbleView addSubview:(_statusLabel = statusLabel)];
+    statusLabel.textAlignment = NSTextAlignmentRight;
+    statusLabel.backgroundColor = UIColor.clearColor;
+    statusLabel.textColor = theme.minorLabelColor;
+    statusLabel.numberOfLines = 1;
+    statusLabel.font = [UIFont monospacedSystemFontOfSize:8 weight:UIFontWeightRegular];
+    
     UIImageView *iconView = [[UIImageView alloc] initWithImage:[UIImage systemImageNamed:@"doc.fill"]];
     [self.bubbleView addSubview:(_iconView = iconView)];
     iconView.contentMode = UIViewContentModeScaleAspectFit;
     iconView.tintColor = theme.lightLabelColor;
-
-    _tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionShowFile:)];
-    [self.contentView addGestureRecognizer:self.tapGestureRecognizer];
-}
-
-- (void)dealloc {
-    if (self.tapGestureRecognizer != nil) {
-        [self.contentView removeGestureRecognizer:self.tapGestureRecognizer];
-        _tapGestureRecognizer = nil;
-    }
 }
 
 - (void)applyConfiguration:(CHFileMsgCellConfiguration *)configuration {
@@ -85,24 +86,28 @@
     }
 
     CGSize size = configuration.bubbleRect.size;
-    self.iconView.frame = CGRectMake(10, 10, 40, size.height - 20);
+    CGFloat offset = kCHFileMsgCellIconWidth + 20;
+    CGFloat width = size.width - kCHFileMsgCellIconWidth - 30;
+    self.statusLabel.frame = CGRectMake(offset, size.height - 20, width, 10);
+    self.iconView.frame = CGRectMake(10, 10, kCHFileMsgCellIconWidth, size.height - 20);
     if (self.detailLabel.text.length <= 0) {
-        self.titleLabel.frame = CGRectMake(60, 8, size.width - size.height, size.height - 16);
+        self.titleLabel.frame = CGRectMake(offset, 8, width, size.height - 36);
         self.detailLabel.frame = CGRectZero;
         self.titleLabel.numberOfLines = 3;
     } else {
-        self.titleLabel.frame = CGRectMake(60, 8, size.width - size.height, 20);
-        self.detailLabel.frame = CGRectMake(60, 30, size.width - 80, size.height - 38);
+        self.titleLabel.frame = CGRectMake(offset, 8, width, 20);
+        self.detailLabel.frame = CGRectMake(offset, 30, width, size.height - 58);
         self.titleLabel.numberOfLines = 1;
     }
-    
-    _loaclFileURL = nil;
-    [CHLogic.shared.webFileManager loadFileURL:configuration.fileURL filename:configuration.filename toItem:self];
+
+    _localFileURL = nil;
+    self.statusLabel.text = @"";
+    [CHLogic.shared.webFileManager loadFileURL:configuration.fileURL filename:configuration.filename toItem:self expectedSize:configuration.fileSize];
 }
 
 - (NSArray<UIMenuItem *> *)menuActions {
     NSMutableArray *items = [NSMutableArray new];
-    if (self.loaclFileURL != nil) {
+    if (self.localFileURL != nil) {
         [items addObject:[[UIMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)]];
     }
     [items addObjectsFromArray:super.menuActions];
@@ -110,23 +115,41 @@
 }
 
 #pragma mark - CHWebFileItem
-- (void)webFileUpdated:(nullable NSURL *)item {
-    _loaclFileURL = item;
+- (void)webFileUpdated:(nullable NSURL *)item fileURL:(nullable NSString *)fileURL {
+    CHFileMsgCellConfiguration *configuration = (CHFileMsgCellConfiguration *)self.configuration;
+    if ([configuration.fileURL isEqualToString:fileURL]) {
+        _localFileURL = item;
+        if (item == nil) {
+            self.statusLabel.text = @"Download failed and click to retry".localized;
+        } else {
+            self.statusLabel.text = [@(configuration.fileSize) formatFileSize];
+        }
+    }
+}
+
+- (void)webFileProgress:(double)progress fileURL:(nullable NSString *)fileURL {
+    CHFileMsgCellConfiguration *configuration = (CHFileMsgCellConfiguration *)self.configuration;
+    if ([configuration.fileURL isEqualToString:fileURL]) {
+        self.statusLabel.text = [NSString stringWithFormat:@"Downloading %6.02f%%".localized, progress * 100];
+    }
 }
 
 #pragma mark - Action Methods
 - (void)actionShare:(id)sender {
-    if (self.loaclFileURL != nil) {
-        [CHRouter.shared showShareItem:@[self.loaclFileURL] sender:sender handler:nil];
+    if (self.localFileURL != nil) {
+        [CHRouter.shared showShareItem:@[self.localFileURL] sender:sender handler:nil];
     }
 }
 
-- (void)actionShowFile:(id)sender {
-    if (self.loaclFileURL != nil) {
-        CHPreviewController *vc = [CHPreviewController previewFile:self.loaclFileURL];
+- (void)actionClicked:(UITapGestureRecognizer *)sender {
+    if (self.localFileURL != nil) {
+        CHPreviewController *vc = [CHPreviewController previewFile:self.localFileURL];
         [CHRouter.shared presentSystemViewController:vc animated:YES];
     } else {
-        [CHRouter.shared makeToast:@"File downloading".localized];
+        self.statusLabel.text = @"";
+        CHFileMsgCellConfiguration *configuration = (CHFileMsgCellConfiguration *)self.configuration;
+        [CHLogic.shared.webFileManager resetFileURLFailed:configuration.fileURL];
+        [CHLogic.shared.webFileManager loadFileURL:configuration.fileURL filename:configuration.filename toItem:self expectedSize:configuration.fileSize];
     }
 }
 
@@ -135,19 +158,20 @@
 @implementation CHFileMsgCellConfiguration
 
 + (instancetype)cellConfiguration:(CHMessageModel *)model {
-    return [[self.class alloc] initWithMID:model.mid text:model.text title:model.title filename:model.filename fileURL:model.fileURL bubbleRect:CGRectZero];
+    return [[self.class alloc] initWithMID:model.mid text:model.text title:model.title filename:model.filename fileURL:model.fileURL fileSize:model.fileSize bubbleRect:CGRectZero];
 }
 
 - (nonnull id)copyWithZone:(nullable NSZone *)zone {
-    return [[self.class allocWithZone:zone] initWithMID:self.mid text:self.text title:self.title filename:self.filename fileURL:self.fileURL bubbleRect:self.bubbleRect];
+    return [[self.class allocWithZone:zone] initWithMID:self.mid text:self.text title:self.title filename:self.filename fileURL:self.fileURL fileSize:self.fileSize bubbleRect:self.bubbleRect];
 }
 
-- (instancetype)initWithMID:(NSString *)mid text:(NSString * _Nullable)text title:(NSString * _Nullable)title filename:(NSString * _Nullable)filename fileURL:(NSString * _Nullable)fileURL bubbleRect:(CGRect)bubbleRect {
+- (instancetype)initWithMID:(NSString *)mid text:(NSString * _Nullable)text title:(NSString * _Nullable)title filename:(NSString * _Nullable)filename fileURL:(NSString * _Nullable)fileURL fileSize:(uint64_t)fileSize bubbleRect:(CGRect)bubbleRect {
     if (self = [super initWithMID:mid bubbleRect:bubbleRect]) {
         _title = title;
         _text = text;
         _filename = filename;
         _fileURL = fileURL;
+        _fileSize = fileSize;
     }
     return self;
 }

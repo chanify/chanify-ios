@@ -29,7 +29,6 @@
 @property (nonatomic, readonly, nullable, strong) CHThumbnailModel *thumbnail;
 @property (nonatomic, readonly, assign) uint64_t fileSize;
 @property (nonatomic, readonly, assign) CGRect imageRect;
-@property (nonatomic, readonly, weak) CHMessagesDataSource *source;
 
 @end
 
@@ -37,17 +36,16 @@
 
 static UIEdgeInsets imageInsets = { 0, 20, 0, 30 };
 
-+ (instancetype)cellConfiguration:(CHMessageModel *)model source:(CHMessagesDataSource *)source {
-    return [[self.class alloc] initWithMID:model.mid imageURL:model.fileURL fileSize:model.fileSize imageRect:CGRectZero thumbnail:model.thumbnail source:source];
++ (instancetype)cellConfiguration:(CHMessageModel *)model {
+    return [[self.class alloc] initWithMID:model.mid imageURL:model.fileURL fileSize:model.fileSize imageRect:CGRectZero thumbnail:model.thumbnail];
 }
 
 - (nonnull id)copyWithZone:(nullable NSZone *)zone {
-    return [[self.class allocWithZone:zone] initWithMID:self.mid imageURL:self.imageURL fileSize:self.fileSize imageRect:self.imageRect thumbnail:self.thumbnail source:self.source];
+    return [[self.class allocWithZone:zone] initWithMID:self.mid imageURL:self.imageURL fileSize:self.fileSize imageRect:self.imageRect thumbnail:self.thumbnail];
 }
 
-- (instancetype)initWithMID:(NSString *)mid imageURL:(NSString * _Nullable)imageURL fileSize:(uint64_t)fileSize imageRect:(CGRect)imageRect thumbnail:(CHThumbnailModel *)thumbnail source:(CHMessagesDataSource *)source {
+- (instancetype)initWithMID:(NSString *)mid imageURL:(NSString * _Nullable)imageURL fileSize:(uint64_t)fileSize imageRect:(CGRect)imageRect thumbnail:(CHThumbnailModel *)thumbnail {
     if (self = [super initWithMID:mid]) {
-        _source = source;
         _fileSize = fileSize;
         _imageURL = (imageURL ?: @"");
         _imageRect = imageRect;
@@ -102,9 +100,6 @@ static UIEdgeInsets imageInsets = { 0, 20, 0, 30 };
 @end
 
 @interface CHImageMsgCellContentView () <CHWebImageViewDelegate>
-
-@property (nonatomic, readonly, strong) UITapGestureRecognizer *tapGestureRecognizer;
-
 @end
 
 @implementation CHImageMsgCellContentView
@@ -117,17 +112,6 @@ static UIEdgeInsets imageInsets = { 0, 20, 0, 30 };
     imageView.backgroundColor = CHTheme.shared.bubbleBackgroundColor;
     imageView.layer.cornerRadius = 8;
     imageView.delegate = self;
-    imageView.userInteractionEnabled = TRUE;
-    
-    _tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionShowDetail:)];
-    [imageView addGestureRecognizer:self.tapGestureRecognizer];
-}
-
-- (void)dealloc {
-    if (self.tapGestureRecognizer != nil) {
-        [self.imageView removeGestureRecognizer:self.tapGestureRecognizer];
-        _tapGestureRecognizer = nil;
-    }
 }
 
 - (UIView *)contentView {
@@ -155,7 +139,7 @@ static UIEdgeInsets imageInsets = { 0, 20, 0, 30 };
         CGSize size = self.imageView.frame.size;
         CGSize imageSize = [configuration calcImageSize:imageView.image.size targetSize:size];
         if (!CGSizeEqualToSize(size, imageSize)) {
-            [configuration.source setNeedRecalcLayoutItem:configuration];
+            [self.source setNeedRecalcLayoutItem:configuration];
         }
     }
 }
@@ -165,11 +149,11 @@ static UIEdgeInsets imageInsets = { 0, 20, 0, 30 };
     [CHRouter.shared showShareItem:@[self.imageView.image] sender:sender handler:nil];
 }
 
-- (void)actionShowDetail:(id)sender {
+- (void)actionClicked:(UITapGestureRecognizer *)sender {
     NSURL *localFileURL = self.imageView.localFileURL;
     if (localFileURL != nil) {
         CHImageMsgCellConfiguration *configuration = (CHImageMsgCellConfiguration *)self.configuration;
-        [configuration.source previewImageWithMID:configuration.mid];
+        [self.source previewImageWithMID:configuration.mid];
     }
 }
 

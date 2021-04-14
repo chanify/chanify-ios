@@ -20,11 +20,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CHMsgCellContentView<Configuration: __kindof CHMsgCellConfiguration*> : UIView<UIContentView>
 
 @property (nonatomic, nullable, copy) CHMsgCellConfiguration *configuration;
+@property (nonatomic, nullable, weak) CHMessagesDataSource *source;
 
 - (instancetype)initWithConfiguration:(CHMsgCellConfiguration *)configuration;
 - (void)applyConfiguration:(Configuration)configuration;
 - (void)setupViews;
 - (UIView *)contentView;
+- (void)actionClicked:(UITapGestureRecognizer *)sender;
 - (NSArray<UIMenuItem *> *)menuActions;
 
 

@@ -6,6 +6,7 @@
 //
 
 #import "CHMsgCellConfiguration.h"
+#import "CHMessagesDataSource.h"
 #import "CHRouter.h"
 #import "CHLogic.h"
 #import "CHTheme.h"
@@ -31,6 +32,7 @@
 @interface CHMsgCellContentView ()
 
 @property (nonatomic, readonly, strong) UILongPressGestureRecognizer *longPressRecognizer;
+@property (nonatomic, readonly, strong) UITapGestureRecognizer *tapGestureRecognizer;
 
 @end
 
@@ -43,7 +45,12 @@
         [self setupViews];
         
         UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(actionLongPress:)];
+        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionTap:)];
+        [tapGestureRecognizer requireGestureRecognizerToFail:longPressRecognizer];
+
         [self addGestureRecognizer:(_longPressRecognizer = longPressRecognizer)];
+        [self addGestureRecognizer:(_tapGestureRecognizer = tapGestureRecognizer)];
+        
         self.userInteractionEnabled = YES;
         
         self.configuration = configuration;
@@ -55,6 +62,10 @@
     if (self.longPressRecognizer != nil) {
         [self removeGestureRecognizer:self.longPressRecognizer];
         _longPressRecognizer = nil;
+    }
+    if (self.tapGestureRecognizer != nil) {
+        [self removeGestureRecognizer:self.tapGestureRecognizer];
+        _tapGestureRecognizer = nil;
     }
 }
 
@@ -77,22 +88,39 @@
     return YES;
 }
 
-
 #pragma mark - Actions Methods
+- (void)actionTap:(UITapGestureRecognizer *)recognizer {
+    UIView *contentView = self.contentView;
+    if (contentView != nil && CGRectContainsPoint(contentView.frame, [recognizer locationInView:self])) {
+        [self actionClicked:recognizer];
+    }
+}
+
 - (void)actionLongPress:(UILongPressGestureRecognizer *)recognizer {
     UIView *contentView = self.contentView;
-    if (contentView != nil) {
+    if (contentView != nil && CGRectContainsPoint(contentView.frame, [recognizer locationInView:self])) {
         [self becomeFirstResponder];
-
         UIMenuController *menu = UIMenuController.sharedMenuController;
         menu.menuItems = self.menuActions;
         [menu showMenuFromView:contentView rect:contentView.bounds];
     }
 }
 
+- (void)actionClicked:(UITapGestureRecognizer *)sender {
+}
+
 - (NSArray<UIMenuItem *> *)menuActions {
-    UIMenuItem *deleteItem = [[UIMenuItem alloc]initWithTitle:@"Delete".localized action:@selector(actionDelete:)];
-    return @[deleteItem];
+    return @[
+        //[[UIMenuItem alloc]initWithTitle:@"Select".localized action:@selector(actionSelect:)],
+        [[UIMenuItem alloc]initWithTitle:@"Delete".localized action:@selector(actionDelete:)],
+    ];
+}
+
+- (void)actionSelect:(id)sender {
+    NSString *mid = self.configuration.mid;
+    if (mid.length > 0) {
+        [self.source beginEditing];
+    }
 }
 
 - (void)actionDelete:(id)sender {

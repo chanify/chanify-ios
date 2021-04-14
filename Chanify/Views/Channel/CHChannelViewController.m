@@ -14,7 +14,7 @@
 #import "CHLogic.h"
 #import "CHTheme.h"
 
-@interface CHChannelViewController () <UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, CHLogicDelegate>
+@interface CHChannelViewController () <UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, CHMessagesDataSourceDelegate, CHLogicDelegate>
 
 @property (nonatomic, readonly, strong) CHChannelModel *model;
 @property (nonatomic, readonly, strong) CHMessagesDataSource *dataSource;
@@ -39,13 +39,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"⋯" style:UIBarButtonItemStylePlain target:self action:@selector(actionInfo:)];
-
     UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
     layout.minimumLineSpacing = 16;
     UICollectionView *listView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     [self.view addSubview:(_listView = listView)];
     listView.alwaysBounceVertical = YES;
+    listView.allowsSelectionDuringEditing = YES;
+    listView.allowsMultipleSelectionDuringEditing = YES;
     listView.backgroundColor = CHTheme.shared.groupedBackgroundColor;
     [listView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
@@ -54,6 +54,8 @@
 
     listView.delegate = self;
     _dataSource = [CHMessagesDataSource dataSourceWithCollectionView:listView channelID:self.model.cid];
+    
+    [self setEditing:NO animated:NO];
     
     [CHLogic.shared addDelegate:self];
 }
@@ -73,9 +75,23 @@
     return [self.model isEqual:rhs.model];
 }
 
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+    [super setEditing:editing animated:animated];
+    [self.listView setEditing:editing];
+    if (editing) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Clear".localized style:UIBarButtonItemStylePlain target:self action:@selector(actionClear:)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel".localized style:UIBarButtonItemStylePlain target:self action:@selector(actionCancel:)];
+    } else {
+        self.navigationItem.leftBarButtonItem = nil;
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"⋯" style:UIBarButtonItemStylePlain target:self action:@selector(actionInfo:)];
+    }
+}
+
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    if (!collectionView.editing) {
+        [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    }
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
@@ -92,6 +108,11 @@
     if (scrollView.contentOffset.y <= 0) {
         [self.dataSource scrollViewDidScroll];
     }
+}
+
+#pragma mark - CHMessagesDataSourceDelegate
+- (void)messagesDataSourceBeginEditing:(CHMessagesDataSource *)dataSource {
+    [self setEditing:YES animated:YES];
 }
 
 #pragma mark - CHLogicDelegate
@@ -111,6 +132,14 @@
 #pragma mark - Action Methods
 - (void)actionInfo:(id)sender {
     [CHRouter.shared routeTo:@"/page/channel/detail" withParams:@{ @"cid": self.model.cid }];
+}
+
+- (void)actionClear:(id)sender {
+    
+}
+
+- (void)actionCancel:(id)sender {
+    [self setEditing:NO animated:YES];
 }
 
 #pragma mark - Private Methods
