@@ -15,7 +15,6 @@
 "Share"="Share";
 "Copy"="Copy";
 "Copied"="Copied";
-"Clear"="Clear";
 "Select"="Select";
 "Channels"="Channels";
 "Open Link"="Open Link";
@@ -96,6 +95,7 @@
 
 "%@ copied"="%@ Copied";
 "Downloading %6.02f%%"="Downloading %6.02f%%";
+"Delete %d selected messages or not?"="Delete %d selected messages or not?";
 
 "NewMsg"="Receive an new message";
 "ImageMsg"="[Image]";

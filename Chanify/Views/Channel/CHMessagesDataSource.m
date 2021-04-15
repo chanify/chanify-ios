@@ -71,7 +71,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     CGSize size = CGSizeMake(self.collectionView.bounds.size.width, 30);
     CHCellConfiguration *item = [self itemIdentifierForIndexPath:indexPath];
     if (item != nil) {
-        size.height = [item calcHeight:size];
+        size.height = [item calcSize:size].height;
     }
     return size;
 }
@@ -112,12 +112,27 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
         NSArray<CHMessageModel *> *items = [CHLogic.shared.userDataSource messageWithCID:self.cid from:item.mid to:@"" count:kCHMessageListPageSize];
         self.headerView.status = (items.count < kCHMessageListPageSize ? CHMessagesHeaderStatusFinish : CHMessagesHeaderStatusNormal);
         if (items.count > 0) {
+            NSMutableArray<CHCellConfiguration *> *selectedCells = nil;
+            if (self.isEditing) {
+                NSArray<NSIndexPath *> *indexPaths = self.collectionView.indexPathsForSelectedItems;
+                if (indexPaths.count > 0) {
+                    selectedCells = [NSMutableArray arrayWithCapacity:indexPaths.count];
+                    for (NSIndexPath *indexPath in indexPaths) {
+                        [selectedCells addObject:[self itemIdentifierForIndexPath:indexPath]];
+                    }
+                }
+            }
             [self performAndKeepOffset:^{
                 NSArray<CHCellConfiguration *> *cells = [self calcItems:items last:nil];
                 CHConversationDiffableSnapshot *snapshot = self.snapshot;
                 [snapshot insertItemsWithIdentifiers:cells beforeItemWithIdentifier:item];
                 [self applySnapshot:snapshot animatingDifferences:NO];
             }];
+            if (selectedCells.count > 0) {
+                for (CHCellConfiguration *cell in selectedCells) {
+                    [self.collectionView selectItemAtIndexPath:[self indexPathForItemIdentifier:cell] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+                }
+            }
         }
     }
 }
@@ -171,6 +186,33 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     }
 }
 
+- (void)deleteMessages:(NSArray<NSString *> *)mids animated:(BOOL)animated {
+    if (mids.count > 0) {
+        CHCellConfiguration *last = nil;
+        CHConversationDiffableSnapshot *snapshot = self.snapshot;
+        NSMutableArray<CHCellConfiguration *> *deleteItems = [NSMutableArray arrayWithCapacity:mids.count];
+        for (CHCellConfiguration *cell in snapshot.itemIdentifiers) {
+            if ([cell isKindOfClass:CHDateCellConfiguration.class]) {
+                if (last != nil) {
+                    [deleteItems addObject:last];
+                }
+                last = cell;
+            } else {
+                if ([mids containsObject:cell.mid]) {
+                    [deleteItems addObject:cell];
+                } else {
+                    last = nil;
+                }
+            }
+        }
+        if (last != nil) {
+            [deleteItems addObject:last];
+        }
+        [snapshot deleteItemsWithIdentifiers:deleteItems];
+        [self applySnapshot:snapshot animatingDifferences:animated];
+    }
+}
+
 - (void)previewImageWithMID:(NSString *)mid {
     NSInteger idx = 0;
     NSInteger selected = 0;
@@ -196,11 +238,38 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     }
 }
 
-- (void)beginEditing {
+- (void)selectItemWithIndexPath:(NSIndexPath *)indexPath {
+    if (self.isEditing) {
+        CHCellConfiguration *cell = [self itemIdentifierForIndexPath:indexPath];
+        if (![cell isKindOfClass:CHDateCellConfiguration.class]) {
+            return;
+        }
+    }
+    [self.collectionView deselectItemAtIndexPath:indexPath animated:YES];
+}
+
+- (NSArray<NSString *> *)selectedItemMIDs {
+    NSArray<NSIndexPath *> *indexPaths = self.collectionView.indexPathsForSelectedItems;
+    NSMutableArray<NSString *> *mids = [NSMutableArray arrayWithCapacity:indexPaths.count];
+    for (NSIndexPath *indexPath in indexPaths) {
+        CHCellConfiguration *cell = [self itemIdentifierForIndexPath:indexPath];
+        if (![cell isKindOfClass:CHDateCellConfiguration.class]) {
+            [mids addObject:cell.mid];
+        }
+    }
+    return mids;
+}
+
+- (void)beginEditingWiuthItem:(CHCellConfiguration *)cell {
     id delegate = self.collectionView.delegate;
     if ([delegate conformsToProtocol:@protocol(CHMessagesDataSourceDelegate)]) {
-        [(id<CHMessagesDataSourceDelegate>)delegate messagesDataSourceBeginEditing:self];
+        NSIndexPath *indexPath = [self indexPathForItemIdentifier:cell];
+        [(id<CHMessagesDataSourceDelegate>)delegate messagesDataSourceBeginEditing:self indexPath:indexPath];
     }
+}
+
+- (BOOL)isEditing {
+    return self.collectionView.isEditing;
 }
 
 #pragma mark - Private Methods

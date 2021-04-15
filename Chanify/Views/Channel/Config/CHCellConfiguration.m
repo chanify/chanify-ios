@@ -6,6 +6,7 @@
 //
 
 #import "CHCellConfiguration.h"
+#import "CHMessageCellView.h"
 #import "CHDateCellConfiguration.h"
 #import "CHTextMsgCellConfiguration.h"
 #import "CHLinkMsgCellConfiguration.h"
@@ -81,12 +82,12 @@
 - (void)setNeedRecalcLayout {
 }
 
-- (CGFloat)calcHeight:(CGSize)size {
-    return size.height;
+- (CGSize)calcSize:(CGSize)size {
+    return size;
 }
 
 inline static UICollectionViewCellRegistration *cellRegistration(Class clz) {
-    return [UICollectionViewCellRegistration registrationWithCellClass:UICollectionViewCell.class configurationHandler:^(UICollectionViewCell *cell, NSIndexPath *indexPath, CHCellConfiguration *item) {
+    return [UICollectionViewCellRegistration registrationWithCellClass:CHMessageCellView.class configurationHandler:^(UICollectionViewCell *cell, NSIndexPath *indexPath, CHCellConfiguration *item) {
         if ([item isKindOfClass:clz]) {
             cell.contentConfiguration = item;
         }

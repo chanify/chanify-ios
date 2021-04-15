@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSString *)mediaThumbnailURL;
 - (NSDate *)date;
 - (void)setNeedRecalcLayout;
-- (CGFloat)calcHeight:(CGSize)size;
+- (CGSize)calcSize:(CGSize)size;
 
 
 @end

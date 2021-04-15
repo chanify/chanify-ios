@@ -37,6 +37,7 @@ typedef void (^CHLogicResultBlock)(CHLCode result, NSDictionary *data);
 - (void)logicChannelsUpdated:(NSArray<NSString *> *)cids;
 - (void)logicMessagesUpdated:(NSArray<NSString *> *)mids;
 - (void)logicMessageDeleted:(CHMessageModel *)mid;
+- (void)logicMessagesDeleted:(NSArray<NSString *> *)mids;
 @end
 
 @interface CHLogic : CHManager<id<CHLogicDelegate>>
@@ -59,6 +60,7 @@ typedef void (^CHLogicResultBlock)(CHLCode result, NSDictionary *data);
 - (BOOL)recivePushMessage:(NSDictionary *)userInfo;
 - (void)updatePushToken:(NSData *)pushToken;
 - (BOOL)deleteMessage:(nullable NSString *)mid;
+- (BOOL)deleteMessages:(NSArray<NSString *> *)mids;
 - (void)updateNodeInfo:(nullable NSString*)nid completion:(nullable CHLogicBlock)completion;
 - (BOOL)updateNode:(CHNodeModel *)model;
 - (BOOL)deleteNode:(nullable NSString *)nid;

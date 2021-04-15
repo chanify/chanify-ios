@@ -44,6 +44,7 @@
     UICollectionView *listView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     [self.view addSubview:(_listView = listView)];
     listView.alwaysBounceVertical = YES;
+    listView.allowsSelection = NO;
     listView.allowsSelectionDuringEditing = YES;
     listView.allowsMultipleSelectionDuringEditing = YES;
     listView.backgroundColor = CHTheme.shared.groupedBackgroundColor;
@@ -76,22 +77,29 @@
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
-    [super setEditing:editing animated:animated];
+    self.listView.allowsSelection = editing;
     [self.listView setEditing:editing];
     if (editing) {
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Clear".localized style:UIBarButtonItemStylePlain target:self action:@selector(actionClear:)];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Delete".localized style:UIBarButtonItemStylePlain target:self action:@selector(actionDelete:)];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel".localized style:UIBarButtonItemStylePlain target:self action:@selector(actionCancel:)];
     } else {
         self.navigationItem.leftBarButtonItem = nil;
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"⋯" style:UIBarButtonItemStylePlain target:self action:@selector(actionInfo:)];
     }
+    [super setEditing:editing animated:animated];
 }
 
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (!collectionView.editing) {
-        [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-    }
+    [self.dataSource selectItemWithIndexPath:indexPath];
+}
+
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldBeginMultipleSelectionInteractionAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didBeginMultipleSelectionInteractionAtIndexPath:(NSIndexPath *)indexPath {
+    [self setEditing:YES animated:YES];
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
@@ -111,8 +119,9 @@
 }
 
 #pragma mark - CHMessagesDataSourceDelegate
-- (void)messagesDataSourceBeginEditing:(CHMessagesDataSource *)dataSource {
+- (void)messagesDataSourceBeginEditing:(CHMessagesDataSource *)dataSource indexPath:(NSIndexPath *)indexPath {
     [self setEditing:YES animated:YES];
+    [self.listView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionNone];
 }
 
 #pragma mark - CHLogicDelegate
@@ -129,13 +138,26 @@
     [self.dataSource deleteMessage:model animated:YES];
 }
 
+- (void)logicMessagesDeleted:(NSArray<NSString *> *)mids {
+    [self.dataSource deleteMessages:mids animated:YES];
+}
+
 #pragma mark - Action Methods
 - (void)actionInfo:(id)sender {
     [CHRouter.shared routeTo:@"/page/channel/detail" withParams:@{ @"cid": self.model.cid }];
 }
 
-- (void)actionClear:(id)sender {
-    
+- (void)actionDelete:(id)sender {
+    NSArray<NSString *> *mids = self.dataSource.selectedItemMIDs;
+    if (mids.count > 0) {
+        @weakify(self);
+        NSString *title = [NSString stringWithFormat:@"Delete %d selected messages or not?".localized, mids.count];
+        [CHRouter.shared showAlertWithTitle:title action:@"Delete".localized handler:^{
+            @strongify(self);
+            [CHLogic.shared deleteMessages:mids];
+            [self setEditing:NO animated:YES];
+        }];
+    }
 }
 
 - (void)actionCancel:(id)sender {

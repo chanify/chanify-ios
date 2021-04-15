@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CHMsgCellConfiguration : CHCellConfiguration
 
 - (instancetype)initWithMID:(NSString *)mid;
+- (CGSize)calcSize:(CGSize)size;
 - (CGSize)calcContentSize:(CGSize)size;
 
 
@@ -28,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIView *)contentView;
 - (void)actionClicked:(UITapGestureRecognizer *)sender;
 - (NSArray<UIMenuItem *> *)menuActions;
+- (void)updateConfigurationUsingState:(UICellConfigurationState *)state;
 
 
 @end

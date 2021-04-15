@@ -34,8 +34,6 @@
 
 @implementation CHImageMsgCellConfiguration
 
-static UIEdgeInsets imageInsets = { 0, 20, 0, 30 };
-
 + (instancetype)cellConfiguration:(CHMessageModel *)model {
     return [[self.class alloc] initWithMID:model.mid imageURL:model.fileURL fileSize:model.fileSize imageRect:CGRectZero thumbnail:model.thumbnail];
 }
@@ -66,9 +64,9 @@ static UIEdgeInsets imageInsets = { 0, 20, 0, 30 };
     return self.imageURL;
 }
 
-- (CGFloat)calcHeight:(CGSize)size {
+- (CGSize)calcSize:(CGSize)size {
     if (CGRectIsEmpty(self.imageRect)) {
-        size.width -= imageInsets.left + imageInsets.right;
+        size = [super calcSize:size];
         size.height = kCHImageMessageHeight;
         CGSize imageSize = CGSizeZero;
         if (self.thumbnail != nil) {
@@ -78,9 +76,9 @@ static UIEdgeInsets imageInsets = { 0, 20, 0, 30 };
             imageSize = [[CHLogic.shared.webImageManager loadLocalFile:self.imageURL] size];
         }
         size = [self calcImageSize:imageSize targetSize:size];
-        _imageRect = CGRectMake(imageInsets.left, imageInsets.top, size.width, size.height);
+        _imageRect = CGRectMake(0, 0, size.width, size.height);
     }
-    return self.imageRect.size.height + imageInsets.top + imageInsets.bottom;
+    return self.imageRect.size;
 }
 
 - (CGSize)calcImageSize:(CGSize)imageSize targetSize:(CGSize)targetSize {
@@ -119,6 +117,7 @@ static UIEdgeInsets imageInsets = { 0, 20, 0, 30 };
 }
 
 - (void)applyConfiguration:(CHImageMsgCellConfiguration *)configuration {
+    [super applyConfiguration:configuration];
     self.imageView.frame = configuration.imageRect;
     [self.imageView loadFileURL:configuration.imageURL expectedSize:configuration.fileSize];
 }

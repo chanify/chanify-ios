@@ -11,6 +11,8 @@
 #import "CHLogic.h"
 #import "CHTheme.h"
 
+#define kCheckIconSize  24
+
 @implementation CHMsgCellConfiguration
 
 - (instancetype)initWithMID:(NSString *)mid {
@@ -19,13 +21,14 @@
     return self;
 }
 
-- (CGFloat)calcHeight:(CGSize)size {
-    return size.height;
+- (CGSize)calcSize:(CGSize)size {
+    return CGSizeMake(size.width - 60, size.height);
 }
 
 - (CGSize)calcContentSize:(CGSize)size {
     return size;
 }
+
 
 @end
 
@@ -33,6 +36,7 @@
 
 @property (nonatomic, readonly, strong) UILongPressGestureRecognizer *longPressRecognizer;
 @property (nonatomic, readonly, strong) UITapGestureRecognizer *tapGestureRecognizer;
+@property (nonatomic, nullable, strong) UIImageView *checkIcon;
 
 @end
 
@@ -40,6 +44,7 @@
 
 - (instancetype)initWithConfiguration:(CHMsgCellConfiguration *)configuration {
     if (self = [super initWithFrame:CGRectZero]) {
+        _checkIcon = nil;
         _configuration = nil;
         
         [self setupViews];
@@ -72,9 +77,43 @@
 - (void)setConfiguration:(CHMsgCellConfiguration *)configuration {
     _configuration = configuration;
     [self applyConfiguration:configuration];
+    CGRect frame = self.contentView.frame;
+    BOOL isEditing = self.source.isEditing;
+    self.userInteractionEnabled = !isEditing;
+    self.contentView.frame = CGRectMake((isEditing ? 50 : 20), 0, frame.size.width, frame.size.height);
+    if (!isEditing) {
+        if (self.checkIcon != nil) {
+            [self.checkIcon removeFromSuperview];
+            _checkIcon = nil;
+        }
+    } else {
+        if (self.checkIcon == nil) {
+            [self addSubview:(_checkIcon = [UIImageView new])];
+        }
+        self.checkIcon.frame = CGRectMake((50 - kCheckIconSize)/2, (frame.size.height - kCheckIconSize)/2, kCheckIconSize, kCheckIconSize);
+       
+    }
 }
 
 - (void)applyConfiguration:(CHMsgCellConfiguration *)configuration {
+}
+    
+- (void)updateConfigurationUsingState:(UICellConfigurationState *)state {
+    if (self.source.isEditing) {
+        [self setSelected:state.isSelected];
+    }
+}
+
+- (void)setSelected:(BOOL)selected {
+    if (self.checkIcon != nil) {
+        if (selected) {
+            self.checkIcon.image = [UIImage systemImageNamed:@"checkmark.circle.fill"];
+            self.checkIcon.tintColor = CHTheme.shared.tintColor;
+        } else {
+            self.checkIcon.image = [UIImage systemImageNamed:@"circle"];
+            self.checkIcon.tintColor = CHTheme.shared.minorLabelColor;
+        }
+    }
 }
 
 - (void)setupViews {
@@ -90,19 +129,23 @@
 
 #pragma mark - Actions Methods
 - (void)actionTap:(UITapGestureRecognizer *)recognizer {
-    UIView *contentView = self.contentView;
-    if (contentView != nil && CGRectContainsPoint(contentView.frame, [recognizer locationInView:self])) {
-        [self actionClicked:recognizer];
+    if (!self.source.isEditing) {
+        UIView *contentView = self.contentView;
+        if (contentView != nil && CGRectContainsPoint(contentView.frame, [recognizer locationInView:self])) {
+            [self actionClicked:recognizer];
+        }
     }
 }
 
 - (void)actionLongPress:(UILongPressGestureRecognizer *)recognizer {
-    UIView *contentView = self.contentView;
-    if (contentView != nil && CGRectContainsPoint(contentView.frame, [recognizer locationInView:self])) {
-        [self becomeFirstResponder];
-        UIMenuController *menu = UIMenuController.sharedMenuController;
-        menu.menuItems = self.menuActions;
-        [menu showMenuFromView:contentView rect:contentView.bounds];
+    if (!self.source.isEditing) {
+        UIView *contentView = self.contentView;
+        if (contentView != nil && CGRectContainsPoint(contentView.frame, [recognizer locationInView:self])) {
+            [self becomeFirstResponder];
+            UIMenuController *menu = UIMenuController.sharedMenuController;
+            menu.menuItems = self.menuActions;
+            [menu showMenuFromView:contentView rect:contentView.bounds];
+        }
     }
 }
 
@@ -111,15 +154,15 @@
 
 - (NSArray<UIMenuItem *> *)menuActions {
     return @[
-        //[[UIMenuItem alloc]initWithTitle:@"Select".localized action:@selector(actionSelect:)],
-        [[UIMenuItem alloc]initWithTitle:@"Delete".localized action:@selector(actionDelete:)],
+        [[UIMenuItem alloc] initWithTitle:@"Select".localized action:@selector(actionSelect:)],
+        [[UIMenuItem alloc] initWithTitle:@"Delete".localized action:@selector(actionDelete:)],
     ];
 }
 
 - (void)actionSelect:(id)sender {
     NSString *mid = self.configuration.mid;
     if (mid.length > 0) {
-        [self.source beginEditing];
+        [self.source beginEditingWiuthItem:self.configuration];
     }
 }
 

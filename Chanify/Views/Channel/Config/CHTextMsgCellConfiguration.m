@@ -56,6 +56,7 @@ static CGFloat titleSpace = 4;
     [self.bubbleView addSubview:(_textLabel = textLabel)];
     textLabel.backgroundColor = UIColor.clearColor;
     textLabel.userInteractionEnabled = NO;
+    textLabel.highlightColor = UIColor.clearColor;
     textLabel.textColor = theme.labelColor;
     textLabel.linkColor = theme.tintColor;
     textLabel.lineBreakMode = NSLineBreakByWordWrapping;

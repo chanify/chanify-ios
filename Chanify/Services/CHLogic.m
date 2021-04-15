@@ -195,6 +195,15 @@
     return res;
 }
 
+- (BOOL)deleteMessages:(NSArray<NSString *> *)mids {
+    BOOL res = [self.userDataSource deleteMessages:mids];
+    if (res) {
+        [self sendNotifyWithSelector:@selector(logicMessagesDeleted:) withObject:mids];
+        [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[]];
+    }
+    return res;
+}
+
 - (void)updateNodeInfo:(nullable NSString*)nid completion:(nullable CHLogicBlock)completion {
     CHNodeModel *node = [self.userDataSource nodeWithNID:nid];
     if (node != nil && !node.isSystem) {

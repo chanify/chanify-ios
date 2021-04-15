@@ -246,17 +246,45 @@
 }
 
 - (BOOL)deleteMessage:(NSString *)mid {
+    __block BOOL res = YES;
     if (mid.length > 0) {
+        res = NO;
         [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
             NSData *cid = [db dataForQuery:@"SELECT `cid` FROM `channels` WHERE `mid`=? LIMIT 1;", mid];
             [db executeUpdate:@"DELETE FROM `messages` WHERE `mid`=? LIMIT 1;", mid];
             if (cid.length > 0) {
-                NSString *msg = [db stringForQuery:@"SELECT `mid` FROM `messages` WHERE `cid`=? AND `mid`<? ORDER BY `mid` DESC LIMIT 1;", cid, mid];
-                [db executeUpdate:@"UPDATE `channels` SET `mid`=? WHERE `cid`=?;", msg, cid];
+                NSString *lastMid = [db stringForQuery:@"SELECT `mid` FROM `messages` WHERE `cid`=? AND `mid`<? ORDER BY `mid` DESC LIMIT 1;", cid, mid];
+                [db executeUpdate:@"UPDATE `channels` SET `mid`=? WHERE `cid`=?;", lastMid, cid];
             }
+            res = YES;
         }];
     }
-    return YES;
+    return res;
+}
+
+- (BOOL)deleteMessages:(NSArray<NSString *> *)mids {
+    __block BOOL res = YES;
+    if (mids.count > 0) {
+        res = NO;
+        [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+            NSMutableSet<NSData *> *cids = [NSMutableSet new];
+            for (NSString *mid in mids) {
+                NSData *cid = [db dataForQuery:@"SELECT `cid` FROM `channels` WHERE `mid`=? LIMIT 1;", mid];
+                if (cid.length > 0) {
+                    [cids addObject:cid];
+                }
+                [db executeUpdate:@"DELETE FROM `messages` WHERE `mid`=? LIMIT 1;", mid];
+            }
+            for (NSData *cid in cids) {
+                if (cid.length > 0) {
+                    NSString *lastMid = [db stringForQuery:@"SELECT `mid` FROM `messages` WHERE `cid`=? ORDER BY `mid` DESC LIMIT 1;", cid];
+                    [db executeUpdate:@"UPDATE `channels` SET `mid`=? WHERE `cid`=?;", lastMid, cid];
+                }
+            }
+            res = YES;
+        }];
+    }
+    return res;
 }
 
 - (NSArray<CHMessageModel *> *)messageWithCID:(nullable NSString *)cid from:(NSString *)from to:(NSString *)to count:(NSUInteger)count {

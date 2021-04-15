@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class CHMessagesDataSource;
 
 @protocol CHMessagesDataSourceDelegate <NSObject>
-- (void)messagesDataSourceBeginEditing:(CHMessagesDataSource *)dataSource;
+- (void)messagesDataSourceBeginEditing:(CHMessagesDataSource *)dataSource indexPath:(NSIndexPath *)indexPath;
 @end
 
 @interface CHMessagesDataSource : UICollectionViewDiffableDataSource<NSString *, CHCellConfiguration *>
@@ -27,8 +27,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)scrollViewDidScroll;
 - (void)loadLatestMessage:(BOOL)animated;
 - (void)deleteMessage:(nullable CHMessageModel *)model animated:(BOOL)animated;
+- (void)deleteMessages:(NSArray<NSString *> *)mids animated:(BOOL)animated;
 - (void)previewImageWithMID:(NSString *)mid;
-- (void)beginEditing;
+- (void)selectItemWithIndexPath:(NSIndexPath *)indexPath;
+- (NSArray<NSString *> *)selectedItemMIDs;
+- (void)beginEditingWiuthItem:(CHCellConfiguration *)cell;
+- (BOOL)isEditing;
 
 
 @end

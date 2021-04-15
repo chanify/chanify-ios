@@ -10,8 +10,6 @@
 
 @implementation CHBubbleMsgCellConfiguration
 
-static UIEdgeInsets bubbleInsets = { 0, 20, 0, 30 };
-
 - (instancetype)initWithMID:(NSString *)mid bubbleRect:(CGRect)bubbleRect {
     if (self = [super initWithMID:mid]) {
         _bubbleRect = bubbleRect;
@@ -27,23 +25,19 @@ static UIEdgeInsets bubbleInsets = { 0, 20, 0, 30 };
 - (void)setNeedRecalcContentLayout {
 }
 
-- (CGFloat)calcHeight:(CGSize)size {
+- (CGSize)calcSize:(CGSize)size {
     if (CGRectIsEmpty(self.bubbleRect)) {
-        _bubbleRect.origin.x = bubbleInsets.left;
-        _bubbleRect.origin.y = bubbleInsets.top;
-        _bubbleRect.size.width = size.width - bubbleInsets.left - bubbleInsets.right;
-        _bubbleRect.size.height = size.height - bubbleInsets.top - bubbleInsets.bottom;
+        _bubbleRect.size = [super calcSize:size];
         CGSize sz = [self calcContentSize:self.bubbleRect.size];
-        _bubbleRect.size.width = MIN(sz.width, size.width);
-        _bubbleRect.size.height = MAX(sz.height, size.height);
+        _bubbleRect.size.width = MIN(sz.width, _bubbleRect.size.width);
+        _bubbleRect.size.height = MAX(sz.height, _bubbleRect.size.height);
     }
-    return self.bubbleRect.size.height + bubbleInsets.top + bubbleInsets.bottom;
+    return self.bubbleRect.size;
 }
 
 - (CGSize)calcContentSize:(CGSize)size {
     return size;
 }
-
 
 @end
 
@@ -63,6 +57,7 @@ static UIEdgeInsets bubbleInsets = { 0, 20, 0, 30 };
 }
 
 - (void)applyConfiguration:(CHBubbleMsgCellConfiguration *)configuration {
+    [super applyConfiguration:configuration];
     self.bubbleView.frame = configuration.bubbleRect;
 }
 
