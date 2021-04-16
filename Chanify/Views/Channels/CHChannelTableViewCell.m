@@ -9,6 +9,7 @@
 #import <Masonry/Masonry.h>
 #import "CHUserDataSource.h"
 #import "CHMessageModel.h"
+#import "CHBadgeView.h"
 #import "CHIconView.h"
 #import "CHRouter.h"
 #import "CHLogic.h"
@@ -17,6 +18,7 @@
 @interface CHChannelTableViewCell ()
 
 @property (nonatomic, readonly, strong) CHIconView *iconView;
+@property (nonatomic, readonly, strong) CHBadgeView *badgeView;
 @property (nonatomic, readonly, strong) UILabel *titleLabel;
 @property (nonatomic, readonly, strong) UILabel *detailLabel;
 @property (nonatomic, readonly, strong) UILabel *dateLabel;
@@ -64,25 +66,39 @@
         [dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(titleLabel);
             make.right.equalTo(detailLabel);
-            make.left.greaterThanOrEqualTo(titleLabel.mas_right).offset(4);
+            make.left.greaterThanOrEqualTo(titleLabel.mas_right).offset(8);
         }];
         dateLabel.font = [UIFont systemFontOfSize:12];
         dateLabel.textColor = theme.lightLabelColor;
         dateLabel.numberOfLines = 1;
+
+        CHBadgeView *badgeView = [CHBadgeView new];
+        [self.contentView addSubview:(_badgeView = badgeView)];
+        [badgeView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.iconView).offset(-7);
+            make.right.equalTo(self.iconView).offset(8);
+            make.size.mas_offset(CGSizeMake(18, 18));
+        }];
+
     }
     return self;
 }
 
 - (void)setModel:(CHChannelModel *)model {
     _model = model;
+    
+    CHLogic *logic = CHLogic.shared;
 
     self.titleLabel.text = model.title;
     self.iconView.image = model.icon;
-    
+
     NSString *mid = model.mid;
-    CHMessageModel *m = [CHLogic.shared.userDataSource messageWithMID:mid];
+    CHMessageModel *m = [logic.userDataSource messageWithMID:mid];
     self.detailLabel.text = m.summaryText;
     self.dateLabel.text = [NSDate dateFromMID:m.mid].shortFormat;
+    
+    // TODO: Fix sync when receive push message.
+    self.badgeView.count = [logic unreadWithChannel:model.cid];
 }
 
 + (UIContextualAction *)actionInfo:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath {

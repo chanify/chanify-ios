@@ -32,6 +32,7 @@
 @property (nonatomic, readonly, strong) AFURLSessionManager *manager;
 @property (nonatomic, readonly, strong) NSData *pushToken;
 @property (nonatomic, readonly, strong) NSMutableSet<NSString *> *invalidNodes;
+@property (nonatomic, readonly, strong) NSMutableSet<NSString *> *readChannles;
 
 @end
 
@@ -61,6 +62,7 @@
         _webFileManager = nil;
         _linkMetaManager = nil;
         _invalidNodes = [NSMutableSet new];
+        _readChannles = [NSMutableSet new];
     }
     return self;
 }
@@ -85,11 +87,11 @@
     [CHNotification.shared updateStatus];
     [self reloadUserDB];
     [self updatePushMessage];
-    [self clearBadge];
+    [self reloadBadge];
 }
 
 - (void)deactive {
-    [self clearBadge];
+    [self reloadBadge];
     [self.nsDataSource close];
     [self.userDataSource close];
 }
@@ -164,7 +166,7 @@
     NSString *uid = [CHMessageModel parsePacket:userInfo mid:&mid data:&data];
     if (uid.length > 0 && [uid isEqualToString:self.me.uid] && mid.length > 0 && data.length > 0) {
         NSString *cid = nil;
-        if ([self.userDataSource upsertMessageData:data ks:self.nsDataSource uid:uid mid:mid cid:&cid]) {
+        if ([self.userDataSource upsertMessageData:data ks:self.nsDataSource uid:uid mid:mid ignoreChannels:self.readChannles cid:&cid]) {
             if (cid != nil) {
                 [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[]];
             }
@@ -377,6 +379,26 @@
     return res;
 }
 
+- (NSInteger)unreadWithChannel:(nullable NSString *)cid {
+    return [self.userDataSource unreadWithChannel:cid];
+}
+
+- (void)addReadChannel:(nullable NSString *)cid {
+    if (cid == nil) cid = @"";
+    if (![self.readChannles containsObject:cid]) {
+        [self.readChannles addObject:cid];
+        [self clearUnreadWithChannel:cid];
+    }
+}
+
+- (void)removeReadChannel:(nullable NSString *)cid {
+    if (cid == nil) cid = @"";
+    if ([self.readChannles containsObject:cid]) {
+        [self.readChannles removeObject:cid];
+        [self clearUnreadWithChannel:cid];
+    }
+}
+
 - (BOOL)nodeIsConnected:(nullable NSString *)nid {
     if (nid.length > 0) {
         return ![self.invalidNodes containsObject:nid];
@@ -549,15 +571,26 @@
     [self.me.key deleteWithName:@kCHUserSecKeyName device:NO];
     [self.nsDataSource updateKey:nil uid:self.me.uid];
     self.userDataSource.srvkey = nil;
-    [self clearBadge];
+    [self updateBadge:0];
     [self.nsDataSource close];
     [self reloadUserDB];
     _me = nil;
 }
 
-- (void)clearBadge {
-    CHNotification.shared.notificationBadge = 0;
-    [self.nsDataSource updateBadge:0 uid:self.me.uid];
+- (void)reloadBadge {
+    NSInteger badge = 0;
+    if (self.userDataSource != nil) {
+        for (NSString *cid in self.readChannles) {
+            [self clearUnreadWithChannel:cid];
+        }
+        badge = [self.userDataSource unreadSumAllChannel];
+    }
+    [self updateBadge:badge];
+}
+
+- (void)updateBadge:(NSInteger)badge {
+    CHNotification.shared.notificationBadge = badge;
+    [self.nsDataSource updateBadge:badge uid:self.me.uid];
 }
 
 - (void)reloadUserDB {
@@ -616,7 +649,7 @@
         NSMutableArray<NSString *> *mids = [NSMutableArray new];
         [self.nsDataSource enumerateMessagesWithUID:uid block:^(FMDatabase *db, NSString *mid, NSData *data) {
             NSString *cid = nil;
-            if ([self.userDataSource upsertMessageData:data ks:[CHTempKeyStorage keyStorage:db] uid:uid mid:mid cid:&cid]) {
+            if ([self.userDataSource upsertMessageData:data ks:[CHTempKeyStorage keyStorage:db] uid:uid mid:mid ignoreChannels:self.readChannles cid:&cid]) {
                 if (cid != nil) {
                     channelUpdated = YES;
                 }
@@ -634,6 +667,14 @@
             [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[]];
         }
     }
+}
+
+- (BOOL)clearUnreadWithChannel:(nullable NSString *)cid {
+    BOOL res = [self.userDataSource clearUnreadWithChannel:cid];
+    if (res) {
+        [self sendNotifyWithSelector:@selector(logicChannelUpdated:) withObject:cid];
+    }
+    return res;
 }
 
 static inline void call_completion(CHLogicBlock completion, CHLCode result) {

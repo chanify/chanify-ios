@@ -32,11 +32,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)deleteChannel:(nullable NSString *)cid;
 - (NSArray<CHChannelModel *> *)loadChannels;
 - (nullable CHChannelModel *)channelWithCID:(nullable NSString *)cid;
+- (NSInteger)unreadSumAllChannel;
+- (NSInteger)unreadWithChannel:(nullable NSString *)cid;
+- (BOOL)clearUnreadWithChannel:(nullable NSString *)cid;
 - (BOOL)deleteMessage:(NSString *)mid;
 - (BOOL)deleteMessages:(NSArray<NSString *> *)mids;
 - (NSArray<CHMessageModel *> *)messageWithCID:(nullable NSString *)cid from:(NSString *)from to:(NSString *)to count:(NSUInteger)count;
 - (nullable CHMessageModel *)messageWithMID:(nullable NSString *)mid;
-- (BOOL)upsertMessageData:(NSData *)data ks:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid cid:(NSString * _Nullable * _Nullable)cid;
+- (BOOL)upsertMessageData:(NSData *)data ks:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid ignoreChannels:(NSSet<NSString *> *)ignores cid:(NSString * _Nullable * _Nullable)cid;
 
 
 @end

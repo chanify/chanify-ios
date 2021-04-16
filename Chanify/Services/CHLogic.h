@@ -69,6 +69,9 @@ typedef void (^CHLogicResultBlock)(CHLCode result, NSDictionary *data);
 - (BOOL)insertChannel:(NSString *)code name:(nullable NSString *)name icon:(nullable NSString *)icon;
 - (BOOL)updateChannel:(CHChannelModel *)model;
 - (BOOL)deleteChannel:(nullable NSString *)cid;
+- (NSInteger)unreadWithChannel:(nullable NSString *)cid;
+- (void)addReadChannel:(nullable NSString *)cid;
+- (void)removeReadChannel:(nullable NSString *)cid;
 - (BOOL)nodeIsConnected:(nullable NSString *)nid;
 - (void)reconnectNode:(nullable NSString *)nid completion:(nullable CHLogicBlock)completion;
 

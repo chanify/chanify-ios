@@ -61,6 +61,16 @@
     [CHLogic.shared addDelegate:self];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [CHLogic.shared addReadChannel:self.model.cid];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [CHLogic.shared removeReadChannel:self.model.cid];
+}
+
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     @weakify(self);
     [coordinator animateAlongsideTransitionInView:self.view

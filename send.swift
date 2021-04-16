@@ -50,6 +50,8 @@ func buildAPNS() -> String {
             body["filename"] = String(arg.suffix(arg.count - 9))
         } else if arg.hasPrefix("title=") {
             body["title"] = String(arg.suffix(arg.count - 6))
+        } else if arg.hasPrefix("channel=") {
+            body["channel"] = String(arg.suffix(arg.count - 8))
         }
     }
     let msg = [

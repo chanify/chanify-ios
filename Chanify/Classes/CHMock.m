@@ -15,6 +15,7 @@
 NSDictionary *try_mock_notification(NSDictionary* info) {
     CHUserModel *me = CHLogic.shared.me;
     NSString *uid = me.uid;
+    NSString *chn = [info valueForKeyPath:@"aps.alert.channel"];
     uint64_t mid = get_utc_time64();
     CHTPMsgContent *content = [CHTPMsgContent new];
     if ([[info valueForKeyPath:@"aps.alert.image"] length] > 0) {
@@ -33,7 +34,14 @@ NSDictionary *try_mock_notification(NSDictionary* info) {
         content.title = [info valueForKeyPath:@"aps.alert.title"];
     }
     CHTPMessage *msg = [CHTPMessage new];
-    msg.channel = [NSData dataFromHex:@"0801"];
+    if (chn.length <= 0) {
+        msg.channel = [NSData dataFromHex:@"0801"];
+    } else {
+        CHTPChannel *chan = [CHTPChannel new];
+        chan.type = CHTPChanType_User;
+        chan.name = chn;
+        msg.channel = chan.data;
+    }
     msg.content = content.data;
     NSData *payload = msg.data;
     NSMutableData *nonce = [NSMutableData dataWithLength:kCHAesGcmNonceBytes];
