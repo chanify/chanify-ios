@@ -59,7 +59,7 @@
     detailLabel.backgroundColor = UIColor.clearColor;
     detailLabel.textColor = theme.minorLabelColor;
     detailLabel.numberOfLines = 2;
-    detailLabel.font = [UIFont systemFontOfSize:15];
+    detailLabel.font = [UIFont systemFontOfSize:12];
     
     UILabel *statusLabel = [UILabel new];
     [self.bubbleView addSubview:(_statusLabel = statusLabel)];
@@ -88,15 +88,15 @@
     CGSize size = configuration.bubbleRect.size;
     CGFloat offset = kCHFileMsgCellIconWidth + 20;
     CGFloat width = size.width - kCHFileMsgCellIconWidth - 30;
-    self.statusLabel.frame = CGRectMake(offset, size.height - 20, width, 10);
+    self.statusLabel.frame = CGRectMake(offset, size.height - 16, width, 10);
     self.iconView.frame = CGRectMake(10, 10, kCHFileMsgCellIconWidth, size.height - 20);
     if (self.detailLabel.text.length <= 0) {
-        self.titleLabel.frame = CGRectMake(offset, 8, width, size.height - 36);
+        self.titleLabel.frame = CGRectMake(offset, 10, width, size.height - 25);
         self.detailLabel.frame = CGRectZero;
         self.titleLabel.numberOfLines = 3;
     } else {
-        self.titleLabel.frame = CGRectMake(offset, 8, width, 20);
-        self.detailLabel.frame = CGRectMake(offset, 30, width, size.height - 58);
+        self.titleLabel.frame = CGRectMake(offset, 10, width, 16);
+        self.detailLabel.frame = CGRectMake(offset, 27, width, size.height - 44);
         self.titleLabel.numberOfLines = 1;
     }
 
