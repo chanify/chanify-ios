@@ -17,6 +17,7 @@
 		6D278EA825E4CC9500FC48CD /* CHNodesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278EA725E4CC9500FC48CD /* CHNodesViewController.m */; };
 		6D278EAD25E5598A00FC48CD /* CHTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278EAC25E5598A00FC48CD /* CHTableView.m */; };
 		6D2C721C261E002A003CDCDB /* CHFileMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2C721B261E002A003CDCDB /* CHFileMsgCellConfiguration.m */; };
+		6D3EB44B262AABD900BE797F /* CHNavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3EB44A262AABD900BE797F /* CHNavigationTitleView.m */; };
 		6D4416F925F264A70041EBA0 /* CHFormButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4416F825F264A70041EBA0 /* CHFormButtonItem.m */; };
 		6D4416FE25F2655C0041EBA0 /* CHFormValueItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4416FD25F2655C0041EBA0 /* CHFormValueItem.m */; };
 		6D44170525F273150041EBA0 /* CHFormCodeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D44170425F273150041EBA0 /* CHFormCodeItem.m */; };
@@ -225,6 +226,8 @@
 		6D278EAC25E5598A00FC48CD /* CHTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHTableView.m; sourceTree = "<group>"; };
 		6D2C721A261E002A003CDCDB /* CHFileMsgCellConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFileMsgCellConfiguration.h; sourceTree = "<group>"; };
 		6D2C721B261E002A003CDCDB /* CHFileMsgCellConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFileMsgCellConfiguration.m; sourceTree = "<group>"; };
+		6D3EB449262AABD900BE797F /* CHNavigationTitleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNavigationTitleView.h; sourceTree = "<group>"; };
+		6D3EB44A262AABD900BE797F /* CHNavigationTitleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNavigationTitleView.m; sourceTree = "<group>"; };
 		6D4416F725F264A70041EBA0 /* CHFormButtonItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormButtonItem.h; sourceTree = "<group>"; };
 		6D4416F825F264A70041EBA0 /* CHFormButtonItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormButtonItem.m; sourceTree = "<group>"; };
 		6D4416FC25F2655C0041EBA0 /* CHFormValueItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormValueItem.h; sourceTree = "<group>"; };
@@ -773,6 +776,8 @@
 				6D12BC332625A0DA005659EA /* CHLoadingView.m */,
 				6DD5A101260EFB9900799032 /* CHWebImageView.h */,
 				6DD5A102260EFB9900799032 /* CHWebImageView.m */,
+				6D3EB449262AABD900BE797F /* CHNavigationTitleView.h */,
+				6D3EB44A262AABD900BE797F /* CHNavigationTitleView.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1161,6 +1166,7 @@
 				6DC6C39F25D16FE600512E36 /* CHMessagesDataSource.m in Sources */,
 				6D44170525F273150041EBA0 /* CHFormCodeItem.m in Sources */,
 				6DC6C2A625D14BE000512E36 /* CHDevice.m in Sources */,
+				6D3EB44B262AABD900BE797F /* CHNavigationTitleView.m in Sources */,
 				6DC6C33E25D1694100512E36 /* CHChannelsViewController.m in Sources */,
 				6DD7B5B0260DE2D4001D5DCB /* CHImageMsgCellConfiguration.m in Sources */,
 				6DD5A0F9260EF99E00799032 /* CHWebObjectManager.m in Sources */,

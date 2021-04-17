@@ -8,6 +8,7 @@
 #import "CHChannelsViewController.h"
 #import <Masonry/Masonry.h>
 #import "CHChannelTableViewCell.h"
+#import "CHNavigationTitleView.h"
 #import "CHTableView.h"
 #import "CHUserDataSource.h"
 #import "CHMessageModel.h"
@@ -34,6 +35,8 @@ static NSString *const cellIdentifier = @"chan";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.navigationItem.titleView = [[CHNavigationTitleView alloc] initWithNavigationController:self.navigationController];
 
     NSArray *actions = @[
         [UIAction actionWithTitle:@"Scan QR Code".localized image:[UIImage systemImageNamed:@"qrcode.viewfinder"] identifier:@"scan" handler:^(UIAction *action) {
@@ -64,7 +67,9 @@ static NSString *const cellIdentifier = @"chan";
         return cell;
     }];
 
-    [CHLogic.shared addDelegate:self];
+    CHLogic *logic = CHLogic.shared;
+    [logic addDelegate:self];
+    [self updateTitleWithUnread:logic.unreadSumAllChannel];
     [self reloadData];
 }
 
@@ -123,6 +128,10 @@ static NSString *const cellIdentifier = @"chan";
     [self.dataSource applySnapshot:snapshot animatingDifferences:YES];
 }
 
+- (void)logicMessagesUnreadChanged:(NSNumber *)unread {
+    [self updateTitleWithUnread:unread.integerValue];
+}
+
 #pragma mark - Private Methods
 - (void)reloadData {
     NSArray<CHChannelModel *> *items = [CHLogic.shared.userDataSource loadChannels];
@@ -130,6 +139,17 @@ static NSString *const cellIdentifier = @"chan";
     [snapshot appendSectionsWithIdentifiers:@[@"main"]];
     [snapshot appendItemsWithIdentifiers:[items sortedArrayUsingSelector:@selector(messageCompare:)]];
     [self.dataSource applySnapshot:snapshot animatingDifferences:NO];
+}
+
+- (void)updateTitleWithUnread:(NSInteger)unread {
+    NSString *badge = nil;
+    NSString *title = self.title;
+    if (unread > 0) {
+        badge = (unread > 99 ? @"⋯" : [NSString stringWithFormat:@"%ld", (long)unread]);
+        title = [title stringByAppendingString:(unread > 999 ? @" (999+)" : [NSString stringWithFormat:@" (%ld)", (long)unread])];
+    }
+    [(CHNavigationTitleView *)self.navigationItem.titleView setTitle:title];
+    self.tabBarItem.badgeValue = badge;
 }
 
 

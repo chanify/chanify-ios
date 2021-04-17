@@ -84,7 +84,7 @@
     if (self = [super init]) {
         _mid = mid;
         _from = msg.from.base32;
-        _channel = msg.channel;
+        _channel = msg.channel ?: [NSData dataFromHex:@kCHDefChanCode];
 
         CHTPSound *sound = msg.sound;
         if (sound != nil && sound.type == CHTPSoundType_NormalSound) {

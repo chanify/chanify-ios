@@ -13,7 +13,6 @@
 #import "CHLogic.h"
 
 #define kCHUserDBVersion    2
-#define kCHDefChanCode      "0801"
 #define kCHNSInitSql        \
     "CREATE TABLE IF NOT EXISTS `options`(`key` TEXT PRIMARY KEY,`value` BLOB);"   \
     "CREATE TABLE IF NOT EXISTS `messages`(`mid` TEXT PRIMARY KEY,`cid` BLOB,`from` TEXT,`raw` BLOB);"  \
@@ -342,13 +341,14 @@
     return model;
 }
 
-- (BOOL)upsertMessageData:(NSData *)data ks:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid ignoreChannels:(NSSet<NSString *> *)ignores cid:(NSString **)cid {
-    __block BOOL res = NO;
+- (nullable CHMessageModel *)upsertMessageData:(NSData *)data ks:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid ignoreChannels:(NSSet<NSString *> *)ignores flags:(CHUpsertMessageFlags *)pFlags {
+    CHMessageModel *msg = nil;
     if (mid.length > 0) {
         NSData *raw = nil;
         CHMessageModel *model = [CHMessageModel modelWithKS:ks uid:uid mid:mid data:data raw:&raw];
         if (model != nil) {
-            __block NSString *cidStr = nil;
+            __block BOOL res = NO;
+            __block CHUpsertMessageFlags flags = 0;
             [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
                 NSData *ccid = model.channel;
                 res = [db executeUpdate:@"INSERT OR IGNORE INTO `messages`(`mid`,`cid`,`from`,`raw`) VALUES(?,?,?,?);", mid, ccid, model.from, raw];
@@ -367,23 +367,28 @@
                     [result setParentDB:nil];
                     if (!chanFound) {
                         if([db executeUpdate:@"INSERT INTO `channels`(`cid`,`mid`,`unread`) VALUES(?,?,1) ON CONFLICT(`cid`) DO UPDATE SET `mid`=excluded.`mid`,`unread`=IFNULL(`unread`,0)+1,`deleted`=0;", ccid, mid]) {
-                            cidStr = ccid.base64;
+                            flags |= CHUpsertMessageFlagChannel;
                         }
                     }
                     if (changes > 0 && ![ignores containsObject:ccid.base64]) {
                         [db executeUpdate:@"UPDATE OR IGNORE `channels` SET `unread`=IFNULL(`unread`,0)+1 WHERE `cid`=? LIMIT 1;", ccid];
+                        flags |= CHUpsertMessageFlagUnread;
                     }
                     if (oldMid.length <= 0 || [oldMid compare:mid] == NSOrderedAscending) {
                         [db executeUpdate:@"UPDATE `channels` SET `mid`=? WHERE `cid`=?;", mid, ccid];
+                        flags |= CHUpsertMessageFlagChannel;
                     }
                 }
             }];
-            if (cid != nil && cidStr.length > 0) {
-                *cid = cidStr;
+            if (pFlags != nil) {
+                *pFlags = flags;
+            }
+            if (res) {
+                msg = model;
             }
         }
     }
-    return res;
+    return msg;
 }
 
 

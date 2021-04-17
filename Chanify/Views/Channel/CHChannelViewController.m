@@ -10,6 +10,8 @@
 #import "CHMessagesDataSource.h"
 #import "CHUserDataSource.h"
 #import "CHChannelModel.h"
+#import "CHNavigationTitleView.h"
+#import "CHBadgeView.h"
 #import "CHRouter.h"
 #import "CHLogic.h"
 #import "CHTheme.h"
@@ -19,6 +21,7 @@
 @property (nonatomic, readonly, strong) CHChannelModel *model;
 @property (nonatomic, readonly, strong) CHMessagesDataSource *dataSource;
 @property (nonatomic, nullable, strong) UICollectionView *listView;
+@property (nonatomic, nullable, strong) CHBadgeView *badgeView;
 
 @end
 
@@ -38,6 +41,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    CHTheme *theme = CHTheme.shared;
+    
+    CHNavigationTitleView *titleView = [[CHNavigationTitleView alloc] initWithNavigationController:self.navigationController];
+    self.navigationItem.titleView = titleView;
+
+    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
+        CHBadgeView *badgeView = [[CHBadgeView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+        [titleView addSubview:(_badgeView = badgeView)];
+        badgeView.textColor = theme.labelColor;
+        badgeView.tintColor = theme.lightLabelColor;
+        badgeView.backgroundColor = theme.backgroundColor;
+    }
 
     UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
     layout.minimumLineSpacing = 16;
@@ -57,8 +73,16 @@
     _dataSource = [CHMessagesDataSource dataSourceWithCollectionView:listView channelID:self.model.cid];
     
     [self setEditing:NO animated:NO];
-    
+
     [CHLogic.shared addDelegate:self];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    if (self.badgeView != nil) {
+        CGRect bounds = self.navigationItem.titleView.bounds;
+        self.badgeView.frame = CGRectMake(-20, (bounds.size.height - 20 )*0.5, 20, 20);
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -89,6 +113,7 @@
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
     self.listView.allowsSelection = editing;
     [self.listView setEditing:editing];
+    self.badgeView.hidden = editing;
     if (editing) {
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Delete".localized style:UIBarButtonItemStylePlain target:self action:@selector(actionDelete:)];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel".localized style:UIBarButtonItemStylePlain target:self action:@selector(actionCancel:)];
@@ -152,6 +177,10 @@
     [self.dataSource deleteMessages:mids animated:YES];
 }
 
+- (void)logicMessagesUnreadChanged:(NSNumber *)unread {
+    [self updateUnreadBadge:unread.integerValue];
+}
+
 #pragma mark - Action Methods
 - (void)actionInfo:(id)sender {
     [CHRouter.shared routeTo:@"/page/channel/detail" withParams:@{ @"cid": self.model.cid }];
@@ -180,6 +209,15 @@
         _model = [CHLogic.shared.userDataSource channelWithCID:cid];
         self.title = self.model.title;
     }
+}
+
+- (void)updateUnreadBadge:(NSInteger)unread {
+    self.badgeView.count = unread;
+}
+
+- (void)setTitle:(NSString *)title {
+    [super setTitle:title];
+    [(CHNavigationTitleView *)self.navigationItem.titleView setTitle:title];
 }
 
 

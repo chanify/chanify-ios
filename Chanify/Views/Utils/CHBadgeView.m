@@ -11,6 +11,7 @@
 @interface CHBadgeView ()
 
 @property (nonatomic, readonly, strong) NSAttributedString *countText;
+@property (nonatomic, readonly, strong) NSMutableDictionary *attributes;
 
 @end
 
@@ -18,11 +19,15 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        self.backgroundColor = CHTheme.shared.alertColor;
+        self.tintColor = CHTheme.shared.alertColor;
         self.clipsToBounds = YES;
-        self.hidden = YES;
+        self.alpha = 0;
         _count = 0;
         _countText = nil;
+        _attributes = [[NSMutableDictionary alloc] initWithDictionary:@{
+            NSFontAttributeName: [UIFont boldSystemFontOfSize:10],
+            NSForegroundColorAttributeName: UIColor.whiteColor,
+        }];
     }
     return self;
 }
@@ -35,14 +40,30 @@
 
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
-    
-    if (self.countText != nil) {
-        CGRect rc = [self.countText boundingRectWithSize:rect.size options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingTruncatesLastVisibleLine context:nil];
+    if (self.countText.length > 0) {
+        CGRect bounds = self.bounds;
+        [self.tintColor setFill];
+        CGContextFillRect(UIGraphicsGetCurrentContext(), rect);
+        CGRect rc = [self.countText boundingRectWithSize:bounds.size options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingTruncatesLastVisibleLine context:nil];
         rc.size.width = ceil(rc.size.width);
         rc.size.height = ceil(rc.size.height);
-        rc.origin.x = (rect.size.width - rc.size.width) * 0.5;
-        rc.origin.y = (rect.size.height - rc.size.height) * 0.5;
+        rc.origin.x = (bounds.size.width - rc.size.width) * 0.5;
+        rc.origin.y = (bounds.size.height - rc.size.height) * 0.5;
         [self.countText drawInRect:rc];
+    }
+}
+
+- (UIColor *)textColor {
+    return [self.attributes valueForKey:NSForegroundColorAttributeName];
+}
+
+- (void)setTextColor:(UIColor *)textColor {
+    if (![self.textColor isEqual:textColor]) {
+        [self.attributes setValue:textColor forKey:NSForegroundColorAttributeName];
+        if (self.countText.length > 0) {
+            _countText = [[NSAttributedString alloc] initWithString:self.countText.string attributes:self.attributes];
+        }
+        [self setNeedsDisplay];
     }
 }
 
@@ -51,24 +72,16 @@
         _count = count;
         NSString *value = @"";
         if (count <= 0) {
-            self.hidden = YES;
+            self.alpha = 0;
         } else {
-            self.hidden = NO;
+            self.alpha = 1;
             if (count > 99) {
                 value = @"⋯";
             } else {
                 value = [NSString stringWithFormat:@"%ld", (long)count];
             }
         }
-        static NSDictionary *attributes = nil;
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            attributes = @{
-                NSFontAttributeName: [UIFont boldSystemFontOfSize:10],
-                NSForegroundColorAttributeName: UIColor.whiteColor,
-            };
-        });
-        _countText = [[NSAttributedString alloc] initWithString:value attributes:attributes];
+        _countText = [[NSAttributedString alloc] initWithString:value attributes:self.attributes];
         [self setNeedsDisplay];
     }
 }

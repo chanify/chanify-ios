@@ -9,6 +9,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#define kCHDefChanCode      "0801"
+
+typedef NS_OPTIONS(NSUInteger, CHUpsertMessageFlags) {
+    CHUpsertMessageFlagUnread       = 1 << 0,
+    CHUpsertMessageFlagChannel      = 1 << 1,
+};
+
 @class CHNodeModel;
 @class CHChannelModel;
 @class CHMessageModel;
@@ -39,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)deleteMessages:(NSArray<NSString *> *)mids;
 - (NSArray<CHMessageModel *> *)messageWithCID:(nullable NSString *)cid from:(NSString *)from to:(NSString *)to count:(NSUInteger)count;
 - (nullable CHMessageModel *)messageWithMID:(nullable NSString *)mid;
-- (BOOL)upsertMessageData:(NSData *)data ks:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid ignoreChannels:(NSSet<NSString *> *)ignores cid:(NSString * _Nullable * _Nullable)cid;
+- (nullable CHMessageModel *)upsertMessageData:(NSData *)data ks:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid ignoreChannels:(NSSet<NSString *> *)ignores flags:(CHUpsertMessageFlags *)pFlags;
 
 
 @end

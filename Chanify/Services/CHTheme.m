@@ -58,6 +58,7 @@
         UITabBarItem *tabBarItem = UITabBarItem.appearance;
         [tabBarItem setTitleTextAttributes:@{ NSForegroundColorAttributeName: self.tintColor } forState:UIControlStateSelected];
         [tabBarItem setTitleTextAttributes:@{ NSForegroundColorAttributeName: self.minorLabelColor } forState:UIControlStateNormal];
+        [tabBarItem setBadgeTextAttributes:@{ NSFontAttributeName: [UIFont boldSystemFontOfSize:10] } forState:UIControlStateNormal];
 
         UISwitch.appearance.onTintColor = self.tintColor;
         UIProgressView.appearance.tintColor = self.tintColor;

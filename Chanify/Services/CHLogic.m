@@ -6,6 +6,7 @@
 //
 
 #import "CHLogic.h"
+#import <AudioToolbox/AudioToolbox.h>
 #import <AFNetworking/AFNetworking.h>
 #import "CHWebObjectManager.h"
 #import "CHWebFileManager.h"
@@ -165,12 +166,20 @@
     NSString *mid = nil;
     NSString *uid = [CHMessageModel parsePacket:userInfo mid:&mid data:&data];
     if (uid.length > 0 && [uid isEqualToString:self.me.uid] && mid.length > 0 && data.length > 0) {
-        NSString *cid = nil;
-        if ([self.userDataSource upsertMessageData:data ks:self.nsDataSource uid:uid mid:mid ignoreChannels:self.readChannles cid:&cid]) {
-            if (cid != nil) {
-                [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[]];
+        CHUpsertMessageFlags flags= 0;
+        CHMessageModel *model = [self.userDataSource upsertMessageData:data ks:self.nsDataSource uid:uid mid:mid ignoreChannels:self.readChannles flags:&flags];
+        if (model != nil) {
+            if (flags & CHUpsertMessageFlagChannel) {
+                [self sendNotifyWithSelector:@selector(logicChannelUpdated:) withObject:model.channel.base64];
             }
             [self sendNotifyWithSelector:@selector(logicMessagesUpdated:) withObject:@[mid]];
+            if (flags & CHUpsertMessageFlagUnread) {
+                // TODO: Fix calc unread count
+                [self sendNotifyWithSelector:@selector(logicMessagesUnreadChanged:) withObject:@(self.userDataSource.unreadSumAllChannel)];
+                if ([model.sound boolValue]) {
+                    [self sendAlertNewMessage];
+                }
+            }
             res = YES;
         }
     }
@@ -377,6 +386,10 @@
         [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[cid]];
     }
     return res;
+}
+
+- (NSInteger)unreadSumAllChannel {
+    return [self.userDataSource unreadSumAllChannel];
 }
 
 - (NSInteger)unreadWithChannel:(nullable NSString *)cid {
@@ -645,13 +658,22 @@
 - (void)updatePushMessage {
     NSString *uid = self.me.uid;
     if (uid.length > 0) {
-        __block BOOL channelUpdated = NO;
+        __block BOOL unreadChnaged = NO;
+        __block BOOL needAlertUnread= NO;
+        NSMutableSet<NSString *> *cids = [NSMutableSet new];
         NSMutableArray<NSString *> *mids = [NSMutableArray new];
         [self.nsDataSource enumerateMessagesWithUID:uid block:^(FMDatabase *db, NSString *mid, NSData *data) {
-            NSString *cid = nil;
-            if ([self.userDataSource upsertMessageData:data ks:[CHTempKeyStorage keyStorage:db] uid:uid mid:mid ignoreChannels:self.readChannles cid:&cid]) {
-                if (cid != nil) {
-                    channelUpdated = YES;
+            CHUpsertMessageFlags flags = 0;
+            CHMessageModel *msg = [self.userDataSource upsertMessageData:data ks:[CHTempKeyStorage keyStorage:db] uid:uid mid:mid ignoreChannels:self.readChannles flags:&flags];
+            if (msg != nil) {
+                if (flags & CHUpsertMessageFlagChannel) {
+                    [cids addObject:msg.channel.base64];
+                }
+                if (flags & CHUpsertMessageFlagUnread) {
+                    unreadChnaged = YES;
+                    if ([msg.sound boolValue] > 0) {
+                        needAlertUnread = YES;
+                    }
                 }
             }
             if (mid.length > 0) {
@@ -663,16 +685,34 @@
             [self sendNotifyWithSelector:@selector(logicMessagesUpdated:) withObject:mids];
         }
         [self.nsDataSource close];
-        if (channelUpdated) {
-            [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[]];
+        if (cids.count > 0) {
+            [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:cids.allObjects];
+        }
+        if (unreadChnaged) {
+            // TODO: Fix calc unread count
+            [self sendNotifyWithSelector:@selector(logicMessagesUnreadChanged:) withObject:@(self.userDataSource.unreadSumAllChannel)];
+        }
+        if (needAlertUnread) {
+            [self sendAlertNewMessage];
         }
     }
+}
+
+#pragma mark - Private Methods
+- (void)sendAlertNewMessage {
+    dispatch_main_async(^{
+        if (UIApplication.sharedApplication.applicationState == UIApplicationStateActive) {
+            AudioServicesPlaySystemSound(1007);
+        }
+    });
 }
 
 - (BOOL)clearUnreadWithChannel:(nullable NSString *)cid {
     BOOL res = [self.userDataSource clearUnreadWithChannel:cid];
     if (res) {
         [self sendNotifyWithSelector:@selector(logicChannelUpdated:) withObject:cid];
+        // TODO: Fix calc unread count
+        [self sendNotifyWithSelector:@selector(logicMessagesUnreadChanged:) withObject:@(self.userDataSource.unreadSumAllChannel)];
     }
     return res;
 }

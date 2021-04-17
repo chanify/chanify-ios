@@ -8,6 +8,7 @@
 #import "CHMock.h"
 #if TARGET_OS_SIMULATOR
 #import "CHNSDataSource.h"
+#import "CHUserDataSource.h"
 #import "CHLogic.h"
 #import "CHCrpyto.h"
 #import "CHTP.pbobjc.h"
@@ -35,7 +36,7 @@ NSDictionary *try_mock_notification(NSDictionary* info) {
     }
     CHTPMessage *msg = [CHTPMessage new];
     if (chn.length <= 0) {
-        msg.channel = [NSData dataFromHex:@"0801"];
+        msg.channel = [NSData dataFromHex:@kCHDefChanCode];
     } else {
         CHTPChannel *chan = [CHTPChannel new];
         chan.type = CHTPChanType_User;

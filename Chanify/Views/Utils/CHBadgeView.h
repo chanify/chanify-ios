@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CHBadgeView : UIView
 
+@property (nonatomic, strong) UIColor *textColor;
 @property (nonatomic, assign) NSInteger count;
 
 
