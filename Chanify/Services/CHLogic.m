@@ -87,7 +87,7 @@
 - (void)active {
     [CHNotification.shared updateStatus];
     [self reloadUserDB];
-    [self updatePushMessage];
+    [self updatePushMessage:NO];
     [self reloadBadge];
 }
 
@@ -159,7 +159,7 @@
 
 - (BOOL)recivePushMessage:(NSDictionary *)userInfo {
     // TODO: Remove this update call.
-    [self updatePushMessage];
+    [self updatePushMessage:YES];
 
     BOOL res = NO;
     NSData *data = nil;
@@ -176,9 +176,6 @@
             if (flags & CHUpsertMessageFlagUnread) {
                 // TODO: Fix calc unread count
                 [self sendNotifyWithSelector:@selector(logicMessagesUnreadChanged:) withObject:@(self.userDataSource.unreadSumAllChannel)];
-                if ([model.sound boolValue]) {
-                    [self sendAlertNewMessage];
-                }
             }
             res = YES;
         }
@@ -574,7 +571,7 @@
 - (void)doLogin:(CHUserModel *)user key:(NSData *)key {
     _me = user;
     [self reloadUserDB];
-    [self updatePushMessage];
+    [self updatePushMessage:NO];
     self.userDataSource.srvkey = key;
     [self.nsDataSource updateKey:key uid:self.me.uid];
     [CHNotification.shared checkAuth];
@@ -655,10 +652,10 @@
     }
 }
 
-- (void)updatePushMessage {
+- (void)updatePushMessage:(BOOL)alert {
     NSString *uid = self.me.uid;
     if (uid.length > 0) {
-        __block BOOL unreadChnaged = NO;
+        __block BOOL unreadChanged = NO;
         __block BOOL needAlertUnread= NO;
         NSMutableSet<NSString *> *cids = [NSMutableSet new];
         NSMutableArray<NSString *> *mids = [NSMutableArray new];
@@ -670,7 +667,7 @@
                     [cids addObject:msg.channel.base64];
                 }
                 if (flags & CHUpsertMessageFlagUnread) {
-                    unreadChnaged = YES;
+                    unreadChanged = YES;
                     if ([msg.sound boolValue] > 0) {
                         needAlertUnread = YES;
                     }
@@ -688,11 +685,11 @@
         if (cids.count > 0) {
             [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:cids.allObjects];
         }
-        if (unreadChnaged) {
+        if (unreadChanged) {
             // TODO: Fix calc unread count
             [self sendNotifyWithSelector:@selector(logicMessagesUnreadChanged:) withObject:@(self.userDataSource.unreadSumAllChannel)];
         }
-        if (needAlertUnread) {
+        if (alert && needAlertUnread) {
             [self sendAlertNewMessage];
         }
     }
