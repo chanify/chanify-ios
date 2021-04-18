@@ -7,7 +7,6 @@
 
 #import "CHLogic.h"
 #import <AudioToolbox/AudioToolbox.h>
-#import <AFNetworking/AFNetworking.h>
 #import "CHWebObjectManager.h"
 #import "CHWebFileManager.h"
 #import "CHLinkMetaManager.h"
@@ -30,7 +29,7 @@
 
 @property (nonatomic, readonly, strong) NSURL *baseURL;
 @property (nonatomic, readonly, strong) NSString *userAgent;
-@property (nonatomic, readonly, strong) AFURLSessionManager *manager;
+@property (nonatomic, readonly, strong) NSURLSession *session;
 @property (nonatomic, readonly, strong) NSData *pushToken;
 @property (nonatomic, readonly, strong) NSMutableSet<NSString *> *invalidNodes;
 @property (nonatomic, readonly, strong) NSMutableSet<NSString *> *readChannles;
@@ -56,7 +55,7 @@
         _me = [CHUserModel modelWithKey:[CHSecKey secKeyWithName:@kCHUserSecKeyName device:NO created:NO]];
         _baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://%s/rest/v1/", kCHAPIHostname]];
         _userAgent = [NSString stringWithFormat:@"%@/%@-%d (%@; %@; Scale/%0.2f)", device.app, device.version, device.build, device.model, device.osInfo, device.scale];
-        _manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:NSURLSessionConfiguration.ephemeralSessionConfiguration];
+        _session = [NSURLSession sessionWithConfiguration:NSURLSessionConfiguration.ephemeralSessionConfiguration];
         _nsDataSource = [CHNSDataSource dataSourceWithURL:[fileManager URLForGroupId:@kCHAppGroupName path:@kCHDBNotificationServiceName]];
         _userDataSource = nil;
         _webImageManager = nil;
@@ -333,7 +332,7 @@
     [request setHTTPMethod:@"GET"];
     [request setValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Accept"];
-    NSURLSessionDataTask *task = [self.manager.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         CHLCode ret = CHLCodeFailed;
         NSDictionary *result = nil;
         if (error == nil) {
@@ -560,8 +559,13 @@
     }
     [request setValue:[user.key sign:data].base64 forHTTPHeaderField:@"CHUserSign"];
     [request setHTTPBody:data];
-    NSURLSessionDataTask *task = [self.manager dataTaskWithRequest:request uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, NSDictionary *result, NSError *error) {
+    
+    NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (completion != nil) {
+            NSDictionary *result = nil;
+            if (error == nil) {
+                result = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves) error:&error];
+            }
             completion(response, result, error);
         }
     }];

@@ -1,19 +1,4 @@
 PODS:
-  - AFNetworking (4.0.1):
-    - AFNetworking/NSURLSession (= 4.0.1)
-    - AFNetworking/Reachability (= 4.0.1)
-    - AFNetworking/Security (= 4.0.1)
-    - AFNetworking/Serialization (= 4.0.1)
-    - AFNetworking/UIKit (= 4.0.1)
-  - AFNetworking/NSURLSession (4.0.1):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/Reachability (4.0.1)
-  - AFNetworking/Security (4.0.1)
-  - AFNetworking/Serialization (4.0.1)
-  - AFNetworking/UIKit (4.0.1):
-    - AFNetworking/NSURLSession
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -23,7 +8,6 @@ PODS:
   - Protobuf (3.15.8)
 
 DEPENDENCIES:
-  - AFNetworking
   - FMDB
   - JLRoutes
   - M80AttributedLabel
@@ -32,7 +16,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
-    - AFNetworking
     - FMDB
     - JLRoutes
     - M80AttributedLabel
@@ -40,13 +23,12 @@ SPEC REPOS:
     - Protobuf
 
 SPEC CHECKSUMS:
-  AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   JLRoutes: d755245322b94227662ea3e43492fdca94e05c5b
   M80AttributedLabel: 77fedfe63804c989a6de0fa4d400ea8cad3ab441
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   Protobuf: adb85cd18a15bd1a777c158af9fd6e612a0e6d69
 
-PODFILE CHECKSUM: af530fe69b3572f5fb323dc68d8e4c010f7c3a16
+PODFILE CHECKSUM: feb7b36234077e3bb30fe8aaa48f23d578b3238e
 
 COCOAPODS: 1.10.0

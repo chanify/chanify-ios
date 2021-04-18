@@ -7,7 +7,6 @@ inhibit_all_warnings!
 $project_name = 'Chanify'
 
 target $project_name do
-	pod 'AFNetworking'
 	pod 'FMDB'
 	pod 'JLRoutes'
 	pod 'Masonry'
