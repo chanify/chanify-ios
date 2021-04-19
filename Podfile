@@ -1,12 +1,13 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
-platform :ios, '14.0'
-
 inhibit_all_warnings!
 
 $project_name = 'Chanify'
 
+platform :ios, '14.0'
+
 target $project_name do
+
 	pod 'FMDB'
 	pod 'JLRoutes'
 	pod 'Masonry'
@@ -15,6 +16,21 @@ target $project_name do
 end
 
 target 'NotificationService' do
+
+	pod 'FMDB'
+	pod 'Protobuf'
+end
+
+target 'Watch Extension' do 
+	platform :watchos, '7.0'
+
+	pod 'FMDB'
+	pod 'Protobuf'
+end
+
+target 'WatchNotificationService' do 
+	platform :watchos, '7.0'
+
 	pod 'FMDB'
 	pod 'Protobuf'
 end
