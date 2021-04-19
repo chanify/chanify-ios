@@ -38,20 +38,40 @@
     [self.editItems removeAllObjects];
     [self.inputItemList removeAllObjects];
     for (CHFormSection *section in self.sectionList) {
-        for (CHFormItem *item in section.allItems) {
-            [item updateStatus];
-            if ([item isKindOfClass:CHFormInputItem.class] && !item.isHidden) {
-                [self.inputItemList addObject:(CHFormInputItem *)item];
-            }
-            if ([item conformsToProtocol:@protocol(CHFormEditableItem)]) {
-                id<CHFormEditableItem> itm = (id<CHFormEditableItem>)item;
-                [self.editItems addObject:itm];
+        [section updateStatus];
+        if (!section.isHidden) {
+            for (CHFormItem *item in section.allItems) {
+                [item updateStatus];
+                if ([item isKindOfClass:CHFormInputItem.class] && !item.isHidden) {
+                    [self.inputItemList addObject:(CHFormInputItem *)item];
+                }
+                if ([item conformsToProtocol:@protocol(CHFormEditableItem)]) {
+                    id<CHFormEditableItem> itm = (id<CHFormEditableItem>)item;
+                    [self.editItems addObject:itm];
+                }
             }
         }
     }
 }
 
+- (nullable id)valueForUndefinedKey:(NSString *)key {
+    if (key.length > 0) {
+        return [self formItemWithName:key];
+    }
+    return nil;
+}
+
 - (NSArray<CHFormSection *> *)sections {
+    NSMutableArray<CHFormSection *> *sections = [NSMutableArray arrayWithCapacity:self.sectionList.count];
+    for (CHFormSection *section in self.sectionList) {
+        if (!section.isHidden) {
+            [sections addObject:section];
+        }
+    }
+    return sections;
+}
+
+- (NSArray<CHFormSection *> *)allSections {
     return self.sectionList;
 }
 
@@ -61,6 +81,7 @@
 }
 
 - (nullable CHFormItem *)formItemWithName:(NSString *)name {
+    // TODO: add cache for item
     for (CHFormSection *section in self.sectionList) {
         for (CHFormItem *item in section.allItems) {
             if ([item.name isEqualToString:name]) {

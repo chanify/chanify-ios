@@ -27,11 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)formWithTitle:(NSString *)title;
 - (void)reloadData;
 - (NSArray<CHFormSection *> *)sections;
+- (NSArray<CHFormSection *> *)allSections;
 - (void)addFormSection:(CHFormSection *)section;
 - (nullable CHFormItem *)formItemWithName:(NSString *)name;
 - (NSArray<CHFormInputItem *> *)inputItems;
 - (NSDictionary<NSString *, id> *)formValues;
-
 - (void)notifyItemValueHasChanged:(id<CHFormEditableItem>)item oldValue:(id)oldValue newValue:(id)newValue;
 
 

@@ -12,6 +12,7 @@
 #define kUsageManualURL                 "https://github.com/chanify/chanify"
 #define kCHPrivacyURL                   "https://www.chanify.net/privacy.html"
 #define kCHAppStoreURL                  "itms-apps://itunes.apple.com/app/id1531546573"
+#define kCHWatchAppURL                  "itms-watchs://net.chanify.ios.watchkitapp"
 #define kCHContactEmail                 "support@chanify.net"
 #define kCHAPIHostname                  "api.chanify.net"
 #define kCHAppGroupName                 "group.net.chanify.share"

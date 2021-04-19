@@ -133,7 +133,7 @@
         if (result == CHLCodeOK) {
             [CHRouter.shared routeTo:@"/page/main"];
             dispatch_main_after(kCHAnimateSlowDuration, ^{
-                [CHRouter.shared routeTo:@"/page/user-info" withParams:@{ @"show": @"present", @"auto-close": @(YES) }];
+                [CHRouter.shared routeTo:@"/page/user-info" withParams:@{ @"show": @"present", @"auto-close": @YES }];
             });
         } else {
             [CHRouter.shared makeToast:@"Create account failed".localized];

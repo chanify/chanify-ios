@@ -12,7 +12,7 @@
 #import "CHRouter.h"
 #import "CHTheme.h"
 
-@interface CHSettingsViewController () <CHNotificationDelegate>
+@interface CHSettingsViewController () <CHLogicDelegate, CHNotificationDelegate>
 
 @end
 
@@ -20,12 +20,14 @@
 
 - (instancetype)init {
     if (self = [super init]) {
+        [CHLogic.shared addDelegate:self];
         [CHNotification.shared addDelegate:self];
     }
     return self;
 }
 
 - (void)dealloc {
+    [CHLogic.shared removeDelegate:self];
     [CHNotification.shared removeDelegate:self];
 }
 
@@ -36,6 +38,11 @@
     }
 }
 
+#pragma mark - CHLogicDelegate
+- (void)logicWatchStatusChanged {
+    [self reloadData];
+}
+
 #pragma mark - CHNotificationDelegate
 - (void)notificationStatusChanged {
     [self updateNotificationItem];
@@ -43,6 +50,8 @@
 
 #pragma mark - Private Methods
 - (void)initializeForm {
+    CHTheme *theme = CHTheme.shared;
+    
     CHFormItem *item;
     CHFormSection *section;
     CHForm *form = [CHForm formWithTitle:self.title];
@@ -76,13 +85,30 @@
         [CHRouter.shared routeTo:@"/action/openurl" withParams:@{ @"url": UIApplicationOpenSettingsURLString, @"show": @"detail" }];
     };
     [section addFormItem:item];
-    
+
 //    item = [CHFormValueItem itemWithName:@"sound" title:@"Sound".localized value:@""];
 //    item.action = ^(CHFormItem *itm) {
 //        [CHRouter.shared routeTo:@"/page/sounds" withParams:@{ @"show": @"detail" }];
 //    };
 //    [section addFormItem:item];
 
+    // WATCH
+    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"WATCH".localized])];
+    section.hidden = [NSPredicate predicateWithObject:CHLogic.shared attribute:@"hasWatch" expected:@NO];
+    item = [CHFormValueItem itemWithName:@"appinstall" title:@"No watch app installed".localized];
+    [(CHFormValueItem *)item setTitleTextColor: theme.minorLabelColor];
+    item.hidden = [NSPredicate predicateWithObject:CHLogic.shared attribute:@"isWatchAppInstalled" expected:@YES];
+    item.action = ^(CHFormItem *itm) {
+        [CHRouter.shared routeTo:@"/action/openurl" withParams:@{ @"url": @kCHWatchAppURL }];
+    };
+    [section addFormItem:item];
+    item = [CHFormValueItem itemWithName:@"syncwatch" title:@"Force data sync to watch".localized];
+    item.hidden = [NSPredicate predicateWithObject:form attribute:@"appinstall.isHidden" expected:@NO];
+    item.action = ^(CHFormItem *itm) {
+        // TODO: Sync watch
+    };
+    [section addFormItem:item];
+    
     // HELP
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"HELP".localized])];
     item = [CHFormValueItem itemWithName:@"quick" title:@"Quick Start".localized];

@@ -6,6 +6,7 @@
 //
 
 #import "CHLogic.h"
+#import <WatchConnectivity/WatchConnectivity.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import "CHWebObjectManager.h"
 #import "CHWebFileManager.h"
@@ -25,7 +26,7 @@
 #   define kSandbox    NO  // TestFlight use production APNS.
 #endif
 
-@interface CHLogic ()
+@interface CHLogic () <WCSessionDelegate>
 
 @property (nonatomic, readonly, strong) NSURL *baseURL;
 @property (nonatomic, readonly, strong) NSString *userAgent;
@@ -33,6 +34,7 @@
 @property (nonatomic, readonly, strong) NSData *pushToken;
 @property (nonatomic, readonly, strong) NSMutableSet<NSString *> *invalidNodes;
 @property (nonatomic, readonly, strong) NSMutableSet<NSString *> *readChannles;
+@property (nonatomic, readonly, strong) WCSession *watchSession;
 
 @end
 
@@ -63,6 +65,13 @@
         _linkMetaManager = nil;
         _invalidNodes = [NSMutableSet new];
         _readChannles = [NSMutableSet new];
+        if (!WCSession.isSupported) {
+            _watchSession = nil;
+        } else {
+            _watchSession = WCSession.defaultSession;
+            self.watchSession.delegate = self;
+            [self.watchSession activateSession];
+        }
     }
     return self;
 }
@@ -422,6 +431,30 @@
             [self updatePushToken:self.pushToken endpoint:node.apiURL node:node completion:completion retry:NO];
         }
     }
+}
+
+#pragma mark - Watch Methods
+- (BOOL)hasWatch {
+    return (self.watchSession != nil && self.watchSession.isPaired);
+}
+
+- (BOOL)isWatchAppInstalled {
+    BOOL res = (self.hasWatch && self.watchSession.isWatchAppInstalled);
+    return res;
+}
+
+#pragma mark - WCSessionDelegate
+- (void)session:(WCSession *)session activationDidCompleteWithState:(WCSessionActivationState)activationState error:(nullable NSError *)error {
+}
+
+- (void)sessionWatchStateDidChange:(WCSession *)session {
+    [self sendNotifyWithSelector:@selector(logicWatchStatusChanged)];
+}
+
+- (void)sessionDidBecomeInactive:(WCSession *)session {
+}
+
+- (void)sessionDidDeactivate:(WCSession *)session {
 }
 
 #pragma mark - Message Methods

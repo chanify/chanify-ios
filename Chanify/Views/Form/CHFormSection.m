@@ -10,6 +10,7 @@
 @interface CHFormSection ()
 
 @property (nonatomic, readonly, strong) NSMutableArray<CHFormItem *> *itemList;
+@property (nonatomic, readonly, assign) BOOL isHidden;
 
 @end
 
@@ -26,9 +27,18 @@
 - (instancetype)initWithTitle:(NSString *)title {
     if (self = [super init]) {
         _title = (title ?: @"");
+        _hidden = nil;
+        _isHidden = NO;
         _itemList = [NSMutableArray new];
     }
     return self;
+}
+
+- (void)updateStatus {
+    _isHidden = NO;
+    if (self.hidden != nil) {
+        _isHidden = [self.hidden evaluateWithObject:self];
+    }
 }
 
 - (NSArray<CHFormItem *> *)items {

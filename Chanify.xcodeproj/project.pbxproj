@@ -19,6 +19,7 @@
 		6D278EAD25E5598A00FC48CD /* CHTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278EAC25E5598A00FC48CD /* CHTableView.m */; };
 		6D2C721C261E002A003CDCDB /* CHFileMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2C721B261E002A003CDCDB /* CHFileMsgCellConfiguration.m */; };
 		6D3EB44B262AABD900BE797F /* CHNavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3EB44A262AABD900BE797F /* CHNavigationTitleView.m */; };
+		6D3F61DA262DB64500E122BC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D3F61D8262DB64500E122BC /* Localizable.strings */; };
 		6D4416F925F264A70041EBA0 /* CHFormButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4416F825F264A70041EBA0 /* CHFormButtonItem.m */; };
 		6D4416FE25F2655C0041EBA0 /* CHFormValueItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4416FD25F2655C0041EBA0 /* CHFormValueItem.m */; };
 		6D44170525F273150041EBA0 /* CHFormCodeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D44170425F273150041EBA0 /* CHFormCodeItem.m */; };
@@ -337,6 +338,8 @@
 		6D2C721B261E002A003CDCDB /* CHFileMsgCellConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFileMsgCellConfiguration.m; sourceTree = "<group>"; };
 		6D3EB449262AABD900BE797F /* CHNavigationTitleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNavigationTitleView.h; sourceTree = "<group>"; };
 		6D3EB44A262AABD900BE797F /* CHNavigationTitleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNavigationTitleView.m; sourceTree = "<group>"; };
+		6D3F61D9262DB64500E122BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6D3F61E1262DB66600E122BC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6D4416F725F264A70041EBA0 /* CHFormButtonItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormButtonItem.h; sourceTree = "<group>"; };
 		6D4416F825F264A70041EBA0 /* CHFormButtonItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormButtonItem.m; sourceTree = "<group>"; };
 		6D4416FC25F2655C0041EBA0 /* CHFormValueItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormValueItem.h; sourceTree = "<group>"; };
@@ -371,7 +374,6 @@
 		6D90AFCE262D623300FBE1A6 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 		6D90AFD0262D623300FBE1A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6D90AFD5262D623300FBE1A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6D90AFD6262D623300FBE1A6 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		6D90AFED262D631C00FBE1A6 /* Watch Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Watch Extension.entitlements"; sourceTree = "<group>"; };
 		6D9C209226020A4200F40CDD /* CHFormSwitchItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormSwitchItem.h; sourceTree = "<group>"; };
 		6D9C209326020A4200F40CDD /* CHFormSwitchItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormSwitchItem.m; sourceTree = "<group>"; };
@@ -649,6 +651,16 @@
 			path = Nodes;
 			sourceTree = "<group>";
 		};
+		6D3F61C5262DB59500E122BC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6D3F61D8262DB64500E122BC /* Localizable.strings */,
+				6D90AFD0262D623300FBE1A6 /* Assets.xcassets */,
+				6D90AFD5262D623300FBE1A6 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		6D4416F425F264540041EBA0 /* Item */ = {
 			isa = PBXGroup;
 			children = (
@@ -729,14 +741,12 @@
 			children = (
 				6D897D43262D750C0048D9A6 /* Views */,
 				6D897D1D262D6BD00048D9A6 /* Services */,
+				6D3F61C5262DB59500E122BC /* Resources */,
 				6D90AFED262D631C00FBE1A6 /* Watch Extension.entitlements */,
 				6D897CE6262D67D50048D9A6 /* Watch Extension-Bridging-Header.h */,
 				6D90AFC6262D623200FBE1A6 /* ChanifyApp.swift */,
 				6D90AFCA262D623300FBE1A6 /* NotificationController.swift */,
 				6D90AFCE262D623300FBE1A6 /* ComplicationController.swift */,
-				6D90AFD0262D623300FBE1A6 /* Assets.xcassets */,
-				6D90AFD5262D623300FBE1A6 /* Info.plist */,
-				6D90AFD6262D623300FBE1A6 /* PushNotificationPayload.apns */,
 			);
 			path = "Watch Extension";
 			sourceTree = "<group>";
@@ -1367,6 +1377,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D90AFD1262D623300FBE1A6 /* Assets.xcassets in Resources */,
+				6D3F61DA262DB64500E122BC /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1696,6 +1707,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		6D3F61D8262DB64500E122BC /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6D3F61D9262DB64500E122BC /* Base */,
+				6D3F61E1262DB66600E122BC /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		6DC6C1D025D0DCD200512E36 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1784,7 +1804,7 @@
 				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = "Watch Extension/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Watch Extension/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1814,7 +1834,7 @@
 				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = "Watch Extension/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Watch Extension/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

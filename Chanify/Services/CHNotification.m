@@ -106,7 +106,7 @@
         if (model.channel.length > 0) {
             NSString *cid = model.channel.base64;
             dispatch_main_async(^{
-                [CHRouter.shared routeTo:@"/page/channel" withParams:@{ @"cid": cid, @"singleton": @(YES), @"show": @"detail" }];
+                [CHRouter.shared routeTo:@"/page/channel" withParams:@{ @"cid": cid, @"singleton": @YES, @"show": @"detail" }];
             });
         
         }
