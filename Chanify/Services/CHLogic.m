@@ -19,6 +19,7 @@
 #import "CHNotification.h"
 #import "CHDevice.h"
 #import "CHCrpyto.h"
+#import "CHTP.pbobjc.h"
 
 #if DEBUG
 #   define kSandbox    YES
@@ -443,6 +444,17 @@
     return res;
 }
 
+- (BOOL)syncDataToWatch:(BOOL)focus {
+    BOOL res = NO;
+    if (self.hasWatch) {
+        res = [self.watchSession updateApplicationContext:@{
+            @"last": @(focus ? NSDate.date.timeIntervalSince1970 : 0),
+            @"data": self.watchSyncedData,
+        } error:nil];
+    }
+    return res;
+}
+
 #pragma mark - WCSessionDelegate
 - (void)session:(WCSession *)session activationDidCompleteWithState:(WCSessionActivationState)activationState error:(nullable NSError *)error {
 }
@@ -749,6 +761,17 @@
         [self sendNotifyWithSelector:@selector(logicMessagesUnreadChanged:) withObject:@(self.userDataSource.unreadSumAllChannel)];
     }
     return res;
+}
+
+- (NSData *)watchSyncedData {
+    NSData *data = nil;
+    CHUserModel *me = self.me;
+    if (me != nil) {
+        CHTPWatchConfig *cfg = [CHTPWatchConfig new];
+        cfg.userKey = me.key.seckey;
+        data = cfg.data;
+    }
+    return data ?: [NSData new];
 }
 
 static inline void call_completion(CHLogicBlock completion, CHLCode result) {

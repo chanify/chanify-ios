@@ -105,7 +105,7 @@
     item = [CHFormValueItem itemWithName:@"syncwatch" title:@"Force data sync to watch".localized];
     item.hidden = [NSPredicate predicateWithObject:form attribute:@"appinstall.isHidden" expected:@NO];
     item.action = ^(CHFormItem *itm) {
-        // TODO: Sync watch
+        [CHLogic.shared syncDataToWatch:YES];
     };
     [section addFormItem:item];
     

@@ -79,6 +79,7 @@ typedef void (^CHLogicResultBlock)(CHLCode result, NSDictionary *data);
 - (void)reconnectNode:(nullable NSString *)nid completion:(nullable CHLogicBlock)completion;
 - (BOOL)hasWatch;
 - (BOOL)isWatchAppInstalled;
+- (BOOL)syncDataToWatch:(BOOL)focus;
 
 
 @end
