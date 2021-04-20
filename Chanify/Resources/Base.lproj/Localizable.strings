@@ -53,6 +53,9 @@
 "Dark"="Dark";
 "Notification"="Notification";
 "Sound"="Sound";
+"WATCH"="WATCH";
+"No watch app installed"="No watch app installed";
+"Force data sync to watch"="Force data sync to watch";
 "HELP"="HELP";
 "Quick Start"="Quick Start";
 "Usage Manual"="Usage Manual";

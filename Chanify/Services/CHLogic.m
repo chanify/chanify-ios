@@ -6,6 +6,7 @@
 //
 
 #import "CHLogic.h"
+#import <WatchConnectivity/WatchConnectivity.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import "CHWebObjectManager.h"
 #import "CHWebFileManager.h"
@@ -18,6 +19,7 @@
 #import "CHNotification.h"
 #import "CHDevice.h"
 #import "CHCrpyto.h"
+#import "CHTP.pbobjc.h"
 
 #if DEBUG
 #   define kSandbox    YES
@@ -25,7 +27,7 @@
 #   define kSandbox    NO  // TestFlight use production APNS.
 #endif
 
-@interface CHLogic ()
+@interface CHLogic () <WCSessionDelegate>
 
 @property (nonatomic, readonly, strong) NSURL *baseURL;
 @property (nonatomic, readonly, strong) NSString *userAgent;
@@ -33,6 +35,7 @@
 @property (nonatomic, readonly, strong) NSData *pushToken;
 @property (nonatomic, readonly, strong) NSMutableSet<NSString *> *invalidNodes;
 @property (nonatomic, readonly, strong) NSMutableSet<NSString *> *readChannles;
+@property (nonatomic, readonly, strong) WCSession *watchSession;
 
 @end
 
@@ -63,6 +66,13 @@
         _linkMetaManager = nil;
         _invalidNodes = [NSMutableSet new];
         _readChannles = [NSMutableSet new];
+        if (!WCSession.isSupported) {
+            _watchSession = nil;
+        } else {
+            _watchSession = WCSession.defaultSession;
+            self.watchSession.delegate = self;
+            [self.watchSession activateSession];
+        }
     }
     return self;
 }
@@ -424,6 +434,41 @@
     }
 }
 
+#pragma mark - Watch Methods
+- (BOOL)hasWatch {
+    return (self.watchSession != nil && self.watchSession.isPaired);
+}
+
+- (BOOL)isWatchAppInstalled {
+    BOOL res = (self.hasWatch && self.watchSession.isWatchAppInstalled);
+    return res;
+}
+
+- (BOOL)syncDataToWatch:(BOOL)focus {
+    BOOL res = NO;
+    if (self.hasWatch) {
+        res = [self.watchSession updateApplicationContext:@{
+            @"last": @(focus ? NSDate.date.timeIntervalSince1970 : 0),
+            @"data": self.watchSyncedData,
+        } error:nil];
+    }
+    return res;
+}
+
+#pragma mark - WCSessionDelegate
+- (void)session:(WCSession *)session activationDidCompleteWithState:(WCSessionActivationState)activationState error:(nullable NSError *)error {
+}
+
+- (void)sessionWatchStateDidChange:(WCSession *)session {
+    [self sendNotifyWithSelector:@selector(logicWatchStatusChanged)];
+}
+
+- (void)sessionDidBecomeInactive:(WCSession *)session {
+}
+
+- (void)sessionDidDeactivate:(WCSession *)session {
+}
+
 #pragma mark - Message Methods
 - (void)bindAccount:(CHSecKey *)key completion:(nullable CHLogicBlock)completion {
     CHDevice *device = CHDevice.shared;
@@ -716,6 +761,17 @@
         [self sendNotifyWithSelector:@selector(logicMessagesUnreadChanged:) withObject:@(self.userDataSource.unreadSumAllChannel)];
     }
     return res;
+}
+
+- (NSData *)watchSyncedData {
+    NSData *data = nil;
+    CHUserModel *me = self.me;
+    if (me != nil) {
+        CHTPWatchConfig *cfg = [CHTPWatchConfig new];
+        cfg.userKey = me.key.seckey;
+        data = cfg.data;
+    }
+    return data ?: [NSData new];
 }
 
 static inline void call_completion(CHLogicBlock completion, CHLCode result) {

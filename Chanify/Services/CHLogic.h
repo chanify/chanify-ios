@@ -39,6 +39,7 @@ typedef void (^CHLogicResultBlock)(CHLCode result, NSDictionary *data);
 - (void)logicMessageDeleted:(CHMessageModel *)mid;
 - (void)logicMessagesDeleted:(NSArray<NSString *> *)mids;
 - (void)logicMessagesUnreadChanged:(NSNumber *)unread;
+- (void)logicWatchStatusChanged;
 @end
 
 @interface CHLogic : CHManager<id<CHLogicDelegate>>
@@ -76,6 +77,9 @@ typedef void (^CHLogicResultBlock)(CHLCode result, NSDictionary *data);
 - (void)removeReadChannel:(nullable NSString *)cid;
 - (BOOL)nodeIsConnected:(nullable NSString *)nid;
 - (void)reconnectNode:(nullable NSString *)nid completion:(nullable CHLogicBlock)completion;
+- (BOOL)hasWatch;
+- (BOOL)isWatchAppInstalled;
+- (BOOL)syncDataToWatch:(BOOL)focus;
 
 
 @end

@@ -88,3 +88,8 @@ message Message {
     int32       priority    = 5;
     Sound       sound       = 6;
 }
+
+message WatchConfig {
+    bytes           user_key    = 1;
+    repeated bytes  channels    = 2;
+}

@@ -19,13 +19,16 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CHFormSection : NSObject
 
 @property (nonatomic, readonly, strong) NSString *title;
+@property (nonatomic, nullable, strong) NSPredicate *hidden;
 @property (nonatomic, weak) CHForm *form;
 
 + (instancetype)sectionWithTitle:(NSString *)title;
 + (instancetype)section;
+- (void)updateStatus;
 - (NSArray<CHFormItem *> *)items;
 - (NSArray<CHFormItem *> *)allItems;
 - (void)addFormItem:(CHFormItem *)item;
+- (BOOL)isHidden;
 
 
 @end

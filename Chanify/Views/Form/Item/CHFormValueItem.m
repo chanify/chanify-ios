@@ -43,6 +43,10 @@
     }
 }
 
+- (void)setTitleTextColor:(UIColor *)textColor {
+    self.configuration.textProperties.color = textColor;
+}
+
 - (void)setIcon:(nullable UIImage *)icon {
     self.configuration.image = icon;
 }

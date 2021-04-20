@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, nullable, strong) CHForm *form;
 
+- (void)reloadData;
 - (void)reloadItem:(CHFormItem *)item;
 - (void)showActionSheet:(UIAlertController *)alertController item:(CHFormItem *)item animated:(BOOL)animated;
 - (nullable UITableViewCell *)cellForItem:(CHFormItem *)item;

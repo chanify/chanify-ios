@@ -73,10 +73,25 @@ typedef NSDiffableDataSourceSnapshot<CHFormSection *, CHFormItem *> CHFormDiffab
     [self updateForm:NO];
 }
 
-- (void)reloadItem:(CHFormItem *)item {
-    if (self.dataSource != nil) {
+- (void)reloadData {
+    if (self.form != nil && self.dataSource != nil) {
+        [self.form reloadData];
         CHFormDiffableSnapshot *snapshot = self.dataSource.snapshot;
-        [snapshot reloadItemsWithIdentifiers:@[item]];
+        [snapshot deleteAllItems];
+        [snapshot appendSectionsWithIdentifiers:self.form.sections];
+        for (CHFormSection *section in self.form.sections) {
+            [snapshot appendItemsWithIdentifiers:section.items intoSectionWithIdentifier:section];
+        }
+        [self.dataSource applySnapshot:snapshot animatingDifferences:self.canAnimated];
+    }
+}
+
+- (void)reloadItem:(CHFormItem *)item {
+    if (self.dataSource != nil && item != nil) {
+        CHFormDiffableSnapshot *snapshot = self.dataSource.snapshot;
+        if ([snapshot indexOfItemIdentifier:item] != NSNotFound) {
+            [snapshot reloadItemsWithIdentifiers:@[item]];
+        }
         [self.dataSource applySnapshot:snapshot animatingDifferences:self.canAnimated];
     }
 }
