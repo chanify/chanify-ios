@@ -46,7 +46,7 @@ typedef NS_OPTIONS(NSUInteger, CHUpsertMessageFlags) {
 - (BOOL)deleteMessages:(NSArray<NSString *> *)mids;
 - (NSArray<CHMessageModel *> *)messageWithCID:(nullable NSString *)cid from:(NSString *)from to:(NSString *)to count:(NSUInteger)count;
 - (nullable CHMessageModel *)messageWithMID:(nullable NSString *)mid;
-- (nullable CHMessageModel *)upsertMessageData:(NSData *)data ks:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid ignoreChannels:(NSSet<NSString *> *)ignores flags:(CHUpsertMessageFlags *)pFlags;
+- (nullable CHMessageModel *)upsertMessageData:(NSData *)data ks:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid checker:(BOOL (NS_NOESCAPE ^ _Nullable)(NSString * cid))checker flags:(CHUpsertMessageFlags *)pFlags;
 
 
 @end

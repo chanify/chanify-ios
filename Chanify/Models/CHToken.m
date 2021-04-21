@@ -6,10 +6,10 @@
 //
 
 #import "CHToken.h"
-#import "CHLogic.h"
 #import "CHDevice.h"
 #import "CHCrpyto.h"
 #import "CHNodeModel.h"
+#import "CHLogic+iOS.h"
 #import "CHNSDataSource.h"
 #import "CHTP.pbobjc.h"
 

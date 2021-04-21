@@ -8,9 +8,9 @@
 #import "CHLoginViewController.h"
 #import <Masonry/Masonry.h>
 #import "CHScanViewController.h"
+#import "CHLogic+iOS.h"
 #import "CHRouter.h"
 #import "CHTheme.h"
-#import "CHLogic.h"
 
 @interface CHLoginViewController () <CHScanViewControllerDelegate>
 

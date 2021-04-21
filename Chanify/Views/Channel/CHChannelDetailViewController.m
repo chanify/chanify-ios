@@ -11,11 +11,11 @@
 #import "CHChannelModel.h"
 #import "CHNodeModel.h"
 #import "CHPasteboard.h"
+#import "CHLogic+iOS.h"
 #import "CHCrpyto.h"
 #import "CHDevice.h"
 #import "CHRouter.h"
 #import "CHToken.h"
-#import "CHLogic.h"
 #import "CHTheme.h"
 
 @interface CHChannelDetailViewController ()

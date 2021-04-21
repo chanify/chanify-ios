@@ -15,10 +15,10 @@
 #import "CHWebViewController.h"
 #import "CHIndicatorPanelView.h"
 #import "CHPasteboard.h"
+#import "CHLogic+iOS.h"
 #import "CHToken.h"
 #import "CHDevice.h"
 #import "CHTheme.h"
-#import "CHLogic.h"
 
 typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     CHRouterShowModePush    = 0,

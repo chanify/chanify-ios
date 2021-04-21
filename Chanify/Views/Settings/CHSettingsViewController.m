@@ -7,7 +7,7 @@
 
 #import "CHSettingsViewController.h"
 #import "CHNotification.h"
-#import "CHLogic.h"
+#import "CHLogic+iOS.h"
 #import "CHDevice.h"
 #import "CHRouter.h"
 #import "CHTheme.h"
@@ -146,14 +146,16 @@
     // Logout
     [form addFormSection:(section = [CHFormSection section])];
     item = [CHFormButtonItem itemWithName:@"logout" title:@"Logout".localized action:^(CHFormItem *itm) {
-        [CHRouter.shared showIndicator:YES];
-        [CHLogic.shared logoutWithCompletion:^(CHLCode result) {
-            [CHRouter.shared showIndicator:NO];
-            if (result == CHLCodeOK) {
-                [CHRouter.shared routeTo:@"/page/main"];
-            } else {
-                [CHRouter.shared makeToast:@"Logout failed".localized];
-            }
+        [CHRouter.shared showAlertWithTitle:@"Logout or not?".localized action:@"OK".localized handler:^{
+            [CHRouter.shared showIndicator:YES];
+            [CHLogic.shared logoutWithCompletion:^(CHLCode result) {
+                [CHRouter.shared showIndicator:NO];
+                if (result == CHLCodeOK) {
+                    [CHRouter.shared routeTo:@"/page/main"];
+                } else {
+                    [CHRouter.shared makeToast:@"Logout failed".localized];
+                }
+            }];
         }];
     }];
     [section addFormItem:item];

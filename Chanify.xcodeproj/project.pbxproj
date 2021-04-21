@@ -31,7 +31,9 @@
 		6D3F622D262E65B500E122BC /* NSURL+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2F525D1602F00512E36 /* NSURL+CHExt.m */; };
 		6D3F6234262E65C500E122BC /* CHLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C25225D112BB00512E36 /* CHLogger.m */; };
 		6D3F6270262EE0E700E122BC /* LogicModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3F626F262EE0E700E122BC /* LogicModel.swift */; };
-		6D3F6278262EEC0B00E122BC /* WatchLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3F6277262EEC0B00E122BC /* WatchLogic.swift */; };
+		6D3F6287262FBB6400E122BC /* CHLogic+iOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3F6286262FBB6400E122BC /* CHLogic+iOS.m */; };
+		6D3F629D262FD82100E122BC /* CHLogic+watchOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3F629C262FD82100E122BC /* CHLogic+watchOS.m */; };
+		6D3F62D02630167200E122BC /* CHManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2D525D15CCD00512E36 /* CHManager.m */; };
 		6D4416F925F264A70041EBA0 /* CHFormButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4416F825F264A70041EBA0 /* CHFormButtonItem.m */; };
 		6D4416FE25F2655C0041EBA0 /* CHFormValueItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4416FD25F2655C0041EBA0 /* CHFormValueItem.m */; };
 		6D44170525F273150041EBA0 /* CHFormCodeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D44170425F273150041EBA0 /* CHFormCodeItem.m */; };
@@ -39,7 +41,6 @@
 		6D44171325F330630041EBA0 /* CHFormInputItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D44171225F330630041EBA0 /* CHFormInputItem.m */; };
 		6D67CBDB25D3BAD700ECF655 /* NSDate+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */; };
 		6D67CBEA25D4298A00ECF655 /* CHCrpyto.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBE925D4298A00ECF655 /* CHCrpyto.m */; };
-		6D897CE9262D67D60048D9A6 /* CHWatchLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D897CE8262D67D60048D9A6 /* CHWatchLogic.m */; };
 		6D897D23262D6BFD0048D9A6 /* CHTP.proto in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C20D25D0F3EF00512E36 /* CHTP.proto */; };
 		6D897D5B262D77140048D9A6 /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D897D5A262D77140048D9A6 /* NotificationService.m */; };
 		6D897D5F262D77140048D9A6 /* WatchNotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6D897D57262D77140048D9A6 /* WatchNotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -353,7 +354,10 @@
 		6D3F61D9262DB64500E122BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6D3F61E1262DB66600E122BC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6D3F626F262EE0E700E122BC /* LogicModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogicModel.swift; sourceTree = "<group>"; };
-		6D3F6277262EEC0B00E122BC /* WatchLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchLogic.swift; sourceTree = "<group>"; };
+		6D3F6285262FBB6400E122BC /* CHLogic+iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CHLogic+iOS.h"; sourceTree = "<group>"; };
+		6D3F6286262FBB6400E122BC /* CHLogic+iOS.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHLogic+iOS.m"; sourceTree = "<group>"; };
+		6D3F629B262FD82100E122BC /* CHLogic+watchOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CHLogic+watchOS.h"; sourceTree = "<group>"; };
+		6D3F629C262FD82100E122BC /* CHLogic+watchOS.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHLogic+watchOS.m"; sourceTree = "<group>"; };
 		6D4416F725F264A70041EBA0 /* CHFormButtonItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormButtonItem.h; sourceTree = "<group>"; };
 		6D4416F825F264A70041EBA0 /* CHFormButtonItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormButtonItem.m; sourceTree = "<group>"; };
 		6D4416FC25F2655C0041EBA0 /* CHFormValueItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormValueItem.h; sourceTree = "<group>"; };
@@ -368,8 +372,6 @@
 		6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+CHExt.m"; sourceTree = "<group>"; };
 		6D67CBE925D4298A00ECF655 /* CHCrpyto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHCrpyto.m; sourceTree = "<group>"; };
 		6D897CE6262D67D50048D9A6 /* Watch Extension-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Watch Extension-Bridging-Header.h"; sourceTree = "<group>"; };
-		6D897CE7262D67D60048D9A6 /* CHWatchLogic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWatchLogic.h; sourceTree = "<group>"; };
-		6D897CE8262D67D60048D9A6 /* CHWatchLogic.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHWatchLogic.m; sourceTree = "<group>"; };
 		6D897D57262D77140048D9A6 /* WatchNotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WatchNotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D897D59262D77140048D9A6 /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
 		6D897D5A262D77140048D9A6 /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
@@ -718,9 +720,8 @@
 		6D897D1D262D6BD00048D9A6 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				6D897CE7262D67D60048D9A6 /* CHWatchLogic.h */,
-				6D897CE8262D67D60048D9A6 /* CHWatchLogic.m */,
-				6D3F6277262EEC0B00E122BC /* WatchLogic.swift */,
+				6D3F629B262FD82100E122BC /* CHLogic+watchOS.h */,
+				6D3F629C262FD82100E122BC /* CHLogic+watchOS.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -944,6 +945,8 @@
 			children = (
 				6DC6C27225D13E5500512E36 /* CHLogic.h */,
 				6DC6C27325D13E5500512E36 /* CHLogic.m */,
+				6D3F6285262FBB6400E122BC /* CHLogic+iOS.h */,
+				6D3F6286262FBB6400E122BC /* CHLogic+iOS.m */,
 				6DC6C24025D1117A00512E36 /* CHTheme.h */,
 				6DC6C24125D1117A00512E36 /* CHTheme.m */,
 				6DC6C26825D1159C00512E36 /* CHRouter.h */,
@@ -1564,9 +1567,9 @@
 			files = (
 				6D3F6234262E65C500E122BC /* CHLogger.m in Sources */,
 				6D90AFCB262D623300FBE1A6 /* NotificationController.swift in Sources */,
-				6D3F6278262EEC0B00E122BC /* WatchLogic.swift in Sources */,
 				6D897D23262D6BFD0048D9A6 /* CHTP.proto in Sources */,
 				6D3F61F6262E64EB00E122BC /* CHSecKey.m in Sources */,
+				6D3F629D262FD82100E122BC /* CHLogic+watchOS.m in Sources */,
 				6D3F622D262E65B500E122BC /* NSURL+CHExt.m in Sources */,
 				6D3F6211262E654F00E122BC /* NSData+CHExt.m in Sources */,
 				6D90AFC9262D623200FBE1A6 /* ContentView.swift in Sources */,
@@ -1575,12 +1578,12 @@
 				6D90AFC7262D623200FBE1A6 /* ChanifyApp.swift in Sources */,
 				6D3F61FD262E64EE00E122BC /* CryptoKit.swift in Sources */,
 				6D3F6226262E65A900E122BC /* NSFileManager+CHExt.m in Sources */,
+				6D3F62D02630167200E122BC /* CHManager.m in Sources */,
 				6D3F621F262E659800E122BC /* NSException+CHExt.m in Sources */,
 				6D90AFCD262D623300FBE1A6 /* NotificationView.swift in Sources */,
 				6D3F6218262E656100E122BC /* NSString+CHExt.m in Sources */,
 				6D3F6204262E64F400E122BC /* CHCrpyto.m in Sources */,
 				6D3F6270262EE0E700E122BC /* LogicModel.swift in Sources */,
-				6D897CE9262D67D60048D9A6 /* CHWatchLogic.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1692,6 +1695,7 @@
 				6DDE056A26281F5C004336DD /* CHMessageCellView.m in Sources */,
 				6DC6C2E225D15E6B00512E36 /* CHChannelModel.m in Sources */,
 				6DC6C31125D1611200512E36 /* NSDictionary+CHExt.m in Sources */,
+				6D3F6287262FBB6400E122BC /* CHLogic+iOS.m in Sources */,
 				6DC6C1D525D0DCD200512E36 /* main.m in Sources */,
 				6DDC86B425E7446A00C26203 /* CHNodeTableViewCell.m in Sources */,
 				6D44170C25F278D80041EBA0 /* CHFormSelectorItem.m in Sources */,

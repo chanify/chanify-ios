@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, nullable, strong) NSString *uid;
 
-+ (instancetype)webFileManagerWithURL:(NSURL *)fileBaseDir userAgent:(NSString *)userAgent;
++ (instancetype)webFileManagerWithURL:(NSURL *)fileBaseDir;
 - (void)close;
 - (void)loadFileURL:(nullable NSString *)fileURL filename:(nullable NSString *)filename toItem:(id<CHWebFileItem>)item expectedSize:(uint64_t)expectedSize ;
 - (void)resetFileURLFailed:(nullable NSString *)fileURL;

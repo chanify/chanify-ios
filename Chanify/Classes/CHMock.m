@@ -9,7 +9,7 @@
 #if TARGET_OS_SIMULATOR
 #import "CHNSDataSource.h"
 #import "CHUserDataSource.h"
-#import "CHLogic.h"
+#import "CHLogic+iOS.h"
 #import "CHCrpyto.h"
 #import "CHTP.pbobjc.h"
 

@@ -10,7 +10,7 @@
 #import <UIKit/UIApplication.h>
 #import "CHUserDataSource.h"
 #import "CHMessageModel.h"
-#import "CHLogic.h"
+#import "CHLogic+iOS.h"
 #import "CHRouter.h"
 #import "CHMock.h"
 

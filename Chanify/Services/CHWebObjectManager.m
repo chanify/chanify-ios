@@ -9,8 +9,9 @@
 #import <UIKit/UIImage.h>
 #import "CHUserDataSource.h"
 #import "CHNodeModel.h"
+#import "CHLogic+iOS.h"
+#import "CHDevice.h"
 #import "CHToken.h"
-#import "CHLogic.h"
 
 @interface CHWebObjectTask : NSObject
 
@@ -77,7 +78,6 @@
 @interface CHWebObjectManager () <NSURLSessionTaskDelegate, NSURLSessionDownloadDelegate>
 
 @property (nonatomic, readonly, strong) NSURL *fileBaseDir;
-@property (nonatomic, readonly, strong) NSString *userAgent;
 @property (nonatomic, readonly, strong) id<CHWebObjectDecoder> decoder;
 @property (nonatomic, readonly, strong) NSURLSession *session;
 @property (nonatomic, readonly, strong) NSMutableDictionary<NSString *, CHWebObjectTask *> *tasks;
@@ -89,16 +89,15 @@
 
 @implementation CHWebObjectManager
 
-+ (instancetype)webObjectManagerWithURL:(NSURL *)fileBaseDir decoder:(id<CHWebObjectDecoder>)decoder userAgent:(NSString *)userAgent {
-    return [[self.class alloc] initWithURL:fileBaseDir decoder:decoder userAgent:userAgent];
++ (instancetype)webObjectManagerWithURL:(NSURL *)fileBaseDir decoder:(id<CHWebObjectDecoder>)decoder {
+    return [[self.class alloc] initWithURL:fileBaseDir decoder:decoder];
 }
 
-- (instancetype)initWithURL:(NSURL *)fileBaseDir decoder:(id<CHWebObjectDecoder>)decoder userAgent:(NSString *)userAgent {
+- (instancetype)initWithURL:(NSURL *)fileBaseDir decoder:(id<CHWebObjectDecoder>)decoder {
     if (self = [super init]) {
         _uid = nil;
         _fileBaseDir = fileBaseDir;
         _decoder = decoder;
-        _userAgent = userAgent;
         _tasks = [NSMutableDictionary new];
         _failedTasks = [NSMutableSet new];
         _dataCache = [NSCache new];
@@ -281,7 +280,7 @@
             }
         }
         if (request != nil) {
-            [request setValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
+            [request setValue:CHDevice.shared.userAgent forHTTPHeaderField:@"User-Agent"];
         }
     }
     return request;

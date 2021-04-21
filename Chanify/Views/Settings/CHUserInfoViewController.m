@@ -9,9 +9,9 @@
 #import <Masonry/Masonry.h>
 #import "CHPasteboard.h"
 #import "CHQrCodeView.h"
+#import "CHLogic+iOS.h"
 #import "CHRouter.h"
 #import "CHTheme.h"
-#import "CHLogic.h"
 
 @interface CHUserInfoViewController ()
 

@@ -9,8 +9,8 @@
 #import "CHPreviewController.h"
 #import "CHWebFileManager.h"
 #import "CHPasteboard.h"
+#import "CHLogic+iOS.h"
 #import "CHRouter.h"
-#import "CHLogic.h"
 #import "CHTheme.h"
 
 #define kCHFileMsgCellIconWidth     40

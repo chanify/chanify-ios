@@ -6,3 +6,10 @@
   
 */
 "NotInit"="Please setup in the Chanify app on your iPhone firstly.";
+
+"NewMsg"="Receive an new message";
+"ImageMsg"="[Image]";
+"VideoMsg"="[Video]";
+"AudioMsg"="[Audio]";
+"LinkMsg"="[Link]";
+"FileMsg"="[File]";

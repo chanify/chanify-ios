@@ -11,8 +11,8 @@
 #import "CHMessageModel.h"
 #import "CHBadgeView.h"
 #import "CHIconView.h"
+#import "CHLogic+iOS.h"
 #import "CHRouter.h"
-#import "CHLogic.h"
 #import "CHTheme.h"
 
 @interface CHChannelTableViewCell ()

@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct NotificationView: View {
+    var text: String?
+
     var body: some View {
-        Text("Hello, World!")
+        Text(text ?? "NewMsg")
     }
 }
 

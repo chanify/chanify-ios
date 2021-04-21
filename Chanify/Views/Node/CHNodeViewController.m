@@ -10,9 +10,8 @@
 #import "CHNSDataSource.h"
 #import "CHPasteboard.h"
 #import "CHNodeModel.h"
-#import "CHLogic.h"
+#import "CHLogic+iOS.h"
 #import "CHRouter.h"
-#import "CHLogic.h"
 #import "CHCrpyto.h"
 
 typedef NS_ENUM(NSInteger, CHNodeVCStatus) {

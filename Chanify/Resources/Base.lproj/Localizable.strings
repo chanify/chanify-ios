@@ -87,6 +87,7 @@
 "Delete this message or not?"="Delete this message or not?";
 "Delete this channel or not?"="Delete this channel or not?";
 "Delete this node or not?"="Delete this node or not?";
+"Logout or not?"="Logout or not?";
 "Add node failed"="Add node failed";
 "Update node failed"="Update node failed";
 "Update node success"="Update node success";

@@ -7,8 +7,8 @@
 
 #import "CHMsgCellConfiguration.h"
 #import "CHMessagesDataSource.h"
+#import "CHLogic+iOS.h"
 #import "CHRouter.h"
-#import "CHLogic.h"
 #import "CHTheme.h"
 
 #define kCheckIconSize  24

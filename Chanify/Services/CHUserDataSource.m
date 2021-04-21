@@ -7,11 +7,13 @@
 
 #import "CHUserDataSource.h"
 #import <FMDB/FMDB.h>
+#import <sqlite3.h>
 #import "CHMessageModel.h"
 #import "CHChannelModel.h"
 #import "CHNodeModel.h"
 #import "CHLogic.h"
 
+#define kCHUserDBFlags      (SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_FILEPROTECTION_COMPLETEUNTILFIRSTUSERAUTHENTICATION)
 #define kCHUserDBVersion    2
 #define kCHNSInitSql        \
     "CREATE TABLE IF NOT EXISTS `options`(`key` TEXT PRIMARY KEY,`value` BLOB);"   \
@@ -41,7 +43,7 @@
     if (self = [super init]) {
         _dsURL = url;
         _srvkeyCache = nil;
-        _dbQueue = [FMDatabaseQueue databaseQueueWithURL:url];
+        _dbQueue = [FMDatabaseQueue databaseQueueWithURL:url flags:kCHUserDBFlags];
         [self.dbQueue inDatabase:^(FMDatabase *db) {
             if ([db executeStatements:@kCHNSInitSql]) {
                 CHLogI("Open database: %s", db.databaseURL.path.cstr);
@@ -341,7 +343,7 @@
     return model;
 }
 
-- (nullable CHMessageModel *)upsertMessageData:(NSData *)data ks:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid ignoreChannels:(NSSet<NSString *> *)ignores flags:(CHUpsertMessageFlags *)pFlags {
+- (nullable CHMessageModel *)upsertMessageData:(NSData *)data ks:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid checker:(BOOL (NS_NOESCAPE ^ _Nullable)(NSString * cid))checker flags:(CHUpsertMessageFlags *)pFlags {
     CHMessageModel *msg = nil;
     if (mid.length > 0) {
         NSData *raw = nil;
@@ -370,7 +372,7 @@
                             flags |= CHUpsertMessageFlagChannel;
                         }
                     }
-                    if (changes > 0 && ![ignores containsObject:ccid.base64]) {
+                    if (changes > 0 && checker != nil && checker(ccid.base64)) {
                         [db executeUpdate:@"UPDATE OR IGNORE `channels` SET `unread`=IFNULL(`unread`,0)+1 WHERE `cid`=? LIMIT 1;", ccid];
                         flags |= CHUpsertMessageFlagUnread;
                     }

@@ -6,3 +6,10 @@
   
 */
 "NotInit"="请首先在iPhone上的Chanify应用设置";
+
+"NewMsg"="收到一条新消息";
+"ImageMsg"="[图片]";
+"VideoMsg"="[视频]";
+"AudioMsg"="[音频]";
+"LinkMsg"="[链接]";
+"FileMsg"="[文件]";

@@ -7,9 +7,10 @@
 
 #import "CHWebFileManager.h"
 #import "CHUserDataSource.h"
+#import "CHLogic+iOS.h"
 #import "CHNodeModel.h"
+#import "CHDevice.h"
 #import "CHToken.h"
-#import "CHLogic.h"
 
 @interface CHWebFileTask : NSObject
 
@@ -77,7 +78,6 @@
 @interface CHWebFileManager () <NSURLSessionTaskDelegate, NSURLSessionDownloadDelegate>
 
 @property (nonatomic, readonly, strong) NSURL *fileBaseDir;
-@property (nonatomic, readonly, strong) NSString *userAgent;
 @property (nonatomic, readonly, strong) NSURLSession *session;
 @property (nonatomic, readonly, strong) NSMutableDictionary<NSString *, CHWebFileTask *> *tasks;
 @property (nonatomic, readonly, strong) NSMutableSet<NSString *> *failedTasks;
@@ -88,15 +88,14 @@
 
 @implementation CHWebFileManager
 
-+ (instancetype)webFileManagerWithURL:(NSURL *)fileBaseDir userAgent:(NSString *)userAgent {
-    return [[self.class alloc] initWithURL:fileBaseDir userAgent:userAgent];
++ (instancetype)webFileManagerWithURL:(NSURL *)fileBaseDir{
+    return [[self.class alloc] initWithURL:fileBaseDir];
 }
 
-- (instancetype)initWithURL:(NSURL *)fileBaseDir userAgent:(NSString *)userAgent {
+- (instancetype)initWithURL:(NSURL *)fileBaseDir {
     if (self = [super init]) {
         _uid = nil;
         _fileBaseDir = fileBaseDir;
-        _userAgent = userAgent;
         _tasks = [NSMutableDictionary new];
         _failedTasks = [NSMutableSet new];
         _dataCache = [NSCache new];
@@ -273,7 +272,7 @@
             }
         }
         if (request != nil) {
-            [request setValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
+            [request setValue:CHDevice.shared.userAgent forHTTPHeaderField:@"User-Agent"];
         }
     }
     return request;

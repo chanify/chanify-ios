@@ -12,8 +12,8 @@
 #import "CHChannelModel.h"
 #import "CHNavigationTitleView.h"
 #import "CHBadgeView.h"
+#import "CHLogic+iOS.h"
 #import "CHRouter.h"
-#import "CHLogic.h"
 #import "CHTheme.h"
 
 @interface CHChannelViewController () <UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, CHMessagesDataSourceDelegate, CHLogicDelegate>

@@ -36,6 +36,7 @@
         CHLogI("%s version: %s(%d) %s/%s.", self.app.cstr, self.version.cstr, self.build, self.model.cstr, self.osInfo.cstr);
         _key = [CHSecKey secKeyWithName:@kCHDeviceSecKeyName device:YES created:YES];
         _uuid = self.key.uuid;
+        _userAgent = [NSString stringWithFormat:@"%@/%@-%d (%@; %@; Scale/%0.2f)", self.app, self.version, self.build, self.model, self.osInfo, self.scale];
         CHLogI("Device uuid: %s", self.uuid.hex.cstr);
     }
     return self;

@@ -11,8 +11,8 @@
 #import "CHUnknownMsgCellConfiguration.h"
 #import "CHDateCellConfiguration.h"
 #import "CHUserDataSource.h"
+#import "CHLogic+iOS.h"
 #import "CHRouter.h"
-#import "CHLogic.h"
 
 #define kCHMessageListPageSize  16
 #define kCHMessageListDateDiff  300

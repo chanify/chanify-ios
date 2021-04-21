@@ -8,8 +8,8 @@
 #import "CHImageMsgCellConfiguration.h"
 #import "CHMessagesDataSource.h"
 #import "CHWebImageView.h"
+#import "CHLogic+iOS.h"
 #import "CHRouter.h"
-#import "CHLogic.h"
 #import "CHTheme.h"
 
 #define kCHImageMessageWidth        150

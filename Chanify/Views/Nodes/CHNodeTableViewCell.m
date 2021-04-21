@@ -7,9 +7,9 @@
 
 #import "CHNodeTableViewCell.h"
 #import <Masonry/Masonry.h>
+#import "CHLogic+iOS.h"
 #import "CHIconView.h"
 #import "CHRouter.h"
-#import "CHLogic.h"
 #import "CHTheme.h"
 
 @interface CHNodeTableViewCell ()

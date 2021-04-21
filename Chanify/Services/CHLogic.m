@@ -6,20 +6,14 @@
 //
 
 #import "CHLogic.h"
-#import <WatchConnectivity/WatchConnectivity.h>
 #import <AudioToolbox/AudioToolbox.h>
-#import "CHWebObjectManager.h"
-#import "CHWebFileManager.h"
-#import "CHLinkMetaManager.h"
 #import "CHUserDataSource.h"
 #import "CHNSDataSource.h"
 #import "CHMessageModel.h"
 #import "CHChannelModel.h"
 #import "CHNodeModel.h"
-#import "CHNotification.h"
 #import "CHDevice.h"
 #import "CHCrpyto.h"
-#import "CHTP.pbobjc.h"
 
 #if DEBUG
 #   define kSandbox    YES
@@ -27,81 +21,36 @@
 #   define kSandbox    NO  // TestFlight use production APNS.
 #endif
 
-@interface CHLogic () <WCSessionDelegate>
+@interface CHCommonLogic ()
 
 @property (nonatomic, readonly, strong) NSURL *baseURL;
-@property (nonatomic, readonly, strong) NSString *userAgent;
 @property (nonatomic, readonly, strong) NSURLSession *session;
 @property (nonatomic, readonly, strong) NSData *pushToken;
 @property (nonatomic, readonly, strong) NSMutableSet<NSString *> *invalidNodes;
-@property (nonatomic, readonly, strong) NSMutableSet<NSString *> *readChannles;
-@property (nonatomic, readonly, strong) WCSession *watchSession;
 
 @end
 
-@implementation CHLogic
-
-+ (instancetype)shared {
-    static CHLogic *logic;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        logic = [CHLogic new];
-    });
-    return logic;
-}
+@implementation CHCommonLogic
 
 - (instancetype)init {
     if (self = [super init]) {
-        NSFileManager *fileManager = NSFileManager.defaultManager;
-        CHDevice *device = CHDevice.shared;
         _pushToken = [NSData new];
         _me = [CHUserModel modelWithKey:[CHSecKey secKeyWithName:@kCHUserSecKeyName device:NO created:NO]];
         _baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://%s/rest/v1/", kCHAPIHostname]];
-        _userAgent = [NSString stringWithFormat:@"%@/%@-%d (%@; %@; Scale/%0.2f)", device.app, device.version, device.build, device.model, device.osInfo, device.scale];
         _session = [NSURLSession sessionWithConfiguration:NSURLSessionConfiguration.ephemeralSessionConfiguration];
-        _nsDataSource = [CHNSDataSource dataSourceWithURL:[fileManager URLForGroupId:@kCHAppGroupName path:@kCHDBNotificationServiceName]];
+        _nsDataSource = [CHNSDataSource dataSourceWithURL:[NSFileManager.defaultManager URLForGroupId:@kCHAppGroupName path:@kCHDBNotificationServiceName]];
         _userDataSource = nil;
-        _webImageManager = nil;
-        _webFileManager = nil;
-        _linkMetaManager = nil;
         _invalidNodes = [NSMutableSet new];
-        _readChannles = [NSMutableSet new];
-        if (!WCSession.isSupported) {
-            _watchSession = nil;
-        } else {
-            _watchSession = WCSession.defaultSession;
-            self.watchSession.delegate = self;
-            [self.watchSession activateSession];
-        }
     }
     return self;
 }
 
-- (void)launch {
-    [CHNotification.shared checkAuth];
-    [self reloadUserDB];
-    if (self.userDataSource.srvkey.length > 0) {
-        if ([self.nsDataSource keyForUID:self.me.uid].length <= 0) {
-            [self.nsDataSource updateKey:self.userDataSource.srvkey uid:self.me.uid];
-        }
-    } else {
-        @weakify(self);
-        dispatch_main_async(^{
-            @strongify(self);
-            [self bindAccount:nil completion:nil];
-        });
-    }
-}
-
 - (void)active {
-    [CHNotification.shared updateStatus];
     [self reloadUserDB];
     [self updatePushMessage:NO];
-    [self reloadBadge];
 }
 
 - (void)deactive {
-    [self reloadBadge];
     [self.nsDataSource close];
     [self.userDataSource close];
 }
@@ -113,10 +62,6 @@
         _userDataSource = nil;
         [self reloadUserDB];
     }
-}
-
-- (void)createAccountWithCompletion:(nullable CHLogicBlock)completion {
-    [self bindAccount:[CHSecKey new] completion:completion];
 }
 
 - (void)logoutWithCompletion:(nullable CHLogicBlock)completion {
@@ -176,7 +121,9 @@
     NSString *uid = [CHMessageModel parsePacket:userInfo mid:&mid data:&data];
     if (uid.length > 0 && [uid isEqualToString:self.me.uid] && mid.length > 0 && data.length > 0) {
         CHUpsertMessageFlags flags= 0;
-        CHMessageModel *model = [self.userDataSource upsertMessageData:data ks:self.nsDataSource uid:uid mid:mid ignoreChannels:self.readChannles flags:&flags];
+        CHMessageModel *model = [self.userDataSource upsertMessageData:data ks:self.nsDataSource uid:uid mid:mid checker:^BOOL(NSString * _Nonnull cid) {
+            return ![self isReadChannel:cid];
+        } flags:&flags];
         if (model != nil) {
             if (flags & CHUpsertMessageFlagChannel) {
                 [self sendNotifyWithSelector:@selector(logicChannelUpdated:) withObject:model.channel.base64];
@@ -225,7 +172,7 @@
     CHNodeModel *node = [self.userDataSource nodeWithNID:nid];
     if (node != nil && !node.isSystem) {
         @weakify(self);
-        [CHLogic.shared loadNodeWitEndpoint:node.endpoint completion:^(CHLCode result, NSDictionary *info) {
+        [self loadNodeWitEndpoint:node.endpoint completion:^(CHLCode result, NSDictionary *info) {
             CHLCode ret = CHLCodeFailed;
             if (result == CHLCodeOK) {
                 NSString *nid = [info valueForKey:@"nodeid"];
@@ -340,7 +287,7 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setTimeoutInterval:kCHNodeServerRequestTimeout];
     [request setHTTPMethod:@"GET"];
-    [request setValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
+    [request setValue:CHDevice.shared.userAgent forHTTPHeaderField:@"User-Agent"];
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Accept"];
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         CHLCode ret = CHLCodeFailed;
@@ -394,30 +341,6 @@
     return res;
 }
 
-- (NSInteger)unreadSumAllChannel {
-    return [self.userDataSource unreadSumAllChannel];
-}
-
-- (NSInteger)unreadWithChannel:(nullable NSString *)cid {
-    return [self.userDataSource unreadWithChannel:cid];
-}
-
-- (void)addReadChannel:(nullable NSString *)cid {
-    if (cid == nil) cid = @"";
-    if (![self.readChannles containsObject:cid]) {
-        [self.readChannles addObject:cid];
-        [self clearUnreadWithChannel:cid];
-    }
-}
-
-- (void)removeReadChannel:(nullable NSString *)cid {
-    if (cid == nil) cid = @"";
-    if ([self.readChannles containsObject:cid]) {
-        [self.readChannles removeObject:cid];
-        [self clearUnreadWithChannel:cid];
-    }
-}
-
 - (BOOL)nodeIsConnected:(nullable NSString *)nid {
     if (nid.length > 0) {
         return ![self.invalidNodes containsObject:nid];
@@ -434,43 +357,8 @@
     }
 }
 
-#pragma mark - Watch Methods
-- (BOOL)hasWatch {
-    return (self.watchSession != nil && self.watchSession.isPaired);
-}
-
-- (BOOL)isWatchAppInstalled {
-    BOOL res = (self.hasWatch && self.watchSession.isWatchAppInstalled);
-    return res;
-}
-
-- (BOOL)syncDataToWatch:(BOOL)focus {
-    BOOL res = NO;
-    if (self.hasWatch) {
-        res = [self.watchSession updateApplicationContext:@{
-            @"last": @(focus ? NSDate.date.timeIntervalSince1970 : 0),
-            @"data": self.watchSyncedData,
-        } error:nil];
-    }
-    return res;
-}
-
-#pragma mark - WCSessionDelegate
-- (void)session:(WCSession *)session activationDidCompleteWithState:(WCSessionActivationState)activationState error:(nullable NSError *)error {
-}
-
-- (void)sessionWatchStateDidChange:(WCSession *)session {
-    [self sendNotifyWithSelector:@selector(logicWatchStatusChanged)];
-}
-
-- (void)sessionDidBecomeInactive:(WCSession *)session {
-}
-
-- (void)sessionDidDeactivate:(WCSession *)session {
-}
-
 #pragma mark - Message Methods
-- (void)bindAccount:(CHSecKey *)key completion:(nullable CHLogicBlock)completion {
+- (void)bindAccount:(nullable CHSecKey *)key completion:(nullable CHLogicBlock)completion {
     CHDevice *device = CHDevice.shared;
     CHUserModel *user = (key == nil ? self.me : [CHUserModel modelWithKey:key]);
     if (user == nil) {
@@ -592,7 +480,7 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[endpoint URLByAppendingPathComponent:cmd]];
     [request setTimeoutInterval:kCHNodeServerRequestTimeout];
     [request setHTTPMethod:@"POST"];
-    [request setValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
+    [request setValue:CHDevice.shared.userAgent forHTTPHeaderField:@"User-Agent"];
     if (seckey == nil) {
         [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     } else {
@@ -611,7 +499,9 @@
             if (error == nil) {
                 result = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves) error:&error];
             }
-            completion(response, result, error);
+            dispatch_main_async(^{
+                completion(response, result, error);
+            });
         }
     }];
     [task resume];
@@ -623,33 +513,19 @@
     [self updatePushMessage:NO];
     self.userDataSource.srvkey = key;
     [self.nsDataSource updateKey:key uid:self.me.uid];
-    [CHNotification.shared checkAuth];
 }
 
 - (void)doLogout {
     [self.me.key deleteWithName:@kCHUserSecKeyName device:NO];
     [self.nsDataSource updateKey:nil uid:self.me.uid];
     self.userDataSource.srvkey = nil;
-    [self updateBadge:0];
     [self.nsDataSource close];
     [self reloadUserDB];
     _me = nil;
 }
 
-- (void)reloadBadge {
-    NSInteger badge = 0;
-    if (self.userDataSource != nil) {
-        for (NSString *cid in self.readChannles) {
-            [self clearUnreadWithChannel:cid];
-        }
-        badge = [self.userDataSource unreadSumAllChannel];
-    }
-    [self updateBadge:badge];
-}
-
-- (void)updateBadge:(NSInteger)badge {
-    CHNotification.shared.notificationBadge = badge;
-    [self.nsDataSource updateBadge:badge uid:self.me.uid];
+- (BOOL)isReadChannel:(NSString *)cid {
+    return NO;
 }
 
 - (void)reloadUserDB {
@@ -662,43 +538,7 @@
             dbpath = [dirpath URLByAppendingPathComponent:@kCHDBDataName];
         }
     }
-    if (self.userDataSource != nil) {
-        if (uid.length <= 0 || ![self.userDataSource.dsURL isEqual:dbpath]) {
-            [self.userDataSource close];
-            _userDataSource = nil;
-        }
-    }
-    if (self.webImageManager != nil && ![self.webImageManager.uid isEqualToString:uid]) {
-        [self.webImageManager close];
-        _webImageManager = nil;
-    }
-    if (self.webFileManager != nil && ![self.webFileManager.uid isEqualToString:uid]) {
-        [self.webFileManager close];
-        _webFileManager = nil;
-    }
-    if (self.linkMetaManager != nil && ![self.linkMetaManager.uid isEqualToString:uid]) {
-        [self.linkMetaManager close];
-        _linkMetaManager = nil;
-    }
-    if (uid.length > 0) {
-        if (self.userDataSource == nil) {
-            _userDataSource = [CHUserDataSource dataSourceWithURL:dbpath];
-        }
-        
-        NSURL *basePath = [dbpath.URLByDeletingLastPathComponent URLByAppendingPathComponent:@kCHWebBasePath];
-        if (_webImageManager == nil) {
-            _webImageManager = [CHWebObjectManager webObjectManagerWithURL:[basePath URLByAppendingPathComponent:@"images"] decoder:[CHWebImageDecoder new] userAgent:self.userAgent];
-            self.webImageManager.uid = uid;
-        }
-        if (_webFileManager == nil) {
-            _webFileManager = [CHWebFileManager webFileManagerWithURL:[basePath URLByAppendingPathComponent:@"files"] userAgent:self.userAgent];
-            self.webFileManager.uid = uid;
-        }
-        if (_linkMetaManager == nil) {
-            _linkMetaManager = [CHLinkMetaManager linkManagerWithURL:[basePath URLByAppendingPathComponent:@"links"]];
-            self.linkMetaManager.uid = uid;
-        }
-    }
+    [self reloadDB:dbpath uid:uid];
 }
 
 - (void)updatePushMessage:(BOOL)alert {
@@ -710,7 +550,9 @@
         NSMutableArray<NSString *> *mids = [NSMutableArray new];
         [self.nsDataSource enumerateMessagesWithUID:uid block:^(FMDatabase *db, NSString *mid, NSData *data) {
             CHUpsertMessageFlags flags = 0;
-            CHMessageModel *msg = [self.userDataSource upsertMessageData:data ks:[CHTempKeyStorage keyStorage:db] uid:uid mid:mid ignoreChannels:self.readChannles flags:&flags];
+            CHMessageModel *msg = [self.userDataSource upsertMessageData:data ks:[CHTempKeyStorage keyStorage:db] uid:uid mid:mid checker:^BOOL(NSString * _Nonnull cid) {
+                return ![self isReadChannel:cid];
+            } flags:&flags];
             if (msg != nil) {
                 if (flags & CHUpsertMessageFlagChannel) {
                     [cids addObject:msg.channel.base64];
@@ -744,6 +586,21 @@
     }
 }
 
+#pragma mark - Subclass Methods
+- (void)reloadDB:(NSURL *)dbpath uid:(nullable NSString *)uid {
+    if (self.userDataSource != nil) {
+        if (uid.length <= 0 || ![self.userDataSource.dsURL isEqual:dbpath]) {
+            [self.userDataSource close];
+            _userDataSource = nil;
+        }
+    }
+    if (uid.length > 0) {
+        if (self.userDataSource == nil) {
+            _userDataSource = [CHUserDataSource dataSourceWithURL:dbpath];
+        }
+    }
+}
+
 #pragma mark - Private Methods
 - (void)sendAlertNewMessage {
     dispatch_main_async(^{
@@ -751,27 +608,6 @@
             AudioServicesPlaySystemSound(1007);
         }
     });
-}
-
-- (BOOL)clearUnreadWithChannel:(nullable NSString *)cid {
-    BOOL res = [self.userDataSource clearUnreadWithChannel:cid];
-    if (res) {
-        [self sendNotifyWithSelector:@selector(logicChannelUpdated:) withObject:cid];
-        // TODO: Fix calc unread count
-        [self sendNotifyWithSelector:@selector(logicMessagesUnreadChanged:) withObject:@(self.userDataSource.unreadSumAllChannel)];
-    }
-    return res;
-}
-
-- (NSData *)watchSyncedData {
-    NSData *data = nil;
-    CHUserModel *me = self.me;
-    if (me != nil) {
-        CHTPWatchConfig *cfg = [CHTPWatchConfig new];
-        cfg.userKey = me.key.seckey;
-        data = cfg.data;
-    }
-    return data ?: [NSData new];
 }
 
 static inline void call_completion(CHLogicBlock completion, CHLCode result) {

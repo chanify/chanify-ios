@@ -9,6 +9,7 @@
 #import <FMDB.h>
 #import <sqlite3.h>
 
+#define kCHNSDBFlags    (SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_FILEPROTECTION_COMPLETEUNTILFIRSTUSERAUTHENTICATION)
 #define kCHNSInitSql    \
     "CREATE TABLE IF NOT EXISTS `keys`(`uid` TEXT PRIMARY KEY,`key` BLOB);"  \
     "CREATE TABLE IF NOT EXISTS `badges`(`uid` TEXT PRIMARY KEY,`badge` UNSIGNED INTEGER);"  \
@@ -28,7 +29,7 @@
 
 - (instancetype)initWithURL:(NSURL *)url {
     if (self = [super init]) {
-        _dbQueue = [FMDatabaseQueue databaseQueueWithURL:url];
+        _dbQueue = [FMDatabaseQueue databaseQueueWithURL:url flags:kCHNSDBFlags];
         [self.dbQueue inDatabase:^(FMDatabase *db) {
             NSURL *dbURL = db.databaseURL;
             dbURL.dataProtoction = NSURLFileProtectionCompleteUntilFirstUserAuthentication;

@@ -7,8 +7,8 @@
 
 #import "CHChannelNewViewController.h"
 #import "CHUserDataSource.h"
+#import "CHLogic+iOS.h"
 #import "CHRouter.h"
-#import "CHLogic.h"
 
 @interface CHChannelNewViewController () <CHFormDelegate>
 @end
