@@ -26,7 +26,8 @@ struct ChanifyApp: App {
             }
         }
 
-        WKNotificationScene(controller: NotificationController.self, category: "general")
+        WKNotificationScene(controller: NotificationController.self, category: "text")
+        WKNotificationScene(controller: NotificationController.self, category: "link")
     }
     
     class LogicDelegate : NSObject, CHLogicDelegate {
@@ -48,6 +49,24 @@ struct ChanifyApp: App {
 
     class ExtensionDelegate : NSObject, WKExtensionDelegate {
         func applicationDidFinishLaunching() {
+            CHLogic.shared.launch()
+        }
+        
+        func applicationDidBecomeActive() {
+            CHLogic.shared.active()
+        }
+        
+        func applicationWillResignActive() {
+            CHLogic.shared.deactive()
+        }
+        
+        func didRegisterForRemoteNotifications(withDeviceToken deviceToken: Data) {
+            CHLogic.shared.updatePushToken(deviceToken)
+        }
+        
+        func didReceiveRemoteNotification(_ userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (WKBackgroundFetchResult) -> Void) {
+            CHLogic.shared.receiveRemoteNotification(userInfo)
+            completionHandler(.newData)
         }
     }
 }

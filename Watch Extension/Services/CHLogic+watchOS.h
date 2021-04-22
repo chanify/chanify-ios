@@ -5,8 +5,7 @@
 //  Created by WizJin on 2021/4/21.
 //
 
-#import "CHUserModel.h"
-#import "CHManager.h"
+#import "CHLogic.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,10 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)logicUserInfoChanged:(nullable CHUserModel *)me;
 @end
 
-@interface CHLogic : CHManager<id<CHLogicDelegate>>
+@interface CHLogic : CHCommonLogic<id<CHLogicDelegate>>
 
 @property (class, nonatomic, readonly, strong) CHLogic *shared;
-@property (nonatomic, nullable, readonly, strong) CHUserModel *me;
+
+- (void)launch;
+- (void)receiveRemoteNotification:(NSDictionary *)userInfo;
 
 
 @end

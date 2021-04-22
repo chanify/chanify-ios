@@ -270,6 +270,7 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
             @"msg.file": @"doc.richtext",
             @"msg.timeline": @"waveform.path.ecg",
             @"store.device": @"externaldrive.badge.person.crop",
+            @"platform.watchos": @"applewatch",
             @"register.limit": @"lock.shield",
         };
     });

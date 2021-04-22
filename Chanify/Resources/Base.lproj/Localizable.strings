@@ -113,6 +113,7 @@
 
 "register.limit"="Public registration disabled";
 "store.device"="Store device info";
+"platform.watchos"="Support Apple Watch";
 "msg.text"="Send text message";
 "msg.link"="Send link message";
 "msg.image"="Send image message";

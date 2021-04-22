@@ -6,6 +6,7 @@
   
 */
 "NotInit"="Please setup in the Chanify app on your iPhone firstly.";
+"Inited"="Please view message detail in the Chanify app on your iPhone.";
 
 "NewMsg"="Receive an new message";
 "ImageMsg"="[Image]";

@@ -113,6 +113,7 @@
 
 "register.limit"="限制公开注册";
 "store.device"="存储设备信息";
+"platform.watchos"="支持手表设备";
 "msg.text"="发送文本消息";
 "msg.link"="发送链接消息";
 "msg.image"="发送图片消息";

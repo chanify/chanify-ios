@@ -7,12 +7,15 @@
 
 #import "CHLogic+watchOS.h"
 #import <WatchConnectivity/WatchConnectivity.h>
+#import <UserNotifications/UserNotifications.h>
+#import <WatchKit/WatchKit.h>
+#import "CHDevice.h"
 #import "CHTP.pbobjc.h"
 
-@interface CHLogic () <WCSessionDelegate>
+@interface CHLogic () <WCSessionDelegate, UNUserNotificationCenterDelegate>
 
-@property (nonatomic, readonly, strong) WCSession *session;
-@property (nonatomic, readonly, strong) NSData *pushToken;
+@property (nonatomic, readonly, strong) WCSession *watchSession;
+@property (nonatomic, readonly, strong) UNUserNotificationCenter *center;
 
 @end
 
@@ -29,15 +32,36 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        _pushToken = [NSData new];
-        _me = [CHUserModel modelWithKey:[CHSecKey secKeyWithName:@kCHUserSecKeyName device:NO created:NO]];
+        _center = UNUserNotificationCenter.currentNotificationCenter;
+        self.center.delegate = self;
         
-        assert(WCSession.isSupported);
-        _session = WCSession.defaultSession;
-        self.session.delegate = self;
-        [self.session activateSession];
+        if (!WCSession.isSupported) {
+            _watchSession = nil;
+        } else {
+            _watchSession = WCSession.defaultSession;
+            self.watchSession.delegate = self;
+        }
+        
+        CHLogI("User-agent: %s", CHDevice.shared.userAgent.cstr);
     }
     return self;
+}
+
+- (void)launch {
+    [self.watchSession activateSession];
+    [self checkAuth];
+}
+
+- (void)active {
+    [super active];
+}
+
+- (void)deactive {
+    [super deactive];
+}
+
+- (void)receiveRemoteNotification:(NSDictionary *)userInfo {
+    
 }
 
 #pragma mark - WCSessionDelegate
@@ -53,15 +77,35 @@
     });
 }
 
+#pragma mark - UNUserNotificationCenterDelegate
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
+    
+}
+
 #pragma mark - Private Methods
+- (void)checkAuth {
+    UNAuthorizationOptions options = UNAuthorizationOptionBadge|UNAuthorizationOptionSound|UNAuthorizationOptionAlert;
+    [self.center requestAuthorizationWithOptions:options completionHandler:^(BOOL granted, NSError *error) {
+        if (error == nil && granted) {
+            dispatch_main_async(^{
+                [WKExtension.sharedExtension registerForRemoteNotifications];
+            });
+        }
+    }];
+}
+
 - (void)updateContext:(WCSession *)session {
     NSData *data = [session.receivedApplicationContext objectForKey:@"data"];
     NSError *error = nil;
+    CHUserModel *me = nil;
     CHTPWatchConfig *cfg = [CHTPWatchConfig parseFromData:data ?: [NSData new] error:&error];
     if (error == nil) {
-        _me = [CHUserModel modelWithKey:[CHSecKey secKeyWithData:cfg.userKey]];
+        me = [CHUserModel modelWithKey:[CHSecKey secKeyWithData:cfg.userKey]];
     }
-    [self sendNotifyWithSelector:@selector(logicUserInfoChanged:) withObject:self.me];
+    if (self.me == nil || ![self.me.uid isEqualToString:me.uid]) {
+        [self updateUserModel:me];
+        [self sendNotifyWithSelector:@selector(logicUserInfoChanged:) withObject:me];
+    }
 }
 
 

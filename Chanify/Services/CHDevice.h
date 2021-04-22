@@ -9,6 +9,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, CHDeviceType) {
+    CHDeviceTypeUnknown     = 0,
+    CHDeviceTypeIOS         = 1,
+    CHDeviceTypeWatchOS     = 2,
+};
+
 @interface CHDevice : NSObject
 
 @property (nonatomic, readonly, strong) NSData *uuid;
@@ -21,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) NSString *model;
 @property (nonatomic, readonly, strong) NSString *userAgent;
 @property (nonatomic, readonly, strong) CHSecKey *key;
+@property (nonatomic, readonly, assign) CHDeviceType type;
 @property (nonatomic, readonly, assign) double scale;
 
 + (instancetype)shared;

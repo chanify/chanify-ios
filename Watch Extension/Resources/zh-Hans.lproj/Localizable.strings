@@ -6,6 +6,7 @@
   
 */
 "NotInit"="请首先在iPhone上的Chanify应用设置";
+"Inited"="请在iPhone上的Chanify应用查看消息详情";
 
 "NewMsg"="收到一条新消息";
 "ImageMsg"="[图片]";

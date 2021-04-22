@@ -34,6 +34,11 @@
 #define kCHAnimateFastDuration          0.2
 #define kCHAnimateMediumDuration        0.3
 #define kCHAnimateSlowDuration          0.4
+#if DEBUG
+#   define kCHNotificationSandbox       YES
+#else
+#   define kCHNotificationSandbox       NO  // TestFlight use production APNS.
+#endif
 
 
 #endif /* __CHCONFIG_H__ */

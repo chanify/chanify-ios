@@ -6,8 +6,12 @@
 //
 
 #import "CHDevice.h"
-#import <UIKit/UIDevice.h>
-#import <UIKit/UIScreen.h>
+#if TARGET_OS_WATCH
+#   import <WatchKit/WKInterfaceDevice.h>
+#elif TARGET_OS_IPHONE
+#   import <UIKit/UIDevice.h>
+#   import <UIKit/UIScreen.h>
+#endif
 #import <sys/sysctl.h>
 
 @implementation CHDevice
@@ -28,11 +32,20 @@
         _bundle = [bundle objectForInfoDictionaryKey:@"CFBundleIdentifier"];
         _version = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
         _build = [[bundle objectForInfoDictionaryKey:@"CFBundleVersion"] intValue];
+        _model = get_sysctl("hw.machine");
+#if TARGET_OS_WATCH
+        WKInterfaceDevice *device = WKInterfaceDevice.currentDevice;
+        _scale = device.screenScale;
+        _name = device.name;
+        _type = CHDeviceTypeWatchOS;
+        _osInfo = [NSString stringWithFormat:@"%@ %@", device.systemName, device.systemVersion];
+#elif TARGET_OS_IPHONE
         UIDevice *device = UIDevice.currentDevice;
         _scale = UIScreen.mainScreen.scale;
         _name = device.name;
-        _model = get_sysctl("hw.machine");
+        _type = CHDeviceTypeIOS;
         _osInfo = [NSString stringWithFormat:@"%@ %@", device.systemName, device.systemVersion];
+#endif
         CHLogI("%s version: %s(%d) %s/%s.", self.app.cstr, self.version.cstr, self.build, self.model.cstr, self.osInfo.cstr);
         _key = [CHSecKey secKeyWithName:@kCHDeviceSecKeyName device:YES created:YES];
         _uuid = self.key.uuid;

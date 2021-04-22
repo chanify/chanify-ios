@@ -16,8 +16,8 @@ struct ContentView: View {
                 .multilineTextAlignment(.center)
                 .padding()
         }
-        if let me = logic.me {
-            Text(me.uid)
+        if logic.me != nil {
+            Text("Inited")
                 .multilineTextAlignment(.center)
                 .padding()
         }
