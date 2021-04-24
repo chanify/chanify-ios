@@ -118,8 +118,12 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
 }
 
 - (void)actionDeleteNode {
-    [CHLogic.shared deleteNode:self.model.nid];
-    [self closeAnimated:YES completion:nil];
+    @weakify(self);
+    [CHRouter.shared showAlertWithTitle:@"Delete this node or not?".localized action:@"Delete".localized handler:^{
+        @strongify(self);
+        [CHLogic.shared deleteNode:self.model.nid];
+        [self closeAnimated:YES completion:nil];
+    }];
 }
 
 #pragma mark - Private Methods

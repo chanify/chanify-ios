@@ -100,7 +100,7 @@
     NSDictionary *info = try_mock_notification(response.notification.request.content.userInfo);
     NSString *uid = [CHMessageModel parsePacket:info mid:&mid data:nil];
     if (uid.length > 0 && mid.length > 0) {
-        CHLogI("Launch with message %ux", mid);
+        CHLogI("Launch with message %u", mid);
         [CHLogic.shared recivePushMessage:info];
         CHMessageModel *model = [CHLogic.shared.userDataSource messageWithMID:mid];
         if (model.channel.length > 0) {
@@ -108,7 +108,6 @@
             dispatch_main_async(^{
                 [CHRouter.shared routeTo:@"/page/channel" withParams:@{ @"cid": cid, @"singleton": @YES, @"show": @"detail" }];
             });
-        
         }
     }
     completionHandler();
