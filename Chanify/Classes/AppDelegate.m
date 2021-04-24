@@ -6,7 +6,7 @@
 //
 
 #import "AppDelegate.h"
-#import "CHNotification.h"
+#import "CHLogic+iOS.h"
 #import "CHRouter.h"
 
 @implementation AppDelegate
@@ -43,14 +43,14 @@
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    [CHNotification.shared updateDeviceToken:deviceToken];
+    [CHLogic.shared updatePushToken:deviceToken];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
-    [CHNotification.shared receiveRemoteNotification:userInfo];
+    [CHLogic.shared receiveRemoteNotification:userInfo];
     completionHandler(UIBackgroundFetchResultNewData);
 }
 

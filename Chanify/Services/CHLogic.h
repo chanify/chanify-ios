@@ -10,6 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class CHUserDataSource;
+
 typedef NS_ENUM(int, CHLCode) {
     CHLCodeOK       = 200,
     CHLCodeReject   = 406,
@@ -26,12 +28,17 @@ typedef void (^CHLogicResultBlock)(CHLCode result, NSDictionary *data);
 @interface CHCommonLogic<T> : CHManager<T>
 
 @property (nonatomic, readonly, strong) NSURL *baseURL;
-@property (nonatomic, readonly, strong) NSData *pushToken;
 @property (nonatomic, nullable, readonly, strong) CHUserModel *me;
+@property (nonatomic, nullable, readonly, strong) CHUserDataSource *userDataSource;
 
+- (void)launch;
 - (void)active;
 - (void)deactive;
+- (void)resetData;
+- (void)reloadUserDB:(BOOL)force;
+- (nullable NSURL *)dbPath:(nullable NSString *)uid;
 - (void)updatePushToken:(NSData *)pushToken;
+- (void)receiveRemoteNotification:(NSDictionary *)userInfo;
 - (void)updateUserModel:(nullable CHUserModel *)me;
 - (void)sendCmd:(NSString *)cmd user:(CHUserModel *)user parameters:(NSDictionary *)parameters completion:(nullable void (^)(NSURLResponse *response, NSDictionary *result, NSError *error))completion;
 - (void)sendToEndpoint:(NSURL *)endpoint cmd:(NSString *)cmd device:(BOOL)device seckey:(nullable CHSecKey *)seckey user:(CHUserModel *)user parameters:(NSDictionary *)parameters completion:(nullable void (^)(NSURLResponse *response, NSDictionary *result, NSError *error))completion;

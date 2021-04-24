@@ -56,6 +56,10 @@
 		6D90AFD1262D623300FBE1A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D90AFD0262D623300FBE1A6 /* Assets.xcassets */; };
 		6D90AFD9262D623300FBE1A6 /* Watch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 6D90AFB8262D623200FBE1A6 /* Watch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6D966CC82633F7CB00833A09 /* CHNodeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDC86A825E7408E00C26203 /* CHNodeModel.m */; };
+		6D966CCF2633FC1200833A09 /* CHUserDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2DC25D15DB100512E36 /* CHUserDataSource.m */; };
+		6D966CD62633FC2400833A09 /* CHMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2E625D15EC100512E36 /* CHMessageModel.m */; };
+		6D966CDD2633FC2800833A09 /* CHChannelModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2E125D15E6B00512E36 /* CHChannelModel.m */; };
+		6D966CE42633FC3000833A09 /* CHThumbnailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DABBB202612BDFC00FCBDD3 /* CHThumbnailModel.m */; };
 		6D9C209426020A4200F40CDD /* CHFormSwitchItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9C209326020A4200F40CDD /* CHFormSwitchItem.m */; };
 		6DA2A7072622F8F100D898C7 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DA2A7062622F8F100D898C7 /* UserNotifications.framework */; };
 		6DA2A7092622F8F100D898C7 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DA2A7082622F8F100D898C7 /* UserNotificationsUI.framework */; };
@@ -163,6 +167,9 @@
 		6DDE056A26281F5C004336DD /* CHMessageCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDE056926281F5C004336DD /* CHMessageCellView.m */; };
 		6DDE057C262976C4004336DD /* CHBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDE057B262976C4004336DD /* CHBadgeView.m */; };
 		6DEC569E25F4F6F600AD6DC9 /* CHIconConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC569D25F4F6F600AD6DC9 /* CHIconConfiguration.m */; };
+		6DFDE2182634041000A4BE43 /* CHNotification+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DFDE2172634041000A4BE43 /* CHNotification+Badge.m */; };
+		6DFDE225263408D000A4BE43 /* CHNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C26E25D13D2900512E36 /* CHNotification.m */; };
+		6DFDE2392634117200A4BE43 /* NSString+CHLocalized.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD7B5D8260DF520001D5DCB /* NSString+CHLocalized.m */; };
 		C53CB9C0420879B9E5436A08 /* libPods-WatchNotificationService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97C6F4E6EFFA55036AFB7B43 /* libPods-WatchNotificationService.a */; };
 		E1FF8005990C1480B5C3EF98 /* libPods-NotificationService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77860262C85473FCE5AADE06 /* libPods-NotificationService.a */; };
 /* End PBXBuildFile section */
@@ -581,6 +588,8 @@
 		6DDE057B262976C4004336DD /* CHBadgeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHBadgeView.m; sourceTree = "<group>"; };
 		6DEC569C25F4F6F600AD6DC9 /* CHIconConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHIconConfiguration.h; sourceTree = "<group>"; };
 		6DEC569D25F4F6F600AD6DC9 /* CHIconConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHIconConfiguration.m; sourceTree = "<group>"; };
+		6DFDE2162634041000A4BE43 /* CHNotification+Badge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CHNotification+Badge.h"; sourceTree = "<group>"; };
+		6DFDE2172634041000A4BE43 /* CHNotification+Badge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHNotification+Badge.m"; sourceTree = "<group>"; };
 		77860262C85473FCE5AADE06 /* libPods-NotificationService.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NotificationService.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84478BB35AC049B8F080A494 /* Pods-NotificationService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationService.debug.xcconfig"; path = "Target Support Files/Pods-NotificationService/Pods-NotificationService.debug.xcconfig"; sourceTree = "<group>"; };
 		88B60DC2DA57301D0741245B /* Pods-NotificationService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationService.release.xcconfig"; path = "Target Support Files/Pods-NotificationService/Pods-NotificationService.release.xcconfig"; sourceTree = "<group>"; };
@@ -962,6 +971,8 @@
 				6DAE516A26155C8C00AF9E90 /* CHPasteboard.m */,
 				6DC6C26D25D13D2900512E36 /* CHNotification.h */,
 				6DC6C26E25D13D2900512E36 /* CHNotification.m */,
+				6DFDE2162634041000A4BE43 /* CHNotification+Badge.h */,
+				6DFDE2172634041000A4BE43 /* CHNotification+Badge.m */,
 				6DC6C2EA25D15F9700512E36 /* CHNSDataSource.h */,
 				6DC6C2EB25D15F9700512E36 /* CHNSDataSource.m */,
 				6DC6C2DB25D15DB100512E36 /* CHUserDataSource.h */,
@@ -1572,21 +1583,27 @@
 				6D90AFCB262D623300FBE1A6 /* NotificationController.swift in Sources */,
 				6D897D23262D6BFD0048D9A6 /* CHTP.proto in Sources */,
 				6D3F61F6262E64EB00E122BC /* CHSecKey.m in Sources */,
+				6DFDE225263408D000A4BE43 /* CHNotification.m in Sources */,
 				6DB057F22631201A00B33BA0 /* CHDevice.m in Sources */,
 				6D3F629D262FD82100E122BC /* CHLogic+watchOS.m in Sources */,
 				6D3F622D262E65B500E122BC /* NSURL+CHExt.m in Sources */,
+				6D966CDD2633FC2800833A09 /* CHChannelModel.m in Sources */,
 				6D3F6211262E654F00E122BC /* NSData+CHExt.m in Sources */,
 				6D90AFC9262D623200FBE1A6 /* ContentView.swift in Sources */,
+				6D966CCF2633FC1200833A09 /* CHUserDataSource.m in Sources */,
 				6D3F61E8262E64AE00E122BC /* CHUserModel.m in Sources */,
 				6D90AFCF262D623300FBE1A6 /* ComplicationController.swift in Sources */,
+				6DFDE2392634117200A4BE43 /* NSString+CHLocalized.m in Sources */,
 				6D90AFC7262D623200FBE1A6 /* ChanifyApp.swift in Sources */,
 				6D3F61FD262E64EE00E122BC /* CryptoKit.swift in Sources */,
 				6D3F6226262E65A900E122BC /* NSFileManager+CHExt.m in Sources */,
 				6D3F62D02630167200E122BC /* CHManager.m in Sources */,
 				6D3F621F262E659800E122BC /* NSException+CHExt.m in Sources */,
 				6D90AFCD262D623300FBE1A6 /* NotificationView.swift in Sources */,
+				6D966CE42633FC3000833A09 /* CHThumbnailModel.m in Sources */,
 				6D3F6218262E656100E122BC /* NSString+CHExt.m in Sources */,
 				6D966CC82633F7CB00833A09 /* CHNodeModel.m in Sources */,
+				6D966CD62633FC2400833A09 /* CHMessageModel.m in Sources */,
 				6D3F6204262E64F400E122BC /* CHCrpyto.m in Sources */,
 				6D3F6270262EE0E700E122BC /* LogicModel.swift in Sources */,
 				6D229C5F26316078005BF375 /* CHLogic.m in Sources */,
@@ -1610,6 +1627,7 @@
 				6DDC86C425E74F0C00C26203 /* CHNodeViewController.m in Sources */,
 				6DC6C2CD25D15B6300512E36 /* CHScanViewController.m in Sources */,
 				6D67CBEA25D4298A00ECF655 /* CHCrpyto.m in Sources */,
+				6DFDE2182634041000A4BE43 /* CHNotification+Badge.m in Sources */,
 				6DC6C26525D1151E00512E36 /* NSString+CHExt.m in Sources */,
 				6DAE516B26155C8C00AF9E90 /* CHPasteboard.m in Sources */,
 				6DC6C38625D16E4200512E36 /* CHDateCellConfiguration.m in Sources */,

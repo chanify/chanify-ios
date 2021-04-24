@@ -146,7 +146,7 @@
     [self.dbQueue inDatabase:^(FMDatabase *db) {
         FMResultSet *res = [db executeQuery:@"SELECT `nid`,`name`,`version`,`endpoint`,`pubkey`,`flags`,`features`,`icon` FROM `nodes` WHERE `deleted`=0;"];
         while(res.next) {
-            CHNodeModel *model = [CHNodeModel modelWithNID:[res stringForColumnIndex:0] name:[res stringForColumnIndex:1] version:[res stringForColumnIndex:2] endpoint:[res stringForColumnIndex:3] pubkey:[res dataForColumnIndex:4] flags:[res unsignedLongLongIntForColumnIndex:5] features:[res stringForColumnIndex:6]];
+            CHNodeModel *model = [CHNodeModel modelWithNID:[res stringForColumnIndex:0] name:[res stringForColumnIndex:1] version:[res stringForColumnIndex:2] endpoint:[res stringForColumnIndex:3] pubkey:[res dataForColumnIndex:4] flags:(CHNodeModelFlags)[res unsignedLongLongIntForColumnIndex:5] features:[res stringForColumnIndex:6]];
             if (model != nil) {
                 model.icon = [res stringForColumnIndex:7];
                 [nodes addObject:model];
@@ -164,7 +164,7 @@
     [self.dbQueue inDatabase:^(FMDatabase *db) {
         FMResultSet *res = [db executeQuery:@"SELECT `nid`,`name`,`version`,`endpoint`,`pubkey`,`flags`,`features`,`icon` FROM `nodes` WHERE `nid`=? AND `deleted`=0; LIMIT 1;", nid];
         if (res.next) {
-            model = [CHNodeModel modelWithNID:[res stringForColumnIndex:0] name:[res stringForColumnIndex:1] version:[res stringForColumnIndex:2] endpoint:[res stringForColumnIndex:3] pubkey:[res dataForColumnIndex:4] flags:[res unsignedLongLongIntForColumnIndex:5] features:[res stringForColumnIndex:6]];
+            model = [CHNodeModel modelWithNID:[res stringForColumnIndex:0] name:[res stringForColumnIndex:1] version:[res stringForColumnIndex:2] endpoint:[res stringForColumnIndex:3] pubkey:[res dataForColumnIndex:4] flags:(CHNodeModelFlags)[res unsignedLongLongIntForColumnIndex:5] features:[res stringForColumnIndex:6]];
             if (model != nil) {
                 model.icon = [res stringForColumnIndex:7];
             }

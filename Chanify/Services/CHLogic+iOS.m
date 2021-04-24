@@ -7,20 +7,23 @@
 
 #import "CHLogic+iOS.h"
 #import <WatchConnectivity/WatchConnectivity.h>
+#import <UserNotifications/UserNotifications.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import "CHUserDataSource.h"
 #import "CHNSDataSource.h"
 #import "CHMessageModel.h"
 #import "CHChannelModel.h"
 #import "CHNodeModel.h"
-#import "CHNotification.h"
+#import "CHNotification+Badge.h"
 #import "CHWebObjectManager.h"
 #import "CHWebFileManager.h"
 #import "CHLinkMetaManager.h"
 #import "CHDevice.h"
+#import "CHRouter.h"
+#import "CHMock.h"
 #import "CHTP.pbobjc.h"
 
-@interface CHLogic () <WCSessionDelegate>
+@interface CHLogic () <WCSessionDelegate, CHNotificationMessageDelegate>
 
 @property (nonatomic, readonly, strong) NSMutableSet<NSString *> *readChannels;
 @property (nonatomic, readonly, strong) NSMutableSet<NSString *> *invalidNodes;
@@ -42,7 +45,6 @@
 - (instancetype)init {
     if (self = [super init]) {
         _nsDataSource = [CHNSDataSource dataSourceWithURL:[NSFileManager.defaultManager URLForGroupId:@kCHAppGroupName path:@kCHDBNotificationServiceName]];
-        _userDataSource = nil;
         _readChannels = [NSMutableSet new];
         _invalidNodes = [NSMutableSet new];
         _webImageManager = nil;
@@ -54,15 +56,15 @@
             _watchSession = WCSession.defaultSession;
             self.watchSession.delegate = self;
         }
-        CHLogI("User-agent: %s", CHDevice.shared.userAgent.cstr);
+        CHNotification.shared.delegate = self;
     }
     return self;
 }
 
 - (void)launch {
-    [CHNotification.shared checkAuth];
+    [super launch];
     [self.watchSession activateSession];
-    [self reloadUserDB];
+    [self reloadUserDB:NO];
     if (self.userDataSource.srvkey.length > 0) {
         if ([self.nsDataSource keyForUID:self.me.uid].length <= 0) {
             [self.nsDataSource updateKey:self.userDataSource.srvkey uid:self.me.uid];
@@ -79,8 +81,6 @@
 
 - (void)active {
     [super active];
-    [CHNotification.shared updateStatus];
-    [self reloadUserDB];
     [self updatePushMessage:NO];
     [self reloadBadge];
 }
@@ -88,17 +88,7 @@
 - (void)deactive {
     [self reloadBadge];
     [self.nsDataSource close];
-    [self.userDataSource close];
     [super deactive];
-}
-
-- (void)resetData {
-    if (self.userDataSource != nil) {
-        [self.userDataSource close];
-        [NSFileManager.defaultManager removeItemAtPath:self.userDataSource.dsURL.path error:nil];
-        _userDataSource = nil;
-        [self reloadUserDB];
-    }
 }
 
 - (BOOL)recivePushMessage:(NSDictionary *)userInfo {
@@ -322,7 +312,7 @@
             [params setValue:@{
                 @"uuid": dev.uuid.hex,
                 @"key": dev.key.pubkey.base64,
-                @"push-token": self.pushToken.base64,
+                @"push-token": CHNotification.shared.pushToken.base64,
                 @"sandbox": @(kCHNotificationSandbox),
                 @"type": @(dev.type),
             } forKey:@"device"];
@@ -391,7 +381,7 @@
     if (nid.length > 0) {
         CHNodeModel *node = [self.userDataSource nodeWithNID:nid];
         if (node.isStoreDevice) {
-            [self updatePushToken:self.pushToken endpoint:node.apiURL node:node completion:completion retry:NO];
+            [self updatePushToken:CHNotification.shared.pushToken endpoint:node.apiURL node:node completion:completion retry:NO];
         }
     }
 }
@@ -508,6 +498,34 @@
 - (void)sessionDidDeactivate:(WCSession *)session {
 }
 
+#pragma mark - CHNotificationMessageDelegate
+- (void)registerForRemoteNotifications {
+    dispatch_main_async(^{
+        [UIApplication.sharedApplication registerForRemoteNotifications];
+    });
+}
+
+- (void)receiveNotification:(UNNotification *)notification {
+    [self recivePushMessage:try_mock_notification(notification.request.content.userInfo)];
+}
+
+- (void)receiveNotificationResponse:(UNNotificationResponse *)response {
+    NSString *mid = nil;
+    NSDictionary *info = try_mock_notification(response.notification.request.content.userInfo);
+    NSString *uid = [CHMessageModel parsePacket:info mid:&mid data:nil];
+    if (uid.length > 0 && mid.length > 0) {
+        CHLogI("Launch with message %u", mid);
+        [self recivePushMessage:info];
+        CHMessageModel *model = [self.userDataSource messageWithMID:mid];
+        if (model.channel.length > 0) {
+            NSString *cid = model.channel.base64;
+            dispatch_main_async(^{
+                [CHRouter.shared routeTo:@"/page/channel" withParams:@{ @"cid": cid, @"singleton": @YES, @"show": @"detail" }];
+            });
+        }
+    }
+}
+
 #pragma mark - Private Methods
 - (void)updatePushToken:(NSData *)pushToken endpoint:(NSURL *)endpoint node:(nullable CHNodeModel *)node completion:(nullable CHLogicBlock)completion retry:(BOOL)retry {
     if (self.me != nil) {
@@ -545,7 +563,7 @@
 
 - (void)doLogin:(CHUserModel *)user key:(NSData *)key {
     [self updateUserModel:user];
-    [self reloadUserDB];
+    [self reloadUserDB:YES];
     self.userDataSource.srvkey = key;
     [self.nsDataSource updateKey:key uid:self.me.uid];
     [self updatePushMessage:NO];
@@ -560,32 +578,15 @@
     [self.nsDataSource close];
     self.userDataSource.srvkey = nil;
     [self updateUserModel:nil];
-    [self reloadUserDB];
+    [self reloadUserDB:YES];
     [self updateBadge:0];
     [self syncDataToWatch:NO];
 }
 
-- (void)reloadUserDB {
-    NSURL *dbpath = nil;
+- (void)reloadUserDB:(BOOL)force {
+    [super reloadUserDB:force];
     NSString *uid = self.me.uid;
-    if (uid.length > 0) {
-        NSFileManager *fm = NSFileManager.defaultManager;
-        NSURL *dirpath = [fm.URLForDocumentDirectory URLByAppendingPathComponent:uid];
-        if ([fm fixDirectory:dirpath]) {
-            dbpath = [dirpath URLByAppendingPathComponent:@kCHDBDataName];
-        }
-    }
-    if (self.userDataSource != nil) {
-        if (uid.length <= 0 || ![self.userDataSource.dsURL isEqual:dbpath]) {
-            [self.userDataSource close];
-            _userDataSource = nil;
-        }
-    }
-    if (uid.length > 0) {
-        if (self.userDataSource == nil) {
-            _userDataSource = [CHUserDataSource dataSourceWithURL:dbpath];
-        }
-    }
+    NSURL *dbpath = [self dbPath:uid];
     if (self.webImageManager != nil && ![self.webImageManager.uid isEqualToString:uid]) {
         [self.webImageManager close];
         _webImageManager = nil;

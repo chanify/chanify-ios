@@ -18,9 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (class, nonatomic, readonly, strong) CHLogic *shared;
 
-- (void)launch;
-- (void)receiveRemoteNotification:(NSDictionary *)userInfo;
-
 
 @end
 

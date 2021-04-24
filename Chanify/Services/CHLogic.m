@@ -6,6 +6,8 @@
 //
 
 #import "CHLogic.h"
+#import "CHUserDataSource.h"
+#import "CHNotification.h"
 #import "CHDevice.h"
 #import "CHCrpyto.h"
 
@@ -19,22 +21,73 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        _pushToken = [NSData new];
         _me = [CHUserModel modelWithKey:[CHSecKey secKeyWithName:@kCHUserSecKeyName device:NO created:NO]];
         _baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://%s/rest/v1/", kCHAPIHostname]];
         _session = [NSURLSession sessionWithConfiguration:NSURLSessionConfiguration.ephemeralSessionConfiguration];
+        _userDataSource = nil;
     }
     return self;
 }
 
+
+- (void)launch {
+    [CHNotification.shared checkAuth];
+}
+
 - (void)active {
+    [CHNotification.shared updateStatus];
+    [self reloadUserDB:NO];
 }
 
 - (void)deactive {
+    [self.userDataSource close]; // only close db, not clear point
+}
+
+- (void)resetData {
+    if (self.userDataSource != nil) {
+        [self.userDataSource close];
+        [NSFileManager.defaultManager removeItemAtPath:self.userDataSource.dsURL.path error:nil];
+        _userDataSource = nil;
+        [self reloadUserDB:NO];
+    }
+}
+
+- (void)reloadUserDB:(BOOL)force {
+    NSString *uid = self.me.uid;
+    NSURL *dbpath = [self dbPath:uid];
+    if (force || ![self.userDataSource.dsURL isEqual:dbpath]) {
+        if (self.userDataSource != nil) {
+            if (uid.length <= 0 || ![self.userDataSource.dsURL isEqual:dbpath]) {
+                [self.userDataSource close];
+                _userDataSource = nil;
+            }
+        }
+        if (uid.length > 0) {
+            if (self.userDataSource == nil) {
+                _userDataSource = [CHUserDataSource dataSourceWithURL:dbpath];
+            }
+        }
+    }
+}
+
+- (nullable NSURL *)dbPath:(nullable NSString *)uid {
+    NSURL *dbpath = nil;
+    if (uid.length > 0) {
+        NSFileManager *fm = NSFileManager.defaultManager;
+        NSURL *dirpath = [fm.URLForDocumentDirectory URLByAppendingPathComponent:uid];
+        if ([fm fixDirectory:dirpath]) {
+            dbpath = [dirpath URLByAppendingPathComponent:@kCHDBDataName];
+        }
+    }
+    return dbpath;
 }
 
 - (void)updatePushToken:(NSData *)pushToken {
-    _pushToken = pushToken ?: [NSData new];
+    [CHNotification.shared updateDeviceToken:pushToken];
+}
+
+- (void)receiveRemoteNotification:(NSDictionary *)userInfo {
+    [CHNotification.shared receiveRemoteNotification:userInfo];
 }
 
 - (void)updateUserModel:(nullable CHUserModel *)me {

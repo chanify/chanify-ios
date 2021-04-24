@@ -36,15 +36,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (class, nonatomic, readonly, strong) CHLogic *shared;
 @property (nonatomic, readonly, strong) CHNSDataSource *nsDataSource;
-@property (nonatomic, nullable, readonly, strong) CHUserDataSource *userDataSource;
 @property (nonatomic, nullable, readonly, strong) CHLinkMetaManager *linkMetaManager;
 @property (nonatomic, nullable, readonly, strong) CHWebFileManager *webFileManager;
 @property (nonatomic, nullable, readonly, strong) CHWebObjectManager<UIImage *> *webImageManager;
 
-- (void)launch;
-- (void)resetData;
-- (void)updatePushToken:(NSData *)pushToken;
-- (BOOL)recivePushMessage:(NSDictionary *)userInfo;
 // API
 - (void)createAccountWithCompletion:(nullable CHLogicBlock)completion;
 - (void)importAccount:(NSString *)key completion:(nullable CHLogicBlock)completion;

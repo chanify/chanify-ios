@@ -96,7 +96,7 @@
         if (error != nil) {
             CHLogE("Invalid message content: %s", error.description.cstr);
         } else {
-            _flags = content.flags;
+            _flags = (CHMessageFlags)content.flags;
             _fileSize = content.size;
             switch (content.type) {
                 case CHTPMsgType_GPBUnrecognizedEnumeratorValue:

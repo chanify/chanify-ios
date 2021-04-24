@@ -6,6 +6,7 @@
 //
 
 #import "NSString+CHLocalized.h"
+#import <Foundation/Foundation.h>
 
 @implementation NSString (CHLocalized)
 

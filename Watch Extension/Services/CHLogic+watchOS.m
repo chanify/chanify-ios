@@ -9,15 +9,15 @@
 #import <WatchConnectivity/WatchConnectivity.h>
 #import <UserNotifications/UserNotifications.h>
 #import <WatchKit/WatchKit.h>
+#import "CHNotification.h"
 #import "CHNodeModel.h"
 #import "CHDevice.h"
 #import "CHTP.pbobjc.h"
 
-@interface CHLogic () <WCSessionDelegate, UNUserNotificationCenterDelegate>
+@interface CHLogic () <WCSessionDelegate, CHNotificationMessageDelegate>
 
 @property (nonatomic, readonly, strong) NSMutableArray<CHNodeModel *> *nodes;
 @property (nonatomic, readonly, strong) WCSession *watchSession;
-@property (nonatomic, readonly, strong) UNUserNotificationCenter *center;
 
 @end
 
@@ -35,25 +35,20 @@
 - (instancetype)init {
     if (self = [super init]) {
         _nodes = [NSMutableArray new];
-        
-        _center = UNUserNotificationCenter.currentNotificationCenter;
-        self.center.delegate = self;
-        
         if (!WCSession.isSupported) {
             _watchSession = nil;
         } else {
             _watchSession = WCSession.defaultSession;
             self.watchSession.delegate = self;
         }
-        
-        CHLogI("User-agent: %s", CHDevice.shared.userAgent.cstr);
+        CHNotification.shared.delegate = self;
     }
     return self;
 }
 
 - (void)launch {
+    [super launch];
     [self.watchSession activateSession];
-    [self checkAuth];
 }
 
 - (void)active {
@@ -65,7 +60,6 @@
 }
 
 - (void)receiveRemoteNotification:(NSDictionary *)userInfo {
-    
 }
 
 - (void)updatePushToken:(NSData *)pushToken {
@@ -85,27 +79,20 @@
     });
 }
 
-#pragma mark - UNUserNotificationCenterDelegate
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
-    completionHandler(0);
+#pragma mark - CHNotificationMessageDelegate
+- (void)registerForRemoteNotifications {
+    dispatch_main_async(^{
+        [WKExtension.sharedExtension registerForRemoteNotifications];
+    });
 }
 
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)(void))completionHandler {
-    completionHandler();
+- (void)receiveNotification:(UNNotification *)notification {
+}
+
+- (void)receiveNotificationResponse:(UNNotificationResponse *)response {
 }
 
 #pragma mark - Private Methods
-- (void)checkAuth {
-    UNAuthorizationOptions options = UNAuthorizationOptionBadge|UNAuthorizationOptionSound|UNAuthorizationOptionAlert;
-    [self.center requestAuthorizationWithOptions:options completionHandler:^(BOOL granted, NSError *error) {
-        if (error == nil && granted) {
-            dispatch_main_async(^{
-                [WKExtension.sharedExtension registerForRemoteNotifications];
-            });
-        }
-    }];
-}
-
 - (void)updateContext:(WCSession *)session {
     NSData *data = [session.receivedApplicationContext objectForKey:@"data"];
     NSError *error = nil;
@@ -117,6 +104,7 @@
     BOOL updated = NO;
     if (self.me == nil || ![self.me.uid isEqualToString:me.uid]) {
         [self updateUserModel:me];
+        [self reloadUserDB:NO];
         updated = YES;
     }
     if (self.me != nil) {
