@@ -26,6 +26,7 @@ struct ChanifyApp: App {
             }
         }
 
+        WKNotificationScene(controller: NotificationController.self, category: "general")
         WKNotificationScene(controller: NotificationController.self, category: "text")
         WKNotificationScene(controller: NotificationController.self, category: "link")
     }

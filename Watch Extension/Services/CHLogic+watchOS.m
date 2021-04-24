@@ -16,7 +16,6 @@
 
 @interface CHLogic () <WCSessionDelegate, CHNotificationMessageDelegate>
 
-@property (nonatomic, readonly, strong) NSMutableArray<CHNodeModel *> *nodes;
 @property (nonatomic, readonly, strong) WCSession *watchSession;
 
 @end
@@ -34,7 +33,6 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        _nodes = [NSMutableArray new];
         if (!WCSession.isSupported) {
             _watchSession = nil;
         } else {
@@ -87,9 +85,11 @@
 }
 
 - (void)receiveNotification:(UNNotification *)notification {
+
 }
 
 - (void)receiveNotificationResponse:(UNNotificationResponse *)response {
+
 }
 
 #pragma mark - Private Methods
@@ -108,16 +108,16 @@
         updated = YES;
     }
     if (self.me != nil) {
-        NSMutableArray<CHNodeModel *> *nodes = [NSMutableArray new];
-        for (CHTPNode *node in self.nodes) {
-            CHNodeModel *n = [CHNodeModel modelWithNID:node.nid name:node.name version:node.version endpoint:node.endpoint pubkey:node.pubkey flags:(CHNodeModelFlags)(node.flags) features:@""];
-            n.icon = node.icon;
-            [nodes addObject:n];
-        }
-        if (![nodes isEqualToArray:self.nodes]) {
-            _nodes = nodes;
-            updated = YES;
-        }
+//        NSMutableArray<CHNodeModel *> *nodes = [NSMutableArray new];
+//        for (CHTPNode *node in self.nodes) {
+//            CHNodeModel *n = [CHNodeModel modelWithNID:node.nid name:node.name version:node.version endpoint:node.endpoint pubkey:node.pubkey flags:(CHNodeModelFlags)(node.flags) features:@""];
+//            n.icon = node.icon;
+//            [nodes addObject:n];
+//        }
+//        if (![nodes isEqualToArray:self.nodes]) {
+//            _nodes = nodes;
+//            updated = YES;
+//        }
     }
     if (updated) {
         [self sendNotifyWithSelector:@selector(logicUserInfoChanged:) withObject:me];

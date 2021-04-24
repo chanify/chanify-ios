@@ -178,8 +178,14 @@
     NSURL *url = nil;
     if (fileURL.length > 0) {
         NSURL *filepath = [self fileURL2Path:fileURL];
-        if ([NSFileManager.defaultManager isReadableFileAtPath:filepath.path]) {
+        NSFileManager *fileManager = NSFileManager.defaultManager;
+        if ([fileManager isReadableFileAtPath:filepath.path]) {
             url = filepath;
+        } else if ([fileManager fileExistsAtPath:filepath.path]) {
+            filepath.dataProtoction = NSURLFileProtectionCompleteUntilFirstUserAuthentication;
+            if ([fileManager isReadableFileAtPath:filepath.path]) {
+                url = filepath;
+            }
         }
     }
     return url;
@@ -212,6 +218,7 @@
             if (task != nil) {
                 NSData *data = [NSData dataFromNoCacheURL:location];
                 if (data.length > 0 && [data writeToURL:task.localFile atomically:YES]) {
+                    task.localFile.dataProtoction = NSURLFileProtectionCompleteUntilFirstUserAuthentication;
                     task.result = [self.decoder webObjectDecode:data];
                     if (task.result != nil) {
                         [self.dataCache setObject:task.result forKey:task.localFile.absoluteString];

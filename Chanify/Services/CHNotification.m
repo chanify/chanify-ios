@@ -34,9 +34,11 @@
         _pushToken = [NSData new];
         _center = UNUserNotificationCenter.currentNotificationCenter;
         self.center.delegate = self;
+        NSMutableSet<UNNotificationCategory *> *categories = [NSMutableSet new];
         if (CHDevice.shared.type == CHDeviceTypeIOS) {
-            NSMutableSet<UNNotificationCategory *> *categories = [NSMutableSet new];
             // General
+            [categories addObject:[UNNotificationCategory categoryWithIdentifier:@"general" actions:@[] intentIdentifiers:@[] options:UNNotificationCategoryOptionCustomDismissAction]];
+            // Text
             [categories addObject:[UNNotificationCategory categoryWithIdentifier:@"text" actions:@[
                 [UNNotificationAction actionWithIdentifier:@"copy" title:@"Copy".localized options:UNNotificationActionOptionForeground],
             ] intentIdentifiers:@[] options:UNNotificationCategoryOptionCustomDismissAction]];
@@ -45,8 +47,8 @@
                 [UNNotificationAction actionWithIdentifier:@"open-link" title:@"Open Link".localized options:UNNotificationActionOptionForeground],
                 [UNNotificationAction actionWithIdentifier:@"copy" title:@"Copy".localized options:UNNotificationActionOptionForeground],
             ] intentIdentifiers:@[] options:UNNotificationCategoryOptionCustomDismissAction]];
-            [self.center setNotificationCategories: categories];
         }
+        [self.center setNotificationCategories: categories];
     }
     return self;
 }

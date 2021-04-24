@@ -28,7 +28,7 @@
 - (instancetype)init {
     if (self = [super init]) {
         NSBundle *bundle = NSBundle.mainBundle;
-        _app = [bundle objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+        _app = @kCHAppName;
         _bundle = [bundle objectForInfoDictionaryKey:@"CFBundleIdentifier"];
         _version = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
         _build = [[bundle objectForInfoDictionaryKey:@"CFBundleVersion"] intValue];

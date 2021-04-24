@@ -11,7 +11,8 @@ struct NotificationView: View {
     var text: String?
 
     var body: some View {
-        Text(text ?? "NewMsg").font(.body)
+        Text(text ?? "NewMsg")
+            .font(.body)
     }
 }
 

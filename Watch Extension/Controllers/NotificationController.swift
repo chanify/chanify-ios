@@ -26,5 +26,6 @@ class NotificationController: WKUserNotificationHostingController<NotificationVi
 
     override func didReceive(_ notification: UNNotification) {
         message = notification.request.content.body
+        self.notificationActions = [UNNotificationAction]()
     }
 }

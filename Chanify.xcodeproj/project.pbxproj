@@ -170,6 +170,7 @@
 		6DFDE2182634041000A4BE43 /* CHNotification+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DFDE2172634041000A4BE43 /* CHNotification+Badge.m */; };
 		6DFDE225263408D000A4BE43 /* CHNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C26E25D13D2900512E36 /* CHNotification.m */; };
 		6DFDE2392634117200A4BE43 /* NSString+CHLocalized.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD7B5D8260DF520001D5DCB /* NSString+CHLocalized.m */; };
+		6DFDE2402634545C00A4BE43 /* NSDictionary+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C31025D1611200512E36 /* NSDictionary+CHExt.m */; };
 		C53CB9C0420879B9E5436A08 /* libPods-WatchNotificationService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97C6F4E6EFFA55036AFB7B43 /* libPods-WatchNotificationService.a */; };
 		E1FF8005990C1480B5C3EF98 /* libPods-NotificationService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77860262C85473FCE5AADE06 /* libPods-NotificationService.a */; };
 /* End PBXBuildFile section */
@@ -1594,6 +1595,7 @@
 				6D3F61E8262E64AE00E122BC /* CHUserModel.m in Sources */,
 				6D90AFCF262D623300FBE1A6 /* ComplicationController.swift in Sources */,
 				6DFDE2392634117200A4BE43 /* NSString+CHLocalized.m in Sources */,
+				6DFDE2402634545C00A4BE43 /* NSDictionary+CHExt.m in Sources */,
 				6D90AFC7262D623200FBE1A6 /* ChanifyApp.swift in Sources */,
 				6D3F61FD262E64EE00E122BC /* CryptoKit.swift in Sources */,
 				6D3F6226262E65A900E122BC /* NSFileManager+CHExt.m in Sources */,

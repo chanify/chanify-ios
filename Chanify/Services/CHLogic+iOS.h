@@ -22,8 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol CHLogicDelegate <CHCommonLogicDelegate>
 @optional
 - (void)logicWatchStatusChanged;
-- (void)logicNodeUpdated:(NSString *)nid;
-- (void)logicNodesUpdated:(NSArray<NSString *> *)nids;
 - (void)logicChannelUpdated:(NSString *)cid;
 - (void)logicChannelsUpdated:(NSArray<NSString *> *)cids;
 - (void)logicMessagesUpdated:(NSArray<NSString *> *)mids;
@@ -43,15 +41,12 @@ NS_ASSUME_NONNULL_BEGIN
 // API
 - (void)createAccountWithCompletion:(nullable CHLogicBlock)completion;
 - (void)importAccount:(NSString *)key completion:(nullable CHLogicBlock)completion;
-- (void)bindAccount:(nullable CHSecKey *)key completion:(nullable CHLogicBlock)completion;
 - (void)logoutWithCompletion:(nullable CHLogicBlock)completion;
 // Nodes
 - (void)updateNodeInfo:(nullable NSString*)nid completion:(nullable CHLogicBlock)completion;
 - (BOOL)updateNode:(CHNodeModel *)model;
 - (BOOL)deleteNode:(nullable NSString *)nid;
-- (void)insertNode:(CHNodeModel *)model completion:(nullable CHLogicBlock)completion;
 - (void)loadNodeWitEndpoint:(NSString *)endpoint completion:(nullable CHLogicResultBlock)completion;
-- (BOOL)nodeIsConnected:(nullable NSString *)nid;
 - (void)reconnectNode:(nullable NSString *)nid completion:(nullable CHLogicBlock)completion;
 // Channels
 - (BOOL)insertChannel:(NSString *)code name:(nullable NSString *)name icon:(nullable NSString *)icon;
