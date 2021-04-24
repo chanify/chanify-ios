@@ -11,7 +11,6 @@
 #import "CHMessageModel.h"
 #import "CHChannelModel.h"
 #import "CHNodeModel.h"
-#import "CHLogic.h"
 
 #define kCHUserDBVersion    2
 #define kCHNSInitSql        \

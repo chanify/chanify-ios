@@ -36,6 +36,7 @@ typedef NS_OPTIONS(NSUInteger, CHNodeModelFlags) {
 - (BOOL)isFullEqual:(CHNodeModel *)rhs;
 - (nullable CHSecKey *)requestChiper;
 - (NSURL *)apiURL;
+- (BOOL)isSupportWatch;
 - (BOOL)isStoreDevice;
 - (BOOL)isSystem;
 

@@ -709,6 +709,19 @@
     CHUserModel *me = self.me;
     if (me != nil) {
         cfg.userKey = me.key.seckey;
+        for (CHNodeModel *node in self.userDataSource.loadNodes) {
+            if (node.isSupportWatch && ![node.nid isEqualToString:@"sys"]) {
+                CHTPNode *n = [CHTPNode new];
+                n.nid = node.nid;
+                n.flags = node.flags;
+                n.name = node.name;
+                n.version = node.version;
+                n.endpoint = node.endpoint;
+                n.icon = node.icon;
+                n.pubkey = node.pubkey;
+                [cfg.nodesArray addObject:n];
+            }
+        }
     }
     return cfg.data;
 }

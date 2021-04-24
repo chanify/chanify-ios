@@ -9,11 +9,13 @@
 #import <WatchConnectivity/WatchConnectivity.h>
 #import <UserNotifications/UserNotifications.h>
 #import <WatchKit/WatchKit.h>
+#import "CHNodeModel.h"
 #import "CHDevice.h"
 #import "CHTP.pbobjc.h"
 
 @interface CHLogic () <WCSessionDelegate, UNUserNotificationCenterDelegate>
 
+@property (nonatomic, readonly, strong) NSMutableArray<CHNodeModel *> *nodes;
 @property (nonatomic, readonly, strong) WCSession *watchSession;
 @property (nonatomic, readonly, strong) UNUserNotificationCenter *center;
 
@@ -32,6 +34,8 @@
 
 - (instancetype)init {
     if (self = [super init]) {
+        _nodes = [NSMutableArray new];
+        
         _center = UNUserNotificationCenter.currentNotificationCenter;
         self.center.delegate = self;
         
@@ -62,6 +66,10 @@
 
 - (void)receiveRemoteNotification:(NSDictionary *)userInfo {
     
+}
+
+- (void)updatePushToken:(NSData *)pushToken {
+    [super updatePushToken:pushToken];
 }
 
 #pragma mark - WCSessionDelegate
@@ -106,8 +114,24 @@
     if (error == nil) {
         me = [CHUserModel modelWithKey:[CHSecKey secKeyWithData:cfg.userKey]];
     }
+    BOOL updated = NO;
     if (self.me == nil || ![self.me.uid isEqualToString:me.uid]) {
         [self updateUserModel:me];
+        updated = YES;
+    }
+    if (self.me != nil) {
+        NSMutableArray<CHNodeModel *> *nodes = [NSMutableArray new];
+        for (CHTPNode *node in self.nodes) {
+            CHNodeModel *n = [CHNodeModel modelWithNID:node.nid name:node.name version:node.version endpoint:node.endpoint pubkey:node.pubkey flags:(CHNodeModelFlags)(node.flags) features:@""];
+            n.icon = node.icon;
+            [nodes addObject:n];
+        }
+        if (![nodes isEqualToArray:self.nodes]) {
+            _nodes = nodes;
+            updated = YES;
+        }
+    }
+    if (updated) {
         [self sendNotifyWithSelector:@selector(logicUserInfoChanged:) withObject:me];
     }
 }

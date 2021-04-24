@@ -89,7 +89,17 @@ message Message {
     Sound       sound       = 6;
 }
 
+message Node {
+    string      nid         = 1;
+    uint64      flags       = 2;
+    string      name        = 3;
+    string      version     = 4;
+    string      endpoint    = 5;
+    string      icon        = 6;
+    bytes       pubkey      = 7;
+}
+
 message WatchConfig {
     bytes           user_key    = 1;
-    repeated bytes  channels    = 2;
+    repeated Node   nodes       = 2;
 }

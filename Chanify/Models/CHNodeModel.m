@@ -106,6 +106,10 @@
     return [[NSURL URLWithString:self.endpoint] URLByAppendingPathComponent:@"/rest/v1/"];
 }
 
+- (BOOL)isSupportWatch {
+    return [self.features containsObject:@"platform.watchos"];
+}
+
 - (BOOL)isStoreDevice {
     return (self != nil && self.flags&CHNodeModelFlagsStoreDevice);
 }
