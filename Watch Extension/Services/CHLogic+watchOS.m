@@ -9,6 +9,7 @@
 #import <WatchConnectivity/WatchConnectivity.h>
 #import <UserNotifications/UserNotifications.h>
 #import <WatchKit/WatchKit.h>
+#import "CHUserDataSource.h"
 #import "CHNotification.h"
 #import "CHNodeModel.h"
 #import "CHDevice.h"
@@ -32,7 +33,7 @@
 }
 
 - (instancetype)init {
-    if (self = [super init]) {
+    if (self = [super initWithAppGroup:@kCHAppWatchGroupName]) {
         if (!WCSession.isSupported) {
             _watchSession = nil;
         } else {
@@ -62,6 +63,14 @@
 
 - (void)updatePushToken:(NSData *)pushToken {
     [super updatePushToken:pushToken];
+}
+
+- (void)doLogin:(CHUserModel *)user key:(NSData *)key {
+    [super doLogin:user key:key];
+}
+
+- (void)doLogout {
+    [super doLogout];
 }
 
 #pragma mark - WCSessionDelegate
@@ -103,24 +112,49 @@
     }
     BOOL updated = NO;
     if (self.me == nil || ![self.me.uid isEqualToString:me.uid]) {
+        if (self.me != nil) {
+            [self logoutWithCompletion:nil];
+        }
+        
         [self updateUserModel:me];
         [self reloadUserDB:NO];
+        
+        if (self.me != nil) {
+            [self importAccount:self.me.key.seckey.base64 completion:nil];
+        }
         updated = YES;
     }
     if (self.me != nil) {
-//        NSMutableArray<CHNodeModel *> *nodes = [NSMutableArray new];
-//        for (CHTPNode *node in self.nodes) {
-//            CHNodeModel *n = [CHNodeModel modelWithNID:node.nid name:node.name version:node.version endpoint:node.endpoint pubkey:node.pubkey flags:(CHNodeModelFlags)(node.flags) features:@""];
-//            n.icon = node.icon;
-//            [nodes addObject:n];
-//        }
-//        if (![nodes isEqualToArray:self.nodes]) {
-//            _nodes = nodes;
-//            updated = YES;
-//        }
+        for (CHTPNode *node in cfg.nodesArray) {
+            [self bindNode:node];
+        }
     }
     if (updated) {
         [self sendNotifyWithSelector:@selector(logicUserInfoChanged:) withObject:me];
+    }
+}
+
+- (void)bindNode:(CHTPNode *)node {
+    if (node.nid.length > 0 && ![node.nid isEqualToString:@"sys"]) {
+        if ([self.userDataSource keyForNodeID:node.nid].length <= 0) {
+            @weakify(self);
+            [self loadNodeWitEndpoint:node.endpoint completion:^(CHLCode result, NSDictionary *data) {
+                if (result == CHLCodeOK) {
+                    CHNodeModel *model = [CHNodeModel modelWithNSDictionary:data];
+                    if (model != nil) {
+                        model.flags = (CHNodeModelFlags)node.flags;
+                        model.icon = node.icon;
+                        @strongify(self);
+                        [self insertNode:model completion:^(CHLCode result) {
+                            if (result == CHLCodeOK && model.isStoreDevice) {
+                                @strongify(self);
+                                [self updatePushToken:CHNotification.shared.pushToken node:[self nodeModelWithNID:model.nid] completion:nil];
+                            }
+                        }];
+                    }
+                }
+            }];
+        }
     }
 }
 

@@ -146,24 +146,19 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
 
 - (BOOL)loadWithInfo:(NSDictionary *)info {
     BOOL res = NO;
-    if (info.count > 0) {
-        NSString *nid = [info valueForKey:@"nodeid"];
-        if (nid.length > 0) {
-            NSData *pubKey = [NSData dataFromBase64:[info valueForKey:@"pubkey"]];
-            if (pubKey.length > 0 && [CHNodeModel verifyNID:nid pubkey:pubKey]) {
-                _model = [CHNodeModel modelWithNID:nid name:[info valueForKey:@"name"] version:[info valueForKey:@"version"] endpoint:[info valueForKey:@"endpoint"] pubkey:pubKey flags:0 features:[[info valueForKey:@"features"] componentsJoinedByString:@","]];
-                CHNodeModel *model = [CHLogic.shared.userDataSource nodeWithNID:nid];
-                if (model == nil) {
-                    _status = CHNodeVCStatusNew;
-                } else {
-                    self.model.flags = model.flags;
-                    self.model.icon = model.icon ?: self.model.icon;
-                    _status = CHNodeVCStatusUpdate;
-                }
-                [self initializeForm];
-                res = YES;
-            }
+    CHNodeModel *node = [CHNodeModel modelWithNSDictionary:info];
+    if (node != nil) {
+        _model = node;
+        CHNodeModel *model = [CHLogic.shared.userDataSource nodeWithNID:node.nid];
+        if (model == nil) {
+            _status = CHNodeVCStatusNew;
+        } else {
+            self.model.flags = model.flags;
+            self.model.icon = model.icon ?: self.model.icon;
+            _status = CHNodeVCStatusUpdate;
         }
+        [self initializeForm];
+        res = YES;
     }
     return res;
 }
@@ -210,7 +205,7 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
             @weakify(self);
             CHFormSwitchItem *item = [CHFormSwitchItem itemWithName:feature title:feature.localized];
             item.icon = [self featureIconWithName:feature];
-            item.value = @(self.model.flags & CHNodeModelFlagsStoreDevice);
+            item.value = @(self.model.isStoreDevice);
             item.enbaled = (self.status != CHNodeVCStatusShow);
             item.onChanged = ^(CHFormSwitchItem *item, id oldValue, NSNumber *newValue) {
                 @strongify(self);

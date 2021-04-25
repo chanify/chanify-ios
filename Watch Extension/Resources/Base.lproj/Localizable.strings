@@ -5,6 +5,18 @@
   Created by WizJin on 2021/4/19.
   
 */
+"OK"="OK";
+"Delete"="Delete";
+"Update"="Update";
+"Nodes"="Nodes";
+"NodeID"="Node ID";
+"Version"="Version";
+"Endpoint"="Endpoint";
+"Delete node"="Delete node";
+"Delete node or not?"="Delete node or not?";
+"Update node failed"="Update node failed";
+"Update node success"="Update node success";
+
 "NotInit"="Please setup in the Chanify app on your iPhone firstly.";
 "Inited"="Please view message detail in the Chanify app on your iPhone.";
 

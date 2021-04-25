@@ -17,10 +17,18 @@ struct ChanifyApp: App {
     @SceneBuilder var body: some Scene {
         WindowGroup {
             NavigationView {
-                ContentView()
-                    .environmentObject(model)
+                if model.me == nil {
+                    Text("NotInit")
+                        .multilineTextAlignment(.center)
+                        .padding()
+                }
+                if model.me != nil {
+                    ContentView().environmentObject(model)
+                }
             }.onReceive(logic.userInfoUpdated, perform: { me in
                 model.me = me
+            }).onReceive(logic.nodesUpdated, perform: { nodes in
+                model.nodes = nodes
             }).onAppear() {
                 logic.logicUserInfoChanged(CHLogic.shared.me)
             }
@@ -33,6 +41,7 @@ struct ChanifyApp: App {
     
     class LogicDelegate : NSObject, CHLogicDelegate {
         let userInfoUpdated = PassthroughSubject<CHUserModel?, Never>()
+        let nodesUpdated = PassthroughSubject<[NodeModel], Never>()
 
         override init() {
             super.init()
@@ -43,8 +52,21 @@ struct ChanifyApp: App {
             CHLogic.shared.removeDelegate(self)
         }
 
-        func logicUserInfoChanged(_ me: CHUserModel?) {
+        @objc func logicUserInfoChanged(_ me: CHUserModel?) {
             self.userInfoUpdated.send(me)
+            notifyNodeChanged()
+        }
+        
+        @objc func logicNodeUpdated(_ nid: String) {
+            notifyNodeChanged()
+        }
+        
+        @objc func logicNodesUpdated(_ nids: [String]) {
+            notifyNodeChanged()
+        }
+        
+        private func notifyNodeChanged() {
+            self.nodesUpdated.send(LogicModel.loadNodes())
         }
     }
 

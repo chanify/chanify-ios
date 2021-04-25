@@ -42,8 +42,7 @@
 }
 
 - (instancetype)init {
-    if (self = [super init]) {
-        _nsDataSource = [CHNSDataSource dataSourceWithURL:[NSFileManager.defaultManager URLForGroupId:@kCHAppGroupName path:@kCHDBNotificationServiceName]];
+    if (self = [super initWithAppGroup:@kCHAppGroupName]) {
         _readChannels = [NSMutableSet new];
         _webImageManager = nil;
         _webFileManager = nil;
@@ -62,19 +61,6 @@
 - (void)launch {
     [super launch];
     [self.watchSession activateSession];
-    [self reloadUserDB:NO];
-    if (self.userDataSource.srvkey.length > 0) {
-        if ([self.nsDataSource keyForUID:self.me.uid].length <= 0) {
-            [self.nsDataSource updateKey:self.userDataSource.srvkey uid:self.me.uid];
-        }
-    } else {
-        @weakify(self);
-        dispatch_main_async(^{
-            @strongify(self);
-            [self bindAccount:nil completion:nil];
-        });
-    }
-    
 }
 
 - (void)active {
@@ -85,7 +71,6 @@
 
 - (void)deactive {
     [self reloadBadge];
-    [self.nsDataSource close];
     [super deactive];
 }
 
@@ -117,171 +102,25 @@
     return res;
 }
 
-//- (void)updatePushToken:(NSData *)pushToken {
-//    [super updatePushToken:pushToken];
-//    if (self.me != nil) {
-//        [self updatePushToken:pushToken endpoint:self.baseURL node:nil completion:nil retry:YES];
-//        for (CHNodeModel *node in self.userDataSource.loadNodes) {
-//            if (node.isStoreDevice) {
-//                [self updatePushToken:pushToken endpoint:node.apiURL node:node completion:nil retry:NO];
-//            }
-//        }
-//    }
-//}
-
 #pragma mark - API
 - (void)createAccountWithCompletion:(nullable CHLogicBlock)completion {
     [self bindAccount:[CHSecKey new] completion:completion];
 }
 
-- (void)importAccount:(NSString *)key completion:(nullable CHLogicBlock)completion {
-    CHSecKey *seckey = [CHSecKey secKeyWithData:[NSData dataFromBase64:key]];
-    if (seckey == nil) {
-        call_completion(completion, CHLCodeFailed);
-    } else {
-        @weakify(self);
-        [self bindAccount:seckey completion:^(CHLCode result) {
-            if (completion != nil) {
-                completion(result);
-            }
-            if (result == CHLCodeOK) {
-                @strongify(self);
-                [self updateNodeBind];
-            }
-        }];
-    }
+- (void)doLogin:(CHUserModel *)user key:(NSData *)key {
+    [super doLogin:user key:key];
+    [self updatePushMessage:NO];
+    // TODO: wait seckey sync to Apple Watch
+    [self syncDataToWatch:NO];
 }
 
-- (void)logoutWithCompletion:(nullable CHLogicBlock)completion {
-    for (CHNodeModel *node in self.userDataSource.loadNodes) {
-        [self unbindNode:node];
-    }
-    if (self.me == nil) {
-        call_completion(completion, CHLCodeOK);
-    } else {
-        CHDevice *device = CHDevice.shared;
-        NSDictionary *parameters = @{
-            @"device": device.uuid.hex,
-            @"user": self.me.uid,
-        };
-        @weakify(self);
-        [self sendCmd:@"unbind-user" user:self.me parameters:parameters completion:^(NSURLResponse *response,  NSDictionary *result, NSError *error) {
-            CHLCode ret = CHLCodeFailed;
-            NSHTTPURLResponse *resp = (NSHTTPURLResponse *)response;
-            if (error != nil && resp.statusCode != 404) {
-                CHLogE("Unbind account failed:", error.description.cstr);
-            } else {
-                CHLogI("Unbind account success.");
-                @strongify(self);
-                [self doLogout];
-                ret = CHLCodeOK;
-            }
-            call_completion(completion, CHLCodeOK);
-        }];
-    }
+- (void)doLogout {
+    [super doLogout];
+    [self updateBadge:0];
+    [self syncDataToWatch:NO];
 }
 
 #pragma mark - Nodes
-- (void)updateNodeInfo:(nullable NSString*)nid completion:(nullable CHLogicBlock)completion {
-    CHNodeModel *node = [self.userDataSource nodeWithNID:nid];
-    if (node != nil && !node.isSystem) {
-        @weakify(self);
-        [self loadNodeWitEndpoint:node.endpoint completion:^(CHLCode result, NSDictionary *info) {
-            CHLCode ret = CHLCodeFailed;
-            if (result == CHLCodeOK) {
-                NSString *nid = [info valueForKey:@"nodeid"];
-                if ([node.nid isEqualToString:nid]) {
-                    NSData *pubKey = [NSData dataFromBase64:[info valueForKey:@"pubkey"]];
-                    if (pubKey.length > 0 && [CHNodeModel verifyNID:nid pubkey:pubKey]) {
-                        BOOL needUpdated = NO;
-                        if (![pubKey isEqualToData:node.pubkey]) {
-                            node.pubkey = pubKey;
-                            needUpdated = YES;
-                        }
-                        NSString *version = [info valueForKey:@"version"];
-                        if (version.length > 0 && ![version isEqualToString:node.version]) {
-                            node.version = version;
-                            needUpdated = YES;
-                        }
-                        NSString *endpoint = [info valueForKey:@"endpoint"];
-                        if (![node.endpoint isEqualToString:endpoint]) {
-                            node.endpoint = endpoint;
-                            needUpdated = YES;
-                        }
-                        NSString *features = [[info valueForKey:@"features"] componentsJoinedByString:@","];
-                        if (features.length > 0) {
-                            node.features = features;
-                            needUpdated = YES;
-                        }
-                        if (needUpdated) {
-                            @strongify(self);
-                            [self updateNode:node];
-                        }
-                        ret = CHLCodeOK;
-                    }
-                }
-            }
-            completion(ret);
-        }];
-    }
-}
-
-- (BOOL)updateNode:(CHNodeModel *)model {
-    BOOL res = [self.userDataSource updateNode:model];
-    if (res) {
-        [self sendNotifyWithSelector:@selector(logicNodeUpdated:) withObject:model.nid];
-    }
-    return res;
-}
-
-- (BOOL)deleteNode:(nullable NSString *)nid {
-    [self unbindNode:[self.userDataSource nodeWithNID:nid]];
-    BOOL res = [self.userDataSource deleteNode:nid];
-    if (res) {
-        [self sendNotifyWithSelector:@selector(logicNodesUpdated:) withObject:@[]];
-    }
-    return res;
-}
-
-- (void)insertNode:(CHNodeModel *)model completion:(nullable CHLogicBlock)completion {
-    [super insertNode:model completion:completion];
-}
-
-- (void)updateNodeKey:(NSData *)key uid:(NSString *)uid {
-    [self.nsDataSource updateKey:key uid:uid];
-}
-
-- (void)loadNodeWitEndpoint:(NSString *)endpoint completion:(nullable CHLogicResultBlock)completion {
-    NSURL *url = [NSURL URLWithString:[endpoint stringByAppendingPathComponent:@"/rest/v1/info"]];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setTimeoutInterval:kCHNodeServerRequestTimeout];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:CHDevice.shared.userAgent forHTTPHeaderField:@"User-Agent"];
-    [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Accept"];
-    NSURLSessionDataTask *task = [self dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        CHLCode ret = CHLCodeFailed;
-        NSDictionary *result = nil;
-        if (error == nil) {
-            result = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];;
-            if (result != nil) {
-                ret = CHLCodeOK;
-            }
-            if ([[result valueForKey:@"version"] compareAsVersion:@kCHNodeCanCipherVersion]) {
-                ret = CHLCodeFailed;
-                CHSecKey *secKey = [CHSecKey secKeyWithPublicKeyData:[NSData dataFromBase64:[result valueForKey:@"pubkey"]]];
-                if (secKey != nil) {
-                    NSData *sign = [NSData dataFromBase64:[(NSHTTPURLResponse *)response valueForHTTPHeaderField:@"CHSign-Node"]];
-                    if ([secKey verify:data sign:sign]) {
-                        ret = CHLCodeOK;
-                    }
-                }
-            }
-        }
-        call_completion_data(completion, ret, result);
-    }];
-    [task resume];
-}
-
 - (void)reconnectNode:(nullable NSString *)nid completion:(nullable CHLogicBlock)completion {
     if (nid.length > 0) {
         CHNodeModel *node = [self.userDataSource nodeWithNID:nid];
@@ -434,26 +273,6 @@
 }
 
 #pragma mark - Private Methods
-- (void)doLogin:(CHUserModel *)user key:(NSData *)key {
-    [super doLogin:user key:key];
-    [self.nsDataSource updateKey:key uid:self.me.uid];
-    [self updatePushMessage:NO];
-    [CHNotification.shared checkAuth];
-    // TODO: wait seckey sync to Apple Watch
-    [self syncDataToWatch:NO];
-}
-
-- (void)doLogout {
-    [self.me.key deleteWithName:@kCHUserSecKeyName device:NO];
-    [self.nsDataSource updateKey:nil uid:self.me.uid];
-    [self.nsDataSource close];
-    self.userDataSource.srvkey = nil;
-    [self updateUserModel:nil];
-    [self reloadUserDB:YES];
-    [self updateBadge:0];
-    [self syncDataToWatch:NO];
-}
-
 - (void)reloadUserDB:(BOOL)force {
     [super reloadUserDB:force];
     NSString *uid = self.me.uid;
@@ -484,25 +303,6 @@
             _linkMetaManager = [CHLinkMetaManager linkManagerWithURL:[basePath URLByAppendingPathComponent:@"links"]];
             self.linkMetaManager.uid = uid;
         }
-    }
-}
-
-- (void)updateNodeBind {
-    for (CHNodeModel *node in self.userDataSource.loadNodes) {
-        if (node.isStoreDevice) {
-            [self insertNode:node completion:nil];
-        }
-    }
-}
-
-- (void)unbindNode:(nullable CHNodeModel *)node {
-    if (node.isStoreDevice) {
-        CHDevice *device = CHDevice.shared;
-        NSDictionary *parameters = @{
-            @"device": device.uuid.hex,
-            @"user": self.me.uid,
-        };
-        [self sendToEndpoint:node.apiURL cmd:@"unbind-user" device:YES seckey:node.requestChiper user:self.me parameters:parameters completion:nil];
     }
 }
 
@@ -537,7 +337,7 @@
             [self.nsDataSource removeMessages:mids uid:uid];
             [self sendNotifyWithSelector:@selector(logicMessagesUpdated:) withObject:mids];
         }
-        [self.nsDataSource close];
+        [self.nsDataSource flush];
         if (cids.count > 0) {
             [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:cids.allObjects];
         }
@@ -561,7 +361,7 @@
     if (me != nil) {
         cfg.userKey = me.key.seckey;
         for (CHNodeModel *node in self.userDataSource.loadNodes) {
-            if (node.isSupportWatch && ![node.nid isEqualToString:@"sys"]) {
+            if (node.isSupportWatch && !node.isSystem) {
                 CHTPNode *n = [CHTPNode new];
                 n.nid = node.nid;
                 n.flags = node.flags;
@@ -622,14 +422,6 @@ static inline void call_completion(CHLogicBlock completion, CHLCode result) {
     if (completion != nil) {
         dispatch_main_async(^{
             completion(result);
-        });
-    }
-}
-
-static inline void call_completion_data(CHLogicResultBlock completion, CHLCode result, NSDictionary *data) {
-    if (completion != nil) {
-        dispatch_main_async(^{
-            completion(result, data);
         });
     }
 }

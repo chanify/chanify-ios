@@ -28,6 +28,7 @@ typedef NS_OPTIONS(NSUInteger, CHNodeModelFlags) {
 @property (nonatomic, readonly, strong) NSArray<NSString *> *features;
 
 + (instancetype)modelWithNID:(nullable NSString *)nid name:(nullable NSString *)name version:(nullable NSString *)version endpoint:(nullable NSString *)url pubkey:(nullable NSData *)pubkey flags:(CHNodeModelFlags)flags features:(nullable NSString *)features;
++ (instancetype)modelWithNSDictionary:(NSDictionary *)info;
 + (BOOL)verifyNID:(nullable NSString *)nid pubkey:(NSData *)pubkey;
 - (void)setVersion:(nullable NSString *)version;
 - (void)setEndpoint:(nullable NSString *)endpoint;

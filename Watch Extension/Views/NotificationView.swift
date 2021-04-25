@@ -8,11 +8,23 @@
 import SwiftUI
 
 struct NotificationView: View {
+    var title: String?
     var text: String?
 
     var body: some View {
-        Text(text ?? "NewMsg")
-            .font(.body)
+        VStack { // (alignment: .leading)
+            if let txt = title {
+                if txt.count > 0 {
+                    Text(txt)
+                        .font(.headline)
+                        .lineLimit(1)
+                }
+            }
+            Text(text ?? "NewMsg")
+                .font(.body)
+                .multilineTextAlignment(.leading)
+        }
+        .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
     }
 }
 

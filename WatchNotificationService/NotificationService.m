@@ -6,30 +6,49 @@
 //
 
 #import "NotificationService.h"
+#import "CHNSDataSource.h"
+#import "CHTP.pbobjc.h"
 
 @interface NotificationService ()
 
 @property (nonatomic, strong) void (^contentHandler)(UNNotificationContent *contentToDeliver);
-@property (nonatomic, strong) UNMutableNotificationContent *bestAttemptContent;
+@property (nonatomic, strong) UNMutableNotificationContent *attemptContent;
 
 @end
 
 @implementation NotificationService
 
++ (CHNSDataSource *)sharedDB {
+    static CHNSDataSource *dbsrc;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dbsrc = [CHNSDataSource dataSourceWithURL:[NSFileManager.defaultManager URLForGroupId:@kCHAppWatchGroupName path:@kCHDBNotificationServiceName]];
+    });
+    return dbsrc;
+}
+
 - (void)didReceiveNotificationRequest:(UNNotificationRequest *)request withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler {
     self.contentHandler = contentHandler;
-    self.bestAttemptContent = [request.content mutableCopy];
-    
-    // Modify the notification content here...
-    self.bestAttemptContent.title = [NSString stringWithFormat:@"%@ [modified]", self.bestAttemptContent.title];
-    
-    self.contentHandler(self.bestAttemptContent);
+    self.attemptContent = [request.content mutableCopy];
+    NSData *data = nil;
+    NSString *mid = nil;
+    NSString *uid = [CHMessageModel parsePacket:self.attemptContent.userInfo mid:&mid data:&data];
+    if (uid.length > 0) {
+        CHNSDataSource *dbsrc = self.class.sharedDB;
+        self.attemptContent.badge = @([dbsrc nextBadgeForUID:uid]);
+        if (mid.length > 0 && data.length > 0) {
+            CHMessageModel *msg = [dbsrc pushMessage:data mid:mid uid:uid];
+            if (msg != nil) {
+                [msg formatNotification:self.attemptContent];
+            }
+        }
+    }
+    self.contentHandler(self.attemptContent);
 }
 
 - (void)serviceExtensionTimeWillExpire {
-    // Called just before the extension will be terminated by the system.
-    // Use this as an opportunity to deliver your "best attempt" at modified content, otherwise the original push payload will be used.
-    self.contentHandler(self.bestAttemptContent);
+    self.contentHandler(self.attemptContent);
 }
+
 
 @end

@@ -48,7 +48,6 @@
                         backgroundColor = [UIColor colorWithRGB:(uint32_t)item.value.uint64Hex];
                     }
                 }
-
             }
         }
         _iconImage = [(symbolImage?:[UIImage imageNamed:@"Channel"]) imageWithTintColor:(tintColor ?: self.tintColor)];

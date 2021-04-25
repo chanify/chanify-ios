@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class CHNodeModel;
+@class CHNSDataSource;
 @class CHUserDataSource;
 
 typedef NS_ENUM(int, CHLCode) {
@@ -31,9 +32,11 @@ typedef void (^CHLogicResultBlock)(CHLCode result, NSDictionary *data);
 @interface CHCommonLogic<T> : CHManager<T>
 
 @property (nonatomic, readonly, strong) NSURL *baseURL;
+@property (nonatomic, readonly, strong) CHNSDataSource *nsDataSource;
 @property (nonatomic, nullable, readonly, strong) CHUserModel *me;
 @property (nonatomic, nullable, readonly, strong) CHUserDataSource *userDataSource;
 
+- (instancetype)initWithAppGroup:(NSString *)appGroup;
 - (void)launch;
 - (void)active;
 - (void)deactive;
@@ -49,10 +52,17 @@ typedef void (^CHLogicResultBlock)(CHLCode result, NSDictionary *data);
 - (NSURLSessionDataTask *)dataTaskWithRequest:(NSURLRequest *)request completionHandler:(void (^)(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error))completionHandler;
 // API
 - (void)bindAccount:(nullable CHSecKey *)key completion:(nullable CHLogicBlock)completion;
+- (void)importAccount:(NSString *)key completion:(nullable CHLogicBlock)completion;
+- (void)logoutWithCompletion:(nullable CHLogicBlock)completion;
 - (void)doLogin:(CHUserModel *)user key:(NSData *)key;
+- (void)doLogout;
 // Nodes
+- (void)loadNodeWitEndpoint:(NSString *)endpoint completion:(nullable CHLogicResultBlock)completion;
+- (void)updateNodeInfo:(nullable NSString*)nid completion:(nullable CHLogicBlock)completion;
 - (void)insertNode:(CHNodeModel *)model completion:(nullable CHLogicBlock)completion;
-- (void)updateNodeKey:(NSData *)key uid:(NSString *)uid;
+- (BOOL)deleteNode:(nullable NSString *)nid;
+- (BOOL)updateNode:(CHNodeModel *)model;
+- (nullable CHNodeModel *)nodeModelWithNID:(nullable NSString *)nid;
 - (BOOL)nodeIsConnected:(nullable NSString *)nid;
 
 

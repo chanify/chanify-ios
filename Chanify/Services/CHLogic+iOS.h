@@ -14,8 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 @class CHNodeModel;
 @class CHChannelModel;
 @class CHMessageModel;
-@class CHNSDataSource;
-@class CHUserDataSource;
 @class CHWebFileManager;
 @class CHLinkMetaManager;
 
@@ -33,20 +31,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CHLogic : CHCommonLogic<id<CHLogicDelegate>>
 
 @property (class, nonatomic, readonly, strong) CHLogic *shared;
-@property (nonatomic, readonly, strong) CHNSDataSource *nsDataSource;
 @property (nonatomic, nullable, readonly, strong) CHLinkMetaManager *linkMetaManager;
 @property (nonatomic, nullable, readonly, strong) CHWebFileManager *webFileManager;
 @property (nonatomic, nullable, readonly, strong) CHWebObjectManager<UIImage *> *webImageManager;
 
 // API
 - (void)createAccountWithCompletion:(nullable CHLogicBlock)completion;
-- (void)importAccount:(NSString *)key completion:(nullable CHLogicBlock)completion;
-- (void)logoutWithCompletion:(nullable CHLogicBlock)completion;
 // Nodes
-- (void)updateNodeInfo:(nullable NSString*)nid completion:(nullable CHLogicBlock)completion;
-- (BOOL)updateNode:(CHNodeModel *)model;
-- (BOOL)deleteNode:(nullable NSString *)nid;
-- (void)loadNodeWitEndpoint:(NSString *)endpoint completion:(nullable CHLogicResultBlock)completion;
 - (void)reconnectNode:(nullable NSString *)nid completion:(nullable CHLogicBlock)completion;
 // Channels
 - (BOOL)insertChannel:(NSString *)code name:(nullable NSString *)name icon:(nullable NSString *)icon;

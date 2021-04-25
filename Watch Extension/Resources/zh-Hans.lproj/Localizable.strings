@@ -5,6 +5,18 @@
   Created by WizJin on 2021/4/19.
   
 */
+"OK"="确定";
+"Delete"="删除";
+"Update"="更新";
+"Nodes"="节点";
+"NodeID"="节点编号";
+"Version"="版本信息";
+"Endpoint"="入口链接";
+"Delete node"="删除节点";
+"Delete node or not?"="是否删除节点？";
+"Update node failed"="更新节点失败";
+"Update node success"="更新节点成功";
+
 "NotInit"="请首先在iPhone上的Chanify应用设置";
 "Inited"="请在iPhone上的Chanify应用查看消息详情";
 

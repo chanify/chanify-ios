@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)dataSourceWithURL:(NSURL *)url;
 - (void)close;
+- (void)flush;
 - (nullable NSData *)keyForUID:(nullable NSString *)uid;
 - (void)updateKey:(nullable NSData *)key uid:(nullable NSString *)uid;
 - (NSUInteger)badgeForUID:(nullable NSString *)uid;

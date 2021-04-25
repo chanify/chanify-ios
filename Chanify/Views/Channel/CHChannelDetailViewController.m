@@ -79,7 +79,7 @@
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"Token".localized])];
     for (CHNodeModel *model in [CHLogic.shared.userDataSource loadNodes]) {
         tk.node = model;
-        NSString *tokenValue = [tk formatString:model.nid direct:model.flags&CHNodeModelFlagsStoreDevice];
+        NSString *tokenValue = [tk formatString:model.nid direct:model.isStoreDevice];
         CHFormCodeItem *item = [CHFormCodeItem itemWithName:[@"token." stringByAppendingString:model.nid] title:model.name value:tokenValue];
         [section addFormItem:item];
         item.copiedName = @"Token".localized;

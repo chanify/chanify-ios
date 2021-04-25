@@ -8,18 +8,35 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject private var logic: LogicModel
+    @EnvironmentObject private var model: LogicModel
 
     var body: some View {
-        if logic.me == nil {
-            Text("NotInit")
-                .multilineTextAlignment(.center)
-                .padding()
+        List {
+            ForEach(model.nodes) { node in
+                NavigationLink(destination: NodeDetailView(node: node)) {
+                    NodeCell(node: node)
+                        .frame(height: 50.0)
+                }
+            }
         }
-        if logic.me != nil {
-            Text("Inited")
-                .multilineTextAlignment(.center)
-                .padding()
+        .navigationBarTitle(Text("Nodes"))
+    }
+}
+
+struct NodeCell: View {
+    var node: NodeModel
+    
+    var body: some View {
+        HStack {
+            IconView(icon: node.icon)
+            VStack(alignment: .leading) {
+                Text(node.name)
+                    .font(.body)
+                    .lineLimit(1)
+                Text(node.endpoint)
+                    .font(.footnote)
+                    .lineLimit(1)
+            }.padding(.leading, 4)
         }
     }
 }

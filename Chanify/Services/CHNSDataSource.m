@@ -44,6 +44,10 @@
     [self.dbQueue close];
 }
 
+- (void)flush {
+    [self.dbQueue close];
+}
+
 - (nullable NSData *)keyForUID:(nullable NSString *)uid {
     __block NSData *key = nil;
     if (uid.length > 0) {

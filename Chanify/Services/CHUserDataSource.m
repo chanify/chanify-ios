@@ -45,17 +45,19 @@
         [self.dbQueue inDatabase:^(FMDatabase *db) {
             if (db.applicationID < kCHUserDBVersion) {
                 BOOL res = YES;
-                if (![db columnExists:@"version" inTableWithName:@"nodes"]
-                    && ![db executeStatements:@"ALTER TABLE `nodes` ADD COLUMN `version` TEXT;"]) {
-                    res = NO;
-                }
-                if (![db columnExists:@"flags" inTableWithName:@"nodes"]
-                    && ![db executeStatements:@"ALTER TABLE `nodes` ADD COLUMN `flags` INTEGER DEFAULT 0;"]) {
-                    res = NO;
-                }
-                if (![db columnExists:@"pubkey" inTableWithName:@"nodes"]
-                    && ![db executeStatements:@"ALTER TABLE `nodes` ADD COLUMN `pubkey` BLOB;"]) {
-                    res = NO;
+                if ([db tableExists:@"nodes"]) {
+                    if (![db columnExists:@"version" inTableWithName:@"nodes"]
+                        && ![db executeStatements:@"ALTER TABLE `nodes` ADD COLUMN `version` TEXT;"]) {
+                        res = NO;
+                    }
+                    if (![db columnExists:@"flags" inTableWithName:@"nodes"]
+                        && ![db executeStatements:@"ALTER TABLE `nodes` ADD COLUMN `flags` INTEGER DEFAULT 0;"]) {
+                        res = NO;
+                    }
+                    if (![db columnExists:@"pubkey" inTableWithName:@"nodes"]
+                        && ![db executeStatements:@"ALTER TABLE `nodes` ADD COLUMN `pubkey` BLOB;"]) {
+                        res = NO;
+                    }
                 }
                 if (res) {
                     db.applicationID = kCHUserDBVersion;
@@ -72,6 +74,10 @@
 }
 
 - (void)close {
+    [self.dbQueue close];
+}
+
+- (void)flush {
     [self.dbQueue close];
 }
 

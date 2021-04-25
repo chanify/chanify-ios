@@ -17,6 +17,19 @@
     return nil;
 }
 
++ (instancetype)modelWithNSDictionary:(NSDictionary *)info {
+    if (info.count > 0) {
+        NSString *nid = [info valueForKey:@"nodeid"];
+        if (nid.length > 0) {
+            NSData *pubKey = [NSData dataFromBase64:[info valueForKey:@"pubkey"]];
+            if (pubKey.length > 0 && [CHNodeModel verifyNID:nid pubkey:pubKey]) {
+                return [CHNodeModel modelWithNID:nid name:[info valueForKey:@"name"] version:[info valueForKey:@"version"] endpoint:[info valueForKey:@"endpoint"] pubkey:pubKey flags:0 features:[[info valueForKey:@"features"] componentsJoinedByString:@","]];
+            }
+        }
+    }
+    return nil;
+}
+
 + (BOOL)verifyNID:(nullable NSString *)nid pubkey:(NSData *)pubkey {
     BOOL res = NO;
     if (nid.length > 0 && pubkey.length > 0) {

@@ -28,6 +28,7 @@ typedef NS_OPTIONS(NSUInteger, CHUpsertMessageFlags) {
 
 + (instancetype)dataSourceWithURL:(NSURL *)url;
 - (void)close;
+- (void)flush;
 - (BOOL)insertNode:(CHNodeModel *)model secret:(NSData *)secret;
 - (BOOL)updateNode:(CHNodeModel *)model;
 - (BOOL)deleteNode:(nullable NSString *)nid;

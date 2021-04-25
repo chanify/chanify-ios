@@ -7,6 +7,7 @@
 
 #import "CHLogic.h"
 #import "CHUserDataSource.h"
+#import "CHNSDataSource.h"
 #import "CHNotification.h"
 #import "CHNodeModel.h"
 #import "CHDevice.h"
@@ -21,20 +22,33 @@
 
 @implementation CHCommonLogic
 
-- (instancetype)init {
+- (instancetype)initWithAppGroup:(NSString *)appGroup {
     if (self = [super init]) {
+        CHLogI("User agent: %s", CHDevice.shared.userAgent.cstr);
         _me = [CHUserModel modelWithKey:[CHSecKey secKeyWithName:@kCHUserSecKeyName device:NO created:NO]];
         _baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://%s/rest/v1/", kCHAPIHostname]];
         _session = [NSURLSession sessionWithConfiguration:NSURLSessionConfiguration.ephemeralSessionConfiguration];
         _invalidNodes = [NSMutableSet new];
+        _nsDataSource = [CHNSDataSource dataSourceWithURL:[NSFileManager.defaultManager URLForGroupId:appGroup path:@kCHDBNotificationServiceName]];
         _userDataSource = nil;
     }
     return self;
 }
 
-
 - (void)launch {
     [CHNotification.shared checkAuth];
+    [self reloadUserDB:NO];
+    if (self.userDataSource.srvkey.length > 0) {
+        if ([self.nsDataSource keyForUID:self.me.uid].length <= 0) {
+            [self.nsDataSource updateKey:self.userDataSource.srvkey uid:self.me.uid];
+        }
+    } else {
+        @weakify(self);
+        dispatch_main_async(^{
+            @strongify(self);
+            [self bindAccount:nil completion:nil];
+        });
+    }
 }
 
 - (void)active {
@@ -43,7 +57,8 @@
 }
 
 - (void)deactive {
-    [self.userDataSource close]; // only close db, not clear point
+    [self.nsDataSource flush];
+    [self.userDataSource flush];
 }
 
 - (void)resetData {
@@ -193,13 +208,149 @@
     }
 }
 
+- (void)importAccount:(NSString *)key completion:(nullable CHLogicBlock)completion {
+    CHSecKey *seckey = [CHSecKey secKeyWithData:[NSData dataFromBase64:key]];
+    if (seckey == nil) {
+        call_completion(completion, CHLCodeFailed);
+    } else {
+        @weakify(self);
+        [self bindAccount:seckey completion:^(CHLCode result) {
+            if (completion != nil) {
+                completion(result);
+            }
+            if (result == CHLCodeOK) {
+                @strongify(self);
+                [self updateNodeBind];
+            }
+        }];
+    }
+}
+
+- (void)logoutWithCompletion:(nullable CHLogicBlock)completion {
+    if (self.me == nil) {
+        call_completion(completion, CHLCodeOK);
+    } else {
+        for (CHNodeModel *node in self.userDataSource.loadNodes) {
+            [self unbindNode:node];
+        }
+        
+        CHDevice *device = CHDevice.shared;
+        NSDictionary *parameters = @{
+            @"device": device.uuid.hex,
+            @"user": self.me.uid,
+        };
+        @weakify(self);
+        [self sendCmd:@"unbind-user" user:self.me parameters:parameters completion:^(NSURLResponse *response,  NSDictionary *result, NSError *error) {
+            CHLCode ret = CHLCodeFailed;
+            NSHTTPURLResponse *resp = (NSHTTPURLResponse *)response;
+            if (error != nil && resp.statusCode != 404) {
+                CHLogE("Unbind account failed:", error.description.cstr);
+            } else {
+                CHLogI("Unbind account success.");
+                @strongify(self);
+                [self doLogout];
+                ret = CHLCodeOK;
+            }
+            call_completion(completion, CHLCodeOK);
+        }];
+    }
+}
+
 - (void)doLogin:(CHUserModel *)user key:(NSData *)key {
     [self updateUserModel:user];
     [self reloadUserDB:YES];
     self.userDataSource.srvkey = key;
+    [self.nsDataSource updateKey:key uid:self.me.uid];
+    [self updatePushToken:CHNotification.shared.pushToken endpoint:self.baseURL node:nil completion:nil retry:NO];
+}
+
+- (void)doLogout {
+    [self.me.key deleteWithName:@kCHUserSecKeyName device:NO];
+    [self.nsDataSource updateKey:nil uid:self.me.uid];
+    [self.nsDataSource close];
+    self.userDataSource.srvkey = nil;
+    [self updateUserModel:nil];
+    [self reloadUserDB:YES];
 }
 
 #pragma mark - Nodes
+- (void)loadNodeWitEndpoint:(NSString *)endpoint completion:(nullable CHLogicResultBlock)completion {
+    NSURL *url = [NSURL URLWithString:[endpoint stringByAppendingPathComponent:@"/rest/v1/info"]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setTimeoutInterval:kCHNodeServerRequestTimeout];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:CHDevice.shared.userAgent forHTTPHeaderField:@"User-Agent"];
+    [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Accept"];
+    NSURLSessionDataTask *task = [self dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        CHLCode ret = CHLCodeFailed;
+        NSDictionary *result = nil;
+        if (error == nil) {
+            result = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];;
+            if (result != nil) {
+                ret = CHLCodeOK;
+            }
+            if ([[result valueForKey:@"version"] compareAsVersion:@kCHNodeCanCipherVersion]) {
+                ret = CHLCodeFailed;
+                CHSecKey *secKey = [CHSecKey secKeyWithPublicKeyData:[NSData dataFromBase64:[result valueForKey:@"pubkey"]]];
+                if (secKey != nil) {
+                    NSData *sign = [NSData dataFromBase64:[(NSHTTPURLResponse *)response valueForHTTPHeaderField:@"CHSign-Node"]];
+                    if ([secKey verify:data sign:sign]) {
+                        ret = CHLCodeOK;
+                    }
+                }
+            }
+        }
+        call_completion_data(completion, ret, result);
+    }];
+    [task resume];
+}
+
+- (void)updateNodeInfo:(nullable NSString*)nid completion:(nullable CHLogicBlock)completion {
+    CHNodeModel *node = [self.userDataSource nodeWithNID:nid];
+    if (node == nil || node.isSystem) {
+        call_completion(completion, CHLCodeFailed);
+    } else {
+        @weakify(self);
+        [self loadNodeWitEndpoint:node.endpoint completion:^(CHLCode result, NSDictionary *info) {
+            CHLCode ret = CHLCodeFailed;
+            if (result == CHLCodeOK) {
+                NSString *nid = [info valueForKey:@"nodeid"];
+                if ([node.nid isEqualToString:nid]) {
+                    NSData *pubKey = [NSData dataFromBase64:[info valueForKey:@"pubkey"]];
+                    if (pubKey.length > 0 && [CHNodeModel verifyNID:nid pubkey:pubKey]) {
+                        BOOL needUpdated = NO;
+                        if (![pubKey isEqualToData:node.pubkey]) {
+                            node.pubkey = pubKey;
+                            needUpdated = YES;
+                        }
+                        NSString *version = [info valueForKey:@"version"];
+                        if (version.length > 0 && ![version isEqualToString:node.version]) {
+                            node.version = version;
+                            needUpdated = YES;
+                        }
+                        NSString *endpoint = [info valueForKey:@"endpoint"];
+                        if (![node.endpoint isEqualToString:endpoint]) {
+                            node.endpoint = endpoint;
+                            needUpdated = YES;
+                        }
+                        NSString *features = [[info valueForKey:@"features"] componentsJoinedByString:@","];
+                        if (features.length > 0) {
+                            node.features = features;
+                            needUpdated = YES;
+                        }
+                        if (needUpdated) {
+                            @strongify(self);
+                            [self updateNode:node];
+                        }
+                        ret = CHLCodeOK;
+                    }
+                }
+            }
+            call_completion(completion, ret);
+        }];
+    }
+}
+
 - (void)insertNode:(CHNodeModel *)model completion:(nullable CHLogicBlock)completion {
     if (model.endpoint.length <= 0) {
         call_completion(completion, CHLCodeFailed);
@@ -233,7 +384,7 @@
                 CHLogI("Bind node user success.");
                 NSData *key = [user.key decode:[NSData dataFromBase64:[result valueForKey:@"key"]]];
                 if (key.length > 0 && [self insertNode:model secret:key]) {
-                    [self updateNodeKey:key uid:[NSString stringWithFormat:@"%@.%@", self.me.uid, model.nid]];
+                    [self.nsDataSource updateKey:key uid:[NSString stringWithFormat:@"%@.%@", self.me.uid, model.nid]];
                     ret = CHLCodeOK;
                 }
             } else {
@@ -256,6 +407,27 @@
     return res;
 }
 
+- (BOOL)deleteNode:(nullable NSString *)nid {
+    [self unbindNode:[self.userDataSource nodeWithNID:nid]];
+    BOOL res = [self.userDataSource deleteNode:nid];
+    if (res) {
+        [self sendNotifyWithSelector:@selector(logicNodesUpdated:) withObject:@[]];
+    }
+    return res;
+}
+
+- (BOOL)updateNode:(CHNodeModel *)model {
+    BOOL res = [self.userDataSource updateNode:model];
+    if (res) {
+        [self sendNotifyWithSelector:@selector(logicNodeUpdated:) withObject:model.nid];
+    }
+    return res;
+}
+
+- (nullable CHNodeModel *)nodeModelWithNID:(nullable NSString *)nid {
+    return [self.userDataSource nodeWithNID:nid];
+}
+
 - (BOOL)nodeIsConnected:(nullable NSString *)nid {
     if (nid.length > 0) {
         return ![self.invalidNodes containsObject:nid];
@@ -263,15 +435,37 @@
     return NO;
 }
 
-- (void)updateNodeKey:(NSData *)key uid:(NSString *)uid {
-}
-
 #pragma mark - Private Methods
 - (void)bindNodeAccount:(nullable CHNodeModel *)model completion:(nullable CHLogicBlock)completion {
-    if (model == nil || [model.nid isEqualToString:@"sys"]) {
+    if (model == nil || model.isSystem) {
         [self bindAccount:nil completion:completion];
     } else {
         [self insertNode:model completion:completion];
+    }
+}
+
+- (void)updateNodeBind {
+    @weakify(self);
+    for (CHNodeModel *node in self.userDataSource.loadNodes) {
+        if (node.isStoreDevice) {
+            [self insertNode:node completion:^(CHLCode result) {
+                if (result == CHLCodeOK) {
+                    @strongify(self);
+                    [self updatePushToken:CHNotification.shared.pushToken endpoint:node.apiURL node:node completion:nil retry:NO];
+                }
+            }];
+        }
+    }
+}
+
+- (void)unbindNode:(nullable CHNodeModel *)node {
+    if (node.isStoreDevice) {
+        CHDevice *device = CHDevice.shared;
+        NSDictionary *parameters = @{
+            @"device": device.uuid.hex,
+            @"user": self.me.uid,
+        };
+        [self sendToEndpoint:node.apiURL cmd:@"unbind-user" device:YES seckey:node.requestChiper user:self.me parameters:parameters completion:nil];
     }
 }
 
@@ -335,6 +529,14 @@ static inline void call_completion(CHLogicBlock completion, CHLCode result) {
     if (completion != nil) {
         dispatch_main_async(^{
             completion(result);
+        });
+    }
+}
+
+static inline void call_completion_data(CHLogicResultBlock completion, CHLCode result, NSDictionary *data) {
+    if (completion != nil) {
+        dispatch_main_async(^{
+            completion(result, data);
         });
     }
 }
