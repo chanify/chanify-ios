@@ -99,18 +99,20 @@
     }
 }
 
-- (nullable CHMessageModel *)pushMessage:(NSData *)data mid:(NSString *)mid uid:(NSString *)uid {
+- (nullable CHMessageModel *)pushMessage:(NSData *)data mid:(NSString *)mid uid:(NSString *)uid store:(BOOL)store {
     if (uid.length > 0 && mid.length > 0 && data.length > 0) {
-        [self.dbQueue inDatabase:^(FMDatabase *db) {
-            for (int i = 0; i < 3; i++) {
-                if (![db executeUpdate:@"INSERT OR IGNORE INTO `msgs`(`uid`,`mid`,`data`) VALUES(?,?,?);", uid, mid, data]) {
-                    switch (db.lastErrorCode) {
-                        case SQLITE_BUSY:case SQLITE_LOCKED: continue;
+        if (store) {
+            [self.dbQueue inDatabase:^(FMDatabase *db) {
+                for (int i = 0; i < 3; i++) {
+                    if (![db executeUpdate:@"INSERT OR IGNORE INTO `msgs`(`uid`,`mid`,`data`) VALUES(?,?,?);", uid, mid, data]) {
+                        switch (db.lastErrorCode) {
+                            case SQLITE_BUSY:case SQLITE_LOCKED: continue;
+                        }
                     }
+                    break;
                 }
-                break;
-            }
-        }];
+            }];
+        }
         return [CHMessageModel modelWithKS:self uid:uid mid:mid data:data raw:nil];
     }
     return nil;

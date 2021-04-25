@@ -37,7 +37,7 @@
         CHNSDataSource *dbsrc = self.class.sharedDB;
         self.attemptContent.badge = @([dbsrc nextBadgeForUID:uid]);
         if (mid.length > 0 && data.length > 0) {
-            CHMessageModel *msg = [dbsrc pushMessage:data mid:mid uid:uid];
+            CHMessageModel *msg = [dbsrc pushMessage:data mid:mid uid:uid store:YES];
             if (msg != nil) {
                 [msg formatNotification:self.attemptContent];
             }
