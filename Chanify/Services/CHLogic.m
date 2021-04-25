@@ -391,8 +391,7 @@
                 if ([response isKindOfClass:NSHTTPURLResponse.class] && [(NSHTTPURLResponse *)response statusCode] == 406) {
                     ret = CHLCodeReject;
                 }
-                NSString *errstr = (error == nil ? [NSString stringWithFormat:@"%ld", (long)resp.statusCode] : error.description);
-                CHLogE("Bind node user failed: %s", errstr.cstr);
+                CHLogE("Bind node user failed: %s", (error == nil ? [NSString stringWithFormat:@"%ld", (long)resp.statusCode] : error.description).cstr);
             }
             call_completion(completion, ret);
         }];
@@ -488,8 +487,7 @@
                 [self tryUpdateNodeStatus:node.nid status:YES];
                 ret = CHLCodeOK;
             } else {
-                NSString *errstr = (error == nil ? [NSString stringWithFormat:@"%ld", (long)resp.statusCode] : error.description);
-                CHLogW("Update push token to %s failed: %s", endpoint.host.cstr, errstr.cstr);
+                CHLogW("Update push token to %s failed: %s", endpoint.host.cstr, (error == nil ? [NSString stringWithFormat:@"%ld", (long)resp.statusCode] : error.description).cstr);
                 if (resp.statusCode == 404 && retry) {
                     [self bindNodeAccount:node completion:^(CHLCode result) {
                         @strongify(self);
