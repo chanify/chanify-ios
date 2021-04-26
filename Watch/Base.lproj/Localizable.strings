@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings (Base)
+  Chanify
+
+  Created by WizJin on 2021/4/26.
+  
+*/
+"NewMsg"="Receive an new message";
+"ImageMsg"="[Image]";
+"VideoMsg"="[Video]";
+"AudioMsg"="[Audio]";
+"LinkMsg"="[Link]";
+"FileMsg"="[File]";

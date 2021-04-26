@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings (Chinese, Simplified)
+  Chanify
+
+  Created by WizJin on 2021/4/26.
+  
+*/
+"NewMsg"="收到一条新消息";
+"ImageMsg"="[图片]";
+"VideoMsg"="[视频]";
+"AudioMsg"="[音频]";
+"LinkMsg"="[链接]";
+"FileMsg"="[文件]";

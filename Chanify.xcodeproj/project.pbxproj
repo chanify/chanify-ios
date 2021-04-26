@@ -19,6 +19,7 @@
 		6D278EA825E4CC9500FC48CD /* CHNodesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278EA725E4CC9500FC48CD /* CHNodesViewController.m */; };
 		6D278EAD25E5598A00FC48CD /* CHTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278EAC25E5598A00FC48CD /* CHTableView.m */; };
 		6D2C721C261E002A003CDCDB /* CHFileMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2C721B261E002A003CDCDB /* CHFileMsgCellConfiguration.m */; };
+		6D2EF785263676FC003407A5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D2EF783263676FC003407A5 /* Localizable.strings */; };
 		6D3EB44B262AABD900BE797F /* CHNavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3EB44A262AABD900BE797F /* CHNavigationTitleView.m */; };
 		6D3F61DA262DB64500E122BC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D3F61D8262DB64500E122BC /* Localizable.strings */; };
 		6D3F61E8262E64AE00E122BC /* CHUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C27A25D13EFA00512E36 /* CHUserModel.m */; };
@@ -377,6 +378,8 @@
 		6D278EAC25E5598A00FC48CD /* CHTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHTableView.m; sourceTree = "<group>"; };
 		6D2C721A261E002A003CDCDB /* CHFileMsgCellConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFileMsgCellConfiguration.h; sourceTree = "<group>"; };
 		6D2C721B261E002A003CDCDB /* CHFileMsgCellConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFileMsgCellConfiguration.m; sourceTree = "<group>"; };
+		6D2EF784263676FC003407A5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6D2EF78C26367703003407A5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6D3EB449262AABD900BE797F /* CHNavigationTitleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNavigationTitleView.h; sourceTree = "<group>"; };
 		6D3EB44A262AABD900BE797F /* CHNavigationTitleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNavigationTitleView.m; sourceTree = "<group>"; };
 		6D3F61D9262DB64500E122BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -797,6 +800,7 @@
 		6D90AFB9262D623200FBE1A6 /* Watch */ = {
 			isa = PBXGroup;
 			children = (
+				6D2EF783263676FC003407A5 /* Localizable.strings */,
 				6D90AFBA262D623200FBE1A6 /* Assets.xcassets */,
 				6D90AFBC262D623200FBE1A6 /* Info.plist */,
 			);
@@ -1440,6 +1444,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D90AFBB262D623200FBE1A6 /* Assets.xcassets in Resources */,
+				6D2EF785263676FC003407A5 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1819,6 +1824,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		6D2EF783263676FC003407A5 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6D2EF784263676FC003407A5 /* Base */,
+				6D2EF78C26367703003407A5 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		6D3F61D8262DB64500E122BC /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
