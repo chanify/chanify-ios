@@ -23,7 +23,7 @@
 - (instancetype)initWithName:(NSString *)name title:(NSString *)title action:(CHFormItemActionBlock)action {
     if (self = [super initWithName:name]) {
         UIListContentConfiguration *configuration = UIListContentConfiguration.cellConfiguration;
-        configuration.textProperties.alignment = NSTextAlignmentCenter;
+        configuration.textProperties.alignment = UIListContentTextAlignmentCenter;
         configuration.textProperties.color = CHTheme.shared.alertColor;
         configuration.text = title;
         _configuration = configuration;

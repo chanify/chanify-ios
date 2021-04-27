@@ -24,11 +24,11 @@
         NSCalendar *calendar = NSCalendar.currentCalendar;
         NSDateFormatter *formatter = [NSDateFormatter new];
         if ([calendar isDateInToday:self]) {
-            formatter.timeStyle = kCFDateFormatterShortStyle;
-            formatter.dateStyle = kCFDateFormatterNoStyle;
+            formatter.timeStyle = NSDateFormatterShortStyle;
+            formatter.dateStyle = NSDateFormatterNoStyle;
         } else {
-            formatter.timeStyle = kCFDateFormatterNoStyle;
-            formatter.dateStyle = kCFDateFormatterShortStyle;
+            formatter.timeStyle = NSDateFormatterNoStyle;
+            formatter.dateStyle = NSDateFormatterShortStyle;
             formatter.doesRelativeDateFormatting = YES;
         }
         return [formatter stringFromDate:self];
