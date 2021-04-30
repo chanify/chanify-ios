@@ -58,7 +58,9 @@
 
 - (void)deactive {
     [self.nsDataSource flush];
-    [self.userDataSource flush];
+    if (self.userDataSource != nil) {
+        [self.userDataSource flush];
+    }
 }
 
 - (void)resetData {

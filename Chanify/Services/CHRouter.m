@@ -61,11 +61,12 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
 }
 
 - (BOOL)launchWithOptions:(NSDictionary *)options {
-    [CHLogic.shared launch];
-
     UIWindow *window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     self.window = window;
     window.backgroundColor = CHTheme.shared.backgroundColor;
+
+    [CHLogic.shared launch];
+
     [self routeTo:@"/page/main"];
     [window makeKeyAndVisible];
     return YES;
