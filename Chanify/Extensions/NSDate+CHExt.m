@@ -6,6 +6,7 @@
 //
 
 #import "NSDate+CHExt.h"
+#import <Foundation/Foundation.h>
 
 @implementation NSDate (CHExt)
 

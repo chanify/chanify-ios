@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings (Chinese, Simplified)
+  Chanify
+
+  Created by WizJin on 2021/5/1.
+  
+*/
+"OK"="确定";
+"Done"="完成";
+"Close"="关闭";
+"Cancel"="取消";
+"Delete"="删除";
+"Enable"="启用";
+"Disable"="禁用";
