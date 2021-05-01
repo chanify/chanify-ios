@@ -13,6 +13,7 @@ typedef NS_ENUM(NSUInteger, CHDeviceType) {
     CHDeviceTypeUnknown     = 0,
     CHDeviceTypeIOS         = 1,
     CHDeviceTypeWatchOS     = 2,
+    CHDeviceTypeOSX         = 3,
 };
 
 @interface CHDevice : NSObject

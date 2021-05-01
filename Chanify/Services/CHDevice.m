@@ -11,6 +11,8 @@
 #elif TARGET_OS_IPHONE
 #   import <UIKit/UIDevice.h>
 #   import <UIKit/UIScreen.h>
+#elif TARGET_OS_OSX
+#   import <Cocoa/Cocoa.h>
 #endif
 #import <sys/sysctl.h>
 
@@ -45,6 +47,11 @@
         _name = device.name;
         _type = CHDeviceTypeIOS;
         _osInfo = [NSString stringWithFormat:@"%@ %@", device.systemName, device.systemVersion];
+#elif TARGET_OS_OSX
+        _scale = NSScreen.mainScreen.backingScaleFactor;
+        _name = NSFullUserName();
+        _type = CHDeviceTypeOSX;
+        _osInfo = [NSString stringWithFormat:@"%@ %@", get_sysctl("hw.targettype"), get_sysctl("kern.osproductversion")];
 #endif
         CHLogI("%s version: %s(%d) %s/%s.", self.app.cstr, self.version.cstr, self.build, self.model.cstr, self.osInfo.cstr);
         _key = [CHSecKey secKeyWithName:@kCHDeviceSecKeyName device:YES created:YES];

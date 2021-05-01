@@ -7,6 +7,7 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
+#import "CHDevice.h"
 
 @interface AppDelegate () <NSWindowDelegate>
 
@@ -17,6 +18,8 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    CHLogI("User-angent: %s", CHDevice.shared.userAgent.cstr);
+    
     NSWindow *window = [[NSWindow alloc] initWithContentRect:NSZeroRect styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
     _window = window;
     window.movableByWindowBackground = YES;
