@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0DA5CA1B186CA14B62606011 /* libPods-OSX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E0CA107030499D561FB4E3 /* libPods-OSX.a */; };
 		1DF9D52ED9FF82BF5D74FE61 /* libPods-Watch Extension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4D4830AD0DB53EB5BE0C41 /* libPods-Watch Extension.a */; };
-		55AC77D7F97CF382C0A72C50 /* libPods-Chanify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5B1F40BCE80A4DDFEB56F70 /* libPods-Chanify.a */; };
 		6D12BC342625A0DA005659EA /* CHLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D12BC332625A0DA005659EA /* CHLoadingView.m */; };
 		6D12BC462626BBE7005659EA /* NSNumber+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D12BC452626BBE7005659EA /* NSNumber+CHExt.m */; };
 		6D180E01262441BC000BDE82 /* NSString+CHNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD7B5DE260DF588001D5DCB /* NSString+CHNotification.m */; };
@@ -31,7 +31,6 @@
 		6D3F621F262E659800E122BC /* NSException+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2B425D1592900512E36 /* NSException+CHExt.m */; };
 		6D3F6226262E65A900E122BC /* NSFileManager+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C31825D1615100512E36 /* NSFileManager+CHExt.m */; };
 		6D3F622D262E65B500E122BC /* NSURL+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2F525D1602F00512E36 /* NSURL+CHExt.m */; };
-		6D3F6234262E65C500E122BC /* CHLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C25225D112BB00512E36 /* CHLogger.m */; };
 		6D3F6270262EE0E700E122BC /* LogicModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3F626F262EE0E700E122BC /* LogicModel.swift */; };
 		6D3F6287262FBB6400E122BC /* CHLogic+iOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3F6286262FBB6400E122BC /* CHLogic+iOS.m */; };
 		6D3F629D262FD82100E122BC /* CHLogic+watchOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3F629C262FD82100E122BC /* CHLogic+watchOS.m */; };
@@ -45,6 +44,10 @@
 		6D59464E26356C51004D3748 /* UIColor+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92C425F60B3B00B792FE /* UIColor+CHExt.m */; };
 		6D67CBDB25D3BAD700ECF655 /* NSDate+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */; };
 		6D67CBEA25D4298A00ECF655 /* CHCrpyto.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBE925D4298A00ECF655 /* CHCrpyto.m */; };
+		6D6F3CF7263D28EA00A2578B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6F3CF6263D28EA00A2578B /* AppDelegate.m */; };
+		6D6F3CFA263D28EA00A2578B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6F3CF9263D28EA00A2578B /* ViewController.m */; };
+		6D6F3CFC263D28EB00A2578B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D6F3CFB263D28EB00A2578B /* Assets.xcassets */; };
+		6D6F3D02263D28EB00A2578B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6F3D01263D28EB00A2578B /* main.m */; };
 		6D897D23262D6BFD0048D9A6 /* CHTP.proto in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C20D25D0F3EF00512E36 /* CHTP.proto */; };
 		6D897D5B262D77140048D9A6 /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D897D5A262D77140048D9A6 /* NotificationService.m */; };
 		6D897D5F262D77140048D9A6 /* WatchNotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6D897D57262D77140048D9A6 /* WatchNotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -116,9 +119,7 @@
 		6DC6C2E225D15E6B00512E36 /* CHChannelModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2E125D15E6B00512E36 /* CHChannelModel.m */; };
 		6DC6C2E725D15EC100512E36 /* CHMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2E625D15EC100512E36 /* CHMessageModel.m */; };
 		6DC6C2EC25D15F9700512E36 /* CHNSDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2EB25D15F9700512E36 /* CHNSDataSource.m */; };
-		6DC6C2F125D15FB700512E36 /* CHNSDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2EB25D15F9700512E36 /* CHNSDataSource.m */; };
 		6DC6C2F625D1602F00512E36 /* NSURL+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2F525D1602F00512E36 /* NSURL+CHExt.m */; };
-		6DC6C2FD25D160C100512E36 /* CHLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C25225D112BB00512E36 /* CHLogger.m */; };
 		6DC6C30025D160C800512E36 /* CHMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2E625D15EC100512E36 /* CHMessageModel.m */; };
 		6DC6C30325D160E100512E36 /* NSURL+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2F525D1602F00512E36 /* NSURL+CHExt.m */; };
 		6DC6C30625D160EA00512E36 /* NSData+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C25F25D114E800512E36 /* NSData+CHExt.m */; };
@@ -169,6 +170,42 @@
 		6DDC86C425E74F0C00C26203 /* CHNodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDC86C325E74F0C00C26203 /* CHNodeViewController.m */; };
 		6DDE056A26281F5C004336DD /* CHMessageCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDE056926281F5C004336DD /* CHMessageCellView.m */; };
 		6DDE057C262976C4004336DD /* CHBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDE057B262976C4004336DD /* CHBadgeView.m */; };
+		6DE7C05E263D45DE0092D88D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6DE7C05C263D45DE0092D88D /* InfoPlist.strings */; };
+		6DE7C062263D46190092D88D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6DE7C060263D46190092D88D /* Localizable.strings */; };
+		6DE7C066263D471E0092D88D /* CHUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C24825D1122100512E36 /* CHUtils.m */; };
+		6DE7C067263D47210092D88D /* CHLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C25225D112BB00512E36 /* CHLogger.m */; };
+		6DE7C069263D47410092D88D /* CHTP.proto in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C20D25D0F3EF00512E36 /* CHTP.proto */; };
+		6DE7C06A263D47FE0092D88D /* CHLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C25225D112BB00512E36 /* CHLogger.m */; };
+		6DE7C06B263D480F0092D88D /* CHLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C25225D112BB00512E36 /* CHLogger.m */; };
+		6DE7C06C263D48190092D88D /* CHLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C25225D112BB00512E36 /* CHLogger.m */; };
+		6DE7C06D263D483B0092D88D /* CHUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C27A25D13EFA00512E36 /* CHUserModel.m */; };
+		6DE7C06E263D483B0092D88D /* CHUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C27A25D13EFA00512E36 /* CHUserModel.m */; };
+		6DE7C06F263D483B0092D88D /* CHUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C27A25D13EFA00512E36 /* CHUserModel.m */; };
+		6DE7C070263D485A0092D88D /* CHChannelModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2E125D15E6B00512E36 /* CHChannelModel.m */; };
+		6DE7C071263D485C0092D88D /* CHNodeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDC86A825E7408E00C26203 /* CHNodeModel.m */; };
+		6DE7C072263D48620092D88D /* CHMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2E625D15EC100512E36 /* CHMessageModel.m */; };
+		6DE7C073263D48680092D88D /* CHThumbnailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DABBB202612BDFC00FCBDD3 /* CHThumbnailModel.m */; };
+		6DE7C074263D48790092D88D /* CHCrpyto.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBE925D4298A00ECF655 /* CHCrpyto.m */; };
+		6DE7C075263D487B0092D88D /* CHSecKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2AD25D14C2400512E36 /* CHSecKey.m */; };
+		6DE7C076263D487D0092D88D /* CryptoKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C32625D1626D00512E36 /* CryptoKit.swift */; };
+		6DE7C078263D48B20092D88D /* NSURL+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2F525D1602F00512E36 /* NSURL+CHExt.m */; };
+		6DE7C079263D48B50092D88D /* NSDate+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */; };
+		6DE7C07A263D48B70092D88D /* NSData+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C25F25D114E800512E36 /* NSData+CHExt.m */; };
+		6DE7C07B263D48B80092D88D /* NSString+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C26425D1151E00512E36 /* NSString+CHExt.m */; };
+		6DE7C07C263D48C80092D88D /* NSString+CHLocalized.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD7B5D8260DF520001D5DCB /* NSString+CHLocalized.m */; };
+		6DE7C07D263D48CE0092D88D /* NSNumber+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D12BC452626BBE7005659EA /* NSNumber+CHExt.m */; };
+		6DE7C07E263D48D50092D88D /* NSPredicate+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C35B25D16B6A00512E36 /* NSPredicate+CHExt.m */; };
+		6DE7C07F263D48DA0092D88D /* NSException+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2B425D1592900512E36 /* NSException+CHExt.m */; };
+		6DE7C080263D48E10092D88D /* NSDictionary+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C31025D1611200512E36 /* NSDictionary+CHExt.m */; };
+		6DE7C081263D48E80092D88D /* NSFileManager+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C31825D1615100512E36 /* NSFileManager+CHExt.m */; };
+		6DE7C083263D49150092D88D /* CHLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C27325D13E5500512E36 /* CHLogic.m */; };
+		6DE7C086263D49340092D88D /* CHDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2A525D14BE000512E36 /* CHDevice.m */; };
+		6DE7C087263D493E0092D88D /* CHManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2D525D15CCD00512E36 /* CHManager.m */; };
+		6DE7C088263D49480092D88D /* CHNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C26E25D13D2900512E36 /* CHNotification.m */; };
+		6DE7C089263D494F0092D88D /* CHNSDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2EB25D15F9700512E36 /* CHNSDataSource.m */; };
+		6DE7C08A263D49560092D88D /* CHUserDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2DC25D15DB100512E36 /* CHUserDataSource.m */; };
+		6DE7C08B263D49930092D88D /* CHNSDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2EB25D15F9700512E36 /* CHNSDataSource.m */; };
+		6DE7C08C263D49950092D88D /* CHNSDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2EB25D15F9700512E36 /* CHNSDataSource.m */; };
 		6DEC569E25F4F6F600AD6DC9 /* CHIconConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC569D25F4F6F600AD6DC9 /* CHIconConfiguration.m */; };
 		6DF2C34A263582EF00DBFC2D /* NodeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF2C349263582EF00DBFC2D /* NodeDetailView.swift */; };
 		6DFDE2182634041000A4BE43 /* CHNotification+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DFDE2172634041000A4BE43 /* CHNotification+Badge.m */; };
@@ -176,12 +213,10 @@
 		6DFDE2392634117200A4BE43 /* NSString+CHLocalized.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD7B5D8260DF520001D5DCB /* NSString+CHLocalized.m */; };
 		6DFDE2402634545C00A4BE43 /* NSDictionary+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C31025D1611200512E36 /* NSDictionary+CHExt.m */; };
 		6DFDE24D2635026F00A4BE43 /* CHNSDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2EB25D15F9700512E36 /* CHNSDataSource.m */; };
-		6DFDE25426351E9100A4BE43 /* CHLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C25225D112BB00512E36 /* CHLogger.m */; };
 		6DFDE25B26351E9C00A4BE43 /* CHTP.proto in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C20D25D0F3EF00512E36 /* CHTP.proto */; };
 		6DFDE26226351EA700A4BE43 /* CHMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2E625D15EC100512E36 /* CHMessageModel.m */; };
 		6DFDE26926351EAA00A4BE43 /* CHThumbnailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DABBB202612BDFC00FCBDD3 /* CHThumbnailModel.m */; };
 		6DFDE27026351EB500A4BE43 /* CryptoKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C32625D1626D00512E36 /* CryptoKit.swift */; };
-		6DFDE27726351EC400A4BE43 /* CHNSDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2EB25D15F9700512E36 /* CHNSDataSource.m */; };
 		6DFDE27E26351ECB00A4BE43 /* NSURL+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2F525D1602F00512E36 /* NSURL+CHExt.m */; };
 		6DFDE28526351ECF00A4BE43 /* NSData+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C25F25D114E800512E36 /* NSData+CHExt.m */; };
 		6DFDE28C26351ED300A4BE43 /* NSString+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C26425D1151E00512E36 /* NSString+CHExt.m */; };
@@ -189,11 +224,31 @@
 		6DFDE29A26351EEF00A4BE43 /* NSException+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2B425D1592900512E36 /* NSException+CHExt.m */; };
 		6DFDE2A126351EF200A4BE43 /* NSDictionary+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C31025D1611200512E36 /* NSDictionary+CHExt.m */; };
 		6DFDE2A826351EF500A4BE43 /* NSFileManager+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C31825D1615100512E36 /* NSFileManager+CHExt.m */; };
+		BD70F33E432C4EBE05965EED /* libPods-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E2F2824C25B298572C6CE79 /* libPods-iOS.a */; };
 		C53CB9C0420879B9E5436A08 /* libPods-WatchNotificationService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97C6F4E6EFFA55036AFB7B43 /* libPods-WatchNotificationService.a */; };
 		E1FF8005990C1480B5C3EF98 /* libPods-NotificationService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77860262C85473FCE5AADE06 /* libPods-NotificationService.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
+		6D1FAA79263D2E9000582170 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.proto";
+			fileType = pattern.proxy;
+			inputFiles = (
+			);
+			isEditable = 1;
+			outputFiles = (
+				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).pbobjc.h",
+				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).pbobjc.m",
+			);
+			outputFilesCompilerFlags = (
+				"",
+				"-fno-objc-arc",
+			);
+			runOncePerArchitecture = 0;
+			script = "protoc --proto_path=\"$INPUT_FILE_DIR\" --objc_out \"$DERIVED_FILE_DIR\" \"$INPUT_FILE_PATH\"\n";
+		};
 		6D897D29262D6C0A0048D9A6 /* PBXBuildRule */ = {
 			isa = PBXBuildRule;
 			compilerSpec = com.apple.compilers.proxy.script;
@@ -359,6 +414,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0278DDCC2821F3D532DC6554 /* Pods-OSX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OSX.release.xcconfig"; path = "Target Support Files/Pods-OSX/Pods-OSX.release.xcconfig"; sourceTree = "<group>"; };
+		1E2F2824C25B298572C6CE79 /* libPods-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28C357CDFCC7A7C97B583F6A /* Pods-WatchNotificationService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WatchNotificationService.debug.xcconfig"; path = "Target Support Files/Pods-WatchNotificationService/Pods-WatchNotificationService.debug.xcconfig"; sourceTree = "<group>"; };
 		518C6AACAB0FE1992637FCE8 /* Pods-Chanify.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chanify.debug.xcconfig"; path = "Target Support Files/Pods-Chanify/Pods-Chanify.debug.xcconfig"; sourceTree = "<group>"; };
 		5A23CD4C39298259F32B1AAC /* Pods-Watch Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Watch Extension.debug.xcconfig"; path = "Target Support Files/Pods-Watch Extension/Pods-Watch Extension.debug.xcconfig"; sourceTree = "<group>"; };
@@ -403,6 +460,15 @@
 		6D67CBD925D3BAD700ECF655 /* NSDate+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+CHExt.h"; sourceTree = "<group>"; };
 		6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+CHExt.m"; sourceTree = "<group>"; };
 		6D67CBE925D4298A00ECF655 /* CHCrpyto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHCrpyto.m; sourceTree = "<group>"; };
+		6D6F3CF3263D28EA00A2578B /* Chanify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chanify.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D6F3CF5263D28EA00A2578B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		6D6F3CF6263D28EA00A2578B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		6D6F3CF8263D28EA00A2578B /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		6D6F3CF9263D28EA00A2578B /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		6D6F3CFB263D28EB00A2578B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6D6F3D00263D28EB00A2578B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6D6F3D01263D28EB00A2578B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6D6F3D03263D28EB00A2578B /* Chanify.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Chanify.entitlements; sourceTree = "<group>"; };
 		6D897CE6262D67D50048D9A6 /* Watch Extension-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Watch Extension-Bridging-Header.h"; sourceTree = "<group>"; };
 		6D897D57262D77140048D9A6 /* WatchNotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WatchNotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D897D59262D77140048D9A6 /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
@@ -608,6 +674,10 @@
 		6DDE056926281F5C004336DD /* CHMessageCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHMessageCellView.m; sourceTree = "<group>"; };
 		6DDE057A262976C4004336DD /* CHBadgeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHBadgeView.h; sourceTree = "<group>"; };
 		6DDE057B262976C4004336DD /* CHBadgeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHBadgeView.m; sourceTree = "<group>"; };
+		6DE7C05D263D45DE0092D88D /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6DE7C05F263D45F90092D88D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		6DE7C061263D46190092D88D /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6DE7C063263D463A0092D88D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6DEC569C25F4F6F600AD6DC9 /* CHIconConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHIconConfiguration.h; sourceTree = "<group>"; };
 		6DEC569D25F4F6F600AD6DC9 /* CHIconConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHIconConfiguration.m; sourceTree = "<group>"; };
 		6DF2C349263582EF00DBFC2D /* NodeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeDetailView.swift; sourceTree = "<group>"; };
@@ -618,13 +688,24 @@
 		88B60DC2DA57301D0741245B /* Pods-NotificationService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationService.release.xcconfig"; path = "Target Support Files/Pods-NotificationService/Pods-NotificationService.release.xcconfig"; sourceTree = "<group>"; };
 		97C6F4E6EFFA55036AFB7B43 /* libPods-WatchNotificationService.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WatchNotificationService.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AECAF8C3BA098F88552CD534 /* Pods-WatchNotificationService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WatchNotificationService.release.xcconfig"; path = "Target Support Files/Pods-WatchNotificationService/Pods-WatchNotificationService.release.xcconfig"; sourceTree = "<group>"; };
+		B3A6C31B36C65360E033C4C9 /* Pods-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS.debug.xcconfig"; path = "Target Support Files/Pods-iOS/Pods-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		C6F39E9A2D4A5D0572D1578D /* Pods-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS.release.xcconfig"; path = "Target Support Files/Pods-iOS/Pods-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		CECF02443F5A85D7EED742E6 /* Pods-Watch Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Watch Extension.release.xcconfig"; path = "Target Support Files/Pods-Watch Extension/Pods-Watch Extension.release.xcconfig"; sourceTree = "<group>"; };
-		D5B1F40BCE80A4DDFEB56F70 /* libPods-Chanify.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Chanify.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE20795FBEF5ADCF265D5783 /* Pods-Chanify.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chanify.release.xcconfig"; path = "Target Support Files/Pods-Chanify/Pods-Chanify.release.xcconfig"; sourceTree = "<group>"; };
 		EE4D4830AD0DB53EB5BE0C41 /* libPods-Watch Extension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Watch Extension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4E0CA107030499D561FB4E3 /* libPods-OSX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OSX.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF37877B399C7F0DDE9EDEE4 /* Pods-OSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OSX.debug.xcconfig"; path = "Target Support Files/Pods-OSX/Pods-OSX.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6D6F3CF0263D28EA00A2578B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0DA5CA1B186CA14B62606011 /* libPods-OSX.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6D897D54262D77140048D9A6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -654,7 +735,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				55AC77D7F97CF382C0A72C50 /* libPods-Chanify.a in Frameworks */,
+				BD70F33E432C4EBE05965EED /* libPods-iOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -687,8 +768,33 @@
 				CECF02443F5A85D7EED742E6 /* Pods-Watch Extension.release.xcconfig */,
 				28C357CDFCC7A7C97B583F6A /* Pods-WatchNotificationService.debug.xcconfig */,
 				AECAF8C3BA098F88552CD534 /* Pods-WatchNotificationService.release.xcconfig */,
+				B3A6C31B36C65360E033C4C9 /* Pods-iOS.debug.xcconfig */,
+				C6F39E9A2D4A5D0572D1578D /* Pods-iOS.release.xcconfig */,
+				FF37877B399C7F0DDE9EDEE4 /* Pods-OSX.debug.xcconfig */,
+				0278DDCC2821F3D532DC6554 /* Pods-OSX.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		6D1FAA7A263D2F2A00582170 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				6D6F3CF5263D28EA00A2578B /* AppDelegate.h */,
+				6D6F3CF6263D28EA00A2578B /* AppDelegate.m */,
+				6D6F3D01263D28EB00A2578B /* main.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		6D1FAA7B263D2F3A00582170 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6DE7C05C263D45DE0092D88D /* InfoPlist.strings */,
+				6DE7C060263D46190092D88D /* Localizable.strings */,
+				6D6F3CFB263D28EB00A2578B /* Assets.xcassets */,
+				6D6F3D00263D28EB00A2578B /* Info.plist */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		6D278EA125E4CC4800FC48CD /* Nodes */ = {
@@ -750,6 +856,17 @@
 				6D44170B25F278D80041EBA0 /* CHFormSelectorItem.m */,
 			);
 			path = Item;
+			sourceTree = "<group>";
+		};
+		6D6F3CF4263D28EA00A2578B /* OSX */ = {
+			isa = PBXGroup;
+			children = (
+				6D1FAA7A263D2F2A00582170 /* Classes */,
+				6DE7C08D263D4B190092D88D /* Views */,
+				6D1FAA7B263D2F3A00582170 /* Resources */,
+				6D6F3D03263D28EB00A2578B /* Chanify.entitlements */,
+			);
+			path = OSX;
 			sourceTree = "<group>";
 		};
 		6D897D1D262D6BD00048D9A6 /* Services */ = {
@@ -856,7 +973,9 @@
 		6DC6C1B625D0DCD100512E36 = {
 			isa = PBXGroup;
 			children = (
-				6DC6C1C125D0DCD100512E36 /* Chanify */,
+				6DE7C064263D46760092D88D /* Chanify */,
+				6DC6C1C125D0DCD100512E36 /* iOS */,
+				6D6F3CF4263D28EA00A2578B /* OSX */,
 				6DC6C21D25D0FB7600512E36 /* NotificationService */,
 				6DA2A70A2622F8F100D898C7 /* NotificationContent */,
 				6D90AFB9262D623200FBE1A6 /* Watch */,
@@ -877,23 +996,23 @@
 				6D90AFB8262D623200FBE1A6 /* Watch.app */,
 				6D90AFC1262D623200FBE1A6 /* Watch Extension.appex */,
 				6D897D57262D77140048D9A6 /* WatchNotificationService.appex */,
+				6D6F3CF3263D28EA00A2578B /* Chanify.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6DC6C1C125D0DCD100512E36 /* Chanify */ = {
+		6DC6C1C125D0DCD100512E36 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
 				6DC6C1E725D0DE3800512E36 /* Classes */,
 				6DC6C1E925D0DEA700512E36 /* Views */,
 				6DC6C20C25D0F3C500512E36 /* Models */,
-				6DC6C2AB25D14C1300512E36 /* Security */,
 				6DC6C23F25D1114000512E36 /* Services */,
 				6DC6C25D25D114B400512E36 /* Extensions */,
 				6DC6C1EA25D0DEB200512E36 /* Resources */,
 				6DC6C1F025D0DF2B00512E36 /* Chanify.entitlements */,
 			);
-			path = Chanify;
+			path = iOS;
 			sourceTree = "<group>";
 		};
 		6DC6C1E725D0DE3800512E36 /* Classes */ = {
@@ -901,14 +1020,8 @@
 			children = (
 				6DC6C1C225D0DCD100512E36 /* AppDelegate.h */,
 				6DC6C1C325D0DCD100512E36 /* AppDelegate.m */,
-				6DC6C25125D112BB00512E36 /* CHLogger.h */,
-				6DC6C25225D112BB00512E36 /* CHLogger.m */,
-				6DC6C24725D1122100512E36 /* CHUtils.h */,
-				6DC6C24825D1122100512E36 /* CHUtils.m */,
 				6DC6C3B325D2193500512E36 /* CHMock.h */,
 				6DC6C3B425D2193500512E36 /* CHMock.m */,
-				6DC6C24E25D1125300512E36 /* CHConfig.h */,
-				6DC6C25825D1131E00512E36 /* Chanify.pch */,
 				6DC6C1D425D0DCD200512E36 /* main.m */,
 			);
 			path = Classes;
@@ -950,19 +1063,8 @@
 		6DC6C20C25D0F3C500512E36 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				6DC6C20D25D0F3EF00512E36 /* CHTP.proto */,
 				6DCC882B25FB62D70028B473 /* CHToken.h */,
 				6DCC882C25FB62D70028B473 /* CHToken.m */,
-				6DC6C27925D13EFA00512E36 /* CHUserModel.h */,
-				6DC6C27A25D13EFA00512E36 /* CHUserModel.m */,
-				6DDC86A725E7408E00C26203 /* CHNodeModel.h */,
-				6DDC86A825E7408E00C26203 /* CHNodeModel.m */,
-				6DC6C2E025D15E6B00512E36 /* CHChannelModel.h */,
-				6DC6C2E125D15E6B00512E36 /* CHChannelModel.m */,
-				6DC6C2E525D15EC100512E36 /* CHMessageModel.h */,
-				6DC6C2E625D15EC100512E36 /* CHMessageModel.m */,
-				6DABBB1F2612BDFC00FCBDD3 /* CHThumbnailModel.h */,
-				6DABBB202612BDFC00FCBDD3 /* CHThumbnailModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -981,28 +1083,14 @@
 		6DC6C23F25D1114000512E36 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				6DC6C27225D13E5500512E36 /* CHLogic.h */,
-				6DC6C27325D13E5500512E36 /* CHLogic.m */,
 				6D3F6285262FBB6400E122BC /* CHLogic+iOS.h */,
 				6D3F6286262FBB6400E122BC /* CHLogic+iOS.m */,
-				6DC6C24025D1117A00512E36 /* CHTheme.h */,
-				6DC6C24125D1117A00512E36 /* CHTheme.m */,
 				6DC6C26825D1159C00512E36 /* CHRouter.h */,
 				6DC6C26925D1159C00512E36 /* CHRouter.m */,
-				6DC6C2A425D14BE000512E36 /* CHDevice.h */,
-				6DC6C2A525D14BE000512E36 /* CHDevice.m */,
-				6DC6C2D425D15CCD00512E36 /* CHManager.h */,
-				6DC6C2D525D15CCD00512E36 /* CHManager.m */,
 				6DAE516926155C8C00AF9E90 /* CHPasteboard.h */,
 				6DAE516A26155C8C00AF9E90 /* CHPasteboard.m */,
-				6DC6C26D25D13D2900512E36 /* CHNotification.h */,
-				6DC6C26E25D13D2900512E36 /* CHNotification.m */,
 				6DFDE2162634041000A4BE43 /* CHNotification+Badge.h */,
 				6DFDE2172634041000A4BE43 /* CHNotification+Badge.m */,
-				6DC6C2EA25D15F9700512E36 /* CHNSDataSource.h */,
-				6DC6C2EB25D15F9700512E36 /* CHNSDataSource.m */,
-				6DC6C2DB25D15DB100512E36 /* CHUserDataSource.h */,
-				6DC6C2DC25D15DB100512E36 /* CHUserDataSource.m */,
 				6DBF866126183E53006F108C /* CHLinkMetaManager.h */,
 				6DBF866226183E53006F108C /* CHLinkMetaManager.m */,
 				6DCAD21F2621D52F00F43F20 /* CHWebFileManager.h */,
@@ -1016,27 +1104,6 @@
 		6DC6C25D25D114B400512E36 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				6DC6C2F425D1602F00512E36 /* NSURL+CHExt.h */,
-				6DC6C2F525D1602F00512E36 /* NSURL+CHExt.m */,
-				6D67CBD925D3BAD700ECF655 /* NSDate+CHExt.h */,
-				6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */,
-				6DC6C25E25D114E800512E36 /* NSData+CHExt.h */,
-				6DC6C25F25D114E800512E36 /* NSData+CHExt.m */,
-				6DC6C26325D1151E00512E36 /* NSString+CHExt.h */,
-				6DC6C26425D1151E00512E36 /* NSString+CHExt.m */,
-				6DD7B5D7260DF520001D5DCB /* NSString+CHLocalized.h */,
-				6DD7B5D8260DF520001D5DCB /* NSString+CHLocalized.m */,
-				6DD7B5DE260DF588001D5DCB /* NSString+CHNotification.m */,
-				6D12BC442626BBE7005659EA /* NSNumber+CHExt.h */,
-				6D12BC452626BBE7005659EA /* NSNumber+CHExt.m */,
-				6DC6C35A25D16B6A00512E36 /* NSPredicate+CHExt.h */,
-				6DC6C35B25D16B6A00512E36 /* NSPredicate+CHExt.m */,
-				6DC6C2B325D1592900512E36 /* NSException+CHExt.h */,
-				6DC6C2B425D1592900512E36 /* NSException+CHExt.m */,
-				6DC6C30F25D1611200512E36 /* NSDictionary+CHExt.h */,
-				6DC6C31025D1611200512E36 /* NSDictionary+CHExt.m */,
-				6DC6C31725D1615100512E36 /* NSFileManager+CHExt.h */,
-				6DC6C31825D1615100512E36 /* NSFileManager+CHExt.m */,
 				6DBA92C325F60B3B00B792FE /* UIColor+CHExt.h */,
 				6DBA92C425F60B3B00B792FE /* UIColor+CHExt.m */,
 				6DC6C37425D16CA000512E36 /* UIView+CHExt.h */,
@@ -1240,15 +1307,117 @@
 			path = Node;
 			sourceTree = "<group>";
 		};
+		6DE7C064263D46760092D88D /* Chanify */ = {
+			isa = PBXGroup;
+			children = (
+				6DE7C065263D468C0092D88D /* Classes */,
+				6DE7C068263D47350092D88D /* Models */,
+				6DC6C2AB25D14C1300512E36 /* Security */,
+				6DE7C082263D49030092D88D /* Services */,
+				6DE7C077263D48A20092D88D /* Extensions */,
+			);
+			path = Chanify;
+			sourceTree = "<group>";
+		};
+		6DE7C065263D468C0092D88D /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C25825D1131E00512E36 /* Chanify.pch */,
+				6DC6C24E25D1125300512E36 /* CHConfig.h */,
+				6DC6C24725D1122100512E36 /* CHUtils.h */,
+				6DC6C24825D1122100512E36 /* CHUtils.m */,
+				6DC6C25125D112BB00512E36 /* CHLogger.h */,
+				6DC6C25225D112BB00512E36 /* CHLogger.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		6DE7C068263D47350092D88D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C20D25D0F3EF00512E36 /* CHTP.proto */,
+				6DC6C27925D13EFA00512E36 /* CHUserModel.h */,
+				6DC6C27A25D13EFA00512E36 /* CHUserModel.m */,
+				6DDC86A725E7408E00C26203 /* CHNodeModel.h */,
+				6DDC86A825E7408E00C26203 /* CHNodeModel.m */,
+				6DC6C2E025D15E6B00512E36 /* CHChannelModel.h */,
+				6DC6C2E125D15E6B00512E36 /* CHChannelModel.m */,
+				6DC6C2E525D15EC100512E36 /* CHMessageModel.h */,
+				6DC6C2E625D15EC100512E36 /* CHMessageModel.m */,
+				6DABBB1F2612BDFC00FCBDD3 /* CHThumbnailModel.h */,
+				6DABBB202612BDFC00FCBDD3 /* CHThumbnailModel.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		6DE7C077263D48A20092D88D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C2F425D1602F00512E36 /* NSURL+CHExt.h */,
+				6DC6C2F525D1602F00512E36 /* NSURL+CHExt.m */,
+				6D67CBD925D3BAD700ECF655 /* NSDate+CHExt.h */,
+				6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */,
+				6DC6C25E25D114E800512E36 /* NSData+CHExt.h */,
+				6DC6C25F25D114E800512E36 /* NSData+CHExt.m */,
+				6DC6C26325D1151E00512E36 /* NSString+CHExt.h */,
+				6DC6C26425D1151E00512E36 /* NSString+CHExt.m */,
+				6DD7B5D7260DF520001D5DCB /* NSString+CHLocalized.h */,
+				6DD7B5D8260DF520001D5DCB /* NSString+CHLocalized.m */,
+				6DD7B5DE260DF588001D5DCB /* NSString+CHNotification.m */,
+				6D12BC442626BBE7005659EA /* NSNumber+CHExt.h */,
+				6D12BC452626BBE7005659EA /* NSNumber+CHExt.m */,
+				6DC6C35A25D16B6A00512E36 /* NSPredicate+CHExt.h */,
+				6DC6C35B25D16B6A00512E36 /* NSPredicate+CHExt.m */,
+				6DC6C2B325D1592900512E36 /* NSException+CHExt.h */,
+				6DC6C2B425D1592900512E36 /* NSException+CHExt.m */,
+				6DC6C30F25D1611200512E36 /* NSDictionary+CHExt.h */,
+				6DC6C31025D1611200512E36 /* NSDictionary+CHExt.m */,
+				6DC6C31725D1615100512E36 /* NSFileManager+CHExt.h */,
+				6DC6C31825D1615100512E36 /* NSFileManager+CHExt.m */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		6DE7C082263D49030092D88D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C27225D13E5500512E36 /* CHLogic.h */,
+				6DC6C27325D13E5500512E36 /* CHLogic.m */,
+				6DC6C24025D1117A00512E36 /* CHTheme.h */,
+				6DC6C24125D1117A00512E36 /* CHTheme.m */,
+				6DC6C2A425D14BE000512E36 /* CHDevice.h */,
+				6DC6C2A525D14BE000512E36 /* CHDevice.m */,
+				6DC6C2D425D15CCD00512E36 /* CHManager.h */,
+				6DC6C2D525D15CCD00512E36 /* CHManager.m */,
+				6DC6C26D25D13D2900512E36 /* CHNotification.h */,
+				6DC6C26E25D13D2900512E36 /* CHNotification.m */,
+				6DC6C2EA25D15F9700512E36 /* CHNSDataSource.h */,
+				6DC6C2EB25D15F9700512E36 /* CHNSDataSource.m */,
+				6DC6C2DB25D15DB100512E36 /* CHUserDataSource.h */,
+				6DC6C2DC25D15DB100512E36 /* CHUserDataSource.m */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		6DE7C08D263D4B190092D88D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6D6F3CF8263D28EA00A2578B /* ViewController.h */,
+				6D6F3CF9263D28EA00A2578B /* ViewController.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		AA9D7AE19CD99A925739E3F6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D5B1F40BCE80A4DDFEB56F70 /* libPods-Chanify.a */,
 				77860262C85473FCE5AADE06 /* libPods-NotificationService.a */,
 				6DA2A7062622F8F100D898C7 /* UserNotifications.framework */,
 				6DA2A7082622F8F100D898C7 /* UserNotificationsUI.framework */,
 				EE4D4830AD0DB53EB5BE0C41 /* libPods-Watch Extension.a */,
 				97C6F4E6EFFA55036AFB7B43 /* libPods-WatchNotificationService.a */,
+				1E2F2824C25B298572C6CE79 /* libPods-iOS.a */,
+				F4E0CA107030499D561FB4E3 /* libPods-OSX.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1256,6 +1425,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		6D6F3CF2263D28EA00A2578B /* OSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6D6F3D06263D28EB00A2578B /* Build configuration list for PBXNativeTarget "OSX" */;
+			buildPhases = (
+				A46AED0CA485106E0C5CDC58 /* [CP] Check Pods Manifest.lock */,
+				6D6F3CEF263D28EA00A2578B /* Sources */,
+				6D6F3CF0263D28EA00A2578B /* Frameworks */,
+				6D6F3CF1263D28EA00A2578B /* Resources */,
+			);
+			buildRules = (
+				6D1FAA79263D2E9000582170 /* PBXBuildRule */,
+			);
+			dependencies = (
+			);
+			name = OSX;
+			productName = Chanify;
+			productReference = 6D6F3CF3263D28EA00A2578B /* Chanify.app */;
+			productType = "com.apple.product-type.application";
+		};
 		6D897D56262D77140048D9A6 /* WatchNotificationService */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6D897D60262D77140048D9A6 /* Build configuration list for PBXNativeTarget "WatchNotificationService" */;
@@ -1331,9 +1519,9 @@
 			productReference = 6DA2A7052622F8F100D898C7 /* NotificationContent.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		6DC6C1BE25D0DCD100512E36 /* Chanify */ = {
+		6DC6C1BE25D0DCD100512E36 /* iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6DC6C1D825D0DCD200512E36 /* Build configuration list for PBXNativeTarget "Chanify" */;
+			buildConfigurationList = 6DC6C1D825D0DCD200512E36 /* Build configuration list for PBXNativeTarget "iOS" */;
 			buildPhases = (
 				397B817758594D1F4B988808 /* [CP] Check Pods Manifest.lock */,
 				6DC6C1BB25D0DCD100512E36 /* Sources */,
@@ -1351,7 +1539,7 @@
 				6DA2A7132622F8F100D898C7 /* PBXTargetDependency */,
 				6D90AFD8262D623300FBE1A6 /* PBXTargetDependency */,
 			);
-			name = Chanify;
+			name = iOS;
 			productName = Chanify;
 			productReference = 6DC6C1BF25D0DCD100512E36 /* Chanify.app */;
 			productType = "com.apple.product-type.application";
@@ -1382,8 +1570,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1240;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1250;
 				TargetAttributes = {
+					6D6F3CF2263D28EA00A2578B = {
+						CreatedOnToolsVersion = 12.5;
+					};
 					6D897D56262D77140048D9A6 = {
 						CreatedOnToolsVersion = 12.4;
 					};
@@ -1421,17 +1612,28 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6DC6C1BE25D0DCD100512E36 /* Chanify */,
+				6DC6C1BE25D0DCD100512E36 /* iOS */,
 				6DC6C21B25D0FB7600512E36 /* NotificationService */,
 				6DA2A7042622F8F000D898C7 /* NotificationContent */,
 				6D90AFB7262D623200FBE1A6 /* Watch */,
 				6D90AFC0262D623200FBE1A6 /* Watch Extension */,
 				6D897D56262D77140048D9A6 /* WatchNotificationService */,
+				6D6F3CF2263D28EA00A2578B /* OSX */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6D6F3CF1263D28EA00A2578B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6D6F3CFC263D28EB00A2578B /* Assets.xcassets in Resources */,
+				6DE7C062263D46190092D88D /* Localizable.strings in Resources */,
+				6DE7C05E263D45DE0092D88D /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6D897D55262D77140048D9A6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1523,7 +1725,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Chanify-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-iOS-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1591,26 +1793,86 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		A46AED0CA485106E0C5CDC58 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OSX-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6D6F3CEF263D28EA00A2578B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6DE7C080263D48E10092D88D /* NSDictionary+CHExt.m in Sources */,
+				6DE7C07B263D48B80092D88D /* NSString+CHExt.m in Sources */,
+				6DE7C075263D487B0092D88D /* CHSecKey.m in Sources */,
+				6DE7C088263D49480092D88D /* CHNotification.m in Sources */,
+				6DE7C081263D48E80092D88D /* NSFileManager+CHExt.m in Sources */,
+				6DE7C072263D48620092D88D /* CHMessageModel.m in Sources */,
+				6DE7C074263D48790092D88D /* CHCrpyto.m in Sources */,
+				6DE7C083263D49150092D88D /* CHLogic.m in Sources */,
+				6DE7C070263D485A0092D88D /* CHChannelModel.m in Sources */,
+				6DE7C078263D48B20092D88D /* NSURL+CHExt.m in Sources */,
+				6DE7C06F263D483B0092D88D /* CHUserModel.m in Sources */,
+				6DE7C07F263D48DA0092D88D /* NSException+CHExt.m in Sources */,
+				6DE7C076263D487D0092D88D /* CryptoKit.swift in Sources */,
+				6DE7C08A263D49560092D88D /* CHUserDataSource.m in Sources */,
+				6DE7C07E263D48D50092D88D /* NSPredicate+CHExt.m in Sources */,
+				6DE7C066263D471E0092D88D /* CHUtils.m in Sources */,
+				6D6F3CFA263D28EA00A2578B /* ViewController.m in Sources */,
+				6DE7C07C263D48C80092D88D /* NSString+CHLocalized.m in Sources */,
+				6DE7C086263D49340092D88D /* CHDevice.m in Sources */,
+				6D6F3D02263D28EB00A2578B /* main.m in Sources */,
+				6DE7C071263D485C0092D88D /* CHNodeModel.m in Sources */,
+				6DE7C069263D47410092D88D /* CHTP.proto in Sources */,
+				6DE7C087263D493E0092D88D /* CHManager.m in Sources */,
+				6DE7C089263D494F0092D88D /* CHNSDataSource.m in Sources */,
+				6DE7C067263D47210092D88D /* CHLogger.m in Sources */,
+				6DE7C073263D48680092D88D /* CHThumbnailModel.m in Sources */,
+				6DE7C07D263D48CE0092D88D /* NSNumber+CHExt.m in Sources */,
+				6D6F3CF7263D28EA00A2578B /* AppDelegate.m in Sources */,
+				6DE7C079263D48B50092D88D /* NSDate+CHExt.m in Sources */,
+				6DE7C07A263D48B70092D88D /* NSData+CHExt.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6D897D53262D77140048D9A6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DFDE27726351EC400A4BE43 /* CHNSDataSource.m in Sources */,
+				6DE7C06D263D483B0092D88D /* CHUserModel.m in Sources */,
 				6DFDE29A26351EEF00A4BE43 /* NSException+CHExt.m in Sources */,
 				6DFDE26226351EA700A4BE43 /* CHMessageModel.m in Sources */,
 				6DFDE2A126351EF200A4BE43 /* NSDictionary+CHExt.m in Sources */,
 				6DFDE28C26351ED300A4BE43 /* NSString+CHExt.m in Sources */,
 				6DFDE2A826351EF500A4BE43 /* NSFileManager+CHExt.m in Sources */,
 				6DFDE25B26351E9C00A4BE43 /* CHTP.proto in Sources */,
+				6DE7C08B263D49930092D88D /* CHNSDataSource.m in Sources */,
 				6DFDE28526351ECF00A4BE43 /* NSData+CHExt.m in Sources */,
 				6DFDE27E26351ECB00A4BE43 /* NSURL+CHExt.m in Sources */,
 				6DFDE26926351EAA00A4BE43 /* CHThumbnailModel.m in Sources */,
+				6DE7C06B263D480F0092D88D /* CHLogger.m in Sources */,
 				6DFDE29326351EDB00A4BE43 /* NSString+CHNotification.m in Sources */,
 				6DFDE27026351EB500A4BE43 /* CryptoKit.swift in Sources */,
-				6DFDE25426351E9100A4BE43 /* CHLogger.m in Sources */,
 				6D897D5B262D77140048D9A6 /* NotificationService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1619,7 +1881,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D3F6234262E65C500E122BC /* CHLogger.m in Sources */,
 				6D90AFCB262D623300FBE1A6 /* NotificationController.swift in Sources */,
 				6D897D23262D6BFD0048D9A6 /* CHTP.proto in Sources */,
 				6D3F61F6262E64EB00E122BC /* CHSecKey.m in Sources */,
@@ -1632,6 +1893,7 @@
 				6D90AFC9262D623200FBE1A6 /* ContentView.swift in Sources */,
 				6D966CCF2633FC1200833A09 /* CHUserDataSource.m in Sources */,
 				6D3F61E8262E64AE00E122BC /* CHUserModel.m in Sources */,
+				6DE7C06A263D47FE0092D88D /* CHLogger.m in Sources */,
 				6DF2C34A263582EF00DBFC2D /* NodeDetailView.swift in Sources */,
 				6D90AFCF262D623300FBE1A6 /* ComplicationController.swift in Sources */,
 				6D59464E26356C51004D3748 /* UIColor+CHExt.m in Sources */,
@@ -1777,16 +2039,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				6DC6C30025D160C800512E36 /* CHMessageModel.m in Sources */,
+				6DE7C06E263D483B0092D88D /* CHUserModel.m in Sources */,
 				6DC6C31E25D1617900512E36 /* NSFileManager+CHExt.m in Sources */,
 				6DC6C30325D160E100512E36 /* NSURL+CHExt.m in Sources */,
 				6DC6C32825D1626D00512E36 /* CryptoKit.swift in Sources */,
 				6DC6C30925D160ED00512E36 /* NSString+CHExt.m in Sources */,
-				6DC6C2FD25D160C100512E36 /* CHLogger.m in Sources */,
 				6DC6C22025D0FB7600512E36 /* NotificationService.m in Sources */,
+				6DE7C08C263D49950092D88D /* CHNSDataSource.m in Sources */,
 				6DC6C31425D1611E00512E36 /* NSDictionary+CHExt.m in Sources */,
-				6DC6C2F125D15FB700512E36 /* CHNSDataSource.m in Sources */,
 				6DABBB242612C0FA00FCBDD3 /* CHThumbnailModel.m in Sources */,
 				6DC6C23325D0FC7500512E36 /* CHTP.proto in Sources */,
+				6DE7C06C263D48190092D88D /* CHLogger.m in Sources */,
 				6DC6C30C25D160F100512E36 /* NSException+CHExt.m in Sources */,
 				6DC6C30625D160EA00512E36 /* NSData+CHExt.m in Sources */,
 				6DD7B5E6260DF5C7001D5DCB /* NSString+CHNotification.m in Sources */,
@@ -1868,16 +2131,88 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
+		6DE7C05C263D45DE0092D88D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6DE7C05D263D45DE0092D88D /* Base */,
+				6DE7C05F263D45F90092D88D /* zh-Hans */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		6DE7C060263D46190092D88D /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6DE7C061263D46190092D88D /* Base */,
+				6DE7C063263D463A0092D88D /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		6D6F3D04263D28EB00A2578B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FF37877B399C7F0DDE9EDEE4 /* Pods-OSX.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = OSX/Chanify.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 28;
+				DEVELOPMENT_TEAM = P4XS4AVCLW;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
+				INFOPLIST_FILE = "$(SRCROOT)/OSX/Resources/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
+				PRODUCT_NAME = "$(PROJECT_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		6D6F3D05263D28EB00A2578B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0278DDCC2821F3D532DC6554 /* Pods-OSX.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = OSX/Chanify.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 28;
+				DEVELOPMENT_TEAM = P4XS4AVCLW;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
+				INFOPLIST_FILE = "$(SRCROOT)/OSX/Resources/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
+				PRODUCT_NAME = "$(PROJECT_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		6D897D61262D77140048D9A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 28C357CDFCC7A7C97B583F6A /* Pods-WatchNotificationService.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = WatchNotificationService/WatchNotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = WatchNotificationService/Info.plist;
@@ -1887,7 +2222,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp.watchkitextension.watchnotificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1903,7 +2238,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = WatchNotificationService/WatchNotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = WatchNotificationService/Info.plist;
@@ -1913,7 +2248,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp.watchkitextension.watchnotificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1931,7 +2266,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Watch Extension/Watch Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				ENABLE_PREVIEWS = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
@@ -1941,7 +2276,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -1962,7 +2297,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Watch Extension/Watch Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				ENABLE_PREVIEWS = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
@@ -1972,7 +2307,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -1991,11 +2326,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				IBSC_MODULE = Watch_Extension;
 				INFOPLIST_FILE = Watch/Info.plist;
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2014,11 +2349,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				IBSC_MODULE = Watch_Extension;
 				INFOPLIST_FILE = Watch/Info.plist;
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2034,7 +2369,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationContent/NotificationContent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				INFOPLIST_FILE = NotificationContent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2042,7 +2377,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationcontent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2055,7 +2390,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationContent/NotificationContent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				INFOPLIST_FILE = NotificationContent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2063,7 +2398,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationcontent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2192,15 +2527,15 @@
 		};
 		6DC6C1D925D0DCD200512E36 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 518C6AACAB0FE1992637FCE8 /* Pods-Chanify.debug.xcconfig */;
+			baseConfigurationReference = B3A6C31B36C65360E033C4C9 /* Pods-iOS.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Chanify/Chanify.entitlements;
+				CODE_SIGN_ENTITLEMENTS = iOS/Chanify.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2209,14 +2544,14 @@
 					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Chanify/Resources/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/iOS/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2225,15 +2560,15 @@
 		};
 		6DC6C1DA25D0DCD200512E36 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DE20795FBEF5ADCF265D5783 /* Pods-Chanify.release.xcconfig */;
+			baseConfigurationReference = C6F39E9A2D4A5D0572D1578D /* Pods-iOS.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Chanify/Chanify.entitlements;
+				CODE_SIGN_ENTITLEMENTS = iOS/Chanify.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2242,14 +2577,14 @@
 					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Chanify/Resources/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/iOS/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2262,7 +2597,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = NotificationService/Info.plist;
@@ -2271,7 +2606,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2288,7 +2623,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = NotificationService/Info.plist;
@@ -2297,7 +2632,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2309,6 +2644,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6D6F3D06263D28EB00A2578B /* Build configuration list for PBXNativeTarget "OSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6D6F3D04263D28EB00A2578B /* Debug */,
+				6D6F3D05263D28EB00A2578B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6D897D60262D77140048D9A6 /* Build configuration list for PBXNativeTarget "WatchNotificationService" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2354,7 +2698,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6DC6C1D825D0DCD200512E36 /* Build configuration list for PBXNativeTarget "Chanify" */ = {
+		6DC6C1D825D0DCD200512E36 /* Build configuration list for PBXNativeTarget "iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6DC6C1D925D0DCD200512E36 /* Debug */,

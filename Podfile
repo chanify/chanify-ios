@@ -3,10 +3,14 @@ source 'https://github.com/CocoaPods/Specs.git'
 inhibit_all_warnings!
 
 $project_name = 'Chanify'
+$ios_version = '14.0'
+$osx_version = '11.0'
+$watchos_version = '7.0'
 
-platform :ios, '14.0'
+platform :ios, $ios_version
 
-target $project_name do
+target 'iOS' do
+	platform :ios, $ios_version
 
 	pod 'FMDB'
 	pod 'JLRoutes'
@@ -15,38 +19,53 @@ target $project_name do
 	pod 'Protobuf'
 end
 
+target 'OSX' do
+	platform :osx, $osx_version
+
+	pod 'FMDB'
+	pod 'JLRoutes'
+	pod 'Masonry'
+	pod 'Protobuf'
+end
+
 target 'NotificationService' do
+	platform :ios, $ios_version
 
 	pod 'FMDB'
 	pod 'Protobuf'
 end
 
 target 'Watch Extension' do 
-	platform :watchos, '7.0'
+	platform :watchos, $watchos_version
 
 	pod 'FMDB'
 	pod 'Protobuf'
 end
 
 target 'WatchNotificationService' do 
-	platform :watchos, '7.0'
+	platform :watchos, $watchos_version
 
 	pod 'FMDB'
 	pod 'Protobuf'
 end
 
 post_install do |installer|
-	$version = installer.podfile.root_target_definitions[0].platform.deployment_target.to_s.to_f
 	installer.pods_project.targets.each do |target|
 		target.build_configurations.each do |config|
 			config.build_settings['CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED'] = 'YES'
-			if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < $version
-				config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = $version.to_s
+			if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < $ios_version.to_f
+				config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = $ios_version
+			end
+			if config.build_settings['MACOSX_DEPLOYMENT_TARGET'].to_f < $osx_version.to_f
+				config.build_settings['MACOSX_DEPLOYMENT_TARGET'] = $osx_version
+			end
+			if config.build_settings['WATCHOS_DEPLOYMENT_TARGET'].to_f < $watchos_version.to_f
+				config.build_settings['WATCHOS_DEPLOYMENT_TARGET'] = $watchos_version
 			end
 		end
 	end
 	# Install acknowledgements
-	$src = 'Pods/Target Support Files/Pods-%s/Pods-%s-acknowledgements.plist' % [$project_name, $project_name]
-	$dst = '%s/Resources/Settings.bundle/Acknowledgements.plist' % $project_name
+	$src = 'Pods/Target Support Files/Pods-iOS/Pods-iOS-acknowledgements.plist'
+	$dst = 'iOS/Resources/Settings.bundle/Acknowledgements.plist'
 	FileUtils.cp_r($src, $dst, :remove_destination => true)
 end

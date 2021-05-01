@@ -6,6 +6,7 @@
 //
 
 #import "NSNumber+CHExt.h"
+#import <math.h>
 
 @implementation NSNumber (CHExt)
 

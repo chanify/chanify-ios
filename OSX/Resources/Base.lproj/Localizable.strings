@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings (Base)
+  Chanify
+
+  Created by WizJin on 2021/5/1.
+  
+*/
+"OK"="OK";
+"Done"="Done";
+"Close"="Close";
+"Cancel"="Cancel";
+"Delete"="Delete";
+"Enable"="Enable";
+"Disable"="Disable";
