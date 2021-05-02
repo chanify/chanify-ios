@@ -16,6 +16,7 @@
     (__bridge id)kSecAttrAccessGroup: @kCHAppKeychainName,                      \
     (__bridge id)kSecAttrAccessible: (__bridge id)(device ? kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly : kSecAttrAccessibleAfterFirstUnlock),                                                    \
     (__bridge id)kSecAttrSynchronizable: (__bridge id)(device ? kCFBooleanFalse : kCFBooleanTrue),  \
+    (__bridge id)kSecUseDataProtectionKeychain: (__bridge id)(kCFBooleanTrue),  \
 
 #define kCHSecKeyAlgorithm  kSecKeyAlgorithmECIESEncryptionCofactorVariableIVX963SHA256AESGCM
 

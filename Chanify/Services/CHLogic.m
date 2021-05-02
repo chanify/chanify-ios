@@ -51,6 +51,13 @@
     }
 }
 
+- (void)close {
+    [self.nsDataSource close];
+    if (self.userDataSource != nil) {
+        [self.userDataSource close];
+    }
+}
+
 - (void)active {
     [CHNotification.shared updateStatus];
     [self reloadUserDB:NO];

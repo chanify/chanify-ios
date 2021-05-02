@@ -12,7 +12,7 @@
 #   import <UIKit/UIDevice.h>
 #   import <UIKit/UIScreen.h>
 #elif TARGET_OS_OSX
-#   import <Cocoa/Cocoa.h>
+#   import <AppKit/AppKit.h>
 #endif
 #import <sys/sysctl.h>
 
@@ -60,6 +60,10 @@
         CHLogI("Device uuid: %s", self.uuid.hex.cstr);
     }
     return self;
+}
+
+- (BOOL)canDataProtection {
+    return self.type != CHDeviceTypeOSX;
 }
 
 #pragma mark - Private Methods

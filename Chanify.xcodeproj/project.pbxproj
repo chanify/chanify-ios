@@ -168,6 +168,7 @@
 		6DDC86B425E7446A00C26203 /* CHNodeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDC86B325E7446A00C26203 /* CHNodeTableViewCell.m */; };
 		6DDC86BE25E745AF00C26203 /* CHTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDC86BD25E745AF00C26203 /* CHTableViewCell.m */; };
 		6DDC86C425E74F0C00C26203 /* CHNodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDC86C325E74F0C00C26203 /* CHNodeViewController.m */; };
+		6DDD6B09263E314200684EE7 /* CHLogic+OSX.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDD6B08263E314200684EE7 /* CHLogic+OSX.m */; };
 		6DDE056A26281F5C004336DD /* CHMessageCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDE056926281F5C004336DD /* CHMessageCellView.m */; };
 		6DDE057C262976C4004336DD /* CHBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDE057B262976C4004336DD /* CHBadgeView.m */; };
 		6DE7C05E263D45DE0092D88D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6DE7C05C263D45DE0092D88D /* InfoPlist.strings */; };
@@ -670,6 +671,8 @@
 		6DDC86BD25E745AF00C26203 /* CHTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHTableViewCell.m; sourceTree = "<group>"; };
 		6DDC86C225E74F0C00C26203 /* CHNodeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNodeViewController.h; sourceTree = "<group>"; };
 		6DDC86C325E74F0C00C26203 /* CHNodeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNodeViewController.m; sourceTree = "<group>"; };
+		6DDD6B07263E314200684EE7 /* CHLogic+OSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CHLogic+OSX.h"; sourceTree = "<group>"; };
+		6DDD6B08263E314200684EE7 /* CHLogic+OSX.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHLogic+OSX.m"; sourceTree = "<group>"; };
 		6DDE056826281F5C004336DD /* CHMessageCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHMessageCellView.h; sourceTree = "<group>"; };
 		6DDE056926281F5C004336DD /* CHMessageCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHMessageCellView.m; sourceTree = "<group>"; };
 		6DDE057A262976C4004336DD /* CHBadgeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHBadgeView.h; sourceTree = "<group>"; };
@@ -863,6 +866,7 @@
 			children = (
 				6D1FAA7A263D2F2A00582170 /* Classes */,
 				6DE7C08D263D4B190092D88D /* Views */,
+				6DDD6B06263E312B00684EE7 /* Services */,
 				6D1FAA7B263D2F3A00582170 /* Resources */,
 				6D6F3D03263D28EB00A2578B /* Chanify.entitlements */,
 			);
@@ -1305,6 +1309,15 @@
 				6DDC86C325E74F0C00C26203 /* CHNodeViewController.m */,
 			);
 			path = Node;
+			sourceTree = "<group>";
+		};
+		6DDD6B06263E312B00684EE7 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				6DDD6B07263E314200684EE7 /* CHLogic+OSX.h */,
+				6DDD6B08263E314200684EE7 /* CHLogic+OSX.m */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		6DE7C064263D46760092D88D /* Chanify */ = {
@@ -1838,6 +1851,7 @@
 				6DE7C08A263D49560092D88D /* CHUserDataSource.m in Sources */,
 				6DE7C07E263D48D50092D88D /* NSPredicate+CHExt.m in Sources */,
 				6DE7C066263D471E0092D88D /* CHUtils.m in Sources */,
+				6DDD6B09263E314200684EE7 /* CHLogic+OSX.m in Sources */,
 				6D6F3CFA263D28EA00A2578B /* ViewController.m in Sources */,
 				6DE7C07C263D48C80092D88D /* NSString+CHLocalized.m in Sources */,
 				6DE7C086263D49340092D88D /* CHDevice.m in Sources */,

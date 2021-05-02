@@ -42,6 +42,10 @@
     [CHRouter.shared deactive];
 }
 
+- (void)applicationWillTerminate:(UIApplication *)application {
+    [CHLogic.shared close];
+}
+
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [CHLogic.shared updatePushToken:deviceToken];
 }

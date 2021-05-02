@@ -11,7 +11,9 @@
 #import "CHMessageModel.h"
 #import "CHChannelModel.h"
 #import "CHNodeModel.h"
+#import "CHDevice.h"
 
+#define kCHDBFileProtectionFlags        (CHDevice.shared.canDataProtection ? SQLITE_OPEN_FILEPROTECTION_COMPLETEUNTILFIRSTUSERAUTHENTICATION : 0)
 #define kCHUserDBVersion    2
 #define kCHNSInitSql        \
     "CREATE TABLE IF NOT EXISTS `options`(`key` TEXT PRIMARY KEY,`value` BLOB);"   \
@@ -41,7 +43,7 @@
     if (self = [super init]) {
         _dsURL = url;
         _srvkeyCache = nil;
-        _dbQueue = [FMDatabaseQueue databaseQueueWithURL:url flags:SQLITE_OPEN_READWRITE|SQLITE_OPEN_CREATE|SQLITE_OPEN_FILEPROTECTION_COMPLETEUNTILFIRSTUSERAUTHENTICATION];
+        _dbQueue = [FMDatabaseQueue databaseQueueWithURL:url flags:SQLITE_OPEN_READWRITE|SQLITE_OPEN_CREATE|kCHDBFileProtectionFlags];
         [self.dbQueue inDatabase:^(FMDatabase *db) {
             if (db.applicationID < kCHUserDBVersion) {
                 BOOL res = YES;

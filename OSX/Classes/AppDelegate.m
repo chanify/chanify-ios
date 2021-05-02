@@ -7,7 +7,7 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
-#import "CHDevice.h"
+#import "CHLogic+OSX.h"
 
 @interface AppDelegate () <NSWindowDelegate>
 
@@ -18,8 +18,9 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    CHLogI("User-angent: %s", CHDevice.shared.userAgent.cstr);
-    
+    [CHLogic.shared launch];
+    [CHLogic.shared active];
+
     NSWindow *window = [[NSWindow alloc] initWithContentRect:NSZeroRect styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
     _window = window;
     window.movableByWindowBackground = YES;
@@ -32,9 +33,9 @@
     [window makeKeyAndOrderFront:NSApp];
 }
 
-
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // Insert code here to tear down your application
+    [CHLogic.shared deactive];
+    [CHLogic.shared close];
 }
 
 #pragma mark - NSWindowDelegate

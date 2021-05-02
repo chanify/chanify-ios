@@ -38,6 +38,7 @@ typedef void (^CHLogicResultBlock)(CHLCode result, NSDictionary *data);
 
 - (instancetype)initWithAppGroup:(NSString *)appGroup;
 - (void)launch;
+- (void)close;
 - (void)active;
 - (void)deactive;
 - (void)resetData;

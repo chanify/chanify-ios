@@ -8,7 +8,9 @@
 #import "CHNSDataSource.h"
 #import <FMDB.h>
 #import <sqlite3.h>
+#import "CHDevice.h"
 
+#define kCHDBFileProtectionFlags        (CHDevice.shared.canDataProtection ? SQLITE_OPEN_FILEPROTECTION_COMPLETEUNTILFIRSTUSERAUTHENTICATION : 0)
 #define kCHNSInitSql    \
     "CREATE TABLE IF NOT EXISTS `keys`(`uid` TEXT PRIMARY KEY,`key` BLOB);"  \
     "CREATE TABLE IF NOT EXISTS `badges`(`uid` TEXT PRIMARY KEY,`badge` UNSIGNED INTEGER);"  \
@@ -28,7 +30,7 @@
 
 - (instancetype)initWithURL:(NSURL *)url {
     if (self = [super init]) {
-        _dbQueue = [FMDatabaseQueue databaseQueueWithURL:url flags:SQLITE_OPEN_READWRITE|SQLITE_OPEN_CREATE|SQLITE_OPEN_FILEPROTECTION_COMPLETEUNTILFIRSTUSERAUTHENTICATION];
+        _dbQueue = [FMDatabaseQueue databaseQueueWithURL:url flags:SQLITE_OPEN_READWRITE|SQLITE_OPEN_CREATE|kCHDBFileProtectionFlags];
         [self.dbQueue inDatabase:^(FMDatabase *db) {
             if ([db executeStatements:@kCHNSInitSql]) {
                 NSURL *dbURL = db.databaseURL;

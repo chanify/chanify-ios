@@ -18,6 +18,7 @@
 #define kCHAPIHostname                  "api.chanify.net"
 #define kCHAppGroupName                 "group.net.chanify.share"
 #define kCHAppWatchGroupName            "group.net.chanify.share.watch"
+#define kCHAppOSXGroupName              "P4XS4AVCLW.group.net.chanify.share.osx"
 #define kCHAppKeychainName              "P4XS4AVCLW.net.chanify.keychain"
 #define kCHDeviceSecKeyName             "net.chanify.device.key"
 #define kCHUserSecKeyName               "net.chanify.user.key"

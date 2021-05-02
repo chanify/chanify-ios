@@ -50,14 +50,6 @@
     [self.watchSession activateSession];
 }
 
-- (void)active {
-    [super active];
-}
-
-- (void)deactive {
-    [super deactive];
-}
-
 - (void)receiveRemoteNotification:(NSDictionary *)userInfo {
 }
 
