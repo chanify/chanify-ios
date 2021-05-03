@@ -8,9 +8,12 @@
 #import "CHNSDataSource.h"
 #import <FMDB.h>
 #import <sqlite3.h>
-#import "CHDevice.h"
 
-#define kCHDBFileProtectionFlags        (CHDevice.shared.canDataProtection ? SQLITE_OPEN_FILEPROTECTION_COMPLETEUNTILFIRSTUSERAUTHENTICATION : 0)
+#if TARGET_OS_OSX
+#   define kCHDBFileProtectionFlags     0
+#else
+#   define kCHDBFileProtectionFlags     SQLITE_OPEN_FILEPROTECTION_COMPLETEUNTILFIRSTUSERAUTHENTICATION
+#endif
 #define kCHNSInitSql    \
     "CREATE TABLE IF NOT EXISTS `keys`(`uid` TEXT PRIMARY KEY,`key` BLOB);"  \
     "CREATE TABLE IF NOT EXISTS `badges`(`uid` TEXT PRIMARY KEY,`badge` UNSIGNED INTEGER);"  \

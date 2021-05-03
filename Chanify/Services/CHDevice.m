@@ -62,10 +62,6 @@
     return self;
 }
 
-- (BOOL)canDataProtection {
-    return self.type != CHDeviceTypeOSX;
-}
-
 #pragma mark - Private Methods
 static inline NSString *get_sysctl(const char *name) {
     char buffer[512] = { 0 };

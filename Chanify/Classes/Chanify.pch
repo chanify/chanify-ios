@@ -62,6 +62,10 @@
 #   import "UIViewController+CHExt.h"
 #endif
 
+#if __has_include(<AppKit/NSImage.h>)
+#   import "NSImage+CHExt.h"
+#endif
+
 #endif /* CHUI_ENABLE */
 
 #endif /* __OBJC__ */

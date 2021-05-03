@@ -1,13 +1,13 @@
 //
-//  ViewController.m
+//  CHMianViewController.m
 //  Chanify
 //
 //  Created by WizJin on 2021/5/1.
 //
 
-#import "ViewController.h"
+#import "CHMianViewController.h"
 
-@implementation ViewController
+@implementation CHMianViewController
 
 - (void)loadView {
     self.view = [NSView new];

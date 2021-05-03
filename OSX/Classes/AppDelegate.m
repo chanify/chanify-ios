@@ -6,7 +6,7 @@
 //
 
 #import "AppDelegate.h"
-#import "ViewController.h"
+#import "CHMianViewController.h"
 #import "CHLogic+OSX.h"
 
 @interface AppDelegate () <NSWindowDelegate>
@@ -26,8 +26,8 @@
     window.movableByWindowBackground = YES;
     window.titlebarAppearsTransparent = YES;
     window.delegate = self;
-    window.styleMask = NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskMiniaturizable;
-    window.contentViewController = [ViewController new];
+    window.styleMask = NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskMiniaturizable|NSWindowStyleMaskResizable;
+    window.contentViewController = [CHMianViewController new];
     [window setFrame:NSMakeRect(0, 0, 480, 320) display:YES animate:YES];
     [window center];
     [window makeKeyAndOrderFront:NSApp];
@@ -36,6 +36,18 @@
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     [CHLogic.shared deactive];
     [CHLogic.shared close];
+}
+
+- (void)application:(NSApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    [CHLogic.shared updatePushToken:deviceToken];
+}
+
+- (void)application:(NSApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    
+}
+
+- (void)application:(NSApplication *)application didReceiveRemoteNotification:(NSDictionary<NSString *, id> *)userInfo {
+    [CHLogic.shared receiveRemoteNotification:userInfo];
 }
 
 #pragma mark - NSWindowDelegate

@@ -6,12 +6,12 @@
 //
 
 #import "CHWebObjectManager.h"
-#import <UIKit/UIImage.h>
 #import "CHUserDataSource.h"
 #import "CHNodeModel.h"
 #import "CHLogic+iOS.h"
 #import "CHDevice.h"
 #import "CHToken.h"
+#import "CHImage.h"
 
 @interface CHWebObjectTask : NSObject
 
@@ -305,7 +305,7 @@
 
 - (nullable id)webObjectDecode:(nullable NSData *)data {
     if (data.length > 0) {
-        return [UIImage imageWithData:data];
+        return [CHImage imageWithData:data];
     }
     return nil;
 }

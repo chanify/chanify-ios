@@ -7,6 +7,7 @@
 
 #import "CHLinkMetaManager.h"
 #import <LinkPresentation/LinkPresentation.h>
+#import "CHImage.h"
 
 @interface CHLinkMetaTask : NSObject
 
@@ -76,7 +77,7 @@
         if (![scheme isEqualToString:@"http"] && ![scheme isEqualToString:@"https"]) {
             [item linkMetaUpdated:@{
                 @"host-desc": url.scheme ?: @"",
-                @"icon": [UIImage systemImageNamed:@"link.circle"],
+                @"icon": [CHImage systemImageNamed:@"link.circle"],
                 @"title": @"URLScheme clicked".localized,
             }];
             return;
@@ -134,7 +135,7 @@
                 [icon loadItemForTypeIdentifier:icon.registeredTypeIdentifiers.firstObject options:0 completionHandler:^(NSData *item, NSError *error) {
                     @strongify(self);
                     if (error == nil && item.length > 0) {
-                        UIImage *image = [UIImage imageWithData:item];
+                        CHImage *image = [CHImage imageWithData:item];
                         if (image != nil) {
                             [result setObject:image forKey:@"icon"];
                             [result setObject:item forKey:@"icon-raw"];
@@ -171,7 +172,7 @@
             NSData *icon = [NSData dataFromBase64:[items objectForKey:@"icon"]];
             [items removeObjectForKey:@"icon"];
             if (icon.length > 0) {
-                UIImage *image = [UIImage imageWithData:icon];
+                CHImage *image = [CHImage imageWithData:icon];
                 if (image != nil) {
                     [items setObject:image forKey:@"icon"];
                 }

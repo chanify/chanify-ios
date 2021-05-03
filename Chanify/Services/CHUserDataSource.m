@@ -11,9 +11,13 @@
 #import "CHMessageModel.h"
 #import "CHChannelModel.h"
 #import "CHNodeModel.h"
-#import "CHDevice.h"
 
-#define kCHDBFileProtectionFlags        (CHDevice.shared.canDataProtection ? SQLITE_OPEN_FILEPROTECTION_COMPLETEUNTILFIRSTUSERAUTHENTICATION : 0)
+
+#if TARGET_OS_OSX
+#   define kCHDBFileProtectionFlags     0
+#else
+#   define kCHDBFileProtectionFlags     SQLITE_OPEN_FILEPROTECTION_COMPLETEUNTILFIRSTUSERAUTHENTICATION
+#endif
 #define kCHUserDBVersion    2
 #define kCHNSInitSql        \
     "CREATE TABLE IF NOT EXISTS `options`(`key` TEXT PRIMARY KEY,`value` BLOB);"   \

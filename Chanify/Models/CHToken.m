@@ -9,9 +9,13 @@
 #import "CHDevice.h"
 #import "CHCrpyto.h"
 #import "CHNodeModel.h"
-#import "CHLogic+iOS.h"
 #import "CHNSDataSource.h"
 #import "CHTP.pbobjc.h"
+#if TARGET_OS_OSX
+#   import "CHLogic+OSX.h"
+#else
+#   import "CHLogic+iOS.h"
+#endif
 
 @interface CHToken ()
 

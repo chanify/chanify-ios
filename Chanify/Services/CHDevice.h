@@ -32,7 +32,6 @@ typedef NS_ENUM(NSUInteger, CHDeviceType) {
 @property (nonatomic, readonly, assign) double scale;
 
 + (instancetype)shared;
-- (BOOL)canDataProtection;
 
 
 @end
