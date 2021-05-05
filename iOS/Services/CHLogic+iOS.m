@@ -181,6 +181,16 @@
     return res;
 }
 
+- (BOOL)deleteMessagesWithCID:(nullable NSString *)cid {
+    BOOL res = [self.userDataSource deleteMessagesWithCID:cid];
+    if (res) {
+        [self sendNotifyWithSelector:@selector(logicMessagesCleared:) withObject:cid];
+        [self sendNotifyWithSelector:@selector(logicChannelUpdated:) withObject:cid];
+        
+    }
+    return res;
+}
+
 #pragma mark - Read & Unread
 - (NSInteger)unreadSumAllChannel {
     return [self.userDataSource unreadSumAllChannel];

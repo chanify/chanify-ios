@@ -31,6 +31,7 @@
 "Endpoint URL"="入口链接";
 "Create channel failed"="创建频道失败";
 "Channel Detail"="频道详情";
+"Clear Messages"="清除消息";
 "Message"="消息";
 "Account"="账号";
 "Token"="令牌";
@@ -84,6 +85,7 @@
 "UserInfoDetail"="在您的新设备上下载Chanify应用，并在应用内扫描本二维码";
 "Open node server failed"="打开节点服务器失败";
 "Connect node server failed"="连接节点服务器失败";
+"Delete all messages or not?"="是否要删除所有消息？";
 "Delete this message or not?"="是否要删除这条消息？";
 "Delete this channel or not?"="是否要删除这个频道？";
 "Delete this node or not?"="是否要删除这个节点？";

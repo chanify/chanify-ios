@@ -22,6 +22,7 @@
 @property (nonatomic, readonly, strong) CHMessagesDataSource *dataSource;
 @property (nonatomic, nullable, strong) UICollectionView *listView;
 @property (nonatomic, nullable, strong) CHBadgeView *badgeView;
+@property (nonatomic, readonly, strong) UIBarButtonItem *detailButtonItem;
 
 @end
 
@@ -46,6 +47,24 @@
     
     CHNavigationTitleView *titleView = [[CHNavigationTitleView alloc] initWithNavigationController:self.navigationController];
     self.navigationItem.titleView = titleView;
+
+    @weakify(self);
+    NSArray *actions = @[
+        [UIAction actionWithTitle:@"Channel Detail".localized image:[UIImage systemImageNamed:@"info"] identifier:@"detail" handler:^(UIAction *action) {
+            @strongify(self);
+            [self actionInfo:nil];
+        }],
+        [UIAction actionWithTitle:@"Clear Messages".localized image:[UIImage systemImageNamed:@"trash"] identifier:@"clear" handler:^(UIAction *action) {
+            @strongify(self);
+            [self actionClearMessage:nil];
+        }],
+    ];
+    UIBarButtonItem *detailButtonItem = [[UIBarButtonItem alloc] initWithPrimaryAction:[UIAction actionWithTitle:@"⋯" image:nil identifier:@"primary" handler:^(UIAction *action) {
+        @strongify(self);
+        [self actionInfo:nil];
+    }]];
+    detailButtonItem.menu = [UIMenu menuWithChildren:actions];
+    _detailButtonItem = detailButtonItem;
 
     if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
         CHBadgeView *badgeView = [[CHBadgeView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
@@ -119,7 +138,7 @@
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel".localized style:UIBarButtonItemStylePlain target:self action:@selector(actionCancel:)];
     } else {
         self.navigationItem.leftBarButtonItem = nil;
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"⋯" style:UIBarButtonItemStylePlain target:self action:@selector(actionInfo:)];
+        self.navigationItem.rightBarButtonItem = self.detailButtonItem;
     }
     [super setEditing:editing animated:animated];
 }
@@ -177,6 +196,12 @@
     [self.dataSource deleteMessages:mids animated:YES];
 }
 
+- (void)logicMessagesCleared:(NSString *)cid {
+    if ([self.model.cid isEqualToString:cid]) {
+        [self.dataSource reset:YES];
+    }
+}
+
 - (void)logicMessagesUnreadChanged:(NSNumber *)unread {
     [self updateUnreadBadge:unread.integerValue];
 }
@@ -184,6 +209,16 @@
 #pragma mark - Action Methods
 - (void)actionInfo:(id)sender {
     [CHRouter.shared routeTo:@"/page/channel/detail" withParams:@{ @"cid": self.model.cid }];
+}
+
+- (void)actionClearMessage:(id)sender {
+    @weakify(self);
+    [CHRouter.shared showAlertWithTitle:@"Delete all messages or not?".localized action:@"Delete".localized handler:^{
+        @strongify(self);
+        [CHRouter.shared showIndicator:YES];
+        [CHLogic.shared deleteMessagesWithCID:self.model.cid];
+        [CHRouter.shared showIndicator:NO];
+    }];
 }
 
 - (void)actionDelete:(id)sender {

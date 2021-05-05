@@ -58,13 +58,17 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
             return self.headerView;
         };
 
-        CHConversationDiffableSnapshot *snapshot = [CHConversationDiffableSnapshot new];
-        [snapshot appendSectionsWithIdentifiers:@[@"main"]];
-        [self applySnapshot:snapshot animatingDifferences:NO];
-        
-        [self loadLatestMessage:NO];
+        [self reset:NO];
     }
     return self;
+}
+
+- (void)reset:(BOOL)animated {
+    CHConversationDiffableSnapshot *snapshot = [CHConversationDiffableSnapshot new];
+    [snapshot appendSectionsWithIdentifiers:@[@"main"]];
+    [self applySnapshot:snapshot animatingDifferences:NO];
+    
+    [self loadLatestMessage:animated];
 }
 
 - (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -95,7 +99,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
 
 - (void)scrollViewDidScroll {
     if (self.headerView != nil && self.headerView.status == CHMessagesHeaderStatusNormal) {
-        self.headerView.status = CHMessagesHeaderStatusLoading;
+        self.headerView.status = ([self.collectionView numberOfItemsInSection:0] > 0 ? CHMessagesHeaderStatusLoading : CHMessagesHeaderStatusFinish);
         @weakify(self);
         dispatch_main_after(1, ^{
             @strongify(self);

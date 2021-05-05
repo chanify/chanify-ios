@@ -31,6 +31,7 @@
 "Endpoint URL"="Endpoint URL";
 "Create channel failed"="Create channel failed";
 "Channel Detail"="Channel Detail";
+"Clear Messages"="Clear Messages";
 "Message"="Message";
 "Account"="Account";
 "Token"="Token";
@@ -84,6 +85,7 @@
 "UserInfoDetail"="Download the Chanify app on your new device. Within the app, scan this QR code.";
 "Open node server failed"="Open node server failed";
 "Connect node server failed"="Connect node server failed";
+"Delete all messages or not?"="Delete all messages or not?";
 "Delete this message or not?"="Delete this message or not?";
 "Delete this channel or not?"="Delete this channel or not?";
 "Delete this node or not?"="Delete this node or not?";

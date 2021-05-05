@@ -326,6 +326,21 @@
     return res;
 }
 
+- (BOOL)deleteMessagesWithCID:(nullable NSString *)cid {
+    __block BOOL res = NO;
+    NSData *ccid = [NSData dataFromBase64:cid];
+    if (ccid == nil) ccid = [NSData dataFromHex:@kCHDefChanCode];
+    [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        if (![db executeUpdate:@"DELETE FROM `messages` WHERE `cid`=?;", ccid]) {
+            *rollback = YES;
+            return;
+        }
+        [db executeUpdate:@"UPDATE `channels` SET `mid`=NULL,`unread`=0 WHERE `cid`=?;", ccid];
+        res = YES;
+    }];
+    return res;
+}
+
 - (NSArray<CHMessageModel *> *)messageWithCID:(nullable NSString *)cid from:(NSString *)from to:(NSString *)to count:(NSUInteger)count {
     NSData *ccid = [NSData dataFromBase64:cid];
     if (ccid == nil) ccid = [NSData dataFromHex:@kCHDefChanCode];

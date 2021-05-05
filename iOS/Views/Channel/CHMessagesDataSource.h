@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CHMessagesDataSource : UICollectionViewDiffableDataSource<NSString *, CHCellConfiguration *>
 
 + (instancetype)dataSourceWithCollectionView:(UICollectionView *)collectionView channelID:(NSString *)cid;
+- (void)reset:(BOOL)animated;
 - (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath;
 - (CGSize)sizeForHeaderInSection:(NSInteger)section;
 - (void)setNeedRecalcLayoutItem:(CHCellConfiguration *)cell;

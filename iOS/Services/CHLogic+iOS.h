@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)logicMessagesUpdated:(NSArray<NSString *> *)mids;
 - (void)logicMessageDeleted:(CHMessageModel *)mid;
 - (void)logicMessagesDeleted:(NSArray<NSString *> *)mids;
+- (void)logicMessagesCleared:(NSString *)cid;
 - (void)logicMessagesUnreadChanged:(NSNumber *)unread;
 @end
 
@@ -46,6 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 // Messages
 - (BOOL)deleteMessage:(nullable NSString *)mid;
 - (BOOL)deleteMessages:(NSArray<NSString *> *)mids;
+- (BOOL)deleteMessagesWithCID:(nullable NSString *)cid;
 // Read & Unread
 - (NSInteger)unreadSumAllChannel;
 - (NSInteger)unreadWithChannel:(nullable NSString *)cid;
