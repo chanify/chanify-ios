@@ -23,6 +23,7 @@ typedef NS_ENUM(NSInteger, CHMessageType) {
     CHMessageTypeAudio      = 4,
     CHMessageTypeLink       = 5,
     CHMessageTypeFile       = 6,
+    CHMessageTypeAction     = 7,
 };
 
 typedef NS_OPTIONS(NSUInteger, CHMessageFlags) {

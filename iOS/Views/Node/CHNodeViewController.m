@@ -263,6 +263,7 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
         iconTable = @{
             @"msg.text": @"doc.plaintext",
             @"msg.link": @"link",
+            @"msg.action": @"arrow.left.arrow.right.circle",
             @"msg.image": @"photo",
             @"msg.video": @"video",
             @"msg.audio": @"waveform",

@@ -150,6 +150,13 @@
                         _text = content.text;
                     }
                     break;
+                case CHMessageTypeAction:
+                    _type = CHMessageTypeAction;
+                    if (content.title.length > 0) {
+                        _title = content.title;
+                    }
+                    _text = [content.text stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
+                    break;
             }
         }
     }

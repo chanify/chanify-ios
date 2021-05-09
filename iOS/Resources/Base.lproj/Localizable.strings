@@ -118,6 +118,7 @@
 "platform.watchos"="Support Apple Watch";
 "msg.text"="Send text message";
 "msg.link"="Send link message";
+"msg.action"="Send action message";
 "msg.image"="Send image message";
 "msg.video"="Send video message";
 "msg.audio"="Send audio message";
