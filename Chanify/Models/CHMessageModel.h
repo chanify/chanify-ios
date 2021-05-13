@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CHThumbnailModel.h"
+#import "CHActionItemModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -46,6 +47,7 @@ typedef NS_OPTIONS(NSUInteger, CHMessageFlags) {
 @property (nonatomic, readonly, nullable, strong) NSString *filename;
 @property (nonatomic, readonly, nullable, strong) CHThumbnailModel *thumbnail;
 @property (nonatomic, readonly, nullable, strong) NSString *copytext;
+@property (nonatomic, readonly, nullable, strong) NSArray<CHActionItemModel *> *actions;
 
 + (nullable instancetype)modelWithData:(nullable NSData *)data mid:(NSString *)mid;
 + (nullable instancetype)modelWithKS:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw;

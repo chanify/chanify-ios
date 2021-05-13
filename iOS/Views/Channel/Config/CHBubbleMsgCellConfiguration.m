@@ -43,6 +43,25 @@
 
 @implementation CHBubbleMsgCellContentView
 
++ (UIFont *)textFont {
+    static UIFont *font = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        font = [UIFont systemFontOfSize:16];
+    });
+    return font;
+}
+
++ (UIFont *)titleFont {
+    static UIFont *font = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        font = [UIFont boldSystemFontOfSize:16];
+    });
+    return font;
+}
+
+
 - (void)setupViews {
     [super setupViews];
 

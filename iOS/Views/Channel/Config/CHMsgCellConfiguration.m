@@ -129,24 +129,24 @@
 
 #pragma mark - Actions Methods
 - (void)actionTap:(UITapGestureRecognizer *)recognizer {
-    if (!self.source.isEditing) {
-        UIView *contentView = self.contentView;
-        if (contentView != nil && CGRectContainsPoint(contentView.frame, [recognizer locationInView:self])) {
-            [self actionClicked:recognizer];
-        }
+    if (!self.source.isEditing && [self canGestureRecognizer:recognizer]) {
+        [self actionClicked:recognizer];
     }
 }
 
 - (void)actionLongPress:(UILongPressGestureRecognizer *)recognizer {
-    if (!self.source.isEditing) {
+    if (!self.source.isEditing && [self canGestureRecognizer:recognizer]) {
+        [self becomeFirstResponder];
         UIView *contentView = self.contentView;
-        if (contentView != nil && CGRectContainsPoint(contentView.frame, [recognizer locationInView:self])) {
-            [self becomeFirstResponder];
-            UIMenuController *menu = UIMenuController.sharedMenuController;
-            menu.menuItems = self.menuActions;
-            [menu showMenuFromView:contentView rect:contentView.bounds];
-        }
+        UIMenuController *menu = UIMenuController.sharedMenuController;
+        menu.menuItems = self.menuActions;
+        [menu showMenuFromView:contentView rect:contentView.bounds];
     }
+}
+
+- (BOOL)canGestureRecognizer:(UIGestureRecognizer *)recognizer {
+    UIView *contentView = self.contentView;
+    return (contentView != nil && CGRectContainsPoint(self.contentView.frame, [recognizer locationInView:self]));
 }
 
 - (void)actionClicked:(UITapGestureRecognizer *)sender {

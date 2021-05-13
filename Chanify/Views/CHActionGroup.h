@@ -1,0 +1,26 @@
+//
+//  CHActionGroup.h
+//  iOS
+//
+//  Created by WizJin on 2021/5/13.
+//
+
+#import <UIKit/UIKit.h>
+#import "CHActionItemModel.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+@protocol CHActionGroupDelegate <NSObject>
+- (void)actionGroupSelected:(nullable CHActionItemModel *)item;
+@end
+
+@interface CHActionGroup : UIView
+
+@property (class, nonatomic, readonly, assign) CGFloat defaultHeight;
+@property (nonatomic, nullable, weak) id<CHActionGroupDelegate> delegate;
+@property (nonatomic, nullable, strong) NSArray<CHActionItemModel *> *actions;
+
+
+@end
+
+NS_ASSUME_NONNULL_END

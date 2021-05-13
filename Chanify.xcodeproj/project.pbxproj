@@ -19,6 +19,16 @@
 		6D278EA825E4CC9500FC48CD /* CHNodesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278EA725E4CC9500FC48CD /* CHNodesViewController.m */; };
 		6D278EAD25E5598A00FC48CD /* CHTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278EAC25E5598A00FC48CD /* CHTableView.m */; };
 		6D2C721C261E002A003CDCDB /* CHFileMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2C721B261E002A003CDCDB /* CHFileMsgCellConfiguration.m */; };
+		6D2EA160264D018A00246EB4 /* CHActionItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2EA15F264D018A00246EB4 /* CHActionItemModel.m */; };
+		6D2EA161264D018A00246EB4 /* CHActionItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2EA15F264D018A00246EB4 /* CHActionItemModel.m */; };
+		6D2EA162264D018A00246EB4 /* CHActionItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2EA15F264D018A00246EB4 /* CHActionItemModel.m */; };
+		6D2EA163264D018A00246EB4 /* CHActionItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2EA15F264D018A00246EB4 /* CHActionItemModel.m */; };
+		6D2EA164264D018A00246EB4 /* CHActionItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2EA15F264D018A00246EB4 /* CHActionItemModel.m */; };
+		6D2EA167264D054700246EB4 /* CHActionMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2EA166264D054700246EB4 /* CHActionMsgCellConfiguration.m */; };
+		6D2EA16B264D16C600246EB4 /* CHActionGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2EA16A264D16C600246EB4 /* CHActionGroup.m */; };
+		6D2EA16E264D2FB700246EB4 /* CHActionItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2EA15F264D018A00246EB4 /* CHActionItemModel.m */; };
+		6D2EA16F264D2FCB00246EB4 /* CHActionGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2EA16A264D16C600246EB4 /* CHActionGroup.m */; };
+		6D2EA170264D2FD900246EB4 /* CHActionGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2EA16A264D16C600246EB4 /* CHActionGroup.m */; };
 		6D2EF785263676FC003407A5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D2EF783263676FC003407A5 /* Localizable.strings */; };
 		6D3EB44B262AABD900BE797F /* CHNavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3EB44A262AABD900BE797F /* CHNavigationTitleView.m */; };
 		6D3F61DA262DB64500E122BC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D3F61D8262DB64500E122BC /* Localizable.strings */; };
@@ -445,6 +455,12 @@
 		6D278EAC25E5598A00FC48CD /* CHTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHTableView.m; sourceTree = "<group>"; };
 		6D2C721A261E002A003CDCDB /* CHFileMsgCellConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFileMsgCellConfiguration.h; sourceTree = "<group>"; };
 		6D2C721B261E002A003CDCDB /* CHFileMsgCellConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFileMsgCellConfiguration.m; sourceTree = "<group>"; };
+		6D2EA15E264D018A00246EB4 /* CHActionItemModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHActionItemModel.h; sourceTree = "<group>"; };
+		6D2EA15F264D018A00246EB4 /* CHActionItemModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHActionItemModel.m; sourceTree = "<group>"; };
+		6D2EA165264D054700246EB4 /* CHActionMsgCellConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHActionMsgCellConfiguration.h; sourceTree = "<group>"; };
+		6D2EA166264D054700246EB4 /* CHActionMsgCellConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHActionMsgCellConfiguration.m; sourceTree = "<group>"; };
+		6D2EA169264D16C600246EB4 /* CHActionGroup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHActionGroup.h; sourceTree = "<group>"; };
+		6D2EA16A264D16C600246EB4 /* CHActionGroup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHActionGroup.m; sourceTree = "<group>"; };
 		6D2EF784263676FC003407A5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6D2EF78C26367703003407A5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6D3EB449262AABD900BE797F /* CHNavigationTitleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNavigationTitleView.h; sourceTree = "<group>"; };
@@ -1251,6 +1267,8 @@
 				6DD7B5B6260DE63B001D5DCB /* CHBubbleMsgCellConfiguration.m */,
 				6DC6C38E25D16EA200512E36 /* CHTextMsgCellConfiguration.h */,
 				6DC6C38F25D16EA200512E36 /* CHTextMsgCellConfiguration.m */,
+				6D2EA165264D054700246EB4 /* CHActionMsgCellConfiguration.h */,
+				6D2EA166264D054700246EB4 /* CHActionMsgCellConfiguration.m */,
 				6DBF865A261826E3006F108C /* CHLinkMsgCellConfiguration.h */,
 				6DBF865B261826E3006F108C /* CHLinkMsgCellConfiguration.m */,
 				6D2C721A261E002A003CDCDB /* CHFileMsgCellConfiguration.h */,
@@ -1323,6 +1341,8 @@
 			children = (
 				6DDEB4D9263FA53700CAD501 /* CHImage.h */,
 				6DDEB4DA263FA53700CAD501 /* CHImage.m */,
+				6D2EA169264D16C600246EB4 /* CHActionGroup.h */,
+				6D2EA16A264D16C600246EB4 /* CHActionGroup.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1378,6 +1398,8 @@
 				6DC6C2E625D15EC100512E36 /* CHMessageModel.m */,
 				6DABBB1F2612BDFC00FCBDD3 /* CHThumbnailModel.h */,
 				6DABBB202612BDFC00FCBDD3 /* CHThumbnailModel.m */,
+				6D2EA15E264D018A00246EB4 /* CHActionItemModel.h */,
+				6D2EA15F264D018A00246EB4 /* CHActionItemModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1869,12 +1891,14 @@
 				6DE7C072263D48620092D88D /* CHMessageModel.m in Sources */,
 				6DE7C074263D48790092D88D /* CHCrpyto.m in Sources */,
 				6DE7C083263D49150092D88D /* CHLogic.m in Sources */,
+				6D2EA164264D018A00246EB4 /* CHActionItemModel.m in Sources */,
 				6DE7C070263D485A0092D88D /* CHChannelModel.m in Sources */,
 				6DE7C078263D48B20092D88D /* NSURL+CHExt.m in Sources */,
 				6DE7C06F263D483B0092D88D /* CHUserModel.m in Sources */,
 				6DE7C07F263D48DA0092D88D /* NSException+CHExt.m in Sources */,
 				6DE7C076263D487D0092D88D /* CryptoKit.swift in Sources */,
 				6DE7C08A263D49560092D88D /* CHUserDataSource.m in Sources */,
+				6D2EA16F264D2FCB00246EB4 /* CHActionGroup.m in Sources */,
 				6DE7C07E263D48D50092D88D /* NSPredicate+CHExt.m in Sources */,
 				6DE7C066263D471E0092D88D /* CHUtils.m in Sources */,
 				6DDD6B09263E314200684EE7 /* CHLogic+OSX.m in Sources */,
@@ -1915,6 +1939,7 @@
 				6DE7C08B263D49930092D88D /* CHNSDataSource.m in Sources */,
 				6DFDE28526351ECF00A4BE43 /* NSData+CHExt.m in Sources */,
 				6DFDE27E26351ECB00A4BE43 /* NSURL+CHExt.m in Sources */,
+				6D2EA163264D018A00246EB4 /* CHActionItemModel.m in Sources */,
 				6DFDE26926351EAA00A4BE43 /* CHThumbnailModel.m in Sources */,
 				6DE7C06B263D480F0092D88D /* CHLogger.m in Sources */,
 				6DFDE29326351EDB00A4BE43 /* NSString+CHNotification.m in Sources */,
@@ -1938,6 +1963,7 @@
 				6D3F6211262E654F00E122BC /* NSData+CHExt.m in Sources */,
 				6D90AFC9262D623200FBE1A6 /* ContentView.swift in Sources */,
 				6D966CCF2633FC1200833A09 /* CHUserDataSource.m in Sources */,
+				6D2EA162264D018A00246EB4 /* CHActionItemModel.m in Sources */,
 				6D3F61E8262E64AE00E122BC /* CHUserModel.m in Sources */,
 				6DE7C06A263D47FE0092D88D /* CHLogger.m in Sources */,
 				6DF2C34A263582EF00DBFC2D /* NodeDetailView.swift in Sources */,
@@ -1969,6 +1995,8 @@
 			files = (
 				6DA2A70D2622F8F100D898C7 /* NotificationViewController.m in Sources */,
 				6D180E01262441BC000BDE82 /* NSString+CHNotification.m in Sources */,
+				6D2EA16E264D2FB700246EB4 /* CHActionItemModel.m in Sources */,
+				6D2EA170264D2FD900246EB4 /* CHActionGroup.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2025,6 +2053,7 @@
 				6DD969CD25F47A6300EEEECF /* CHFormIconItem.m in Sources */,
 				6DC6C39025D16EA200512E36 /* CHTextMsgCellConfiguration.m in Sources */,
 				6D4416FE25F2655C0041EBA0 /* CHFormValueItem.m in Sources */,
+				6D2EA160264D018A00246EB4 /* CHActionItemModel.m in Sources */,
 				6DC6C1CA25D0DCD100512E36 /* CHViewController.m in Sources */,
 				6DBA92C525F60B3B00B792FE /* UIColor+CHExt.m in Sources */,
 				6DC6C26A25D1159C00512E36 /* CHRouter.m in Sources */,
@@ -2044,6 +2073,7 @@
 				6DD7B5B7260DE63B001D5DCB /* CHBubbleMsgCellConfiguration.m in Sources */,
 				6DC6C32725D1626D00512E36 /* CryptoKit.swift in Sources */,
 				6DD6954B25F20BFD0047FF08 /* CHForm.m in Sources */,
+				6D2EA16B264D16C600246EB4 /* CHActionGroup.m in Sources */,
 				6DC6C2AE25D14C2400512E36 /* CHSecKey.m in Sources */,
 				6DC6C27425D13E5500512E36 /* CHLogic.m in Sources */,
 				6DC6C26025D114E800512E36 /* NSData+CHExt.m in Sources */,
@@ -2056,6 +2086,7 @@
 				6DC6C27B25D13EFA00512E36 /* CHUserModel.m in Sources */,
 				6D67CBDB25D3BAD700ECF655 /* NSDate+CHExt.m in Sources */,
 				6DC6C36825D16C1600512E36 /* CHUserInfoViewController.m in Sources */,
+				6D2EA167264D054700246EB4 /* CHActionMsgCellConfiguration.m in Sources */,
 				6DCC882D25FB62D70028B473 /* CHToken.m in Sources */,
 				6DC6C25325D112BB00512E36 /* CHLogger.m in Sources */,
 				6DC6C35C25D16B6A00512E36 /* NSPredicate+CHExt.m in Sources */,
@@ -2096,6 +2127,7 @@
 				6DE7C08C263D49950092D88D /* CHNSDataSource.m in Sources */,
 				6DC6C31425D1611E00512E36 /* NSDictionary+CHExt.m in Sources */,
 				6DABBB242612C0FA00FCBDD3 /* CHThumbnailModel.m in Sources */,
+				6D2EA161264D018A00246EB4 /* CHActionItemModel.m in Sources */,
 				6DC6C23325D0FC7500512E36 /* CHTP.proto in Sources */,
 				6DE7C06C263D48190092D88D /* CHLogger.m in Sources */,
 				6DC6C30C25D160F100512E36 /* NSException+CHExt.m in Sources */,

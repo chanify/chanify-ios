@@ -67,7 +67,8 @@ message Thumbnail {
 
 message ActionItem {
     ActType     type        = 1;
-    string      link        = 2;
+    string      name        = 2;
+    string      link        = 3;
 }
 
 message MsgContent {

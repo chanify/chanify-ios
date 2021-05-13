@@ -12,8 +12,6 @@
 #import "CHLogic.h"
 #import "CHTheme.h"
 
-static UIFont *textFont;
-static UIFont *titleFont;
 static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
 static CGFloat titleSpace = 4;
 
@@ -33,10 +31,6 @@ static CGFloat titleSpace = 4;
 
 @end
 
-@interface CHTextMsgCellContentView ()
-
-@end
-
 @implementation CHTextMsgCellContentView
 
 - (void)setupViews {
@@ -50,7 +44,7 @@ static CGFloat titleSpace = 4;
     titleLabel.backgroundColor = UIColor.clearColor;
     titleLabel.textColor = theme.labelColor;
     titleLabel.numberOfLines = 1;
-    titleLabel.font = titleFont;
+    titleLabel.font = CHBubbleMsgCellContentView.titleFont;
 
     M80AttributedLabel *textLabel = [[M80AttributedLabel alloc] initWithFrame:CGRectZero];
     [self.bubbleView addSubview:(_textLabel = textLabel)];
@@ -62,7 +56,7 @@ static CGFloat titleSpace = 4;
     textLabel.lineBreakMode = kCTLineBreakByWordWrapping;
     textLabel.autoDetectLinks = YES;
     textLabel.numberOfLines = 0;
-    textLabel.font = textFont;
+    textLabel.font = CHBubbleMsgCellContentView.textFont;
 }
 
 - (void)applyConfiguration:(CHTextMsgCellConfiguration *)configuration {
@@ -144,11 +138,6 @@ static CGFloat titleSpace = 4;
 
 @implementation CHTextMsgCellConfiguration
 
-+ (void)initialize {
-    textFont = [UIFont systemFontOfSize:16];
-    titleFont = [UIFont boldSystemFontOfSize:16];
-}
-
 + (instancetype)cellConfiguration:(CHMessageModel *)model {
     return [[self.class alloc] initWithMID:model.mid text:model.text title:model.title textRect:CGRectZero titleRect:CGRectZero bubbleRect:CGRectZero];
 }
@@ -182,7 +171,7 @@ static CGFloat titleSpace = 4;
             _titleRect = CGRectZero;
         } else {
             NSAttributedString *title = [[NSAttributedString alloc] initWithString:self.title attributes:@{
-                NSFontAttributeName: titleFont,
+                NSFontAttributeName: CHBubbleMsgCellContentView.titleFont,
                 NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle),
             }];
             CGRect rc = [title boundingRectWithSize:CGSizeMake(size.width - textInsets.left - textInsets.right, 1) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingTruncatesLastVisibleLine context:nil];
@@ -192,7 +181,7 @@ static CGFloat titleSpace = 4;
         if (titleOffset > 0) titleOffset += titleSpace;
         _textRect.origin.x = textInsets.left;
         _textRect.origin.y = textInsets.top + titleOffset;
-        NSAttributedString *text = [[NSAttributedString alloc] initWithString:self.text attributes:@{ NSFontAttributeName: textFont }];
+        NSAttributedString *text = [[NSAttributedString alloc] initWithString:self.text attributes:@{ NSFontAttributeName: CHBubbleMsgCellContentView.textFont }];
         CGRect rc = [text boundingRectWithSize:CGSizeMake(size.width - textInsets.left - textInsets.right - titleOffset, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
         _textRect.size.width = ceil(rc.size.width);
         _textRect.size.height = ceil(rc.size.height);

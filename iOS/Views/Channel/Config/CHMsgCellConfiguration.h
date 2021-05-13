@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)applyConfiguration:(Configuration)configuration;
 - (void)setupViews;
 - (UIView *)contentView;
+- (BOOL)canGestureRecognizer:(UIGestureRecognizer *)recognizer;
 - (void)actionClicked:(UITapGestureRecognizer *)sender;
 - (NSArray<UIMenuItem *> *)menuActions;
 - (void)updateConfigurationUsingState:(UICellConfigurationState *)state;

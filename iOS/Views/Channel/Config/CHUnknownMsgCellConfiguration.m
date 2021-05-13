@@ -10,7 +10,6 @@
 
 #define kUnknownMessageText   "Unknown message type".localized
 
-static UIFont *textFont;
 static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
 
 @interface CHUnknownMsgCellConfiguration ()
@@ -34,7 +33,7 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
     [self.bubbleView addSubview:(_textLabel = textLabel)];
     textLabel.textColor = CHTheme.shared.tintColor;
     textLabel.numberOfLines = 0;
-    textLabel.font = textFont;
+    textLabel.font = CHBubbleMsgCellContentView.textFont;
 }
 
 - (void)applyConfiguration:(CHUnknownMsgCellConfiguration *)configuration {
@@ -46,10 +45,6 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
 @end
 
 @implementation CHUnknownMsgCellConfiguration
-
-+ (void)initialize {
-    textFont = [UIFont italicSystemFontOfSize:16];
-}
 
 + (instancetype)cellConfiguration:(CHMessageModel *)model {
     return [[self.class alloc] initWithMID:model.mid textRC:CGRectZero bubbleRC:CGRectZero];
@@ -79,7 +74,7 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
         _textRect.origin.x = textInsets.left;
         _textRect.origin.y = textInsets.top;
         NSAttributedString *text = [[NSAttributedString alloc] initWithString:@kUnknownMessageText attributes:@{
-            NSFontAttributeName: textFont,
+            NSFontAttributeName: CHBubbleMsgCellContentView.textFont,
         }];
         CGRect rc = [text boundingRectWithSize:CGSizeMake(size.width - textInsets.left - textInsets.right, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
         _textRect.size.width = ceil(rc.size.width);

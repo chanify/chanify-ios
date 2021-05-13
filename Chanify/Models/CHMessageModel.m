@@ -156,6 +156,18 @@
                         _title = content.title;
                     }
                     _text = [content.text stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
+                    NSMutableArray<CHActionItemModel *> *items = [NSMutableArray arrayWithCapacity:content.actionsArray_Count];
+                    for (CHTPActionItem *item in content.actionsArray) {
+                        if (item.type == CHTPActType_ActURL) {
+                            NSURL *link = [NSURL URLWithString:item.link];
+                            if (link != nil) {
+                                [items addObject:[CHActionItemModel actionItemWithName:item.name link:link]];
+                            }
+                        }
+                    }
+                    if (items.count > 0) {
+                        _actions = items;
+                    }
                     break;
             }
         }
@@ -187,6 +199,17 @@
                 [userInfo setValue:self.link.absoluteString forKey:@"link"];
                 content.userInfo = userInfo;
                 content.categoryIdentifier = @"link";
+            }
+            break;
+        case CHMessageTypeAction:
+            if (self.actions.count > 0) {
+                NSMutableArray *actions = [NSMutableArray arrayWithCapacity:self.actions.count];
+                for (CHActionItemModel *item in self.actions) {
+                    [actions addObject:item.dictionary];
+                }
+                NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:content.userInfo];
+                [userInfo setValue:actions forKey:@"actions"];
+                content.userInfo = userInfo;
             }
             break;
     }
