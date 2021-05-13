@@ -8,16 +8,19 @@
 #import "NotificationViewController.h"
 #import <UserNotifications/UserNotifications.h>
 #import <UserNotificationsUI/UserNotificationsUI.h>
+#import "CHActionGroup.h"
 #import "NSString+CHLocalized.h"
 #import "CHUtils.h"
 #import "CHConfig.h"
 
-@interface NotificationViewController () <UNNotificationContentExtension>
+@interface NotificationViewController () <UNNotificationContentExtension, CHActionGroupDelegate>
 
 @property (nonatomic, readonly, strong) UILabel *toastLabel;
 @property (nonatomic, readonly, strong) UILabel *titleLabel;
 @property (nonatomic, readonly, strong) UILabel *bodyLabel;
+@property (nonatomic, readonly, strong) CHActionGroup *actionGroup;
 @property (nonatomic, readonly, strong) NSLayoutConstraint *toastConstraint;
+@property (nonatomic, readonly, strong) NSLayoutConstraint *actionConstraint;
 
 @end
 
@@ -66,7 +69,20 @@
         [bodyLabel.topAnchor constraintEqualToAnchor:titleLabel.bottomAnchor],
         [bodyLabel.leftAnchor constraintEqualToAnchor:self.view.leftAnchor constant:16],
         [bodyLabel.rightAnchor constraintEqualToAnchor:self.view.rightAnchor constant:-16],
-        [bodyLabel.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:-12],
+    ]];
+    
+    CHActionGroup *actionGroup = [CHActionGroup new];
+    [self.view addSubview:(_actionGroup = actionGroup)];
+    actionGroup.translatesAutoresizingMaskIntoConstraints = NO;
+    actionGroup.delegate = self;
+    _actionConstraint = [actionGroup.heightAnchor constraintEqualToConstant:0];
+    self.actionConstraint.priority = UILayoutPriorityDefaultHigh;
+    [self.view addConstraints:@[
+        [actionGroup.topAnchor constraintEqualToAnchor:bodyLabel.bottomAnchor constant:12],
+        [actionGroup.leftAnchor constraintEqualToAnchor:self.view.leftAnchor],
+        [actionGroup.rightAnchor constraintEqualToAnchor:self.view.rightAnchor],
+        [actionGroup.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
+        self.actionConstraint,
     ]];
 }
 
@@ -75,16 +91,25 @@
     UNNotificationContent *content = notification.request.content;
     self.titleLabel.text = content.title ?: @"";
     self.bodyLabel.text = content.body ?: @"";
-    [self.view setNeedsLayout];
 
+    NSMutableArray<CHActionItemModel *> *actions = [NSMutableArray new];
     NSDictionary *info = content.userInfo;
     if (info.count > 0) {
         id autoCopy = [info valueForKey:@"autocopy"];
         if (autoCopy != nil && [autoCopy boolValue]) {
             [self doCopy:info];
         }
+        for (NSDictionary *item in [info valueForKey:@"actions"]) {
+            CHActionItemModel *model = [CHActionItemModel actionItemWithDictionary:item];
+            if (model != nil) {
+                [actions addObject:model];
+            }
+        }
     }
     self.title = [info valueForKey:@"title"] ?: @"CHANIFY";
+    self.actionGroup.actions = actions;
+    self.actionConstraint.constant = (actions.count > 0 ? CHActionGroup.defaultHeight : 0);
+    [self.view setNeedsLayout];
 }
 
 - (void)didReceiveNotificationResponse:(UNNotificationResponse *)response completionHandler:(void (^)(UNNotificationContentExtensionResponseOption option))completion {
@@ -101,6 +126,14 @@
         }
     }
     completion(UNNotificationContentExtensionResponseOptionDoNotDismiss);
+}
+
+#pragma mark - CHActionGroupDelegate
+- (void)actionGroupSelected:(nullable CHActionItemModel *)item {
+    NSURL *link = item.link;
+    if (link != nil) {
+        [self.extensionContext openURL:link completionHandler:nil];
+    }
 }
 
 #pragma mark - Private Methods
