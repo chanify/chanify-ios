@@ -118,7 +118,7 @@
 "platform.watchos"="支持手表设备";
 "msg.text"="发送文本消息";
 "msg.link"="发送链接消息";
-"msg.action"="发送响应消息";
+"msg.action"="发送动作消息";
 "msg.image"="发送图片消息";
 "msg.video"="发送视频消息";
 "msg.audio"="发送音频消息";

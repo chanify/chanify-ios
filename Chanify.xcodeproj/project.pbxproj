@@ -27,7 +27,6 @@
 		6D2EA167264D054700246EB4 /* CHActionMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2EA166264D054700246EB4 /* CHActionMsgCellConfiguration.m */; };
 		6D2EA16B264D16C600246EB4 /* CHActionGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2EA16A264D16C600246EB4 /* CHActionGroup.m */; };
 		6D2EA16E264D2FB700246EB4 /* CHActionItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2EA15F264D018A00246EB4 /* CHActionItemModel.m */; };
-		6D2EA16F264D2FCB00246EB4 /* CHActionGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2EA16A264D16C600246EB4 /* CHActionGroup.m */; };
 		6D2EA170264D2FD900246EB4 /* CHActionGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2EA16A264D16C600246EB4 /* CHActionGroup.m */; };
 		6D2EF785263676FC003407A5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D2EF783263676FC003407A5 /* Localizable.strings */; };
 		6D3EB44B262AABD900BE797F /* CHNavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3EB44A262AABD900BE797F /* CHNavigationTitleView.m */; };
@@ -1898,7 +1897,6 @@
 				6DE7C07F263D48DA0092D88D /* NSException+CHExt.m in Sources */,
 				6DE7C076263D487D0092D88D /* CryptoKit.swift in Sources */,
 				6DE7C08A263D49560092D88D /* CHUserDataSource.m in Sources */,
-				6D2EA16F264D2FCB00246EB4 /* CHActionGroup.m in Sources */,
 				6DE7C07E263D48D50092D88D /* NSPredicate+CHExt.m in Sources */,
 				6DE7C066263D471E0092D88D /* CHUtils.m in Sources */,
 				6DDD6B09263E314200684EE7 /* CHLogic+OSX.m in Sources */,
@@ -2304,7 +2302,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = WatchNotificationService/WatchNotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = WatchNotificationService/Info.plist;
@@ -2314,7 +2312,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.4;
+				MARKETING_VERSION = 1.1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp.watchkitextension.watchnotificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2330,7 +2328,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = WatchNotificationService/WatchNotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = WatchNotificationService/Info.plist;
@@ -2340,7 +2338,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.4;
+				MARKETING_VERSION = 1.1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp.watchkitextension.watchnotificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2358,7 +2356,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Watch Extension/Watch Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				ENABLE_PREVIEWS = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
@@ -2368,7 +2366,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.4;
+				MARKETING_VERSION = 1.1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -2389,7 +2387,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Watch Extension/Watch Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				ENABLE_PREVIEWS = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
@@ -2399,7 +2397,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.4;
+				MARKETING_VERSION = 1.1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -2418,11 +2416,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				IBSC_MODULE = Watch_Extension;
 				INFOPLIST_FILE = Watch/Info.plist;
-				MARKETING_VERSION = 1.1.4;
+				MARKETING_VERSION = 1.1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2441,11 +2439,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				IBSC_MODULE = Watch_Extension;
 				INFOPLIST_FILE = Watch/Info.plist;
-				MARKETING_VERSION = 1.1.4;
+				MARKETING_VERSION = 1.1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2461,7 +2459,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationContent/NotificationContent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				INFOPLIST_FILE = NotificationContent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2469,7 +2467,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.4;
+				MARKETING_VERSION = 1.1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationcontent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2482,7 +2480,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationContent/NotificationContent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				INFOPLIST_FILE = NotificationContent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2490,7 +2488,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.4;
+				MARKETING_VERSION = 1.1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationcontent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2627,7 +2625,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Chanify.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2641,7 +2639,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.4;
+				MARKETING_VERSION = 1.1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -2660,7 +2658,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Chanify.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2674,7 +2672,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.4;
+				MARKETING_VERSION = 1.1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -2689,7 +2687,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = NotificationService/Info.plist;
@@ -2698,7 +2696,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.4;
+				MARKETING_VERSION = 1.1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2715,7 +2713,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = NotificationService/Info.plist;
@@ -2724,7 +2722,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.4;
+				MARKETING_VERSION = 1.1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
