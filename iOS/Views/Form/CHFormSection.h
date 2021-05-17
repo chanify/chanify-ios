@@ -7,6 +7,7 @@
 
 #import "CHFormCodeItem.h"
 #import "CHFormIconItem.h"
+#import "CHFormDateItem.h"
 #import "CHFormButtonItem.h"
 #import "CHFormSwitchItem.h"
 #import "CHFormInputItem.h"
@@ -27,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)updateStatus;
 - (NSArray<CHFormItem *> *)items;
 - (NSArray<CHFormItem *> *)allItems;
+- (nullable __kindof CHFormItem *)itemWithName:(NSString *)name;
 - (void)addFormItem:(CHFormItem *)item;
 - (BOOL)isHidden;
 

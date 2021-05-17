@@ -53,8 +53,18 @@
     }
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"checkmark.shield"] style:UIBarButtonItemStylePlain target:self action:@selector(actionCreateToken:)];
+}
+
 - (BOOL)isEqualToViewController:(CHChannelDetailViewController *)rhs {
     return [self.model isEqual:rhs.model];
+}
+
+#pragma mark - Action Methods
+- (void)actionCreateToken:(id)sender {
+    [CHRouter.shared routeTo:@"/page/token" withParams:@{ @"cid": self.model.cid, @"show": @"detail" }];
 }
 
 #pragma mark - Private Methods

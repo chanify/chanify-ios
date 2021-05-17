@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)tokenWithTimeInterval:(NSTimeInterval)timeInterval;
 + (instancetype)tokenWithTimeOffset:(NSTimeInterval)timeOffset;
++ (instancetype)tokenWithDate:(NSDate *)date;
 + (instancetype)defaultToken;
 - (void)setChannel:(NSData *)channel;
 - (void)setNode:(CHNodeModel *)node;

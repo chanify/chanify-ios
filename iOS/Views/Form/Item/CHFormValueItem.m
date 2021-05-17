@@ -21,13 +21,13 @@
 
 - (instancetype)initWithName:(NSString *)name title:(NSString *)title value:(nullable id)value {
     if (self = [super initWithName:name]) {
-        _value = nil;
+        _value = value;
         _copiedName = nil;
         UIListContentConfiguration *configuration = UIListContentConfiguration.valueCellConfiguration;
         configuration.secondaryTextProperties.color = CHTheme.shared.minorLabelColor;
+        configuration.secondaryText = self.textValue;
         configuration.text = title;
         _configuration = configuration;
-        self.value = value;
     }
     return self;
 }

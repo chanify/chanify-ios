@@ -16,6 +16,7 @@
 "Copy"="Copy";
 "Copied"="Copied";
 "Select"="Select";
+"Channel"="Channel";
 "Channels"="Channels";
 "Open Link"="Open Link";
 "Scan QR Code"="Scan QR Code";
@@ -35,6 +36,7 @@
 "Message"="Message";
 "Account"="Account";
 "Token"="Token";
+"Expire"="Expire";
 "Delete channel"="Delete channel";
 "Nodes"="Nodes";
 "Node Detail"="Node Detail";
@@ -43,6 +45,7 @@
 "Add node"="Add node";
 "Update node"="Update node";
 "Delete node"="Delete node";
+"Generate Token"="Generate Token";
 "Settings"="Settings";
 "ACCOUNT"="ACCOUNT";
 "User"="User";
@@ -67,6 +70,7 @@
 "Contact Us"="Contact Us";
 "Logout"="Logout";
 "Feedback"="Feedback";
+"None"="None";
 "NoMore"="No more";
 "Can't open url"="Can't open url";
 "No QR code"="No QR code";

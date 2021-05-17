@@ -36,6 +36,10 @@
     return [[self.class alloc] initWithUTC:NSDate.now.timeIntervalSince1970 +  timeOffset];
 }
 
++ (instancetype)tokenWithDate:(NSDate *)date {
+    return [[self.class alloc] initWithUTC:date.timeIntervalSince1970];
+}
+
 + (instancetype)defaultToken {
     CHToken *token = [CHToken tokenWithTimeInterval:90*24*60*60];
     token.channel = [NSData dataFromHex:@"0801"];

@@ -10,6 +10,7 @@
 @interface CHFormSection ()
 
 @property (nonatomic, readonly, strong) NSMutableArray<CHFormItem *> *itemList;
+@property (nonatomic, readonly, strong) NSMutableDictionary<NSString *, CHFormItem *> *itemTable;
 @property (nonatomic, readonly, assign) BOOL isHidden;
 
 @end
@@ -30,6 +31,7 @@
         _hidden = nil;
         _isHidden = NO;
         _itemList = [NSMutableArray new];
+        _itemTable = [NSMutableDictionary new];
     }
     return self;
 }
@@ -55,8 +57,13 @@
     return self.itemList;
 }
 
+- (nullable __kindof CHFormItem *)itemWithName:(NSString *)name {
+    return [self.itemTable objectForKey:name];
+}
+
 - (void)addFormItem:(CHFormItem *)item {
     [self.itemList addObject:item];
+    [self.itemTable setValue:item forKey:item.name];
     item.section = self;
 }
 

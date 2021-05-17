@@ -16,6 +16,7 @@
 "Copy"="复制";
 "Copied"="已复制";
 "Select"="多选";
+"Channel"="频道";
 "Channels"="频道";
 "Open Link"="打开链接";
 "Scan QR Code"="扫二维码";
@@ -35,6 +36,7 @@
 "Message"="消息";
 "Account"="账号";
 "Token"="令牌";
+"Expire"="到期";
 "Delete channel"="删除频道";
 "Nodes"="节点";
 "Node Detail"="节点详情";
@@ -43,6 +45,7 @@
 "Add node"="添加节点";
 "Update node"="更新节点";
 "Delete node"="删除节点";
+"Generate Token"="生成令牌";
 "Settings"="设置";
 "ACCOUNT"="账号";
 "User"="用户";
@@ -67,6 +70,7 @@
 "Contact Us"="联系我们";
 "Logout"="退出登录";
 "Feedback"="意见反馈";
+"None"="无";
 "NoMore"="没有更多了";
 "Can't open url"="无法打开url";
 "No QR code"="没有发现二维码";
