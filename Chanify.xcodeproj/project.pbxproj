@@ -164,6 +164,10 @@
 		6DCC882D25FB62D70028B473 /* CHToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC882C25FB62D70028B473 /* CHToken.m */; };
 		6DD325EE2652429800A5CEC4 /* CHTokenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD325ED2652429800A5CEC4 /* CHTokenViewController.m */; };
 		6DD325F1265259AF00A5CEC4 /* CHFormDateItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD325F0265259AF00A5CEC4 /* CHFormDateItem.m */; };
+		6DD325F4265394DB00A5CEC4 /* CHImagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD325F3265394DB00A5CEC4 /* CHImagesViewController.m */; };
+		6DD325F7265394EC00A5CEC4 /* CHFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD325F6265394EC00A5CEC4 /* CHFilesViewController.m */; };
+		6DD325FD2653AE5900A5CEC4 /* CHFileCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD325FC2653AE5900A5CEC4 /* CHFileCacheManager.m */; };
+		6DD325FE2653AE6400A5CEC4 /* CHFileCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD325FC2653AE5900A5CEC4 /* CHFileCacheManager.m */; };
 		6DD5A0F9260EF99E00799032 /* CHWebObjectManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD5A0F8260EF99E00799032 /* CHWebObjectManager.m */; };
 		6DD5A103260EFB9900799032 /* CHWebImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD5A102260EFB9900799032 /* CHWebImageView.m */; };
 		6DD6954625F1FF6C0047FF08 /* CHFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD6954525F1FF6C0047FF08 /* CHFormViewController.m */; };
@@ -668,6 +672,12 @@
 		6DD325ED2652429800A5CEC4 /* CHTokenViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHTokenViewController.m; sourceTree = "<group>"; };
 		6DD325EF265259AF00A5CEC4 /* CHFormDateItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormDateItem.h; sourceTree = "<group>"; };
 		6DD325F0265259AF00A5CEC4 /* CHFormDateItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormDateItem.m; sourceTree = "<group>"; };
+		6DD325F2265394DB00A5CEC4 /* CHImagesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHImagesViewController.h; sourceTree = "<group>"; };
+		6DD325F3265394DB00A5CEC4 /* CHImagesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHImagesViewController.m; sourceTree = "<group>"; };
+		6DD325F5265394EC00A5CEC4 /* CHFilesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFilesViewController.h; sourceTree = "<group>"; };
+		6DD325F6265394EC00A5CEC4 /* CHFilesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFilesViewController.m; sourceTree = "<group>"; };
+		6DD325FB2653AE5900A5CEC4 /* CHFileCacheManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFileCacheManager.h; sourceTree = "<group>"; };
+		6DD325FC2653AE5900A5CEC4 /* CHFileCacheManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFileCacheManager.m; sourceTree = "<group>"; };
 		6DD5A0F7260EF99E00799032 /* CHWebObjectManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebObjectManager.h; sourceTree = "<group>"; };
 		6DD5A0F8260EF99E00799032 /* CHWebObjectManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHWebObjectManager.m; sourceTree = "<group>"; };
 		6DD5A101260EFB9900799032 /* CHWebImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebImageView.h; sourceTree = "<group>"; };
@@ -1243,6 +1253,10 @@
 				6DC6C36725D16C1600512E36 /* CHUserInfoViewController.m */,
 				6DD7B5A7260DC360001D5DCB /* CHSoundsViewController.h */,
 				6DD7B5A8260DC360001D5DCB /* CHSoundsViewController.m */,
+				6DD325F2265394DB00A5CEC4 /* CHImagesViewController.h */,
+				6DD325F3265394DB00A5CEC4 /* CHImagesViewController.m */,
+				6DD325F5265394EC00A5CEC4 /* CHFilesViewController.h */,
+				6DD325F6265394EC00A5CEC4 /* CHFilesViewController.m */,
 				6D278E5C25E1EF7A00FC48CD /* CHPrivacyViewController.h */,
 				6D278E5D25E1EF7A00FC48CD /* CHPrivacyViewController.m */,
 				6DC6C36125D16BCE00512E36 /* CHAcknowledgementsViewController.h */,
@@ -1466,6 +1480,8 @@
 				6DC6C2EB25D15F9700512E36 /* CHNSDataSource.m */,
 				6DC6C2DB25D15DB100512E36 /* CHUserDataSource.h */,
 				6DC6C2DC25D15DB100512E36 /* CHUserDataSource.m */,
+				6DD325FB2653AE5900A5CEC4 /* CHFileCacheManager.h */,
+				6DD325FC2653AE5900A5CEC4 /* CHFileCacheManager.m */,
 				6DCAD21F2621D52F00F43F20 /* CHWebFileManager.h */,
 				6DCAD2202621D52F00F43F20 /* CHWebFileManager.m */,
 				6DBF866126183E53006F108C /* CHLinkMetaManager.h */,
@@ -1937,6 +1953,7 @@
 				6D6F3CF7263D28EA00A2578B /* AppDelegate.m in Sources */,
 				6DE7C079263D48B50092D88D /* NSDate+CHExt.m in Sources */,
 				6DE7C07A263D48B70092D88D /* NSData+CHExt.m in Sources */,
+				6DD325FE2653AE6400A5CEC4 /* CHFileCacheManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2040,6 +2057,7 @@
 				6DD5A0F9260EF99E00799032 /* CHWebObjectManager.m in Sources */,
 				6D2C721C261E002A003CDCDB /* CHFileMsgCellConfiguration.m in Sources */,
 				6DBF866326183E53006F108C /* CHLinkMetaManager.m in Sources */,
+				6DD325F7265394EC00A5CEC4 /* CHFilesViewController.m in Sources */,
 				6DEC569E25F4F6F600AD6DC9 /* CHIconConfiguration.m in Sources */,
 				6D278EA825E4CC9500FC48CD /* CHNodesViewController.m in Sources */,
 				6DC6C2D625D15CCD00512E36 /* CHManager.m in Sources */,
@@ -2062,6 +2080,7 @@
 				6DCAD2212621D52F00F43F20 /* CHWebFileManager.m in Sources */,
 				6DC6C37625D16CA000512E36 /* UIView+CHExt.m in Sources */,
 				6DD5A103260EFB9900799032 /* CHWebImageView.m in Sources */,
+				6DD325FD2653AE5900A5CEC4 /* CHFileCacheManager.m in Sources */,
 				6DD969D425F4A1E700EEEECF /* CHIconView.m in Sources */,
 				6DC6C37F25D16E1800512E36 /* CHCellConfiguration.m in Sources */,
 				6DC6C36325D16BCE00512E36 /* CHAcknowledgementsViewController.m in Sources */,
@@ -2119,6 +2138,7 @@
 				6DC6C26F25D13D2900512E36 /* CHNotification.m in Sources */,
 				6DBA92DF25F8A83700B792FE /* CHSplitViewController.m in Sources */,
 				6DC6C2A125D1441100512E36 /* CHWebViewRefresher.m in Sources */,
+				6DD325F4265394DB00A5CEC4 /* CHImagesViewController.m in Sources */,
 				6DDE056A26281F5C004336DD /* CHMessageCellView.m in Sources */,
 				6DC6C2E225D15E6B00512E36 /* CHChannelModel.m in Sources */,
 				6DC6C31125D1611200512E36 /* NSDictionary+CHExt.m in Sources */,

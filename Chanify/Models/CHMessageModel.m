@@ -150,24 +150,29 @@
                         _text = content.text;
                     }
                     break;
-                case CHMessageTypeAction:
+                case CHTPMsgType_Action:
                     _type = CHMessageTypeAction;
                     if (content.title.length > 0) {
                         _title = content.title;
                     }
                     _text = [content.text stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
-                    NSMutableArray<CHActionItemModel *> *items = [NSMutableArray arrayWithCapacity:content.actionsArray_Count];
-                    for (CHTPActionItem *item in content.actionsArray) {
-                        if (item.type == CHTPActType_ActURL) {
-                            NSURL *link = [NSURL URLWithString:item.link];
-                            if (link != nil) {
-                                [items addObject:[CHActionItemModel actionItemWithName:item.name link:link]];
+                    if (content.actionsArray_Count > 0) {
+                        NSMutableArray<CHActionItemModel *> *items = [NSMutableArray arrayWithCapacity:content.actionsArray_Count];
+                        for (CHTPActionItem *item in content.actionsArray) {
+                            if (item.type == CHTPActType_ActURL) {
+                                NSURL *link = [NSURL URLWithString:item.link];
+                                if (link != nil) {
+                                    [items addObject:[CHActionItemModel actionItemWithName:item.name link:link]];
+                                }
                             }
                         }
+                        if (items.count > 0) {
+                            _actions = items;
+                        }
                     }
-                    if (items.count > 0) {
-                        _actions = items;
-                    }
+                    break;
+                case CHTPMsgType_Timeline:
+                    _type = CHMessageTypeTimeline;
                     break;
             }
         }

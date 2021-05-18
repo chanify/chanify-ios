@@ -5,7 +5,7 @@
 //  Created by WizJin on 2021/4/10.
 //
 
-#import <Foundation/Foundation.h>
+#import "CHFileCacheManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,14 +16,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface CHWebFileManager : NSObject
-
-@property (nonatomic, nullable, strong) NSString *uid;
+@interface CHWebFileManager : CHFileCacheManager
 
 + (instancetype)webFileManagerWithURL:(NSURL *)fileBaseDir;
 - (void)close;
 - (void)loadFileURL:(nullable NSString *)fileURL filename:(nullable NSString *)filename toItem:(id<CHWebFileItem>)item expectedSize:(uint64_t)expectedSize ;
 - (void)resetFileURLFailed:(nullable NSString *)fileURL;
+
 
 @end
 

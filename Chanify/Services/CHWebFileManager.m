@@ -77,7 +77,6 @@
 
 @interface CHWebFileManager () <NSURLSessionTaskDelegate, NSURLSessionDownloadDelegate>
 
-@property (nonatomic, readonly, strong) NSURL *fileBaseDir;
 @property (nonatomic, readonly, strong) NSURLSession *session;
 @property (nonatomic, readonly, strong) NSMutableDictionary<NSString *, CHWebFileTask *> *tasks;
 @property (nonatomic, readonly, strong) NSMutableSet<NSString *> *failedTasks;
@@ -93,16 +92,13 @@
 }
 
 - (instancetype)initWithURL:(NSURL *)fileBaseDir {
-    if (self = [super init]) {
-        _uid = nil;
-        _fileBaseDir = fileBaseDir;
+    if (self = [super initWithFileBase:fileBaseDir]) {
         _tasks = [NSMutableDictionary new];
         _failedTasks = [NSMutableSet new];
         _dataCache = [NSCache new];
         _workerQueue = dispatch_queue_create_for(self, DISPATCH_QUEUE_SERIAL);
         _session = [NSURLSession sessionWithConfiguration:NSURLSessionConfiguration.ephemeralSessionConfiguration delegate:self delegateQueue:nil];
-        [NSFileManager.defaultManager fixDirectory:self.fileBaseDir];
-        self.dataCache.countLimit = 10;
+        self.dataCache.countLimit = kCHWebFileCacheMaxN;
     }
     return self;
 }

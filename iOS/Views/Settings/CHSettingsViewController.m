@@ -6,6 +6,7 @@
 //
 
 #import "CHSettingsViewController.h"
+#import "CHWebFileManager.h"
 #import "CHNotification.h"
 #import "CHLogic+iOS.h"
 #import "CHDevice.h"
@@ -36,6 +37,7 @@
     if (self.form == nil) {
         [self initializeForm];
     }
+    [self updateData];
 }
 
 #pragma mark - CHLogicDelegate
@@ -85,12 +87,31 @@
         [CHRouter.shared routeTo:@"/action/openurl" withParams:@{ @"url": UIApplicationOpenSettingsURLString, @"show": @"detail" }];
     };
     [section addFormItem:item];
-
+    
 //    item = [CHFormValueItem itemWithName:@"sound" title:@"Sound".localized value:@""];
 //    item.action = ^(CHFormItem *itm) {
 //        [CHRouter.shared routeTo:@"/page/sounds" withParams:@{ @"show": @"detail" }];
 //    };
 //    [section addFormItem:item];
+    
+    // Data
+    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"DATA".localized])];
+    item = [CHFormValueItem itemWithName:@"images" title:@"Images".localized];
+    item.action = ^(CHFormItem *itm) {
+        [CHRouter.shared routeTo:@"/page/images" withParams:@{ @"show": @"detail" }];
+    };
+    [(CHFormValueItem *)item setFormatter:^(CHFormValueItem *item, NSNumber *value) {
+        return [value formatFileSize];
+    }];
+    [section addFormItem:item];
+    item = [CHFormValueItem itemWithName:@"files" title:@"Files".localized];
+    item.action = ^(CHFormItem *itm) {
+        [CHRouter.shared routeTo:@"/page/files" withParams:@{ @"show": @"detail" }];
+    };
+    [(CHFormValueItem *)item setFormatter:^(CHFormValueItem *item, NSNumber *value) {
+        return [value formatFileSize];
+    }];
+    [section addFormItem:item];
 
     // WATCH
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"WATCH".localized])];
@@ -171,6 +192,29 @@
         item.value = (CHNotification.shared.enabled ? @"Enable".localized : @"Disable".localized);
         [self reloadItem:item];
     }
+}
+
+- (void)updateData {
+    CHLogic *logic = CHLogic.shared;
+    CHFormValueItem *item = nil;
+    NSMutableArray *items = [NSMutableArray new];
+    item = (CHFormValueItem *)[self.form formItemWithName:@"images"];
+    if (item != nil) {
+        NSUInteger size = logic.webImageManager.allocatedFileSize;
+        if ([item.value unsignedIntegerValue] != size) {
+            item.value = @(size);
+            [items addObject:item];
+        }
+    }
+    item = (CHFormValueItem *)[self.form formItemWithName:@"files"];
+    if (item != nil) {
+        NSUInteger size = logic.webFileManager.allocatedFileSize;
+        if ([item.value unsignedIntegerValue] != size) {
+            item.value = @(size);
+            [items addObject:item];
+        }
+    }
+    [self reloadItems:items];
 }
 
 

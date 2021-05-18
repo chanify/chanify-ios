@@ -77,6 +77,9 @@
 }
 
 - (__kindof NSString *)textValue {
+    if (self.formatter != nil) {
+        return self.formatter(self, self.value);
+    }
     if (self.value != nil) {
         if ([self.value isKindOfClass:NSString.class]) {
             return self.value;

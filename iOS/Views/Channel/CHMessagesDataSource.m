@@ -14,9 +14,6 @@
 #import "CHLogic+iOS.h"
 #import "CHRouter.h"
 
-#define kCHMessageListPageSize  16
-#define kCHMessageListDateDiff  300
-
 @interface CHMessagesDataSource ()
 
 @property (nonatomic, readonly, strong) NSString *cid;
@@ -264,7 +261,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     return mids;
 }
 
-- (void)beginEditingWiuthItem:(CHCellConfiguration *)cell {
+- (void)beginEditingWithItem:(CHCellConfiguration *)cell {
     id delegate = self.collectionView.delegate;
     if ([delegate conformsToProtocol:@protocol(CHMessagesDataSourceDelegate)]) {
         NSIndexPath *indexPath = [self indexPathForItemIdentifier:cell];

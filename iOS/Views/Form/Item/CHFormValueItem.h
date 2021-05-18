@@ -9,11 +9,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class CHFormValueItem;
+
+typedef NSString * _Nullable (^CHFormValueFormatter)(__kindof CHFormValueItem *item, id value);
+
 @interface CHFormValueItem : CHFormItem
 
 @property (nonatomic, readonly, strong) UIListContentConfiguration *configuration;
 @property (nonatomic, nullable, strong) id value;
 @property (nonatomic, nullable, strong) NSString* copiedName;
+@property (nonatomic, nullable, copy) CHFormValueFormatter formatter;
 
 + (instancetype)itemWithName:(NSString *)name title:(NSString *)title value:(nullable id)value;
 + (instancetype)itemWithName:(NSString *)name title:(NSString *)title;

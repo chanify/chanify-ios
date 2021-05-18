@@ -43,7 +43,6 @@
 
 @interface CHLinkMetaManager ()
 
-@property (nonatomic, readonly, strong) NSURL *fileBaseDir;
 @property (nonatomic, readonly, strong) NSMutableDictionary<NSURL *, CHLinkMetaTask *> *tasks;
 @property (nonatomic, readonly, strong) NSCache<NSURL *, id> *dataCache;
 
@@ -56,12 +55,10 @@
 }
 
 - (instancetype)initWithURL:(NSURL *)fileBaseDir {
-    if (self = [super init]) {
-        _fileBaseDir = fileBaseDir;
+    if (self = [super initWithFileBase:fileBaseDir]) {
         _tasks = [NSMutableDictionary new];
         _dataCache = [NSCache new];
-        [NSFileManager.defaultManager fixDirectory:self.fileBaseDir];
-        self.dataCache.countLimit = 10;
+        self.dataCache.countLimit = kCHWebFileCacheMaxN;
     }
     return self;
 }

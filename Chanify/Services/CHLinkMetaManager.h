@@ -5,7 +5,7 @@
 //  Created by WizJin on 2021/4/3.
 //
 
-#import <Foundation/Foundation.h>
+#import "CHFileCacheManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,9 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface CHLinkMetaManager : NSObject
-
-@property (nonatomic, nullable, strong) NSString *uid;
+@interface CHLinkMetaManager : CHFileCacheManager
 
 + (instancetype)linkManagerWithURL:(NSURL *)fileBaseDir;
 - (void)loadMetaFromURL:(nullable NSURL *)url toItem:(id<CHLinkMetaItem>)item;

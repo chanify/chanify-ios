@@ -25,6 +25,7 @@ typedef NS_ENUM(NSInteger, CHMessageType) {
     CHMessageTypeLink       = 5,
     CHMessageTypeFile       = 6,
     CHMessageTypeAction     = 7,
+    CHMessageTypeTimeline   = 8,
 };
 
 typedef NS_OPTIONS(NSUInteger, CHMessageFlags) {

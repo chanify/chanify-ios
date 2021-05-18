@@ -57,6 +57,9 @@
 "Dark"="深色";
 "Notification"="通知";
 "Sound"="铃声";
+"DATA"="数据";
+"Images"="图片";
+"Files"="文件";
 "WATCH"="手表";
 "No watch app installed"="没有安装到Apple Watch";
 "Force data sync to watch"="强制数据同步到手表";

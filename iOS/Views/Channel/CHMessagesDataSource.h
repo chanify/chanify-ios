@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)previewImageWithMID:(NSString *)mid;
 - (void)selectItemWithIndexPath:(NSIndexPath *)indexPath;
 - (NSArray<NSString *> *)selectedItemMIDs;
-- (void)beginEditingWiuthItem:(CHCellConfiguration *)cell;
+- (void)beginEditingWithItem:(CHCellConfiguration *)cell;
 - (BOOL)isEditing;
 
 

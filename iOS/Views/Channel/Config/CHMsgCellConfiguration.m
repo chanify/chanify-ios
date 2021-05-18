@@ -162,7 +162,7 @@
 - (void)actionSelect:(id)sender {
     NSString *mid = self.configuration.mid;
     if (mid.length > 0) {
-        [self.source beginEditingWiuthItem:self.configuration];
+        [self.source beginEditingWithItem:self.configuration];
     }
 }
 

@@ -24,6 +24,9 @@
 #define kCHUserSecKeyName               "net.chanify.user.key"
 #define kCHDBDataName                   "data.db"
 #define kCHDBNotificationServiceName    "notification-service.db"
+#define kCHMessageListPageSize          16
+#define kCHMessageListDateDiff          300
+#define kCHWebFileCacheMaxN             (kCHMessageListPageSize * 2)
 #define kCHWebBasePath                  "files"
 #define kCHWebFileDownloadTimeout       30
 #define kCHNodeServerRequestTimeout     10
