@@ -13,6 +13,8 @@
     if (self = [super init]) {
         _uid = nil;
         _fileBaseDir = fileBaseDir;
+        _dataCache = [NSCache new];
+        self.dataCache.countLimit = kCHWebFileCacheMaxN;
         [NSFileManager.defaultManager fixDirectory:self.fileBaseDir];
     }
     return self;
@@ -29,6 +31,10 @@
         }
     }
     return size;
+}
+
+- (void)notifyAllocatedFileSizeChanged {
+    [self sendNotifyWithSelector:@selector(fileCacheAllocatedFileSizeChanged:) withObject:self];
 }
 
 

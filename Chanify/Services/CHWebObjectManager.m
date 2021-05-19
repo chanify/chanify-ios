@@ -81,7 +81,6 @@
 @property (nonatomic, readonly, strong) NSURLSession *session;
 @property (nonatomic, readonly, strong) NSMutableDictionary<NSString *, CHWebObjectTask *> *tasks;
 @property (nonatomic, readonly, strong) NSMutableSet<NSString *> *failedTasks;
-@property (nonatomic, readonly, strong) NSCache<NSString *, id> *dataCache;
 @property (nonatomic, readonly, strong) dispatch_queue_t workerQueue;
 
 @end
@@ -97,10 +96,8 @@
         _decoder = decoder;
         _tasks = [NSMutableDictionary new];
         _failedTasks = [NSMutableSet new];
-        _dataCache = [NSCache new];
         _workerQueue = dispatch_queue_create_for(self, DISPATCH_QUEUE_SERIAL);
         _session = [NSURLSession sessionWithConfiguration:NSURLSessionConfiguration.ephemeralSessionConfiguration delegate:self delegateQueue:nil];
-        self.dataCache.countLimit = kCHWebFileCacheMaxN;
     }
     return self;
 }
@@ -219,6 +216,7 @@
                     if (task.result != nil) {
                         [self.dataCache setObject:task.result forKey:task.localFile.absoluteString];
                     }
+                    [self notifyAllocatedFileSizeChanged];
                 }
                 [self.tasks removeObjectForKey:task.fileURL];
             }

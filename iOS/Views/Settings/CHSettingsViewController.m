@@ -13,7 +13,7 @@
 #import "CHRouter.h"
 #import "CHTheme.h"
 
-@interface CHSettingsViewController () <CHLogicDelegate, CHNotificationDelegate>
+@interface CHSettingsViewController () <CHLogicDelegate, CHNotificationDelegate, CHFileCacheManagerDelegate>
 
 @end
 
@@ -21,14 +21,21 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        [CHLogic.shared addDelegate:self];
+        CHLogic *logic = CHLogic.shared;
+        [logic addDelegate:self];
+        [logic.webFileManager addDelegate:self];
+        [logic.webImageManager addDelegate:self];
         [CHNotification.shared addDelegate:self];
+        
     }
     return self;
 }
 
 - (void)dealloc {
-    [CHLogic.shared removeDelegate:self];
+    CHLogic *logic = CHLogic.shared;
+    [logic removeDelegate:self];
+    [logic.webFileManager removeDelegate:self];
+    [logic.webImageManager removeDelegate:self];
     [CHNotification.shared removeDelegate:self];
 }
 
@@ -37,7 +44,6 @@
     if (self.form == nil) {
         [self initializeForm];
     }
-    [self updateData];
 }
 
 #pragma mark - CHLogicDelegate
@@ -50,8 +56,29 @@
     [self updateNotificationItem];
 }
 
+#pragma mark - CHFileCacheManagerDelegate
+- (void)fileCacheAllocatedFileSizeChanged:(CHFileCacheManager *)manager {
+    CHLogic *logic = CHLogic.shared;
+    if (manager == logic.webImageManager) {
+        CHFormValueItem *item = (CHFormValueItem *)[self.form formItemWithName:@"images"];
+        NSUInteger size = logic.webImageManager.allocatedFileSize;
+        if ([item.value unsignedIntegerValue] != size) {
+            item.value = @(size);
+            [self reloadItem:item];
+        }
+    } else if (manager == logic.webFileManager) {
+        CHFormValueItem *item = (CHFormValueItem *)[self.form formItemWithName:@"files"];
+        NSUInteger size = logic.webFileManager.allocatedFileSize;
+        if ([item.value unsignedIntegerValue] != size) {
+            item.value = @(size);
+            [self reloadItem:item];
+        }
+    }
+}
+
 #pragma mark - Private Methods
 - (void)initializeForm {
+    CHLogic *logic = CHLogic.shared;
     CHTheme *theme = CHTheme.shared;
     
     CHFormItem *item;
@@ -59,7 +86,7 @@
     CHForm *form = [CHForm formWithTitle:self.title];
     // ACCOUNT
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"ACCOUNT".localized])];
-    item = [CHFormCodeItem itemWithName:@"user" title:@"User".localized value:CHLogic.shared.me.uid];
+    item = [CHFormCodeItem itemWithName:@"user" title:@"User".localized value:logic.me.uid];
     item.action = ^(CHFormItem *itm) {
         [CHRouter.shared routeTo:@"/page/user-info" withParams:@{ @"show": @"detail" }];
     };
@@ -96,7 +123,7 @@
     
     // Data
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"DATA".localized])];
-    item = [CHFormValueItem itemWithName:@"images" title:@"Images".localized];
+    item = [CHFormValueItem itemWithName:@"images" title:@"Images".localized value:@(logic.webImageManager.allocatedFileSize)];
     item.action = ^(CHFormItem *itm) {
         [CHRouter.shared routeTo:@"/page/images" withParams:@{ @"show": @"detail" }];
     };
@@ -104,7 +131,7 @@
         return [value formatFileSize];
     }];
     [section addFormItem:item];
-    item = [CHFormValueItem itemWithName:@"files" title:@"Files".localized];
+    item = [CHFormValueItem itemWithName:@"files" title:@"Files".localized value:@(logic.webFileManager.allocatedFileSize)];
     item.action = ^(CHFormItem *itm) {
         [CHRouter.shared routeTo:@"/page/files" withParams:@{ @"show": @"detail" }];
     };
@@ -115,10 +142,10 @@
 
     // WATCH
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"WATCH".localized])];
-    section.hidden = [NSPredicate predicateWithObject:CHLogic.shared attribute:@"hasWatch" expected:@NO];
+    section.hidden = [NSPredicate predicateWithObject:logic attribute:@"hasWatch" expected:@NO];
     item = [CHFormValueItem itemWithName:@"appinstall" title:@"No watch app installed".localized];
     [(CHFormValueItem *)item setTitleTextColor: theme.minorLabelColor];
-    item.hidden = [NSPredicate predicateWithObject:CHLogic.shared attribute:@"isWatchAppInstalled" expected:@YES];
+    item.hidden = [NSPredicate predicateWithObject:logic attribute:@"isWatchAppInstalled" expected:@YES];
     item.action = ^(CHFormItem *itm) {
         [CHRouter.shared routeTo:@"/action/openurl" withParams:@{ @"url": @kCHWatchAppURL }];
     };
@@ -192,29 +219,6 @@
         item.value = (CHNotification.shared.enabled ? @"Enable".localized : @"Disable".localized);
         [self reloadItem:item];
     }
-}
-
-- (void)updateData {
-    CHLogic *logic = CHLogic.shared;
-    CHFormValueItem *item = nil;
-    NSMutableArray *items = [NSMutableArray new];
-    item = (CHFormValueItem *)[self.form formItemWithName:@"images"];
-    if (item != nil) {
-        NSUInteger size = logic.webImageManager.allocatedFileSize;
-        if ([item.value unsignedIntegerValue] != size) {
-            item.value = @(size);
-            [items addObject:item];
-        }
-    }
-    item = (CHFormValueItem *)[self.form formItemWithName:@"files"];
-    if (item != nil) {
-        NSUInteger size = logic.webFileManager.allocatedFileSize;
-        if ([item.value unsignedIntegerValue] != size) {
-            item.value = @(size);
-            [items addObject:item];
-        }
-    }
-    [self reloadItems:items];
 }
 
 

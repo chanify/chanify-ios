@@ -26,7 +26,7 @@
 #define kCHDBNotificationServiceName    "notification-service.db"
 #define kCHMessageListPageSize          16
 #define kCHMessageListDateDiff          300
-#define kCHWebFileCacheMaxN             (kCHMessageListPageSize * 2)
+#define kCHWebFileCacheMaxN             64
 #define kCHWebBasePath                  "files"
 #define kCHWebFileDownloadTimeout       30
 #define kCHNodeServerRequestTimeout     10

@@ -80,7 +80,6 @@
 @property (nonatomic, readonly, strong) NSURLSession *session;
 @property (nonatomic, readonly, strong) NSMutableDictionary<NSString *, CHWebFileTask *> *tasks;
 @property (nonatomic, readonly, strong) NSMutableSet<NSString *> *failedTasks;
-@property (nonatomic, readonly, strong) NSCache<NSString *, NSURL *> *dataCache;
 @property (nonatomic, readonly, strong) dispatch_queue_t workerQueue;
 
 @end
@@ -95,10 +94,8 @@
     if (self = [super initWithFileBase:fileBaseDir]) {
         _tasks = [NSMutableDictionary new];
         _failedTasks = [NSMutableSet new];
-        _dataCache = [NSCache new];
         _workerQueue = dispatch_queue_create_for(self, DISPATCH_QUEUE_SERIAL);
         _session = [NSURLSession sessionWithConfiguration:NSURLSessionConfiguration.ephemeralSessionConfiguration delegate:self delegateQueue:nil];
-        self.dataCache.countLimit = kCHWebFileCacheMaxN;
     }
     return self;
 }
@@ -203,6 +200,7 @@
                     if ([fileManager fixDirectory:dir] && [data writeToURL:fileURL atomically:YES]) {
                         task.result = fileURL;
                         [self.dataCache setObject:task.result forKey:[task.fileURL stringByAppendingPathComponent:task.filename]];
+                        [self notifyAllocatedFileSizeChanged];
                     }
                 }
                 [self.tasks removeObjectForKey:task.fileURL];

@@ -51,6 +51,13 @@
     self.configuration.image = icon;
 }
 
+- (void)setFormatter:(CHFormValueFormatter)formatter {
+    if (_formatter != formatter) {
+        _formatter = formatter;
+        self.configuration.secondaryText = self.textValue;
+    }
+}
+
 - (UITableViewCellAccessoryType)accessoryType {
     if (self.action != nil && self.configuration.textProperties.alignment == NSTextAlignmentLeft) {
         return UITableViewCellAccessoryDisclosureIndicator;
