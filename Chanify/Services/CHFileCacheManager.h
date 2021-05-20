@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSUInteger allocatedFileSize;
 
 - (instancetype)initWithFileBase:(NSURL *)fileBaseDir;
-- (void)notifyAllocatedFileSizeChanged;
+- (void)notifyAllocatedFileSizeChanged:(NSURL *)filepath;
 
 
 @end

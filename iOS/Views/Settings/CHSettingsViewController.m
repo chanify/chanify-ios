@@ -6,7 +6,6 @@
 //
 
 #import "CHSettingsViewController.h"
-#import "CHWebFileManager.h"
 #import "CHNotification.h"
 #import "CHLogic+iOS.h"
 #import "CHDevice.h"
@@ -21,21 +20,14 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        CHLogic *logic = CHLogic.shared;
-        [logic addDelegate:self];
-        [logic.webFileManager addDelegate:self];
-        [logic.webImageManager addDelegate:self];
+        [CHLogic.shared addDelegate:self];
         [CHNotification.shared addDelegate:self];
-        
     }
     return self;
 }
 
 - (void)dealloc {
-    CHLogic *logic = CHLogic.shared;
-    [logic removeDelegate:self];
-    [logic.webFileManager removeDelegate:self];
-    [logic.webImageManager removeDelegate:self];
+    [CHLogic.shared removeDelegate:self];
     [CHNotification.shared removeDelegate:self];
 }
 
@@ -44,6 +36,22 @@
     if (self.form == nil) {
         [self initializeForm];
     }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    CHLogic *logic = CHLogic.shared;
+    [logic.webFileManager addDelegate:self];
+    [logic.webImageManager addDelegate:self];
+    [self fileCacheAllocatedFileSizeChanged:logic.webFileManager];
+    [self fileCacheAllocatedFileSizeChanged:logic.webImageManager];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    CHLogic *logic = CHLogic.shared;
+    [logic.webFileManager removeDelegate:self];
+    [logic.webImageManager removeDelegate:self];
+    [super viewDidDisappear:animated];
 }
 
 #pragma mark - CHLogicDelegate
@@ -114,16 +122,16 @@
         [CHRouter.shared routeTo:@"/action/openurl" withParams:@{ @"url": UIApplicationOpenSettingsURLString, @"show": @"detail" }];
     };
     [section addFormItem:item];
-    
+
 //    item = [CHFormValueItem itemWithName:@"sound" title:@"Sound".localized value:@""];
 //    item.action = ^(CHFormItem *itm) {
 //        [CHRouter.shared routeTo:@"/page/sounds" withParams:@{ @"show": @"detail" }];
 //    };
 //    [section addFormItem:item];
-    
+
     // Data
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"DATA".localized])];
-    item = [CHFormValueItem itemWithName:@"images" title:@"Images".localized value:@(logic.webImageManager.allocatedFileSize)];
+    item = [CHFormValueItem itemWithName:@"images" title:@"Images".localized value:@(0)];
     item.action = ^(CHFormItem *itm) {
         [CHRouter.shared routeTo:@"/page/images" withParams:@{ @"show": @"detail" }];
     };
@@ -131,7 +139,7 @@
         return [value formatFileSize];
     }];
     [section addFormItem:item];
-    item = [CHFormValueItem itemWithName:@"files" title:@"Files".localized value:@(logic.webFileManager.allocatedFileSize)];
+    item = [CHFormValueItem itemWithName:@"files" title:@"Files".localized value:@(0)];
     item.action = ^(CHFormItem *itm) {
         [CHRouter.shared routeTo:@"/page/files" withParams:@{ @"show": @"detail" }];
     };

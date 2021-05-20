@@ -152,7 +152,7 @@
         NSData *data = [self encodeData:task.result];
         if (data.length > 0 && [data writeToURL:fileURL atomically:YES]) {
             [self.dataCache setObject:task.result forKey:fileURL];
-            [self notifyAllocatedFileSizeChanged];
+            [self notifyAllocatedFileSizeChanged:fileURL];
         }
         [self.tasks removeObjectForKey:task.link];
     });

@@ -7,7 +7,6 @@
 
 #import "CHFileMsgCellConfiguration.h"
 #import "CHPreviewController.h"
-#import "CHWebFileManager.h"
 #import "CHPasteboard.h"
 #import "CHLogic+iOS.h"
 #import "CHRouter.h"

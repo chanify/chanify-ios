@@ -200,7 +200,7 @@
                     if ([fileManager fixDirectory:dir] && [data writeToURL:fileURL atomically:YES]) {
                         task.result = fileURL;
                         [self.dataCache setObject:task.result forKey:[task.fileURL stringByAppendingPathComponent:task.filename]];
-                        [self notifyAllocatedFileSizeChanged];
+                        [self notifyAllocatedFileSizeChanged:fileURL];
                     }
                 }
                 [self.tasks removeObjectForKey:task.fileURL];

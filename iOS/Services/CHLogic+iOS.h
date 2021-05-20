@@ -6,6 +6,7 @@
 //
 
 #import "CHLogic.h"
+#import "CHWebFileManager.h"
 #import "CHWebObjectManager.h"
 
 NS_ASSUME_NONNULL_BEGIN

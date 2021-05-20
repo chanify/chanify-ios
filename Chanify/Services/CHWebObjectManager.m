@@ -216,7 +216,7 @@
                     if (task.result != nil) {
                         [self.dataCache setObject:task.result forKey:task.localFile.absoluteString];
                     }
-                    [self notifyAllocatedFileSizeChanged];
+                    [self notifyAllocatedFileSizeChanged:task.localFile];
                 }
                 [self.tasks removeObjectForKey:task.fileURL];
             }
