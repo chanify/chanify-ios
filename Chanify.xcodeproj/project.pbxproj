@@ -49,6 +49,7 @@
 		6D44170525F273150041EBA0 /* CHFormCodeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D44170425F273150041EBA0 /* CHFormCodeItem.m */; };
 		6D44170C25F278D80041EBA0 /* CHFormSelectorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D44170B25F278D80041EBA0 /* CHFormSelectorItem.m */; };
 		6D44171325F330630041EBA0 /* CHFormInputItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D44171225F330630041EBA0 /* CHFormInputItem.m */; };
+		6D499112265D4FBB007834D0 /* CHFileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D499111265D4FBB007834D0 /* CHFileTableViewCell.m */; };
 		6D59464726356941004D3748 /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D59464626356941004D3748 /* IconView.swift */; };
 		6D59464E26356C51004D3748 /* UIColor+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92C425F60B3B00B792FE /* UIColor+CHExt.m */; };
 		6D67CBDB25D3BAD700ECF655 /* NSDate+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */; };
@@ -488,6 +489,8 @@
 		6D44170B25F278D80041EBA0 /* CHFormSelectorItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormSelectorItem.m; sourceTree = "<group>"; };
 		6D44171125F330630041EBA0 /* CHFormInputItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormInputItem.h; sourceTree = "<group>"; };
 		6D44171225F330630041EBA0 /* CHFormInputItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormInputItem.m; sourceTree = "<group>"; };
+		6D499110265D4FBB007834D0 /* CHFileTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFileTableViewCell.h; sourceTree = "<group>"; };
+		6D499111265D4FBB007834D0 /* CHFileTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFileTableViewCell.m; sourceTree = "<group>"; };
 		6D59464626356941004D3748 /* IconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
 		6D67CBD925D3BAD700ECF655 /* NSDate+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+CHExt.h"; sourceTree = "<group>"; };
 		6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+CHExt.m"; sourceTree = "<group>"; };
@@ -993,6 +996,8 @@
 			children = (
 				6DD325F5265394EC00A5CEC4 /* CHFilesViewController.h */,
 				6DD325F6265394EC00A5CEC4 /* CHFilesViewController.m */,
+				6D499110265D4FBB007834D0 /* CHFileTableViewCell.h */,
+				6D499111265D4FBB007834D0 /* CHFileTableViewCell.m */,
 			);
 			path = Files;
 			sourceTree = "<group>";
@@ -2168,6 +2173,7 @@
 				6DC6C1D525D0DCD200512E36 /* main.m in Sources */,
 				6DDC86B425E7446A00C26203 /* CHNodeTableViewCell.m in Sources */,
 				6D44170C25F278D80041EBA0 /* CHFormSelectorItem.m in Sources */,
+				6D499112265D4FBB007834D0 /* CHFileTableViewCell.m in Sources */,
 				6DC6C20E25D0F3EF00512E36 /* CHTP.proto in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

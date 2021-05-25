@@ -152,6 +152,19 @@
     }
 }
 
+- (void)removeWithURLs:(NSArray<NSURL *> *)urls {
+    @weakify(self);
+    dispatch_async(self.workerQueue, ^{
+        @strongify(self);
+        NSFileManager *fm = NSFileManager.defaultManager;
+        for (NSURL *url in urls) {
+            [self.dataCache removeObjectForKey:url.absoluteString];
+            [fm removeItemAtURL:url error:nil];
+        }
+        [self setNeedUpdateAllocatedFileSize];
+    });
+}
+
 - (nullable NSURL *)loadLocalFileURL:(NSString *)fileURL filename:(NSString *)filename {
     NSString *key = [fileURL stringByAppendingPathComponent:filename];
     NSURL *url = [self.dataCache objectForKey:key];
