@@ -6,8 +6,8 @@
 //
 
 #import "CHMessagesDataSource.h"
-#import "CHMessagesHeaderView.h"
 #import "CHPreviewController.h"
+#import "CHLoadMoreView.h"
 #import "CHUnknownMsgCellConfiguration.h"
 #import "CHDateCellConfiguration.h"
 #import "CHUserDataSource.h"
@@ -17,7 +17,7 @@
 @interface CHMessagesDataSource ()
 
 @property (nonatomic, readonly, strong) NSString *cid;
-@property (nonatomic, nullable, strong) CHMessagesHeaderView *headerView;
+@property (nonatomic, nullable, strong) CHLoadMoreView *headerView;
 @property (nonatomic, readonly, weak) UICollectionView *collectionView;
 
 @end
@@ -43,7 +43,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     };
     if (self = [super initWithCollectionView:collectionView cellProvider:cellProvider]) {
         _collectionView = collectionView;
-        UICollectionViewSupplementaryRegistration *supplementaryRegistration = [UICollectionViewSupplementaryRegistration registrationWithSupplementaryClass:CHMessagesHeaderView.class elementKind:UICollectionElementKindSectionHeader configurationHandler:^(CHMessagesHeaderView *supplementaryView, NSString *elementKind, NSIndexPath *indexPath) {
+        UICollectionViewSupplementaryRegistration *supplementaryRegistration = [UICollectionViewSupplementaryRegistration registrationWithSupplementaryClass:CHLoadMoreView.class elementKind:UICollectionElementKindSectionHeader configurationHandler:^(CHLoadMoreView *supplementaryView, NSString *elementKind, NSIndexPath *indexPath) {
         }];
         @weakify(self);
         self.supplementaryViewProvider = ^UICollectionReusableView *(UICollectionView *collectionView, NSString *elementKind, NSIndexPath *indexPath) {
@@ -95,10 +95,10 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
 }
 
 - (void)scrollViewDidScroll {
-    if (self.headerView != nil && self.headerView.status == CHMessagesHeaderStatusNormal) {
-        self.headerView.status = ([self.collectionView numberOfItemsInSection:0] > 0 ? CHMessagesHeaderStatusLoading : CHMessagesHeaderStatusFinish);
+    if (self.headerView != nil && self.headerView.status == CHLoadStatusNormal) {
+        self.headerView.status = ([self.collectionView numberOfItemsInSection:0] > 0 ? CHLoadStatusLoading : CHLoadStatusFinish);
         @weakify(self);
-        dispatch_main_after(1, ^{
+        dispatch_main_after(kCHLoadingDuration, ^{
             @strongify(self);
             [self loadEarlistMessage];
         });
@@ -111,7 +111,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     } else {
         CHCellConfiguration *item = [self itemIdentifierForIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         NSArray<CHMessageModel *> *items = [CHLogic.shared.userDataSource messageWithCID:self.cid from:item.mid to:@"" count:kCHMessageListPageSize];
-        self.headerView.status = (items.count < kCHMessageListPageSize ? CHMessagesHeaderStatusFinish : CHMessagesHeaderStatusNormal);
+        self.headerView.status = (items.count < kCHMessageListPageSize ? CHLoadStatusFinish : CHLoadStatusNormal);
         if (items.count > 0) {
             NSMutableArray<CHCellConfiguration *> *selectedCells = nil;
             if (self.isEditing) {
@@ -275,8 +275,8 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
 
 #pragma mark - Private Methods
 - (void)updateHeaderView {
-    if (self.headerView != nil && self.headerView.status != CHMessagesHeaderStatusLoading) {
-        self.headerView.status = ([self.collectionView numberOfItemsInSection:0] < kCHMessageListPageSize ? CHMessagesHeaderStatusFinish : CHMessagesHeaderStatusNormal);
+    if (self.headerView != nil && self.headerView.status != CHLoadStatusLoading) {
+        self.headerView.status = ([self.collectionView numberOfItemsInSection:0] < kCHMessageListPageSize ? CHLoadStatusFinish : CHLoadStatusNormal);
     }
 }
 

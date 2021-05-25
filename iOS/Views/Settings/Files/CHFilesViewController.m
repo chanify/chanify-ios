@@ -7,6 +7,7 @@
 
 #import "CHFilesViewController.h"
 #import "CHLogic+iOS.h"
+#import "CHRouter.h"
 
 @interface CHFilesViewController ()
 
@@ -19,13 +20,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Files".localized;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"trash"] style:UIBarButtonItemStylePlain target:self action:@selector(actionCleanup:)];
-    _enumerator = [NSFileManager.defaultManager enumeratorAtURL:CHLogic.shared.webFileManager.fileBaseDir includingPropertiesForKeys:@[NSURLTotalFileAllocatedSizeKey] options:0 errorHandler:nil];
-}
 
-#pragma mark - Private Methods
-- (void)actionCleanup:(id)sender {
-    
+    _enumerator = [NSFileManager.defaultManager enumeratorAtURL:CHLogic.shared.webFileManager.fileBaseDir includingPropertiesForKeys:@[NSURLTotalFileAllocatedSizeKey] options:0 errorHandler:nil];
 }
 
 

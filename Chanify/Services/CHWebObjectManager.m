@@ -155,14 +155,7 @@
 - (nullable id)loadLocalFile:(nullable NSString *)fileURL {
     id res = nil;
     if (fileURL.length > 0) {
-        NSURL *url = [self fileURL2Path:fileURL];
-        res = [self.dataCache objectForKey:url.absoluteString];
-        if (res == nil) {
-            res = [self.decoder webObjectDecode:[NSData dataFromNoCacheURL:url]];
-            if (res != nil) {
-                [self.dataCache setObject:res forKey:url.absoluteString];
-            }
-        }
+        res = [self loadLocalURL:[self fileURL2Path:fileURL]];
     }
     return res;
 }
@@ -182,6 +175,37 @@
         }
     }
     return url;
+}
+
+- (void)removeWithURLs:(NSArray<NSURL *> *)urls {
+    @weakify(self);
+    dispatch_async(self.workerQueue, ^{
+        @strongify(self);
+        NSFileManager *fm = NSFileManager.defaultManager;
+        for (NSURL *url in urls) {
+            [self.dataCache removeObjectForKey:url.absoluteString];
+            [fm removeItemAtURL:url error:nil];
+        }
+        [self setNeedUpdateAllocatedFileSize];
+    });
+}
+
+- (NSDictionary *)infoWithURL:(NSURL *)url {
+    NSDictionary *attrs = [url resourceValuesForKeys:@[NSURLCreationDateKey, NSURLFileAllocatedSizeKey] error:nil];
+    NSMutableDictionary *info = [NSMutableDictionary new];
+    id item = [self loadLocalURL:url];
+    if (item != nil) {
+        [info setValue:item forKey:@"data"];
+    }
+    id date = [attrs valueForKey:NSURLCreationDateKey];
+    if (date != nil) {
+        [info setValue:date forKey:@"date"];
+    }
+    id size = [attrs valueForKey:NSURLFileAllocatedSizeKey];
+    if (size != nil) {
+        [info setValue:size forKey:@"size"];
+    }
+    return info;
 }
 
 #pragma mark - NSURLSessionTaskDelegate
@@ -285,6 +309,20 @@
         }
     }
     return request;
+}
+
+- (nullable id)loadLocalURL:(nullable NSURL *)url {
+    id res = nil;
+    if (url != nil) {
+        res = [self.dataCache objectForKey:url.absoluteString];
+        if (res == nil) {
+            res = [self.decoder webObjectDecode:[NSData dataFromNoCacheURL:url]];
+            if (res != nil) {
+                [self.dataCache setObject:res forKey:url.absoluteString];
+            }
+        }
+    }
+    return res;
 }
 
 - (NSURL *)fileURL2Path:(NSString *)fileURL {

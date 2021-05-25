@@ -57,5 +57,18 @@
     });
 }
 
+- (void)setNeedUpdateAllocatedFileSize {
+    @weakify(self);
+    dispatch_main_async(^{
+        @strongify(self);
+        self->_totalAllocatedFileSize = 0;
+        [self sendNotifyWithSelector:@selector(fileCacheAllocatedFileSizeChanged:) withObject:self];
+    });
+}
+
+- (NSDirectoryEnumerator *)fileEnumerator {
+    return [NSFileManager.defaultManager enumeratorAtURL:self.fileBaseDir includingPropertiesForKeys:@[] options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil];
+}
+
 
 @end

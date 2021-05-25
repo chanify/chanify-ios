@@ -134,11 +134,12 @@
     [self.listView setEditing:editing];
     self.badgeView.hidden = editing;
     if (editing) {
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Delete".localized style:UIBarButtonItemStylePlain target:self action:@selector(actionDelete:)];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel".localized style:UIBarButtonItemStylePlain target:self action:@selector(actionCancel:)];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Delete".localized style:UIBarButtonItemStylePlain target:self action:@selector(actionDelete:)];
+        self.navigationItem.leftBarButtonItem.tintColor = CHTheme.shared.alertColor;
     } else {
-        self.navigationItem.leftBarButtonItem = nil;
         self.navigationItem.rightBarButtonItem = self.detailButtonItem;
+        self.navigationItem.leftBarButtonItem = nil;
     }
     [super setEditing:editing animated:animated];
 }
