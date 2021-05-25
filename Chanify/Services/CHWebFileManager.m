@@ -158,11 +158,30 @@
         @strongify(self);
         NSFileManager *fm = NSFileManager.defaultManager;
         for (NSURL *url in urls) {
+            NSURL *path = url.URLByDeletingLastPathComponent;
             [self.dataCache removeObjectForKey:url.absoluteString];
-            [fm removeItemAtURL:url error:nil];
+            [fm removeItemAtURL:path error:nil];
         }
         [self setNeedUpdateAllocatedFileSize];
     });
+}
+
+- (NSDictionary *)infoWithURL:(NSURL *)url {
+    NSDictionary *attrs = [url resourceValuesForKeys:@[NSURLNameKey, NSURLCreationDateKey, NSURLFileAllocatedSizeKey] error:nil];
+    NSMutableDictionary *info = [NSMutableDictionary new];
+    id name = [attrs valueForKey:NSURLNameKey];
+    if (name != nil) {
+        [info setValue:name forKey:@"name"];
+    }
+    id date = [attrs valueForKey:NSURLCreationDateKey];
+    if (date != nil) {
+        [info setValue:date forKey:@"date"];
+    }
+    id size = [attrs valueForKey:NSURLFileAllocatedSizeKey];
+    if (size != nil) {
+        [info setValue:size forKey:@"size"];
+    }
+    return info;
 }
 
 - (nullable NSURL *)loadLocalFileURL:(NSString *)fileURL filename:(NSString *)filename {

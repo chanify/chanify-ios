@@ -45,7 +45,7 @@ static NSString *const cellIdentifier = @"file";
     }];
     [tableView registerClass:CHFileTableViewCell.class forCellReuseIdentifier:cellIdentifier];
     tableView.tableFooterView = [CHLoadMoreView new];
-    tableView.rowHeight = 41;
+    tableView.rowHeight = 65;
     tableView.allowsSelectionDuringEditing = YES;
     tableView.allowsMultipleSelectionDuringEditing = YES;
     tableView.delegate = self;
@@ -146,9 +146,13 @@ static NSString *const cellIdentifier = @"file";
         NSInteger idx = 0;
         NSMutableArray *items = [NSMutableArray new];
         for (NSURL *url in self.enumerator) {
-            [items addObject:url];
-            if (++idx >= kCHFileTableMaxN) {
-                break;
+            NSNumber *isDir = nil;
+            [url getResourceValue:&isDir forKey:NSURLIsDirectoryKey error:nil];
+            if (![isDir boolValue]) {
+                [items addObject:url];
+                if (++idx >= kCHFileTableMaxN) {
+                    break;
+                }
             }
         }
         if (idx >= kCHFileTableMaxN) {

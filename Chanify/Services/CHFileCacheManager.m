@@ -31,7 +31,7 @@
     if (_totalAllocatedFileSize <= 0) {
         NSUInteger size = 0;
         NSArray *fieldKeys = @[NSURLIsRegularFileKey, NSURLTotalFileAllocatedSizeKey];
-        NSDirectoryEnumerator *enumerator = [NSFileManager.defaultManager enumeratorAtURL:self.fileBaseDir includingPropertiesForKeys:fieldKeys options:0 errorHandler:nil];
+        NSDirectoryEnumerator *enumerator = [NSFileManager.defaultManager enumeratorAtURL:self.fileBaseDir includingPropertiesForKeys:fieldKeys options:NSDirectoryEnumerationSkipsHiddenFiles|NSDirectoryEnumerationSkipsPackageDescendants errorHandler:nil];
         for (NSURL *url in enumerator) {
             NSDictionary *fields = [url resourceValuesForKeys:fieldKeys error:nil];
             if ([[fields valueForKey:NSURLIsRegularFileKey] boolValue]) {
@@ -67,7 +67,7 @@
 }
 
 - (NSDirectoryEnumerator *)fileEnumerator {
-    return [NSFileManager.defaultManager enumeratorAtURL:self.fileBaseDir includingPropertiesForKeys:@[] options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil];
+    return [NSFileManager.defaultManager enumeratorAtURL:self.fileBaseDir includingPropertiesForKeys:@[] options:NSDirectoryEnumerationSkipsHiddenFiles|NSDirectoryEnumerationSkipsPackageDescendants errorHandler:nil];
 }
 
 
