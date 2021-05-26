@@ -66,6 +66,13 @@
     });
 }
 
+- (void)removeWithURLs:(NSArray<NSURL *> *)urls {
+}
+
+- (NSDictionary *)infoWithURL:(NSURL *)url {
+    return @{};
+}
+
 - (NSDirectoryEnumerator *)fileEnumerator {
     return [NSFileManager.defaultManager enumeratorAtURL:self.fileBaseDir includingPropertiesForKeys:@[] options:NSDirectoryEnumerationSkipsHiddenFiles|NSDirectoryEnumerationSkipsPackageDescendants errorHandler:nil];
 }

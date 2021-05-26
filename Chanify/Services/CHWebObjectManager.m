@@ -183,7 +183,7 @@
         @strongify(self);
         NSFileManager *fm = NSFileManager.defaultManager;
         for (NSURL *url in urls) {
-            [self.dataCache removeObjectForKey:url.absoluteString];
+            [self.dataCache removeObjectForKey:url.absoluteUnprivateURL.absoluteString];
             [fm removeItemAtURL:url error:nil];
         }
         [self setNeedUpdateAllocatedFileSize];
@@ -193,7 +193,7 @@
 - (NSDictionary *)infoWithURL:(NSURL *)url {
     NSDictionary *attrs = [url resourceValuesForKeys:@[NSURLCreationDateKey, NSURLFileAllocatedSizeKey] error:nil];
     NSMutableDictionary *info = [NSMutableDictionary new];
-    id item = [self loadLocalURL:url];
+    id item = [self loadLocalURL:url.absoluteUnprivateURL];
     if (item != nil) {
         [info setValue:item forKey:@"data"];
     }

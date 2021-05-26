@@ -159,8 +159,11 @@
         NSFileManager *fm = NSFileManager.defaultManager;
         for (NSURL *url in urls) {
             NSURL *path = url.URLByDeletingLastPathComponent;
-            [self.dataCache removeObjectForKey:url.absoluteString];
-            [fm removeItemAtURL:path error:nil];
+            NSURL *dir = url.absoluteUnprivateURL;
+            if ([dir.absoluteString hasPrefix:self.fileBaseDir.absoluteString]) {
+                [self.dataCache removeObjectForKey:dir.absoluteString];
+                [fm removeItemAtURL:path error:nil];
+            }
         }
         [self setNeedUpdateAllocatedFileSize];
     });

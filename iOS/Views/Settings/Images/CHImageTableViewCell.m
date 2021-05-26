@@ -20,6 +20,10 @@
 
 @implementation CHImageTableViewCell
 
++ (CGFloat)cellHeight {
+    return 91;
+}
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         CHTheme *theme = CHTheme.shared;
@@ -29,7 +33,7 @@
         imagePreviewView.contentMode = UIViewContentModeScaleAspectFill;
         imagePreviewView.clipsToBounds = YES;
         [imagePreviewView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.contentView).offset(16);
+            make.left.equalTo(self.contentView).offset(kCHDataListLeftMargin);
             make.top.equalTo(self.contentView).offset(4);
             make.bottom.equalTo(self.contentView).offset(-4);
             make.width.equalTo(imagePreviewView.mas_height);
@@ -38,7 +42,7 @@
         UILabel *createDateLabel = [UILabel new];
         [self.contentView addSubview:(_createDateLabel = createDateLabel)];
         [createDateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self.contentView).offset(-16);
+            make.right.equalTo(self.contentView).offset(-kCHDataListLeftMargin);
             make.top.equalTo(self.contentView).offset(6);
         }];
         createDateLabel.font = [UIFont systemFontOfSize:14];
@@ -58,16 +62,10 @@
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    [self.imagePreviewView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.contentView).offset(self.isEditing ? 64 : 16);
-    }];
-}
+- (void)setURL:(NSURL *)url manager:(CHFileCacheManager *)manager {
+    if (self.url != url) {
+        self.url = url;
 
-- (void)setUrl:(NSURL *)url {
-    if (_url != url) {
-        _url = url;
         NSDictionary *info = [CHLogic.shared.webImageManager infoWithURL:url];
         self.imagePreviewView.image = [info valueForKey:@"data"];
         self.createDateLabel.text = [[info valueForKey:@"date"] mediumFormat];

@@ -25,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithFileBase:(NSURL *)fileBaseDir;
 - (void)notifyAllocatedFileSizeChanged:(NSURL *)filepath;
 - (void)setNeedUpdateAllocatedFileSize;
+- (void)removeWithURLs:(NSArray<NSURL *> *)urls;
+- (NSDictionary *)infoWithURL:(NSURL *)url;
 - (NSDirectoryEnumerator *)fileEnumerator;
 
 

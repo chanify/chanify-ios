@@ -39,7 +39,7 @@
 #define kCHAnimateFastDuration          0.2
 #define kCHAnimateMediumDuration        0.3
 #define kCHAnimateSlowDuration          0.4
-#define kCHLoadingDuration              1.0
+#define kCHLoadingDuration              0.6
 #if DEBUG
 #   define kCHNotificationSandbox       YES
 #else

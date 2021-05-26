@@ -22,5 +22,14 @@
     }
 }
 
+- (NSURL *)absoluteUnprivateURL {
+    static NSString *header = @"file:///private/";
+    NSString *url = self.absoluteString;
+    if ([url hasPrefix:header]) {
+        url = [@"file:///" stringByAppendingString:[url substringFromIndex:header.length]];
+    }
+    return [NSURL URLWithString:url];
+}
+
 
 @end

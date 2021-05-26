@@ -21,6 +21,10 @@
 
 @implementation CHFileTableViewCell
 
++ (CGFloat)cellHeight {
+    return 65;
+}
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         CHTheme *theme = CHTheme.shared;
@@ -30,7 +34,7 @@
         iconView.contentMode = UIViewContentModeScaleAspectFit;
         iconView.tintColor = theme.lightLabelColor;
         [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.contentView).offset(16);
+            make.left.equalTo(self.contentView).offset(kCHDataListLeftMargin);
             make.centerY.equalTo(self.contentView);
             make.size.mas_equalTo(CGSizeMake(26, 32));
         }];
@@ -38,7 +42,7 @@
         UILabel *fileSizeLabel = [UILabel new];
         [self.contentView addSubview:(_fileSizeLabel = fileSizeLabel)];
         [fileSizeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self.contentView).offset(-16);
+            make.right.equalTo(self.contentView).offset(-kCHDataListLeftMargin);
             make.bottom.equalTo(self.contentView).offset(-6);
         }];
         fileSizeLabel.font = [UIFont systemFontOfSize:12];
@@ -60,7 +64,7 @@
         [self.contentView addSubview:(_nameLabel = nameLabel)];
         [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.contentView).offset(6);
-            make.right.equalTo(self.contentView).offset(-16);
+            make.right.equalTo(self.contentView).offset(-kCHDataListLeftMargin);
             make.left.equalTo(createDateLabel);
             make.bottom.equalTo(createDateLabel.mas_top).offset(-4);
         }];
@@ -71,17 +75,11 @@
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    [self.iconView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.contentView).offset(self.isEditing ? 64 : 16);
-    }];
-}
+- (void)setURL:(NSURL *)url manager:(CHFileCacheManager *)manager {
+    if (self.url != url) {
+        self.url = url;
 
-- (void)setUrl:(NSURL *)url {
-    if (_url != url) {
-        _url = url;
-        NSDictionary *info = [CHLogic.shared.webFileManager infoWithURL:url];
+        NSDictionary *info = [manager infoWithURL:url];
         self.nameLabel.text = [info valueForKey:@"name"];
         self.createDateLabel.text = [[info valueForKey:@"date"] mediumFormat];
         self.fileSizeLabel.text = [[info valueForKey:@"size"] formatFileSize];
