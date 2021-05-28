@@ -117,7 +117,7 @@ static CGFloat titleSpace = 4;
 }
 
 - (void)actionShare:(id)sender {
-    [CHRouter.shared showShareItem:@[[(CHTextMsgCellConfiguration *)self.configuration text]] sender:sender handler:nil];
+    [CHRouter.shared showShareItem:@[[(CHTextMsgCellConfiguration *)self.configuration text]] sender:self.contentView handler:nil];
 }
 
 #pragma mark - Private Methods

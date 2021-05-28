@@ -217,7 +217,7 @@
     }
 }
 
-- (void)actionMore:(id)sender {
+- (void)actionMore:(UIBarButtonItem *)sender {
     [CHRouter.shared showShareItem:@[self.url] sender:sender handler:^(BOOL completed, NSError * _Nonnull error) {
         if (error != nil) {
             CHLogE("Activity failed: %s", error.description.cstr);

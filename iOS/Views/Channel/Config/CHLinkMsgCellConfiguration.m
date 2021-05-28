@@ -6,7 +6,7 @@
 //
 
 #import "CHLinkMsgCellConfiguration.h"
-#import "CHLinkMetaManager.h"
+#import "CHWebLinkManager.h"
 #import "CHPasteboard.h"
 #import "CHLogic+iOS.h"
 #import "CHRouter.h"
@@ -29,7 +29,7 @@
 
 @end
 
-@interface CHLinkMsgCellContentView () <CHLinkMetaItem>
+@interface CHLinkMsgCellContentView () <CHWebLinkItem>
 @end
 
 @implementation CHLinkMsgCellContentView
@@ -85,7 +85,7 @@
     self.detailLabel.frame = CGRectMake(12, 36, size.width - 80, 48);
     self.linkLabel.frame = CGRectMake(12, size.height - 32, size.width - 24, 24);
     
-    [CHLogic.shared.linkMetaManager loadMetaFromURL:configuration.link toItem:self];
+    [CHLogic.shared.webLinkManager loadLinkFromURL:configuration.link toItem:self];
 }
 
 - (NSArray<UIMenuItem *> *)menuActions {
@@ -98,8 +98,8 @@
     return items;
 }
 
-#pragma mark - CHLinkMetaItem
-- (void)linkMetaUpdated:(nullable NSDictionary *)item {
+#pragma mark - CHWebLinkItem
+- (void)webLinkUpdated:(nullable NSDictionary *)item {
     if (item.count > 0) {
         NSString *hostDesc = [item objectForKey:@"host-desc"];
         if (hostDesc.length > 0) {
@@ -121,7 +121,7 @@
 }
 
 - (void)actionShare:(id)sender {
-    [CHRouter.shared showShareItem:@[self.linkURL] sender:sender handler:nil];
+    [CHRouter.shared showShareItem:@[self.linkURL] sender:self.contentView handler:nil];
 }
 
 - (void)actionClicked:(UITapGestureRecognizer *)sender {

@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSURL *)URLForDocumentDirectory;
 - (BOOL)fixDirectory:(NSURL *)path;
 - (nullable NSURL *)URLForGroupId:(NSString *)groupId path:(NSString *)path;
+- (nullable NSURL *)URLLinkForFile:(nullable NSURL *)filepath withName:(NSString *)filename;
 
 
 @end

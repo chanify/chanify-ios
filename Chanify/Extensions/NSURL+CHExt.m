@@ -22,13 +22,16 @@
     }
 }
 
-- (NSURL *)absoluteUnprivateURL {
-    static NSString *header = @"file:///private/";
-    NSString *url = self.absoluteString;
-    if ([url hasPrefix:header]) {
-        url = [@"file:///" stringByAppendingString:[url substringFromIndex:header.length]];
+- (uint64_t)fileSize {
+    uint64_t size = 0;
+    if (self != nil) {
+        NSNumber *val = nil;
+        if ([self getResourceValue:&val forKey:NSURLFileSizeKey error:nil]) {
+            size = [val unsignedLongLongValue];
+        }
+        
     }
-    return [NSURL URLWithString:url];
+    return size;
 }
 
 

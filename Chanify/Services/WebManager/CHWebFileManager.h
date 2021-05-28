@@ -5,7 +5,7 @@
 //  Created by WizJin on 2021/4/10.
 //
 
-#import "CHFileCacheManager.h"
+#import "CHWebCacheManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,11 +16,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface CHWebFileManager : CHFileCacheManager
+@interface CHWebFileManager : CHWebCacheManager
 
 + (instancetype)webFileManagerWithURL:(NSURL *)fileBaseDir;
 - (void)close;
-- (void)loadFileURL:(nullable NSString *)fileURL filename:(nullable NSString *)filename toItem:(id<CHWebFileItem>)item expectedSize:(uint64_t)expectedSize ;
+- (void)loadFileURL:(nullable NSString *)fileURL filename:(nullable NSString *)filename toItem:(id<CHWebFileItem>)item expectedSize:(uint64_t)expectedSize;
 - (void)resetFileURLFailed:(nullable NSString *)fileURL;
 - (void)removeWithURLs:(NSArray<NSURL *> *)urls;
 - (NSDictionary *)infoWithURL:(NSURL *)url;

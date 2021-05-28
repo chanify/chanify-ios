@@ -6,8 +6,6 @@
 //
 
 #import "CHLogic.h"
-#import "CHWebFileManager.h"
-#import "CHWebObjectManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,8 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 @class CHNodeModel;
 @class CHChannelModel;
 @class CHMessageModel;
+@class CHWebLinkManager;
 @class CHWebFileManager;
-@class CHLinkMetaManager;
+@class CHWebImageManager;
+@class CHWebAudioManager;
 
 @protocol CHLogicDelegate <CHCommonLogicDelegate>
 @optional
@@ -33,9 +33,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CHLogic : CHCommonLogic<id<CHLogicDelegate>>
 
 @property (class, nonatomic, readonly, strong) CHLogic *shared;
-@property (nonatomic, nullable, readonly, strong) CHLinkMetaManager *linkMetaManager;
+@property (nonatomic, nullable, readonly, strong) CHWebLinkManager *webLinkManager;
 @property (nonatomic, nullable, readonly, strong) CHWebFileManager *webFileManager;
-@property (nonatomic, nullable, readonly, strong) CHWebObjectManager<UIImage *> *webImageManager;
+@property (nonatomic, nullable, readonly, strong) CHWebImageManager *webImageManager;
+@property (nonatomic, nullable, readonly, strong) CHWebAudioManager *webAudioManager;
 
 // API
 - (void)createAccountWithCompletion:(nullable CHLogicBlock)completion;

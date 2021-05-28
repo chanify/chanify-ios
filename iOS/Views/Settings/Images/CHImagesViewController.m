@@ -8,6 +8,7 @@
 #import "CHImagesViewController.h"
 #import "CHPreviewController.h"
 #import "CHImageTableViewCell.h"
+#import "CHWebImageManager.h"
 #import "CHLogic+iOS.h"
 #import "CHRouter.h"
 
@@ -22,7 +23,7 @@
     return self;
 }
 
-- (void)previewURL:(NSURL *)url {
+- (void)previewURL:(NSURL *)url atView:(UIView *)view {
     CHPreviewItem *item = [CHPreviewItem itemWithURL:url title:@"" uti:@"public.jpeg"];
     CHPreviewController *vc = [CHPreviewController previewImages:@[item] selected:0];
     [CHRouter.shared presentSystemViewController:vc animated:YES];

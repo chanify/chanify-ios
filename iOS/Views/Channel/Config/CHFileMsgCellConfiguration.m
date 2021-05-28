@@ -7,6 +7,7 @@
 
 #import "CHFileMsgCellConfiguration.h"
 #import "CHPreviewController.h"
+#import "CHWebFileManager.h"
 #import "CHPasteboard.h"
 #import "CHLogic+iOS.h"
 #import "CHRouter.h"
@@ -121,7 +122,7 @@
         if (item == nil) {
             self.statusLabel.text = @"Download failed and click to retry".localized;
         } else {
-            self.statusLabel.text = [@(configuration.fileSize) formatFileSize];
+            self.statusLabel.text = [@(configuration.fileSize ?: self.localFileURL.fileSize) formatFileSize];
         }
     }
 }
@@ -136,7 +137,7 @@
 #pragma mark - Action Methods
 - (void)actionShare:(id)sender {
     if (self.localFileURL != nil) {
-        [CHRouter.shared showShareItem:@[self.localFileURL] sender:sender handler:nil];
+        [CHRouter.shared showShareItem:@[self.localFileURL] sender:self.contentView handler:nil];
     }
 }
 

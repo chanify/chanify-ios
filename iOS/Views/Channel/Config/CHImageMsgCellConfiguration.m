@@ -145,7 +145,7 @@
 
 #pragma mark - Action Methods
 - (void)actionShare:(id)sender {
-    [CHRouter.shared showShareItem:@[self.imageView.image] sender:sender handler:nil];
+    [CHRouter.shared showShareItem:@[self.imageView.image] sender:self.contentView handler:nil];
 }
 
 - (void)actionClicked:(UITapGestureRecognizer *)sender {

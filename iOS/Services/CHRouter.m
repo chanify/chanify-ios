@@ -172,7 +172,14 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
         }
     };
     if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-        vc.popoverPresentationController.barButtonItem = sender;
+        if ([sender isKindOfClass:UIBarButtonItem.class]) {
+            vc.popoverPresentationController.barButtonItem = sender;
+        } else if ([sender isKindOfClass:UIView.class]) {
+            vc.popoverPresentationController.sourceView = sender;
+        } else {
+            // TODO: Fix pop share view.
+            return;
+        }
     }
     [self presentSystemViewController:vc animated:YES];
 }

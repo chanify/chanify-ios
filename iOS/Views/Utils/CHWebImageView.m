@@ -54,7 +54,7 @@
             _loadingView = nil;
         }
         self.image = nil;
-        [CHLogic.shared.webImageManager loadFileURL:fileURL toItem:self expectedSize:expectedSize];
+        [CHLogic.shared.webImageManager loadImageURL:fileURL toItem:self expectedSize:expectedSize];
     }
 }
 
@@ -74,11 +74,11 @@
 - (void)actionReload:(id)sender {
     [self.loadingView reset];
     [CHLogic.shared.webImageManager resetFileURLFailed:self.fileURL];
-    [CHLogic.shared.webImageManager loadFileURL:self.fileURL toItem:self expectedSize:self.expectedSize];
+    [CHLogic.shared.webImageManager loadImageURL:self.fileURL toItem:self expectedSize:self.expectedSize];
 }
 
-#pragma mark - CHWebObjectItem
-- (void)webObjectUpdated:(nullable UIImage *)item fileURL:(nullable NSString *)fileURL {
+#pragma mark - CHWebImageItem
+- (void)webImageUpdated:(nullable CHImage *)item fileURL:(nullable NSString *)fileURL {
     if ([self.fileURL isEqualToString:fileURL]) {
         if (item == nil) {
             [self.loadingView switchToFailed];
@@ -97,7 +97,7 @@
     }
 }
 
-- (void)webObjectProgress:(double)progress fileURL:(nullable NSString *)fileURL {
+- (void)webImageProgress:(double)progress fileURL:(nullable NSString *)fileURL {
     if ([self.fileURL isEqualToString:fileURL]) {
         if (progress < 1) {
             self.loadingView.progress = progress;

@@ -1,31 +1,30 @@
 //
-//  CHWebObjectManager.m
+//  CHWebImageManager.m
 //  Chanify
 //
 //  Created by WizJin on 2021/3/27.
 //
 
-#import "CHWebObjectManager.h"
+#import "CHWebImageManager.h"
 #import "CHUserDataSource.h"
 #import "CHNodeModel.h"
 #import "CHLogic+iOS.h"
 #import "CHDevice.h"
 #import "CHToken.h"
-#import "CHImage.h"
 
-@interface CHWebObjectTask : NSObject
+@interface CHWebImageTask : NSObject
 
 @property (nonatomic, readonly, strong) NSString *fileURL;
 @property (nonatomic, readonly, strong) NSURL *localFile;
 @property (nonatomic, readonly, assign) uint64_t expectedSize;
 @property (nonatomic, readonly, assign) double lastProgress;
-@property (nonatomic, readonly, strong) NSHashTable<id<CHWebObjectItem>> *items;
+@property (nonatomic, readonly, strong) NSHashTable<id<CHWebImageItem>> *items;
 @property (nonatomic, nullable, strong) NSURLSessionDownloadTask *dataTask;
 @property (nonatomic, nullable, strong) id result;
 
 @end
 
-@implementation CHWebObjectTask
+@implementation CHWebImageTask
 
 - (instancetype)initWithFileURL:(NSString *)fileURL localFile:(NSURL *)localFile expectedSize:(uint64_t)expectedSize {
     if (self = [super init]) {
@@ -41,59 +40,57 @@
 - (void)dealloc {
     id result = self.result;
     NSString *fileURL = self.fileURL;
-    NSHashTable<id<CHWebObjectItem>> *items = self.items;
+    NSHashTable<id<CHWebImageItem>> *items = self.items;
     dispatch_main_async(^{
-        for (id<CHWebObjectItem> item in items) {
-            [item webObjectUpdated:result fileURL:fileURL];
+        for (id<CHWebImageItem> item in items) {
+            [item webImageUpdated:result fileURL:fileURL];
         }
     });
 }
 
 - (void)updateProgress:(int64_t)progress expectedSize:(int64_t)expectedSize {
-    NSHashTable<id<CHWebObjectItem>> *items = self.items;
+    NSHashTable<id<CHWebImageItem>> *items = self.items;
     if (expectedSize <= 0) expectedSize = self.expectedSize;
     if (expectedSize <= 0) expectedSize = 10000;
     _lastProgress = MIN((double)progress/expectedSize, 1.0);
     @weakify(self);
     dispatch_main_async(^{
         @strongify(self);
-        for (id<CHWebObjectItem> item in items) {
-            [item webObjectProgress:self.lastProgress fileURL:self.fileURL];
+        for (id<CHWebImageItem> item in items) {
+            [item webImageProgress:self.lastProgress fileURL:self.fileURL];
         }
     });
 }
 
-- (void)addTaskItem:(id<CHWebObjectItem>)item {
+- (void)addTaskItem:(id<CHWebImageItem>)item {
     [self.items addObject:item];
     @weakify(self);
     dispatch_main_async(^{
         @strongify(self);
-        [item webObjectProgress:self.lastProgress fileURL:self.fileURL];
+        [item webImageProgress:self.lastProgress fileURL:self.fileURL];
     });
 }
 
 
 @end
 
-@interface CHWebObjectManager () <NSURLSessionTaskDelegate, NSURLSessionDownloadDelegate>
+@interface CHWebImageManager () <NSURLSessionTaskDelegate, NSURLSessionDownloadDelegate>
 
-@property (nonatomic, readonly, strong) id<CHWebObjectDecoder> decoder;
 @property (nonatomic, readonly, strong) NSURLSession *session;
-@property (nonatomic, readonly, strong) NSMutableDictionary<NSString *, CHWebObjectTask *> *tasks;
+@property (nonatomic, readonly, strong) NSMutableDictionary<NSString *, CHWebImageTask *> *tasks;
 @property (nonatomic, readonly, strong) NSMutableSet<NSString *> *failedTasks;
 @property (nonatomic, readonly, strong) dispatch_queue_t workerQueue;
 
 @end
 
-@implementation CHWebObjectManager
+@implementation CHWebImageManager
 
-+ (instancetype)webObjectManagerWithURL:(NSURL *)fileBaseDir decoder:(id<CHWebObjectDecoder>)decoder {
-    return [[self.class alloc] initWithURL:fileBaseDir decoder:decoder];
++ (instancetype)webImageManagerWithURL:(NSURL *)fileBaseDir {
+    return [[self.class alloc] initWithURL:fileBaseDir];
 }
 
-- (instancetype)initWithURL:(NSURL *)fileBaseDir decoder:(id<CHWebObjectDecoder>)decoder {
+- (instancetype)initWithURL:(NSURL *)fileBaseDir {
     if (self = [super initWithFileBase:fileBaseDir]) {
-        _decoder = decoder;
         _tasks = [NSMutableDictionary new];
         _failedTasks = [NSMutableSet new];
         _workerQueue = dispatch_queue_create_for(self, DISPATCH_QUEUE_SERIAL);
@@ -115,24 +112,24 @@
     });
 }
 
-- (void)loadFileURL:(nullable NSString *)fileURL toItem:(id<CHWebObjectItem>)item expectedSize:(uint64_t)expectedSize {
+- (void)loadImageURL:(nullable NSString *)fileURL toItem:(id<CHWebImageItem>)item expectedSize:(uint64_t)expectedSize {
     if (fileURL.length > 0) {
-        id data = [self loadLocalFile:fileURL];
+        CHImage *data = [self loadLocalFile:fileURL];
         if (data != nil) {
-            [item webObjectUpdated:data fileURL:fileURL];
+            [item webImageUpdated:data fileURL:fileURL];
             return;
         }
         @weakify(self);
         dispatch_sync(self.workerQueue, ^{
             @strongify(self);
             if ([self.failedTasks containsObject:fileURL]) {
-                [item webObjectUpdated:nil fileURL:fileURL];
+                [item webImageUpdated:nil fileURL:fileURL];
             } else {
-                CHWebObjectTask *task = [self.tasks objectForKey:fileURL];
+                CHWebImageTask *task = [self.tasks objectForKey:fileURL];
                 if (task != nil) {
                     [task addTaskItem:item];
                 } else {
-                    task = [[CHWebObjectTask alloc] initWithFileURL:fileURL localFile:[self fileURL2Path:fileURL] expectedSize:expectedSize];
+                    task = [[CHWebImageTask alloc] initWithFileURL:fileURL localFile:[self fileURL2Path:fileURL] expectedSize:expectedSize];
                     [self.tasks setObject:task forKey:fileURL];
                     [task.items addObject:item];
                     [self asyncStartTask:task];
@@ -152,7 +149,7 @@
     }
 }
 
-- (nullable id)loadLocalFile:(nullable NSString *)fileURL {
+- (nullable CHImage *)loadLocalFile:(nullable NSString *)fileURL {
     id res = nil;
     if (fileURL.length > 0) {
         res = [self loadLocalURL:[self fileURL2Path:fileURL]];
@@ -181,10 +178,10 @@
     @weakify(self);
     dispatch_async(self.workerQueue, ^{
         @strongify(self);
-        NSFileManager *fm = NSFileManager.defaultManager;
+        NSFileManager *fileManager = NSFileManager.defaultManager;
         for (NSURL *url in urls) {
-            [self.dataCache removeObjectForKey:url.absoluteUnprivateURL.absoluteString];
-            [fm removeItemAtURL:url error:nil];
+            [self.dataCache removeObjectForKey:url.URLByResolvingSymlinksInPath.absoluteString];
+            [fileManager removeItemAtURL:url error:nil];
         }
         [self setNeedUpdateAllocatedFileSize];
     });
@@ -193,7 +190,7 @@
 - (NSDictionary *)infoWithURL:(NSURL *)url {
     NSDictionary *attrs = [url resourceValuesForKeys:@[NSURLCreationDateKey, NSURLFileAllocatedSizeKey] error:nil];
     NSMutableDictionary *info = [NSMutableDictionary new];
-    id item = [self loadLocalURL:url.absoluteUnprivateURL];
+    id item = [self loadLocalURL:url.URLByResolvingSymlinksInPath];
     if (item != nil) {
         [info setValue:item forKey:@"data"];
     }
@@ -214,7 +211,7 @@
     dispatch_async(self.workerQueue, ^{
         @strongify(self);
         if (self.session != nil) {
-            CHWebObjectTask *task = [self.tasks valueForKey:downloadTask.taskDescription];
+            CHWebImageTask *task = [self.tasks valueForKey:downloadTask.taskDescription];
             if (task != nil) {
                 task.result = nil;
                 [self.failedTasks addObject:task.fileURL];
@@ -231,12 +228,12 @@
     dispatch_async(self.workerQueue, ^{
         @strongify(self);
         if (self.session != nil) {
-            CHWebObjectTask *task = [self.tasks valueForKey:downloadTask.taskDescription];
+            CHWebImageTask *task = [self.tasks valueForKey:downloadTask.taskDescription];
             if (task != nil) {
                 NSData *data = [NSData dataFromNoCacheURL:location];
                 if (data.length > 0 && [data writeToURL:task.localFile atomically:YES]) {
                     task.localFile.dataProtoction = NSURLFileProtectionCompleteUntilFirstUserAuthentication;
-                    task.result = [self.decoder webObjectDecode:data];
+                    task.result = [self imageDecode:data];
                     if (task.result != nil) {
                         [self.dataCache setObject:task.result forKey:task.localFile.absoluteString];
                     }
@@ -256,7 +253,7 @@
     dispatch_async(self.workerQueue, ^{
         @strongify(self);
         if (self.session != nil) {
-            CHWebObjectTask *task = [self.tasks valueForKey:downloadTask.taskDescription];
+            CHWebImageTask *task = [self.tasks valueForKey:downloadTask.taskDescription];
             if (task != nil) {
                 [task updateProgress:totalBytesWritten expectedSize:totalBytesExpectedToWrite];
             }
@@ -265,7 +262,7 @@
 }
 
 #pragma mark - Private Methods
-- (void)asyncStartTask:(CHWebObjectTask *)task {
+- (void)asyncStartTask:(CHWebImageTask *)task {
     @weakify(self);
     dispatch_async(self.workerQueue, ^{
         @strongify(self);
@@ -311,12 +308,12 @@
     return request;
 }
 
-- (nullable id)loadLocalURL:(nullable NSURL *)url {
+- (nullable CHImage *)loadLocalURL:(nullable NSURL *)url {
     id res = nil;
     if (url != nil) {
         res = [self.dataCache objectForKey:url.absoluteString];
         if (res == nil) {
-            res = [self.decoder webObjectDecode:[NSData dataFromNoCacheURL:url]];
+            res = [self imageDecode:[NSData dataFromNoCacheURL:url]];
             if (res != nil) {
                 [self.dataCache setObject:res forKey:url.absoluteString];
             }
@@ -330,12 +327,7 @@
     return [self.fileBaseDir URLByAppendingPathComponent:name];
 }
 
-
-@end
-
-@implementation CHWebImageDecoder
-
-- (nullable id)webObjectDecode:(nullable NSData *)data {
+- (nullable CHImage *)imageDecode:(nullable NSData *)data {
     if (data.length > 0) {
         return [CHImage imageWithData:data];
     }

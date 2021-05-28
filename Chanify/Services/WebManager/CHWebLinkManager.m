@@ -1,24 +1,24 @@
 //
-//  CHLinkMetaManager.m
+//  CHWebLinkManager.m
 //  Chanify
 //
 //  Created by WizJin on 2021/4/3.
 //
 
-#import "CHLinkMetaManager.h"
+#import "CHWebLinkManager.h"
 #import <LinkPresentation/LinkPresentation.h>
 #import "CHImage.h"
 
-@interface CHLinkMetaTask : NSObject
+@interface CHWebLinkTask : NSObject
 
 @property (nonatomic, readonly, strong) NSURL *link;
-@property (nonatomic, readonly, strong) NSHashTable<id<CHLinkMetaItem>> *items;
+@property (nonatomic, readonly, strong) NSHashTable<id<CHWebLinkItem>> *items;
 @property (nonatomic, nullable, strong) LPMetadataProvider *provider;
 @property (nonatomic, nullable, strong) NSMutableDictionary *result;
 
 @end
 
-@implementation CHLinkMetaTask
+@implementation CHWebLinkTask
 
 - (instancetype)initWithURL:(NSURL *)link {
     if (self = [super init]) {
@@ -31,25 +31,25 @@
 
 - (void)dealloc {
     id result = self.result;
-    NSHashTable<id<CHLinkMetaItem>> *items = self.items;
+    NSHashTable<id<CHWebLinkItem>> *items = self.items;
     dispatch_main_async(^{
-        for (id<CHLinkMetaItem> item in items) {
-            [item linkMetaUpdated:result];
+        for (id<CHWebLinkItem> item in items) {
+            [item webLinkUpdated:result];
         }
     });
 }
 
 @end
 
-@interface CHLinkMetaManager ()
+@interface CHWebLinkManager ()
 
-@property (nonatomic, readonly, strong) NSMutableDictionary<NSURL *, CHLinkMetaTask *> *tasks;
+@property (nonatomic, readonly, strong) NSMutableDictionary<NSURL *, CHWebLinkTask *> *tasks;
 
 @end
 
-@implementation CHLinkMetaManager
+@implementation CHWebLinkManager
 
-+ (instancetype)linkManagerWithURL:(NSURL *)fileBaseDir {
++ (instancetype)webLinkManagerWithURL:(NSURL *)fileBaseDir {
     return [[self.class alloc] initWithURL:fileBaseDir];
 }
 
@@ -65,11 +65,11 @@
     [self.dataCache removeAllObjects];
 }
 
-- (void)loadMetaFromURL:(nullable NSURL *)url toItem:(id<CHLinkMetaItem>)item {
+- (void)loadLinkFromURL:(nullable NSURL *)url toItem:(id<CHWebLinkItem>)item {
     if (url != nil) {
         NSString *scheme = url.scheme.lowercaseString;
         if (![scheme isEqualToString:@"http"] && ![scheme isEqualToString:@"https"]) {
-            [item linkMetaUpdated:@{
+            [item webLinkUpdated:@{
                 @"host-desc": url.scheme ?: @"",
                 @"icon": [CHImage systemImageNamed:@"link.circle"],
                 @"title": @"URLScheme clicked".localized,
@@ -78,14 +78,14 @@
         }
         NSDictionary *data = [self loadLocalMeta:url];
         if (data != nil) {
-            [item linkMetaUpdated:data];
+            [item webLinkUpdated:data];
             return;
         }
-        CHLinkMetaTask *task = [self.tasks objectForKey:url];
+        CHWebLinkTask *task = [self.tasks objectForKey:url];
         if (task != nil) {
             [task.items addObject:item];
         } else {
-            task = [[CHLinkMetaTask alloc] initWithURL:url];
+            task = [[CHWebLinkTask alloc] initWithURL:url];
             [self.tasks setObject:task forKey:url];
             [task.items addObject:item];
             [self asyncStartTask:task fileURL:[self url2Path:url]];
@@ -114,7 +114,7 @@
     return res;
 }
 
-- (void)asyncStartTask:(CHLinkMetaTask *)task fileURL:(NSURL *)fileURL {
+- (void)asyncStartTask:(CHWebLinkTask *)task fileURL:(NSURL *)fileURL {
     @weakify(self);
     [task.provider startFetchingMetadataForURL:task.link completionHandler:^(LPLinkMetadata *metadata, NSError *error) {
         @strongify(self);
@@ -145,7 +145,7 @@
     }];
 }
 
-- (void)finishTask:(CHLinkMetaTask *)task toFile:(NSURL *)fileURL {
+- (void)finishTask:(CHWebLinkTask *)task toFile:(NSURL *)fileURL {
     @weakify(self);
     dispatch_main_async(^{
         @strongify(self);

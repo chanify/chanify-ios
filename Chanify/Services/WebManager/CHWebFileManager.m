@@ -158,11 +158,10 @@
         @strongify(self);
         NSFileManager *fm = NSFileManager.defaultManager;
         for (NSURL *url in urls) {
-            NSURL *path = url.URLByDeletingLastPathComponent;
-            NSURL *dir = url.absoluteUnprivateURL;
+            NSURL *dir = url.URLByResolvingSymlinksInPath;
             if ([dir.absoluteString hasPrefix:self.fileBaseDir.absoluteString]) {
                 [self.dataCache removeObjectForKey:dir.absoluteString];
-                [fm removeItemAtURL:path error:nil];
+                [fm removeItemAtURL:url.URLByDeletingLastPathComponent error:nil];
             }
         }
         [self setNeedUpdateAllocatedFileSize];

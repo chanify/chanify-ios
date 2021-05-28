@@ -1,19 +1,19 @@
 //
-//  CHFileCacheManager.m
+//  CHWebCacheManager.m
 //  iOS
 //
 //  Created by WizJin on 2021/5/18.
 //
 
-#import "CHFileCacheManager.h"
+#import "CHWebCacheManager.h"
 
-@interface CHFileCacheManager ()
+@interface CHWebCacheManager ()
 
 @property (nonatomic, assign) NSUInteger totalAllocatedFileSize;
 
 @end
 
-@implementation CHFileCacheManager
+@implementation CHWebCacheManager
 
 - (instancetype)initWithFileBase:(NSURL *)fileBaseDir {
     if (self = [super init]) {
@@ -53,7 +53,7 @@
                 self->_totalAllocatedFileSize += [value unsignedIntegerValue];
             }
         }
-        [self sendNotifyWithSelector:@selector(fileCacheAllocatedFileSizeChanged:) withObject:self];
+        [self sendNotifyWithSelector:@selector(webCacheAllocatedFileSizeChanged:) withObject:self];
     });
 }
 
@@ -62,7 +62,7 @@
     dispatch_main_async(^{
         @strongify(self);
         self->_totalAllocatedFileSize = 0;
-        [self sendNotifyWithSelector:@selector(fileCacheAllocatedFileSizeChanged:) withObject:self];
+        [self sendNotifyWithSelector:@selector(webCacheAllocatedFileSizeChanged:) withObject:self];
     });
 }
 

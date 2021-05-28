@@ -1,5 +1,5 @@
 //
-//  CHFileCacheManager.h
+//  CHWebCacheManager.h
 //  iOS
 //
 //  Created by WizJin on 2021/5/18.
@@ -9,13 +9,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class CHFileCacheManager;
+@class CHWebCacheManager;
 
-@protocol CHFileCacheManagerDelegate <NSObject>
-- (void)fileCacheAllocatedFileSizeChanged:(CHFileCacheManager *)manager;
+@protocol CHWebCacheManagerDelegate <NSObject>
+- (void)webCacheAllocatedFileSizeChanged:(CHWebCacheManager *)manager;
 @end
 
-@interface CHFileCacheManager : CHManager<id<CHFileCacheManagerDelegate>>
+@interface CHWebCacheManager : CHManager<id<CHWebCacheManagerDelegate>>
 
 @property (nonatomic, nullable, strong) NSString *uid;
 @property (nonatomic, readonly, strong) NSURL *fileBaseDir;

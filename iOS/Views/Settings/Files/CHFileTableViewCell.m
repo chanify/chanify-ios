@@ -34,7 +34,7 @@
         iconView.contentMode = UIViewContentModeScaleAspectFit;
         iconView.tintColor = theme.lightLabelColor;
         [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.contentView).offset(kCHDataListLeftMargin);
+            make.left.equalTo(self.contentView).offset(kCHDataItemCellMargin);
             make.centerY.equalTo(self.contentView);
             make.size.mas_equalTo(CGSizeMake(26, 32));
         }];
@@ -42,7 +42,7 @@
         UILabel *fileSizeLabel = [UILabel new];
         [self.contentView addSubview:(_fileSizeLabel = fileSizeLabel)];
         [fileSizeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self.contentView).offset(-kCHDataListLeftMargin);
+            make.right.equalTo(self.contentView).offset(-kCHDataItemCellMargin);
             make.bottom.equalTo(self.contentView).offset(-6);
         }];
         fileSizeLabel.font = [UIFont systemFontOfSize:12];
@@ -64,7 +64,7 @@
         [self.contentView addSubview:(_nameLabel = nameLabel)];
         [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.contentView).offset(6);
-            make.right.equalTo(self.contentView).offset(-kCHDataListLeftMargin);
+            make.right.equalTo(self.contentView).offset(-kCHDataItemCellMargin);
             make.left.equalTo(createDateLabel);
             make.bottom.equalTo(createDateLabel.mas_top).offset(-4);
         }];
@@ -75,7 +75,7 @@
     return self;
 }
 
-- (void)setURL:(NSURL *)url manager:(CHFileCacheManager *)manager {
+- (void)setURL:(NSURL *)url manager:(CHWebCacheManager *)manager {
     if (self.url != url) {
         self.url = url;
 

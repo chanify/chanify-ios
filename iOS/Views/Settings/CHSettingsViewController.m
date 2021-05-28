@@ -7,12 +7,15 @@
 
 #import "CHSettingsViewController.h"
 #import "CHNotification.h"
+#import "CHWebFileManager.h"
+#import "CHWebImageManager.h"
+#import "CHWebAudioManager.h"
 #import "CHLogic+iOS.h"
 #import "CHDevice.h"
 #import "CHRouter.h"
 #import "CHTheme.h"
 
-@interface CHSettingsViewController () <CHLogicDelegate, CHNotificationDelegate, CHFileCacheManagerDelegate>
+@interface CHSettingsViewController () <CHLogicDelegate, CHNotificationDelegate, CHWebCacheManagerDelegate>
 
 @end
 
@@ -43,14 +46,17 @@
     CHLogic *logic = CHLogic.shared;
     [logic.webFileManager addDelegate:self];
     [logic.webImageManager addDelegate:self];
-    [self fileCacheAllocatedFileSizeChanged:logic.webFileManager];
-    [self fileCacheAllocatedFileSizeChanged:logic.webImageManager];
+    [logic.webAudioManager addDelegate:self];
+    [self webCacheAllocatedFileSizeChanged:logic.webFileManager];
+    [self webCacheAllocatedFileSizeChanged:logic.webImageManager];
+    [self webCacheAllocatedFileSizeChanged:logic.webAudioManager];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     CHLogic *logic = CHLogic.shared;
     [logic.webFileManager removeDelegate:self];
     [logic.webImageManager removeDelegate:self];
+    [logic.webAudioManager removeDelegate:self];
     [super viewDidDisappear:animated];
 }
 
@@ -64,12 +70,19 @@
     [self updateNotificationItem];
 }
 
-#pragma mark - CHFileCacheManagerDelegate
-- (void)fileCacheAllocatedFileSizeChanged:(CHFileCacheManager *)manager {
+#pragma mark - CHWebCacheManagerDelegate
+- (void)webCacheAllocatedFileSizeChanged:(CHWebCacheManager *)manager {
     CHLogic *logic = CHLogic.shared;
     if (manager == logic.webImageManager) {
         CHFormValueItem *item = (CHFormValueItem *)[self.form formItemWithName:@"images"];
         NSUInteger size = logic.webImageManager.allocatedFileSize;
+        if ([item.value unsignedIntegerValue] != size) {
+            item.value = @(size);
+            [self reloadItem:item];
+        }
+    } else if (manager == logic.webAudioManager) {
+        CHFormValueItem *item = (CHFormValueItem *)[self.form formItemWithName:@"audios"];
+        NSUInteger size = logic.webAudioManager.allocatedFileSize;
         if ([item.value unsignedIntegerValue] != size) {
             item.value = @(size);
             [self reloadItem:item];
@@ -134,6 +147,14 @@
     item = [CHFormValueItem itemWithName:@"images" title:@"Images".localized value:@(0)];
     item.action = ^(CHFormItem *itm) {
         [CHRouter.shared routeTo:@"/page/images" withParams:@{ @"show": @"detail" }];
+    };
+    [(CHFormValueItem *)item setFormatter:^(CHFormValueItem *item, NSNumber *value) {
+        return [value formatFileSize];
+    }];
+    [section addFormItem:item];
+    item = [CHFormValueItem itemWithName:@"audios" title:@"Audios".localized value:@(0)];
+    item.action = ^(CHFormItem *itm) {
+        [CHRouter.shared routeTo:@"/page/audios" withParams:@{ @"show": @"detail" }];
     };
     [(CHFormValueItem *)item setFormatter:^(CHFormValueItem *item, NSNumber *value) {
         return [value formatFileSize];

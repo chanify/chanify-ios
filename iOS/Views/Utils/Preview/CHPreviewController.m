@@ -54,7 +54,7 @@
 }
 
 #pragma mark - Action Methods
-- (void)actionShared:(id)sender {
+- (void)actionShared:(UIBarButtonItem *)sender {
     UIImage *image = [UIImage imageWithData:[NSData dataFromNoCacheURL:self.currentPreviewItem.previewItemURL]];
     [CHRouter.shared showShareItem:@[image] sender:sender handler:^(BOOL completed, NSError *error) {
         if (error != nil) {

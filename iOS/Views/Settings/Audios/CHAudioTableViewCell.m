@@ -1,45 +1,43 @@
 //
-//  CHImageTableViewCell.m
+//  CHAudioTableViewCell.m
 //  iOS
 //
-//  Created by WizJin on 2021/5/25.
+//  Created by WizJin on 2021/5/28.
 //
 
-#import "CHImageTableViewCell.h"
+#import "CHAudioTableViewCell.h"
 #import <Masonry/Masonry.h>
-#import "CHWebImageManager.h"
 #import "CHLogic+iOS.h"
 #import "CHTheme.h"
 
-@interface CHImageTableViewCell ()
+@interface CHAudioTableViewCell ()
 
-@property (nonatomic, readonly, strong) UIImageView *imagePreviewView;
+@property (nonatomic, readonly, strong) UIImageView *iconView;
 @property (nonatomic, readonly, strong) UILabel *createDateLabel;
 @property (nonatomic, readonly, strong) UILabel *fileSizeLabel;
 
 @end
 
-@implementation CHImageTableViewCell
+@implementation CHAudioTableViewCell
 
 + (CGFloat)cellHeight {
-    return 91;
+    return 60;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         CHTheme *theme = CHTheme.shared;
 
-        UIImageView *imagePreviewView = [UIImageView new];
-        [self.contentView addSubview:(_imagePreviewView = imagePreviewView)];
-        imagePreviewView.contentMode = UIViewContentModeScaleAspectFill;
-        imagePreviewView.clipsToBounds = YES;
-        [imagePreviewView mas_makeConstraints:^(MASConstraintMaker *make) {
+        UIImageView *iconView = [[UIImageView alloc] initWithImage:[UIImage systemImageNamed:@"music.note"]];
+        [self.contentView addSubview:(_iconView = iconView)];
+        iconView.contentMode = UIViewContentModeScaleAspectFit;
+        iconView.tintColor = theme.lightLabelColor;
+        [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.contentView).offset(kCHDataItemCellMargin);
-            make.top.equalTo(self.contentView).offset(4);
-            make.bottom.equalTo(self.contentView).offset(-4);
-            make.width.equalTo(imagePreviewView.mas_height);
+            make.centerY.equalTo(self.contentView);
+            make.size.mas_equalTo(CGSizeMake(26, 32));
         }];
-
+        
         UILabel *createDateLabel = [UILabel new];
         [self.contentView addSubview:(_createDateLabel = createDateLabel)];
         [createDateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -67,8 +65,7 @@
     if (self.url != url) {
         self.url = url;
 
-        NSDictionary *info = [CHLogic.shared.webImageManager infoWithURL:url];
-        self.imagePreviewView.image = [info valueForKey:@"data"];
+        NSDictionary *info = [manager infoWithURL:url];
         self.createDateLabel.text = [[info valueForKey:@"date"] mediumFormat];
         self.fileSizeLabel.text = [[info valueForKey:@"size"] formatFileSize];
     }

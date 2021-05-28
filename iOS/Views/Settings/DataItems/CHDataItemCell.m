@@ -1,13 +1,13 @@
 //
-//  CHDataListCell.m
+//  CHDataItemCell.m
 //  iOS
 //
 //  Created by WizJin on 2021/5/26.
 //
 
-#import "CHDataListCell.h"
+#import "CHDataItemCell.h"
 
-@implementation CHDataListCell
+@implementation CHDataItemCell
 
 + (CGFloat)cellHeight {
     return 32;
@@ -21,7 +21,7 @@
     self.contentView.frame = frame;
 }
 
-- (void)setURL:(NSURL *)url manager:(CHFileCacheManager *)manager {
+- (void)setURL:(NSURL *)url manager:(CHWebCacheManager *)manager {
 }
 
 

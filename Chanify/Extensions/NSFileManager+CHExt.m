@@ -34,5 +34,25 @@
     return nil;
 }
 
+- (nullable NSURL *)URLLinkForFile:(nullable NSURL *)filepath withName:(NSString *)filename {
+    NSURL *url = nil;
+    if (filename.length > 0) {
+        if ([self isReadableFileAtPath:filepath.path]) {
+            NSURL *link = [self.temporaryDirectory URLByAppendingPathComponent:filename];
+            if ([self contentsEqualAtPath:filepath.path andPath:link.path]) {
+                url = link;
+            } else {
+                [self removeItemAtURL:link error:nil];
+                NSError *error = nil;
+                [self linkItemAtURL:filepath toURL:link error:&error];
+                if (error == nil) {
+                    url = link;
+                }
+            }
+        }
+    }
+    return url;
+}
+
 
 @end

@@ -29,6 +29,10 @@
 		6D2EA16E264D2FB700246EB4 /* CHActionItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2EA15F264D018A00246EB4 /* CHActionItemModel.m */; };
 		6D2EA170264D2FD900246EB4 /* CHActionGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2EA16A264D16C600246EB4 /* CHActionGroup.m */; };
 		6D2EF785263676FC003407A5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D2EF783263676FC003407A5 /* Localizable.strings */; };
+		6D3DC0872660C60200F42070 /* CHWebAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3DC0862660C60200F42070 /* CHWebAudioManager.m */; };
+		6D3DC0882660C60800F42070 /* CHWebAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3DC0862660C60200F42070 /* CHWebAudioManager.m */; };
+		6D3DC08C2660E80800F42070 /* CHAudiosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3DC08B2660E80800F42070 /* CHAudiosViewController.m */; };
+		6D3DC08F2660E97100F42070 /* CHAudioTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3DC08E2660E97100F42070 /* CHAudioTableViewCell.m */; };
 		6D3EB44B262AABD900BE797F /* CHNavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3EB44A262AABD900BE797F /* CHNavigationTitleView.m */; };
 		6D3F61DA262DB64500E122BC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D3F61D8262DB64500E122BC /* Localizable.strings */; };
 		6D3F61E8262E64AE00E122BC /* CHUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C27A25D13EFA00512E36 /* CHUserModel.m */; };
@@ -50,8 +54,8 @@
 		6D44170C25F278D80041EBA0 /* CHFormSelectorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D44170B25F278D80041EBA0 /* CHFormSelectorItem.m */; };
 		6D44171325F330630041EBA0 /* CHFormInputItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D44171225F330630041EBA0 /* CHFormInputItem.m */; };
 		6D499112265D4FBB007834D0 /* CHFileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D499111265D4FBB007834D0 /* CHFileTableViewCell.m */; };
-		6D4B262E265E292E00E0E2B1 /* CHDataListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4B262D265E292E00E0E2B1 /* CHDataListController.m */; };
-		6D4B2632265E32C700E0E2B1 /* CHDataListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4B2631265E32C700E0E2B1 /* CHDataListCell.m */; };
+		6D4B262E265E292E00E0E2B1 /* CHDataItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4B262D265E292E00E0E2B1 /* CHDataItemsViewController.m */; };
+		6D4B2632265E32C700E0E2B1 /* CHDataItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4B2631265E32C700E0E2B1 /* CHDataItemCell.m */; };
 		6D59464726356941004D3748 /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D59464626356941004D3748 /* IconView.swift */; };
 		6D59464E26356C51004D3748 /* UIColor+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92C425F60B3B00B792FE /* UIColor+CHExt.m */; };
 		6D67CBDB25D3BAD700ECF655 /* NSDate+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */; };
@@ -97,7 +101,7 @@
 		6DBA92C525F60B3B00B792FE /* UIColor+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92C425F60B3B00B792FE /* UIColor+CHExt.m */; };
 		6DBA92DF25F8A83700B792FE /* CHSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92DE25F8A83700B792FE /* CHSplitViewController.m */; };
 		6DBF865C261826E3006F108C /* CHLinkMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBF865B261826E3006F108C /* CHLinkMsgCellConfiguration.m */; };
-		6DBF866326183E53006F108C /* CHLinkMetaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBF866226183E53006F108C /* CHLinkMetaManager.m */; };
+		6DBF866326183E53006F108C /* CHWebLinkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBF866226183E53006F108C /* CHWebLinkManager.m */; };
 		6DC6C1C425D0DCD100512E36 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C1C325D0DCD100512E36 /* AppDelegate.m */; };
 		6DC6C1CA25D0DCD100512E36 /* CHViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C1C925D0DCD100512E36 /* CHViewController.m */; };
 		6DC6C1CF25D0DCD200512E36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DC6C1CE25D0DCD200512E36 /* Assets.xcassets */; };
@@ -170,9 +174,9 @@
 		6DD325F1265259AF00A5CEC4 /* CHFormDateItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD325F0265259AF00A5CEC4 /* CHFormDateItem.m */; };
 		6DD325F4265394DB00A5CEC4 /* CHImagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD325F3265394DB00A5CEC4 /* CHImagesViewController.m */; };
 		6DD325F7265394EC00A5CEC4 /* CHFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD325F6265394EC00A5CEC4 /* CHFilesViewController.m */; };
-		6DD325FD2653AE5900A5CEC4 /* CHFileCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD325FC2653AE5900A5CEC4 /* CHFileCacheManager.m */; };
-		6DD325FE2653AE6400A5CEC4 /* CHFileCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD325FC2653AE5900A5CEC4 /* CHFileCacheManager.m */; };
-		6DD5A0F9260EF99E00799032 /* CHWebObjectManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD5A0F8260EF99E00799032 /* CHWebObjectManager.m */; };
+		6DD325FD2653AE5900A5CEC4 /* CHWebCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD325FC2653AE5900A5CEC4 /* CHWebCacheManager.m */; };
+		6DD325FE2653AE6400A5CEC4 /* CHWebCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD325FC2653AE5900A5CEC4 /* CHWebCacheManager.m */; };
+		6DD5A0F9260EF99E00799032 /* CHWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD5A0F8260EF99E00799032 /* CHWebImageManager.m */; };
 		6DD5A103260EFB9900799032 /* CHWebImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD5A102260EFB9900799032 /* CHWebImageView.m */; };
 		6DD6954625F1FF6C0047FF08 /* CHFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD6954525F1FF6C0047FF08 /* CHFormViewController.m */; };
 		6DD6954B25F20BFD0047FF08 /* CHForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD6954A25F20BFD0047FF08 /* CHForm.m */; };
@@ -195,9 +199,9 @@
 		6DDE057C262976C4004336DD /* CHBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDE057B262976C4004336DD /* CHBadgeView.m */; };
 		6DDEB4DB263FA53700CAD501 /* CHImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDEB4DA263FA53700CAD501 /* CHImage.m */; };
 		6DDEB4DC263FA5FE00CAD501 /* CHImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDEB4DA263FA53700CAD501 /* CHImage.m */; };
-		6DDEB4DD263FA62600CAD501 /* CHLinkMetaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBF866226183E53006F108C /* CHLinkMetaManager.m */; };
+		6DDEB4DD263FA62600CAD501 /* CHWebLinkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBF866226183E53006F108C /* CHWebLinkManager.m */; };
 		6DDEB4E1263FA73600CAD501 /* NSImage+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDEB4E0263FA73600CAD501 /* NSImage+CHExt.m */; };
-		6DDEB4E2263FA87100CAD501 /* CHWebObjectManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD5A0F8260EF99E00799032 /* CHWebObjectManager.m */; };
+		6DDEB4E2263FA87100CAD501 /* CHWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD5A0F8260EF99E00799032 /* CHWebImageManager.m */; };
 		6DDEB4E3263FA8BB00CAD501 /* CHToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC882C25FB62D70028B473 /* CHToken.m */; };
 		6DDEB4E4263FAA4B00CAD501 /* CHWebFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCAD2202621D52F00F43F20 /* CHWebFileManager.m */; };
 		6DE7C05E263D45DE0092D88D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6DE7C05C263D45DE0092D88D /* InfoPlist.strings */; };
@@ -473,6 +477,12 @@
 		6D2EA16A264D16C600246EB4 /* CHActionGroup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHActionGroup.m; sourceTree = "<group>"; };
 		6D2EF784263676FC003407A5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6D2EF78C26367703003407A5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		6D3DC0852660C60200F42070 /* CHWebAudioManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebAudioManager.h; sourceTree = "<group>"; };
+		6D3DC0862660C60200F42070 /* CHWebAudioManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHWebAudioManager.m; sourceTree = "<group>"; };
+		6D3DC08A2660E80800F42070 /* CHAudiosViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHAudiosViewController.h; sourceTree = "<group>"; };
+		6D3DC08B2660E80800F42070 /* CHAudiosViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHAudiosViewController.m; sourceTree = "<group>"; };
+		6D3DC08D2660E97100F42070 /* CHAudioTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHAudioTableViewCell.h; sourceTree = "<group>"; };
+		6D3DC08E2660E97100F42070 /* CHAudioTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHAudioTableViewCell.m; sourceTree = "<group>"; };
 		6D3EB449262AABD900BE797F /* CHNavigationTitleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNavigationTitleView.h; sourceTree = "<group>"; };
 		6D3EB44A262AABD900BE797F /* CHNavigationTitleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNavigationTitleView.m; sourceTree = "<group>"; };
 		6D3F61D9262DB64500E122BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -494,10 +504,10 @@
 		6D44171225F330630041EBA0 /* CHFormInputItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormInputItem.m; sourceTree = "<group>"; };
 		6D499110265D4FBB007834D0 /* CHFileTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFileTableViewCell.h; sourceTree = "<group>"; };
 		6D499111265D4FBB007834D0 /* CHFileTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFileTableViewCell.m; sourceTree = "<group>"; };
-		6D4B262C265E292E00E0E2B1 /* CHDataListController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHDataListController.h; sourceTree = "<group>"; };
-		6D4B262D265E292E00E0E2B1 /* CHDataListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHDataListController.m; sourceTree = "<group>"; };
-		6D4B2630265E32C700E0E2B1 /* CHDataListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHDataListCell.h; sourceTree = "<group>"; };
-		6D4B2631265E32C700E0E2B1 /* CHDataListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHDataListCell.m; sourceTree = "<group>"; };
+		6D4B262C265E292E00E0E2B1 /* CHDataItemsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHDataItemsViewController.h; sourceTree = "<group>"; };
+		6D4B262D265E292E00E0E2B1 /* CHDataItemsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHDataItemsViewController.m; sourceTree = "<group>"; };
+		6D4B2630265E32C700E0E2B1 /* CHDataItemCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHDataItemCell.h; sourceTree = "<group>"; };
+		6D4B2631265E32C700E0E2B1 /* CHDataItemCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHDataItemCell.m; sourceTree = "<group>"; };
 		6D59464626356941004D3748 /* IconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
 		6D67CBD925D3BAD700ECF655 /* NSDate+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+CHExt.h"; sourceTree = "<group>"; };
 		6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+CHExt.m"; sourceTree = "<group>"; };
@@ -560,8 +570,8 @@
 		6DBA92DE25F8A83700B792FE /* CHSplitViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHSplitViewController.m; sourceTree = "<group>"; };
 		6DBF865A261826E3006F108C /* CHLinkMsgCellConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHLinkMsgCellConfiguration.h; sourceTree = "<group>"; };
 		6DBF865B261826E3006F108C /* CHLinkMsgCellConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHLinkMsgCellConfiguration.m; sourceTree = "<group>"; };
-		6DBF866126183E53006F108C /* CHLinkMetaManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHLinkMetaManager.h; sourceTree = "<group>"; };
-		6DBF866226183E53006F108C /* CHLinkMetaManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHLinkMetaManager.m; sourceTree = "<group>"; };
+		6DBF866126183E53006F108C /* CHWebLinkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebLinkManager.h; sourceTree = "<group>"; };
+		6DBF866226183E53006F108C /* CHWebLinkManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHWebLinkManager.m; sourceTree = "<group>"; };
 		6DC6C1BF25D0DCD100512E36 /* Chanify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chanify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DC6C1C225D0DCD100512E36 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6DC6C1C325D0DCD100512E36 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -689,10 +699,10 @@
 		6DD325F3265394DB00A5CEC4 /* CHImagesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHImagesViewController.m; sourceTree = "<group>"; };
 		6DD325F5265394EC00A5CEC4 /* CHFilesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFilesViewController.h; sourceTree = "<group>"; };
 		6DD325F6265394EC00A5CEC4 /* CHFilesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFilesViewController.m; sourceTree = "<group>"; };
-		6DD325FB2653AE5900A5CEC4 /* CHFileCacheManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFileCacheManager.h; sourceTree = "<group>"; };
-		6DD325FC2653AE5900A5CEC4 /* CHFileCacheManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFileCacheManager.m; sourceTree = "<group>"; };
-		6DD5A0F7260EF99E00799032 /* CHWebObjectManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebObjectManager.h; sourceTree = "<group>"; };
-		6DD5A0F8260EF99E00799032 /* CHWebObjectManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHWebObjectManager.m; sourceTree = "<group>"; };
+		6DD325FB2653AE5900A5CEC4 /* CHWebCacheManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebCacheManager.h; sourceTree = "<group>"; };
+		6DD325FC2653AE5900A5CEC4 /* CHWebCacheManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHWebCacheManager.m; sourceTree = "<group>"; };
+		6DD5A0F7260EF99E00799032 /* CHWebImageManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebImageManager.h; sourceTree = "<group>"; };
+		6DD5A0F8260EF99E00799032 /* CHWebImageManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHWebImageManager.m; sourceTree = "<group>"; };
 		6DD5A101260EFB9900799032 /* CHWebImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebImageView.h; sourceTree = "<group>"; };
 		6DD5A102260EFB9900799032 /* CHWebImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHWebImageView.m; sourceTree = "<group>"; };
 		6DD6954425F1FF6C0047FF08 /* CHFormViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormViewController.h; sourceTree = "<group>"; };
@@ -879,6 +889,34 @@
 			path = Nodes;
 			sourceTree = "<group>";
 		};
+		6D3DC0842660A43000F42070 /* WebManager */ = {
+			isa = PBXGroup;
+			children = (
+				6DD325FB2653AE5900A5CEC4 /* CHWebCacheManager.h */,
+				6DD325FC2653AE5900A5CEC4 /* CHWebCacheManager.m */,
+				6DBF866126183E53006F108C /* CHWebLinkManager.h */,
+				6DBF866226183E53006F108C /* CHWebLinkManager.m */,
+				6DCAD21F2621D52F00F43F20 /* CHWebFileManager.h */,
+				6DCAD2202621D52F00F43F20 /* CHWebFileManager.m */,
+				6DD5A0F7260EF99E00799032 /* CHWebImageManager.h */,
+				6DD5A0F8260EF99E00799032 /* CHWebImageManager.m */,
+				6D3DC0852660C60200F42070 /* CHWebAudioManager.h */,
+				6D3DC0862660C60200F42070 /* CHWebAudioManager.m */,
+			);
+			path = WebManager;
+			sourceTree = "<group>";
+		};
+		6D3DC0892660E7DF00F42070 /* Audios */ = {
+			isa = PBXGroup;
+			children = (
+				6D3DC08A2660E80800F42070 /* CHAudiosViewController.h */,
+				6D3DC08B2660E80800F42070 /* CHAudiosViewController.m */,
+				6D3DC08D2660E97100F42070 /* CHAudioTableViewCell.h */,
+				6D3DC08E2660E97100F42070 /* CHAudioTableViewCell.m */,
+			);
+			path = Audios;
+			sourceTree = "<group>";
+		};
 		6D3F61C5262DB59500E122BC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -931,15 +969,15 @@
 			path = Item;
 			sourceTree = "<group>";
 		};
-		6D4B262F265E326E00E0E2B1 /* DataList */ = {
+		6D4B262F265E326E00E0E2B1 /* DataItems */ = {
 			isa = PBXGroup;
 			children = (
-				6D4B262C265E292E00E0E2B1 /* CHDataListController.h */,
-				6D4B262D265E292E00E0E2B1 /* CHDataListController.m */,
-				6D4B2630265E32C700E0E2B1 /* CHDataListCell.h */,
-				6D4B2631265E32C700E0E2B1 /* CHDataListCell.m */,
+				6D4B262C265E292E00E0E2B1 /* CHDataItemsViewController.h */,
+				6D4B262D265E292E00E0E2B1 /* CHDataItemsViewController.m */,
+				6D4B2630265E32C700E0E2B1 /* CHDataItemCell.h */,
+				6D4B2631265E32C700E0E2B1 /* CHDataItemCell.m */,
 			);
-			path = DataList;
+			path = DataItems;
 			sourceTree = "<group>";
 		};
 		6D6F3CF4263D28EA00A2578B /* OSX */ = {
@@ -1299,7 +1337,8 @@
 			children = (
 				6D90910F265CAA370064A580 /* Files */,
 				6D90910E265CAA2F0064A580 /* Images */,
-				6D4B262F265E326E00E0E2B1 /* DataList */,
+				6D3DC0892660E7DF00F42070 /* Audios */,
+				6D4B262F265E326E00E0E2B1 /* DataItems */,
 				6DC6C34925D16A7300512E36 /* CHSettingsViewController.h */,
 				6DC6C34A25D16A7300512E36 /* CHSettingsViewController.m */,
 				6DC6C36625D16C1600512E36 /* CHUserInfoViewController.h */,
@@ -1351,10 +1390,10 @@
 				6DBF865B261826E3006F108C /* CHLinkMsgCellConfiguration.m */,
 				6D2C721A261E002A003CDCDB /* CHFileMsgCellConfiguration.h */,
 				6D2C721B261E002A003CDCDB /* CHFileMsgCellConfiguration.m */,
-				6DD7B5AE260DE2D4001D5DCB /* CHImageMsgCellConfiguration.h */,
-				6DD7B5AF260DE2D4001D5DCB /* CHImageMsgCellConfiguration.m */,
 				6DDCBCD2265F41DF00D210E3 /* CHAudioMsgCellConfiguration.h */,
 				6DDCBCD3265F41DF00D210E3 /* CHAudioMsgCellConfiguration.m */,
+				6DD7B5AE260DE2D4001D5DCB /* CHImageMsgCellConfiguration.h */,
+				6DD7B5AF260DE2D4001D5DCB /* CHImageMsgCellConfiguration.m */,
 				6DC6C39325D16ECA00512E36 /* CHUnknownMsgCellConfiguration.h */,
 				6DC6C39425D16ECA00512E36 /* CHUnknownMsgCellConfiguration.m */,
 			);
@@ -1515,6 +1554,7 @@
 		6DE7C082263D49030092D88D /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				6D3DC0842660A43000F42070 /* WebManager */,
 				6DC6C27225D13E5500512E36 /* CHLogic.h */,
 				6DC6C27325D13E5500512E36 /* CHLogic.m */,
 				6DC6C24025D1117A00512E36 /* CHTheme.h */,
@@ -1529,14 +1569,6 @@
 				6DC6C2EB25D15F9700512E36 /* CHNSDataSource.m */,
 				6DC6C2DB25D15DB100512E36 /* CHUserDataSource.h */,
 				6DC6C2DC25D15DB100512E36 /* CHUserDataSource.m */,
-				6DD325FB2653AE5900A5CEC4 /* CHFileCacheManager.h */,
-				6DD325FC2653AE5900A5CEC4 /* CHFileCacheManager.m */,
-				6DCAD21F2621D52F00F43F20 /* CHWebFileManager.h */,
-				6DCAD2202621D52F00F43F20 /* CHWebFileManager.m */,
-				6DBF866126183E53006F108C /* CHLinkMetaManager.h */,
-				6DBF866226183E53006F108C /* CHLinkMetaManager.m */,
-				6DD5A0F7260EF99E00799032 /* CHWebObjectManager.h */,
-				6DD5A0F8260EF99E00799032 /* CHWebObjectManager.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1964,7 +1996,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DDEB4DD263FA62600CAD501 /* CHLinkMetaManager.m in Sources */,
+				6DDEB4DD263FA62600CAD501 /* CHWebLinkManager.m in Sources */,
 				6DE7C080263D48E10092D88D /* NSDictionary+CHExt.m in Sources */,
 				6DE7C07B263D48B80092D88D /* NSString+CHExt.m in Sources */,
 				6DE7C075263D487B0092D88D /* CHSecKey.m in Sources */,
@@ -1984,6 +2016,7 @@
 				6DE7C066263D471E0092D88D /* CHUtils.m in Sources */,
 				6DDD6B09263E314200684EE7 /* CHLogic+OSX.m in Sources */,
 				6D6F3CFA263D28EA00A2578B /* CHMianViewController.m in Sources */,
+				6D3DC0882660C60800F42070 /* CHWebAudioManager.m in Sources */,
 				6DDEB4DC263FA5FE00CAD501 /* CHImage.m in Sources */,
 				6DE7C07C263D48C80092D88D /* NSString+CHLocalized.m in Sources */,
 				6DE7C086263D49340092D88D /* CHDevice.m in Sources */,
@@ -1993,7 +2026,7 @@
 				6DDEB4E4263FAA4B00CAD501 /* CHWebFileManager.m in Sources */,
 				6DDEB4E1263FA73600CAD501 /* NSImage+CHExt.m in Sources */,
 				6DE7C087263D493E0092D88D /* CHManager.m in Sources */,
-				6DDEB4E2263FA87100CAD501 /* CHWebObjectManager.m in Sources */,
+				6DDEB4E2263FA87100CAD501 /* CHWebImageManager.m in Sources */,
 				6DE7C089263D494F0092D88D /* CHNSDataSource.m in Sources */,
 				6DE7C067263D47210092D88D /* CHLogger.m in Sources */,
 				6DE7C073263D48680092D88D /* CHThumbnailModel.m in Sources */,
@@ -2002,7 +2035,7 @@
 				6D6F3CF7263D28EA00A2578B /* AppDelegate.m in Sources */,
 				6DE7C079263D48B50092D88D /* NSDate+CHExt.m in Sources */,
 				6DE7C07A263D48B70092D88D /* NSData+CHExt.m in Sources */,
-				6DD325FE2653AE6400A5CEC4 /* CHFileCacheManager.m in Sources */,
+				6DD325FE2653AE6400A5CEC4 /* CHWebCacheManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2103,9 +2136,9 @@
 				6D3EB44B262AABD900BE797F /* CHNavigationTitleView.m in Sources */,
 				6DC6C33E25D1694100512E36 /* CHChannelsViewController.m in Sources */,
 				6DD7B5B0260DE2D4001D5DCB /* CHImageMsgCellConfiguration.m in Sources */,
-				6DD5A0F9260EF99E00799032 /* CHWebObjectManager.m in Sources */,
+				6DD5A0F9260EF99E00799032 /* CHWebImageManager.m in Sources */,
 				6D2C721C261E002A003CDCDB /* CHFileMsgCellConfiguration.m in Sources */,
-				6DBF866326183E53006F108C /* CHLinkMetaManager.m in Sources */,
+				6DBF866326183E53006F108C /* CHWebLinkManager.m in Sources */,
 				6DD325F7265394EC00A5CEC4 /* CHFilesViewController.m in Sources */,
 				6DEC569E25F4F6F600AD6DC9 /* CHIconConfiguration.m in Sources */,
 				6D278EA825E4CC9500FC48CD /* CHNodesViewController.m in Sources */,
@@ -2118,6 +2151,7 @@
 				6DABBB312612E33D00FCBDD3 /* CHPreviewController.m in Sources */,
 				6D278EAD25E5598A00FC48CD /* CHTableView.m in Sources */,
 				6DDC86A925E7408E00C26203 /* CHNodeModel.m in Sources */,
+				6D3DC0872660C60200F42070 /* CHWebAudioManager.m in Sources */,
 				6DC6C3A425D1700A00512E36 /* CHChannelViewController.m in Sources */,
 				6DBA92BE25F609CD00B792FE /* CHColorConfiguration.m in Sources */,
 				6DABBB292612D9EA00FCBDD3 /* CHPreviewItem.m in Sources */,
@@ -2129,7 +2163,7 @@
 				6DCAD2212621D52F00F43F20 /* CHWebFileManager.m in Sources */,
 				6DC6C37625D16CA000512E36 /* UIView+CHExt.m in Sources */,
 				6DD5A103260EFB9900799032 /* CHWebImageView.m in Sources */,
-				6DD325FD2653AE5900A5CEC4 /* CHFileCacheManager.m in Sources */,
+				6DD325FD2653AE5900A5CEC4 /* CHWebCacheManager.m in Sources */,
 				6DDCBCD4265F41DF00D210E3 /* CHAudioMsgCellConfiguration.m in Sources */,
 				6DD969D425F4A1E700EEEECF /* CHIconView.m in Sources */,
 				6DC6C37F25D16E1800512E36 /* CHCellConfiguration.m in Sources */,
@@ -2152,7 +2186,9 @@
 				6DD7B5A9260DC360001D5DCB /* CHSoundsViewController.m in Sources */,
 				6DC6C2C525D15A8600512E36 /* CHIndicatorPanelView.m in Sources */,
 				6DC6C34B25D16A7300512E36 /* CHSettingsViewController.m in Sources */,
+				6D3DC08C2660E80800F42070 /* CHAudiosViewController.m in Sources */,
 				6DC6C2C025D15A7900512E36 /* CHIndicatorView.m in Sources */,
+				6D3DC08F2660E97100F42070 /* CHAudioTableViewCell.m in Sources */,
 				6D9C209426020A4200F40CDD /* CHFormSwitchItem.m in Sources */,
 				6DC6C24925D1122100512E36 /* CHUtils.m in Sources */,
 				6D278E4125E0ECAC00FC48CD /* CHChannelTableViewCell.m in Sources */,
@@ -2167,7 +2203,7 @@
 				6DABBB212612BDFC00FCBDD3 /* CHThumbnailModel.m in Sources */,
 				6DC6C28225D1408700512E36 /* CHTabBarViewController.m in Sources */,
 				6DD6954625F1FF6C0047FF08 /* CHFormViewController.m in Sources */,
-				6D4B2632265E32C700E0E2B1 /* CHDataListCell.m in Sources */,
+				6D4B2632265E32C700E0E2B1 /* CHDataItemCell.m in Sources */,
 				6DC6C31925D1615100512E36 /* NSFileManager+CHExt.m in Sources */,
 				6DC6C2F625D1602F00512E36 /* NSURL+CHExt.m in Sources */,
 				6DC6C27B25D13EFA00512E36 /* CHUserModel.m in Sources */,
@@ -2178,7 +2214,7 @@
 				6DC6C25325D112BB00512E36 /* CHLogger.m in Sources */,
 				6DC6C35C25D16B6A00512E36 /* NSPredicate+CHExt.m in Sources */,
 				6DC6C3B525D2193500512E36 /* CHMock.m in Sources */,
-				6D4B262E265E292E00E0E2B1 /* CHDataListController.m in Sources */,
+				6D4B262E265E292E00E0E2B1 /* CHDataItemsViewController.m in Sources */,
 				6DC6C1C425D0DCD100512E36 /* AppDelegate.m in Sources */,
 				6DC6C29A25D143BC00512E36 /* CHWebViewController.m in Sources */,
 				6D12BC342625A0DA005659EA /* CHLoadingView.m in Sources */,

@@ -5,11 +5,11 @@
 //  Created by WizJin on 2021/5/18.
 //
 
-#import "CHDataListController.h"
+#import "CHDataItemsViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHImagesViewController : CHDataListController
+@interface CHImagesViewController : CHDataItemsViewController
 
 @end
 

@@ -9,13 +9,16 @@
 #import <WatchConnectivity/WatchConnectivity.h>
 #import <UserNotifications/UserNotifications.h>
 #import <AudioToolbox/AudioToolbox.h>
+#import "CHWebLinkManager.h"
+#import "CHWebFileManager.h"
+#import "CHWebImageManager.h"
+#import "CHWebAudioManager.h"
 #import "CHUserDataSource.h"
 #import "CHNSDataSource.h"
 #import "CHMessageModel.h"
 #import "CHChannelModel.h"
 #import "CHNodeModel.h"
 #import "CHNotification+Badge.h"
-#import "CHLinkMetaManager.h"
 #import "CHDevice.h"
 #import "CHRouter.h"
 #import "CHMock.h"
@@ -42,9 +45,10 @@
 - (instancetype)init {
     if (self = [super initWithAppGroup:@kCHAppGroupName]) {
         _readChannels = [NSMutableSet new];
+        _webLinkManager = nil;
         _webImageManager = nil;
+        _webAudioManager = nil;
         _webFileManager = nil;
-        _linkMetaManager = nil;
         if (!WCSession.isSupported) {
             _watchSession = nil;
         } else {
@@ -289,27 +293,35 @@
         [self.webImageManager close];
         _webImageManager = nil;
     }
+    if (self.webAudioManager != nil && ![self.webAudioManager.uid isEqualToString:uid]) {
+        [self.webAudioManager close];
+        _webAudioManager = nil;
+    }
     if (self.webFileManager != nil && ![self.webFileManager.uid isEqualToString:uid]) {
         [self.webFileManager close];
         _webFileManager = nil;
     }
-    if (self.linkMetaManager != nil && ![self.linkMetaManager.uid isEqualToString:uid]) {
-        [self.linkMetaManager close];
-        _linkMetaManager = nil;
+    if (self.webLinkManager != nil && ![self.webLinkManager.uid isEqualToString:uid]) {
+        [self.webLinkManager close];
+        _webLinkManager = nil;
     }
     if (uid.length > 0) {
         NSURL *basePath = [dbpath.URLByDeletingLastPathComponent URLByAppendingPathComponent:@kCHWebBasePath];
         if (_webImageManager == nil) {
-            _webImageManager = [CHWebObjectManager webObjectManagerWithURL:[basePath URLByAppendingPathComponent:@"images"] decoder:[CHWebImageDecoder new]];
+            _webImageManager = [CHWebImageManager webImageManagerWithURL:[basePath URLByAppendingPathComponent:@"images"]];
             self.webImageManager.uid = uid;
+        }
+        if (_webAudioManager == nil) {
+            _webAudioManager = [CHWebAudioManager webAudioManagerWithURL:[basePath URLByAppendingPathComponent:@"audios"]];
+            self.webAudioManager.uid = uid;
         }
         if (_webFileManager == nil) {
             _webFileManager = [CHWebFileManager webFileManagerWithURL:[basePath URLByAppendingPathComponent:@"files"]];
             self.webFileManager.uid = uid;
         }
-        if (_linkMetaManager == nil) {
-            _linkMetaManager = [CHLinkMetaManager linkManagerWithURL:[basePath URLByAppendingPathComponent:@"links"]];
-            self.linkMetaManager.uid = uid;
+        if (_webLinkManager == nil) {
+            _webLinkManager = [CHWebLinkManager webLinkManagerWithURL:[basePath URLByAppendingPathComponent:@"links"]];
+            self.webLinkManager.uid = uid;
         }
     }
 }

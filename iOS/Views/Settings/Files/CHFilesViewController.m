@@ -8,6 +8,7 @@
 #import "CHFilesViewController.h"
 #import "CHPreviewController.h"
 #import "CHFileTableViewCell.h"
+#import "CHWebFileManager.h"
 #import "CHLogic+iOS.h"
 #import "CHRouter.h"
 
@@ -22,7 +23,7 @@
     return self;
 }
 
-- (void)previewURL:(NSURL *)url {
+- (void)previewURL:(NSURL *)url atView:(UIView *)view {
     CHPreviewController *vc = [CHPreviewController previewFile:url];
     [CHRouter.shared presentSystemViewController:vc animated:YES];
 }

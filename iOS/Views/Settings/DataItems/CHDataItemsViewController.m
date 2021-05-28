@@ -1,11 +1,11 @@
 //
-//  CHDataListController.m
+//  CHDataItemsViewController.m
 //  iOS
 //
 //  Created by WizJin on 2021/5/26.
 //
 
-#import "CHDataListController.h"
+#import "CHDataItemsViewController.h"
 #import <Masonry/Masonry.h>
 #import "CHLoadMoreView.h"
 #import "CHTableView.h"
@@ -14,9 +14,9 @@
 
 static NSString *const cellIdentifier = @"cell";
 
-@interface CHDataListController () <UITableViewDelegate>
+@interface CHDataItemsViewController () <UITableViewDelegate>
 
-@property (nonatomic, readonly, weak) CHFileCacheManager *manager;
+@property (nonatomic, readonly, weak) CHWebCacheManager *manager;
 @property (nonatomic, readonly, strong) Class cellClass;
 @property (nonatomic, readonly, strong) CHTableView *tableView;
 @property (nonatomic, readonly, strong) CHDataListDataSource *dataSource;
@@ -24,9 +24,9 @@ static NSString *const cellIdentifier = @"cell";
 
 @end
 
-@implementation CHDataListController
+@implementation CHDataItemsViewController
 
-- (instancetype)initWithCellClass:(Class)clz manager:(CHFileCacheManager *)manager {
+- (instancetype)initWithCellClass:(Class)clz manager:(CHWebCacheManager *)manager {
     if (self = [super init]) {
         _name = @"";
         _pageSize = 10;
@@ -54,7 +54,7 @@ static NSString *const cellIdentifier = @"cell";
 
     @weakify(self);
     _dataSource = [[CHDataListDataSource alloc] initWithTableView:tableView cellProvider:^UITableViewCell *(UITableView *tableView, NSIndexPath *indexPath, NSURL *url) {
-        CHDataListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+        CHDataItemCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
         if (cell != nil) {
             @strongify(self);
             [cell setURL:url manager:self.manager];
@@ -68,7 +68,7 @@ static NSString *const cellIdentifier = @"cell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (!tableView.isEditing) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        [self previewURL:[self.dataSource itemIdentifierForIndexPath:indexPath]];
+        [self previewURL:[self.dataSource itemIdentifierForIndexPath:indexPath] atView:[tableView cellForRowAtIndexPath:indexPath]];
     }
 }
 
@@ -108,7 +108,7 @@ static NSString *const cellIdentifier = @"cell";
 }
 
 #pragma mark - Subclass Methods
-- (void)previewURL:(NSURL *)url {
+- (void)previewURL:(NSURL *)url atView:(UIView *)view {
 }
 
 #pragma mark - Action Methods
@@ -187,10 +187,11 @@ static NSString *const cellIdentifier = @"cell";
 
 - (UIContextualAction *)actionInfo:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath {
     @weakify(self);
-    NSURL *url = [[tableView cellForRowAtIndexPath:indexPath] url];
+    CHDataItemCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    NSURL *url = [cell url];
     UIContextualAction *action = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal title:nil handler:^(UIContextualAction *action, UIView *sourceView, void (^completionHandler)(BOOL)) {
         @strongify(self);
-        [self previewURL:url];
+        [self previewURL:url atView:cell];
         completionHandler(YES);
     }];
     action.image = [UIImage systemImageNamed:@"info.circle.fill"];

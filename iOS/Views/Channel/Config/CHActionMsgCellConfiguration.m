@@ -128,7 +128,7 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
 }
 
 - (void)actionShare:(id)sender {
-    [CHRouter.shared showShareItem:@[[(CHActionMsgCellConfiguration *)self.configuration text]] sender:sender handler:nil];
+    [CHRouter.shared showShareItem:@[[(CHActionMsgCellConfiguration *)self.configuration text]] sender:self.contentView handler:nil];
 }
 
 @end

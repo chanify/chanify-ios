@@ -10,6 +10,7 @@
 #import "CHLoadMoreView.h"
 #import "CHUnknownMsgCellConfiguration.h"
 #import "CHDateCellConfiguration.h"
+#import "CHWebImageManager.h"
 #import "CHUserDataSource.h"
 #import "CHLogic+iOS.h"
 #import "CHRouter.h"
@@ -218,7 +219,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     NSInteger idx = 0;
     NSInteger selected = 0;
     NSMutableArray<CHPreviewItem *> *items = [NSMutableArray new];
-    CHWebObjectManager *webImageManager = CHLogic.shared.webImageManager;
+    CHWebImageManager *webImageManager = CHLogic.shared.webImageManager;
     for (CHCellConfiguration *cell in self.snapshot.itemIdentifiers) {
         NSString *thumbnailUrl = cell.mediaThumbnailURL;
         if (thumbnailUrl.length > 0) {

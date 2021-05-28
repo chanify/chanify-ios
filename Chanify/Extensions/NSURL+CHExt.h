@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSURL (CHExt)
 
 - (void)setDataProtoction:(NSString *)level;
-- (NSURL *)absoluteUnprivateURL;
+- (uint64_t)fileSize;
 
 
 @end
