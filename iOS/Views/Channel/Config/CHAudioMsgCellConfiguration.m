@@ -7,6 +7,7 @@
 
 #import "CHAudioMsgCellConfiguration.h"
 #import "CHWebAudioManager.h"
+#import "CHAudioPlayer.h"
 #import "CHLogic+iOS.h"
 #import "CHRouter.h"
 #import "CHTheme.h"
@@ -101,7 +102,15 @@
 }
 
 - (void)actionClicked:(UITapGestureRecognizer *)sender {
-
+    if (self.localFileURL != nil) {
+        [CHAudioPlayer.shared playWithURL:self.localFileURL];
+    } else {
+        CHWebAudioManager *webAudioManager = CHLogic.shared.webAudioManager;
+        self.statusLabel.text = @"";
+        CHAudioMsgCellConfiguration *configuration = (CHAudioMsgCellConfiguration *)self.configuration;
+        [webAudioManager resetFileURLFailed:configuration.fileURL];
+        [webAudioManager loadAudioURL:configuration.fileURL toItem:self expectedSize:configuration.fileSize];
+    }
 }
 
 @end

@@ -12,6 +12,7 @@
 		6D12BC342625A0DA005659EA /* CHLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D12BC332625A0DA005659EA /* CHLoadingView.m */; };
 		6D12BC462626BBE7005659EA /* NSNumber+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D12BC452626BBE7005659EA /* NSNumber+CHExt.m */; };
 		6D180E01262441BC000BDE82 /* NSString+CHNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD7B5DE260DF588001D5DCB /* NSString+CHNotification.m */; };
+		6D1C613B26613E3C002E968B /* CHAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C613A26613E3C002E968B /* CHAudioPlayer.m */; };
 		6D229C5F26316078005BF375 /* CHLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C27325D13E5500512E36 /* CHLogic.m */; };
 		6D278E4125E0ECAC00FC48CD /* CHChannelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278E4025E0ECAC00FC48CD /* CHChannelTableViewCell.m */; };
 		6D278E5E25E1EF7A00FC48CD /* CHPrivacyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278E5D25E1EF7A00FC48CD /* CHPrivacyViewController.m */; };
@@ -457,6 +458,8 @@
 		6D12BC332625A0DA005659EA /* CHLoadingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHLoadingView.m; sourceTree = "<group>"; };
 		6D12BC442626BBE7005659EA /* NSNumber+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSNumber+CHExt.h"; sourceTree = "<group>"; };
 		6D12BC452626BBE7005659EA /* NSNumber+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+CHExt.m"; sourceTree = "<group>"; };
+		6D1C613926613E3C002E968B /* CHAudioPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHAudioPlayer.h; sourceTree = "<group>"; };
+		6D1C613A26613E3C002E968B /* CHAudioPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHAudioPlayer.m; sourceTree = "<group>"; };
 		6D278E3F25E0ECAC00FC48CD /* CHChannelTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelTableViewCell.h; sourceTree = "<group>"; };
 		6D278E4025E0ECAC00FC48CD /* CHChannelTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelTableViewCell.m; sourceTree = "<group>"; };
 		6D278E5C25E1EF7A00FC48CD /* CHPrivacyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHPrivacyViewController.h; sourceTree = "<group>"; };
@@ -1226,6 +1229,8 @@
 				6DC6C26925D1159C00512E36 /* CHRouter.m */,
 				6DAE516926155C8C00AF9E90 /* CHPasteboard.h */,
 				6DAE516A26155C8C00AF9E90 /* CHPasteboard.m */,
+				6D1C613926613E3C002E968B /* CHAudioPlayer.h */,
+				6D1C613A26613E3C002E968B /* CHAudioPlayer.m */,
 				6DFDE2162634041000A4BE43 /* CHNotification+Badge.h */,
 				6DFDE2172634041000A4BE43 /* CHNotification+Badge.m */,
 			);
@@ -2131,6 +2136,7 @@
 				6D278E5E25E1EF7A00FC48CD /* CHPrivacyViewController.m in Sources */,
 				6DD325F1265259AF00A5CEC4 /* CHFormDateItem.m in Sources */,
 				6DC6C39F25D16FE600512E36 /* CHMessagesDataSource.m in Sources */,
+				6D1C613B26613E3C002E968B /* CHAudioPlayer.m in Sources */,
 				6D44170525F273150041EBA0 /* CHFormCodeItem.m in Sources */,
 				6DC6C2A625D14BE000512E36 /* CHDevice.m in Sources */,
 				6D3EB44B262AABD900BE797F /* CHNavigationTitleView.m in Sources */,

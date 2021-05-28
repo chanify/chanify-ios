@@ -142,14 +142,15 @@
 }
 
 - (void)actionClicked:(UITapGestureRecognizer *)sender {
-    if (self.localFileURL != nil) {
+    if (self.localFileURL == nil) {
         CHPreviewController *vc = [CHPreviewController previewFile:self.localFileURL];
         [CHRouter.shared presentSystemViewController:vc animated:YES];
     } else {
+        CHWebFileManager *webFileManager = CHLogic.shared.webFileManager;
         self.statusLabel.text = @"";
         CHFileMsgCellConfiguration *configuration = (CHFileMsgCellConfiguration *)self.configuration;
-        [CHLogic.shared.webFileManager resetFileURLFailed:configuration.fileURL];
-        [CHLogic.shared.webFileManager loadFileURL:configuration.fileURL filename:configuration.filename toItem:self expectedSize:configuration.fileSize];
+        [webFileManager resetFileURLFailed:configuration.fileURL];
+        [webFileManager loadFileURL:configuration.fileURL filename:configuration.filename toItem:self expectedSize:configuration.fileSize];
     }
 }
 
