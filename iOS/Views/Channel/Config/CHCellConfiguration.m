@@ -13,6 +13,7 @@
 #import "CHLinkMsgCellConfiguration.h"
 #import "CHFileMsgCellConfiguration.h"
 #import "CHImageMsgCellConfiguration.h"
+#import "CHAudioMsgCellConfiguration.h"
 #import "CHUnknownMsgCellConfiguration.h"
 
 @implementation CHCellConfiguration
@@ -27,6 +28,8 @@
             return [CHFileMsgCellConfiguration cellConfiguration:model];
         case CHMessageTypeImage:
             return [CHImageMsgCellConfiguration cellConfiguration:model];
+        case CHMessageTypeAudio:
+            return [CHAudioMsgCellConfiguration cellConfiguration:model];
         case CHMessageTypeAction:
             return [CHActionMsgCellConfiguration cellConfiguration:model];
         default:
@@ -44,6 +47,7 @@
         CellConfiguration(CHLinkMsgCellConfiguration),
         CellConfiguration(CHFileMsgCellConfiguration),
         CellConfiguration(CHImageMsgCellConfiguration),
+        CellConfiguration(CHAudioMsgCellConfiguration),
         CellConfiguration(CHUnknownMsgCellConfiguration),
     };
 }

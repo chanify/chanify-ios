@@ -31,8 +31,9 @@
     if (mid.length > 0) {
         NSString *keyID = uid;
         NSString *src = getSrcFromMID(mid);
-        if (src.length > 0) keyID = [keyID stringByAppendingFormat:@".%@", src];
-
+        if (src.length > 0) {
+            keyID = [keyID stringByAppendingFormat:@".%@", src];
+        }
         NSData *key = [ks keyForUID:keyID];
         if (key.length >= kCHAesGcmKeyBytes * 2 && data.length > kCHAesGcmNonceBytes + kCHAesGcmTagBytes) {
             NSData *payload = [CHCrpyto aesOpenWithKey:[key subdataWithRange:NSMakeRange(0, kCHAesGcmKeyBytes)] data:data auth:[key subdataWithRange:NSMakeRange(kCHAesGcmKeyBytes, kCHAesGcmKeyBytes)]];
@@ -90,7 +91,7 @@
         if (sound != nil && sound.type == CHTPSoundType_NormalSound) {
             _sound = sound.name;
         }
-        
+
         NSError *error = nil;
         CHTPMsgContent *content = [CHTPMsgContent parseFromData:msg.content error:&error];
         if (error != nil) {
@@ -132,6 +133,8 @@
                     break;
                 case CHTPMsgType_Audio:
                     _type = CHMessageTypeAudio;
+                    _file = content.file;
+                    _duration = content.duration;
                     break;
                 case CHTPMsgType_Link:
                     _type = CHMessageTypeLink;

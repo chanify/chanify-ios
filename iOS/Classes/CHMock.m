@@ -22,13 +22,16 @@ NSDictionary *try_mock_notification(NSDictionary* info) {
     if ([[info valueForKeyPath:@"aps.alert.image"] length] > 0) {
         content.type = CHTPMsgType_Image;
         content.file = [info valueForKeyPath:@"aps.alert.image"];
-    } else if ([[info valueForKeyPath:@"aps.alert.link"] length] > 0) {
-        content.type = CHTPMsgType_Link;
-        content.link = [info valueForKeyPath:@"aps.alert.link"];
+    } else if ([[info valueForKeyPath:@"aps.alert.audio"] length] > 0) {
+        content.type = CHTPMsgType_Audio;
+        content.file = [info valueForKeyPath:@"aps.alert.audio"];
     } else if ([[info valueForKeyPath:@"aps.alert.file"] length] > 0) {
         content.type = CHTPMsgType_File;
         content.file = [info valueForKeyPath:@"aps.alert.file"];
         content.filename = [info valueForKeyPath:@"aps.alert.filename"];
+    } else if ([[info valueForKeyPath:@"aps.alert.link"] length] > 0) {
+        content.type = CHTPMsgType_Link;
+        content.link = [info valueForKeyPath:@"aps.alert.link"];
     } else {
         content.type = CHTPMsgType_Text;
         content.text = [info valueForKeyPath:@"aps.alert.text"];

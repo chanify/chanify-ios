@@ -38,6 +38,7 @@ typedef NS_OPTIONS(NSUInteger, CHMessageFlags) {
 @property (nonatomic, readonly, assign) CHMessageType type;
 @property (nonatomic, readonly, assign) CHMessageFlags flags;
 @property (nonatomic, readonly, assign) uint64_t fileSize;
+@property (nonatomic, readonly, assign) uint64_t duration;
 @property (nonatomic, readonly, strong) NSString *from;
 @property (nonatomic, readonly, strong) NSData *channel;
 @property (nonatomic, readonly, nullable, strong) NSString *sound;
