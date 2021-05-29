@@ -21,7 +21,7 @@
 
 - (NSString *)formatDuration {
     uint64_t duration = [self unsignedLongLongValue];
-    uint64_t ms = duration/1000 + (duration%1000 > 0 ? 1 : 0);
+    uint64_t ms = duration/1000 + (duration%1000 >= 500 ? 1 : 0);
     NSString *prefix = @"";
     if (ms >= 3600) {
         prefix = [NSString stringWithFormat:@"%llu:", ms/3600];

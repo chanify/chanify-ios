@@ -178,6 +178,16 @@
 }
 
 - (void)removeWithURLs:(NSArray<NSURL *> *)urls {
+    CHAudioPlayer *audioPlayer = CHAudioPlayer.shared;
+    if (audioPlayer.isPlaying) {
+        NSURL *playURL = audioPlayer.currentURL;
+        for (NSURL *url in urls) {
+            if ([playURL isEqual:url.URLByResolvingSymlinksInPath]) {
+                [audioPlayer stop];
+                break;
+            }
+        }
+    }
     @weakify(self);
     dispatch_async(self.workerQueue, ^{
         @strongify(self);

@@ -25,23 +25,29 @@
 @property (nonatomic, readonly, strong) UIImageView *ctrlIcon;
 @property (nonatomic, readonly, strong) UILabel *durationLabel;
 @property (nonatomic, readonly, strong) UILabel *statusLabel;
+@property (nonatomic, readonly, strong) UIProgressView *audioTrackView;
+@property (nonatomic, readonly, strong) NSNumber *duration;
 @property (nonatomic, nullable, readonly, strong) NSURL *localFileURL;
 
 @end
 
-@interface CHAudioMsgCellContentView () <CHWebAudioItem>
+@interface CHAudioMsgCellContentView () <CHWebAudioItem, CHAudioPlayerDelegate>
 @end
 
 @implementation CHAudioMsgCellContentView
+
+- (void)dealloc {
+    [CHAudioPlayer.shared removeDelegate:self];
+}
 
 - (void)setupViews {
     [super setupViews];
 
     CHTheme *theme = CHTheme.shared;
     
-    UIImageView *ctrlIcon = [[UIImageView alloc] initWithImage:[UIImage systemImageNamed:@"play.circle"]];
+    UIImageView *ctrlIcon = [UIImageView new];
     [self.bubbleView addSubview:(_ctrlIcon = ctrlIcon)];
-    ctrlIcon.tintColor = theme.labelColor;
+    ctrlIcon.contentMode = UIViewContentModeScaleAspectFit;
 
     UILabel *durationLabel = [UILabel new];
     [self.bubbleView addSubview:(_durationLabel = durationLabel)];
@@ -57,6 +63,13 @@
     statusLabel.textColor = theme.minorLabelColor;
     statusLabel.numberOfLines = 1;
     statusLabel.font = [UIFont monospacedSystemFontOfSize:8 weight:UIFontWeightRegular];
+    
+    UIProgressView *audioTrackView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
+    [self.bubbleView addSubview:(_audioTrackView = audioTrackView)];
+    audioTrackView.tintColor = theme.labelColor;
+    audioTrackView.trackTintColor = theme.lightLabelColor;
+
+    [CHAudioPlayer.shared addDelegate:self];
 }
 
 - (void)applyConfiguration:(CHAudioMsgCellConfiguration *)configuration {
@@ -68,10 +81,16 @@
     CGRect frame = CGRectMake(offset, size.height - 16, size.width - offset - 10, 10);
     self.durationLabel.frame = frame;
     self.statusLabel.frame = frame;
+    frame.size.height = 1;
+    frame.origin.y = (size.height - 10)/2;
+    self.audioTrackView.frame = frame;
+    self.audioTrackView.progress = 0;
     
+    _duration = @(0);
     _localFileURL = nil;
     self.durationLabel.text = @"";
     self.statusLabel.text = @"";
+    [self updatePlayStatus];
     [CHLogic.shared.webAudioManager loadAudioURL:configuration.fileURL toItem:self expectedSize:configuration.fileSize];
 }
 
@@ -94,14 +113,14 @@
             self.durationLabel.text = @"";
         } else {
             self.statusLabel.text = [@(configuration.fileSize ?: self.localFileURL.fileSize) formatFileSize];
-            NSNumber *duration;
             if (configuration.duration > 0) {
-                duration = @(configuration.duration);
+                _duration = @(configuration.duration);
             } else {
-                duration = [CHLogic.shared.webAudioManager loadLocalURLDuration:self.localFileURL];
+                _duration = [CHLogic.shared.webAudioManager loadLocalURLDuration:self.localFileURL];
             }
-            self.durationLabel.text = [duration formatDuration];
+            self.durationLabel.text = [self.duration formatDuration];
         }
+        [self updatePlayStatus];
     }
 }
 
@@ -111,6 +130,15 @@
         self.statusLabel.text = [NSString stringWithFormat:@"Downloading %6.02f%%".localized, progress * 100];
         self.durationLabel.text = @"";
     }
+}
+
+#pragma mark - CHAudioPlayerDelegate
+- (void)audioPlayStatusChanged:(CHAudioPlayer *)audioPlayer {
+    [self updatePlayStatus];
+}
+
+- (void)audioPlayTrackChanged:(CHAudioPlayer *)audioPlayer {
+    [self updatePlayTrack];
 }
 
 #pragma mark - Action Methods
@@ -123,7 +151,12 @@
 
 - (void)actionClicked:(UITapGestureRecognizer *)sender {
     if (self.localFileURL != nil) {
-        [CHAudioPlayer.shared playWithURL:self.localFileURL];
+        CHAudioPlayer *audioPlayer = CHAudioPlayer.shared;
+        if ([self.localFileURL isEqual:audioPlayer.currentURL] && audioPlayer.isPlaying) {
+            [audioPlayer pause];
+        } else {
+            [audioPlayer playWithURL:self.localFileURL];
+        }
     } else {
         CHWebAudioManager *webAudioManager = CHLogic.shared.webAudioManager;
         self.statusLabel.text = @"";
@@ -132,6 +165,40 @@
         [webAudioManager loadAudioURL:configuration.fileURL toItem:self expectedSize:configuration.fileSize];
     }
 }
+
+#pragma mark - Private Methods
+- (void)updatePlayStatus {
+    CHTheme *theme = CHTheme.shared;
+    if (self.localFileURL == nil) {
+        self.ctrlIcon.tintColor = theme.minorLabelColor;
+        self.ctrlIcon.image = [UIImage systemImageNamed:@"music.note"];
+        self.audioTrackView.progress = 0;
+    } else {
+        self.ctrlIcon.tintColor = theme.labelColor;
+        CHAudioPlayer *audioPlayer = CHAudioPlayer.shared;
+        if ([self.localFileURL isEqual:audioPlayer.currentURL] && audioPlayer.isPlaying) {
+            self.ctrlIcon.image = [UIImage systemImageNamed:@"pause.circle"];
+        } else {
+            self.ctrlIcon.image = [UIImage systemImageNamed:@"play.circle"];
+        }
+        [self updatePlayTrack];
+    }
+}
+
+- (void)updatePlayTrack {
+    if (self.localFileURL != nil) {
+        CHAudioPlayer *audioPlayer = CHAudioPlayer.shared;
+        if ([self.localFileURL isEqual:audioPlayer.currentURL]) {
+            double scale = audioPlayer.audioTrack.doubleValue;
+            self.audioTrackView.progress = scale;
+            self.durationLabel.text = [@(self.duration.doubleValue * (1 - scale)) formatDuration];
+        } else {
+            self.audioTrackView.progress = 0;
+            self.durationLabel.text = [self.duration formatDuration];
+        }
+    }
+}
+
 
 @end
 
