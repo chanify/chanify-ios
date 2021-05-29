@@ -7,12 +7,14 @@
 
 #import "CHAudioTableViewCell.h"
 #import <Masonry/Masonry.h>
+#import "CHWebAudioManager.h"
 #import "CHLogic+iOS.h"
 #import "CHTheme.h"
 
 @interface CHAudioTableViewCell ()
 
 @property (nonatomic, readonly, strong) UIImageView *iconView;
+@property (nonatomic, readonly, strong) UILabel *durationLabel;
 @property (nonatomic, readonly, strong) UILabel *createDateLabel;
 @property (nonatomic, readonly, strong) UILabel *fileSizeLabel;
 
@@ -38,6 +40,16 @@
             make.size.mas_equalTo(CGSizeMake(26, 32));
         }];
         
+        UILabel *durationLabel = [UILabel new];
+        [self.contentView addSubview:(_durationLabel = durationLabel)];
+        [durationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(iconView.mas_right).offset(kCHDataItemCellMargin);
+            make.bottom.equalTo(self.contentView).offset(-6);
+        }];
+        durationLabel.font = [UIFont monospacedSystemFontOfSize:12 weight:UIFontWeightRegular];
+        durationLabel.textColor = theme.labelColor;
+        durationLabel.numberOfLines = 1;
+
         UILabel *createDateLabel = [UILabel new];
         [self.contentView addSubview:(_createDateLabel = createDateLabel)];
         [createDateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -68,6 +80,7 @@
         NSDictionary *info = [manager infoWithURL:url];
         self.createDateLabel.text = [[info valueForKey:@"date"] mediumFormat];
         self.fileSizeLabel.text = [[info valueForKey:@"size"] formatFileSize];
+        self.durationLabel.text = [[CHLogic.shared.webAudioManager loadLocalURLDuration:url] formatDuration];
     }
 }
 

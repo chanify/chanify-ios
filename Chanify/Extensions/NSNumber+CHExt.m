@@ -19,5 +19,16 @@
     return [NSString stringWithFormat:@"%.1f%s", size/pow(1000, idx), units[idx]];
 }
 
+- (NSString *)formatDuration {
+    uint64_t duration = [self unsignedLongLongValue];
+    uint64_t ms = duration/1000 + (duration%1000 > 0 ? 1 : 0);
+    NSString *prefix = @"";
+    if (ms >= 3600) {
+        prefix = [NSString stringWithFormat:@"%llu:", ms/3600];
+        ms %= 3600;
+    }
+    return [NSString stringWithFormat:@"%@%02llu:%02llu", prefix, ms/60, ms%60];
+}
+
 
 @end

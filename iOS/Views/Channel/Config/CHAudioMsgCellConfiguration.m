@@ -23,6 +23,7 @@
 @interface CHAudioMsgCellContentView : CHBubbleMsgCellContentView<CHAudioMsgCellConfiguration *>
 
 @property (nonatomic, readonly, strong) UIImageView *ctrlIcon;
+@property (nonatomic, readonly, strong) UILabel *durationLabel;
 @property (nonatomic, readonly, strong) UILabel *statusLabel;
 @property (nonatomic, nullable, readonly, strong) NSURL *localFileURL;
 
@@ -42,6 +43,13 @@
     [self.bubbleView addSubview:(_ctrlIcon = ctrlIcon)];
     ctrlIcon.tintColor = theme.labelColor;
 
+    UILabel *durationLabel = [UILabel new];
+    [self.bubbleView addSubview:(_durationLabel = durationLabel)];
+    durationLabel.backgroundColor = UIColor.clearColor;
+    durationLabel.textColor = theme.labelColor;
+    durationLabel.numberOfLines = 1;
+    durationLabel.font = [UIFont monospacedSystemFontOfSize:8 weight:UIFontWeightRegular];
+
     UILabel *statusLabel = [UILabel new];
     [self.bubbleView addSubview:(_statusLabel = statusLabel)];
     statusLabel.textAlignment = NSTextAlignmentRight;
@@ -56,10 +64,13 @@
     
     CGSize size = configuration.bubbleRect.size;
     self.ctrlIcon.frame = CGRectMake(16, (size.height - 30)/2, 30, 30);
-    CGFloat offset = CGRectGetMaxX(self.ctrlIcon.frame);
-    self.statusLabel.frame = CGRectMake(offset, size.height - 16, size.width - offset - 10, 10);
+    CGFloat offset = CGRectGetMaxX(self.ctrlIcon.frame) + 10;
+    CGRect frame = CGRectMake(offset, size.height - 16, size.width - offset - 10, 10);
+    self.durationLabel.frame = frame;
+    self.statusLabel.frame = frame;
     
     _localFileURL = nil;
+    self.durationLabel.text = @"";
     self.statusLabel.text = @"";
     [CHLogic.shared.webAudioManager loadAudioURL:configuration.fileURL toItem:self expectedSize:configuration.fileSize];
 }
@@ -80,8 +91,16 @@
         _localFileURL = item;
         if (item == nil) {
             self.statusLabel.text = @"Download failed and click to retry".localized;
+            self.durationLabel.text = @"";
         } else {
             self.statusLabel.text = [@(configuration.fileSize ?: self.localFileURL.fileSize) formatFileSize];
+            NSNumber *duration;
+            if (configuration.duration > 0) {
+                duration = @(configuration.duration);
+            } else {
+                duration = [CHLogic.shared.webAudioManager loadLocalURLDuration:self.localFileURL];
+            }
+            self.durationLabel.text = [duration formatDuration];
         }
     }
 }
@@ -90,6 +109,7 @@
     CHAudioMsgCellConfiguration *configuration = (CHAudioMsgCellConfiguration *)self.configuration;
     if ([configuration.fileURL isEqualToString:fileURL]) {
         self.statusLabel.text = [NSString stringWithFormat:@"Downloading %6.02f%%".localized, progress * 100];
+        self.durationLabel.text = @"";
     }
 }
 

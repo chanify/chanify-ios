@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSNumber (CHExt)
 
 - (NSString *)formatFileSize;
+- (NSString *)formatDuration;
 
 
 @end

@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CHAudioPlayer : NSObject
 
 + (instancetype)shared;
+- (uint64_t)durationForURL:(NSURL *)url;
 - (void)playWithURL:(NSURL *)url;
 
 

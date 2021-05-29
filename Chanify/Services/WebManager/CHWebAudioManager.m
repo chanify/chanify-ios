@@ -7,6 +7,7 @@
 
 #import "CHWebAudioManager.h"
 #import "CHUserDataSource.h"
+#import "CHAudioPlayer.h"
 #import "CHNodeModel.h"
 #import "CHLogic+iOS.h"
 #import "CHDevice.h"
@@ -141,7 +142,27 @@
 - (nullable NSURL *)loadLocalFile:(nullable NSString *)fileURL {
     id res = nil;
     if (fileURL.length > 0) {
-        res = [self loadLocalURL:[self fileURL2Path:fileURL]];
+        NSURL *local = [self fileURL2Path:fileURL];
+        if ([self loadLocalURLDuration:local] != nil) {
+            res = local;
+        }
+    }
+    return res;
+}
+
+- (nullable NSNumber *)loadLocalURLDuration:(nullable NSURL *)url {
+    NSNumber *res = nil;
+    if (url != nil) {
+        url = url.URLByResolvingSymlinksInPath;
+        res = [self.dataCache objectForKey:url.absoluteString];
+        if (res == nil) {
+            if ([NSFileManager.defaultManager isReadableFileAtPath:url.path]) {
+                res = @([CHAudioPlayer.shared durationForURL:url]);
+            }
+            if (res != nil) {
+                [self.dataCache setObject:res forKey:url.absoluteString];
+            }
+        }
     }
     return res;
 }
@@ -212,7 +233,7 @@
                     task.localFile.dataProtoction = NSURLFileProtectionCompleteUntilFirstUserAuthentication;
                     task.result = task.localFile;
                     if (task.result != nil) {
-                        [self.dataCache setObject:task.result forKey:task.localFile.absoluteString];
+                        [self.dataCache setObject:@([CHAudioPlayer.shared durationForURL:task.localFile]) forKey:task.localFile.absoluteString];
                     }
                     [self notifyAllocatedFileSizeChanged:task.localFile];
                 }
@@ -283,22 +304,6 @@
         }
     }
     return request;
-}
-
-- (nullable id)loadLocalURL:(nullable NSURL *)url {
-    id res = nil;
-    if (url != nil) {
-        res = [self.dataCache objectForKey:url.absoluteString];
-        if (res == nil) {
-            if ([NSFileManager.defaultManager isReadableFileAtPath:url.path]) {
-                res = url;
-            }
-            if (res != nil) {
-                [self.dataCache setObject:res forKey:url.absoluteString];
-            }
-        }
-    }
-    return res;
 }
 
 - (NSURL *)fileURL2Path:(NSString *)fileURL {
