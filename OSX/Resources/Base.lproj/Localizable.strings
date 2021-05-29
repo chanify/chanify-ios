@@ -12,3 +12,10 @@
 "Delete"="Delete";
 "Enable"="Enable";
 "Disable"="Disable";
+
+"NewMsg"="Receive an new message";
+"ImageMsg"="[Image]";
+"VideoMsg"="[Video]";
+"AudioMsg"="[Audio]";
+"LinkMsg"="[Link]";
+"FileMsg"="[File]";

@@ -12,3 +12,10 @@
 "Delete"="删除";
 "Enable"="启用";
 "Disable"="禁用";
+
+"NewMsg"="收到一条新消息";
+"ImageMsg"="[图片]";
+"VideoMsg"="[视频]";
+"AudioMsg"="[音频]";
+"LinkMsg"="[链接]";
+"FileMsg"="[文件]";

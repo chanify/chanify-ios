@@ -31,11 +31,11 @@
     if (self = [super init]) {
         _audioPlayer = nil;
         _trackTimer = nil;
-
+#if TARGET_OS_IOS
         AVAudioSession *session = AVAudioSession.sharedInstance;
         [session setCategory:AVAudioSessionCategoryPlayback error:nil];
         [session setActive:YES error:nil];
-        
+#endif
         MPRemoteCommandCenter *commandCenter = MPRemoteCommandCenter.sharedCommandCenter;
         [commandCenter.playCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
             if (self.audioPlayer != nil) {
