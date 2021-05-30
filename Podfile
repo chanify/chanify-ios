@@ -28,7 +28,7 @@ target 'OSX' do
 	pod 'Protobuf'
 end
 
-target 'NotificationService' do
+target 'NotificationServiceIOS' do
 	platform :ios, $ios_version
 
 	pod 'FMDB'
