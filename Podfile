@@ -35,6 +35,13 @@ target 'NotificationServiceIOS' do
 	pod 'Protobuf'
 end
 
+target 'NotificationServiceOSX' do
+	platform :osx, $osx_version
+
+	pod 'FMDB'
+	pod 'Protobuf'
+end
+
 target 'Watch Extension' do 
 	platform :watchos, $watchos_version
 
