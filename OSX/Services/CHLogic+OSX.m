@@ -7,6 +7,7 @@
 
 #import "CHLogic+OSX.h"
 #import <AppKit/AppKit.h>
+#import <UserNotifications/UserNotifications.h>
 #import "CHNotification.h"
 
 @interface CHLogic () <CHNotificationMessageDelegate>
@@ -31,6 +32,14 @@
     return self;
 }
 
+- (void)receiveRemoteNotification:(NSDictionary *)userInfo {
+    if (userInfo != nil) {
+        
+        
+        
+    }
+}
+
 #pragma mark - CHNotificationMessageDelegate
 - (void)registerForRemoteNotifications {
     dispatch_main_async(^{
@@ -39,24 +48,11 @@
 }
 
 - (void)receiveNotification:(UNNotification *)notification {
-    //[self recivePushMessage:notification.request.content.userInfo];
+    [self receiveRemoteNotification:notification.request.content.userInfo];
 }
 
 - (void)receiveNotificationResponse:(UNNotificationResponse *)response {
-//    NSString *mid = nil;
-//    NSDictionary *info = response.notification.request.content.userInfo;
-//    NSString *uid = [CHMessageModel parsePacket:info mid:&mid data:nil];
-//    if (uid.length > 0 && mid.length > 0) {
-//        CHLogI("Launch with message %u", mid);
-//        [self recivePushMessage:info];
-//        CHMessageModel *model = [self.userDataSource messageWithMID:mid];
-//        if (model.channel.length > 0) {
-//            NSString *cid = model.channel.base64;
-//            dispatch_main_async(^{
-//                [CHRouter.shared routeTo:@"/page/channel" withParams:@{ @"cid": cid, @"singleton": @YES, @"show": @"detail" }];
-//            });
-//        }
-//    }
+    [self receiveRemoteNotification:response.notification.request.content.userInfo];
 }
 
 
