@@ -7,7 +7,7 @@
 
 #import "CHPreviewController.h"
 #import "CHPreviewItem.h"
-#import "CHRouter.h"
+#import "CHRouter+iOS.h"
 #import "CHLogic.h"
 
 @interface CHPreviewController () <QLPreviewControllerDataSource>

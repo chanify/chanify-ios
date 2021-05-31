@@ -5,30 +5,36 @@
 //  Created by WizJin on 2021/2/8.
 //
 
-#import <UIKit/UIKit.h>
+#if TARGET_OS_OSX
+#   import <AppKit/AppKit.h>
+#else
+#   import <UIKit/UIKit.h>
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CHTheme : NSObject
 
-@property (nonatomic, readonly, strong) UIColor *tintColor;
-@property (nonatomic, readonly, strong) UIColor *lightTintColor;
-@property (nonatomic, readonly, strong) UIColor *labelColor;
-@property (nonatomic, readonly, strong) UIColor *minorLabelColor;
-@property (nonatomic, readonly, strong) UIColor *lightLabelColor;
-@property (nonatomic, readonly, strong) UIColor *warnColor;
-@property (nonatomic, readonly, strong) UIColor *alertColor;
-@property (nonatomic, readonly, strong) UIColor *secureColor;
-@property (nonatomic, readonly, strong) UIColor *backgroundColor;
-@property (nonatomic, readonly, strong) UIColor *cellBackgroundColor;
-@property (nonatomic, readonly, strong) UIColor *bubbleBackgroundColor;
-@property (nonatomic, readonly, strong) UIColor *groupedBackgroundColor;
-@property (nonatomic, readonly, strong) UIImage *clearImage;
-@property (nonatomic, readonly, strong) UIImage *backImage;
-@property (nonatomic, assign) UIUserInterfaceStyle userInterfaceStyle;
+@property (nonatomic, readonly, strong) CHColor *tintColor;
+@property (nonatomic, readonly, strong) CHColor *lightTintColor;
+@property (nonatomic, readonly, strong) CHColor *labelColor;
+@property (nonatomic, readonly, strong) CHColor *minorLabelColor;
+@property (nonatomic, readonly, strong) CHColor *lightLabelColor;
+@property (nonatomic, readonly, strong) CHColor *warnColor;
+@property (nonatomic, readonly, strong) CHColor *alertColor;
+@property (nonatomic, readonly, strong) CHColor *secureColor;
+@property (nonatomic, readonly, strong) CHColor *backgroundColor;
+@property (nonatomic, readonly, strong) CHColor *cellBackgroundColor;
+@property (nonatomic, readonly, strong) CHColor *bubbleBackgroundColor;
+@property (nonatomic, readonly, strong) CHColor *groupedBackgroundColor;
+@property (nonatomic, readonly, strong) CHImage *clearImage;
+@property (nonatomic, readonly, strong) CHImage *backImage;
+
+#if !(TARGET_OS_OSX)
+@property (nonatomic, assign) UIUserInterfaceStyle userInterfaceStyle API_AVAILABLE(ios(13.0));
+#endif
 
 + (instancetype)shared;
-
 
 @end
 

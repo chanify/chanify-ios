@@ -9,7 +9,7 @@
 #import "CHWebLinkManager.h"
 #import "CHPasteboard.h"
 #import "CHLogic+iOS.h"
-#import "CHRouter.h"
+#import "CHRouter+iOS.h"
 #import "CHTheme.h"
 
 @interface CHLinkMsgCellConfiguration ()

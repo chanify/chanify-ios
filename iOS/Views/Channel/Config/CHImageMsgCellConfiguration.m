@@ -9,7 +9,7 @@
 #import "CHMessagesDataSource.h"
 #import "CHWebImageView.h"
 #import "CHLogic+iOS.h"
-#import "CHRouter.h"
+#import "CHRouter+iOS.h"
 #import "CHTheme.h"
 
 #define kCHImageMessageWidth        150

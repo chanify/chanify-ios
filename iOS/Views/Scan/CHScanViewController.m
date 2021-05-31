@@ -10,7 +10,7 @@
 #import <PhotosUI/PHPicker.h>
 #import <Masonry/Masonry.h>
 #import "CHTheme.h"
-#import "CHRouter.h"
+#import "CHRouter+iOS.h"
 
 @interface CHScanViewController () <AVCaptureMetadataOutputObjectsDelegate, PHPickerViewControllerDelegate, UINavigationControllerDelegate>
 

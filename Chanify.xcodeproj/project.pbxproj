@@ -62,12 +62,17 @@
 		6D67CBDB25D3BAD700ECF655 /* NSDate+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */; };
 		6D67CBEA25D4298A00ECF655 /* CHCrpyto.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBE925D4298A00ECF655 /* CHCrpyto.m */; };
 		6D6F3CF7263D28EA00A2578B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6F3CF6263D28EA00A2578B /* AppDelegate.m */; };
-		6D6F3CFA263D28EA00A2578B /* CHMianViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6F3CF9263D28EA00A2578B /* CHMianViewController.m */; };
+		6D6F3CFA263D28EA00A2578B /* CHMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6F3CF9263D28EA00A2578B /* CHMainViewController.m */; };
 		6D6F3CFC263D28EB00A2578B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D6F3CFB263D28EB00A2578B /* Assets.xcassets */; };
 		6D6F3D02263D28EB00A2578B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6F3D01263D28EB00A2578B /* main.m */; };
 		6D723296263EDD8C007C8582 /* CHSecKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2AD25D14C2400512E36 /* CHSecKey.m */; };
 		6D723298263EDDAD007C8582 /* CHSecKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2AD25D14C2400512E36 /* CHSecKey.m */; };
 		6D7ACE97266478D600B3FCF4 /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C21F25D0FB7600512E36 /* NotificationService.m */; };
+		6D8352322664C818005CE6D1 /* CHRouter+OSX.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8352312664C818005CE6D1 /* CHRouter+OSX.m */; };
+		6D8352362664D423005CE6D1 /* CHChannelsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8352352664D423005CE6D1 /* CHChannelsView.m */; };
+		6D8352392664D9F1005CE6D1 /* CHChannelCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8352382664D9F1005CE6D1 /* CHChannelCellItem.m */; };
+		6D83523A2664EDC0005CE6D1 /* CHTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C24125D1117A00512E36 /* CHTheme.m */; };
+		6D83523D2664F384005CE6D1 /* CHView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D83523C2664F384005CE6D1 /* CHView.m */; };
 		6D897D23262D6BFD0048D9A6 /* CHTP.proto in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C20D25D0F3EF00512E36 /* CHTP.proto */; };
 		6D897D5B262D77140048D9A6 /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D897D5A262D77140048D9A6 /* NotificationService.m */; };
 		6D897D5F262D77140048D9A6 /* WatchNotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6D897D57262D77140048D9A6 /* WatchNotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -120,7 +125,7 @@
 		6DC6C25325D112BB00512E36 /* CHLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C25225D112BB00512E36 /* CHLogger.m */; };
 		6DC6C26025D114E800512E36 /* NSData+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C25F25D114E800512E36 /* NSData+CHExt.m */; };
 		6DC6C26525D1151E00512E36 /* NSString+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C26425D1151E00512E36 /* NSString+CHExt.m */; };
-		6DC6C26A25D1159C00512E36 /* CHRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C26925D1159C00512E36 /* CHRouter.m */; };
+		6DC6C26A25D1159C00512E36 /* CHRouter+iOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C26925D1159C00512E36 /* CHRouter+iOS.m */; };
 		6DC6C26F25D13D2900512E36 /* CHNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C26E25D13D2900512E36 /* CHNotification.m */; };
 		6DC6C27425D13E5500512E36 /* CHLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C27325D13E5500512E36 /* CHLogic.m */; };
 		6DC6C27B25D13EFA00512E36 /* CHUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C27A25D13EFA00512E36 /* CHUserModel.m */; };
@@ -531,12 +536,20 @@
 		6D6F3CF3263D28EA00A2578B /* Chanify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chanify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D6F3CF5263D28EA00A2578B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6D6F3CF6263D28EA00A2578B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		6D6F3CF8263D28EA00A2578B /* CHMianViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHMianViewController.h; sourceTree = "<group>"; };
-		6D6F3CF9263D28EA00A2578B /* CHMianViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHMianViewController.m; sourceTree = "<group>"; };
+		6D6F3CF8263D28EA00A2578B /* CHMainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHMainViewController.h; sourceTree = "<group>"; };
+		6D6F3CF9263D28EA00A2578B /* CHMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHMainViewController.m; sourceTree = "<group>"; };
 		6D6F3CFB263D28EB00A2578B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6D6F3D00263D28EB00A2578B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6D6F3D01263D28EB00A2578B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6D6F3D03263D28EB00A2578B /* Chanify.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Chanify.entitlements; sourceTree = "<group>"; };
+		6D8352302664C818005CE6D1 /* CHRouter+OSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CHRouter+OSX.h"; sourceTree = "<group>"; };
+		6D8352312664C818005CE6D1 /* CHRouter+OSX.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHRouter+OSX.m"; sourceTree = "<group>"; };
+		6D8352342664D423005CE6D1 /* CHChannelsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelsView.h; sourceTree = "<group>"; };
+		6D8352352664D423005CE6D1 /* CHChannelsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelsView.m; sourceTree = "<group>"; };
+		6D8352372664D9F1005CE6D1 /* CHChannelCellItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelCellItem.h; sourceTree = "<group>"; };
+		6D8352382664D9F1005CE6D1 /* CHChannelCellItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelCellItem.m; sourceTree = "<group>"; };
+		6D83523B2664F384005CE6D1 /* CHView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHView.h; sourceTree = "<group>"; };
+		6D83523C2664F384005CE6D1 /* CHView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHView.m; sourceTree = "<group>"; };
 		6D897CE6262D67D50048D9A6 /* Watch Extension-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Watch Extension-Bridging-Header.h"; sourceTree = "<group>"; };
 		6D897D57262D77140048D9A6 /* WatchNotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WatchNotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D897D59262D77140048D9A6 /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
@@ -621,8 +634,8 @@
 		6DC6C25F25D114E800512E36 /* NSData+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+CHExt.m"; sourceTree = "<group>"; };
 		6DC6C26325D1151E00512E36 /* NSString+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+CHExt.h"; sourceTree = "<group>"; };
 		6DC6C26425D1151E00512E36 /* NSString+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+CHExt.m"; sourceTree = "<group>"; };
-		6DC6C26825D1159C00512E36 /* CHRouter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHRouter.h; sourceTree = "<group>"; };
-		6DC6C26925D1159C00512E36 /* CHRouter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHRouter.m; sourceTree = "<group>"; };
+		6DC6C26825D1159C00512E36 /* CHRouter+iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CHRouter+iOS.h"; sourceTree = "<group>"; };
+		6DC6C26925D1159C00512E36 /* CHRouter+iOS.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHRouter+iOS.m"; sourceTree = "<group>"; };
 		6DC6C26D25D13D2900512E36 /* CHNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNotification.h; sourceTree = "<group>"; };
 		6DC6C26E25D13D2900512E36 /* CHNotification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNotification.m; sourceTree = "<group>"; };
 		6DC6C27225D13E5500512E36 /* CHLogic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHLogic.h; sourceTree = "<group>"; };
@@ -1016,6 +1029,17 @@
 			path = OSX;
 			sourceTree = "<group>";
 		};
+		6D8352332664D411005CE6D1 /* Channels */ = {
+			isa = PBXGroup;
+			children = (
+				6D8352342664D423005CE6D1 /* CHChannelsView.h */,
+				6D8352352664D423005CE6D1 /* CHChannelsView.m */,
+				6D8352372664D9F1005CE6D1 /* CHChannelCellItem.h */,
+				6D8352382664D9F1005CE6D1 /* CHChannelCellItem.m */,
+			);
+			path = Channels;
+			sourceTree = "<group>";
+		};
 		6D897D1D262D6BD00048D9A6 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -1245,8 +1269,8 @@
 			children = (
 				6D3F6285262FBB6400E122BC /* CHLogic+iOS.h */,
 				6D3F6286262FBB6400E122BC /* CHLogic+iOS.m */,
-				6DC6C26825D1159C00512E36 /* CHRouter.h */,
-				6DC6C26925D1159C00512E36 /* CHRouter.m */,
+				6DC6C26825D1159C00512E36 /* CHRouter+iOS.h */,
+				6DC6C26925D1159C00512E36 /* CHRouter+iOS.m */,
 				6DAE516926155C8C00AF9E90 /* CHPasteboard.h */,
 				6DAE516A26155C8C00AF9E90 /* CHPasteboard.m */,
 				6DFDE2162634041000A4BE43 /* CHNotification+Badge.h */,
@@ -1474,6 +1498,8 @@
 			children = (
 				6DDD6B07263E314200684EE7 /* CHLogic+OSX.h */,
 				6DDD6B08263E314200684EE7 /* CHLogic+OSX.m */,
+				6D8352302664C818005CE6D1 /* CHRouter+OSX.h */,
+				6D8352312664C818005CE6D1 /* CHRouter+OSX.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1601,8 +1627,11 @@
 		6DE7C08D263D4B190092D88D /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6D6F3CF8263D28EA00A2578B /* CHMianViewController.h */,
-				6D6F3CF9263D28EA00A2578B /* CHMianViewController.m */,
+				6D8352332664D411005CE6D1 /* Channels */,
+				6D83523B2664F384005CE6D1 /* CHView.h */,
+				6D83523C2664F384005CE6D1 /* CHView.m */,
+				6D6F3CF8263D28EA00A2578B /* CHMainViewController.h */,
+				6D6F3CF9263D28EA00A2578B /* CHMainViewController.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2026,11 +2055,15 @@
 				6DDEB4DD263FA62600CAD501 /* CHWebLinkManager.m in Sources */,
 				6DE7C080263D48E10092D88D /* NSDictionary+CHExt.m in Sources */,
 				6DE7C07B263D48B80092D88D /* NSString+CHExt.m in Sources */,
+				6D83523D2664F384005CE6D1 /* CHView.m in Sources */,
 				6DE7C075263D487B0092D88D /* CHSecKey.m in Sources */,
 				6DE7C088263D49480092D88D /* CHNotification.m in Sources */,
+				6D83523A2664EDC0005CE6D1 /* CHTheme.m in Sources */,
+				6D8352362664D423005CE6D1 /* CHChannelsView.m in Sources */,
 				6DE7C081263D48E80092D88D /* NSFileManager+CHExt.m in Sources */,
 				6DE7C072263D48620092D88D /* CHMessageModel.m in Sources */,
 				6DE7C074263D48790092D88D /* CHCrpyto.m in Sources */,
+				6D8352392664D9F1005CE6D1 /* CHChannelCellItem.m in Sources */,
 				6DFC77FA26627606002EF541 /* CHAudioPlayer.m in Sources */,
 				6DE7C083263D49150092D88D /* CHLogic.m in Sources */,
 				6D2EA164264D018A00246EB4 /* CHActionItemModel.m in Sources */,
@@ -2042,8 +2075,9 @@
 				6DE7C08A263D49560092D88D /* CHUserDataSource.m in Sources */,
 				6DE7C07E263D48D50092D88D /* NSPredicate+CHExt.m in Sources */,
 				6DE7C066263D471E0092D88D /* CHUtils.m in Sources */,
+				6D8352322664C818005CE6D1 /* CHRouter+OSX.m in Sources */,
 				6DDD6B09263E314200684EE7 /* CHLogic+OSX.m in Sources */,
-				6D6F3CFA263D28EA00A2578B /* CHMianViewController.m in Sources */,
+				6D6F3CFA263D28EA00A2578B /* CHMainViewController.m in Sources */,
 				6D3DC0882660C60800F42070 /* CHWebAudioManager.m in Sources */,
 				6DDEB4DC263FA5FE00CAD501 /* CHImage.m in Sources */,
 				6DE7C07C263D48C80092D88D /* NSString+CHLocalized.m in Sources */,
@@ -2206,7 +2240,7 @@
 				6D2EA160264D018A00246EB4 /* CHActionItemModel.m in Sources */,
 				6DC6C1CA25D0DCD100512E36 /* CHViewController.m in Sources */,
 				6DBA92C525F60B3B00B792FE /* UIColor+CHExt.m in Sources */,
-				6DC6C26A25D1159C00512E36 /* CHRouter.m in Sources */,
+				6DC6C26A25D1159C00512E36 /* CHRouter+iOS.m in Sources */,
 				6DC6C39525D16ECA00512E36 /* CHUnknownMsgCellConfiguration.m in Sources */,
 				6DC6C36F25D16C4E00512E36 /* CHQrCodeView.m in Sources */,
 				6DD969C625F479B800EEEECF /* CHIconsViewController.m in Sources */,

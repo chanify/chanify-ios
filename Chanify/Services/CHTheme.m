@@ -6,7 +6,9 @@
 //
 
 #import "CHTheme.h"
-#import "CHRouter.h"
+#if !(TARGET_OS_OSX)
+#   import "CHRouter+iOS.h"
+#endif
 
 #define kCHUIStyleKey   "uistyle"
 
@@ -23,22 +25,30 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        _tintColor = [UIColor colorNamed:@"AccentColor"];
+        _tintColor = [CHColor colorNamed:@"AccentColor"];
         _lightTintColor = [self.tintColor colorWithAlphaComponent:0.6];
-        _labelColor = UIColor.labelColor;
-        _minorLabelColor = UIColor.secondaryLabelColor;
-        _lightLabelColor = UIColor.tertiaryLabelColor;
-        _warnColor = UIColor.systemYellowColor;
-        _alertColor = UIColor.systemRedColor;
-        _secureColor = UIColor.systemGreenColor;
-        _backgroundColor = UIColor.systemBackgroundColor;
+        _labelColor = [CHColor labelColor];
+        _minorLabelColor = [CHColor secondaryLabelColor];
+        _lightLabelColor = [CHColor tertiaryLabelColor];
+        _warnColor = [CHColor systemYellowColor];
+        _alertColor = [CHColor systemRedColor];
+        _secureColor = [CHColor systemGreenColor];
+        _bubbleBackgroundColor = [CHColor colorNamed:@"BubbleColor"];
+
+        _clearImage = [CHImage new];
+        _backImage = [CHImage systemImageNamed:@"chevron.backward"];
+
+#if TARGET_OS_OSX
+        _cellBackgroundColor = [CHColor colorNamed:@"CellColor"];
+        _backgroundColor = [CHColor colorNamed:@"BackgroundColor"];
+        _groupedBackgroundColor = [CHColor colorNamed:@"GroupedBackgroundColor"];
+        
+        [NSApp addObserver:self forKeyPath:@"effectiveAppearance" options:0 context:nil];
+#else
+        _backgroundColor = [CHColor systemBackgroundColor];
+        _groupedBackgroundColor = [CHColor systemGroupedBackgroundColor];
         _cellBackgroundColor = UIBackgroundConfiguration.listGroupedCellConfiguration.backgroundColor;
-        _bubbleBackgroundColor = [UIColor colorNamed:@"BubbleColor"];
-        _groupedBackgroundColor = UIColor.systemGroupedBackgroundColor;
-        
-        _clearImage = [UIImage new];
-        _backImage = [UIImage systemImageNamed:@"chevron.backward"];
-        
+
         // Appearance
         UINavigationBar *navigationBar = UINavigationBar.appearance;
         navigationBar.shadowImage = self.clearImage;
@@ -64,9 +74,20 @@
         UIProgressView.appearance.tintColor = self.tintColor;
         
         self.userInterfaceStyle = [NSUserDefaults.standardUserDefaults integerForKey:@kCHUIStyleKey];
+#endif
     }
     return self;
 }
+
+#if TARGET_OS_OSX
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"effectiveAppearance"]) {
+        [NSAppearance setCurrentAppearance:NSApp.effectiveAppearance];
+    }
+}
+
+#else
 
 - (UIUserInterfaceStyle)userInterfaceStyle API_AVAILABLE(ios(13.0)) {
     return CHRouter.shared.window.overrideUserInterfaceStyle;
@@ -79,5 +100,6 @@
     }
 }
 
+#endif
 
 @end

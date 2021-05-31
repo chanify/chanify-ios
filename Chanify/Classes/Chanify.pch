@@ -66,6 +66,16 @@
 #   import "NSImage+CHExt.h"
 #endif
 
+#if __has_include(<AppKit/AppKit.h>)
+#   import <AppKit/NSImage.h>
+typedef NSImage CHImage;
+typedef NSColor CHColor;
+#else
+#   import <UIKit/UIImage.h>
+typedef UIImage CHImage;
+typedef UIColor CHColor;
+#endif
+
 #endif /* CHUI_ENABLE */
 
 #endif /* __OBJC__ */

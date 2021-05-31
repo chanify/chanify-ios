@@ -20,7 +20,7 @@
 #import "CHNodeModel.h"
 #import "CHNotification+Badge.h"
 #import "CHDevice.h"
-#import "CHRouter.h"
+#import "CHRouter+iOS.h"
 #import "CHMock.h"
 #import "CHTP.pbobjc.h"
 

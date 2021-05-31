@@ -7,7 +7,7 @@
 
 #import "AppDelegate.h"
 #import "CHLogic+iOS.h"
-#import "CHRouter.h"
+#import "CHRouter+iOS.h"
 
 @implementation AppDelegate
 

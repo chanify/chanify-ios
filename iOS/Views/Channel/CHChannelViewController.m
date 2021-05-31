@@ -13,7 +13,7 @@
 #import "CHNavigationTitleView.h"
 #import "CHBadgeView.h"
 #import "CHLogic+iOS.h"
-#import "CHRouter.h"
+#import "CHRouter+iOS.h"
 #import "CHTheme.h"
 
 @interface CHChannelViewController () <UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, CHMessagesDataSourceDelegate, CHLogicDelegate>

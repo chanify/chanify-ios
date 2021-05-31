@@ -8,7 +8,7 @@
 #import "CHActionMsgCellConfiguration.h"
 #import "CHActionGroup.h"
 #import "CHPasteboard.h"
-#import "CHRouter.h"
+#import "CHRouter+iOS.h"
 #import "CHTheme.h"
 
 #define kCHActionTitleHeight    26

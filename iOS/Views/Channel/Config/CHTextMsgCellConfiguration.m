@@ -8,7 +8,7 @@
 #import "CHTextMsgCellConfiguration.h"
 #import <M80AttributedLabel/M80AttributedLabel.h>
 #import "CHPasteboard.h"
-#import "CHRouter.h"
+#import "CHRouter+iOS.h"
 #import "CHLogic.h"
 #import "CHTheme.h"
 

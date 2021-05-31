@@ -10,7 +10,7 @@
 #import "CHFileTableViewCell.h"
 #import "CHWebFileManager.h"
 #import "CHLogic+iOS.h"
-#import "CHRouter.h"
+#import "CHRouter+iOS.h"
 
 @implementation CHFilesViewController
 

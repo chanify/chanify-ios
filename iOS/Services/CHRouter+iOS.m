@@ -1,11 +1,11 @@
 //
-//  CHRouter.m
+//  CHRouter+iOS.m
 //  Chanify
 //
 //  Created by WizJin on 2021/2/8.
 //
 
-#import "CHRouter.h"
+#import "CHRouter+iOS.h"
 #import <MessageUI/MessageUI.h>
 #import <JLRoutes/JLRoutes.h>
 #import <Masonry/Masonry.h>

@@ -8,7 +8,7 @@
 #import "UIViewController+CHExt.h"
 #import <UIKit/UINavigationBar.h>
 #import <UIKit/UIImage.h>
-#import "CHRouter.h"
+#import "CHRouter+iOS.h"
 
 @implementation UIViewController (CHExt)
 

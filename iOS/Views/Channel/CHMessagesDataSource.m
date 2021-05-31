@@ -13,7 +13,7 @@
 #import "CHWebImageManager.h"
 #import "CHUserDataSource.h"
 #import "CHLogic+iOS.h"
-#import "CHRouter.h"
+#import "CHRouter+iOS.h"
 
 @interface CHMessagesDataSource ()
 

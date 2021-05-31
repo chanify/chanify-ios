@@ -11,7 +11,7 @@
 #import "CHTableView.h"
 #import "CHUserDataSource.h"
 #import "CHLogic+iOS.h"
-#import "CHRouter.h"
+#import "CHRouter+iOS.h"
 
 typedef UITableViewDiffableDataSource<NSString *, CHNodeModel *> CHNodeDataSource;
 typedef NSDiffableDataSourceSnapshot<NSString *, CHNodeModel *> CHNodeDiffableSnapshot;

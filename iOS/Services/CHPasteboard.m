@@ -6,7 +6,7 @@
 //
 
 #import "CHPasteboard.h"
-#import "CHRouter.h"
+#import "CHRouter+iOS.h"
 
 @implementation CHPasteboard
 

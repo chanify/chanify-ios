@@ -12,6 +12,9 @@
 "Delete"="Delete";
 "Enable"="Enable";
 "Disable"="Disable";
+"Preferences"="Preferences";
+"About Chanify"="About Chanify";
+"Quit Chanify"="Quit Chanify";
 
 "NewMsg"="Receive an new message";
 "ImageMsg"="[Image]";

@@ -14,7 +14,7 @@
 #import "CHLogic+iOS.h"
 #import "CHCrpyto.h"
 #import "CHDevice.h"
-#import "CHRouter.h"
+#import "CHRouter+iOS.h"
 #import "CHToken.h"
 #import "CHTheme.h"
 

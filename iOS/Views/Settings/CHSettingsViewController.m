@@ -12,7 +12,7 @@
 #import "CHWebAudioManager.h"
 #import "CHLogic+iOS.h"
 #import "CHDevice.h"
-#import "CHRouter.h"
+#import "CHRouter+iOS.h"
 #import "CHTheme.h"
 
 @interface CHSettingsViewController () <CHLogicDelegate, CHNotificationDelegate, CHWebCacheManagerDelegate>

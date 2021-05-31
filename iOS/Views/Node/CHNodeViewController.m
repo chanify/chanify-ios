@@ -11,7 +11,7 @@
 #import "CHPasteboard.h"
 #import "CHNodeModel.h"
 #import "CHLogic+iOS.h"
-#import "CHRouter.h"
+#import "CHRouter+iOS.h"
 #import "CHCrpyto.h"
 
 typedef NS_ENUM(NSInteger, CHNodeVCStatus) {

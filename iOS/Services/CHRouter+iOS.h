@@ -1,5 +1,5 @@
 //
-//  CHRouter.h
+//  CHRouter+iOS.h
 //  Chanify
 //
 //  Created by WizJin on 2021/2/8.
@@ -9,12 +9,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class UIWindow;
 @class UIViewController;
 
 @protocol CHMainViewController <NSObject>
 - (void)viewReset;
 @end
-
 
 @interface CHRouter : NSObject
 

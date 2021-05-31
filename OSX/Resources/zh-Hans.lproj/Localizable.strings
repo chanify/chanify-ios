@@ -12,6 +12,9 @@
 "Delete"="删除";
 "Enable"="启用";
 "Disable"="禁用";
+"Preferences"="设置";
+"About Chanify"="关于Chanify";
+"Quit Chanify"="退出Chanify";
 
 "NewMsg"="收到一条新消息";
 "ImageMsg"="[图片]";
