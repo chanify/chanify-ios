@@ -37,20 +37,10 @@
         [session setActive:YES error:nil];
 #endif
         MPRemoteCommandCenter *commandCenter = MPRemoteCommandCenter.sharedCommandCenter;
-        [commandCenter.playCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
-            if (self.audioPlayer != nil) {
-                [self play];
-                return MPRemoteCommandHandlerStatusSuccess;
-            }
-            return MPRemoteCommandHandlerStatusCommandFailed;
-        }];
-        [commandCenter.pauseCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
-            if (self.audioPlayer != nil) {
-                [self pause];
-                return MPRemoteCommandHandlerStatusSuccess;
-            }
-            return MPRemoteCommandHandlerStatusCommandFailed;
-        }];
+        [commandCenter.playCommand addTarget:self action:@selector(actionPlayCommand:)];
+        [commandCenter.pauseCommand addTarget:self action:@selector(actionPauseCommand:)];
+        [commandCenter.togglePlayPauseCommand addTarget:self action:@selector(actionTogglePlayPauseCommand:)];
+        [commandCenter.changePlaybackPositionCommand addTarget:self action:@selector(actionChangePositionCommand:)];
     }
     return self;
 }
@@ -79,6 +69,7 @@
             [audioPlayer prepareToPlay];
             MPNowPlayingInfoCenter.defaultCenter.nowPlayingInfo = @{
                 MPMediaItemPropertyPlaybackDuration: @(audioPlayer.duration),
+                MPNowPlayingInfoPropertyElapsedPlaybackTime: @(audioPlayer.currentTime),
             };
         }
     }
@@ -110,7 +101,7 @@
     if (_audioPlayer != nil && !_audioPlayer.isPlaying) {
         [self startTimer];
         [_audioPlayer play];
-        [self sendNotifyWithSelector:@selector(audioPlayStatusChanged:) withObject:self];
+        [self updatePlayStatus];
     }
 }
 
@@ -118,7 +109,7 @@
     if (_audioPlayer != nil && _audioPlayer.isPlaying) {
         [_audioPlayer pause];
         [self stopTimer];
-        [self sendNotifyWithSelector:@selector(audioPlayStatusChanged:) withObject:self];
+        [self updatePlayStatus];
     }
 }
 
@@ -131,7 +122,8 @@
 #pragma mark - AVAudioPlayerDelegate
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
     if (flag) {
-        [self sendNotifyWithSelector:@selector(audioPlayStatusChanged:) withObject:self];
+        self.audioPlayer.currentTime = 0;
+        [self updatePlayStatus];
     } else {
         [self stopAudioPlayer:player];
     }
@@ -141,9 +133,47 @@
     [self stopAudioPlayer:player];
 }
 
+#pragma mark - Action Methods
+- (MPRemoteCommandHandlerStatus)actionPlayCommand:(MPRemoteCommandEvent *)event {
+    if (self.audioPlayer != nil) {
+        [self play];
+        return MPRemoteCommandHandlerStatusSuccess;
+    }
+    return MPRemoteCommandHandlerStatusCommandFailed;
+}
+
+- (MPRemoteCommandHandlerStatus)actionPauseCommand:(MPRemoteCommandEvent *)event {
+    if (self.audioPlayer != nil) {
+        [self pause];
+        return MPRemoteCommandHandlerStatusSuccess;
+    }
+    return MPRemoteCommandHandlerStatusCommandFailed;
+}
+
+- (MPRemoteCommandHandlerStatus)actionTogglePlayPauseCommand:(MPRemoteCommandEvent *)event {
+    if (self.audioPlayer != nil) {
+        if (self.isPlaying) {
+            [self pause];
+        } else {
+            [self play];
+        }
+        return MPRemoteCommandHandlerStatusSuccess;
+    }
+    return MPRemoteCommandHandlerStatusCommandFailed;
+}
+
+- (MPRemoteCommandHandlerStatus)actionChangePositionCommand:(MPChangePlaybackPositionCommandEvent *)event {
+    if (self.audioPlayer != nil) {
+        self.audioPlayer.currentTime = event.positionTime;
+        [self updateTrackChanged];
+        return MPRemoteCommandHandlerStatusSuccess;
+    }
+    return MPRemoteCommandHandlerStatusCommandFailed;
+}
+
 #pragma mark - Private Methods
 - (void)onTimer:(id)sender {
-    [self sendNotifyWithSelector:@selector(audioPlayTrackChanged:) withObject:self];
+    [self updateTrackChanged];
 }
 
 - (void)startTimer {
@@ -163,9 +193,33 @@
     if (_audioPlayer != nil && player == _audioPlayer) {
         [_audioPlayer stop];
         [self stopTimer];
-        [self sendNotifyWithSelector:@selector(audioPlayStatusChanged:) withObject:self];
+        [self updatePlayStatus];
         _audioPlayer = nil;
     }
+}
+
+- (void)updateTrack {
+    if (_audioPlayer != nil) {
+        MPNowPlayingInfoCenter *center = MPNowPlayingInfoCenter.defaultCenter;
+        NSMutableDictionary *info = [NSMutableDictionary dictionaryWithDictionary:center.nowPlayingInfo];
+        NSTimeInterval currentTime = self.audioPlayer.currentTime;
+        if ([[info valueForKey:MPNowPlayingInfoPropertyElapsedPlaybackTime] doubleValue] != currentTime) {
+            [info setValue:@(currentTime) forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
+            center.nowPlayingInfo = info;
+        }
+    }
+}
+
+- (void)updateTrackChanged {
+    [self updateTrack];
+    [self sendNotifyWithSelector:@selector(audioPlayTrackChanged:) withObject:self];
+}
+
+- (void)updatePlayStatus {
+    if (_audioPlayer != nil) {
+        [self updateTrack];
+    }
+    [self sendNotifyWithSelector:@selector(audioPlayStatusChanged:) withObject:self];
 }
 
 
