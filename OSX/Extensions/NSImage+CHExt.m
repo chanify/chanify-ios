@@ -20,5 +20,22 @@
     return nil;
 }
 
+- (NSImage *)imageWithTintColor:(NSColor *)color {
+    NSImage *image = self;
+    if (image.isTemplate) {
+        NSImage *img = [image copy];
+        if (img != nil) {
+            [img lockFocus];
+            NSRect rc = NSMakeRect(0, 0, img.size.width, img.size.height);
+            [color set];
+            NSRectFillUsingOperation(rc, NSCompositingOperationSourceIn);
+            [img unlockFocus];
+            img.template = NO;
+            image = img;
+        }
+    }
+    return image;
+}
+
 
 @end

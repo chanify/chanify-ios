@@ -79,7 +79,6 @@
             make.right.equalTo(self.iconView).offset(8);
             make.size.mas_offset(CGSizeMake(18, 18));
         }];
-
     }
     return self;
 }

@@ -11,6 +11,7 @@
 		1DF9D52ED9FF82BF5D74FE61 /* libPods-Watch Extension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4D4830AD0DB53EB5BE0C41 /* libPods-Watch Extension.a */; };
 		6D12BC342625A0DA005659EA /* CHLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D12BC332625A0DA005659EA /* CHLoadingView.m */; };
 		6D12BC462626BBE7005659EA /* NSNumber+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D12BC452626BBE7005659EA /* NSNumber+CHExt.m */; };
+		6D17176B2665D35600A89A33 /* NSView+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D17176A2665D35600A89A33 /* NSView+CHExt.m */; };
 		6D180E01262441BC000BDE82 /* NSString+CHNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD7B5DE260DF588001D5DCB /* NSString+CHNotification.m */; };
 		6D1C613B26613E3C002E968B /* CHAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C613A26613E3C002E968B /* CHAudioPlayer.m */; };
 		6D229C5F26316078005BF375 /* CHLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C27325D13E5500512E36 /* CHLogic.m */; };
@@ -57,6 +58,12 @@
 		6D499112265D4FBB007834D0 /* CHFileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D499111265D4FBB007834D0 /* CHFileTableViewCell.m */; };
 		6D4B262E265E292E00E0E2B1 /* CHDataItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4B262D265E292E00E0E2B1 /* CHDataItemsViewController.m */; };
 		6D4B2632265E32C700E0E2B1 /* CHDataItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4B2631265E32C700E0E2B1 /* CHDataItemCell.m */; };
+		6D51562A2666064600137071 /* CHChannelCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5156292666064600137071 /* CHChannelCellView.m */; };
+		6D51562C2666251700137071 /* CHIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD969D325F4A1E700EEEECF /* CHIconView.m */; };
+		6D51562F2666264200137071 /* NSColor+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D51562E2666264200137071 /* NSColor+CHExt.m */; };
+		6D51563226662C7A00137071 /* CHLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D51563126662C7A00137071 /* CHLabel.m */; };
+		6D51563326662F5600137071 /* CHBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDE057B262976C4004336DD /* CHBadgeView.m */; };
+		6D515637266649A000137071 /* CHChannelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D515636266649A000137071 /* CHChannelView.m */; };
 		6D59464726356941004D3748 /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D59464626356941004D3748 /* IconView.swift */; };
 		6D59464E26356C51004D3748 /* UIColor+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92C425F60B3B00B792FE /* UIColor+CHExt.m */; };
 		6D67CBDB25D3BAD700ECF655 /* NSDate+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */; };
@@ -70,9 +77,8 @@
 		6D7ACE97266478D600B3FCF4 /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C21F25D0FB7600512E36 /* NotificationService.m */; };
 		6D8352322664C818005CE6D1 /* CHRouter+OSX.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8352312664C818005CE6D1 /* CHRouter+OSX.m */; };
 		6D8352362664D423005CE6D1 /* CHChannelsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8352352664D423005CE6D1 /* CHChannelsView.m */; };
-		6D8352392664D9F1005CE6D1 /* CHChannelCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8352382664D9F1005CE6D1 /* CHChannelCellItem.m */; };
 		6D83523A2664EDC0005CE6D1 /* CHTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C24125D1117A00512E36 /* CHTheme.m */; };
-		6D83523D2664F384005CE6D1 /* CHView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D83523C2664F384005CE6D1 /* CHView.m */; };
+		6D8352412665CFF8005CE6D1 /* CHViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8352402665CFF8005CE6D1 /* CHViewController.m */; };
 		6D897D23262D6BFD0048D9A6 /* CHTP.proto in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C20D25D0F3EF00512E36 /* CHTP.proto */; };
 		6D897D5B262D77140048D9A6 /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D897D5A262D77140048D9A6 /* NotificationService.m */; };
 		6D897D5F262D77140048D9A6 /* WatchNotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6D897D57262D77140048D9A6 /* WatchNotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -203,8 +209,6 @@
 		6DDD6B09263E314200684EE7 /* CHLogic+OSX.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDD6B08263E314200684EE7 /* CHLogic+OSX.m */; };
 		6DDE056A26281F5C004336DD /* CHMessageCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDE056926281F5C004336DD /* CHMessageCellView.m */; };
 		6DDE057C262976C4004336DD /* CHBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDE057B262976C4004336DD /* CHBadgeView.m */; };
-		6DDEB4DB263FA53700CAD501 /* CHImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDEB4DA263FA53700CAD501 /* CHImage.m */; };
-		6DDEB4DC263FA5FE00CAD501 /* CHImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDEB4DA263FA53700CAD501 /* CHImage.m */; };
 		6DDEB4DD263FA62600CAD501 /* CHWebLinkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBF866226183E53006F108C /* CHWebLinkManager.m */; };
 		6DDEB4E1263FA73600CAD501 /* NSImage+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDEB4E0263FA73600CAD501 /* NSImage+CHExt.m */; };
 		6DDEB4E2263FA87100CAD501 /* CHWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD5A0F8260EF99E00799032 /* CHWebImageManager.m */; };
@@ -248,6 +252,8 @@
 		6DE7C08C263D49950092D88D /* CHNSDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2EB25D15F9700512E36 /* CHNSDataSource.m */; };
 		6DEC569E25F4F6F600AD6DC9 /* CHIconConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC569D25F4F6F600AD6DC9 /* CHIconConfiguration.m */; };
 		6DF2C34A263582EF00DBFC2D /* NodeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF2C349263582EF00DBFC2D /* NodeDetailView.swift */; };
+		6DF611202665E32E00426830 /* CHContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF6111F2665E32E00426830 /* CHContentView.m */; };
+		6DF611232665E6FD00426830 /* CHNotification+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF611222665E6FD00426830 /* CHNotification+Badge.m */; };
 		6DFC77FA26627606002EF541 /* CHAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C613A26613E3C002E968B /* CHAudioPlayer.m */; };
 		6DFDE2182634041000A4BE43 /* CHNotification+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DFDE2172634041000A4BE43 /* CHNotification+Badge.m */; };
 		6DFDE225263408D000A4BE43 /* CHNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C26E25D13D2900512E36 /* CHNotification.m */; };
@@ -476,6 +482,8 @@
 		6D12BC332625A0DA005659EA /* CHLoadingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHLoadingView.m; sourceTree = "<group>"; };
 		6D12BC442626BBE7005659EA /* NSNumber+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSNumber+CHExt.h"; sourceTree = "<group>"; };
 		6D12BC452626BBE7005659EA /* NSNumber+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+CHExt.m"; sourceTree = "<group>"; };
+		6D1717692665D35600A89A33 /* NSView+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSView+CHExt.h"; sourceTree = "<group>"; };
+		6D17176A2665D35600A89A33 /* NSView+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSView+CHExt.m"; sourceTree = "<group>"; };
 		6D1C613926613E3C002E968B /* CHAudioPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHAudioPlayer.h; sourceTree = "<group>"; };
 		6D1C613A26613E3C002E968B /* CHAudioPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHAudioPlayer.m; sourceTree = "<group>"; };
 		6D278E3F25E0ECAC00FC48CD /* CHChannelTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelTableViewCell.h; sourceTree = "<group>"; };
@@ -529,6 +537,14 @@
 		6D4B262D265E292E00E0E2B1 /* CHDataItemsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHDataItemsViewController.m; sourceTree = "<group>"; };
 		6D4B2630265E32C700E0E2B1 /* CHDataItemCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHDataItemCell.h; sourceTree = "<group>"; };
 		6D4B2631265E32C700E0E2B1 /* CHDataItemCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHDataItemCell.m; sourceTree = "<group>"; };
+		6D5156282666064600137071 /* CHChannelCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelCellView.h; sourceTree = "<group>"; };
+		6D5156292666064600137071 /* CHChannelCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelCellView.m; sourceTree = "<group>"; };
+		6D51562D2666264200137071 /* NSColor+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSColor+CHExt.h"; sourceTree = "<group>"; };
+		6D51562E2666264200137071 /* NSColor+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSColor+CHExt.m"; sourceTree = "<group>"; };
+		6D51563026662C7A00137071 /* CHLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHLabel.h; sourceTree = "<group>"; };
+		6D51563126662C7A00137071 /* CHLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHLabel.m; sourceTree = "<group>"; };
+		6D515635266649A000137071 /* CHChannelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelView.h; sourceTree = "<group>"; };
+		6D515636266649A000137071 /* CHChannelView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelView.m; sourceTree = "<group>"; };
 		6D59464626356941004D3748 /* IconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
 		6D67CBD925D3BAD700ECF655 /* NSDate+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+CHExt.h"; sourceTree = "<group>"; };
 		6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+CHExt.m"; sourceTree = "<group>"; };
@@ -546,10 +562,7 @@
 		6D8352312664C818005CE6D1 /* CHRouter+OSX.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHRouter+OSX.m"; sourceTree = "<group>"; };
 		6D8352342664D423005CE6D1 /* CHChannelsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelsView.h; sourceTree = "<group>"; };
 		6D8352352664D423005CE6D1 /* CHChannelsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelsView.m; sourceTree = "<group>"; };
-		6D8352372664D9F1005CE6D1 /* CHChannelCellItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelCellItem.h; sourceTree = "<group>"; };
-		6D8352382664D9F1005CE6D1 /* CHChannelCellItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelCellItem.m; sourceTree = "<group>"; };
-		6D83523B2664F384005CE6D1 /* CHView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHView.h; sourceTree = "<group>"; };
-		6D83523C2664F384005CE6D1 /* CHView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHView.m; sourceTree = "<group>"; };
+		6D8352402665CFF8005CE6D1 /* CHViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHViewController.m; sourceTree = "<group>"; };
 		6D897CE6262D67D50048D9A6 /* Watch Extension-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Watch Extension-Bridging-Header.h"; sourceTree = "<group>"; };
 		6D897D57262D77140048D9A6 /* WatchNotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WatchNotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D897D59262D77140048D9A6 /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
@@ -771,8 +784,6 @@
 		6DDE056926281F5C004336DD /* CHMessageCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHMessageCellView.m; sourceTree = "<group>"; };
 		6DDE057A262976C4004336DD /* CHBadgeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHBadgeView.h; sourceTree = "<group>"; };
 		6DDE057B262976C4004336DD /* CHBadgeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHBadgeView.m; sourceTree = "<group>"; };
-		6DDEB4D9263FA53700CAD501 /* CHImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHImage.h; sourceTree = "<group>"; };
-		6DDEB4DA263FA53700CAD501 /* CHImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHImage.m; sourceTree = "<group>"; };
 		6DDEB4DF263FA73600CAD501 /* NSImage+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSImage+CHExt.h"; sourceTree = "<group>"; };
 		6DDEB4E0263FA73600CAD501 /* NSImage+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSImage+CHExt.m"; sourceTree = "<group>"; };
 		6DE7C05D263D45DE0092D88D /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -782,6 +793,9 @@
 		6DEC569C25F4F6F600AD6DC9 /* CHIconConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHIconConfiguration.h; sourceTree = "<group>"; };
 		6DEC569D25F4F6F600AD6DC9 /* CHIconConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHIconConfiguration.m; sourceTree = "<group>"; };
 		6DF2C349263582EF00DBFC2D /* NodeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeDetailView.swift; sourceTree = "<group>"; };
+		6DF6111E2665E32E00426830 /* CHContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHContentView.h; sourceTree = "<group>"; };
+		6DF6111F2665E32E00426830 /* CHContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHContentView.m; sourceTree = "<group>"; };
+		6DF611222665E6FD00426830 /* CHNotification+Badge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHNotification+Badge.m"; sourceTree = "<group>"; };
 		6DFDE2162634041000A4BE43 /* CHNotification+Badge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CHNotification+Badge.h"; sourceTree = "<group>"; };
 		6DFDE2172634041000A4BE43 /* CHNotification+Badge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHNotification+Badge.m"; sourceTree = "<group>"; };
 		84478BB35AC049B8F080A494 /* Pods-NotificationService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationService.debug.xcconfig"; path = "Target Support Files/Pods-NotificationService/Pods-NotificationService.debug.xcconfig"; sourceTree = "<group>"; };
@@ -891,6 +905,16 @@
 				6DD325ED2652429800A5CEC4 /* CHTokenViewController.m */,
 			);
 			path = Token;
+			sourceTree = "<group>";
+		};
+		6D1717682665D2B700A89A33 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				6DDE057A262976C4004336DD /* CHBadgeView.h */,
+				6DDE057B262976C4004336DD /* CHBadgeView.m */,
+				6DC6C1C825D0DCD100512E36 /* CHViewController.h */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		6D1FAA7A263D2F2A00582170 /* Classes */ = {
@@ -1016,6 +1040,24 @@
 			path = DataItems;
 			sourceTree = "<group>";
 		};
+		6D51562B266624DD00137071 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				6DD969D225F4A1E700EEEECF /* CHIconView.h */,
+				6DD969D325F4A1E700EEEECF /* CHIconView.m */,
+			);
+			path = Icons;
+			sourceTree = "<group>";
+		};
+		6D5156342666497900137071 /* Channel */ = {
+			isa = PBXGroup;
+			children = (
+				6D515635266649A000137071 /* CHChannelView.h */,
+				6D515636266649A000137071 /* CHChannelView.m */,
+			);
+			path = Channel;
+			sourceTree = "<group>";
+		};
 		6D6F3CF4263D28EA00A2578B /* OSX */ = {
 			isa = PBXGroup;
 			children = (
@@ -1034,10 +1076,20 @@
 			children = (
 				6D8352342664D423005CE6D1 /* CHChannelsView.h */,
 				6D8352352664D423005CE6D1 /* CHChannelsView.m */,
-				6D8352372664D9F1005CE6D1 /* CHChannelCellItem.h */,
-				6D8352382664D9F1005CE6D1 /* CHChannelCellItem.m */,
+				6D5156282666064600137071 /* CHChannelCellView.h */,
+				6D5156292666064600137071 /* CHChannelCellView.m */,
 			);
 			path = Channels;
+			sourceTree = "<group>";
+		};
+		6D83523E2665CFE9005CE6D1 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				6D51563026662C7A00137071 /* CHLabel.h */,
+				6D51563126662C7A00137071 /* CHLabel.m */,
+				6D8352402665CFF8005CE6D1 /* CHViewController.m */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		6D897D1D262D6BD00048D9A6 /* Services */ = {
@@ -1273,7 +1325,6 @@
 				6DC6C26925D1159C00512E36 /* CHRouter+iOS.m */,
 				6DAE516926155C8C00AF9E90 /* CHPasteboard.h */,
 				6DAE516A26155C8C00AF9E90 /* CHPasteboard.m */,
-				6DFDE2162634041000A4BE43 /* CHNotification+Badge.h */,
 				6DFDE2172634041000A4BE43 /* CHNotification+Badge.m */,
 			);
 			path = Services;
@@ -1316,14 +1367,11 @@
 				6DABBB2E2612E2F200FCBDD3 /* Preview */,
 				6DDC86B925E7457B00C26203 /* IndicatorView */,
 				6DDC86B725E7456000C26203 /* TableView */,
-				6DC6C1C825D0DCD100512E36 /* CHViewController.h */,
 				6DC6C1C925D0DCD100512E36 /* CHViewController.m */,
 				6DC6C36D25D16C4E00512E36 /* CHQrCodeView.h */,
 				6DC6C36E25D16C4E00512E36 /* CHQrCodeView.m */,
 				6D278E6725E222C300FC48CD /* CHCodeFormatter.h */,
 				6D278E6825E222C300FC48CD /* CHCodeFormatter.m */,
-				6DDE057A262976C4004336DD /* CHBadgeView.h */,
-				6DDE057B262976C4004336DD /* CHBadgeView.m */,
 				6D909113265CDCFE0064A580 /* CHLoadMoreView.h */,
 				6D909114265CDCFE0064A580 /* CHLoadMoreView.m */,
 				6D12BC322625A0DA005659EA /* CHLoadingView.h */,
@@ -1456,8 +1504,6 @@
 				6DBA92BD25F609CD00B792FE /* CHColorConfiguration.m */,
 				6DEC569C25F4F6F600AD6DC9 /* CHIconConfiguration.h */,
 				6DEC569D25F4F6F600AD6DC9 /* CHIconConfiguration.m */,
-				6DD969D225F4A1E700EEEECF /* CHIconView.h */,
-				6DD969D325F4A1E700EEEECF /* CHIconView.m */,
 			);
 			path = Icons;
 			sourceTree = "<group>";
@@ -1500,6 +1546,7 @@
 				6DDD6B08263E314200684EE7 /* CHLogic+OSX.m */,
 				6D8352302664C818005CE6D1 /* CHRouter+OSX.h */,
 				6D8352312664C818005CE6D1 /* CHRouter+OSX.m */,
+				6DF611222665E6FD00426830 /* CHNotification+Badge.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1507,8 +1554,8 @@
 		6DDEB4D8263FA51600CAD501 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6DDEB4D9263FA53700CAD501 /* CHImage.h */,
-				6DDEB4DA263FA53700CAD501 /* CHImage.m */,
+				6D51562B266624DD00137071 /* Icons */,
+				6D1717682665D2B700A89A33 /* Utils */,
 				6D2EA169264D16C600246EB4 /* CHActionGroup.h */,
 				6D2EA16A264D16C600246EB4 /* CHActionGroup.m */,
 			);
@@ -1518,6 +1565,10 @@
 		6DDEB4DE263FA72300CAD501 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				6D51562D2666264200137071 /* NSColor+CHExt.h */,
+				6D51562E2666264200137071 /* NSColor+CHExt.m */,
+				6D1717692665D35600A89A33 /* NSView+CHExt.h */,
+				6D17176A2665D35600A89A33 /* NSView+CHExt.m */,
 				6DDEB4DF263FA73600CAD501 /* NSImage+CHExt.h */,
 				6DDEB4E0263FA73600CAD501 /* NSImage+CHExt.m */,
 			);
@@ -1614,6 +1665,7 @@
 				6DC6C2D525D15CCD00512E36 /* CHManager.m */,
 				6DC6C26D25D13D2900512E36 /* CHNotification.h */,
 				6DC6C26E25D13D2900512E36 /* CHNotification.m */,
+				6DFDE2162634041000A4BE43 /* CHNotification+Badge.h */,
 				6D1C613926613E3C002E968B /* CHAudioPlayer.h */,
 				6D1C613A26613E3C002E968B /* CHAudioPlayer.m */,
 				6DC6C2EA25D15F9700512E36 /* CHNSDataSource.h */,
@@ -1628,12 +1680,22 @@
 			isa = PBXGroup;
 			children = (
 				6D8352332664D411005CE6D1 /* Channels */,
-				6D83523B2664F384005CE6D1 /* CHView.h */,
-				6D83523C2664F384005CE6D1 /* CHView.m */,
-				6D6F3CF8263D28EA00A2578B /* CHMainViewController.h */,
-				6D6F3CF9263D28EA00A2578B /* CHMainViewController.m */,
+				6D5156342666497900137071 /* Channel */,
+				6DF6111D2665E19400426830 /* Main */,
+				6D83523E2665CFE9005CE6D1 /* Utils */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		6DF6111D2665E19400426830 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				6D6F3CF8263D28EA00A2578B /* CHMainViewController.h */,
+				6D6F3CF9263D28EA00A2578B /* CHMainViewController.m */,
+				6DF6111E2665E32E00426830 /* CHContentView.h */,
+				6DF6111F2665E32E00426830 /* CHContentView.m */,
+			);
+			path = Main;
 			sourceTree = "<group>";
 		};
 		AA9D7AE19CD99A925739E3F6 /* Frameworks */ = {
@@ -2053,24 +2115,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				6DDEB4DD263FA62600CAD501 /* CHWebLinkManager.m in Sources */,
+				6D51562C2666251700137071 /* CHIconView.m in Sources */,
 				6DE7C080263D48E10092D88D /* NSDictionary+CHExt.m in Sources */,
 				6DE7C07B263D48B80092D88D /* NSString+CHExt.m in Sources */,
-				6D83523D2664F384005CE6D1 /* CHView.m in Sources */,
 				6DE7C075263D487B0092D88D /* CHSecKey.m in Sources */,
 				6DE7C088263D49480092D88D /* CHNotification.m in Sources */,
 				6D83523A2664EDC0005CE6D1 /* CHTheme.m in Sources */,
+				6D515637266649A000137071 /* CHChannelView.m in Sources */,
 				6D8352362664D423005CE6D1 /* CHChannelsView.m in Sources */,
 				6DE7C081263D48E80092D88D /* NSFileManager+CHExt.m in Sources */,
 				6DE7C072263D48620092D88D /* CHMessageModel.m in Sources */,
 				6DE7C074263D48790092D88D /* CHCrpyto.m in Sources */,
-				6D8352392664D9F1005CE6D1 /* CHChannelCellItem.m in Sources */,
+				6D51563226662C7A00137071 /* CHLabel.m in Sources */,
 				6DFC77FA26627606002EF541 /* CHAudioPlayer.m in Sources */,
 				6DE7C083263D49150092D88D /* CHLogic.m in Sources */,
 				6D2EA164264D018A00246EB4 /* CHActionItemModel.m in Sources */,
+				6D51562A2666064600137071 /* CHChannelCellView.m in Sources */,
+				6D8352412665CFF8005CE6D1 /* CHViewController.m in Sources */,
 				6DE7C070263D485A0092D88D /* CHChannelModel.m in Sources */,
 				6DE7C078263D48B20092D88D /* NSURL+CHExt.m in Sources */,
 				6DE7C06F263D483B0092D88D /* CHUserModel.m in Sources */,
 				6DE7C07F263D48DA0092D88D /* NSException+CHExt.m in Sources */,
+				6D51563326662F5600137071 /* CHBadgeView.m in Sources */,
 				6DE7C076263D487D0092D88D /* CryptoKit.swift in Sources */,
 				6DE7C08A263D49560092D88D /* CHUserDataSource.m in Sources */,
 				6DE7C07E263D48D50092D88D /* NSPredicate+CHExt.m in Sources */,
@@ -2078,8 +2144,8 @@
 				6D8352322664C818005CE6D1 /* CHRouter+OSX.m in Sources */,
 				6DDD6B09263E314200684EE7 /* CHLogic+OSX.m in Sources */,
 				6D6F3CFA263D28EA00A2578B /* CHMainViewController.m in Sources */,
+				6DF611202665E32E00426830 /* CHContentView.m in Sources */,
 				6D3DC0882660C60800F42070 /* CHWebAudioManager.m in Sources */,
-				6DDEB4DC263FA5FE00CAD501 /* CHImage.m in Sources */,
 				6DE7C07C263D48C80092D88D /* NSString+CHLocalized.m in Sources */,
 				6DE7C086263D49340092D88D /* CHDevice.m in Sources */,
 				6D6F3D02263D28EB00A2578B /* main.m in Sources */,
@@ -2087,8 +2153,10 @@
 				6DE7C069263D47410092D88D /* CHTP.proto in Sources */,
 				6DDEB4E4263FAA4B00CAD501 /* CHWebFileManager.m in Sources */,
 				6DDEB4E1263FA73600CAD501 /* NSImage+CHExt.m in Sources */,
+				6DF611232665E6FD00426830 /* CHNotification+Badge.m in Sources */,
 				6DE7C087263D493E0092D88D /* CHManager.m in Sources */,
 				6DDEB4E2263FA87100CAD501 /* CHWebImageManager.m in Sources */,
+				6D51562F2666264200137071 /* NSColor+CHExt.m in Sources */,
 				6DE7C089263D494F0092D88D /* CHNSDataSource.m in Sources */,
 				6DE7C067263D47210092D88D /* CHLogger.m in Sources */,
 				6DE7C073263D48680092D88D /* CHThumbnailModel.m in Sources */,
@@ -2098,6 +2166,7 @@
 				6DE7C079263D48B50092D88D /* NSDate+CHExt.m in Sources */,
 				6DE7C07A263D48B70092D88D /* NSData+CHExt.m in Sources */,
 				6DD325FE2653AE6400A5CEC4 /* CHWebCacheManager.m in Sources */,
+				6D17176B2665D35600A89A33 /* NSView+CHExt.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2189,7 +2258,6 @@
 				6DC6C26525D1151E00512E36 /* NSString+CHExt.m in Sources */,
 				6DAE516B26155C8C00AF9E90 /* CHPasteboard.m in Sources */,
 				6DC6C38625D16E4200512E36 /* CHDateCellConfiguration.m in Sources */,
-				6DDEB4DB263FA53700CAD501 /* CHImage.m in Sources */,
 				6D278E5E25E1EF7A00FC48CD /* CHPrivacyViewController.m in Sources */,
 				6DD325F1265259AF00A5CEC4 /* CHFormDateItem.m in Sources */,
 				6DC6C39F25D16FE600512E36 /* CHMessagesDataSource.m in Sources */,

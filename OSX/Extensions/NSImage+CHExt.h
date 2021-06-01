@@ -5,7 +5,7 @@
 //  Created by WizJin on 2021/5/3.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <AppKit/NSImage.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)systemImageNamed:(NSString *)name;
 + (nullable instancetype)imageWithData:(NSData *)data;
+- (NSImage *)imageWithTintColor:(NSColor *)color;
 
 
 @end

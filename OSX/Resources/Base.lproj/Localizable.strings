@@ -22,3 +22,6 @@
 "AudioMsg"="[Audio]";
 "LinkMsg"="[Link]";
 "FileMsg"="[File]";
+
+"sys.none"="Uncategorized";
+"sys.device"="Devices";

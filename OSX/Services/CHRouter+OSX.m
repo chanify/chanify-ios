@@ -8,6 +8,7 @@
 #import "CHRouter+OSX.h"
 #import <JLRoutes/JLRoutes.h>
 #import "CHMainViewController.h"
+#import "CHChannelView.h"
 #import "CHLogic+OSX.h"
 
 @interface CHRouter () <NSWindowDelegate>
@@ -43,12 +44,11 @@
     window.delegate = self;
     window.styleMask = NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskMiniaturizable|NSWindowStyleMaskResizable;
     window.hasShadow = YES;
-    window.minSize = CGSizeMake(640, 480);
-    window.contentViewController = [CHMainViewController new];
-    [window setFrame:NSMakeRect(0, 0, 640, 480) display:YES animate:YES];
 
     [CHLogic.shared launch];
     [CHLogic.shared active];
+    
+    [self routeTo:@"/page/main"];
     
     [window center];
     [window makeKeyAndOrderFront:NSApp];
@@ -62,6 +62,14 @@
 
 - (void)handleReopen:(id)sender {
     [self actionShow:self];
+}
+
+- (BOOL)routeTo:(NSString *)url {
+    return [self routeTo:url withParams:nil];
+}
+
+- (BOOL)routeTo:(NSString *)url withParams:(nullable NSDictionary<NSString *, id> *)params {
+    return [JLRoutes routeURL:[NSURL URLWithString:url] withParameters:params];
 }
 
 #pragma mark - NSWindowDelegate
@@ -87,7 +95,27 @@
 
 #pragma mark - Private Methods
 - (void)initRouters:(JLRoutes *)routes {
-
+    [routes addRoute:@"/page/main" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
+        NSWindow *window = CHRouter.shared.window;
+        if (![window.contentViewController isKindOfClass:CHMainViewController.class]) {
+            window.minSize = CGSizeMake(640, 480);
+            window.contentViewController = [CHMainViewController new];
+            [window setFrame:NSMakeRect(0, 0, 800, 600) display:YES animate:YES];
+        }
+        return YES;
+    }];
+    [routes addRoute:@"/page/channel" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
+        NSWindow *window = CHRouter.shared.window;
+        if ([window.contentViewController isKindOfClass:CHMainViewController.class]) {
+            NSString *cid = [parameters valueForKey:@"cid"];
+            CHMainViewController *vc = (CHMainViewController *)window.contentViewController;
+            NSView *contentView = vc.topContentView;
+            if (!([contentView isKindOfClass:CHChannelView.class] && [cid isEqualTo:[(CHChannelView *)vc.topContentView cid]])) {
+                [vc pushContentView:[[CHChannelView alloc] initWithCID:cid]];
+            }
+        }
+        return YES;
+    }];
 }
 
 - (void)loadMainMenu {

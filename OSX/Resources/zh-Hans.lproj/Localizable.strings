@@ -22,3 +22,6 @@
 "AudioMsg"="[音频]";
 "LinkMsg"="[链接]";
 "FileMsg"="[文件]";
+
+"sys.none"="未分类消息";
+"sys.device"="设备消息";

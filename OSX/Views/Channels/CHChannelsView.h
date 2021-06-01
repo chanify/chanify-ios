@@ -5,11 +5,14 @@
 //  Created by WizJin on 2021/5/31.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <AppKit/AppKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHChannelsView : NSView
+@interface CHChannelsView : NSScrollView
+
+- (void)reloadData;
+
 
 @end
 

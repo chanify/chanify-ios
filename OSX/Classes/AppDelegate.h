@@ -5,7 +5,7 @@
 //  Created by WizJin on 2021/5/1.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <AppKit/AppKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

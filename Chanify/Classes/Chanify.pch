@@ -50,6 +50,20 @@
 
 #ifdef CHUI_ENABLED
 
+#if __has_include(<AppKit/NSImage.h>)
+#   import "NSView+CHExt.h"
+#   define CHImage  NSImage
+#   define CHColor  NSColor
+#   define CHView   NSView
+#   define CHFont   NSFont
+#else
+#   import <UIKit/UIImage.h>
+#   define CHImage  UIImage
+#   define CHColor  UIColor
+#   define CHView   UIView
+#   define CHFont   UIFont
+#endif
+
 #if __has_include(<UIKit/UIColor.h>)
 #   import "UIColor+CHExt.h"
 #endif
@@ -62,18 +76,16 @@
 #   import "UIViewController+CHExt.h"
 #endif
 
-#if __has_include(<AppKit/NSImage.h>)
-#   import "NSImage+CHExt.h"
+#if __has_include(<AppKit/NSColor.h>)
+#   import "NSColor+CHExt.h"
 #endif
 
-#if __has_include(<AppKit/AppKit.h>)
-#   import <AppKit/NSImage.h>
-typedef NSImage CHImage;
-typedef NSColor CHColor;
-#else
-#   import <UIKit/UIImage.h>
-typedef UIImage CHImage;
-typedef UIColor CHColor;
+#if __has_include(<AppKit/NSView.h>)
+#   import "NSView+CHExt.h"
+#endif
+
+#if __has_include(<AppKit/NSImage.h>)
+#   import "NSImage+CHExt.h"
 #endif
 
 #endif /* CHUI_ENABLE */

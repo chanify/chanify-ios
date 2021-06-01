@@ -27,12 +27,12 @@
     if (self = [super init]) {
         _tintColor = [CHColor colorNamed:@"AccentColor"];
         _lightTintColor = [self.tintColor colorWithAlphaComponent:0.6];
-        _labelColor = [CHColor labelColor];
-        _minorLabelColor = [CHColor secondaryLabelColor];
-        _lightLabelColor = [CHColor tertiaryLabelColor];
-        _warnColor = [CHColor systemYellowColor];
-        _alertColor = [CHColor systemRedColor];
-        _secureColor = [CHColor systemGreenColor];
+        _labelColor = CHColor.labelColor;
+        _minorLabelColor = CHColor.secondaryLabelColor;
+        _lightLabelColor = CHColor.tertiaryLabelColor;
+        _warnColor = CHColor.systemYellowColor;
+        _alertColor = CHColor.systemRedColor;
+        _secureColor = CHColor.systemGreenColor;
         _bubbleBackgroundColor = [CHColor colorNamed:@"BubbleColor"];
 
         _clearImage = [CHImage new];
@@ -42,7 +42,7 @@
         _cellBackgroundColor = [CHColor colorNamed:@"CellColor"];
         _backgroundColor = [CHColor colorNamed:@"BackgroundColor"];
         _groupedBackgroundColor = [CHColor colorNamed:@"GroupedBackgroundColor"];
-        
+
         [NSApp addObserver:self forKeyPath:@"effectiveAppearance" options:0 context:nil];
 #else
         _backgroundColor = [CHColor systemBackgroundColor];

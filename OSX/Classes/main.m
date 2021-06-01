@@ -5,7 +5,7 @@
 //  Created by WizJin on 2021/5/1.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <AppKit/AppKit.h>
 #import "AppDelegate.h"
 
 int main(int argc, const char * argv[]) {

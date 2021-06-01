@@ -5,11 +5,9 @@
 //  Created by WizJin on 2021/3/7.
 //
 
-#import <UIKit/UIKit.h>
-
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHIconView : UIView
+@interface CHIconView : CHView
 
 @property (nonatomic, strong) NSString *image;
 
