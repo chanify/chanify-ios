@@ -5,11 +5,7 @@
 //  Created by WizJin on 2021/2/8.
 //
 
-#if TARGET_OS_OSX
-#   import <AppKit/AppKit.h>
-#else
-#   import <UIKit/UIKit.h>
-#endif
+#import "CHUI.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

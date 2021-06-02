@@ -5,25 +5,11 @@
 //  Created by WizJin on 2021/2/8.
 //
 
-#if TARGET_OS_OSX
-
-#import <Cocoa/Cocoa.h>
+#import "CHUI.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHViewController : NSViewController
-
-@end
-
-NS_ASSUME_NONNULL_END
-
-#else
-
-#import <UIKit/UIKit.h>
-
-NS_ASSUME_NONNULL_BEGIN
-
-@interface CHViewController : UIViewController
+@interface CHViewController : CHUIViewController
 
 - (BOOL)isEqualToViewController:(__kindof CHViewController *)rhs;
 
@@ -31,5 +17,3 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
-
-#endif

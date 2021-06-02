@@ -14,5 +14,13 @@
     return [NSColor colorWithRed:c[2]/255.0 green:c[1]/255.0 blue:c[0]/255.0 alpha:1.0];
 }
 
++ (instancetype)systemBackgroundColor {
+    return [self.class colorNamed:@"BackgroundColor"];
+}
+
++ (instancetype)systemGroupedBackgroundColor {
+    return [self.class colorNamed:@"GroupedBackgroundColor"];
+}
+
 
 @end

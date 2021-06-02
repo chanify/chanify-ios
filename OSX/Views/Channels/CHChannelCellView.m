@@ -28,7 +28,7 @@
 @implementation CHChannelCellView
 
 - (void)loadView {
-    self.view = [NSView new];
+    self.view = [CHView new];
 }
 
 - (void)viewDidLoad {
@@ -78,7 +78,7 @@
     dateLabel.textColor = theme.lightLabelColor;
     dateLabel.maximumNumberOfLines = 1;
     
-    CHBadgeView *badgeView = [CHBadgeView new];
+    CHBadgeView *badgeView = [[CHBadgeView alloc] initWithFont:[CHFont systemFontOfSize:8]];
     [self.view addSubview:(_badgeView = badgeView)];
     [badgeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.iconView).offset(-6);

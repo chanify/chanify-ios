@@ -12,9 +12,6 @@
 @interface CHIconView ()
 
 @property (nonatomic, nullable, readonly, strong) CHImage *iconImage;
-#if TARGET_OS_OSX
-@property (nonatomic, strong) CHColor *tintColor;
-#endif
 
 @end
 
@@ -26,12 +23,7 @@
         _iconImage = nil;
         self.tintColor = CHColor.whiteColor;
         self.backgroundColor = CHTheme.shared.tintColor;
-#if TARGET_OS_OSX
-        self.wantsLayer = YES;
-#else
         self.clipsToBounds = YES;
-        self.contentMode = UIViewContentModeScaleAspectFit;
-#endif
     }
     return self;
 }
@@ -63,23 +55,11 @@
     }
 }
 
-#if TARGET_OS_OSX
-- (void)setNeedsDisplay {
-    self.needsDisplay = YES;
-}
-
-- (void)layout {
-    [super layout];
-    CGSize sz = self.bounds.size;
-    self.layer.cornerRadius = MAX(4.0, MIN(sz.width, sz.height) * 0.2);
-}
-#else
 - (void)layoutSubviews {
     [super layoutSubviews];
     CGSize sz = self.bounds.size;
     self.layer.cornerRadius = MAX(4.0, MIN(sz.width, sz.height) * 0.2);
 }
-#endif
 
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];

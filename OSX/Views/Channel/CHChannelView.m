@@ -47,11 +47,6 @@
     [CHLogic.shared removeDelegate:self];
 }
 
-- (void)layout {
-    [super layout];
-    [self.listView.collectionViewLayout invalidateLayout];
-}
-
 #pragma mark - NSCollectionViewDelegate
 - (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths {
     [collectionView deselectItemsAtIndexPaths:indexPaths];

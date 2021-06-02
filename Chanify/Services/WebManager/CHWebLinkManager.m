@@ -7,6 +7,7 @@
 
 #import "CHWebLinkManager.h"
 #import <LinkPresentation/LinkPresentation.h>
+#import "CHUI.h"
 
 @interface CHWebLinkTask : NSObject
 

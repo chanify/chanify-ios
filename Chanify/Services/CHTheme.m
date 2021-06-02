@@ -6,7 +6,9 @@
 //
 
 #import "CHTheme.h"
-#if !(TARGET_OS_OSX)
+#if TARGET_OS_OSX
+#   import "CHRouter+OSX.h"
+#else
 #   import "CHRouter+iOS.h"
 #endif
 
@@ -33,6 +35,8 @@
         _warnColor = CHColor.systemYellowColor;
         _alertColor = CHColor.systemRedColor;
         _secureColor = CHColor.systemGreenColor;
+        _backgroundColor = CHColor.systemBackgroundColor;
+        _groupedBackgroundColor = CHColor.systemGroupedBackgroundColor;
         _bubbleBackgroundColor = [CHColor colorNamed:@"BubbleColor"];
 
         _clearImage = [CHImage new];
@@ -40,14 +44,10 @@
 
 #if TARGET_OS_OSX
         _cellBackgroundColor = [CHColor colorNamed:@"CellColor"];
-        _backgroundColor = [CHColor colorNamed:@"BackgroundColor"];
-        _groupedBackgroundColor = [CHColor colorNamed:@"GroupedBackgroundColor"];
         _selectedCellBackgroundColor = [CHColor colorNamed:@"SelectedCellColor"];
 
         [NSApp addObserver:self forKeyPath:@"effectiveAppearance" options:0 context:nil];
 #else
-        _backgroundColor = [CHColor systemBackgroundColor];
-        _groupedBackgroundColor = [CHColor systemGroupedBackgroundColor];
         _cellBackgroundColor = UIBackgroundConfiguration.listGroupedCellConfiguration.backgroundColor;
 
         // Appearance

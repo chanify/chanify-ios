@@ -5,7 +5,7 @@
 //  Created by WizJin on 2021/6/1.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "CHUI.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

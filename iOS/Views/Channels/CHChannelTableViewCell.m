@@ -72,7 +72,7 @@
         dateLabel.textColor = theme.lightLabelColor;
         dateLabel.numberOfLines = 1;
 
-        CHBadgeView *badgeView = [CHBadgeView new];
+        CHBadgeView *badgeView = [[CHBadgeView alloc] initWithFont:[CHFont boldSystemFontOfSize:10]];
         [self.contentView addSubview:(_badgeView = badgeView)];
         [badgeView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.iconView).offset(-7);

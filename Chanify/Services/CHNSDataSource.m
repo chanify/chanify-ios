@@ -9,11 +9,6 @@
 #import <FMDB.h>
 #import <sqlite3.h>
 
-#if TARGET_OS_OSX
-#   define kCHDBFileProtectionFlags     0
-#else
-#   define kCHDBFileProtectionFlags     SQLITE_OPEN_FILEPROTECTION_COMPLETEUNTILFIRSTUSERAUTHENTICATION
-#endif
 #define kCHNSInitSql    \
     "CREATE TABLE IF NOT EXISTS `keys`(`uid` TEXT PRIMARY KEY,`key` BLOB);"  \
     "CREATE TABLE IF NOT EXISTS `badges`(`uid` TEXT PRIMARY KEY,`badge` UNSIGNED INTEGER);"  \

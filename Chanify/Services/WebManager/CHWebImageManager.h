@@ -6,6 +6,7 @@
 //
 
 #import "CHWebCacheManager.h"
+#import "CHUI.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -45,6 +45,10 @@
 #else
 #   define kCHNotificationSandbox       NO  // TestFlight use production APNS.
 #endif
-
+#if TARGET_OS_OSX
+#   define kCHDBFileProtectionFlags     0
+#else
+#   define kCHDBFileProtectionFlags     SQLITE_OPEN_FILEPROTECTION_COMPLETEUNTILFIRSTUSERAUTHENTICATION
+#endif
 
 #endif /* __CHCONFIG_H__ */

@@ -67,7 +67,7 @@
     _detailButtonItem = detailButtonItem;
 
     if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
-        CHBadgeView *badgeView = [[CHBadgeView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+        CHBadgeView *badgeView = [[CHBadgeView alloc] initWithFont:[CHFont boldSystemFontOfSize:10]];
         [titleView addSubview:(_badgeView = badgeView)];
         badgeView.textColor = theme.labelColor;
         badgeView.tintColor = theme.lightLabelColor;

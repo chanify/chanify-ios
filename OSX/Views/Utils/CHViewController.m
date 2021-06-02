@@ -15,5 +15,10 @@
     }
 }
 
+- (BOOL)isEqualToViewController:(__kindof CHViewController *)rhs {
+    // TODO: fix this
+    return YES;
+}
+
 
 @end

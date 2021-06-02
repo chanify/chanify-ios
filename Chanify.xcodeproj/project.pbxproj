@@ -548,6 +548,7 @@
 		6D515636266649A000137071 /* CHChannelView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelView.m; sourceTree = "<group>"; };
 		6D51563826672BE100137071 /* CHCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHCollectionView.h; sourceTree = "<group>"; };
 		6D51563926672BE100137071 /* CHCollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHCollectionView.m; sourceTree = "<group>"; };
+		6D51563B2667504700137071 /* CHUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHUI.h; sourceTree = "<group>"; };
 		6D59464626356941004D3748 /* IconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
 		6D67CBD925D3BAD700ECF655 /* NSDate+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+CHExt.h"; sourceTree = "<group>"; };
 		6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+CHExt.m"; sourceTree = "<group>"; };
@@ -1561,6 +1562,7 @@
 			children = (
 				6D51562B266624DD00137071 /* Icons */,
 				6D1717682665D2B700A89A33 /* Utils */,
+				6D51563B2667504700137071 /* CHUI.h */,
 				6D2EA169264D16C600246EB4 /* CHActionGroup.h */,
 				6D2EA16A264D16C600246EB4 /* CHActionGroup.m */,
 			);

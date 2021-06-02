@@ -5,7 +5,7 @@
 //  Created by WizJin on 2021/6/1.
 //
 
-#import <AppKit/AppKit.h>
+#import "CHUI.h"
 #import "CHChannelModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
