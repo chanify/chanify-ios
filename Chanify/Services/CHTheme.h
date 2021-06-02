@@ -30,7 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) CHImage *clearImage;
 @property (nonatomic, readonly, strong) CHImage *backImage;
 
-#if !(TARGET_OS_OSX)
+#if TARGET_OS_OSX
+@property (nonatomic, readonly, strong) CHColor *selectedCellBackgroundColor;
+#else
 @property (nonatomic, assign) UIUserInterfaceStyle userInterfaceStyle API_AVAILABLE(ios(13.0));
 #endif
 

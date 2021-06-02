@@ -42,6 +42,7 @@
         _cellBackgroundColor = [CHColor colorNamed:@"CellColor"];
         _backgroundColor = [CHColor colorNamed:@"BackgroundColor"];
         _groupedBackgroundColor = [CHColor colorNamed:@"GroupedBackgroundColor"];
+        _selectedCellBackgroundColor = [CHColor colorNamed:@"SelectedCellColor"];
 
         [NSApp addObserver:self forKeyPath:@"effectiveAppearance" options:0 context:nil];
 #else

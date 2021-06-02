@@ -64,6 +64,7 @@
 		6D51563226662C7A00137071 /* CHLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D51563126662C7A00137071 /* CHLabel.m */; };
 		6D51563326662F5600137071 /* CHBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDE057B262976C4004336DD /* CHBadgeView.m */; };
 		6D515637266649A000137071 /* CHChannelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D515636266649A000137071 /* CHChannelView.m */; };
+		6D51563A26672BE100137071 /* CHCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D51563926672BE100137071 /* CHCollectionView.m */; };
 		6D59464726356941004D3748 /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D59464626356941004D3748 /* IconView.swift */; };
 		6D59464E26356C51004D3748 /* UIColor+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92C425F60B3B00B792FE /* UIColor+CHExt.m */; };
 		6D67CBDB25D3BAD700ECF655 /* NSDate+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */; };
@@ -545,6 +546,8 @@
 		6D51563126662C7A00137071 /* CHLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHLabel.m; sourceTree = "<group>"; };
 		6D515635266649A000137071 /* CHChannelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelView.h; sourceTree = "<group>"; };
 		6D515636266649A000137071 /* CHChannelView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelView.m; sourceTree = "<group>"; };
+		6D51563826672BE100137071 /* CHCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHCollectionView.h; sourceTree = "<group>"; };
+		6D51563926672BE100137071 /* CHCollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHCollectionView.m; sourceTree = "<group>"; };
 		6D59464626356941004D3748 /* IconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
 		6D67CBD925D3BAD700ECF655 /* NSDate+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+CHExt.h"; sourceTree = "<group>"; };
 		6D67CBDA25D3BAD700ECF655 /* NSDate+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+CHExt.m"; sourceTree = "<group>"; };
@@ -1087,6 +1090,8 @@
 			children = (
 				6D51563026662C7A00137071 /* CHLabel.h */,
 				6D51563126662C7A00137071 /* CHLabel.m */,
+				6D51563826672BE100137071 /* CHCollectionView.h */,
+				6D51563926672BE100137071 /* CHCollectionView.m */,
 				6D8352402665CFF8005CE6D1 /* CHViewController.m */,
 			);
 			path = Utils;
@@ -2125,6 +2130,7 @@
 				6D8352362664D423005CE6D1 /* CHChannelsView.m in Sources */,
 				6DE7C081263D48E80092D88D /* NSFileManager+CHExt.m in Sources */,
 				6DE7C072263D48620092D88D /* CHMessageModel.m in Sources */,
+				6D51563A26672BE100137071 /* CHCollectionView.m in Sources */,
 				6DE7C074263D48790092D88D /* CHCrpyto.m in Sources */,
 				6D51563226662C7A00137071 /* CHLabel.m in Sources */,
 				6DFC77FA26627606002EF541 /* CHAudioPlayer.m in Sources */,

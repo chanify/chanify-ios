@@ -91,7 +91,7 @@
     [super setSelected:selected];
     CHTheme *theme = CHTheme.shared;
     if (selected) {
-        self.view.backgroundColor = theme.bubbleBackgroundColor;
+        self.view.backgroundColor = theme.selectedCellBackgroundColor;
     } else {
         self.view.backgroundColor = theme.cellBackgroundColor;
     }

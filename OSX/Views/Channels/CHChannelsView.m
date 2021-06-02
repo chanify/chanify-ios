@@ -8,6 +8,7 @@
 #import "CHChannelsView.h"
 #import <Masonry/Masonry.h>
 #import "CHChannelCellView.h"
+#import "CHCollectionView.h"
 #import "CHUserDataSource.h"
 #import "CHMessageModel.h"
 #import "CHLogic+OSX.h"
@@ -21,8 +22,9 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
 
 @interface CHChannelsView () <NSCollectionViewDelegate, NSCollectionViewDelegateFlowLayout, CHLogicDelegate>
 
-@property (nonatomic, readonly, strong) NSCollectionView *listView;
+@property (nonatomic, readonly, strong) CHCollectionView *listView;
 @property (nonatomic, readonly, strong) CHChannelDataSource *dataSource;
+@property (nonatomic, nullable, strong) CHChannelModel *selected;
 
 @end
 
@@ -30,22 +32,24 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
-        self.backgroundColor = CHTheme.shared.groupedBackgroundColor;
-        self.hasVerticalScroller = YES;
+        _selected = nil;
+        
+        CHTheme *theme = CHTheme.shared;
 
         NSCollectionViewFlowLayout *layout = [NSCollectionViewFlowLayout new];
-        layout.scrollDirection = NSCollectionViewScrollDirectionVertical;
         layout.minimumLineSpacing = 1;
-        NSCollectionView *listView = [NSCollectionView new];
+        CHCollectionView *listView = [[CHCollectionView alloc] initWithLayout:layout];
         _listView = listView;
         [listView registerClass:CHChannelCellView.class forItemWithIdentifier:cellIdentifier];
-        listView.backgroundColors = @[self.backgroundColor];
-        listView.collectionViewLayout = layout;
+        listView.backgroundColor = theme.groupedBackgroundColor;
         listView.allowsMultipleSelection = NO;
         listView.allowsEmptySelection = NO;
         listView.selectable = YES;
         listView.delegate = self;
+        
         self.documentView = listView;
+        self.hasVerticalScroller = YES;
+        self.backgroundColor = theme.groupedBackgroundColor;
 
         _dataSource = [[CHChannelDataSource alloc] initWithCollectionView:listView itemProvider:^NSCollectionViewItem * _Nullable(NSCollectionView * collectionView, NSIndexPath * indexPath, CHChannelModel * model) {
             CHChannelCellView *item = [collectionView makeItemWithIdentifier:cellIdentifier forIndexPath:indexPath];
@@ -63,28 +67,20 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
     [CHLogic.shared removeDelegate:self];
 }
 
-- (void)layout {
-    [super layout];
-    [self.listView.collectionViewLayout invalidateLayout];
-}
-
 - (void)reloadData {
     NSArray<CHChannelModel *> *items = [CHLogic.shared.userDataSource loadChannels];
     CHChannelDiffableSnapshot *snapshot = [CHChannelDiffableSnapshot new];
     [snapshot appendSectionsWithIdentifiers:@[@"main"]];
     [snapshot appendItemsWithIdentifiers:[items sortedArrayUsingSelector:@selector(messageCompare:)]];
-    [self.dataSource applySnapshot:snapshot animatingDifferences:NO];
-    if (self.listView.selectionIndexes.count <= 0 && items.count > 0) {
-        NSSet<NSIndexPath *> *indexPaths = [NSSet setWithObject:[NSIndexPath indexPathForItem:0 inSection:0]];
-        [self.listView selectItemsAtIndexPaths:indexPaths scrollPosition:NSCollectionViewScrollPositionNone];
-        [self collectionView:self.listView didSelectItemsAtIndexPaths:indexPaths];
-    }
+    [self.dataSource applySnapshot:snapshot animatingDifferences:YES];
+    [self fixSelectChannel];
 }
 
 #pragma mark - NSCollectionViewDelegate
 - (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths {
     CHChannelModel *item = [self.dataSource itemIdentifierForIndexPath:indexPaths.anyObject];
-    if (item != nil) {
+    if (item != nil && ![item isEqual:self.selected]) {
+        _selected = item;
         [CHRouter.shared routeTo:@"/page/channel" withParams:@{ @"cid": item.cid, @"show": @"detail" }];
     }
 }
@@ -127,9 +123,31 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
     }
     [snapshot reloadItemsWithIdentifiers:reloadItems.allObjects];
     [self.dataSource applySnapshot:snapshot animatingDifferences:YES];
+    [self fixSelectChannel];
 }
 
 - (void)logicMessagesUnreadChanged:(NSNumber *)unread {
+}
+
+#pragma mark - Private Methods
+- (void)fixSelectChannel {
+    if (self.listView.selectionIndexes.count <= 0) {
+        if (self.selected != nil) {
+            NSIndexPath *indexPath = [self.dataSource indexPathForItemIdentifier:self.selected];
+            if (indexPath == nil) {
+                _selected = nil;
+            } else {
+                NSSet<NSIndexPath *> *indexPaths = [NSSet setWithObject:indexPath];
+                [self.listView selectItemsAtIndexPaths:indexPaths scrollPosition:NSCollectionViewScrollPositionNone];
+            }
+        }
+        if (self.selected == nil) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+            NSSet<NSIndexPath *> *indexPaths = [NSSet setWithObject:indexPath];
+            [self.listView selectItemsAtIndexPaths:indexPaths scrollPosition:NSCollectionViewScrollPositionNone];
+            [self collectionView:self.listView didSelectItemsAtIndexPaths:indexPaths];
+        }
+    }
 }
 
 
