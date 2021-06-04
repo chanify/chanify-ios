@@ -35,12 +35,8 @@
     NSString *uid = [CHMessageModel parsePacket:self.attemptContent.userInfo mid:&mid data:&data];
     if (uid.length > 0) {
         CHNSDataSource *dbsrc = self.class.sharedDB;
-        self.attemptContent.badge = @([dbsrc nextBadgeForUID:uid]);
-        if (mid.length > 0 && data.length > 0) {
-            CHMessageModel *msg = [dbsrc pushMessage:data mid:mid uid:uid store:YES];
-            if (msg != nil) {
-                [msg formatNotification:self.attemptContent];
-            }
+        if (mid.length > 0 && data.length > 0 && [dbsrc pushMessage:data mid:mid uid:uid notification:self.attemptContent]) {
+            self.attemptContent.badge = @([dbsrc nextBadgeForUID:uid]);
         }
     }
     self.contentHandler(self.attemptContent);

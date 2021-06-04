@@ -7,9 +7,10 @@
 
 #import "CHFormViewController.h"
 #import <Masonry/Masonry.h>
+#import "CHFormSectionHeaderView.h"
 
 static NSString *const cellIdentifier = @"cell";
-static NSString *const headIdentifier = @"head";
+static NSString *const headerIdentifier = @"header";
 
 typedef UITableViewDiffableDataSource<CHFormSection *, CHFormItem *> CHFormDataSource;
 typedef NSDiffableDataSourceSnapshot<CHFormSection *, CHFormItem *> CHFormDiffableSnapshot;
@@ -35,7 +36,7 @@ typedef NSDiffableDataSourceSnapshot<CHFormSection *, CHFormItem *> CHFormDiffab
     [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
-    [tableView registerClass:UITableViewHeaderFooterView.class forHeaderFooterViewReuseIdentifier:headIdentifier];
+    [tableView registerClass:CHFormSectionHeaderView.class forHeaderFooterViewReuseIdentifier:headerIdentifier];
     [tableView registerClass:UITableViewCell.class forCellReuseIdentifier:cellIdentifier];
     tableView.delegate = self;
     
@@ -166,14 +167,18 @@ typedef NSDiffableDataSourceSnapshot<CHFormSection *, CHFormItem *> CHFormDiffab
 }
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UITableViewHeaderFooterView *headerView = nil;
+    CHFormSectionHeaderView *headerView = nil;
     NSArray<CHFormSection *> *sections = [self.dataSource.snapshot sectionIdentifiers];
     if (section < sections.count) {
-        NSString *title = [sections objectAtIndex:section].title;
+        CHFormSection *item = [sections objectAtIndex:section];;
+        NSString *title = item.title;
         if (title.length > 0) {
-            headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:headIdentifier];
+            headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:headerIdentifier];
             if (headerView != nil) {
                 headerView.textLabel.text = title;
+                if (item.note.length > 0) {
+                    headerView.noteText = item.note;
+                }
             }
         }
     }

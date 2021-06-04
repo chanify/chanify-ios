@@ -21,7 +21,7 @@
         if (error != nil) {
             CHLogE("Invalid message format: %s", error.description.cstr);
         } else {
-            return [[self.class alloc] initWithID:mid packet:msg];
+            return [[self.class alloc] initWithID:mid packet:msg sign:msg.tokenHash];
         }
     }
     return nil;
@@ -81,11 +81,12 @@
     return uid;
 }
 
-- (instancetype)initWithID:(NSString *)mid packet:(CHTPMessage *)msg {
+- (instancetype)initWithID:(NSString *)mid packet:(CHTPMessage *)msg sign:(nullable NSData *)tokenHash {
     if (self = [super init]) {
         _mid = mid;
         _from = msg.from.base32;
         _channel = msg.channel ?: [NSData dataFromHex:@kCHDefChanCode];
+        _tokenHash = tokenHash;
 
         CHTPSound *sound = msg.sound;
         if (sound != nil && sound.type == CHTPSoundType_NormalSound) {
@@ -181,6 +182,11 @@
         }
     }
     return self;
+}
+
+- (void)clearNotification:(UNMutableNotificationContent *)content {
+    content.body = @"";
+    content.sound = nil;
 }
 
 - (void)formatNotification:(UNMutableNotificationContent *)content {

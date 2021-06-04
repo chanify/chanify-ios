@@ -87,6 +87,7 @@
     }
 
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"Token".localized])];
+    section.note = [NSString stringWithFormat:@"Expires at %@".localized, tk.expired.fullDayFormat];
     for (CHNodeModel *model in [CHLogic.shared.userDataSource loadNodes]) {
         tk.node = model;
         NSString *tokenValue = [tk formatString:model.nid direct:model.isStoreDevice];

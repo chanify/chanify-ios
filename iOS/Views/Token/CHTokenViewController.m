@@ -11,6 +11,7 @@
 #import "CHNodeModel.h"
 #import "CHLogic+iOS.h"
 #import "CHToken.h"
+#import "CHRouter+iOS.h"
 
 @interface CHTokenViewController ()
 
@@ -72,6 +73,7 @@
             item.value = [tk formatString:model.nid direct:model.isStoreDevice];
         }
     }
+    self.tokenSection.note = [NSString stringWithFormat:@"Expires at %@".localized, tk.expired.fullDayFormat];
     [self reloadSection:self.tokenSection];
 }
 

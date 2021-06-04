@@ -19,6 +19,8 @@ typedef NS_ENUM(NSInteger, CHLoadStatus) {
 
 @property (nonatomic, assign) CHLoadStatus status;
 
++ (instancetype)loadMoreWithStatus:(CHLoadStatus)status;
+
 
 @end
 

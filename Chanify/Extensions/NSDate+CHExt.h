@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable instancetype)dateFromMID:(NSString *)mid;
 - (NSString *)shortFormat;
 - (NSString *)mediumFormat;
+- (NSString *)fullDayFormat;
 
 
 @end

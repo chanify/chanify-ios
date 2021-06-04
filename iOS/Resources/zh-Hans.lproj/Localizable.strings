@@ -57,6 +57,9 @@
 "Dark"="深色";
 "Notification"="通知";
 "Sound"="铃声";
+"SECURITY"="安全";
+"Token blocklist"="禁用令牌";
+"Add Token To Blocklist"="添加令牌到禁用列表";
 "DATA"="数据";
 "Images"="图片";
 "Audios"="音频";
@@ -64,9 +67,10 @@
 "WATCH"="手表";
 "No watch app installed"="没有安装到Apple Watch";
 "Force data sync to watch"="强制数据同步到手表";
+"Send data to watch failed"="发送数据到手表失败";
+"Send data to watch success"="发送数据到手表成功";
 "HELP"="帮助";
 "Quick Start"="快速开始";
-"Usage Manual"="使用手册";
 "ABOUT"="关于";
 "Version"="版本信息";
 "Privacy Policy"="隐私协议";
@@ -99,6 +103,7 @@
 "Delete this node or not?"="是否要删除这个节点？";
 "Delete this file or not?"="是否要删除这个文件？";
 "Delete this image or not?"="是否要删除这张图片？";
+"Delete this token or not?"="是否要删除这个令牌？";
 "Logout or not?"="是否要退出登录？";
 "Add node failed"="添加节点失败";
 "Update node failed"="更新节点失败";
@@ -110,10 +115,12 @@
 "Download failed and click to retry"="下载失败，点击重试";
 
 "%@ copied"="%@已复制";
+"Expires at %@"="有效期到 %@";
 "Downloading %6.02f%%"="下载中 %6.02f%%";
 "Delete %d selected files or not?"="是否删除选中的 %d 个文件吗？";
 "Delete %d selected images or not?"="是否删除选中的 %d 张图片吗？";
 "Delete %d selected messages or not?"="是否删除选中的 %d 条消息吗？";
+"Delete %d selected tokens or not?"="是否删除选中的 %d 个令牌吗？";
 
 "NewMsg"="收到一条新消息";
 "ImageMsg"="[图片]";

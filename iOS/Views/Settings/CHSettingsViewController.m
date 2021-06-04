@@ -105,6 +105,7 @@
     CHFormItem *item;
     CHFormSection *section;
     CHForm *form = [CHForm formWithTitle:self.title];
+
     // ACCOUNT
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"ACCOUNT".localized])];
     item = [CHFormCodeItem itemWithName:@"user" title:@"User".localized value:logic.me.uid];
@@ -136,13 +137,7 @@
     };
     [section addFormItem:item];
 
-//    item = [CHFormValueItem itemWithName:@"sound" title:@"Sound".localized value:@""];
-//    item.action = ^(CHFormItem *itm) {
-//        [CHRouter.shared routeTo:@"/page/sounds" withParams:@{ @"show": @"detail" }];
-//    };
-//    [section addFormItem:item];
-
-    // Data
+    // DATA
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"DATA".localized])];
     item = [CHFormValueItem itemWithName:@"images" title:@"Images".localized value:@(0)];
     item.action = ^(CHFormItem *itm) {
@@ -169,6 +164,14 @@
     }];
     [section addFormItem:item];
 
+    // SECURITY
+    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"SECURITY".localized])];
+    item = [CHFormValueItem itemWithName:@"blocklist" title:@"Token blocklist".localized];
+    item.action = ^(CHFormItem *itm) {
+        [CHRouter.shared routeTo:@"/page/blocklist" withParams:@{ @"show": @"detail" }];
+    };
+    [section addFormItem:item];
+    
     // WATCH
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"WATCH".localized])];
     section.hidden = [NSPredicate predicateWithObject:logic attribute:@"hasWatch" expected:@NO];
@@ -182,7 +185,11 @@
     item = [CHFormValueItem itemWithName:@"syncwatch" title:@"Force data sync to watch".localized];
     item.hidden = [NSPredicate predicateWithObject:form attribute:@"appinstall.isHidden" expected:@NO];
     item.action = ^(CHFormItem *itm) {
-        [CHLogic.shared syncDataToWatch:YES];
+        if ([CHLogic.shared syncDataToWatch:YES]) {
+            [CHRouter.shared makeToast:@"Send data to watch success".localized];
+        } else {
+            [CHRouter.shared makeToast:@"Send data to watch failed".localized];
+        }
     };
     [section addFormItem:item];
     
@@ -193,11 +200,6 @@
         [CHRouter.shared routeTo:@kQuickStartURL withParams:@{ @"title": @"Quick Start".localized, @"show": @"detail" }];
     };
     [section addFormItem:item];
-//    item = [CHFormValueItem itemWithName:@"manual" title:@"Usage Manual".localized];
-//    item.action = ^(CHFormItem *itm) {
-//        [CHRouter.shared routeTo:@kUsageManualURL withParams:@{ @"title": @"Usage Manual".localized, @"show": @"detail" }];
-//    };
-//    [section addFormItem:item];
 
     // ABOUT
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"ABOUT".localized])];
@@ -220,7 +222,7 @@
     };
     [section addFormItem:item];
     
-    // Logout
+    // LOGOUT
     [form addFormSection:(section = [CHFormSection section])];
     item = [CHFormButtonItem itemWithName:@"logout" title:@"Logout".localized action:^(CHFormItem *itm) {
         [CHRouter.shared showAlertWithTitle:@"Logout or not?".localized action:@"OK".localized handler:^{

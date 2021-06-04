@@ -57,6 +57,9 @@
 "Dark"="Dark";
 "Notification"="Notification";
 "Sound"="Sound";
+"SECURITY"="SECURITY";
+"Token blocklist"="Token blocklist";
+"Add Token To Blocklist"="Add Token To Blocklist";
 "DATA"="DATA";
 "Images"="Images";
 "Audios"="Audios";
@@ -64,9 +67,10 @@
 "WATCH"="WATCH";
 "No watch app installed"="No watch app installed";
 "Force data sync to watch"="Force data sync to watch";
+"Send data to watch failed"="Send data to watch failed";
+"Send data to watch success"="Send data to watch success";
 "HELP"="HELP";
 "Quick Start"="Quick Start";
-"Usage Manual"="Usage Manual";
 "ABOUT"="ABOUT";
 "Version"="Version";
 "Privacy Policy"="Privacy Policy";
@@ -99,6 +103,7 @@
 "Delete this node or not?"="Delete this node or not?";
 "Delete this file or not?"="Delete this file or not?";
 "Delete this image or not?"="Delete this image or not?";
+"Delete this token or not?"="Delete this token or not?";
 "Logout or not?"="Logout or not?";
 "Add node failed"="Add node failed";
 "Update node failed"="Update node failed";
@@ -110,10 +115,12 @@
 "Download failed and click to retry"="Download failed and click to retry";
 
 "%@ copied"="%@ Copied";
+"Expires at %@"="Expires at %@";
 "Downloading %6.02f%%"="Downloading %6.02f%%";
 "Delete %d selected files or not?"="Delete %d selected files or not?";
 "Delete %d selected images or not?"="Delete %d selected images or not?";
 "Delete %d selected messages or not?"="Delete %d selected messages or not?";
+"Delete %d selected tokens or not?"="Delete %d selected tokens or not?";
 
 "NewMsg"="Receive an new message";
 "ImageMsg"="[Image]";

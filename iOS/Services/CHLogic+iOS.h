@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)logicMessagesDeleted:(NSArray<NSString *> *)mids;
 - (void)logicMessagesCleared:(NSString *)cid;
 - (void)logicMessagesUnreadChanged:(NSNumber *)unread;
+- (void)logicBlockedTokenChanged;
 @end
 
 @interface CHLogic : CHCommonLogic<id<CHLogicDelegate>>
@@ -55,6 +56,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSInteger)unreadWithChannel:(nullable NSString *)cid;
 - (void)addReadChannel:(nullable NSString *)cid;
 - (void)removeReadChannel:(nullable NSString *)cid;
+// Blocklist
+- (void)upsertBlockedToken:(NSString *)token;
+- (void)removeBlockedTokens:(NSArray<NSString *> *)tokens;
+- (NSArray<NSString *> *)blockedTokens;
 // Watch
 - (BOOL)hasWatch;
 - (BOOL)isWatchAppInstalled;

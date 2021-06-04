@@ -46,6 +46,22 @@
     return token;
 }
 
++ (nullable instancetype)tokenWithString:(NSString *)value {
+    CHToken *token = nil;
+    NSArray<NSString *> *items = [value componentsSeparatedByString:@"."];
+    if (items.count > 0) {
+        NSData *data = [NSData dataFromBase64:items.firstObject];
+        if (data.length > 0) {
+            NSError *error = nil;
+            CHTPToken *tk = [CHTPToken parseFromData:data error:&error];
+            if (error == nil) {
+                token = [[self.class alloc] initWithToken:tk];
+            }
+        }
+    }
+    return token;
+}
+
 - (instancetype)initWithUTC:(uint64_t)utc {
     if (self = [super init]) {
         _token = [CHTPToken new];
@@ -53,6 +69,17 @@
         self.token.userId = CHLogic.shared.me.uid;
     }
     return self;
+}
+
+- (instancetype)initWithToken:(CHTPToken *)token {
+    if (self = [super init]) {
+        _token = token;
+    }
+    return self;
+}
+
+- (NSDate *)expired {
+    return [NSDate dateWithTimeIntervalSince1970:self.token.expires];
 }
 
 - (void)setChannel:(NSData *)channel {

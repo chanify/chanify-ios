@@ -65,5 +65,16 @@
     return @"";
 }
 
+- (NSString *)fullDayFormat {
+    if (self != nil) {
+        NSDateFormatter *formatter = [NSDateFormatter new];
+        formatter.locale = NSLocale.currentLocale;
+        formatter.dateStyle = NSDateFormatterMediumStyle;
+        formatter.timeStyle = NSDateFormatterNoStyle;
+        return [formatter stringFromDate:self];
+    }
+    return @"";
+}
+
 
 @end

@@ -8,10 +8,6 @@
 #import "CHSoundsViewController.h"
 #import "CHTheme.h"
 
-@interface CHSoundsViewController ()
-
-@end
-
 @implementation CHSoundsViewController
 
 - (void)viewDidLoad {

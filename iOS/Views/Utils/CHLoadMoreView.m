@@ -19,6 +19,12 @@
 
 @implementation CHLoadMoreView
 
++ (instancetype)loadMoreWithStatus:(CHLoadStatus)status {
+    CHLoadMoreView *view = [self.class new];
+    view.status = status;
+    return view;
+}
+
 - (instancetype)initWithFrame:(CGRect)frame {
     frame.size.height = MAX(30, frame.size.height);
     if (self = [super initWithFrame:frame]) {

@@ -28,6 +28,7 @@
 - (instancetype)initWithTitle:(NSString *)title {
     if (self = [super init]) {
         _title = (title ?: @"");
+        _note = nil;
         _hidden = nil;
         _isHidden = NO;
         _itemList = [NSMutableArray new];

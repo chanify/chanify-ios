@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CHFormSection : NSObject
 
 @property (nonatomic, readonly, strong) NSString *title;
+@property (nonatomic, nullable, strong) NSString *note;
 @property (nonatomic, nullable, strong) NSPredicate *hidden;
 @property (nonatomic, weak) CHForm *form;
 

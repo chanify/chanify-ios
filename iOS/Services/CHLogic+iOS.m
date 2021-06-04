@@ -218,6 +218,23 @@
     }
 }
 
+#pragma mark - Blocklist
+- (void)upsertBlockedToken:(NSString *)token {
+    if ([self.nsDataSource upsertBlockedToken:token uid:self.me.uid]) {
+        [self sendNotifyWithSelector:@selector(logicBlockedTokenChanged)];
+    }
+}
+
+- (void)removeBlockedTokens:(NSArray<NSString *> *)tokens {
+    if ([self.nsDataSource removeBlockedTokens:tokens uid:self.me.uid]) {
+        [self sendNotifyWithSelector:@selector(logicBlockedTokenChanged)];
+    }
+}
+
+- (NSArray<NSString *> *)blockedTokens {
+    return [self.nsDataSource blockedTokensWithUID:self.me.uid];
+}
+
 #pragma mark - Watch
 - (BOOL)hasWatch {
     return (self.watchSession != nil && self.watchSession.activationState == WCSessionActivationStateActivated && self.watchSession.isPaired);
