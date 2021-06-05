@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)defaultToken;
 + (nullable instancetype)tokenWithString:(NSString *)value;
 - (NSDate *)expired;
+- (NSData *)channel;
 - (void)setChannel:(NSData *)channel;
 - (void)setNode:(CHNodeModel *)node;
 - (void)setDataHash:(nullable NSData *)data;

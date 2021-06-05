@@ -86,7 +86,7 @@
     NSString *uid = [CHMessageModel parsePacket:userInfo mid:&mid data:&data];
     if (uid.length > 0 && [uid isEqualToString:self.me.uid] && mid.length > 0 && data.length > 0) {
         CHUpsertMessageFlags flags= 0;
-        CHMessageModel *model = [self.userDataSource upsertMessageData:data ks:self.nsDataSource uid:uid mid:mid checker:^BOOL(NSString * _Nonnull cid) {
+        CHMessageModel *model = [self.userDataSource upsertMessageData:data nsDB:self.nsDataSource uid:uid mid:mid checker:^BOOL(NSString * _Nonnull cid) {
             return ![self isReadChannel:cid];
         } flags:&flags];
         if (model != nil) {
@@ -352,7 +352,7 @@
         NSMutableArray<NSString *> *mids = [NSMutableArray new];
         [self.nsDataSource enumerateMessagesWithUID:uid block:^(FMDatabase *db, NSString *mid, NSData *data) {
             CHUpsertMessageFlags flags = 0;
-            CHMessageModel *msg = [self.userDataSource upsertMessageData:data ks:[CHTempKeyStorage keyStorage:db] uid:uid mid:mid checker:^BOOL(NSString * _Nonnull cid) {
+            CHMessageModel *msg = [self.userDataSource upsertMessageData:data nsDB:[CHTempNSDatasource datasourceFromDB:db] uid:uid mid:mid checker:^BOOL(NSString * _Nonnull cid) {
                 return ![self isReadChannel:cid];
             } flags:&flags];
             if (msg != nil) {

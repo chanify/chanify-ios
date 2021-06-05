@@ -7,6 +7,7 @@
 
 #import "CHBlockTokenViewController.h"
 #import <Masonry/Masonry.h>
+#import "CHPasteboard.h"
 #import "CHLogic+iOS.h"
 #import "CHToken.h"
 #import "CHTheme.h"
@@ -14,6 +15,7 @@
 @interface CHBlockTokenViewController () <UITextViewDelegate>
 
 @property (nonatomic, readonly, strong) UITextView *tokenView;
+@property (nonatomic, readonly, strong) UILabel *warnLabel;
 @property (nonatomic, readonly, strong) UIButton *pasteButton;
 
 @end
@@ -51,13 +53,24 @@
     tokenView.scrollEnabled = NO;
     tokenView.delegate = self;
     
+    UILabel *warnLabel = [UILabel new];
+    [view addSubview:(_warnLabel = warnLabel)];
+    [warnLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(tokenView.mas_bottom).offset(10);
+        make.left.equalTo(tokenView);
+    }];
+    warnLabel.font = [UIFont systemFontOfSize:12];
+    warnLabel.textColor = theme.alertColor;
+    warnLabel.text = @"Invalid token".localized;
+    warnLabel.alpha = 0;
+    
     UIButton *pasteButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [view addSubview:(_pasteButton = pasteButton)];
     [pasteButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(tokenView.mas_bottom).offset(6);
         make.right.equalTo(tokenView);
     }];
-    [pasteButton setTitle:@"Get token from pasteboard".localized forState:UIControlStateNormal];
+    [pasteButton setTitle:@"Copy token from pasteboard".localized forState:UIControlStateNormal];
     [pasteButton addTarget:self action:@selector(actionPaste:) forControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -70,12 +83,13 @@
             res = YES;
         }
     }
+    self.warnLabel.alpha = ((res || value.length == 0) ? 0 : 1);
     self.navigationItem.rightBarButtonItem.enabled = res;
 }
 
 #pragma mark - Action Methods
 - (void)actionPaste:(id)sender {
-    NSString *value = UIPasteboard.generalPasteboard.string ?: @"";
+    NSString *value = CHPasteboard.shared.stringValue ?: @"";
     if (![value isEqualToString:self.tokenView.text]) {
         self.tokenView.text = value;
         [self textViewDidChange:self.tokenView];

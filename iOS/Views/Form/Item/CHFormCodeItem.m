@@ -19,7 +19,7 @@
 }
 
 - (NSString *)textValue {
-    return [CHCodeFormatter.shared stringForObjectValue:super.textValue];
+    return [CHCodeFormatter.shared formatCode:super.textValue length:kCHCodeFormatterLength];
 }
 
 

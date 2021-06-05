@@ -8,6 +8,7 @@
 #import "CHUserDataSource.h"
 #import <FMDB/FMDB.h>
 #import <sqlite3.h>
+#import "CHNSDataSource.h"
 #import "CHMessageModel.h"
 #import "CHChannelModel.h"
 #import "CHNodeModel.h"
@@ -364,11 +365,11 @@
     return model;
 }
 
-- (nullable CHMessageModel *)upsertMessageData:(NSData *)data ks:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid checker:(BOOL (NS_NOESCAPE ^ _Nullable)(NSString * cid))checker flags:(CHUpsertMessageFlags *)pFlags {
+- (nullable CHMessageModel *)upsertMessageData:(NSData *)data nsDB:(id<CHKeyStorage, CHBlockedStorage>)nsDB uid:(NSString *)uid mid:(NSString *)mid checker:(BOOL (NS_NOESCAPE ^ _Nullable)(NSString * cid))checker flags:(CHUpsertMessageFlags *)pFlags {
     CHMessageModel *msg = nil;
     if (mid.length > 0) {
         NSData *raw = nil;
-        CHMessageModel *model = [CHMessageModel modelWithKS:ks uid:uid mid:mid data:data raw:&raw];
+        CHMessageModel *model = [CHMessageModel modelWithStorage:nsDB uid:uid mid:mid data:data raw:&raw blocked:nil];
         if (model != nil) {
             __block BOOL res = NO;
             __block CHUpsertMessageFlags flags = 0;

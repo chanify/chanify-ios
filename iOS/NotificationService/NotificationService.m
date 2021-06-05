@@ -30,16 +30,25 @@
 - (void)didReceiveNotificationRequest:(UNNotificationRequest *)request withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler {
     self.contentHandler = contentHandler;
     self.attemptContent = [request.content mutableCopy];
+    BOOL blocked = NO;
     NSData *data = nil;
     NSString *mid = nil;
     NSString *uid = [CHMessageModel parsePacket:self.attemptContent.userInfo mid:&mid data:&data];
-    if (uid.length > 0) {
+    if (uid.length > 0 && mid.length > 0 && data.length > 0) {
         CHNSDataSource *dbsrc = self.class.sharedDB;
-        if (mid.length > 0 && data.length > 0 && [dbsrc pushMessage:data mid:mid uid:uid notification:self.attemptContent]) {
+        CHMessageModel *model = [dbsrc pushMessage:data mid:mid uid:uid blocked:&blocked];
+        if (!blocked) {
             self.attemptContent.badge = @([dbsrc nextBadgeForUID:uid]);
+            if (model != nil) {
+                [model formatNotification:self.attemptContent];
+            }
         }
     }
-    self.contentHandler(self.attemptContent);
+    if (blocked) {
+        self.contentHandler([UNNotificationContent new]);
+    } else {
+        self.contentHandler(self.attemptContent);
+    }
 }
 
 - (void)serviceExtensionTimeWillExpire {

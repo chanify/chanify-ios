@@ -19,6 +19,10 @@
     return pasteboard;
 }
 
+- (nullable NSString *)stringValue {
+    return UIPasteboard.generalPasteboard.string;
+}
+
 - (void)copyWithName:(NSString *)name value:(nullable NSString *)value {
     UIPasteboard.generalPasteboard.string = value ?: @"";
     [CHRouter.shared makeToast:[NSString stringWithFormat:@"%@ copied".localized, name]];

@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CHPasteboard : NSObject
 
 + (instancetype)shared;
+- (nullable NSString *)stringValue;
 - (void)copyWithName:(NSString *)name value:(nullable NSString *)value;
 
 

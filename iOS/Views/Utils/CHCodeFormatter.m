@@ -7,8 +7,6 @@
 
 #import "CHCodeFormatter.h"
 
-#define kCHCodeFormatterLength  24
-
 @implementation CHCodeFormatter
 
 + (instancetype)shared {
@@ -20,12 +18,13 @@
     return formatter;
 }
 
-- (nullable NSString *)stringForObjectValue:(NSString *)val {
+- (nullable NSString *)formatCode:(NSString *)val length:(NSUInteger)length {
+    length = MAX(length, 10);
     NSUInteger len = val.length;
-    if (len <= kCHCodeFormatterLength) {
+    if (len <= length) {
         return val;
     }
-    return [NSString stringWithFormat:@"%@…%@", [val substringToIndex:kCHCodeFormatterLength-5], [val substringFromIndex:len-4]];
+    return [NSString stringWithFormat:@"%@…%@", [val substringToIndex:length-5], [val substringFromIndex:len-4]];
 }
 
 

@@ -82,6 +82,10 @@
     return [NSDate dateWithTimeIntervalSince1970:self.token.expires];
 }
 
+- (NSData *)channel {
+    return self.token.channel;
+}
+
 - (void)setChannel:(NSData *)channel {
     self.token.channel = channel;
     CHTPChannel *chan = [CHTPChannel parseFromData:channel error:nil];

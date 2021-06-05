@@ -80,6 +80,7 @@
 "Feedback"="意见反馈";
 "None"="无";
 "NoMore"="没有更多了";
+"Expired"="已到期";
 "Can't open url"="无法打开url";
 "No QR code"="没有发现二维码";
 "Tap to reload"="轻触重载页面";
@@ -113,6 +114,8 @@
 "Sync device info success"="上传设备信息成功";
 "URLScheme clicked"="点击该链接将会打开其他App，并且离开Chanify";
 "Download failed and click to retry"="下载失败，点击重试";
+"Copy token from pasteboard"="从剪贴板复制令牌";
+"Invalid token"="无效的令牌";
 
 "%@ copied"="%@已复制";
 "Expires at %@"="有效期到 %@";

@@ -80,6 +80,7 @@
 "Feedback"="Feedback";
 "None"="None";
 "NoMore"="No more";
+"Expired"="Expired";
 "Can't open url"="Can't open url";
 "No QR code"="No QR code";
 "Tap to reload"="Tap to reload";
@@ -113,6 +114,8 @@
 "Sync device info success"="Upload device info success";
 "URLScheme clicked"="Click this link to open other App and leave Chanify";
 "Download failed and click to retry"="Download failed and click to retry";
+"Copy token from pasteboard"="Copy token from pasteboard";
+"Invalid token"="Invalid token";
 
 "%@ copied"="%@ Copied";
 "Expires at %@"="Expires at %@";

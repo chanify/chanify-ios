@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class CHUserDataSource;
 @class UNMutableNotificationContent;
 @protocol CHKeyStorage;
+@protocol CHBlockedStorage;
 
 typedef NS_ENUM(NSInteger, CHMessageType) {
     CHMessageTypeNone       = -1,
@@ -50,13 +51,11 @@ typedef NS_OPTIONS(NSUInteger, CHMessageFlags) {
 @property (nonatomic, readonly, nullable, strong) CHThumbnailModel *thumbnail;
 @property (nonatomic, readonly, nullable, strong) NSString *copytext;
 @property (nonatomic, readonly, nullable, strong) NSArray<CHActionItemModel *> *actions;
-@property (nonatomic, readonly, nullable, strong) NSData *tokenHash;
 
 + (nullable instancetype)modelWithData:(nullable NSData *)data mid:(NSString *)mid;
-+ (nullable instancetype)modelWithKS:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw;
++ (nullable instancetype)modelWithStorage:(id<CHKeyStorage, CHBlockedStorage>)storage uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw blocked:(BOOL *_Nullable)blocked;
 + (nullable NSString *)parsePacket:(NSDictionary *)info mid:(NSString * _Nullable * _Nullable)mid data:(NSData * _Nullable * _Nullable)data;
 
-- (void)clearNotification:(UNMutableNotificationContent *)content;
 - (void)formatNotification:(UNMutableNotificationContent *)content;
 - (NSString *)summaryText;
 - (NSString *)summaryBodyText;

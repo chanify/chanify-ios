@@ -24,6 +24,7 @@
 #define kCHUserSecKeyName               "net.chanify.user.key"
 #define kCHDBDataName                   "data.db"
 #define kCHDBNotificationServiceName    "notification-service.db"
+#define kCHCodeFormatterLength          24
 #define kCHMessageListPageSize          16
 #define kCHMessageListDateDiff          300
 #define kCHWebFileCacheMaxN             64

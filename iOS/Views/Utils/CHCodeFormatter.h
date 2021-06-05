@@ -9,9 +9,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHCodeFormatter : NSFormatter
+@interface CHCodeFormatter : NSObject
 
 + (instancetype)shared;
+- (nullable NSString *)formatCode:(NSString *)val length:(NSUInteger)length;
 
 
 @end

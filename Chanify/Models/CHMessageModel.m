@@ -27,43 +27,52 @@
     return nil;
 }
 
-+ (nullable instancetype)modelWithKS:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw {
++ (nullable instancetype)modelWithStorage:(id<CHKeyStorage, CHBlockedStorage>)storage uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw blocked:(BOOL *_Nullable)blocked {
+    id model = nil;
+    BOOL isBlocked = NO;
     if (mid.length > 0) {
         NSString *keyID = uid;
         NSString *src = getSrcFromMID(mid);
         if (src.length > 0) {
             keyID = [keyID stringByAppendingFormat:@".%@", src];
         }
-        NSData *key = [ks keyForUID:keyID];
+        NSData *key = [storage keyForUID:keyID];
         if (key.length >= kCHAesGcmKeyBytes * 2 && data.length > kCHAesGcmNonceBytes + kCHAesGcmTagBytes) {
             NSData *payload = [CHCrpyto aesOpenWithKey:[key subdataWithRange:NSMakeRange(0, kCHAesGcmKeyBytes)] data:data auth:[key subdataWithRange:NSMakeRange(kCHAesGcmKeyBytes, kCHAesGcmKeyBytes)]];
             if (payload.length > 0) {
                 NSError *error = nil;
                 CHTPMessage *msg = [CHTPMessage parseFromData:payload error:&error];
                 if (error == nil && msg != nil) {
-                    if (msg.ciphertext.length > kCHAesGcmNonceBytes + kCHAesGcmTagBytes) {
-                        key = [ks keyForUID:[NSString stringWithFormat:@"%@.%@", uid, msg.from.base32]];
-                        if (key.length >= kCHAesGcmKeyBytes * 2) {
-                            NSData *outdata = [CHCrpyto aesOpenWithKey:[key subdataWithRange:NSMakeRange(0, kCHAesGcmKeyBytes)] data:msg.ciphertext auth:[key subdataWithRange:NSMakeRange(kCHAesGcmKeyBytes, kCHAesGcmKeyBytes)]];
-                            if (outdata.length <= 0) {
-                                CHLogE("Invalid message key");
-                                return nil;
-                            } else {
-                                msg.content = outdata;
-                                msg.ciphertext = nil;
-                                payload = msg.data;
+                    if (msg.tokenHash.length > 0 && [storage checkBlockedTokenWithKey:msg.tokenHash.hex uid:uid]) {
+                        isBlocked = YES;
+                    } else {
+                        if (msg.ciphertext.length > kCHAesGcmNonceBytes + kCHAesGcmTagBytes) {
+                            key = [storage keyForUID:[NSString stringWithFormat:@"%@.%@", uid, msg.from.base32]];
+                            if (key.length >= kCHAesGcmKeyBytes * 2) {
+                                NSData *outdata = [CHCrpyto aesOpenWithKey:[key subdataWithRange:NSMakeRange(0, kCHAesGcmKeyBytes)] data:msg.ciphertext auth:[key subdataWithRange:NSMakeRange(kCHAesGcmKeyBytes, kCHAesGcmKeyBytes)]];
+                                if (outdata.length <= 0) {
+                                    CHLogE("Invalid message key");
+                                    return nil;
+                                } else {
+                                    msg.content = outdata;
+                                    msg.ciphertext = nil;
+                                    payload = msg.data;
+                                }
                             }
                         }
+                        if (raw != nil) {
+                            *raw = payload;
+                        }
+                        model = [self.class modelWithData:payload mid:mid];
                     }
-                    if (raw != nil) {
-                        *raw = payload;
-                    }
-                    return [self.class modelWithData:payload mid:mid];
                 }
             }
         }
     }
-    return nil;
+    if (blocked != nil) {
+        *blocked = isBlocked;
+    }
+    return model;
 }
 
 + (nullable NSString *)parsePacket:(NSDictionary *)info mid:(NSString * _Nullable * _Nullable)mid data:(NSData * _Nullable * _Nullable)data {
@@ -86,7 +95,6 @@
         _mid = mid;
         _from = msg.from.base32;
         _channel = msg.channel ?: [NSData dataFromHex:@kCHDefChanCode];
-        _tokenHash = tokenHash;
 
         CHTPSound *sound = msg.sound;
         if (sound != nil && sound.type == CHTPSoundType_NormalSound) {
@@ -182,11 +190,6 @@
         }
     }
     return self;
-}
-
-- (void)clearNotification:(UNMutableNotificationContent *)content {
-    content.body = @"";
-    content.sound = nil;
 }
 
 - (void)formatNotification:(UNMutableNotificationContent *)content {

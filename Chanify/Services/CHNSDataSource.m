@@ -100,20 +100,12 @@
     }
 }
 
-- (BOOL)pushMessage:(NSData *)data mid:(NSString *)mid uid:(NSString *)uid notification:(UNMutableNotificationContent *)notification {
-    BOOL res = NO;
+- (nullable CHMessageModel *)pushMessage:(NSData *)data mid:(NSString *)mid uid:(NSString *)uid blocked:(BOOL * _Nullable)blocked {
+    CHMessageModel *msg = nil;
+    BOOL isBlocked = NO;
     if (uid.length > 0 && mid.length > 0 && data.length > 0) {
-        CHMessageModel *model = [CHMessageModel modelWithKS:self uid:uid mid:mid data:data raw:nil];
-        BOOL store = YES;
-        if (model != nil) {
-            if (model.tokenHash.length <= 0 || ![self checkBlockedTokenWithKey:model.tokenHash.hex uid:uid]) {
-                [model formatNotification:notification];
-            } else {
-                [model clearNotification:notification];
-                store = NO;
-            }
-        }
-        if (store) {
+        msg = [CHMessageModel modelWithStorage:self uid:uid mid:mid data:data raw:nil blocked:&isBlocked];
+        if (!isBlocked) {
             [self.dbQueue inDatabase:^(FMDatabase *db) {
                 for (int i = 0; i < 3; i++) {
                     if (![db executeUpdate:@"INSERT OR IGNORE INTO `msgs`(`uid`,`mid`,`data`) VALUES(?,?,?);", uid, mid, data]) {
@@ -124,10 +116,12 @@
                     break;
                 }
             }];
-            res = YES;
         }
     }
-    return res;
+    if (blocked != nil) {
+        *blocked = isBlocked;
+    }
+    return msg;
 }
 
 - (void)enumerateMessagesWithUID:(nullable NSString *)uid block:(void (NS_NOESCAPE ^)(FMDatabase *db, NSString *mid, NSData *data))block {
@@ -213,15 +207,15 @@
 
 @end
 
-@interface CHTempKeyStorage ()
+@interface CHTempNSDatasource ()
 
 @property (nonatomic, readonly, strong) FMDatabase *db;
 
 @end
 
-@implementation CHTempKeyStorage
+@implementation CHTempNSDatasource
 
-+ (instancetype)keyStorage:(FMDatabase *)db {
++ (instancetype)datasourceFromDB:(FMDatabase *)db {
     return [[self.class alloc] initWithDB:db];
 }
 
@@ -233,11 +227,19 @@
 }
 
 - (nullable NSData *)keyForUID:(nullable NSString *)uid {
-    __block NSData *key = nil;
+    NSData *key = nil;
     if (uid.length > 0) {
         key = [self.db dataForQuery:@"SELECT `key` FROM `keys` WHERE `uid`=? LIMIT 1;", uid];
     }
     return key;
+}
+
+- (BOOL)checkBlockedTokenWithKey:(nullable NSString *)key uid:(nullable NSString *)uid {
+    BOOL res = NO;
+    if (key.length > 0 && uid.length > 0) {
+        res = ([self.db intForQuery:@"SELECT COUNT(*) FROM `blktks` WHERE `uid`=? AND `key`=? LIMIT 1;", uid, key] > 0);
+    }
+    return res;
 }
 
 

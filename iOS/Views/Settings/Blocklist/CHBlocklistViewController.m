@@ -10,6 +10,7 @@
 #import "CHBlockTokenCell.h"
 #import "CHLoadMoreView.h"
 #import "CHTableView.h"
+#import "CHPasteboard.h"
 #import "CHLogic+iOS.h"
 #import "CHRouter+iOS.h"
 #import "CHToken.h"
@@ -17,8 +18,8 @@
 
 static NSString *const cellIdentifier = @"cell";
 
-typedef UITableViewDiffableDataSource<NSString *, NSString *> CHTokensDataSource;
-typedef NSDiffableDataSourceSnapshot<NSString *, NSString *> CHTokensDiffableSnapshot;
+typedef UITableViewDiffableDataSource<NSString *, CHBlockeModel *> CHTokensDataSource;
+typedef NSDiffableDataSourceSnapshot<NSString *, CHBlockeModel *> CHTokensDiffableSnapshot;
 
 @interface CHBlocklistViewController () <UITableViewDelegate, CHLogicDelegate>
 
@@ -53,10 +54,10 @@ typedef NSDiffableDataSourceSnapshot<NSString *, NSString *> CHTokensDiffableSna
     tableView.allowsMultipleSelectionDuringEditing = YES;
     tableView.delegate = self;
 
-    _dataSource = [[CHTokensDataSource alloc] initWithTableView:tableView cellProvider:^UITableViewCell *(UITableView *tableView, NSIndexPath *indexPath, NSString *token) {
+    _dataSource = [[CHTokensDataSource alloc] initWithTableView:tableView cellProvider:^UITableViewCell *(UITableView *tableView, NSIndexPath *indexPath, CHBlockeModel *model) {
         CHBlockTokenCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
         if (cell != nil) {
-            cell.token = token;
+            cell.model = model;
         }
         return cell;
     }];
@@ -68,6 +69,10 @@ typedef NSDiffableDataSourceSnapshot<NSString *, NSString *> CHTokensDiffableSna
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (!tableView.isEditing) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        NSString *raw = [[self.dataSource itemIdentifierForIndexPath:indexPath] raw];
+        if (raw.length > 0) {
+            [CHPasteboard.shared copyWithName:@"Token".localized value:raw];
+        }
     }
 }
 
@@ -96,7 +101,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, NSString *> CHTokensDiffableSna
 - (void)actionDelete:(id)sender {
     NSMutableArray<NSString *> *items = [NSMutableArray new];
     for (NSIndexPath *indexPath in self.tableView.indexPathsForSelectedRows) {
-        [items addObject:[self.dataSource itemIdentifierForIndexPath:indexPath]];
+        [items addObject:[[self.dataSource itemIdentifierForIndexPath:indexPath] raw]];
     }
     if (items.count > 0) {
         @weakify(self);
@@ -135,7 +140,12 @@ typedef NSDiffableDataSourceSnapshot<NSString *, NSString *> CHTokensDiffableSna
 - (void)reloadData:(BOOL)animated {
     CHTokensDiffableSnapshot *snapshot = [CHTokensDiffableSnapshot new];
     [snapshot appendSectionsWithIdentifiers:@[@""]];
-    [snapshot appendItemsWithIdentifiers:CHLogic.shared.blockedTokens];
+    NSArray<NSString *> *tokens = CHLogic.shared.blockedTokens;
+    NSMutableArray<CHBlockeModel *> *items = [NSMutableArray arrayWithCapacity:tokens.count];
+    for (NSString *raw in tokens) {
+        [items addObject:[CHBlockeModel modelWithRaw:raw]];
+    }
+    [snapshot appendItemsWithIdentifiers:items];
     [self.dataSource applySnapshot:snapshot animatingDifferences:animated];
 }
 
@@ -145,11 +155,11 @@ typedef NSDiffableDataSourceSnapshot<NSString *, NSString *> CHTokensDiffableSna
 
 - (UIContextualAction *)actionDelete:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath {
     @weakify(self);
-    NSString *token = [self.dataSource itemIdentifierForIndexPath:indexPath];
+    NSString *raw = [[self.dataSource itemIdentifierForIndexPath:indexPath] raw];
     UIContextualAction *action = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive title:nil handler:^(UIContextualAction *action, UIView *sourceView, void (^completionHandler)(BOOL)) {
         [CHRouter.shared showAlertWithTitle:@"Delete this token or not?".localized action:@"Delete".localized handler:^{
             @strongify(self);
-            [self deleteItems:@[token]];
+            [self deleteItems:@[raw]];
         }];
         completionHandler(YES);
     }];

@@ -6,12 +6,13 @@
 //
 
 #import "CHTableViewCell.h"
+#import "CHBlockeModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CHBlockTokenCell : CHTableViewCell
 
-- (void)setToken:(NSString *)token;
+@property (nonatomic, nullable, strong) CHBlockeModel *model;
 
 
 @end

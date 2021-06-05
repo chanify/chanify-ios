@@ -19,7 +19,9 @@ typedef NS_OPTIONS(NSUInteger, CHUpsertMessageFlags) {
 @class CHNodeModel;
 @class CHChannelModel;
 @class CHMessageModel;
+@class CHNSDataSource;
 @protocol CHKeyStorage;
+@protocol CHBlockedStorage;
 
 @interface CHUserDataSource : NSObject
 
@@ -48,7 +50,7 @@ typedef NS_OPTIONS(NSUInteger, CHUpsertMessageFlags) {
 - (BOOL)deleteMessagesWithCID:(nullable NSString *)cid;
 - (NSArray<CHMessageModel *> *)messageWithCID:(nullable NSString *)cid from:(NSString *)from to:(NSString *)to count:(NSUInteger)count;
 - (nullable CHMessageModel *)messageWithMID:(nullable NSString *)mid;
-- (nullable CHMessageModel *)upsertMessageData:(NSData *)data ks:(id<CHKeyStorage>)ks uid:(NSString *)uid mid:(NSString *)mid checker:(BOOL (NS_NOESCAPE ^ _Nullable)(NSString * cid))checker flags:(CHUpsertMessageFlags *)pFlags;
+- (nullable CHMessageModel *)upsertMessageData:(NSData *)data nsDB:(id<CHKeyStorage, CHBlockedStorage>)nsDB uid:(NSString *)uid mid:(NSString *)mid checker:(BOOL (NS_NOESCAPE ^ _Nullable)(NSString * cid))checker flags:(CHUpsertMessageFlags *)pFlags;
 
 
 @end
