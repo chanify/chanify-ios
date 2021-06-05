@@ -50,7 +50,7 @@
         NSString *uid = [CHMessageModel parsePacket:userInfo mid:&mid data:&data];
         if (uid.length > 0 && mid.length > 0 && data.length > 0 && [uid isEqualToString:self.me.uid]) {
             CHUpsertMessageFlags flags= 0;
-            CHMessageModel *model = [self.userDataSource upsertMessageData:data ks:self.nsDataSource uid:uid mid:mid nsDB:self.nsDataSource checker:^BOOL(NSString * _Nonnull cid) {
+            CHMessageModel *model = [self.userDataSource upsertMessageData:data nsDB:self.nsDataSource uid:uid mid:mid checker:^BOOL(NSString * _Nonnull cid) {
                 return ![self isReadChannel:cid];
             } flags:&flags];
             if (model != nil) {
