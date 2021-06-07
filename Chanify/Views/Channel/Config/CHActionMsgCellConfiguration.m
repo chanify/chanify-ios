@@ -13,7 +13,7 @@
 
 #define kCHActionTitleHeight    26
 
-static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
+static CHEdgeInsets textInsets = { 8, 12, 8, 12 };
 
 @interface CHActionMsgCellConfiguration ()
 
@@ -26,8 +26,8 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
 
 @interface CHActionMsgCellContentView : CHBubbleMsgCellContentView<CHActionMsgCellConfiguration *>
 
-@property (nonatomic, readonly, strong) UILabel *titleLabel;
-@property (nonatomic, readonly, strong) UILabel *textLabel;
+@property (nonatomic, readonly, strong) CHLabel *titleLabel;
+@property (nonatomic, readonly, strong) CHLabel *textLabel;
 @property (nonatomic, readonly, strong) CHActionGroup *actionGroup;
 
 @end
@@ -43,21 +43,21 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
     
     CHTheme *theme = CHTheme.shared;
 
-    UILabel *titleLabel = [UILabel new];
+    CHLabel *titleLabel = [CHLabel new];
     [self.bubbleView addSubview:(_titleLabel = titleLabel)];
     titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    titleLabel.backgroundColor = UIColor.clearColor;
+    titleLabel.backgroundColor = CHColor.clearColor;
     titleLabel.textColor = theme.labelColor;
     titleLabel.numberOfLines = 1;
-    titleLabel.font = CHBubbleMsgCellContentView.titleFont;
+    titleLabel.font = theme.messageTitleFont;
 
-    UILabel *textLabel = [UILabel new];
+    CHLabel *textLabel = [CHLabel new];
     [self.bubbleView addSubview:(_textLabel = textLabel)];
     textLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    textLabel.backgroundColor = UIColor.clearColor;
+    textLabel.backgroundColor = CHColor.clearColor;
     textLabel.textColor = theme.labelColor;
     textLabel.numberOfLines = 0;
-    textLabel.font = CHBubbleMsgCellContentView.textFont;
+    textLabel.font = theme.messageTextFont;
     
     CHActionGroup *actionGroup = [CHActionGroup new];
     [self.bubbleView addSubview:(_actionGroup = actionGroup)];
@@ -91,16 +91,16 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
     self.actionGroup.frame = CGRectMake(0, size.height - CHActionGroup.defaultHeight, size.width, CHActionGroup.defaultHeight);
 }
 
-- (NSArray<UIMenuItem *> *)menuActions {
+- (NSArray<CHMenuItem *> *)menuActions {
     NSMutableArray *items = [NSMutableArray arrayWithArray:@[
-        [[UIMenuItem alloc]initWithTitle:@"Copy".localized action:@selector(actionCopy:)],
-        [[UIMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)],
+        [[CHMenuItem alloc]initWithTitle:@"Copy".localized action:@selector(actionCopy:)],
+        [[CHMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)],
     ]];
     [items addObjectsFromArray:super.menuActions];
     return items;
 }
 
-- (BOOL)canGestureRecognizer:(UIGestureRecognizer *)recognizer {
+- (BOOL)canGestureRecognizer:(CHGestureRecognizer *)recognizer {
     if (CGRectContainsPoint(self.actionGroup.bounds, [recognizer locationInView:self.actionGroup])) {
         return NO;
     }
@@ -153,13 +153,13 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
     return self;
 }
 
-- (__kindof UIView<UIContentView> *)makeContentView {
+- (__kindof CHView<CHContentView> *)makeContentView {
     return [[CHActionMsgCellContentView alloc] initWithConfiguration:self];
 }
 
 - (CGSize)calcContentSize:(CGSize)size {
     if (self.textHeight == 0) {
-        NSAttributedString *text = [[NSAttributedString alloc] initWithString:self.text attributes:@{ NSFontAttributeName: CHBubbleMsgCellContentView.textFont }];
+        NSAttributedString *text = [[NSAttributedString alloc] initWithString:self.text attributes:@{ NSFontAttributeName: CHTheme.shared.messageTextFont }];
         CGRect rc = [text boundingRectWithSize:CGSizeMake(size.width - textInsets.left - textInsets.right, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
         _textHeight = ceil(rc.size.height);
     }

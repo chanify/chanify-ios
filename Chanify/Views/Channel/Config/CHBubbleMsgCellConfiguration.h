@@ -20,9 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CHBubbleMsgCellContentView<Configuration: CHMsgCellConfiguration*> : CHMsgCellContentView<Configuration>
 
-@property (class, nonatomic, readonly, strong) UIFont *textFont;
-@property (class, nonatomic, readonly, strong) UIFont *titleFont;
-@property (nonatomic, readonly, strong) UIView *bubbleView;
+@property (nonatomic, readonly, strong) CHView *bubbleView;
 
 
 @end

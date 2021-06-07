@@ -6,13 +6,13 @@
 //
 
 #import "CHTextMsgCellConfiguration.h"
-#import <M80AttributedLabel/M80AttributedLabel.h>
 #import "CHPasteboard.h"
+#import "CHLinkLabel.h"
 #import "CHRouter+iOS.h"
 #import "CHLogic.h"
 #import "CHTheme.h"
 
-static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
+static CHEdgeInsets textInsets = { 8, 12, 8, 12 };
 static CGFloat titleSpace = 4;
 
 @interface CHTextMsgCellConfiguration ()
@@ -26,8 +26,8 @@ static CGFloat titleSpace = 4;
 
 @interface CHTextMsgCellContentView : CHBubbleMsgCellContentView<CHTextMsgCellConfiguration *>
 
-@property (nonatomic, readonly, strong) M80AttributedLabel *textLabel;
-@property (nonatomic, readonly, strong) UILabel *titleLabel;
+@property (nonatomic, readonly, strong) CHLinkLabel *textLabel;
+@property (nonatomic, readonly, strong) CHLabel *titleLabel;
 
 @end
 
@@ -38,25 +38,19 @@ static CGFloat titleSpace = 4;
     
     CHTheme *theme = CHTheme.shared;
 
-    UILabel *titleLabel = [UILabel new];
+    CHLabel *titleLabel = [CHLabel new];
     [self.bubbleView addSubview:(_titleLabel = titleLabel)];
     titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    titleLabel.backgroundColor = UIColor.clearColor;
+    titleLabel.backgroundColor = CHColor.clearColor;
     titleLabel.textColor = theme.labelColor;
     titleLabel.numberOfLines = 1;
-    titleLabel.font = CHBubbleMsgCellContentView.titleFont;
+    titleLabel.font = theme.messageTitleFont;
 
-    M80AttributedLabel *textLabel = [[M80AttributedLabel alloc] initWithFrame:CGRectZero];
+    CHLinkLabel *textLabel = [CHLinkLabel new];
     [self.bubbleView addSubview:(_textLabel = textLabel)];
-    textLabel.backgroundColor = UIColor.clearColor;
-    textLabel.userInteractionEnabled = NO;
-    textLabel.highlightColor = UIColor.clearColor;
     textLabel.textColor = theme.labelColor;
     textLabel.linkColor = theme.tintColor;
-    textLabel.lineBreakMode = kCTLineBreakByWordWrapping;
-    textLabel.autoDetectLinks = YES;
-    textLabel.numberOfLines = 0;
-    textLabel.font = CHBubbleMsgCellContentView.textFont;
+    textLabel.font = theme.messageTextFont;
 }
 
 - (void)applyConfiguration:(CHTextMsgCellConfiguration *)configuration {
@@ -71,30 +65,21 @@ static CGFloat titleSpace = 4;
     self.titleLabel.frame = configuration.titleRect;
     self.titleLabel.hidden = (configuration.title.length <= 0);
     self.textLabel.text = configuration.text;
-    self.textLabel.frame = configuration.textRect;
+    self.textLabel.frame = configuration.textRect;    
 }
 
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
-    if (previousTraitCollection.userInterfaceStyle != self.traitCollection.userInterfaceStyle) {
-        // Note: Fix dark mode for M80AttributedLabel
-        self.textLabel.text = [(CHTextMsgCellConfiguration *)self.configuration text];
-        [self setNeedsDisplay];
-    }
-    [super traitCollectionDidChange:previousTraitCollection];
-}
-
-- (NSArray<UIMenuItem *> *)menuActions {
+- (NSArray<CHMenuItem *> *)menuActions {
     NSMutableArray *items = [NSMutableArray arrayWithArray:@[
-        [[UIMenuItem alloc]initWithTitle:@"Copy".localized action:@selector(actionCopy:)],
-        [[UIMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)],
+        [[CHMenuItem alloc]initWithTitle:@"Copy".localized action:@selector(actionCopy:)],
+        [[CHMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)],
     ]];
     [items addObjectsFromArray:super.menuActions];
     return items;
 }
 
 #pragma mark - Action Methods
-- (void)actionClicked:(UITapGestureRecognizer *)sender {
-    UIMenuController *menu = UIMenuController.sharedMenuController;
+- (void)actionClicked:(CHTapGestureRecognizer *)sender {
+    CHMenuController *menu = CHMenuController.sharedMenuController;
     if (menu.isMenuVisible) {
         [menu hideMenuFromView:self.bubbleView];
     }
@@ -133,7 +118,6 @@ static CGFloat titleSpace = 4;
     }
 }
 
-
 @end
 
 @implementation CHTextMsgCellConfiguration
@@ -156,7 +140,7 @@ static CGFloat titleSpace = 4;
     return self;
 }
 
-- (__kindof UIView<UIContentView> *)makeContentView {
+- (__kindof CHView<CHContentView> *)makeContentView {
     return [[CHTextMsgCellContentView alloc] initWithConfiguration:self];
 }
 
@@ -167,11 +151,12 @@ static CGFloat titleSpace = 4;
 
 - (CGSize)calcContentSize:(CGSize)size {
     if (CGRectIsEmpty(self.textRect)) {
+        CHTheme *theme = CHTheme.shared;
         if (self.title.length <= 0) {
             _titleRect = CGRectZero;
         } else {
             NSAttributedString *title = [[NSAttributedString alloc] initWithString:self.title attributes:@{
-                NSFontAttributeName: CHBubbleMsgCellContentView.titleFont,
+                NSFontAttributeName: theme.messageTitleFont,
                 NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle),
             }];
             CGRect rc = [title boundingRectWithSize:CGSizeMake(size.width - textInsets.left - textInsets.right, 1) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingTruncatesLastVisibleLine context:nil];
@@ -181,7 +166,7 @@ static CGFloat titleSpace = 4;
         if (titleOffset > 0) titleOffset += titleSpace;
         _textRect.origin.x = textInsets.left;
         _textRect.origin.y = textInsets.top + titleOffset;
-        NSAttributedString *text = [[NSAttributedString alloc] initWithString:self.text attributes:@{ NSFontAttributeName: CHBubbleMsgCellContentView.textFont }];
+        NSAttributedString *text = [[NSAttributedString alloc] initWithString:self.text attributes:@{ NSFontAttributeName: theme.messageTextFont }];
         CGRect rc = [text boundingRectWithSize:CGSizeMake(size.width - textInsets.left - textInsets.right - titleOffset, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
         _textRect.size.width = ceil(rc.size.width);
         _textRect.size.height = ceil(rc.size.height);

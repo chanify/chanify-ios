@@ -10,12 +10,13 @@
 #import "CHLoadMoreView.h"
 #import "CHUnknownMsgCellConfiguration.h"
 #import "CHDateCellConfiguration.h"
+#import "CHMsgCellConfiguration.h"
 #import "CHWebImageManager.h"
 #import "CHUserDataSource.h"
 #import "CHLogic+iOS.h"
 #import "CHRouter+iOS.h"
 
-@interface CHMessagesDataSource ()
+@interface CHMessagesDataSource () <CHMessageSource>
 
 @property (nonatomic, readonly, strong) NSString *cid;
 @property (nonatomic, nullable, strong) CHLoadMoreView *headerView;
@@ -38,9 +39,9 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     UICollectionViewDiffableDataSourceCellProvider cellProvider = ^UICollectionViewCell *(UICollectionView *collectionView, NSIndexPath *indexPath, CHCellConfiguration *item) {
         UICollectionViewCellRegistration *cellRegistration = [cellRegistrations objectForKey:NSStringFromClass(item.class)];
         if (cellRegistration != nil) {
-            return fixCell(collectionView, [collectionView dequeueConfiguredReusableCellWithRegistration:cellRegistration forIndexPath:indexPath item:item]);
+            return loadCell(collectionView, cellRegistration, indexPath, item);
         }
-        return fixCell(collectionView, [collectionView dequeueConfiguredReusableCellWithRegistration:unknownCellRegistration forIndexPath:indexPath item:item]);
+        return loadCell(collectionView, unknownCellRegistration, indexPath, item);
     };
     if (self = [super initWithCollectionView:collectionView cellProvider:cellProvider]) {
         _collectionView = collectionView;
@@ -80,11 +81,6 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
 
 - (CGSize)sizeForHeaderInSection:(NSInteger)section {
     return CGSizeMake(self.collectionView.bounds.size.width, 30);
-}
-
-- (void)setNeedRecalcLayoutItem:(CHCellConfiguration *)cell {
-    [cell setNeedRecalcLayout];
-    [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
 - (void)setNeedRecalcLayout {
@@ -215,31 +211,6 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     }
 }
 
-- (void)previewImageWithMID:(NSString *)mid {
-    NSInteger idx = 0;
-    NSInteger selected = 0;
-    NSMutableArray<CHPreviewItem *> *items = [NSMutableArray new];
-    CHWebImageManager *webImageManager = CHLogic.shared.webImageManager;
-    for (CHCellConfiguration *cell in self.snapshot.itemIdentifiers) {
-        NSString *thumbnailUrl = cell.mediaThumbnailURL;
-        if (thumbnailUrl.length > 0) {
-            NSURL *url = [webImageManager localFileURL:thumbnailUrl];
-            if (url != nil) {
-                CHPreviewItem *item = [CHPreviewItem itemWithURL:url title:cell.date.mediumFormat uti:@"public.jpeg"];
-                [items addObject:item];
-                if ([cell.mid isEqualToString:mid]) {
-                    selected = idx;
-                }
-                idx++;
-            }
-        }
-    }
-    if (items.count > 0) {
-        CHPreviewController *vc = [CHPreviewController previewImages:items selected:selected];
-        [CHRouter.shared presentSystemViewController:vc animated:YES];
-    }
-}
-
 - (void)selectItemWithIndexPath:(NSIndexPath *)indexPath {
     if (self.isEditing) {
         CHCellConfiguration *cell = [self itemIdentifierForIndexPath:indexPath];
@@ -262,11 +233,42 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     return mids;
 }
 
+#pragma mark - CHMessageSource
+- (void)setNeedRecalcLayoutItem:(CHCellConfiguration *)cell {
+    [cell setNeedRecalcLayout];
+    [self.collectionView.collectionViewLayout invalidateLayout];
+}
+
 - (void)beginEditingWithItem:(CHCellConfiguration *)cell {
     id delegate = self.collectionView.delegate;
     if ([delegate conformsToProtocol:@protocol(CHMessagesDataSourceDelegate)]) {
         NSIndexPath *indexPath = [self indexPathForItemIdentifier:cell];
         [(id<CHMessagesDataSourceDelegate>)delegate messagesDataSourceBeginEditing:self indexPath:indexPath];
+    }
+}
+
+- (void)previewImageWithMID:(NSString *)mid {
+    NSInteger idx = 0;
+    NSInteger selected = 0;
+    NSMutableArray<CHPreviewItem *> *items = [NSMutableArray new];
+    CHWebImageManager *webImageManager = CHLogic.shared.webImageManager;
+    for (CHCellConfiguration *cell in self.snapshot.itemIdentifiers) {
+        NSString *thumbnailUrl = cell.mediaThumbnailURL;
+        if (thumbnailUrl.length > 0) {
+            NSURL *url = [webImageManager localFileURL:thumbnailUrl];
+            if (url != nil) {
+                CHPreviewItem *item = [CHPreviewItem itemWithURL:url title:cell.date.mediumFormat uti:@"public.jpeg"];
+                [items addObject:item];
+                if ([cell.mid isEqualToString:mid]) {
+                    selected = idx;
+                }
+                idx++;
+            }
+        }
+    }
+    if (items.count > 0) {
+        CHPreviewController *vc = [CHPreviewController previewImages:items selected:selected];
+        [CHRouter.shared presentSystemViewController:vc animated:YES];
     }
 }
 
@@ -316,12 +318,13 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     return cells;
 }
 
-static inline UICollectionViewCell *fixCell(UICollectionView *collectionView, UICollectionViewCell *cell) {
+static inline UICollectionViewCell *loadCell(UICollectionView *collectionView, UICollectionViewCellRegistration *registration, NSIndexPath *indexPath, CHCellConfiguration *item) {
+    UICollectionViewCell *cell = [collectionView dequeueConfiguredReusableCellWithRegistration:registration forIndexPath:indexPath item:item];
     UIView *contentView = cell.contentView;
     if ([contentView isKindOfClass:CHMsgCellContentView.class]) {
         id source = collectionView.dataSource;
         if ([source isKindOfClass:CHMessagesDataSource.class]) {
-            [(CHMsgCellContentView *)contentView setSource:collectionView.dataSource];
+            [(CHMsgCellContentView *)contentView setSource:(CHMessagesDataSource *)collectionView.dataSource];
         }
     }
     return cell;

@@ -45,10 +45,14 @@
 #if TARGET_OS_OSX
         _cellBackgroundColor = [CHColor colorNamed:@"CellColor"];
         _selectedCellBackgroundColor = [CHColor colorNamed:@"SelectedCellColor"];
+        _messageTextFont = [CHFont systemFontOfSize:15 weight:NSFontWeightLight];
+        _messageTitleFont = [CHFont systemFontOfSize:15];
 
         [NSApp addObserver:self forKeyPath:@"effectiveAppearance" options:0 context:nil];
 #else
         _cellBackgroundColor = UIBackgroundConfiguration.listGroupedCellConfiguration.backgroundColor;
+        _messageTextFont = [CHFont systemFontOfSize:16];
+        _messageTitleFont = [CHFont boldSystemFontOfSize:16];
 
         // Appearance
         UINavigationBar *navigationBar = UINavigationBar.appearance;

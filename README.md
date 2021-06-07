@@ -153,6 +153,10 @@ echo $response;
 
 ## For Developer
 
+Requirements:
+
+- protobuf
+
 Init project
 
 ```bash

@@ -69,7 +69,7 @@
     linkLabel.backgroundColor = UIColor.clearColor;
     linkLabel.textColor = theme.tintColor;
     linkLabel.numberOfLines = 1;
-    linkLabel.font = CHBubbleMsgCellContentView.textFont;
+    linkLabel.font = theme.messageTextFont;
 }
 
 - (void)applyConfiguration:(CHLinkMsgCellConfiguration *)configuration {

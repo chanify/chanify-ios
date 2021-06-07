@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UIView (CHExt)
 
 - (nullable UIImage *)snapshotImage;
+- (void)setCornerRadius:(CGFloat)cornerRadius;
 
 
 @end

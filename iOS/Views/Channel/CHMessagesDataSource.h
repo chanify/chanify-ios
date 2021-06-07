@@ -23,17 +23,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)reset:(BOOL)animated;
 - (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath;
 - (CGSize)sizeForHeaderInSection:(NSInteger)section;
-- (void)setNeedRecalcLayoutItem:(CHCellConfiguration *)cell;
 - (void)setNeedRecalcLayout;
 - (void)scrollViewDidScroll;
 - (void)loadLatestMessage:(BOOL)animated;
 - (void)deleteMessage:(nullable CHMessageModel *)model animated:(BOOL)animated;
 - (void)deleteMessages:(NSArray<NSString *> *)mids animated:(BOOL)animated;
-- (void)previewImageWithMID:(NSString *)mid;
 - (void)selectItemWithIndexPath:(NSIndexPath *)indexPath;
 - (NSArray<NSString *> *)selectedItemMIDs;
-- (void)beginEditingWithItem:(CHCellConfiguration *)cell;
-- (BOOL)isEditing;
 
 
 @end

@@ -50,7 +50,7 @@
     [self.view addSubview:(_titleLabel = titleLabel)];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(iconView.mas_right).offset(10);
-        make.top.equalTo(iconView).offset(2);
+        make.top.equalTo(iconView).offset(1);
     }];
     titleLabel.font = [NSFont systemFontOfSize:14];
     titleLabel.textColor = theme.labelColor;
@@ -60,7 +60,7 @@
     [self.view addSubview:(_detailLabel = detailLabel)];
     [detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.view).offset(-10);
-        make.bottom.equalTo(iconView).offset(-2);
+        make.bottom.equalTo(iconView).offset(-1);
         make.left.equalTo(titleLabel);
     }];
     detailLabel.font = [NSFont systemFontOfSize:12];

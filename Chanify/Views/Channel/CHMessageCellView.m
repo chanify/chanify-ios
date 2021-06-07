@@ -10,7 +10,7 @@
 
 @implementation CHMessageCellView
 
-- (void)updateConfigurationUsingState:(UICellConfigurationState *)state {
+- (void)updateConfigurationUsingState:(CHCellConfigurationState *)state {
     [super updateConfigurationUsingState:state];
     if ([self.contentView isKindOfClass:CHMsgCellContentView.class]) {
         [(CHMsgCellContentView *)self.contentView updateConfigurationUsingState:state];

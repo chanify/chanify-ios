@@ -51,7 +51,7 @@
     titleLabel.backgroundColor = UIColor.clearColor;
     titleLabel.textColor = theme.labelColor;
     titleLabel.numberOfLines = 1;
-    titleLabel.font = CHBubbleMsgCellContentView.titleFont;
+    titleLabel.font = CHTheme.shared.messageTitleFont;
 
     UILabel *detailLabel = [UILabel new];
     [self.bubbleView addSubview:(_detailLabel = detailLabel)];

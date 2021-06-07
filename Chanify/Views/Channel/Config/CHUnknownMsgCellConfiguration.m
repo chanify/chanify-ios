@@ -10,7 +10,7 @@
 
 #define kUnknownMessageText   "Unknown message type".localized
 
-static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
+static CHEdgeInsets textInsets = { 8, 12, 8, 12 };
 
 @interface CHUnknownMsgCellConfiguration ()
 
@@ -20,7 +20,7 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
 
 @interface CHUnknownMsgCellContentView : CHBubbleMsgCellContentView<CHUnknownMsgCellConfiguration *>
 
-@property (nonatomic, readonly, strong) UILabel *textLabel;
+@property (nonatomic, readonly, strong) CHLabel *textLabel;
 
 @end
 
@@ -29,11 +29,11 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
 - (void)setupViews {
     [super setupViews];
 
-    UILabel *textLabel = [UILabel new];
+    CHLabel *textLabel = [CHLabel new];
     [self.bubbleView addSubview:(_textLabel = textLabel)];
     textLabel.textColor = CHTheme.shared.tintColor;
     textLabel.numberOfLines = 0;
-    textLabel.font = CHBubbleMsgCellContentView.textFont;
+    textLabel.font = CHTheme.shared.messageTextFont;
 }
 
 - (void)applyConfiguration:(CHUnknownMsgCellConfiguration *)configuration {
@@ -61,7 +61,7 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
     return self;
 }
 
-- (__kindof UIView<UIContentView> *)makeContentView {
+- (__kindof CHView<CHContentView> *)makeContentView {
     return [[CHUnknownMsgCellContentView alloc] initWithConfiguration:self];
 }
 
@@ -74,7 +74,7 @@ static UIEdgeInsets textInsets = { 8, 12, 8, 12 };
         _textRect.origin.x = textInsets.left;
         _textRect.origin.y = textInsets.top;
         NSAttributedString *text = [[NSAttributedString alloc] initWithString:@kUnknownMessageText attributes:@{
-            NSFontAttributeName: CHBubbleMsgCellContentView.textFont,
+            NSFontAttributeName: CHTheme.shared.messageTextFont,
         }];
         CGRect rc = [text boundingRectWithSize:CGSizeMake(size.width - textInsets.left - textInsets.right, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
         _textRect.size.width = ceil(rc.size.width);

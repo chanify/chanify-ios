@@ -9,10 +9,10 @@
 #import <Masonry/Masonry.h>
 #import "CHTheme.h"
 
-@interface CHDateCellContentView : UIView<UIContentView>
+@interface CHDateCellContentView : CHView<CHContentView>
 
 @property (nonatomic, copy) CHDateCellConfiguration *configuration;
-@property (nonatomic, readonly, strong) UILabel *dateLabel;
+@property (nonatomic, readonly, strong) CHLabel *dateLabel;
 
 - (instancetype)initWithConfiguration:(CHDateCellConfiguration *)configuration;
 
@@ -23,11 +23,11 @@
 - (instancetype)initWithConfiguration:(CHDateCellConfiguration *)configuration {
     if (self = [super initWithFrame:CGRectZero]) {
         _configuration = nil;
-        UILabel *dateLabel = [UILabel new];
+        CHLabel *dateLabel = [CHLabel new];
         [self addSubview:(_dateLabel = dateLabel)];
         dateLabel.textColor = CHTheme.shared.minorLabelColor;
         dateLabel.textAlignment = NSTextAlignmentCenter;
-        dateLabel.font = [UIFont systemFontOfSize:12];
+        dateLabel.font = [CHFont systemFontOfSize:12];
         dateLabel.numberOfLines = 1;
         [dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self);
@@ -53,7 +53,7 @@
     return [[self.class alloc] initWithMID:[NSString stringWithFormat:@"%016llX", (t > 0 ? t - 1 : 0)]];
 }
 
-- (__kindof UIView<UIContentView> *)makeContentView {
+- (__kindof CHView<CHContentView> *)makeContentView {
     return [[CHDateCellContentView alloc] initWithConfiguration:self];
 }
 

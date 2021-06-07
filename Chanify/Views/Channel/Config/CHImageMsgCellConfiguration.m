@@ -6,7 +6,6 @@
 //
 
 #import "CHImageMsgCellConfiguration.h"
-#import "CHMessagesDataSource.h"
 #import "CHWebImageView.h"
 #import "CHLogic+iOS.h"
 #import "CHRouter+iOS.h"
@@ -122,7 +121,7 @@
     [self.imageView loadFileURL:configuration.imageURL expectedSize:configuration.fileSize];
 }
 
-- (NSArray<UIMenuItem *> *)menuActions {
+- (NSArray<CHMenuItem *> *)menuActions {
     NSMutableArray *items = [NSMutableArray new];
     if (self.imageView.image != nil) {
         [items addObject:[[UIMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)]];

@@ -5,7 +5,7 @@
 //  Created by WizJin on 2021/5/13.
 //
 
-#import <UIKit/UIKit.h>
+#import "CHUI.h"
 #import "CHActionItemModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)actionGroupSelected:(nullable CHActionItemModel *)item;
 @end
 
-@interface CHActionGroup : UIView
+@interface CHActionGroup : CHView
 
 @property (class, nonatomic, readonly, assign) CGFloat defaultHeight;
 @property (nonatomic, nullable, weak) id<CHActionGroupDelegate> delegate;

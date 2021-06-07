@@ -15,8 +15,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL chClipsToBounds;
 @property (nonatomic, assign) CGFloat alpha;
 
+- (void)setUserInteractionEnabled:(BOOL)userInteractionEnabled;
 - (void)setBackgroundColor:(NSColor *)color;
 - (void)setNeedsDisplay;
+- (void)setNeedsLayout;
+- (void)setCornerRadius:(CGFloat)cornerRadius;
 
 
 @end

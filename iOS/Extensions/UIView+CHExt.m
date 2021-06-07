@@ -22,5 +22,9 @@
     return image;
 }
 
+- (void)setCornerRadius:(CGFloat)cornerRadius {
+    self.layer.cornerRadius = cornerRadius;
+}
+
 
 @end

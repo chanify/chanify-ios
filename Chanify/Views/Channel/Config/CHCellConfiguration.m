@@ -38,7 +38,7 @@
     return [CHUnknownMsgCellConfiguration cellConfiguration:model];;
 }
 
-+ (NSDictionary<NSString *, UICollectionViewCellRegistration *> *)cellRegistrations {
++ (NSDictionary<NSString *, CHCollectionViewCellRegistration *> *)cellRegistrations {
 #define CellConfiguration(_clz) NSStringFromClass(_clz.class): cellRegistration(_clz.class)
     return @{
         CellConfiguration(CHDateCellConfiguration),
@@ -56,11 +56,11 @@
     return [[self.class allocWithZone:zone] initWithMID:self.mid];
 }
 
-- (nonnull __kindof UIView<UIContentView> *)makeContentView {
+- (nonnull __kindof CHView<CHContentView> *)makeContentView {
     return nil;
 }
 
-- (nonnull instancetype)updatedConfigurationForState:(nonnull id<UIConfigurationState>)state {
+- (nonnull instancetype)updatedConfigurationForState:(nonnull id<CHConfigurationState>)state {
     return self;
 }
 
@@ -94,8 +94,8 @@
     return size;
 }
 
-inline static UICollectionViewCellRegistration *cellRegistration(Class clz) {
-    return [UICollectionViewCellRegistration registrationWithCellClass:CHMessageCellView.class configurationHandler:^(UICollectionViewCell *cell, NSIndexPath *indexPath, CHCellConfiguration *item) {
+inline static CHCollectionViewCellRegistration *cellRegistration(Class clz) {
+    return [CHCollectionViewCellRegistration registrationWithCellClass:CHMessageCellView.class configurationHandler:^(CHCollectionViewCell *cell, NSIndexPath *indexPath, CHCellConfiguration *item) {
         if ([item isKindOfClass:clz]) {
             cell.contentConfiguration = item;
         }

@@ -5,11 +5,11 @@
 //  Created by WizJin on 2021/4/15.
 //
 
-#import <UIKit/UIKit.h>
+#import "CHUI.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHMessageCellView : UICollectionViewCell
+@interface CHMessageCellView : CHCollectionViewCell
 
 @end
 

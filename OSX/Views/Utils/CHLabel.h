@@ -11,7 +11,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CHLabel : NSTextField
 
-- (void)setText:(nullable NSString *)text;
+@property (nonatomic, nullable, strong) NSString *text;
+
+- (void)setTextAlignment:(NSTextAlignment)textAlignment;
+- (void)setNumberOfLines:(NSInteger)numberOfLines;
+- (void)setAttributedText:(NSAttributedString *)attributedText;
 
 
 @end

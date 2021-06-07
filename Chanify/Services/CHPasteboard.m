@@ -7,6 +7,7 @@
 
 #import "CHPasteboard.h"
 #import "CHRouter+iOS.h"
+#import "CHUI.h"
 
 @implementation CHPasteboard
 
@@ -19,6 +20,17 @@
     return pasteboard;
 }
 
+#if TARGET_OS_OSX
+- (nullable NSString *)stringValue {
+    return [NSPasteboard.generalPasteboard stringForType:NSPasteboardTypeString];
+}
+
+- (void)copyWithName:(NSString *)name value:(nullable NSString *)value {
+    [NSPasteboard.generalPasteboard setString:(value ?: @"") forType:NSPasteboardTypeString];
+    [CHRouter.shared makeToast:[NSString stringWithFormat:@"%@ copied".localized, name]];
+}
+
+#else
 - (nullable NSString *)stringValue {
     return UIPasteboard.generalPasteboard.string;
 }
@@ -27,6 +39,6 @@
     UIPasteboard.generalPasteboard.string = value ?: @"";
     [CHRouter.shared makeToast:[NSString stringWithFormat:@"%@ copied".localized, name]];
 }
-
+#endif
 
 @end

@@ -57,7 +57,7 @@
     return iconView;
 }
 
-- (nonnull instancetype)updatedConfigurationForState:(nonnull id<UIConfigurationState>)state {
+- (nonnull instancetype)updatedConfigurationForState:(nonnull id<CHConfigurationState>)state {
     return self;
 }
 

@@ -5,7 +5,7 @@
 //  Created by WizJin on 2021/3/27.
 //
 
-#import <UIKit/UIKit.h>
+#import "CHUI.h"
 #import "CHWebImageManager.h"
 
 NS_ASSUME_NONNULL_BEGIN

@@ -6,7 +6,6 @@
 //
 
 #import "CHMsgCellConfiguration.h"
-#import "CHMessagesDataSource.h"
 #import "CHLogic+iOS.h"
 #import "CHRouter+iOS.h"
 #import "CHTheme.h"
@@ -34,9 +33,9 @@
 
 @interface CHMsgCellContentView ()
 
-@property (nonatomic, readonly, strong) UILongPressGestureRecognizer *longPressRecognizer;
-@property (nonatomic, readonly, strong) UITapGestureRecognizer *tapGestureRecognizer;
-@property (nonatomic, nullable, strong) UIImageView *checkIcon;
+@property (nonatomic, readonly, strong) CHLongPressGestureRecognizer *longPressRecognizer;
+@property (nonatomic, readonly, strong) CHTapGestureRecognizer *tapGestureRecognizer;
+@property (nonatomic, nullable, strong) CHImageView *checkIcon;
 
 @end
 
@@ -49,8 +48,8 @@
         
         [self setupViews];
         
-        UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(actionLongPress:)];
-        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionTap:)];
+        CHLongPressGestureRecognizer *longPressRecognizer = [[CHLongPressGestureRecognizer alloc] initWithTarget:self action:@selector(actionLongPress:)];
+        CHTapGestureRecognizer *tapGestureRecognizer = [[CHTapGestureRecognizer alloc] initWithTarget:self action:@selector(actionTap:)];
         [tapGestureRecognizer requireGestureRecognizerToFail:longPressRecognizer];
 
         [self addGestureRecognizer:(_longPressRecognizer = longPressRecognizer)];
@@ -88,7 +87,7 @@
         }
     } else {
         if (self.checkIcon == nil) {
-            [self addSubview:(_checkIcon = [UIImageView new])];
+            [self addSubview:(_checkIcon = [CHImageView new])];
         }
         self.checkIcon.frame = CGRectMake((50 - kCheckIconSize)/2, (frame.size.height - kCheckIconSize)/2, kCheckIconSize, kCheckIconSize);
        
@@ -98,7 +97,7 @@
 - (void)applyConfiguration:(CHMsgCellConfiguration *)configuration {
 }
     
-- (void)updateConfigurationUsingState:(UICellConfigurationState *)state {
+- (void)updateConfigurationUsingState:(CHCellConfigurationState *)state {
     if (self.source.isEditing) {
         [self setSelected:state.isSelected];
     }
@@ -107,10 +106,10 @@
 - (void)setSelected:(BOOL)selected {
     if (self.checkIcon != nil) {
         if (selected) {
-            self.checkIcon.image = [UIImage systemImageNamed:@"checkmark.circle.fill"];
+            self.checkIcon.image = [CHImage systemImageNamed:@"checkmark.circle.fill"];
             self.checkIcon.tintColor = CHTheme.shared.tintColor;
         } else {
-            self.checkIcon.image = [UIImage systemImageNamed:@"circle"];
+            self.checkIcon.image = [CHImage systemImageNamed:@"circle"];
             self.checkIcon.tintColor = CHTheme.shared.minorLabelColor;
         }
     }
@@ -119,7 +118,7 @@
 - (void)setupViews {
 }
 
-- (UIView *)contentView {
+- (CHView *)contentView {
     return self;
 }
 
@@ -128,34 +127,34 @@
 }
 
 #pragma mark - Actions Methods
-- (void)actionTap:(UITapGestureRecognizer *)recognizer {
+- (void)actionTap:(CHTapGestureRecognizer *)recognizer {
     if (!self.source.isEditing && [self canGestureRecognizer:recognizer]) {
         [self actionClicked:recognizer];
     }
 }
 
-- (void)actionLongPress:(UILongPressGestureRecognizer *)recognizer {
+- (void)actionLongPress:(CHLongPressGestureRecognizer *)recognizer {
     if (!self.source.isEditing && [self canGestureRecognizer:recognizer]) {
         [self becomeFirstResponder];
-        UIView *contentView = self.contentView;
-        UIMenuController *menu = UIMenuController.sharedMenuController;
+        CHView *contentView = self.contentView;
+        CHMenuController *menu = CHMenuController.sharedMenuController;
         menu.menuItems = self.menuActions;
         [menu showMenuFromView:contentView rect:contentView.bounds];
     }
 }
 
-- (BOOL)canGestureRecognizer:(UIGestureRecognizer *)recognizer {
-    UIView *contentView = self.contentView;
+- (BOOL)canGestureRecognizer:(CHGestureRecognizer *)recognizer {
+    CHView *contentView = self.contentView;
     return (contentView != nil && CGRectContainsPoint(self.contentView.frame, [recognizer locationInView:self]));
 }
 
-- (void)actionClicked:(UITapGestureRecognizer *)sender {
+- (void)actionClicked:(CHTapGestureRecognizer *)sender {
 }
 
-- (NSArray<UIMenuItem *> *)menuActions {
+- (NSArray<CHMenuItem *> *)menuActions {
     return @[
-        [[UIMenuItem alloc] initWithTitle:@"Select".localized action:@selector(actionSelect:)],
-        [[UIMenuItem alloc] initWithTitle:@"Delete".localized action:@selector(actionDelete:)],
+        [[CHMenuItem alloc] initWithTitle:@"Select".localized action:@selector(actionSelect:)],
+        [[CHMenuItem alloc] initWithTitle:@"Delete".localized action:@selector(actionDelete:)],
     ];
 }
 

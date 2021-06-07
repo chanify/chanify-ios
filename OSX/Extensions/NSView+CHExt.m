@@ -24,6 +24,9 @@ static const char *kTintColorTagKey = "TintColorTagKey";
     objc_setAssociatedObject(self, kTintColorTagKey, tintColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+- (void)setUserInteractionEnabled:(BOOL)userInteractionEnabled {
+}
+
 - (void)setBackgroundColor:(NSColor *)color {
     self.wantsLayer = YES;
     self.layer.backgroundColor = color.CGColor;
@@ -42,12 +45,21 @@ static const char *kTintColorTagKey = "TintColorTagKey";
     self.needsDisplay = YES;
 }
 
+- (void)setNeedsLayout {
+    self.needsLayout = YES;
+}
+
 - (CGFloat)alpha {
     return self.alphaValue;
 }
 
 - (void)setAlpha:(CGFloat)alpha {
     self.alphaValue = alpha;
+}
+
+- (void)setCornerRadius:(CGFloat)cornerRadius {
+    self.layer.masksToBounds = YES;
+    self.layer.cornerRadius = cornerRadius;
 }
 
 

@@ -43,35 +43,16 @@
 
 @implementation CHBubbleMsgCellContentView
 
-+ (UIFont *)textFont {
-    static UIFont *font = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        font = [UIFont systemFontOfSize:16];
-    });
-    return font;
-}
-
-+ (UIFont *)titleFont {
-    static UIFont *font = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        font = [UIFont boldSystemFontOfSize:16];
-    });
-    return font;
-}
-
-
 - (void)setupViews {
     [super setupViews];
 
-    UIView *bubbleView = [UIView new];
+    CHView *bubbleView = [CHView new];
     [self addSubview:(_bubbleView = bubbleView)];
     bubbleView.backgroundColor = CHTheme.shared.bubbleBackgroundColor;
-    bubbleView.layer.cornerRadius = 8;
+    bubbleView.cornerRadius = 8; // Fix: for macOS
 }
 
-- (UIView *)contentView {
+- (CHView *)contentView {
     return self.bubbleView;
 }
 

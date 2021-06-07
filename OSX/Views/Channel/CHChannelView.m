@@ -7,6 +7,7 @@
 
 #import "CHChannelView.h"
 #import <Masonry/Masonry.h>
+#import "CHMsgsDataSource.h"
 #import "CHCollectionView.h"
 #import "CHLogic+OSX.h"
 #import "CHTheme.h"
@@ -14,6 +15,7 @@
 @interface CHChannelView () <NSCollectionViewDelegate, NSCollectionViewDelegateFlowLayout, CHLogicDelegate>
 
 @property (nonatomic, readonly, strong) CHCollectionView *listView;
+@property (nonatomic, readonly, strong) CHMsgsDataSource *dataSource;
 
 @end
 
@@ -38,7 +40,11 @@
         self.hasVerticalScroller = YES;
         self.backgroundColor = theme.backgroundColor;
         
+        _dataSource = [CHMsgsDataSource dataSourceWithCollectionView:listView channelID:cid];
+        
         [CHLogic.shared addDelegate:self];
+        
+        [self.dataSource reset:NO];
     }
     return self;
 }
@@ -49,12 +55,12 @@
 
 #pragma mark - NSCollectionViewDelegate
 - (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths {
-    [collectionView deselectItemsAtIndexPaths:indexPaths];
+    [self.dataSource selectItemWithIndexPaths:indexPaths];
 }
 
 #pragma mark - NSCollectionViewDelegateFlowLayout
 - (NSSize)collectionView:(NSCollectionView *)collectionView layout:(NSCollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(collectionView.bounds.size.width, 60);
+    return [self.dataSource sizeForItemAtIndexPath:indexPath];
 }
 
 #pragma mark - CHLogicDelegate
