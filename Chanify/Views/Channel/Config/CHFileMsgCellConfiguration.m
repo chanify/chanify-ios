@@ -142,7 +142,7 @@
 }
 
 - (void)actionClicked:(UITapGestureRecognizer *)sender {
-    if (self.localFileURL == nil) {
+    if (self.localFileURL != nil) {
         CHPreviewController *vc = [CHPreviewController previewFile:self.localFileURL];
         [CHRouter.shared presentSystemViewController:vc animated:YES];
     } else {
