@@ -165,12 +165,12 @@
     [section addFormItem:item];
 
     // SECURITY
-//    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"SECURITY".localized])];
-//    item = [CHFormValueItem itemWithName:@"blocklist" title:@"Token blocklist".localized];
-//    item.action = ^(CHFormItem *itm) {
-//        [CHRouter.shared routeTo:@"/page/blocklist" withParams:@{ @"show": @"detail" }];
-//    };
-//    [section addFormItem:item];
+    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"SECURITY".localized])];
+    item = [CHFormValueItem itemWithName:@"blocklist" title:@"Token blocklist".localized];
+    item.action = ^(CHFormItem *itm) {
+        [CHRouter.shared routeTo:@"/page/blocklist" withParams:@{ @"show": @"detail" }];
+    };
+    [section addFormItem:item];
     
     // WATCH
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"WATCH".localized])];
