@@ -11,9 +11,10 @@
 #import "CHChannelView.h"
 #import "CHLogic+OSX.h"
 
-@interface CHRouter () <NSWindowDelegate>
+@interface CHRouter () <NSWindowDelegate, NSSharingServicePickerDelegate>
 
 @property (nonatomic, readonly, strong) NSStatusItem *statusIcon;
+@property (nonatomic, nullable, strong) void (^shareHandler)(BOOL completed, NSError *error);
 
 @end
 
@@ -30,6 +31,7 @@
 
 - (instancetype)init {
     if (self = [super init]) {
+        _shareHandler = nil;
         [self initRouters:JLRoutes.globalRoutes];
         [self loadMainMenu];
     }
@@ -72,10 +74,34 @@
     return [JLRoutes routeURL:[NSURL URLWithString:url] withParameters:params];
 }
 
+- (void)showShareItem:(NSArray *)items sender:(id)sender handler:(void (^ __nullable)(BOOL completed, NSError *error))handler {
+    NSSharingServicePicker *sharingServicePicker = [[NSSharingServicePicker alloc] initWithItems:items];
+    sharingServicePicker.delegate = self;
+    _shareHandler = handler;
+    NSView *view = nil;
+    if ([sender isKindOfClass:NSView.class]) {
+        view = sender;
+    } else {
+        view = self.window.contentView;
+    }
+    [sharingServicePicker showRelativeToRect:[view bounds] ofView:view preferredEdge:NSMinXEdge];
+}
+
+- (void)makeToast:(NSString *)message {
+}
+
 #pragma mark - NSWindowDelegate
 - (BOOL)windowShouldClose:(NSWindow *)window {
     [window orderOut:self];
     return NO;
+}
+
+#pragma mark - NSSharingServicePickerDelegate
+- (void)sharingServicePicker:(NSSharingServicePicker *)sharingServicePicker didChooseSharingService:(nullable NSSharingService *)service {
+    if (_shareHandler != nil) {
+        _shareHandler(YES, nil);
+        _shareHandler = nil;
+    }
 }
 
 #pragma mark - Action Methods

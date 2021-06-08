@@ -5,11 +5,11 @@
 //  Created by WizJin on 2021/4/13.
 //
 
-#import <UIKit/UIKit.h>
+#import "CHUI.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHLoadingView : UIView
+@interface CHLoadingView : CHView
 
 @property (nonatomic, assign) CGFloat progress;
 

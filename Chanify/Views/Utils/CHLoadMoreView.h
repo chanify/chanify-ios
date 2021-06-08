@@ -5,7 +5,7 @@
 //  Created by WizJin on 2021/5/25.
 //
 
-#import <UIKit/UIKit.h>
+#import "CHUI.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

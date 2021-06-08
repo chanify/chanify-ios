@@ -6,6 +6,7 @@
 //
 
 #import "CHIndicatorView.h"
+#import <QuartzCore/QuartzCore.h>
 #import "CHTheme.h"
 
 #define kCHIndicatorAnimation   "transform.rotation"
@@ -25,17 +26,27 @@
         _speed = 1;
         
         self.alpha = 0;
-
+#if TARGET_OS_OSX
+        self.wantsLayer = YES;
+        self.clipsToBounds = NO;
+#endif
         CAShapeLayer *circle = [CAShapeLayer layer];
         [self.layer addSublayer:(_circle = circle)];
         circle.strokeColor = self.tintColor.CGColor;
-        circle.fillColor = UIColor.clearColor.CGColor;
+        circle.fillColor = CHColor.clearColor.CGColor;
         circle.lineCap = kCALineCapRound;
         circle.lineWidth = 1;
     }
     return self;
 }
 
+#if TARGET_OS_OSX
+#define kCHIndicatorClockwise   YES
+- (BOOL)isFlipped {
+    return YES;
+}
+#else
+#define kCHIndicatorClockwise   NO
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     if (previousTraitCollection.userInterfaceStyle != self.traitCollection.userInterfaceStyle) {
         self.circle.strokeColor = self.tintColor.CGColor;
@@ -43,6 +54,7 @@
     }
     [super traitCollectionDidChange:previousTraitCollection];
 }
+#endif
 
 - (void)setGap:(CGFloat)gap {
     if (_gap != gap) {
@@ -51,7 +63,7 @@
     }
 }
 
-- (void)setTintColor:(UIColor *)tintColor {
+- (void)setTintColor:(CHColor *)tintColor {
     if (![self.tintColor isEqual:tintColor]) {
         [super setTintColor:tintColor];
         self.circle.strokeColor = tintColor.CGColor;
@@ -114,7 +126,7 @@
 
 #pragma mark - Private Methods
 - (void)updateCircle {
-    self.circle.path = [UIBezierPath bezierPathWithArcCenter:CGPointZero radius:self.radius startAngle:0 endAngle:self.gap clockwise:NO].CGPath;
+    self.circle.path = [CHBezierPath bezierPathWithArcCenter:CGPointZero radius:self.radius startAngle:0 endAngle:self.gap clockwise:kCHIndicatorClockwise].CGPath;
     [self setNeedsDisplay];
 }
 

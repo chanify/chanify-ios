@@ -9,8 +9,9 @@
 #if TARGET_OS_OSX
 
 NS_ASSUME_NONNULL_BEGIN
-@interface CHLinkLabel : CHLabel
+@interface CHLinkLabel : NSTextView
 
+@property (nonatomic, nullable, strong) NSString *text;
 @property (nonatomic, nullable, strong) CHColor *linkColor;
 
 

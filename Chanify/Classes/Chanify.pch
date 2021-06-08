@@ -54,6 +54,10 @@
 #   import "UIColor+CHExt.h"
 #endif
 
+#if __has_include(<UIKit/UIButton.h>)
+#   import "UIButton+CHExt.h"
+#endif
+
 #if __has_include(<UIKit/UIView.h>)
 #   import "UIView+CHExt.h"
 #endif
@@ -62,12 +66,48 @@
 #   import "UIViewController+CHExt.h"
 #endif
 
+#if __has_include(<UIKit/UIMenuController.h>)
+#   import "UIMenuController+CHExt.h"
+#endif
+
 #if __has_include(<AppKit/NSColor.h>)
 #   import "NSColor+CHExt.h"
 #endif
 
+#if __has_include(<AppKit/NSFont.h>)
+#   import "NSFont+CHExt.h"
+#endif
+
 #if __has_include(<AppKit/NSImage.h>)
 #   import "NSImage+CHExt.h"
+#endif
+
+#if __has_include(<AppKit/NSImage.h>)
+#   import "NSImage+CHExt.h"
+#endif
+
+#if __has_include(<AppKit/NSBezierPath.h>)
+#   import "NSBezierPath+CHExt.h"
+#endif
+
+#if __has_include(<AppKit/NSImageView.h>)
+#   import "NSImageView+CHExt.h"
+#endif
+
+#if __has_include(<AppKit/NSButton.h>)
+#   import "NSButton+CHExt.h"
+#endif
+
+#if __has_include(<AppKit/NSMenuItem.h>)
+#   import "NSMenuItem+CHExt.h"
+#endif
+
+#if __has_include(<AppKit/NSProgressIndicator.h>)
+#   import "NSProgressIndicator+CHExt.h"
+#endif
+
+#if __has_include(<AppKit/NSAnimationContext.h>)
+#   import "NSAnimationContext+CHExt.h"
 #endif
 
 #endif /* CHUI_ENABLE */

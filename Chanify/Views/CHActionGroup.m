@@ -35,18 +35,17 @@
         [self addSubview:(_lineView = lineView)];
         lineView.backgroundColor = lightLabelColor;
         for (int i = 0; i < kCHActionItemMaxN; i++) {
-            CHButton *btn = [CHButton buttonWithType:UIButtonTypeCustom];
+            CHButton *btn = [CHButton button];
             [self addSubview:btn];
-            [btn addTarget:self action:@selector(doAction:) forControlEvents:UIControlEventTouchUpInside];
-            [btn setTitleColor:tintColor forState:UIControlStateNormal];
-            [btn setTitleColor:btnTitleColor forState:UIControlStateSelected];
-            [btn setTitleColor:btnTitleColor forState:UIControlStateHighlighted];
-            btn.titleLabel.font = btnTitleFont;
+            [btn addTarget:self action:@selector(doAction:)];
+            btn.titleTintColor = tintColor;
+            btn.titleSelectColor = btnTitleColor;
+            btn.titleFont = btnTitleFont;
             btn.backgroundColor = bkgColor;
             btn.tag = kCHActionItemViewTag + i;
             btn.hidden = YES;
             if (i > 0) {
-                CHView *line = [CHView new];
+                CHLineView *line = [CHLineView new];
                 [self addSubview:line];
                 line.tag = kCHActionItemLineTag + i;
                 line.backgroundColor = lightLabelColor;
@@ -83,7 +82,7 @@
             } else {
                 btn.hidden = NO;
                 CHActionItemModel *model = [actions objectAtIndex:i];
-                [btn setTitle:model.name forState:UIControlStateNormal];
+                btn.normalTitle = model.name;
             }
             CHView *line = [self viewWithTag:kCHActionItemLineTag + i];
             line.hidden = btn.hidden;

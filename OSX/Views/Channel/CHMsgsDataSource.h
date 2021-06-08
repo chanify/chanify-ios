@@ -13,10 +13,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CHMsgsDataSource : NSCollectionViewDiffableDataSource<NSString *, CHCellConfiguration *>
 
+@property (nonatomic, nullable, strong) NSScrollView *scroller;
+
 + (instancetype)dataSourceWithCollectionView:(NSCollectionView *)collectionView channelID:(NSString *)cid;
 - (void)reset:(BOOL)animated;
 - (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath;
+- (CGSize)sizeForHeaderInSection:(NSInteger)section;
 - (void)scrollViewDidScroll;
+- (void)loadLatestMessage:(BOOL)animated;
 - (void)selectItemWithIndexPaths:(NSSet<NSIndexPath *> *)indexPaths;
 
 

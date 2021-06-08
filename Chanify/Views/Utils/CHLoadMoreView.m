@@ -13,7 +13,7 @@
 @interface CHLoadMoreView ()
 
 @property (nonatomic, readonly, strong) CHIndicatorView *indicatorView;
-@property (nonatomic, readonly, strong) UILabel *tipLabel;
+@property (nonatomic, readonly, strong) CHLabel *tipLabel;
 
 @end
 
@@ -43,10 +43,10 @@
             make.center.equalTo(self);
         }];
         
-        UILabel *tipLabel = [UILabel new];
+        CHLabel *tipLabel = [CHLabel new];
         [self addSubview:(_tipLabel = tipLabel)];
         tipLabel.text = [NSString stringWithFormat:@"────  %@  ────", @"NoMore".localized];
-        tipLabel.font = [UIFont italicSystemFontOfSize:12];
+        tipLabel.font = [CHFont italicSystemFontOfSize:12];
         tipLabel.textColor = theme.minorLabelColor;
         tipLabel.textAlignment = NSTextAlignmentCenter;
         tipLabel.numberOfLines = 1;

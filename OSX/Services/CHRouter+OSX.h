@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)handleReopen:(id)sender;
 - (BOOL)routeTo:(NSString *)url;
 - (BOOL)routeTo:(NSString *)url withParams:(nullable NSDictionary<NSString *, id> *)params;
+- (void)showShareItem:(NSArray *)items sender:(id)sender handler:(void (^ __nullable)(BOOL completed, NSError *error))handler;
+- (void)makeToast:(NSString *)message;
 
 
 @end

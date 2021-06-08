@@ -5,11 +5,11 @@
 //  Created by WizJin on 2021/2/8.
 //
 
-#import <UIKit/UIKit.h>
+#import "CHUI.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHIndicatorView : UIView
+@interface CHIndicatorView : CHView
 
 @property (nonatomic, assign) CGFloat gap;
 @property (nonatomic, assign) CGFloat speed;

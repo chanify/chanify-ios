@@ -22,10 +22,10 @@
 
 @interface CHAudioMsgCellContentView : CHBubbleMsgCellContentView<CHAudioMsgCellConfiguration *>
 
-@property (nonatomic, readonly, strong) UIImageView *ctrlIcon;
-@property (nonatomic, readonly, strong) UILabel *durationLabel;
-@property (nonatomic, readonly, strong) UILabel *statusLabel;
-@property (nonatomic, readonly, strong) UIProgressView *audioTrackView;
+@property (nonatomic, readonly, strong) CHImageView *ctrlIcon;
+@property (nonatomic, readonly, strong) CHLabel *durationLabel;
+@property (nonatomic, readonly, strong) CHLabel *statusLabel;
+@property (nonatomic, readonly, strong) CHProgressView *audioTrackView;
 @property (nonatomic, readonly, strong) NSNumber *duration;
 @property (nonatomic, nullable, readonly, strong) NSURL *localFileURL;
 
@@ -45,26 +45,26 @@
 
     CHTheme *theme = CHTheme.shared;
     
-    UIImageView *ctrlIcon = [UIImageView new];
+    CHImageView *ctrlIcon = [CHImageView new];
     [self.bubbleView addSubview:(_ctrlIcon = ctrlIcon)];
     ctrlIcon.contentMode = UIViewContentModeScaleAspectFit;
 
-    UILabel *durationLabel = [UILabel new];
+    CHLabel *durationLabel = [CHLabel new];
     [self.bubbleView addSubview:(_durationLabel = durationLabel)];
-    durationLabel.backgroundColor = UIColor.clearColor;
+    durationLabel.backgroundColor = CHColor.clearColor;
     durationLabel.textColor = theme.labelColor;
     durationLabel.numberOfLines = 1;
-    durationLabel.font = [UIFont monospacedSystemFontOfSize:8 weight:UIFontWeightRegular];
+    durationLabel.font = [CHFont monospacedSystemFontOfSize:8 weight:UIFontWeightRegular];
 
-    UILabel *statusLabel = [UILabel new];
+    CHLabel *statusLabel = [CHLabel new];
     [self.bubbleView addSubview:(_statusLabel = statusLabel)];
     statusLabel.textAlignment = NSTextAlignmentRight;
-    statusLabel.backgroundColor = UIColor.clearColor;
+    statusLabel.backgroundColor = CHColor.clearColor;
     statusLabel.textColor = theme.minorLabelColor;
     statusLabel.numberOfLines = 1;
-    statusLabel.font = [UIFont monospacedSystemFontOfSize:8 weight:UIFontWeightRegular];
+    statusLabel.font = [CHFont monospacedSystemFontOfSize:8 weight:UIFontWeightRegular];
     
-    UIProgressView *audioTrackView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
+    CHProgressView *audioTrackView = [[CHProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
     [self.bubbleView addSubview:(_audioTrackView = audioTrackView)];
     audioTrackView.tintColor = theme.labelColor;
     audioTrackView.trackTintColor = theme.lightLabelColor;
@@ -94,10 +94,10 @@
     [CHLogic.shared.webAudioManager loadAudioURL:configuration.fileURL toItem:self expectedSize:configuration.fileSize];
 }
 
-- (NSArray<UIMenuItem *> *)menuActions {
+- (NSArray<CHMenuItem *> *)menuActions {
     NSMutableArray *items = [NSMutableArray new];
     if (self.localFileURL != nil) {
-        [items addObject:[[UIMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)]];
+        [items addObject:[[CHMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)]];
     }
     [items addObjectsFromArray:super.menuActions];
     return items;
@@ -149,7 +149,7 @@
     }
 }
 
-- (void)actionClicked:(UITapGestureRecognizer *)sender {
+- (void)actionClicked:(CHTapGestureRecognizer *)sender {
     if (self.localFileURL != nil) {
         CHAudioPlayer *audioPlayer = CHAudioPlayer.shared;
         if ([self.localFileURL isEqual:audioPlayer.currentURL] && audioPlayer.isPlaying) {
@@ -171,15 +171,15 @@
     CHTheme *theme = CHTheme.shared;
     if (self.localFileURL == nil) {
         self.ctrlIcon.tintColor = theme.minorLabelColor;
-        self.ctrlIcon.image = [UIImage systemImageNamed:@"music.note"];
+        self.ctrlIcon.image = [CHImage systemImageNamed:@"music.note"];
         self.audioTrackView.progress = 0;
     } else {
         self.ctrlIcon.tintColor = theme.labelColor;
         CHAudioPlayer *audioPlayer = CHAudioPlayer.shared;
         if ([self.localFileURL isEqual:audioPlayer.currentURL] && audioPlayer.isPlaying) {
-            self.ctrlIcon.image = [UIImage systemImageNamed:@"pause.circle"];
+            self.ctrlIcon.image = [CHImage systemImageNamed:@"pause.circle"];
         } else {
-            self.ctrlIcon.image = [UIImage systemImageNamed:@"play.circle"];
+            self.ctrlIcon.image = [CHImage systemImageNamed:@"play.circle"];
         }
         [self updatePlayTrack];
     }
@@ -221,7 +221,7 @@
     return self;
 }
 
-- (__kindof UIView<UIContentView> *)makeContentView {
+- (__kindof CHView<CHContentView> *)makeContentView {
     return [[CHAudioMsgCellContentView alloc] initWithConfiguration:self];
 }
 

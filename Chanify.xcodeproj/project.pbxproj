@@ -11,6 +11,20 @@
 		1DF9D52ED9FF82BF5D74FE61 /* libPods-Watch Extension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4D4830AD0DB53EB5BE0C41 /* libPods-Watch Extension.a */; };
 		6D025F70266DC61800C17512 /* CHMsgsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D025F6F266DC61800C17512 /* CHMsgsDataSource.m */; };
 		6D025F73266DE72B00C17512 /* CHMessageCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D025F72266DE72B00C17512 /* CHMessageCellItem.m */; };
+		6D029B68266F03F400BF046A /* CHLinkMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBF865B261826E3006F108C /* CHLinkMsgCellConfiguration.m */; };
+		6D029B6B266F04E900BF046A /* NSImageView+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D029B6A266F04E900BF046A /* NSImageView+CHExt.m */; };
+		6D029B6D266F078000BF046A /* CHImageMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD7B5AF260DE2D4001D5DCB /* CHImageMsgCellConfiguration.m */; };
+		6D029B72266F093C00BF046A /* CHWebImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD5A102260EFB9900799032 /* CHWebImageView.m */; };
+		6D029B73266F098000BF046A /* CHLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D12BC332625A0DA005659EA /* CHLoadingView.m */; };
+		6D029B76266F179B00BF046A /* NSButton+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D029B75266F179B00BF046A /* NSButton+CHExt.m */; };
+		6D029B79266F187600BF046A /* NSBezierPath+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D029B78266F187600BF046A /* NSBezierPath+CHExt.m */; };
+		6D029B7B266F1DB300BF046A /* CHAudioMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDCBCD3265F41DF00D210E3 /* CHAudioMsgCellConfiguration.m */; };
+		6D029B7E266F1F0000BF046A /* NSProgressIndicator+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D029B7D266F1F0000BF046A /* NSProgressIndicator+CHExt.m */; };
+		6D029B7F266F20FA00BF046A /* CHActionMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2EA166264D054700246EB4 /* CHActionMsgCellConfiguration.m */; };
+		6D029B80266F210F00BF046A /* CHActionGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2EA16A264D16C600246EB4 /* CHActionGroup.m */; };
+		6D029B83266F23B900BF046A /* UIButton+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D029B82266F23B900BF046A /* UIButton+CHExt.m */; };
+		6D029B86266F279800BF046A /* CHLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D029B85266F279800BF046A /* CHLineView.m */; };
+		6D029B87266F299300BF046A /* UIButton+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D029B82266F23B900BF046A /* UIButton+CHExt.m */; };
 		6D0D6B5D266B22C400B4AB91 /* CHBlockeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D6B5C266B22C400B4AB91 /* CHBlockeModel.m */; };
 		6D0D6B63266B22D300B4AB91 /* CHBlockeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D6B5C266B22C400B4AB91 /* CHBlockeModel.m */; };
 		6D12BC342625A0DA005659EA /* CHLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D12BC332625A0DA005659EA /* CHLoadingView.m */; };
@@ -131,6 +145,17 @@
 		6DAD5404266E1AF60036B68F /* CHTextMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C38F25D16EA200512E36 /* CHTextMsgCellConfiguration.m */; };
 		6DAE516B26155C8C00AF9E90 /* CHPasteboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DAE516A26155C8C00AF9E90 /* CHPasteboard.m */; };
 		6DB057F22631201A00B33BA0 /* CHDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2A525D14BE000512E36 /* CHDevice.m */; };
+		6DB1C25F266F4669007C0C02 /* CHLoadMoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D909114265CDCFE0064A580 /* CHLoadMoreView.m */; };
+		6DB1C262266F46C0007C0C02 /* NSFont+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB1C261266F46C0007C0C02 /* NSFont+CHExt.m */; };
+		6DB1C264266F47BE007C0C02 /* CHIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2BF25D15A7900512E36 /* CHIndicatorView.m */; };
+		6DB1C265266F47BE007C0C02 /* CHIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2BF25D15A7900512E36 /* CHIndicatorView.m */; };
+		6DB1C268266F48C7007C0C02 /* NSAnimationContext+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB1C267266F48C7007C0C02 /* NSAnimationContext+CHExt.m */; };
+		6DB1C269266F7037007C0C02 /* CHFileMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2C721B261E002A003CDCDB /* CHFileMsgCellConfiguration.m */; };
+		6DB1C26A266F721F007C0C02 /* CHPreviewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DABBB282612D9EA00FCBDD3 /* CHPreviewItem.m */; };
+		6DB1C26C266F727B007C0C02 /* CHPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DABBB302612E33D00FCBDD3 /* CHPreviewController.m */; };
+		6DB1C26F266F7FC1007C0C02 /* CHMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB1C26E266F7FC1007C0C02 /* CHMenuController.m */; };
+		6DB1C272266F804B007C0C02 /* NSMenuItem+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB1C271266F804B007C0C02 /* NSMenuItem+CHExt.m */; };
+		6DB1C275266F853E007C0C02 /* UIMenuController+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB1C274266F853E007C0C02 /* UIMenuController+CHExt.m */; };
 		6DB5513C266DEA5200B00E9E /* CHCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C37E25D16E1800512E36 /* CHCellConfiguration.m */; };
 		6DBA92BE25F609CD00B792FE /* CHColorConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92BD25F609CD00B792FE /* CHColorConfiguration.m */; };
 		6DBA92C525F60B3B00B792FE /* UIColor+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92C425F60B3B00B792FE /* UIColor+CHExt.m */; };
@@ -504,6 +529,18 @@
 		6D025F6F266DC61800C17512 /* CHMsgsDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHMsgsDataSource.m; sourceTree = "<group>"; };
 		6D025F71266DE72B00C17512 /* CHMessageCellItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHMessageCellItem.h; sourceTree = "<group>"; };
 		6D025F72266DE72B00C17512 /* CHMessageCellItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHMessageCellItem.m; sourceTree = "<group>"; };
+		6D029B69266F04E900BF046A /* NSImageView+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSImageView+CHExt.h"; sourceTree = "<group>"; };
+		6D029B6A266F04E900BF046A /* NSImageView+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSImageView+CHExt.m"; sourceTree = "<group>"; };
+		6D029B74266F179B00BF046A /* NSButton+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSButton+CHExt.h"; sourceTree = "<group>"; };
+		6D029B75266F179B00BF046A /* NSButton+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSButton+CHExt.m"; sourceTree = "<group>"; };
+		6D029B77266F187600BF046A /* NSBezierPath+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+CHExt.h"; sourceTree = "<group>"; };
+		6D029B78266F187600BF046A /* NSBezierPath+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+CHExt.m"; sourceTree = "<group>"; };
+		6D029B7C266F1F0000BF046A /* NSProgressIndicator+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSProgressIndicator+CHExt.h"; sourceTree = "<group>"; };
+		6D029B7D266F1F0000BF046A /* NSProgressIndicator+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSProgressIndicator+CHExt.m"; sourceTree = "<group>"; };
+		6D029B81266F23B900BF046A /* UIButton+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+CHExt.h"; sourceTree = "<group>"; };
+		6D029B82266F23B900BF046A /* UIButton+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+CHExt.m"; sourceTree = "<group>"; };
+		6D029B84266F279800BF046A /* CHLineView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHLineView.h; sourceTree = "<group>"; };
+		6D029B85266F279800BF046A /* CHLineView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHLineView.m; sourceTree = "<group>"; };
 		6D0D6B5B266B22C400B4AB91 /* CHBlockeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHBlockeModel.h; sourceTree = "<group>"; };
 		6D0D6B5C266B22C400B4AB91 /* CHBlockeModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHBlockeModel.m; sourceTree = "<group>"; };
 		6D12BC322625A0DA005659EA /* CHLoadingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHLoadingView.h; sourceTree = "<group>"; };
@@ -651,6 +688,16 @@
 		6DAD5401266E19850036B68F /* CHLinkLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHLinkLabel.m; sourceTree = "<group>"; };
 		6DAE516926155C8C00AF9E90 /* CHPasteboard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHPasteboard.h; sourceTree = "<group>"; };
 		6DAE516A26155C8C00AF9E90 /* CHPasteboard.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHPasteboard.m; sourceTree = "<group>"; };
+		6DB1C260266F46C0007C0C02 /* NSFont+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSFont+CHExt.h"; sourceTree = "<group>"; };
+		6DB1C261266F46C0007C0C02 /* NSFont+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSFont+CHExt.m"; sourceTree = "<group>"; };
+		6DB1C266266F48C7007C0C02 /* NSAnimationContext+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSAnimationContext+CHExt.h"; sourceTree = "<group>"; };
+		6DB1C267266F48C7007C0C02 /* NSAnimationContext+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSAnimationContext+CHExt.m"; sourceTree = "<group>"; };
+		6DB1C26D266F7FC1007C0C02 /* CHMenuController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHMenuController.h; sourceTree = "<group>"; };
+		6DB1C26E266F7FC1007C0C02 /* CHMenuController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHMenuController.m; sourceTree = "<group>"; };
+		6DB1C270266F804B007C0C02 /* NSMenuItem+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSMenuItem+CHExt.h"; sourceTree = "<group>"; };
+		6DB1C271266F804B007C0C02 /* NSMenuItem+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSMenuItem+CHExt.m"; sourceTree = "<group>"; };
+		6DB1C273266F853E007C0C02 /* UIMenuController+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIMenuController+CHExt.h"; sourceTree = "<group>"; };
+		6DB1C274266F853E007C0C02 /* UIMenuController+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIMenuController+CHExt.m"; sourceTree = "<group>"; };
 		6DBA92BC25F609CD00B792FE /* CHColorConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHColorConfiguration.h; sourceTree = "<group>"; };
 		6DBA92BD25F609CD00B792FE /* CHColorConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHColorConfiguration.m; sourceTree = "<group>"; };
 		6DBA92C325F60B3B00B792FE /* UIColor+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+CHExt.h"; sourceTree = "<group>"; };
@@ -996,10 +1043,18 @@
 		6D1717682665D2B700A89A33 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				6DABBB2E2612E2F200FCBDD3 /* Preview */,
+				6DB1C263266F47B5007C0C02 /* IndicatorView */,
 				6DDE057A262976C4004336DD /* CHBadgeView.h */,
 				6DDE057B262976C4004336DD /* CHBadgeView.m */,
 				6DAD5400266E19850036B68F /* CHLinkLabel.h */,
 				6DAD5401266E19850036B68F /* CHLinkLabel.m */,
+				6D12BC322625A0DA005659EA /* CHLoadingView.h */,
+				6D12BC332625A0DA005659EA /* CHLoadingView.m */,
+				6DD5A101260EFB9900799032 /* CHWebImageView.h */,
+				6DD5A102260EFB9900799032 /* CHWebImageView.m */,
+				6D909113265CDCFE0064A580 /* CHLoadMoreView.h */,
+				6D909114265CDCFE0064A580 /* CHLoadMoreView.m */,
 				6DC6C1C825D0DCD100512E36 /* CHViewController.h */,
 			);
 			path = Utils;
@@ -1196,9 +1251,13 @@
 			children = (
 				6D51563026662C7A00137071 /* CHLabel.h */,
 				6D51563126662C7A00137071 /* CHLabel.m */,
+				6D029B84266F279800BF046A /* CHLineView.h */,
+				6D029B85266F279800BF046A /* CHLineView.m */,
 				6D51563826672BE100137071 /* CHCollectionView.h */,
 				6D51563926672BE100137071 /* CHCollectionView.m */,
 				6D8352402665CFF8005CE6D1 /* CHViewController.m */,
+				6DB1C26D266F7FC1007C0C02 /* CHMenuController.h */,
+				6DB1C26E266F7FC1007C0C02 /* CHMenuController.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1317,6 +1376,15 @@
 				6DABBB302612E33D00FCBDD3 /* CHPreviewController.m */,
 			);
 			path = Preview;
+			sourceTree = "<group>";
+		};
+		6DB1C263266F47B5007C0C02 /* IndicatorView */ = {
+			isa = PBXGroup;
+			children = (
+				6DC6C2BE25D15A7900512E36 /* CHIndicatorView.h */,
+				6DC6C2BF25D15A7900512E36 /* CHIndicatorView.m */,
+			);
+			path = IndicatorView;
 			sourceTree = "<group>";
 		};
 		6DBA92DC25F8A82100B792FE /* Split​View​ */ = {
@@ -1446,10 +1514,14 @@
 			children = (
 				6DBA92C325F60B3B00B792FE /* UIColor+CHExt.h */,
 				6DBA92C425F60B3B00B792FE /* UIColor+CHExt.m */,
+				6D029B81266F23B900BF046A /* UIButton+CHExt.h */,
+				6D029B82266F23B900BF046A /* UIButton+CHExt.m */,
 				6DC6C37425D16CA000512E36 /* UIView+CHExt.h */,
 				6DC6C37525D16CA000512E36 /* UIView+CHExt.m */,
 				6DC6C28725D1410D00512E36 /* UIViewController+CHExt.h */,
 				6DC6C28825D1410D00512E36 /* UIViewController+CHExt.m */,
+				6DB1C273266F853E007C0C02 /* UIMenuController+CHExt.h */,
+				6DB1C274266F853E007C0C02 /* UIMenuController+CHExt.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1475,7 +1547,6 @@
 		6DC6C29425D1435F00512E36 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				6DABBB2E2612E2F200FCBDD3 /* Preview */,
 				6DDC86B925E7457B00C26203 /* IndicatorView */,
 				6DDC86B725E7456000C26203 /* TableView */,
 				6DC6C1C925D0DCD100512E36 /* CHViewController.m */,
@@ -1483,12 +1554,6 @@
 				6DC6C36E25D16C4E00512E36 /* CHQrCodeView.m */,
 				6D278E6725E222C300FC48CD /* CHCodeFormatter.h */,
 				6D278E6825E222C300FC48CD /* CHCodeFormatter.m */,
-				6D909113265CDCFE0064A580 /* CHLoadMoreView.h */,
-				6D909114265CDCFE0064A580 /* CHLoadMoreView.m */,
-				6D12BC322625A0DA005659EA /* CHLoadingView.h */,
-				6D12BC332625A0DA005659EA /* CHLoadingView.m */,
-				6DD5A101260EFB9900799032 /* CHWebImageView.h */,
-				6DD5A102260EFB9900799032 /* CHWebImageView.m */,
 				6D3EB449262AABD900BE797F /* CHNavigationTitleView.h */,
 				6D3EB44A262AABD900BE797F /* CHNavigationTitleView.m */,
 			);
@@ -1604,8 +1669,6 @@
 			children = (
 				6DC6C2C325D15A8600512E36 /* CHIndicatorPanelView.h */,
 				6DC6C2C425D15A8600512E36 /* CHIndicatorPanelView.m */,
-				6DC6C2BE25D15A7900512E36 /* CHIndicatorView.h */,
-				6DC6C2BF25D15A7900512E36 /* CHIndicatorView.m */,
 			);
 			path = IndicatorView;
 			sourceTree = "<group>";
@@ -1649,12 +1712,26 @@
 			children = (
 				6D51562D2666264200137071 /* NSColor+CHExt.h */,
 				6D51562E2666264200137071 /* NSColor+CHExt.m */,
+				6DB1C260266F46C0007C0C02 /* NSFont+CHExt.h */,
+				6DB1C261266F46C0007C0C02 /* NSFont+CHExt.m */,
 				6D1717692665D35600A89A33 /* NSView+CHExt.h */,
 				6D17176A2665D35600A89A33 /* NSView+CHExt.m */,
 				6DDEB4DF263FA73600CAD501 /* NSImage+CHExt.h */,
 				6DDEB4E0263FA73600CAD501 /* NSImage+CHExt.m */,
 				6DAD53F6266E033C0036B68F /* NSScreen+CHExt.h */,
 				6DAD53F7266E033C0036B68F /* NSScreen+CHExt.m */,
+				6D029B74266F179B00BF046A /* NSButton+CHExt.h */,
+				6D029B75266F179B00BF046A /* NSButton+CHExt.m */,
+				6D029B69266F04E900BF046A /* NSImageView+CHExt.h */,
+				6D029B6A266F04E900BF046A /* NSImageView+CHExt.m */,
+				6DB1C270266F804B007C0C02 /* NSMenuItem+CHExt.h */,
+				6DB1C271266F804B007C0C02 /* NSMenuItem+CHExt.m */,
+				6D029B77266F187600BF046A /* NSBezierPath+CHExt.h */,
+				6D029B78266F187600BF046A /* NSBezierPath+CHExt.m */,
+				6D029B7C266F1F0000BF046A /* NSProgressIndicator+CHExt.h */,
+				6D029B7D266F1F0000BF046A /* NSProgressIndicator+CHExt.m */,
+				6DB1C266266F48C7007C0C02 /* NSAnimationContext+CHExt.h */,
+				6DB1C267266F48C7007C0C02 /* NSAnimationContext+CHExt.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2206,22 +2283,26 @@
 				6DDEB4DD263FA62600CAD501 /* CHWebLinkManager.m in Sources */,
 				6D51562C2666251700137071 /* CHIconView.m in Sources */,
 				6DE7C080263D48E10092D88D /* NSDictionary+CHExt.m in Sources */,
+				6DB1C25F266F4669007C0C02 /* CHLoadMoreView.m in Sources */,
 				6DE7C07B263D48B80092D88D /* NSString+CHExt.m in Sources */,
 				6DAD53F5266E004D0036B68F /* CHPasteboard.m in Sources */,
 				6DE7C075263D487B0092D88D /* CHSecKey.m in Sources */,
 				6DE7C088263D49480092D88D /* CHNotification.m in Sources */,
+				6D029B7E266F1F0000BF046A /* NSProgressIndicator+CHExt.m in Sources */,
 				6DAD5404266E1AF60036B68F /* CHTextMsgCellConfiguration.m in Sources */,
 				6D83523A2664EDC0005CE6D1 /* CHTheme.m in Sources */,
 				6D515637266649A000137071 /* CHChannelView.m in Sources */,
 				6DAD53FF266E150E0036B68F /* CHCollectionViewCell.m in Sources */,
 				6DAD53FC266E13D60036B68F /* CHCollectionViewCellRegistration.m in Sources */,
 				6D8352362664D423005CE6D1 /* CHChannelsView.m in Sources */,
+				6D029B86266F279800BF046A /* CHLineView.m in Sources */,
 				6DE7C081263D48E80092D88D /* NSFileManager+CHExt.m in Sources */,
 				6DE7C072263D48620092D88D /* CHMessageModel.m in Sources */,
 				6D51563A26672BE100137071 /* CHCollectionView.m in Sources */,
 				6DE7C074263D48790092D88D /* CHCrpyto.m in Sources */,
 				6D025F70266DC61800C17512 /* CHMsgsDataSource.m in Sources */,
 				6D51563226662C7A00137071 /* CHLabel.m in Sources */,
+				6DB1C272266F804B007C0C02 /* NSMenuItem+CHExt.m in Sources */,
 				6DFC77FA26627606002EF541 /* CHAudioPlayer.m in Sources */,
 				6DE7C083263D49150092D88D /* CHLogic.m in Sources */,
 				6D0D6B63266B22D300B4AB91 /* CHBlockeModel.m in Sources */,
@@ -2231,14 +2312,24 @@
 				6DE7C070263D485A0092D88D /* CHChannelModel.m in Sources */,
 				6DE7C078263D48B20092D88D /* NSURL+CHExt.m in Sources */,
 				6DAD53F2266DFF530036B68F /* CHBubbleMsgCellConfiguration.m in Sources */,
+				6DB1C262266F46C0007C0C02 /* NSFont+CHExt.m in Sources */,
+				6D029B6D266F078000BF046A /* CHImageMsgCellConfiguration.m in Sources */,
 				6DE7C06F263D483B0092D88D /* CHUserModel.m in Sources */,
+				6D029B6B266F04E900BF046A /* NSImageView+CHExt.m in Sources */,
 				6DE7C07F263D48DA0092D88D /* NSException+CHExt.m in Sources */,
 				6D51563326662F5600137071 /* CHBadgeView.m in Sources */,
+				6DB1C26A266F721F007C0C02 /* CHPreviewItem.m in Sources */,
 				6DE7C076263D487D0092D88D /* CryptoKit.swift in Sources */,
+				6DB1C265266F47BE007C0C02 /* CHIndicatorView.m in Sources */,
+				6D029B7F266F20FA00BF046A /* CHActionMsgCellConfiguration.m in Sources */,
+				6D029B72266F093C00BF046A /* CHWebImageView.m in Sources */,
 				6DE7C08A263D49560092D88D /* CHUserDataSource.m in Sources */,
 				6DE7C07E263D48D50092D88D /* NSPredicate+CHExt.m in Sources */,
+				6D029B73266F098000BF046A /* CHLoadingView.m in Sources */,
 				6DE7C066263D471E0092D88D /* CHUtils.m in Sources */,
 				6D8352322664C818005CE6D1 /* CHRouter+OSX.m in Sources */,
+				6D029B79266F187600BF046A /* NSBezierPath+CHExt.m in Sources */,
+				6DB1C268266F48C7007C0C02 /* NSAnimationContext+CHExt.m in Sources */,
 				6DB5513C266DEA5200B00E9E /* CHCellConfiguration.m in Sources */,
 				6DAD5402266E19850036B68F /* CHLinkLabel.m in Sources */,
 				6DDD6B09263E314200684EE7 /* CHLogic+OSX.m in Sources */,
@@ -2246,16 +2337,22 @@
 				6DF611202665E32E00426830 /* CHContentView.m in Sources */,
 				6D3DC0882660C60800F42070 /* CHWebAudioManager.m in Sources */,
 				6DE7C07C263D48C80092D88D /* NSString+CHLocalized.m in Sources */,
+				6DB1C26C266F727B007C0C02 /* CHPreviewController.m in Sources */,
 				6D025F73266DE72B00C17512 /* CHMessageCellItem.m in Sources */,
 				6DE7C086263D49340092D88D /* CHDevice.m in Sources */,
 				6D6F3D02263D28EB00A2578B /* main.m in Sources */,
 				6DE7C071263D485C0092D88D /* CHNodeModel.m in Sources */,
+				6D029B7B266F1DB300BF046A /* CHAudioMsgCellConfiguration.m in Sources */,
 				6DE7C069263D47410092D88D /* CHTP.proto in Sources */,
 				6DDEB4E4263FAA4B00CAD501 /* CHWebFileManager.m in Sources */,
 				6DAD53EE266DF68A0036B68F /* CHUnknownMsgCellConfiguration.m in Sources */,
+				6DB1C26F266F7FC1007C0C02 /* CHMenuController.m in Sources */,
 				6DDEB4E1263FA73600CAD501 /* NSImage+CHExt.m in Sources */,
 				6DF611232665E6FD00426830 /* CHNotification+Badge.m in Sources */,
+				6D029B68266F03F400BF046A /* CHLinkMsgCellConfiguration.m in Sources */,
+				6D029B76266F179B00BF046A /* NSButton+CHExt.m in Sources */,
 				6DE7C087263D493E0092D88D /* CHManager.m in Sources */,
+				6D029B80266F210F00BF046A /* CHActionGroup.m in Sources */,
 				6DAD53F0266DF8630036B68F /* CHDateCellConfiguration.m in Sources */,
 				6DDEB4E2263FA87100CAD501 /* CHWebImageManager.m in Sources */,
 				6D51562F2666264200137071 /* NSColor+CHExt.m in Sources */,
@@ -2265,6 +2362,7 @@
 				6DE7C07D263D48CE0092D88D /* NSNumber+CHExt.m in Sources */,
 				6DDEB4E3263FA8BB00CAD501 /* CHToken.m in Sources */,
 				6D6F3CF7263D28EA00A2578B /* AppDelegate.m in Sources */,
+				6DB1C269266F7037007C0C02 /* CHFileMsgCellConfiguration.m in Sources */,
 				6DAD53F1266DF9B80036B68F /* CHMsgCellConfiguration.m in Sources */,
 				6DE7C079263D48B50092D88D /* NSDate+CHExt.m in Sources */,
 				6DE7C07A263D48B70092D88D /* NSData+CHExt.m in Sources */,
@@ -2346,7 +2444,9 @@
 				6DA2A70D2622F8F100D898C7 /* NotificationViewController.m in Sources */,
 				6D180E01262441BC000BDE82 /* NSString+CHNotification.m in Sources */,
 				6D2EA16E264D2FB700246EB4 /* CHActionItemModel.m in Sources */,
+				6DB1C264266F47BE007C0C02 /* CHIndicatorView.m in Sources */,
 				6D2EA170264D2FD900246EB4 /* CHActionGroup.m in Sources */,
+				6D029B87266F299300BF046A /* UIButton+CHExt.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2368,6 +2468,7 @@
 				6DC6C39F25D16FE600512E36 /* CHMessagesDataSource.m in Sources */,
 				6D1C613B26613E3C002E968B /* CHAudioPlayer.m in Sources */,
 				6D44170525F273150041EBA0 /* CHFormCodeItem.m in Sources */,
+				6D029B83266F23B900BF046A /* UIButton+CHExt.m in Sources */,
 				6DC6C2A625D14BE000512E36 /* CHDevice.m in Sources */,
 				6D3EB44B262AABD900BE797F /* CHNavigationTitleView.m in Sources */,
 				6DC6C33E25D1694100512E36 /* CHChannelsViewController.m in Sources */,
@@ -2452,6 +2553,7 @@
 				6DC6C36825D16C1600512E36 /* CHUserInfoViewController.m in Sources */,
 				6D2EA167264D054700246EB4 /* CHActionMsgCellConfiguration.m in Sources */,
 				6DCC882D25FB62D70028B473 /* CHToken.m in Sources */,
+				6DB1C275266F853E007C0C02 /* UIMenuController+CHExt.m in Sources */,
 				6DC6C25325D112BB00512E36 /* CHLogger.m in Sources */,
 				6DC6C35C25D16B6A00512E36 /* NSPredicate+CHExt.m in Sources */,
 				6DC6C3B525D2193500512E36 /* CHMock.m in Sources */,
@@ -2834,6 +2936,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 33;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
+				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"CHUI_ENABLED=1",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/iOS/NotificationContent/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2855,6 +2963,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 33;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
+				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "CHUI_ENABLED=1";
 				INFOPLIST_FILE = "$(SRCROOT)/iOS/NotificationContent/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

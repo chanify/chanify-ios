@@ -22,10 +22,10 @@
 
 @interface CHLinkMsgCellContentView : CHBubbleMsgCellContentView<CHLinkMsgCellConfiguration *>
 
-@property (nonatomic, readonly, strong) UILabel *titleLabel;
-@property (nonatomic, readonly, strong) UILabel *detailLabel;
-@property (nonatomic, readonly, strong) UILabel *linkLabel;
-@property (nonatomic, readonly, strong) UIImageView *iconView;
+@property (nonatomic, readonly, strong) CHLabel *titleLabel;
+@property (nonatomic, readonly, strong) CHLabel *detailLabel;
+@property (nonatomic, readonly, strong) CHLabel *linkLabel;
+@property (nonatomic, readonly, strong) CHImageView *iconView;
 
 @end
 
@@ -39,15 +39,15 @@
 
     CHTheme *theme = CHTheme.shared;
 
-    UILabel *titleLabel = [UILabel new];
+    CHLabel *titleLabel = [CHLabel new];
     [self.bubbleView addSubview:(_titleLabel = titleLabel)];
     titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    titleLabel.backgroundColor = UIColor.clearColor;
+    titleLabel.backgroundColor = CHColor.clearColor;
     titleLabel.textColor = theme.labelColor;
     titleLabel.numberOfLines = 1;
-    titleLabel.font = [UIFont boldSystemFontOfSize:16];
+    titleLabel.font = [CHFont boldSystemFontOfSize:16];
     
-    UIImageView *iconView = [UIImageView new];
+    CHImageView *iconView = [CHImageView new];
     [self.bubbleView addSubview:(_iconView = iconView)];
     iconView.contentMode = UIViewContentModeScaleAspectFill;
     iconView.backgroundColor = theme.lightLabelColor;
@@ -55,18 +55,18 @@
     iconView.layer.cornerRadius = 8;
     iconView.clipsToBounds = YES;
     
-    UILabel *detailLabel = [UILabel new];
+    CHLabel *detailLabel = [CHLabel new];
     [self.bubbleView addSubview:(_detailLabel = detailLabel)];
     detailLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    detailLabel.backgroundColor = UIColor.clearColor;
+    detailLabel.backgroundColor = CHColor.clearColor;
     detailLabel.textColor = theme.minorLabelColor;
     detailLabel.numberOfLines = 2;
-    detailLabel.font = [UIFont systemFontOfSize:15];
+    detailLabel.font = [CHFont systemFontOfSize:15];
     
-    UILabel *linkLabel = [UILabel new];
+    CHLabel *linkLabel = [CHLabel new];
     [self.bubbleView addSubview:(_linkLabel = linkLabel)];
     linkLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    linkLabel.backgroundColor = UIColor.clearColor;
+    linkLabel.backgroundColor = CHColor.clearColor;
     linkLabel.textColor = theme.tintColor;
     linkLabel.numberOfLines = 1;
     linkLabel.font = theme.messageTextFont;
@@ -88,11 +88,11 @@
     [CHLogic.shared.webLinkManager loadLinkFromURL:configuration.link toItem:self];
 }
 
-- (NSArray<UIMenuItem *> *)menuActions {
+- (NSArray<CHMenuItem *> *)menuActions {
     NSMutableArray *items = [NSMutableArray arrayWithArray:@[
-        [[UIMenuItem alloc]initWithTitle:@"Copy".localized action:@selector(actionCopy:)],
-        [[UIMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)],
-        [[UIMenuItem alloc]initWithTitle:@"Safari" action:@selector(actionOpen:)],
+        [[CHMenuItem alloc]initWithTitle:@"Copy".localized action:@selector(actionCopy:)],
+        [[CHMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)],
+        [[CHMenuItem alloc]initWithTitle:@"Safari" action:@selector(actionOpen:)],
     ]];
     [items addObjectsFromArray:super.menuActions];
     return items;
@@ -124,7 +124,7 @@
     [CHRouter.shared showShareItem:@[self.linkURL] sender:self.contentView handler:nil];
 }
 
-- (void)actionClicked:(UITapGestureRecognizer *)sender {
+- (void)actionClicked:(CHTapGestureRecognizer *)sender {
     [CHRouter.shared handleURL:self.linkURL];
 }
 
@@ -154,7 +154,7 @@
     return self;
 }
 
-- (__kindof UIView<UIContentView> *)makeContentView {
+- (__kindof CHView<CHContentView> *)makeContentView {
     return [[CHLinkMsgCellContentView alloc] initWithConfiguration:self];
 }
 

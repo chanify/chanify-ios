@@ -51,7 +51,7 @@
     return self;
 }
 
-- (__kindof UIView<UIContentView> *)makeContentView {
+- (__kindof CHView<CHContentView> *)makeContentView {
     return [[CHImageMsgCellContentView alloc] initWithConfiguration:self];
 }
 
@@ -111,7 +111,7 @@
     imageView.delegate = self;
 }
 
-- (UIView *)contentView {
+- (CHView *)contentView {
     return self.imageView;
 }
 
@@ -124,7 +124,7 @@
 - (NSArray<CHMenuItem *> *)menuActions {
     NSMutableArray *items = [NSMutableArray new];
     if (self.imageView.image != nil) {
-        [items addObject:[[UIMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)]];
+        [items addObject:[[CHMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)]];
     }
     [items addObjectsFromArray:super.menuActions];
     return items;
@@ -147,7 +147,7 @@
     [CHRouter.shared showShareItem:@[self.imageView.image] sender:self.contentView handler:nil];
 }
 
-- (void)actionClicked:(UITapGestureRecognizer *)sender {
+- (void)actionClicked:(CHTapGestureRecognizer *)sender {
     NSURL *localFileURL = self.imageView.localFileURL;
     if (localFileURL != nil) {
         CHImageMsgCellConfiguration *configuration = (CHImageMsgCellConfiguration *)self.configuration;

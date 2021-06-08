@@ -6,13 +6,14 @@
 //
 
 #import "CHLoadingView.h"
+#import <QuartzCore/QuartzCore.h>
 #import "CHTheme.h"
 
 #define kCHLoadingLineWidth 2.0
 
 @interface CHLoadingView () <CAAnimationDelegate>
 
-@property (nonatomic, readonly, strong) UIButton *reloadButton;
+@property (nonatomic, readonly, strong) CHButton *reloadButton;
 @property (nonatomic, readonly, strong) CAShapeLayer *loadingLayer;
 
 @end
@@ -29,20 +30,20 @@
 
         CHTheme *theme = CHTheme.shared;
         self.clipsToBounds = YES;
-        self.backgroundColor = UIColor.clearColor;
+        self.backgroundColor = CHColor.clearColor;
         self.layer.borderColor = theme.tintColor.CGColor;
         self.layer.borderWidth = kCHLoadingLineWidth;
         
         CAShapeLayer *loadingLayer = [CAShapeLayer layer];
         [self.layer addSublayer:(_loadingLayer = loadingLayer)];
-        loadingLayer.backgroundColor = UIColor.clearColor.CGColor;
+        loadingLayer.backgroundColor = CHColor.clearColor.CGColor;
         loadingLayer.fillColor = loadingLayer.backgroundColor;
         loadingLayer.strokeColor = theme.lightTintColor.CGColor;
         loadingLayer.lineCap = kCALineCapButt;
         self.loadingLayer.lineWidth = 0;
         loadingLayer.strokeEnd = 0;
         
-        UIButton *reloadButton = [UIButton systemButtonWithImage:[UIImage systemImageNamed:@"arrow.triangle.2.circlepath"] target:target action:action];
+        CHButton *reloadButton = [CHButton systemButtonWithImage:[CHImage systemImageNamed:@"arrow.triangle.2.circlepath"] target:target action:action];
         [self addSubview:(_reloadButton = reloadButton)];
         reloadButton.hidden = YES;
     }
@@ -59,7 +60,7 @@
     radius -= kCHLoadingLineWidth * 2;
     if (self.loadingLayer.lineWidth != radius) {
         self.loadingLayer.lineWidth = radius;
-        self.loadingLayer.path = [UIBezierPath bezierPathWithArcCenter:CGPointZero radius:radius*0.5 startAngle:-M_PI_2 endAngle:-M_PI_2 + (M_PI * 2) clockwise:1].CGPath;
+        self.loadingLayer.path = [CHBezierPath bezierPathWithArcCenter:CGPointZero radius:radius*0.5 startAngle:-M_PI_2 endAngle:-M_PI_2 + (M_PI * 2) clockwise:1].CGPath;
     }
 }
 

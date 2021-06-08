@@ -1,0 +1,53 @@
+//
+//  NSBezierPath+CHExt.m
+//  OSX
+//
+//  Created by WizJin on 2021/6/8.
+//
+
+#import "NSBezierPath+CHExt.h"
+
+@implementation NSBezierPath (CHExt)
+
++ (instancetype)bezierPathWithArcCenter:(CGPoint)center radius:(CGFloat)radius startAngle:(CGFloat)startAngle endAngle:(CGFloat)endAngle clockwise:(BOOL)clockwise {
+    NSBezierPath *path = [NSBezierPath bezierPath];
+    [path appendBezierPathWithArcWithCenter:center radius:radius startAngle:startAngle*180.0*M_1_PI endAngle:endAngle*180.0*M_1_PI clockwise:clockwise];
+    return path;
+}
+
+- (CGPathRef)CGPath {
+    CGPathRef res = NULL;
+    NSInteger n = self.elementCount;
+    if (n > 0) {
+        CGMutablePathRef path = CGPathCreateMutable();
+        if (path != NULL) {
+            NSPoint             pts[3];
+            BOOL                bClose = YES;
+            for (int i = 0; i < n; i++) {
+                switch ([self elementAtIndex:i associatedPoints:pts]) {
+                    case NSBezierPathElementMoveTo:
+                        CGPathMoveToPoint(path, NULL, pts[0].x, pts[0].y);
+                        break;
+                    case NSBezierPathElementLineTo:
+                        CGPathAddLineToPoint(path, NULL, pts[0].x, pts[0].y);
+                        bClose = NO;
+                        break;
+                    case NSBezierPathElementCurveTo:
+                        CGPathAddCurveToPoint(path, NULL, pts[0].x, pts[0].y, pts[1].x, pts[1].y, pts[2].x, pts[2].y);
+                        bClose = NO;
+                        break;
+                    case NSBezierPathElementClosePath:
+                        CGPathCloseSubpath(path);
+                        bClose = YES;
+                        break;
+                }
+            }
+            res = CGPathCreateCopy(path);
+            CGPathRelease(path);
+        }
+    }
+    return res;
+}
+
+
+@end

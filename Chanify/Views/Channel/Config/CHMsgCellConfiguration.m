@@ -135,11 +135,10 @@
 
 - (void)actionLongPress:(CHLongPressGestureRecognizer *)recognizer {
     if (!self.source.isEditing && [self canGestureRecognizer:recognizer]) {
-        [self becomeFirstResponder];
         CHView *contentView = self.contentView;
         CHMenuController *menu = CHMenuController.sharedMenuController;
         menu.menuItems = self.menuActions;
-        [menu showMenuFromView:contentView rect:contentView.bounds];
+        [menu showMenuFromView:contentView target:self point:[recognizer locationInView:contentView]];
     }
 }
 

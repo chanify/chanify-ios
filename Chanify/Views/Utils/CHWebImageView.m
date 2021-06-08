@@ -14,7 +14,7 @@
 
 @interface CHWebImageView ()
 
-@property (nonatomic, readonly, strong) UIImageView *imageView;
+@property (nonatomic, readonly, strong) CHImageView *imageView;
 @property (nonatomic, nullable, strong) CHLoadingView *loadingView;
 @property (nonatomic, readonly, assign) uint64_t expectedSize;
 
@@ -28,7 +28,7 @@
         _fileURL = nil;
         _loadingView = nil;
         _expectedSize = 0;
-        UIImageView *imageView = [UIImageView new];
+        CHImageView *imageView = [CHImageView new];
         [self addSubview:(_imageView = imageView)];
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         self.clipsToBounds = YES;
@@ -62,7 +62,7 @@
     return [CHLogic.shared.webImageManager localFileURL:self.fileURL];
 }
 
-- (void)setImage:(nullable UIImage *)image {
+- (void)setImage:(nullable CHImage *)image {
     if (self.image != image) {
         _image = image;
         self.imageView.image = image ?: CHTheme.shared.clearImage;

@@ -26,7 +26,9 @@
 }
 
 - (void)copyWithName:(NSString *)name value:(nullable NSString *)value {
-    [NSPasteboard.generalPasteboard setString:(value ?: @"") forType:NSPasteboardTypeString];
+    NSPasteboard *pasteBoard = NSPasteboard.generalPasteboard;
+    [pasteBoard declareTypes:[NSArray arrayWithObject:NSPasteboardTypeString] owner:nil];
+    [pasteBoard setString:(value ?: @"") forType:NSPasteboardTypeString];
     [CHRouter.shared makeToast:[NSString stringWithFormat:@"%@ copied".localized, name]];
 }
 

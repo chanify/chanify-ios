@@ -9,11 +9,13 @@
 #import "CHUserDataSource.h"
 #import "CHUnknownMsgCellConfiguration.h"
 #import "CHDateCellConfiguration.h"
+#import "CHLoadMoreView.h"
 #import "CHLogic+OSX.h"
 
 @interface CHMsgsDataSource ()
 
 @property (nonatomic, readonly, strong) NSString *cid;
+@property (nonatomic, nullable, strong) CHLoadMoreView *headerView;
 @property (nonatomic, readonly, weak) NSCollectionView *collectionView;
 
 @end
@@ -40,6 +42,16 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     if (self = [super initWithCollectionView:collectionView itemProvider:cellProvider]) {
         _cid = cid;
         _collectionView = collectionView;
+        [collectionView registerClass:CHLoadMoreView.class forSupplementaryViewOfKind:NSCollectionElementKindSectionHeader withIdentifier:@"CHLoadMoreView"];
+        @weakify(self);
+        self.supplementaryViewProvider = ^NSView * _Nullable(NSCollectionView *collectionView, NSString *kind, NSIndexPath *indexPath) {
+            @strongify(self);
+            if (self.headerView == nil) {
+                self.headerView = [collectionView makeSupplementaryViewOfKind:kind withIdentifier:@"CHLoadMoreView" forIndexPath:indexPath];
+                [self updateHeaderView];
+            }
+            return self.headerView;
+        };
         [self reset:NO];
     }
     return self;
@@ -62,64 +74,18 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     return size;
 }
 
+- (CGSize)sizeForHeaderInSection:(NSInteger)section {
+    return CGSizeMake(self.collectionView.bounds.size.width, 30);
+}
+
 - (void)scrollViewDidScroll {
-    @weakify(self);
-    dispatch_main_after(kCHLoadingDuration, ^{
-        @strongify(self);
-        [self loadEarlistMessage];
-    });
-}
-
-- (void)selectItemWithIndexPaths:(NSSet<NSIndexPath *> *)indexPaths {
-    [self.collectionView deselectItemsAtIndexPaths:indexPaths];
-}
-
-
-#pragma mark - Private Methods
-- (void)updateHeaderView {
-//    if (self.headerView != nil && self.headerView.status != CHLoadStatusLoading) {
-//        self.headerView.status = ([self.collectionView numberOfItemsInSection:0] < kCHMessageListPageSize ? CHLoadStatusFinish : CHLoadStatusNormal);
-//    }
-}
-
-- (void)scrollToBottom:(BOOL)animated {
-    NSInteger count = [self.collectionView numberOfItemsInSection:0];
-    if (count > 0) {
-        [self.collectionView layoutSubtreeIfNeeded];
-        [self.collectionView scrollToItemsAtIndexPaths:[NSSet setWithObject:[NSIndexPath indexPathForItem:count-1 inSection:0]] scrollPosition:NSCollectionViewScrollPositionBottom];
-    }
-}
-
-- (void)loadEarlistMessage {
-    if ([self.collectionView numberOfItemsInSection:0] <= 0) {
-        [self loadLatestMessage:YES];
-    } else {
-//        CHCellConfiguration *item = [self itemIdentifierForIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
-//        NSArray<CHMessageModel *> *items = [CHLogic.shared.userDataSource messageWithCID:self.cid from:item.mid to:@"" count:kCHMessageListPageSize];
-//        self.headerView.status = (items.count < kCHMessageListPageSize ? CHLoadStatusFinish : CHLoadStatusNormal);
-//        if (items.count > 0) {
-//            NSMutableArray<CHCellConfiguration *> *selectedCells = nil;
-//            if (self.isEditing) {
-//                NSArray<NSIndexPath *> *indexPaths = self.collectionView.indexPathsForSelectedItems;
-//                if (indexPaths.count > 0) {
-//                    selectedCells = [NSMutableArray arrayWithCapacity:indexPaths.count];
-//                    for (NSIndexPath *indexPath in indexPaths) {
-//                        [selectedCells addObject:[self itemIdentifierForIndexPath:indexPath]];
-//                    }
-//                }
-//            }
-//            [self performAndKeepOffset:^{
-//                NSArray<CHCellConfiguration *> *cells = [self calcItems:items last:nil];
-//                CHConversationDiffableSnapshot *snapshot = self.snapshot;
-//                [snapshot insertItemsWithIdentifiers:cells beforeItemWithIdentifier:item];
-//                [self applySnapshot:snapshot animatingDifferences:NO];
-//            }];
-//            if (selectedCells.count > 0) {
-//                for (CHCellConfiguration *cell in selectedCells) {
-//                    [self.collectionView selectItemAtIndexPath:[self indexPathForItemIdentifier:cell] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-//                }
-//            }
-//        }
+    if (self.headerView != nil && self.headerView.status == CHLoadStatusNormal) {
+        self.headerView.status = ([self.collectionView numberOfItemsInSection:0] > 0 ? CHLoadStatusLoading : CHLoadStatusFinish);
+        @weakify(self);
+        dispatch_main_after(kCHLoadingDuration, ^{
+            @strongify(self);
+            [self loadEarlistMessage];
+        });
     }
 }
 
@@ -144,6 +110,66 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
             [self scrollToBottom:animated];
             [self updateHeaderView];
         });
+    }
+}
+
+- (void)selectItemWithIndexPaths:(NSSet<NSIndexPath *> *)indexPaths {
+    [self.collectionView deselectItemsAtIndexPaths:indexPaths];
+}
+
+#pragma mark - Private Methods
+- (void)updateHeaderView {
+    if (self.headerView != nil && self.headerView.status != CHLoadStatusLoading) {
+        self.headerView.status = ([self.collectionView numberOfItemsInSection:0] < kCHMessageListPageSize ? CHLoadStatusFinish : CHLoadStatusNormal);
+    }
+}
+
+- (void)scrollToBottom:(BOOL)animated {
+    NSInteger count = [self.collectionView numberOfItemsInSection:0];
+    if (count > 0) {
+        [self.collectionView layoutSubtreeIfNeeded];
+        [self.collectionView scrollToItemsAtIndexPaths:[NSSet setWithObject:[NSIndexPath indexPathForItem:count-1 inSection:0]] scrollPosition:NSCollectionViewScrollPositionBottom];
+    }
+}
+
+- (void)performAndKeepOffset:(void (NS_NOESCAPE ^)(void))actions {
+    if (actions != NULL) {
+        if (self.scroller == nil) {
+            actions();
+        } else {
+            CGPoint offset = self.scroller.documentVisibleRect.origin;
+            [self.scroller.documentView scrollPoint:offset];
+            CGFloat height = self.scroller.documentView.frame.size.height;
+            actions();
+            [self.scroller layoutSubtreeIfNeeded];
+            offset.y += self.scroller.documentView.frame.size.height - height;
+            [self.scroller.documentView scrollPoint:offset];
+        }
+    }
+}
+
+- (void)loadEarlistMessage {
+    if ([self.collectionView numberOfItemsInSection:0] <= 0) {
+        [self loadLatestMessage:YES];
+    } else {
+        CHCellConfiguration *item = [self itemIdentifierForIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+        NSArray<CHMessageModel *> *items = [CHLogic.shared.userDataSource messageWithCID:self.cid from:item.mid to:@"" count:kCHMessageListPageSize];
+        self.headerView.status = (items.count < kCHMessageListPageSize ? CHLoadStatusFinish : CHLoadStatusNormal);
+        if (items.count > 0) {
+            NSMutableArray<CHCellConfiguration *> *selectedCells = nil;
+            [self performAndKeepOffset:^{
+                NSArray<CHCellConfiguration *> *cells = [self calcItems:items last:nil];
+                CHConversationDiffableSnapshot *snapshot = self.snapshot;
+                [snapshot insertItemsWithIdentifiers:cells beforeItemWithIdentifier:item];
+                [self applySnapshot:snapshot animatingDifferences:NO];
+            }];
+            if (selectedCells.count > 0) {
+                for (CHCellConfiguration *cell in selectedCells) {
+                    NSIndexPath *indexPath = [self indexPathForItemIdentifier:cell];
+                    [self.collectionView selectItemsAtIndexPaths:[NSSet setWithObject:indexPath] scrollPosition:NSCollectionViewScrollPositionNone];
+                }
+            }
+        }
     }
 }
 

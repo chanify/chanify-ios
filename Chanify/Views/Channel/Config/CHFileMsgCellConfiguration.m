@@ -27,10 +27,10 @@
 
 @interface CHFileMsgCellContentView : CHBubbleMsgCellContentView<CHFileMsgCellConfiguration *>
 
-@property (nonatomic, readonly, strong) UILabel *titleLabel;
-@property (nonatomic, readonly, strong) UILabel *detailLabel;
-@property (nonatomic, readonly, strong) UILabel *statusLabel;
-@property (nonatomic, readonly, strong) UIImageView *iconView;
+@property (nonatomic, readonly, strong) CHLabel *titleLabel;
+@property (nonatomic, readonly, strong) CHLabel *detailLabel;
+@property (nonatomic, readonly, strong) CHLabel *statusLabel;
+@property (nonatomic, readonly, strong) CHImageView *iconView;
 @property (nonatomic, nullable, readonly, strong) NSURL *localFileURL;
 
 @end
@@ -45,31 +45,31 @@
     
     CHTheme *theme = CHTheme.shared;
 
-    UILabel *titleLabel = [UILabel new];
+    CHLabel *titleLabel = [CHLabel new];
     [self.bubbleView addSubview:(_titleLabel = titleLabel)];
     titleLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
-    titleLabel.backgroundColor = UIColor.clearColor;
+    titleLabel.backgroundColor = CHColor.clearColor;
     titleLabel.textColor = theme.labelColor;
     titleLabel.numberOfLines = 1;
     titleLabel.font = CHTheme.shared.messageTitleFont;
 
-    UILabel *detailLabel = [UILabel new];
+    CHLabel *detailLabel = [CHLabel new];
     [self.bubbleView addSubview:(_detailLabel = detailLabel)];
     detailLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    detailLabel.backgroundColor = UIColor.clearColor;
+    detailLabel.backgroundColor = CHColor.clearColor;
     detailLabel.textColor = theme.minorLabelColor;
     detailLabel.numberOfLines = 2;
-    detailLabel.font = [UIFont systemFontOfSize:12];
+    detailLabel.font = [CHFont systemFontOfSize:12];
     
-    UILabel *statusLabel = [UILabel new];
+    CHLabel *statusLabel = [CHLabel new];
     [self.bubbleView addSubview:(_statusLabel = statusLabel)];
     statusLabel.textAlignment = NSTextAlignmentRight;
-    statusLabel.backgroundColor = UIColor.clearColor;
+    statusLabel.backgroundColor = CHColor.clearColor;
     statusLabel.textColor = theme.minorLabelColor;
     statusLabel.numberOfLines = 1;
-    statusLabel.font = [UIFont monospacedSystemFontOfSize:8 weight:UIFontWeightRegular];
+    statusLabel.font = [CHFont monospacedSystemFontOfSize:8 weight:UIFontWeightRegular];
     
-    UIImageView *iconView = [[UIImageView alloc] initWithImage:[UIImage systemImageNamed:@"doc.fill"]];
+    CHImageView *iconView = [[CHImageView alloc] initWithImage:[CHImage systemImageNamed:@"doc.fill"]];
     [self.bubbleView addSubview:(_iconView = iconView)];
     iconView.contentMode = UIViewContentModeScaleAspectFit;
     iconView.tintColor = theme.lightLabelColor;
@@ -105,10 +105,10 @@
     [CHLogic.shared.webFileManager loadFileURL:configuration.fileURL filename:configuration.filename toItem:self expectedSize:configuration.fileSize];
 }
 
-- (NSArray<UIMenuItem *> *)menuActions {
+- (NSArray<CHMenuItem *> *)menuActions {
     NSMutableArray *items = [NSMutableArray new];
     if (self.localFileURL != nil) {
-        [items addObject:[[UIMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)]];
+        [items addObject:[[CHMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)]];
     }
     [items addObjectsFromArray:super.menuActions];
     return items;
@@ -141,10 +141,13 @@
     }
 }
 
-- (void)actionClicked:(UITapGestureRecognizer *)sender {
+- (void)actionClicked:(CHTapGestureRecognizer *)sender {
     if (self.localFileURL != nil) {
+#if TARGET_OS_OSX
+#else
         CHPreviewController *vc = [CHPreviewController previewFile:self.localFileURL];
         [CHRouter.shared presentSystemViewController:vc animated:YES];
+#endif
     } else {
         CHWebFileManager *webFileManager = CHLogic.shared.webFileManager;
         self.statusLabel.text = @"";
@@ -177,7 +180,7 @@
     return self;
 }
 
-- (__kindof UIView<UIContentView> *)makeContentView {
+- (__kindof CHView<CHContentView> *)makeContentView {
     return [[CHFileMsgCellContentView alloc] initWithConfiguration:self];
 }
 

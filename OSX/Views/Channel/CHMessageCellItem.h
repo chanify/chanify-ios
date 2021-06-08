@@ -16,22 +16,5 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CHLongPressGestureRecognizer : NSClickGestureRecognizer
 @end
 
-@interface CHMenuController : NSObject
-
-@property(nullable, nonatomic,copy) NSArray<CHMenuItem *> *menuItems;
-
-+ (instancetype)sharedMenuController;
-- (void)showMenuFromView:(CHView *)targetView rect:(CGRect)targetRect;
-- (BOOL)isMenuVisible;
-- (void)hideMenuFromView:(CHView *)targetView;
-
-@end
-
-@interface NSMenuItem (CHExt)
-
-- (instancetype)initWithTitle:(NSString *)title action:(SEL)action;
-
-@end
-
 
 NS_ASSUME_NONNULL_END

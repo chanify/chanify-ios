@@ -5,7 +5,11 @@
 //  Created by WizJin on 2021/3/30.
 //
 
-#import <QuickLook/QuickLook.h>
+#if TARGET_OS_OSX
+#   import <Quartz/Quartz.h>
+#else
+#   import <QuickLook/QuickLook.h>
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 

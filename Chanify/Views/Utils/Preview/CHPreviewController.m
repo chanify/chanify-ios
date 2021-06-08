@@ -10,6 +10,23 @@
 #import "CHRouter+iOS.h"
 #import "CHLogic.h"
 
+#if TARGET_OS_OSX
+
+@implementation CHPreviewController
+
++ (instancetype)previewImages:(NSArray<CHPreviewItem *> *)images selected:(NSInteger)selected {
+    return [self.class new];
+}
+
++ (instancetype)previewFile:(NSURL *)fileURL {
+    return [self.class new];
+}
+
+
+@end
+
+#else
+
 @interface CHPreviewController () <QLPreviewControllerDataSource>
 
 @property (nonatomic, readonly, assign) BOOL isImage;
@@ -67,3 +84,5 @@
 
 
 @end
+
+#endif
