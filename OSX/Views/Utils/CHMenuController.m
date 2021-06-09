@@ -6,7 +6,7 @@
 //
 
 #import "CHMenuController.h"
-#import "CHRouter+OSX.h"
+#import "CHRouter.h"
 
 @interface CHMenuController ()
 

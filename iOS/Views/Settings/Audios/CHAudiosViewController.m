@@ -8,8 +8,8 @@
 #import "CHAudiosViewController.h"
 #import "CHAudioTableViewCell.h"
 #import "CHWebAudioManager.h"
-#import "CHLogic+iOS.h"
-#import "CHRouter+iOS.h"
+#import "CHRouter.h"
+#import "CHLogic.h"
 
 @implementation CHAudiosViewController
 

@@ -8,6 +8,7 @@
 #import "CHNotification+Badge.h"
 #import <AppKit/AppKit.h>
 #import <objc/runtime.h>
+#import "CHRouter.h"
 
 @implementation CHNotification (Badge)
 
@@ -27,7 +28,7 @@ static const char *kBadgeTagKey = "BadgeTagKey";
     } else {
         badge = [@(notificationBadge) stringValue];
     }
-    NSApp.dockTile.badgeLabel = badge;
+    CHRouter.shared.badgeText = badge;
 }
 
 

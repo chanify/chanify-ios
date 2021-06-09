@@ -11,7 +11,7 @@
 #import "CHCodeFormatter.h"
 #import "CHChannelModel.h"
 #import "CHUserDataSource.h"
-#import "CHLogic+iOS.h"
+#import "CHLogic.h"
 #import "CHTheme.h"
 
 @interface CHBlockTokenCell ()

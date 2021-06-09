@@ -8,7 +8,7 @@
 #import "CHImageTableViewCell.h"
 #import <Masonry/Masonry.h>
 #import "CHWebImageManager.h"
-#import "CHLogic+iOS.h"
+#import "CHLogic.h"
 #import "CHTheme.h"
 
 @interface CHImageTableViewCell ()

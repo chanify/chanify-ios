@@ -7,8 +7,8 @@
 
 #import "CHWebFileManager.h"
 #import "CHUserDataSource.h"
-#import "CHLogic+iOS.h"
 #import "CHNodeModel.h"
+#import "CHLogic.h"
 #import "CHDevice.h"
 #import "CHToken.h"
 

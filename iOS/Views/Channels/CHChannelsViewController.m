@@ -12,8 +12,8 @@
 #import "CHTableView.h"
 #import "CHUserDataSource.h"
 #import "CHMessageModel.h"
-#import "CHLogic+iOS.h"
-#import "CHRouter+iOS.h"
+#import "CHRouter.h"
+#import "CHLogic.h"
 
 typedef UITableViewDiffableDataSource<NSString *, CHChannelModel *> CHChannelDataSource;
 typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiffableSnapshot;

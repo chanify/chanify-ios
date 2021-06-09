@@ -7,7 +7,7 @@
 
 #import "CHFileTableViewCell.h"
 #import <Masonry/Masonry.h>
-#import "CHLogic+iOS.h"
+#import "CHLogic.h"
 #import "CHTheme.h"
 
 @interface CHFileTableViewCell ()

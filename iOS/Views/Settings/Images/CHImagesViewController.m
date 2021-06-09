@@ -9,8 +9,8 @@
 #import "CHPreviewController.h"
 #import "CHImageTableViewCell.h"
 #import "CHWebImageManager.h"
-#import "CHLogic+iOS.h"
-#import "CHRouter+iOS.h"
+#import "CHRouter.h"
+#import "CHLogic.h"
 
 @implementation CHImagesViewController
 

@@ -8,7 +8,7 @@
 #import "CHBlockTokenViewController.h"
 #import <Masonry/Masonry.h>
 #import "CHPasteboard.h"
-#import "CHLogic+iOS.h"
+#import "CHLogic.h"
 #import "CHToken.h"
 #import "CHTheme.h"
 

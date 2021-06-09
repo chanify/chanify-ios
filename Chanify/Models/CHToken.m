@@ -11,11 +11,7 @@
 #import "CHNodeModel.h"
 #import "CHNSDataSource.h"
 #import "CHTP.pbobjc.h"
-#if TARGET_OS_OSX
-#   import "CHLogic+OSX.h"
-#else
-#   import "CHLogic+iOS.h"
-#endif
+#import "CHLogic.h"
 
 @interface CHToken ()
 

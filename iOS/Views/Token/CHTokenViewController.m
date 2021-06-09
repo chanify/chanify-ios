@@ -9,9 +9,9 @@
 #import "CHUserDataSource.h"
 #import "CHChannelModel.h"
 #import "CHNodeModel.h"
-#import "CHLogic+iOS.h"
+#import "CHRouter.h"
 #import "CHToken.h"
-#import "CHRouter+iOS.h"
+#import "CHLogic.h"
 
 @interface CHTokenViewController ()
 

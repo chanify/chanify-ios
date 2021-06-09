@@ -9,10 +9,6 @@
 #import <WatchConnectivity/WatchConnectivity.h>
 #import <UserNotifications/UserNotifications.h>
 #import <AudioToolbox/AudioToolbox.h>
-#import "CHWebLinkManager.h"
-#import "CHWebFileManager.h"
-#import "CHWebImageManager.h"
-#import "CHWebAudioManager.h"
 #import "CHUserDataSource.h"
 #import "CHNSDataSource.h"
 #import "CHMessageModel.h"
@@ -20,13 +16,12 @@
 #import "CHNodeModel.h"
 #import "CHNotification+Badge.h"
 #import "CHDevice.h"
-#import "CHRouter+iOS.h"
+#import "CHRouter.h"
 #import "CHMock.h"
 #import "CHTP.pbobjc.h"
 
 @interface CHLogic () <WCSessionDelegate, CHNotificationMessageDelegate>
 
-@property (nonatomic, readonly, strong) NSMutableSet<NSString *> *readChannels;
 @property (nonatomic, readonly, strong) WCSession *watchSession;
 
 @end
@@ -44,11 +39,6 @@
 
 - (instancetype)init {
     if (self = [super initWithAppGroup:@kCHAppGroupName]) {
-        _readChannels = [NSMutableSet new];
-        _webLinkManager = nil;
-        _webImageManager = nil;
-        _webAudioManager = nil;
-        _webFileManager = nil;
         if (!WCSession.isSupported) {
             _watchSession = nil;
         } else {
@@ -132,90 +122,6 @@
         }
     }
     call_completion(completion, CHLCodeFailed);
-}
-
-#pragma mark - Channels
-- (BOOL)insertChannel:(NSString *)code name:(NSString *)name icon:(nullable NSString *)icon {
-    BOOL res = NO;
-    CHChannelModel *model = [CHChannelModel modelWithCode:code name:name icon:icon];
-    if (model != nil) {
-        res = [self.userDataSource insertChannel:model];
-        if (res) {
-            [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[model.cid]];
-        }
-    }
-    return res;
-}
-
-- (BOOL)updateChannel:(CHChannelModel *)model {
-    BOOL res = [self.userDataSource updateChannel:model];
-    if (res) {
-        [self sendNotifyWithSelector:@selector(logicChannelUpdated:) withObject:model.cid];
-    }
-    return res;
-}
-
-- (BOOL)deleteChannel:(nullable NSString *)cid {
-    BOOL res = [self.userDataSource deleteChannel:cid];
-    if (res) {
-        [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[cid]];
-    }
-    return res;
-}
-
-#pragma mark - Messages
-- (BOOL)deleteMessage:(nullable NSString *)mid {
-    CHMessageModel *model = [self.userDataSource messageWithMID:mid];
-    BOOL res = [self.userDataSource deleteMessage:mid];
-    if (res) {
-        [self sendNotifyWithSelector:@selector(logicMessageDeleted:) withObject:model];
-        [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[]];
-    }
-    return res;
-}
-
-- (BOOL)deleteMessages:(NSArray<NSString *> *)mids {
-    BOOL res = [self.userDataSource deleteMessages:mids];
-    if (res) {
-        [self sendNotifyWithSelector:@selector(logicMessagesDeleted:) withObject:mids];
-        [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[]];
-    }
-    return res;
-}
-
-- (BOOL)deleteMessagesWithCID:(nullable NSString *)cid {
-    BOOL res = [self.userDataSource deleteMessagesWithCID:cid];
-    if (res) {
-        [self sendNotifyWithSelector:@selector(logicMessagesCleared:) withObject:cid];
-        [self sendNotifyWithSelector:@selector(logicChannelUpdated:) withObject:cid];
-        
-    }
-    return res;
-}
-
-#pragma mark - Read & Unread
-- (NSInteger)unreadSumAllChannel {
-    return [self.userDataSource unreadSumAllChannel];
-}
-
-- (NSInteger)unreadWithChannel:(nullable NSString *)cid {
-    return [self.userDataSource unreadWithChannel:cid];
-}
-
-- (void)addReadChannel:(nullable NSString *)cid {
-    if (cid == nil) cid = @"";
-    if (![self.readChannels containsObject:cid]) {
-        [self.readChannels addObject:cid];
-        [self clearUnreadWithChannel:cid];
-    }
-}
-
-- (void)removeReadChannel:(nullable NSString *)cid {
-    if (cid == nil) cid = @"";
-    if ([self.readChannels containsObject:cid]) {
-        [self.readChannels removeObject:cid];
-        [self clearUnreadWithChannel:cid];
-    }
 }
 
 #pragma mark - Blocklist
@@ -302,47 +208,6 @@
 }
 
 #pragma mark - Private Methods
-- (void)reloadUserDB:(BOOL)force {
-    [super reloadUserDB:force];
-    NSString *uid = self.me.uid;
-    NSURL *dbpath = [self dbPath:uid];
-    if (self.webImageManager != nil && ![self.webImageManager.uid isEqualToString:uid]) {
-        [self.webImageManager close];
-        _webImageManager = nil;
-    }
-    if (self.webAudioManager != nil && ![self.webAudioManager.uid isEqualToString:uid]) {
-        [self.webAudioManager close];
-        _webAudioManager = nil;
-    }
-    if (self.webFileManager != nil && ![self.webFileManager.uid isEqualToString:uid]) {
-        [self.webFileManager close];
-        _webFileManager = nil;
-    }
-    if (self.webLinkManager != nil && ![self.webLinkManager.uid isEqualToString:uid]) {
-        [self.webLinkManager close];
-        _webLinkManager = nil;
-    }
-    if (uid.length > 0) {
-        NSURL *basePath = [dbpath.URLByDeletingLastPathComponent URLByAppendingPathComponent:@kCHWebBasePath];
-        if (_webImageManager == nil) {
-            _webImageManager = [CHWebImageManager webImageManagerWithURL:[basePath URLByAppendingPathComponent:@"images"]];
-            self.webImageManager.uid = uid;
-        }
-        if (_webAudioManager == nil) {
-            _webAudioManager = [CHWebAudioManager webAudioManagerWithURL:[basePath URLByAppendingPathComponent:@"audios"]];
-            self.webAudioManager.uid = uid;
-        }
-        if (_webFileManager == nil) {
-            _webFileManager = [CHWebFileManager webFileManagerWithURL:[basePath URLByAppendingPathComponent:@"files"]];
-            self.webFileManager.uid = uid;
-        }
-        if (_webLinkManager == nil) {
-            _webLinkManager = [CHWebLinkManager webLinkManagerWithURL:[basePath URLByAppendingPathComponent:@"links"]];
-            self.webLinkManager.uid = uid;
-        }
-    }
-}
-
 - (void)updatePushMessage:(BOOL)alert {
     NSString *uid = self.me.uid;
     if (uid.length > 0) {
@@ -388,10 +253,6 @@
     }
 }
 
-- (BOOL)isReadChannel:(NSString *)cid {
-    return [self.readChannels containsObject:cid];
-}
-
 - (NSData *)watchSyncedData {
     CHTPWatchConfig *cfg = [CHTPWatchConfig new];
     CHUserModel *me = self.me;
@@ -418,7 +279,7 @@
     NSInteger badge = 0;
     if (self.userDataSource != nil) {
         NSMutableArray<NSString *> *cids = [NSMutableArray new];
-        for (NSString *cid in self.readChannels) {
+        for (NSString *cid in self.readChannelIDs) {
             if ([self.userDataSource clearUnreadWithChannel:cid]) {
                 [cids addObject:cid];
             }

@@ -13,6 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, nullable, strong) NSView *contentView;
 
+- (void)viewDidAppear;
+- (void)viewDidDisappear;
+
 
 @end
 

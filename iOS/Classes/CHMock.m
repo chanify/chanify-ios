@@ -9,8 +9,8 @@
 #if TARGET_OS_SIMULATOR
 #import "CHNSDataSource.h"
 #import "CHUserDataSource.h"
-#import "CHLogic+iOS.h"
 #import "CHCrpyto.h"
+#import "CHLogic.h"
 #import "CHTP.pbobjc.h"
 
 NSDictionary *try_mock_notification(NSDictionary* info) {

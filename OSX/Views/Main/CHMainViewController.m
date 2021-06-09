@@ -39,6 +39,12 @@
 - (void)viewDidAppear {
     [super viewDidAppear];
     [self.sidebarView reloadData];
+    [self.contentView viewDidAppear];
+}
+
+- (void)viewDidDisappear {
+    [self.contentView viewDidDisappear];
+    [super viewDidDisappear];
 }
 
 - (void)pushContentView:(nullable NSView *)contentView {

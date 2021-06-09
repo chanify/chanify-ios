@@ -11,8 +11,8 @@
 #import "CHCollectionView.h"
 #import "CHUserDataSource.h"
 #import "CHMessageModel.h"
-#import "CHLogic+OSX.h"
-#import "CHRouter+OSX.h"
+#import "CHRouter.h"
+#import "CHLogic.h"
 #import "CHTheme.h"
 
 static NSString *const cellIdentifier = @"CHChannelCellView";
@@ -51,10 +51,13 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
         self.hasVerticalScroller = YES;
         self.backgroundColor = theme.groupedBackgroundColor;
 
+        @weakify(self);
         _dataSource = [[CHChannelDataSource alloc] initWithCollectionView:listView itemProvider:^NSCollectionViewItem * _Nullable(NSCollectionView * collectionView, NSIndexPath * indexPath, CHChannelModel * model) {
             CHChannelCellView *item = [collectionView makeItemWithIdentifier:cellIdentifier forIndexPath:indexPath];
             if (item != nil) {
+                @strongify(self);
                 item.model = model;
+                item.selected = ([self.selected isEqualTo:model]);
             }
             return item;
         }];
@@ -92,7 +95,12 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
 
 #pragma mark - CHLogicDelegate
 - (void)logicChannelUpdated:(NSString *)cid {
-    [self reloadData];
+    CHChannelModel *chan =  [CHLogic.shared.userDataSource channelWithCID:cid];
+    if (chan != nil) {
+        CHChannelDiffableSnapshot *snapshot = self.dataSource.snapshot;
+        [snapshot reloadItemsWithIdentifiers:@[chan]];
+        [self.dataSource applySnapshot:snapshot animatingDifferences:YES];
+    }
 }
 
 - (void)logicChannelsUpdated:(NSArray<NSString *> *)cids {
@@ -124,9 +132,6 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
     [snapshot reloadItemsWithIdentifiers:reloadItems.allObjects];
     [self.dataSource applySnapshot:snapshot animatingDifferences:YES];
     [self fixSelectChannel];
-}
-
-- (void)logicMessagesUnreadChanged:(NSNumber *)unread {
 }
 
 #pragma mark - Private Methods

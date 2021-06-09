@@ -9,13 +9,12 @@
 #import <Masonry/Masonry.h>
 #import "CHUserDataSource.h"
 #import "CHMessageModel.h"
-#import "CHLogic+OSX.h"
 #import "CHBadgeView.h"
 #import "CHIconView.h"
-#import "CHLabel.h"
+#import "CHLogic.h"
 #import "CHTheme.h"
 
-@interface CHChannelCellView ()
+@interface CHChannelCellView () <CHLogicDelegate>
 
 @property (nonatomic, readonly, strong) CHIconView *iconView;
 @property (nonatomic, readonly, strong) CHBadgeView *badgeView;

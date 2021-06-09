@@ -13,8 +13,8 @@
 #import "CHMsgCellConfiguration.h"
 #import "CHWebImageManager.h"
 #import "CHUserDataSource.h"
-#import "CHLogic+iOS.h"
-#import "CHRouter+iOS.h"
+#import "CHRouter.h"
+#import "CHLogic.h"
 
 @interface CHMessagesDataSource () <CHMessageSource>
 

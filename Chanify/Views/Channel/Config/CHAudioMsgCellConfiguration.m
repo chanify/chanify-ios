@@ -8,8 +8,8 @@
 #import "CHAudioMsgCellConfiguration.h"
 #import "CHWebAudioManager.h"
 #import "CHAudioPlayer.h"
-#import "CHLogic+iOS.h"
-#import "CHRouter+iOS.h"
+#import "CHRouter.h"
+#import "CHLogic.h"
 #import "CHTheme.h"
 
 @interface CHAudioMsgCellConfiguration ()

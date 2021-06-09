@@ -9,7 +9,7 @@
 #import <WebKit/WebKit.h>
 #import <Masonry/Masonry.h>
 #import "CHWebViewRefresher.h"
-#import "CHRouter+iOS.h"
+#import "CHRouter.h"
 #import "CHTheme.h"
 
 @interface CHWebViewController () <WKNavigationDelegate>

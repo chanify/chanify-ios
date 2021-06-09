@@ -7,7 +7,7 @@
 
 #import "CHPreviewController.h"
 #import "CHPreviewItem.h"
-#import "CHRouter+iOS.h"
+#import "CHRouter.h"
 #import "CHLogic.h"
 
 #if TARGET_OS_OSX

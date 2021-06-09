@@ -9,7 +9,7 @@
 #import <Masonry/Masonry.h>
 #import "CHLoadMoreView.h"
 #import "CHTableView.h"
-#import "CHRouter+iOS.h"
+#import "CHRouter.h"
 #import "CHTheme.h"
 
 static NSString *const cellIdentifier = @"cell";

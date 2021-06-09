@@ -7,7 +7,7 @@
 
 #import "CHWebImageView.h"
 #import "CHLoadingView.h"
-#import "CHLogic+iOS.h"
+#import "CHLogic.h"
 #import "CHTheme.h"
 
 #define kCHImageLoadingHeight   60

@@ -14,9 +14,6 @@
 #import "CHMessageModel.h"
 
 @interface CHLogic () <CHNotificationMessageDelegate>
-
-@property (nonatomic, readonly, strong) NSMutableSet<NSString *> *readChannels;
-
 @end
 
 @implementation CHLogic
@@ -32,7 +29,6 @@
 
 - (instancetype)init {
     if (self = [super initWithAppGroup:@kCHAppOSXGroupName]) {
-        _readChannels = [NSMutableSet new];
         CHNotification.shared.delegate = self;
     }
     return self;
@@ -81,36 +77,7 @@
     [self receiveRemoteNotification:response.notification.request.content.userInfo];
 }
 
-#pragma mark - Read & Unread
-- (NSInteger)unreadSumAllChannel {
-    return [self.userDataSource unreadSumAllChannel];
-}
-
-- (NSInteger)unreadWithChannel:(nullable NSString *)cid {
-    return [self.userDataSource unreadWithChannel:cid];
-}
-
-- (void)addReadChannel:(nullable NSString *)cid {
-    if (cid == nil) cid = @"";
-    if (![self.readChannels containsObject:cid]) {
-        [self.readChannels addObject:cid];
-        [self clearUnreadWithChannel:cid];
-    }
-}
-
-- (void)removeReadChannel:(nullable NSString *)cid {
-    if (cid == nil) cid = @"";
-    if ([self.readChannels containsObject:cid]) {
-        [self.readChannels removeObject:cid];
-        [self clearUnreadWithChannel:cid];
-    }
-}
-
 #pragma mark - Private Methods
-- (BOOL)isReadChannel:(NSString *)cid {
-    return [self.readChannels containsObject:cid];
-}
-
 - (BOOL)clearUnreadWithChannel:(nullable NSString *)cid {
     BOOL res = [self.userDataSource clearUnreadWithChannel:cid];
     if (res) {

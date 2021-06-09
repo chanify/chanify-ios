@@ -9,7 +9,7 @@
 #import "CHFormViewController.h"
 #import "CHIconsViewController.h"
 #import "CHIconView.h"
-#import "CHRouter+iOS.h"
+#import "CHRouter.h"
 
 @interface CHFormIconItem () <CHIconsViewControllerDelegate>
 

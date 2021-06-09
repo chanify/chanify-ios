@@ -1,72 +1,69 @@
 //
 //  CHLogic.h
-//  Chanify
+//  iOS
 //
-//  Created by WizJin on 2021/2/8.
+//  Created by WizJin on 2021/6/9.
 //
 
-#import "CHUserModel.h"
-#import "CHManager.h"
+#import "CHLogicBase.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class CHNodeModel;
-@class CHNSDataSource;
-@class CHUserDataSource;
+@class CHChannelModel;
+@class CHMessageModel;
+@class CHWebLinkManager;
+@class CHWebFileManager;
+@class CHWebImageManager;
+@class CHWebAudioManager;
 
-typedef NS_ENUM(int, CHLCode) {
-    CHLCodeOK       = 200,
-    CHLCodeReject   = 406,
-    CHLCodeFailed   = 500,
-};
-
-typedef void (^CHLogicBlock)(CHLCode result);
-typedef void (^CHLogicResultBlock)(CHLCode result, NSDictionary *data);
-
-@protocol CHCommonLogicDelegate <NSObject>
+@protocol CHLogicDelegate <CHLogicBaseDelegate>
 @optional
-- (void)logicNodeUpdated:(NSString *)nid;
-- (void)logicNodesUpdated:(NSArray<NSString *> *)nids;
+- (void)logicChannelUpdated:(NSString *)cid;
+- (void)logicChannelsUpdated:(NSArray<NSString *> *)cids;
+- (void)logicMessageDeleted:(CHMessageModel *)mid;
+- (void)logicMessagesDeleted:(NSArray<NSString *> *)mids;
+- (void)logicMessagesCleared:(NSString *)cid;
+- (void)logicMessagesUpdated:(NSArray<NSString *> *)mids;
+- (void)logicMessagesUnreadChanged:(NSNumber *)unread;
+// iOS
+- (void)logicWatchStatusChanged API_AVAILABLE(ios(14.0));
+- (void)logicBlockedTokenChanged API_AVAILABLE(ios(14.0));
 @end
 
-@interface CHCommonLogic<T> : CHManager<T>
+@interface CHAppLogic : CHLogicBase<id<CHLogicDelegate>>
 
-@property (nonatomic, readonly, strong) NSURL *baseURL;
-@property (nonatomic, readonly, strong) CHNSDataSource *nsDataSource;
-@property (nonatomic, nullable, readonly, strong) CHUserModel *me;
-@property (nonatomic, nullable, readonly, strong) CHUserDataSource *userDataSource;
+@property (nonatomic, nullable, readonly, strong) CHWebLinkManager *webLinkManager;
+@property (nonatomic, nullable, readonly, strong) CHWebFileManager *webFileManager;
+@property (nonatomic, nullable, readonly, strong) CHWebImageManager *webImageManager;
+@property (nonatomic, nullable, readonly, strong) CHWebAudioManager *webAudioManager;
 
 - (instancetype)initWithAppGroup:(NSString *)appGroup;
-- (void)launch;
-- (void)close;
-- (void)active;
-- (void)deactive;
-- (void)resetData;
+// Channels
+- (BOOL)insertChannel:(NSString *)code name:(nullable NSString *)name icon:(nullable NSString *)icon;
+- (BOOL)updateChannel:(CHChannelModel *)model;
+- (BOOL)deleteChannel:(nullable NSString *)cid;
+// Messages
+- (BOOL)deleteMessage:(nullable NSString *)mid;
+- (BOOL)deleteMessages:(NSArray<NSString *> *)mids;
+- (BOOL)deleteMessagesWithCID:(nullable NSString *)cid;
+// Read & Unread
+- (NSInteger)unreadSumAllChannel;
+- (NSInteger)unreadWithChannel:(nullable NSString *)cid;
+- (void)addReadChannel:(nullable NSString *)cid;
+- (void)removeReadChannel:(nullable NSString *)cid;
+- (BOOL)isReadChannel:(NSString *)cid;
+- (NSArray<NSString *> *)readChannelIDs; // TODO: try remove
+// Subclass
 - (void)reloadUserDB:(BOOL)force;
-- (nullable NSURL *)dbPath:(nullable NSString *)uid;
-- (void)updatePushToken:(NSData *)pushToken;
-- (void)updatePushToken:(NSData *)pushToken node:(CHNodeModel *)node completion:(nullable CHLogicBlock)completion;
-- (void)receiveRemoteNotification:(NSDictionary *)userInfo;
-- (void)updateUserModel:(nullable CHUserModel *)me;
-- (void)sendCmd:(NSString *)cmd user:(CHUserModel *)user parameters:(NSDictionary *)parameters completion:(nullable void (^)(NSURLResponse *response, NSDictionary *result, NSError *error))completion;
-- (void)sendToEndpoint:(NSURL *)endpoint cmd:(NSString *)cmd device:(BOOL)device seckey:(nullable CHSecKey *)seckey user:(CHUserModel *)user parameters:(NSDictionary *)parameters completion:(nullable void (^)(NSURLResponse *response, NSDictionary *result, NSError *error))completion;
-- (NSURLSessionDataTask *)dataTaskWithRequest:(NSURLRequest *)request completionHandler:(void (^)(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error))completionHandler;
-// API
-- (void)bindAccount:(nullable CHSecKey *)key completion:(nullable CHLogicBlock)completion;
-- (void)importAccount:(NSString *)key completion:(nullable CHLogicBlock)completion;
-- (void)logoutWithCompletion:(nullable CHLogicBlock)completion;
-- (void)doLogin:(CHUserModel *)user key:(NSData *)key;
-- (void)doLogout;
-// Nodes
-- (void)loadNodeWitEndpoint:(NSString *)endpoint completion:(nullable CHLogicResultBlock)completion;
-- (void)updateNodeInfo:(nullable NSString*)nid completion:(nullable CHLogicBlock)completion;
-- (void)insertNode:(CHNodeModel *)model completion:(nullable CHLogicBlock)completion;
-- (BOOL)deleteNode:(nullable NSString *)nid;
-- (BOOL)updateNode:(CHNodeModel *)model;
-- (nullable CHNodeModel *)nodeModelWithNID:(nullable NSString *)nid;
-- (BOOL)nodeIsConnected:(nullable NSString *)nid;
+- (BOOL)clearUnreadWithChannel:(nullable NSString *)cid;
 
 
 @end
 
 NS_ASSUME_NONNULL_END
+
+#if TARGET_OS_OSX
+#   import "CHLogic+OSX.h"
+#else
+#   import "CHLogic+iOS.h"
+#endif

@@ -10,7 +10,7 @@
 #import "CHMsgsDataSource.h"
 #import "CHCollectionView.h"
 #import "CHMessageModel.h"
-#import "CHLogic+OSX.h"
+#import "CHLogic.h"
 #import "CHTheme.h"
 
 #define kCHChannelViewBottomMargin  30
@@ -62,7 +62,17 @@
 
 - (void)scrollWheel:(NSEvent *)theEvent {
     [super scrollWheel:theEvent];
-    [self.dataSource scrollViewDidScroll];
+    if (self.documentVisibleRect.origin.y <= 0) {
+        [self.dataSource scrollViewDidScroll];
+    }
+}
+
+- (void)viewDidAppear {
+    [CHLogic.shared addReadChannel:self.cid];
+}
+
+- (void)viewDidDisappear {
+    [CHLogic.shared removeReadChannel:self.cid];
 }
 
 #pragma mark - NSCollectionViewDelegate
@@ -80,31 +90,23 @@
 }
 
 #pragma mark - CHLogicDelegate
-- (void)logicChannelUpdated:(NSString *)cid {
-    //[self updateChannel:cid];
-}
-
 - (void)logicMessagesUpdated:(NSArray<NSString *> *)mids {
     // TODO: Fix recive unordered messages.
     [self.dataSource loadLatestMessage:YES];
 }
 
 - (void)logicMessageDeleted:(CHMessageModel *)model {
-    //[self.dataSource deleteMessage:model animated:YES];
+    [self.dataSource deleteMessage:model animated:YES];
 }
 
 - (void)logicMessagesDeleted:(NSArray<NSString *> *)mids {
-    //[self.dataSource deleteMessages:mids animated:YES];
+    [self.dataSource deleteMessages:mids animated:YES];
 }
 
 - (void)logicMessagesCleared:(NSString *)cid {
     if ([self.cid isEqualToString:cid]) {
         [self.dataSource reset:YES];
     }
-}
-
-- (void)logicMessagesUnreadChanged:(NSNumber *)unread {
-    //[self updateUnreadBadge:unread.integerValue];
 }
 
 

@@ -11,8 +11,8 @@
 #import "CHLoadMoreView.h"
 #import "CHTableView.h"
 #import "CHPasteboard.h"
-#import "CHLogic+iOS.h"
-#import "CHRouter+iOS.h"
+#import "CHRouter.h"
+#import "CHLogic.h"
 #import "CHToken.h"
 #import "CHTheme.h"
 

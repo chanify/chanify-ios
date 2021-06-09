@@ -6,8 +6,8 @@
 //
 
 #import "AppDelegate.h"
-#import "CHLogic+OSX.h"
-#import "CHRouter+OSX.h"
+#import "CHRouter.h"
+#import "CHLogic.h"
 
 @implementation AppDelegate
 

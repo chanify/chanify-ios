@@ -8,7 +8,7 @@
 #import "CHAudioTableViewCell.h"
 #import <Masonry/Masonry.h>
 #import "CHWebAudioManager.h"
-#import "CHLogic+iOS.h"
+#import "CHLogic.h"
 #import "CHTheme.h"
 
 @interface CHAudioTableViewCell ()

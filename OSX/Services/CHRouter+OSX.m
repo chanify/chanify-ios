@@ -9,7 +9,7 @@
 #import <JLRoutes/JLRoutes.h>
 #import "CHMainViewController.h"
 #import "CHChannelView.h"
-#import "CHLogic+OSX.h"
+#import "CHLogic.h"
 
 @interface CHRouter () <NSWindowDelegate, NSSharingServicePickerDelegate>
 
@@ -66,6 +66,10 @@
     [self actionShow:self];
 }
 
+- (BOOL)handleURL:(NSURL *)url {
+    return NO;
+}
+
 - (BOOL)routeTo:(NSString *)url {
     return [self routeTo:url withParams:nil];
 }
@@ -85,6 +89,15 @@
         view = self.window.contentView;
     }
     [sharingServicePicker showRelativeToRect:[view bounds] ofView:view preferredEdge:NSMinXEdge];
+}
+
+- (void)showAlertWithTitle:(NSString *)title action:(NSString *)action handler:(void (^ __nullable)(void))handler {
+    
+}
+
+- (void)setBadgeText:(NSString *)badgeText {
+    NSApp.dockTile.badgeLabel = badgeText;
+    self.statusIcon.button.title = badgeText;
 }
 
 - (void)makeToast:(NSString *)message {
@@ -147,9 +160,8 @@
 - (void)loadMainMenu {
     NSStatusItem *statusIcon = [NSStatusBar.systemStatusBar statusItemWithLength:NSVariableStatusItemLength];
     _statusIcon = statusIcon;
-    NSImage *icon = [NSImage imageNamed:@"StatusIcon"];
-    icon.template = YES;
-    statusIcon.button.image = icon;
+    statusIcon.button.image = [NSImage imageNamed:@"StatusIcon"];
+    statusIcon.button.imagePosition = NSImageLeft;
     statusIcon.button.target = self;
     statusIcon.button.action = @selector(actionShow:);
 

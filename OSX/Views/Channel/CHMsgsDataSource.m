@@ -10,7 +10,7 @@
 #import "CHUnknownMsgCellConfiguration.h"
 #import "CHDateCellConfiguration.h"
 #import "CHLoadMoreView.h"
-#import "CHLogic+OSX.h"
+#import "CHLogic.h"
 
 @interface CHMsgsDataSource ()
 
@@ -110,6 +110,58 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
             [self scrollToBottom:animated];
             [self updateHeaderView];
         });
+    }
+}
+
+- (void)deleteMessage:(nullable CHMessageModel *)model animated:(BOOL)animated {
+    if (model != nil) {
+        CHConversationDiffableSnapshot *snapshot = self.snapshot;
+        CHCellConfiguration *item = [CHCellConfiguration cellConfiguration:model];
+        NSMutableArray<CHCellConfiguration *> *deleteItems = [NSMutableArray arrayWithObject:item];
+        NSInteger idx = [snapshot indexOfItemIdentifier:item];
+        if (idx > 0) {
+            NSArray<CHCellConfiguration *> *items = snapshot.itemIdentifiers;
+            CHCellConfiguration *prev = [items objectAtIndex:idx - 1];
+            if ([prev isKindOfClass:CHDateCellConfiguration.class]) {
+                if (idx + 1 >= items.count) {
+                    [deleteItems addObject:prev];
+                } else {
+                    CHCellConfiguration *next = [items objectAtIndex:idx + 1];
+                    if ([next isKindOfClass:CHDateCellConfiguration.class]) {
+                        [deleteItems addObject:prev];
+                    }
+                }
+            }
+        }
+        [snapshot deleteItemsWithIdentifiers:deleteItems];
+        [self applySnapshot:snapshot animatingDifferences:animated];
+    }
+}
+
+- (void)deleteMessages:(NSArray<NSString *> *)mids animated:(BOOL)animated {
+    if (mids.count > 0) {
+        CHCellConfiguration *last = nil;
+        CHConversationDiffableSnapshot *snapshot = self.snapshot;
+        NSMutableArray<CHCellConfiguration *> *deleteItems = [NSMutableArray arrayWithCapacity:mids.count];
+        for (CHCellConfiguration *cell in snapshot.itemIdentifiers) {
+            if ([cell isKindOfClass:CHDateCellConfiguration.class]) {
+                if (last != nil) {
+                    [deleteItems addObject:last];
+                }
+                last = cell;
+            } else {
+                if ([mids containsObject:cell.mid]) {
+                    [deleteItems addObject:cell];
+                } else {
+                    last = nil;
+                }
+            }
+        }
+        if (last != nil) {
+            [deleteItems addObject:last];
+        }
+        [snapshot deleteItemsWithIdentifiers:deleteItems];
+        [self applySnapshot:snapshot animatingDifferences:animated];
     }
 }
 

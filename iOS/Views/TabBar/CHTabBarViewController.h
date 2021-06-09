@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CHRouter+iOS.h"
+#import "CHRouter.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
