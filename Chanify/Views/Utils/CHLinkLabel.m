@@ -29,13 +29,18 @@
     return self.string;
 }
 
-
-
-
+- (NSString *)linkForPoint:(CGPoint)point {
+    return @"";
+}
 
 @end
 
 #else
+
+@interface M80AttributedLabel ()
+@property (nonatomic,strong) NSMutableArray<M80AttributedLabelURL *> *linkLocations;
+- (id)linkDataForPoint:(CGPoint)point;
+@end
 
 @implementation CHLinkLabel
 
@@ -49,6 +54,27 @@
         self.numberOfLines = 0;
     }
     return self;
+}
+
+- (NSString *)linkForPoint:(CGPoint)point {
+    NSString *res = @"";
+    NSUInteger n = self.linkLocations.count;
+    if (n > 0) {
+        id linkData = nil;
+        if (n == 1) {
+            linkData = self.linkLocations.firstObject.linkData;
+        } else {
+            linkData = [super linkDataForPoint:point];
+        }
+        if (linkData != nil && [linkData isKindOfClass:NSString.class]) {
+            res = linkData;
+        }
+    }
+    return res;
+}
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    return nil;
 }
 
 

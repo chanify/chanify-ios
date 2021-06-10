@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable, strong) NSString *text;
 @property (nonatomic, nullable, strong) CHColor *linkColor;
 
+- (NSString *)linkForPoint:(CGPoint)point;
+
 
 @end
 
@@ -24,6 +26,9 @@ NS_ASSUME_NONNULL_END
 
 NS_ASSUME_NONNULL_BEGIN
 @interface CHLinkLabel : M80AttributedLabel
+
+- (NSString *)linkForPoint:(CGPoint)point;
+
 
 @end
 

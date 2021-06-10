@@ -83,13 +83,8 @@ static CGFloat titleSpace = 4;
     if (menu.isMenuVisible) {
         [menu hideMenuFromView:self.bubbleView];
     }
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-    if ([self.textLabel respondsToSelector:@selector(linkDataForPoint:)]) {
-        CGPoint pt = [sender locationInView:self.textLabel];
-        [self clickedOnLink:[self.textLabel performSelector:@selector(linkDataForPoint:) withObject:@(pt)]];
-    }
-#pragma clang diagnostic pop
+    CGPoint pt = [sender locationInView:self.textLabel];
+    [self clickedOnLink:[self.textLabel linkForPoint:pt]];
 }
 
 - (void)actionCopy:(id)sender {
@@ -106,11 +101,11 @@ static CGFloat titleSpace = 4;
 }
 
 #pragma mark - Private Methods
-- (void)clickedOnLink:(id)linkData {
-    if (linkData != nil && [linkData isKindOfClass:NSString.class]) {
-        NSURL *url = [NSURL URLWithString:(NSString *)linkData];
+- (void)clickedOnLink:(NSString *)link {
+    if (link.length > 0) {
+        NSURL *url = [NSURL URLWithString:link];
         if (url.scheme.length <= 0) {
-            url = [NSURL URLWithString:[@"http://" stringByAppendingString:linkData]];
+            url = [NSURL URLWithString:[@"http://" stringByAppendingString:link]];
         }
         if (url.scheme.length > 0) {
             [CHRouter.shared handleURL:url];
