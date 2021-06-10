@@ -9,6 +9,9 @@
 
 #if TARGET_OS_OSX
 
+@interface CHLinkLabel ()
+@end
+
 @implementation CHLinkLabel
 
 - (instancetype)init {
@@ -16,6 +19,8 @@
         self.textContainer.lineBreakMode = NSLineBreakByCharWrapping;
         self.textContainer.lineFragmentPadding = 0;
         self.backgroundColor = NSColor.clearColor;
+        self.automaticLinkDetectionEnabled = YES;
+        self.selectable = NO;
         self.editable = NO;
     }
     return self;
@@ -23,6 +28,9 @@
 
 - (void)setText:(NSString *)text {
     self.string = text;
+    [self setEditable:YES];
+    [self checkTextInDocument:nil];
+    [self setEditable:NO];
 }
 
 - (NSString *)text {
@@ -32,6 +40,7 @@
 - (NSString *)linkForPoint:(CGPoint)point {
     return @"";
 }
+
 
 @end
 

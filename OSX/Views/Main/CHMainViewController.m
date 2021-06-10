@@ -67,7 +67,7 @@
 - (void)splitView:(NSSplitView *)splitView resizeSubviewsWithOldSize:(NSSize)oldSize {
     NSRect frame = splitView.bounds;
     CGFloat position = MAX(MIN(self.sidebarView.frame.size.width, frame.size.width/2), kCHMinSplitPosition);
-    self.sidebarView.frame = CGRectMake(0, 0, position, frame.size.height);
+    self.sidebarView.frame = CGRectMake(0, 28, position, frame.size.height);
     CGFloat divider = splitView.dividerThickness;
     self.contentView.frame = CGRectMake(position + divider, 0, frame.size.width - position - divider, frame.size.height);
 }

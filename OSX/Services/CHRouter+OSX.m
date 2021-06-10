@@ -39,12 +39,12 @@
 }
 
 - (void)launch {
-    NSWindow *window = [[NSWindow alloc] initWithContentRect:NSZeroRect styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
+    NSWindowStyleMask styleMask = NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskMiniaturizable|NSWindowStyleMaskResizable|NSWindowStyleMaskFullSizeContentView;
+    NSWindow *window = [[NSWindow alloc] initWithContentRect:NSZeroRect styleMask:styleMask backing:NSBackingStoreBuffered defer:NO];
     _window = window;
     window.movableByWindowBackground = YES;
     window.titlebarAppearsTransparent = YES;
     window.delegate = self;
-    window.styleMask = NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskMiniaturizable|NSWindowStyleMaskResizable;
     window.hasShadow = YES;
 
     [CHLogic.shared launch];

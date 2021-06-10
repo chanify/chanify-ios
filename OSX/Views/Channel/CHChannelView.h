@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHChannelView : NSScrollView
+@interface CHChannelView : NSView
 
 @property (nonatomic, readonly, strong) NSString *cid;
 

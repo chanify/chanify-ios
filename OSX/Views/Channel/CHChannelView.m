@@ -7,16 +7,21 @@
 
 #import "CHChannelView.h"
 #import <Masonry/Masonry.h>
+#import "CHUserDataSource.h"
 #import "CHMsgsDataSource.h"
 #import "CHCollectionView.h"
+#import "CHChannelModel.h"
 #import "CHMessageModel.h"
+#import "CHScrollView.h"
 #import "CHLogic.h"
 #import "CHTheme.h"
 
 #define kCHChannelViewBottomMargin  30
 
-@interface CHChannelView () <NSCollectionViewDelegate, NSCollectionViewDelegateFlowLayout, CHLogicDelegate>
+@interface CHChannelView () <NSCollectionViewDelegate, NSCollectionViewDelegateFlowLayout, CHScrollViewDelegate, CHLogicDelegate>
 
+@property (nonatomic, readonly, strong) CHLabel *titleLabel;
+@property (nonatomic, readonly, strong) CHScrollView *scrollView;
 @property (nonatomic, readonly, strong) CHCollectionView *listView;
 @property (nonatomic, readonly, strong) CHMsgsDataSource *dataSource;
 
@@ -27,8 +32,21 @@
 - (instancetype)initWithCID:(NSString *)cid {
     if (self = [super initWithFrame:NSZeroRect]) {
         _cid = cid;
-        
+        CHChannelModel *model = [CHLogic.shared.userDataSource channelWithCID:cid];
+
         CHTheme *theme = CHTheme.shared;
+        
+        self.backgroundColor = theme.selectedCellBackgroundColor;
+        
+        CHLabel *titleLabel = [CHLabel new];
+        [self addSubview:(_titleLabel = titleLabel)];
+        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self);
+            make.left.equalTo(self).offset(16);
+            make.height.mas_equalTo(58);
+        }];
+        titleLabel.font = [CHFont systemFontOfSize:16];
+        titleLabel.text = model.title;
         
         NSCollectionViewFlowLayout *layout = [NSCollectionViewFlowLayout new];
         layout.minimumLineSpacing = 16;
@@ -39,15 +57,22 @@
         listView.selectable = NO;
         listView.delegate = self;
         
-        self.contentInsets = NSEdgeInsetsMake(0, 0, kCHChannelViewBottomMargin, 0);
-        self.scrollerInsets = NSEdgeInsetsMake(0, 0, -kCHChannelViewBottomMargin, 0);
-        self.automaticallyAdjustsContentInsets = NO;
-        self.documentView = listView;
-        self.hasVerticalScroller = YES;
-        self.backgroundColor = theme.backgroundColor;
+        CHScrollView *scrollView = [CHScrollView new];
+        [self addSubview:(_scrollView = scrollView)];
+        [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.bottom.equalTo(self);
+            make.top.equalTo(titleLabel.mas_bottom);
+        }];
+        scrollView.contentInsets = NSEdgeInsetsMake(0, 0, kCHChannelViewBottomMargin, 0);
+        scrollView.scrollerInsets = NSEdgeInsetsMake(0, 0, -kCHChannelViewBottomMargin, 0);
+        scrollView.backgroundColor = theme.backgroundColor;
+        scrollView.automaticallyAdjustsContentInsets = NO;
+        scrollView.documentView = listView;
+        scrollView.hasVerticalScroller = YES;
+        scrollView.delegate = self;
 
         _dataSource = [CHMsgsDataSource dataSourceWithCollectionView:listView channelID:cid];
-        self.dataSource.scroller = self;
+        self.dataSource.scroller = scrollView;
         
         [CHLogic.shared addDelegate:self];
         
@@ -58,13 +83,6 @@
 
 - (void)dealloc {
     [CHLogic.shared removeDelegate:self];
-}
-
-- (void)scrollWheel:(NSEvent *)theEvent {
-    [super scrollWheel:theEvent];
-    if (self.documentVisibleRect.origin.y <= 0) {
-        [self.dataSource scrollViewDidScroll];
-    }
 }
 
 - (void)viewDidAppear {
@@ -87,6 +105,13 @@
 
 - (NSSize)collectionView:(NSCollectionView *)collectionView layout:(NSCollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     return [self.dataSource sizeForHeaderInSection:section];
+}
+
+#pragma mark - CHScrollViewDelegate
+- (void)scrollViewDidScroll:(CHScrollView *)scrollView {
+    if (scrollView.documentVisibleRect.origin.y <= 0) {
+        [self.dataSource scrollViewDidScroll];
+    }
 }
 
 #pragma mark - CHLogicDelegate
