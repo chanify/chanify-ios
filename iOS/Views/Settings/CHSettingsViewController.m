@@ -137,13 +137,13 @@
     };
     [section addFormItem:item];
 
-    // SECURITY
-    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"SECURITY".localized])];
-    item = [CHFormValueItem itemWithName:@"blocklist" title:@"Token blocklist".localized];
-    item.action = ^(CHFormItem *itm) {
-        [CHRouter.shared routeTo:@"/page/blocklist" withParams:@{ @"show": @"detail" }];
-    };
-    [section addFormItem:item];
+//    // SECURITY
+//    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"SECURITY".localized])];
+//    item = [CHFormValueItem itemWithName:@"blocklist" title:@"Token blocklist".localized];
+//    item.action = ^(CHFormItem *itm) {
+//        [CHRouter.shared routeTo:@"/page/blocklist" withParams:@{ @"show": @"detail" }];
+//    };
+//    [section addFormItem:item];
     
     // DATA
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"DATA".localized])];
