@@ -30,7 +30,7 @@
 @implementation CHChannelView
 
 - (instancetype)initWithCID:(NSString *)cid {
-    if (self = [super initWithFrame:NSZeroRect]) {
+    if (self = [super initWithFrame:NSMakeRect(0, 0, 0, 100)]) {
         _cid = cid;
         CHChannelModel *model = [CHLogic.shared.userDataSource channelWithCID:cid];
 
