@@ -11,3 +11,4 @@
 "AudioMsg"="[Audio]";
 "LinkMsg"="[Link]";
 "FileMsg"="[File]";
+"BlockedMsg"="[Blocked]";

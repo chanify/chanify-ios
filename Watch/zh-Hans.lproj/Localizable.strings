@@ -11,3 +11,4 @@
 "AudioMsg"="[音频]";
 "LinkMsg"="[链接]";
 "FileMsg"="[文件]";
+"BlockedMsg"="[已禁用]";

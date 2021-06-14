@@ -46,8 +46,10 @@
     }
     if (blocked) {
         // TODO: Enable NSE
-        self.attemptContent.body = @"Blocked";
-        self.contentHandler(self.attemptContent);
+        UNMutableNotificationContent *content = [UNMutableNotificationContent new];
+        content.body = @"BlockedMsg".localized;
+        content.sound = nil;
+        self.contentHandler(content);
     } else {
         self.contentHandler(self.attemptContent);
     }
