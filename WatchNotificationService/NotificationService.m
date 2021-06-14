@@ -45,7 +45,9 @@
         }
     }
     if (blocked) {
-        self.contentHandler([UNNotificationContent new]);
+        // TODO: Enable NSE
+        self.attemptContent.body = @"Blocked";
+        self.contentHandler(self.attemptContent);
     } else {
         self.contentHandler(self.attemptContent);
     }
