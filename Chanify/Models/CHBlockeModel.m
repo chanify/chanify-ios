@@ -44,6 +44,14 @@
     return chan;
 }
 
+- (NSString *)nid {
+    NSString *nid = nil;
+    if (self.token != nil) {
+        nid = self.token.nid;
+    }
+    return nid.length > 0 ? nid : @"sys";
+}
+
 - (BOOL)isEqual:(CHBlockeModel *)rhs {
     return [self.raw isEqualToString:rhs.raw];
 }

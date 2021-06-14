@@ -49,7 +49,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHBlockeModel *> CHTokensDiffab
     }];
     [tableView registerClass:CHBlockTokenCell.class forCellReuseIdentifier:cellIdentifier];
     tableView.tableFooterView = [CHLoadMoreView loadMoreWithStatus:CHLoadStatusFinish];
-    tableView.rowHeight = 60;
+    tableView.rowHeight = 80;
     tableView.allowsSelectionDuringEditing = YES;
     tableView.allowsMultipleSelectionDuringEditing = YES;
     tableView.delegate = self;

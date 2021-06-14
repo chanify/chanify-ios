@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)isExpired;
 - (NSDate *)expired;
 - (NSData *)channel;
+- (NSString *)nid;
 - (void)setChannel:(NSData *)channel;
 - (void)setNode:(CHNodeModel *)node;
 - (void)setDataHash:(nullable NSData *)data;

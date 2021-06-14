@@ -86,6 +86,10 @@
     return self.token.channel;
 }
 
+- (NSString *)nid {
+    return self.token.nodeId;
+}
+
 - (void)setChannel:(NSData *)channel {
     self.token.channel = channel;
     CHTPChannel *chan = [CHTPChannel parseFromData:channel error:nil];

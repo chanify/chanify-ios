@@ -10,16 +10,22 @@
 #import "CHIconView.h"
 #import "CHCodeFormatter.h"
 #import "CHChannelModel.h"
+#import "CHNodeModel.h"
 #import "CHUserDataSource.h"
 #import "CHLogic.h"
 #import "CHTheme.h"
 
 @interface CHBlockTokenCell ()
 
-@property (nonatomic, readonly, strong) CHIconView *iconView;
 @property (nonatomic, readonly, strong) UILabel *tokenLabel;
-@property (nonatomic, readonly, strong) UILabel *channelLabel;
+@property (nonatomic, readonly, strong) CHIconView *channelIconView;
+@property (nonatomic, readonly, strong) UILabel *channelTitleLabel;
+@property (nonatomic, readonly, strong) CHIconView *nodeIconView;
+@property (nonatomic, readonly, strong) UILabel *nodeTitleLabel;
 @property (nonatomic, readonly, strong) UILabel *expriedDateLabel;
+
+
+
 
 @end
 
@@ -40,31 +46,49 @@
         tokenLabel.textColor = theme.labelColor;
         tokenLabel.numberOfLines = 1;
         
-        CHIconView *iconView = [CHIconView new];
-        [self.contentView addSubview:(_iconView = iconView)];
-        [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
+        CHIconView *channelIconView = [CHIconView new];
+        [self.contentView addSubview:(_channelIconView = channelIconView)];
+        [channelIconView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(tokenLabel);
             make.top.equalTo(tokenLabel.mas_bottom).offset(6);
-            make.bottom.equalTo(self.contentView).offset(-8);
             make.size.mas_equalTo(CGSizeMake(18, 18));
         }];
         
-        UILabel *channelLabel = [UILabel new];
-        [self.contentView addSubview:(_channelLabel = channelLabel)];
-        [channelLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(iconView.mas_right).offset(4);
-            make.centerY.equalTo(iconView);
+        UILabel *channelTitleLabel = [UILabel new];
+        [self.contentView addSubview:(_channelTitleLabel = channelTitleLabel)];
+        [channelTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(channelIconView.mas_right).offset(4);
+            make.centerY.equalTo(channelIconView);
         }];
-        channelLabel.font = [UIFont systemFontOfSize:12];
-        channelLabel.textColor = theme.minorLabelColor;
-        channelLabel.numberOfLines = 1;
+        channelTitleLabel.font = [UIFont systemFontOfSize:12];
+        channelTitleLabel.textColor = theme.minorLabelColor;
+        channelTitleLabel.numberOfLines = 1;
+        
+        CHIconView *nodeIconView = [CHIconView new];
+        [self.contentView addSubview:(_nodeIconView = nodeIconView)];
+        [nodeIconView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(channelIconView);
+            make.top.equalTo(channelIconView.mas_bottom).offset(4);
+            make.size.equalTo(channelIconView);
+            make.bottom.equalTo(self.contentView).offset(-8);
+        }];
+        
+        UILabel *nodeTitleLabel = [UILabel new];
+        [self.contentView addSubview:(_nodeTitleLabel = nodeTitleLabel)];
+        [nodeTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(channelTitleLabel);
+            make.centerY.equalTo(nodeIconView);
+        }];
+        nodeTitleLabel.font = [UIFont systemFontOfSize:12];
+        nodeTitleLabel.textColor = theme.minorLabelColor;
+        nodeTitleLabel.numberOfLines = 1;
         
         UILabel *expriedDateLabel = [UILabel new];
         [self.contentView addSubview:(_expriedDateLabel = expriedDateLabel)];
         [expriedDateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(channelLabel.mas_right).offset(4);
+            make.left.equalTo(nodeTitleLabel.mas_right).offset(4);
             make.right.equalTo(tokenLabel);
-            make.bottom.equalTo(channelLabel);
+            make.bottom.equalTo(nodeTitleLabel);
         }];
         expriedDateLabel.font = [UIFont systemFontOfSize:10];
         expriedDateLabel.textColor = theme.lightLabelColor;
@@ -86,12 +110,21 @@
     self.tokenLabel.text = [CHCodeFormatter.shared formatCode:self.model.raw length:32];
     CHChannelModel *chan = [CHLogic.shared.userDataSource channelWithCID:self.model.channel.base64];
     if (chan == nil) {
-        self.iconView.alpha = 0;
-        self.channelLabel.text = @"";
+        self.channelIconView.alpha = 0;
+        self.channelTitleLabel.text = @"";
     } else {
-        self.iconView.alpha = 1;
-        self.iconView.image = chan.icon;
-        self.channelLabel.text = chan.title;
+        self.channelIconView.alpha = 1;
+        self.channelIconView.image = chan.icon;
+        self.channelTitleLabel.text = chan.title;
+    }
+    CHNodeModel *node = [CHLogic.shared.userDataSource nodeWithNID:self.model.nid];
+    if (node == nil) {
+        self.nodeIconView.alpha = 0;
+        self.nodeTitleLabel.text = @"";
+    } else {
+        self.nodeIconView.alpha = 1;
+        self.nodeIconView.image = node.icon;
+        self.nodeTitleLabel.text = node.name;
     }
     NSDate *expired = self.model.expired;
     if (expired == nil) {
