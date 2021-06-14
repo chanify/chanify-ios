@@ -17,6 +17,7 @@
 #import "CHNotification+Badge.h"
 #import "CHDevice.h"
 #import "CHRouter.h"
+#import "CHToken.h"
 #import "CHMock.h"
 #import "CHTP.pbobjc.h"
 
@@ -124,31 +125,13 @@
     call_completion(completion, CHLCodeFailed);
 }
 
-#pragma mark - Blocklist
-- (void)upsertBlockedToken:(NSString *)token {
-    if ([self.nsDataSource upsertBlockedToken:token uid:self.me.uid]) {
-        [self sendNotifyWithSelector:@selector(logicBlockedTokenChanged)];
-    }
-}
-
-- (void)removeBlockedTokens:(NSArray<NSString *> *)tokens {
-    if ([self.nsDataSource removeBlockedTokens:tokens uid:self.me.uid]) {
-        [self sendNotifyWithSelector:@selector(logicBlockedTokenChanged)];
-    }
-}
-
-- (NSArray<NSString *> *)blockedTokens {
-    return [self.nsDataSource blockedTokensWithUID:self.me.uid];
-}
-
 #pragma mark - Watch
 - (BOOL)hasWatch {
     return (self.watchSession != nil && self.watchSession.activationState == WCSessionActivationStateActivated && self.watchSession.isPaired);
 }
 
 - (BOOL)isWatchAppInstalled {
-    BOOL res = (self.hasWatch && self.watchSession.isWatchAppInstalled);
-    return res;
+    return (self.hasWatch && self.watchSession.isWatchAppInstalled);
 }
 
 - (BOOL)syncDataToWatch:(BOOL)focus {
@@ -205,6 +188,12 @@
             });
         }
     }
+}
+
+#pragma mark - Subclass Methods
+- (void)sendBlockTokenChanged {
+    [super sendBlockTokenChanged];
+    [self syncDataToWatch:NO];
 }
 
 #pragma mark - Private Methods
@@ -269,6 +258,14 @@
                 n.icon = node.icon;
                 n.pubkey = node.pubkey;
                 [cfg.nodesArray addObject:n];
+            }
+        }
+        for (NSString *token in self.blockedTokens) {
+            CHToken *tk = [CHToken tokenWithString:token];
+            if (!tk.isExpired) {
+                CHTPBlockItem *item = [CHTPBlockItem new];
+                item.token = token;
+                [cfg.blocklistArray addObject:item];
             }
         }
     }

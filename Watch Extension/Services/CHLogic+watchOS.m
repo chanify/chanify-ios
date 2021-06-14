@@ -120,6 +120,28 @@
         for (CHTPNode *node in cfg.nodesArray) {
             [self bindNode:node];
         }
+        NSMutableSet<NSString *> *blocks = [NSMutableSet new];
+        for (CHTPBlockItem *item in cfg.blocklistArray) {
+            if (item.token.length > 0) {
+                [blocks addObject:item.token];
+            }
+        }
+        NSMutableArray<NSString *> *removedItems = [NSMutableArray new];
+        for (NSString *token in self.blockedTokens) {
+            if ([blocks containsObject:token]) {
+                [blocks removeObject:token];
+            } else {
+                [removedItems addObject:token];
+            }
+        }
+        if (removedItems.count > 0) {
+            [self removeBlockedTokens:removedItems];
+        }
+        if (blocks.count > 0) {
+            for (NSString *token in blocks) {
+                [self upsertBlockedToken:token];
+            }
+        }
     }
     if (updated) {
         [self sendNotifyWithSelector:@selector(logicUserInfoChanged:) withObject:me];

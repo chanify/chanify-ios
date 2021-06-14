@@ -27,6 +27,7 @@ typedef void (^CHLogicResultBlock)(CHLCode result, NSDictionary *data);
 @optional
 - (void)logicNodeUpdated:(NSString *)nid;
 - (void)logicNodesUpdated:(NSArray<NSString *> *)nids;
+- (void)logicBlockedTokenChanged;
 @end
 
 @interface CHLogicBase<T> : CHManager<T>
@@ -65,6 +66,12 @@ typedef void (^CHLogicResultBlock)(CHLCode result, NSDictionary *data);
 - (BOOL)updateNode:(CHNodeModel *)model;
 - (nullable CHNodeModel *)nodeModelWithNID:(nullable NSString *)nid;
 - (BOOL)nodeIsConnected:(nullable NSString *)nid;
+// Blocklist
+- (void)upsertBlockedToken:(NSString *)token;
+- (void)removeBlockedTokens:(NSArray<NSString *> *)tokens;
+- (NSArray<NSString *> *)blockedTokens;
+// Subclass
+- (void)sendBlockTokenChanged;
 
 
 @end

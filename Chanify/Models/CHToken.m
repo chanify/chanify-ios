@@ -74,6 +74,10 @@
     return self;
 }
 
+- (BOOL)isExpired {
+    return [NSDate.now compare:self.expired] == NSOrderedDescending;
+}
+
 - (NSDate *)expired {
     return [NSDate dateWithTimeIntervalSince1970:self.token.expires];
 }

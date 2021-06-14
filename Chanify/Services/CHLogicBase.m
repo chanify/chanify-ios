@@ -443,6 +443,28 @@
     return NO;
 }
 
+#pragma mark - Blocklist Methods
+- (void)upsertBlockedToken:(NSString *)token {
+    if ([self.nsDataSource upsertBlockedToken:token uid:self.me.uid]) {
+        [self sendBlockTokenChanged];
+    }
+}
+
+- (void)removeBlockedTokens:(NSArray<NSString *> *)tokens {
+    if ([self.nsDataSource removeBlockedTokens:tokens uid:self.me.uid]) {
+        [self sendBlockTokenChanged];
+    }
+}
+
+- (NSArray<NSString *> *)blockedTokens {
+    return [self.nsDataSource blockedTokensWithUID:self.me.uid];
+}
+
+#pragma mark - Subclass Methods
+- (void)sendBlockTokenChanged {
+    [self sendNotifyWithSelector:@selector(logicBlockedTokenChanged)];
+}
+
 #pragma mark - Private Methods
 - (void)bindNodeAccount:(nullable CHNodeModel *)model completion:(nullable CHLogicBlock)completion {
     if (model == nil || model.isSystem) {

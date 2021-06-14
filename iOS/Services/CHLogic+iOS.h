@@ -17,10 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)createAccountWithCompletion:(nullable CHLogicBlock)completion;
 // Nodes
 - (void)reconnectNode:(nullable NSString *)nid completion:(nullable CHLogicBlock)completion;
-// Blocklist
-- (void)upsertBlockedToken:(NSString *)token;
-- (void)removeBlockedTokens:(NSArray<NSString *> *)tokens;
-- (NSArray<NSString *> *)blockedTokens;
 // Watch
 - (BOOL)hasWatch;
 - (BOOL)isWatchAppInstalled;

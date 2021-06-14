@@ -114,7 +114,12 @@ message Node {
     bytes       pubkey      = 7;
 }
 
+message BlockItem {
+    string      token       = 1;
+}
+
 message WatchConfig {
-    bytes           user_key    = 1;
-    repeated Node   nodes       = 2;
+    bytes               user_key    = 1;
+    repeated Node       nodes       = 2;
+    repeated BlockItem  blocklist   = 3;
 }
