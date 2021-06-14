@@ -141,8 +141,6 @@
     NSString *copy = [info valueForKey:@"copy"];
     if (copy.length <= 0) copy = [info valueForKey:@"link"];
     if (copy.length > 0) {
-        
-        
         UIPasteboard.generalPasteboard.string = copy ?: @"";
         [self showToast:@"Copied".localized];
     }
