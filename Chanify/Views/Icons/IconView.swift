@@ -1,6 +1,6 @@
 //
 //  IconView.swift
-//  Watch Extension
+//  Chanify
 //
 //  Created by WizJin on 2021/4/25.
 //
@@ -40,15 +40,18 @@ struct IconView: View {
     }
 
     var body: some View {
-        VStack {
-            Image(uiImage: iconImage)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .padding()
-                .foregroundColor(Color(tintColor))
-                .frame(width: 40, height: 40)
+        GeometryReader { geometry in
+            let size = min(geometry.size.width, geometry.size.height)
+            ZStack {
+                RoundedRectangle(cornerRadius: size*0.2)
+                    .fill(Color(backgroundColor))
+                    .frame(width: size, height: size, alignment: .center)
+                Image(uiImage: iconImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundColor(Color(tintColor))
+                    .frame(width: size*0.7, height: size*0.7, alignment: .center)
+            }
         }
-        .background(Color(backgroundColor))
-        .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 }

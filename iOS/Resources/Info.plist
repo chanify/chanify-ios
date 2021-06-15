@@ -48,6 +48,11 @@
 	<string>To save export QR code into photo library when you need it.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To picker a QR code from photo when you need it.</string>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>ChartsConfigurationIntent</string>
+		<string>ShortcutsConfigurationIntent</string>
+	</array>
 	<key>UIApplicationShortcutItems</key>
 	<array>
 		<dict>

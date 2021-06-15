@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings (Base)
+  Widgets
+
+  Created by WizJin on 2021/6/15.
+  
+*/
+"Shortcuts"="Shortcuts";
+"Charts"="Charts";
+"A quick way to open selected page in Chanify."="A quick way to open selected page in Chanify.";
+"Show charts of timeline notification."="Show status of timeline notification.";

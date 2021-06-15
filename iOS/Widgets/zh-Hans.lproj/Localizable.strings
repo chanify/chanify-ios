@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings (Chinese, Simplified)
+  Widgets
+
+  Created by WizJin on 2021/6/15.
+  
+*/
+"Shortcuts"="快捷入口";
+"Charts"="图表组件";
+"A quick way to open selected page in Chanify."="在 Chanify 中快速打开所选页面";
+"Show charts of timeline notification."="显示基于时间线通知的数据图表";

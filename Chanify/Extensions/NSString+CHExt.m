@@ -7,6 +7,7 @@
 
 #import "NSString+CHExt.h"
 #import <Foundation/NSBundle.h>
+#import <stdlib.h>
 #import <ctype.h>
 
 @implementation NSString (CHExt)

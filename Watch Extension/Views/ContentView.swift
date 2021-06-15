@@ -27,23 +27,28 @@ struct NodeCell: View {
     var node: NodeModel
     
     var body: some View {
-        HStack {
-            IconView(icon: node.icon)
-            VStack(alignment: .leading) {
-                Text(node.name)
-                    .font(.body)
-                    .lineLimit(1)
-                Text(node.endpoint)
-                    .font(.footnote)
-                    .lineLimit(1)
-            }.padding(.leading, 4)
+        GeometryReader { geometry in
+            HStack {
+                let size = geometry.size.height
+                IconView(icon: node.icon)
+                    .padding(EdgeInsets(top: 6, leading: 0, bottom: 6, trailing: 2))
+                    .frame(width: size - 10, height: size, alignment: .center)
+                VStack(alignment: .leading) {
+                    Text(node.name)
+                        .font(.body)
+                        .lineLimit(1)
+                    Text(node.endpoint)
+                        .font(.footnote)
+                        .lineLimit(1)
+                }
+            }
         }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-            .environmentObject(LogicModel())
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//            .environmentObject(LogicModel())
+//    }
+//}

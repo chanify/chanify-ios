@@ -83,7 +83,13 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
 }
 
 - (BOOL)handleURL:(NSURL *)url {
-    return [self routeTo:url.absoluteString withParams:nil];
+    NSString *target = url.absoluteString;
+    if ([url.scheme isEqualToString:@"chanify"]) {
+        if ([url.path isEqualToString:@"/action/scan"]) {
+            target = @"/page/scan?show=present&jump=1";
+        }
+    }
+    return [self routeTo:target withParams:nil];
 }
 
 - (BOOL)routeTo:(NSString *)url {
