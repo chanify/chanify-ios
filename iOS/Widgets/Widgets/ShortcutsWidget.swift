@@ -35,7 +35,7 @@ struct ShortcutsEntryView : View {
 
     var body: some View {
         ZStack {
-            Color("WidgetBackground")
+            Color(.systemFill)
             HStack {
                 Link(destination:URL(string: "chanify:///home")!) {
                     Image(systemName: "qrcode")
@@ -68,3 +68,10 @@ struct ShortcutsWidget: Widget {
         .supportedFamilies([.systemMedium])
     }
 }
+
+//struct ShortcutsWidget_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ShortcutsEntryView(entry: ShortcutsEntry(date: Date(), configuration: ShortcutsConfigurationIntent()))
+//            .previewContext(WidgetPreviewContext(family: .systemMedium))
+//    }
+//}

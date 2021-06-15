@@ -1,5 +1,15 @@
-"1cgvTP" = "背景";
+/*
+  Widgets.strings (Chinese, Simplified)
+  Widgets
 
-"YznPD5" = "快捷入口配置";
-
-"gpCwrM" = "图表组件配置";
+  Created by WizJin on 2021/6/15.
+  
+*/
+"HQkhve"="快捷入口位置";
+"r0NGwP"="自动";
+"8E2uBE"="左侧";
+"YuNXaF"="右侧";
+"1cgvTP"="背景颜色";
+"22dpBq"="入口列表";
+"YznPD5"="快捷入口配置";
+"gpCwrM"="图表组件配置";

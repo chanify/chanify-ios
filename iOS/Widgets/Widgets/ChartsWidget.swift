@@ -44,7 +44,10 @@ struct ChartsEntryView : View {
     var entry: ChartsProvider.Entry
 
     var body: some View {
-        Text(entry.date, style: .time)
+        ZStack {
+            Color(.systemFill)
+            Text(entry.date, style: .time)
+        }
     }
 }
 
