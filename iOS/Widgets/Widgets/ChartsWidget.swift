@@ -41,13 +41,15 @@ struct ChartsProvider: IntentTimelineProvider {
 }
 
 struct ChartsEntryView : View {
+    @Environment(\.colorScheme) var colorScheme
+
     var entry: ChartsProvider.Entry
 
     var body: some View {
         ZStack {
-            Color(.systemFill)
+            Color(.systemBackground)
             Text(entry.date, style: .time)
-        }
+        }.colorScheme(colorScheme.withAppearance(entry.configuration.appearance))
     }
 }
 

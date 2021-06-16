@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		047CB57ED2B39F36141E4E64 /* libPods-WidgetsExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 704A680DF4070D3A18E0BCC0 /* libPods-WidgetsExtension.a */; };
 		0DA5CA1B186CA14B62606011 /* libPods-OSX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E0CA107030499D561FB4E3 /* libPods-OSX.a */; };
 		1DF9D52ED9FF82BF5D74FE61 /* libPods-Watch Extension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4D4830AD0DB53EB5BE0C41 /* libPods-Watch Extension.a */; };
 		6D025F70266DC61800C17512 /* CHMsgsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D025F6F266DC61800C17512 /* CHMsgsDataSource.m */; };
@@ -61,6 +60,10 @@
 		6D3326F12678A84A00BC0958 /* ChartsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3326F02678A84A00BC0958 /* ChartsWidget.swift */; };
 		6D3326F62678B88700BC0958 /* Widgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6D3326F92678B88700BC0958 /* Widgets.intentdefinition */; };
 		6D3326F72678B88700BC0958 /* Widgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6D3326F92678B88700BC0958 /* Widgets.intentdefinition */; };
+		6D38658C267A17180013641F /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D38658B267A17180013641F /* Intents.framework */; };
+		6D386590267A17180013641F /* IntentHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D38658F267A17180013641F /* IntentHandler.m */; };
+		6D386594267A17180013641F /* WidgetIntents.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6D38658A267A17180013641F /* WidgetIntents.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		6D386598267A178A0013641F /* Widgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6D3326F92678B88700BC0958 /* Widgets.intentdefinition */; };
 		6D3DC0872660C60200F42070 /* CHWebAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3DC0862660C60200F42070 /* CHWebAudioManager.m */; };
 		6D3DC0882660C60800F42070 /* CHWebAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3DC0862660C60200F42070 /* CHWebAudioManager.m */; };
 		6D3DC08C2660E80800F42070 /* CHAudiosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3DC08B2660E80800F42070 /* CHAudiosViewController.m */; };
@@ -253,6 +256,7 @@
 		6DD325F7265394EC00A5CEC4 /* CHFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD325F6265394EC00A5CEC4 /* CHFilesViewController.m */; };
 		6DD325FD2653AE5900A5CEC4 /* CHWebCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD325FC2653AE5900A5CEC4 /* CHWebCacheManager.m */; };
 		6DD325FE2653AE6400A5CEC4 /* CHWebCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD325FC2653AE5900A5CEC4 /* CHWebCacheManager.m */; };
+		6DD41C8F2679F50E0083DFDE /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD41C8E2679F50E0083DFDE /* Utils.swift */; };
 		6DD5A0F9260EF99E00799032 /* CHWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD5A0F8260EF99E00799032 /* CHWebImageManager.m */; };
 		6DD5A103260EFB9900799032 /* CHWebImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD5A102260EFB9900799032 /* CHWebImageView.m */; };
 		6DD6954625F1FF6C0047FF08 /* CHFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD6954525F1FF6C0047FF08 /* CHFormViewController.m */; };
@@ -447,6 +451,13 @@
 			remoteGlobalIDString = 6D3326D32678A08300BC0958;
 			remoteInfo = WidgetsExtension;
 		};
+		6D386592267A17180013641F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6DC6C1B725D0DCD100512E36 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6D386589267A17180013641F;
+			remoteInfo = WidgetIntents;
+		};
 		6D897D5D262D77140048D9A6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6DC6C1B725D0DCD100512E36 /* Project object */;
@@ -524,6 +535,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				6D386594267A17180013641F /* WidgetIntents.appex in Embed App Extensions */,
 				6D3326E42678A08400BC0958 /* WidgetsExtension.appex in Embed App Extensions */,
 				6DC6C22425D0FB7600512E36 /* NotificationService.appex in Embed App Extensions */,
 				6DA2A7142622F8F100D898C7 /* NotificationContent.appex in Embed App Extensions */,
@@ -612,6 +624,11 @@
 		6D3326F02678A84A00BC0958 /* ChartsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsWidget.swift; sourceTree = "<group>"; };
 		6D3326F82678B88700BC0958 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; name = Base; path = Base.lproj/Widgets.intentdefinition; sourceTree = "<group>"; };
 		6D3326FB2678B8AA00BC0958 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Widgets.strings"; sourceTree = "<group>"; };
+		6D38658A267A17180013641F /* WidgetIntents.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetIntents.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D38658B267A17180013641F /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
+		6D38658E267A17180013641F /* IntentHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntentHandler.h; sourceTree = "<group>"; };
+		6D38658F267A17180013641F /* IntentHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntentHandler.m; sourceTree = "<group>"; };
+		6D386591267A17180013641F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6D3DC0852660C60200F42070 /* CHWebAudioManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebAudioManager.h; sourceTree = "<group>"; };
 		6D3DC0862660C60200F42070 /* CHWebAudioManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHWebAudioManager.m; sourceTree = "<group>"; };
 		6D3DC08A2660E80800F42070 /* CHAudiosViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHAudiosViewController.h; sourceTree = "<group>"; };
@@ -883,6 +900,7 @@
 		6DD325F6265394EC00A5CEC4 /* CHFilesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFilesViewController.m; sourceTree = "<group>"; };
 		6DD325FB2653AE5900A5CEC4 /* CHWebCacheManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebCacheManager.h; sourceTree = "<group>"; };
 		6DD325FC2653AE5900A5CEC4 /* CHWebCacheManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHWebCacheManager.m; sourceTree = "<group>"; };
+		6DD41C8E2679F50E0083DFDE /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		6DD5A0F7260EF99E00799032 /* CHWebImageManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebImageManager.h; sourceTree = "<group>"; };
 		6DD5A0F8260EF99E00799032 /* CHWebImageManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHWebImageManager.m; sourceTree = "<group>"; };
 		6DD5A101260EFB9900799032 /* CHWebImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebImageView.h; sourceTree = "<group>"; };
@@ -938,7 +956,6 @@
 		6DF611222665E6FD00426830 /* CHNotification+Badge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHNotification+Badge.m"; sourceTree = "<group>"; };
 		6DFDE2162634041000A4BE43 /* CHNotification+Badge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CHNotification+Badge.h"; sourceTree = "<group>"; };
 		6DFDE2172634041000A4BE43 /* CHNotification+Badge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHNotification+Badge.m"; sourceTree = "<group>"; };
-		704A680DF4070D3A18E0BCC0 /* libPods-WidgetsExtension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WidgetsExtension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84478BB35AC049B8F080A494 /* Pods-NotificationService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationService.debug.xcconfig"; path = "Target Support Files/Pods-NotificationService/Pods-NotificationService.debug.xcconfig"; sourceTree = "<group>"; };
 		88B60DC2DA57301D0741245B /* Pods-NotificationService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationService.release.xcconfig"; path = "Target Support Files/Pods-NotificationService/Pods-NotificationService.release.xcconfig"; sourceTree = "<group>"; };
 		915F08D3F47DAEE01035E9DC /* Pods-NotificationServiceOSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationServiceOSX.debug.xcconfig"; path = "Target Support Files/Pods-NotificationServiceOSX/Pods-NotificationServiceOSX.debug.xcconfig"; sourceTree = "<group>"; };
@@ -947,11 +964,9 @@
 		AECAF8C3BA098F88552CD534 /* Pods-WatchNotificationService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WatchNotificationService.release.xcconfig"; path = "Target Support Files/Pods-WatchNotificationService/Pods-WatchNotificationService.release.xcconfig"; sourceTree = "<group>"; };
 		B3A6C31B36C65360E033C4C9 /* Pods-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS.debug.xcconfig"; path = "Target Support Files/Pods-iOS/Pods-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		B42F10054EB28789A4132543 /* libPods-NotificationServiceOSX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NotificationServiceOSX.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C3095A1B07FDF45DBA847194 /* Pods-WidgetsExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WidgetsExtension.debug.xcconfig"; path = "Target Support Files/Pods-WidgetsExtension/Pods-WidgetsExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		C6F39E9A2D4A5D0572D1578D /* Pods-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS.release.xcconfig"; path = "Target Support Files/Pods-iOS/Pods-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		CECF02443F5A85D7EED742E6 /* Pods-Watch Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Watch Extension.release.xcconfig"; path = "Target Support Files/Pods-Watch Extension/Pods-Watch Extension.release.xcconfig"; sourceTree = "<group>"; };
 		DE20795FBEF5ADCF265D5783 /* Pods-Chanify.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chanify.release.xcconfig"; path = "Target Support Files/Pods-Chanify/Pods-Chanify.release.xcconfig"; sourceTree = "<group>"; };
-		E9D3AD995ABB2D86DCD4C6F7 /* Pods-WidgetsExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WidgetsExtension.release.xcconfig"; path = "Target Support Files/Pods-WidgetsExtension/Pods-WidgetsExtension.release.xcconfig"; sourceTree = "<group>"; };
 		ED1FCAF0C4EC94DAE69FDBA3 /* Pods-NotificationServiceIOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationServiceIOS.debug.xcconfig"; path = "Target Support Files/Pods-NotificationServiceIOS/Pods-NotificationServiceIOS.debug.xcconfig"; sourceTree = "<group>"; };
 		EE4D4830AD0DB53EB5BE0C41 /* libPods-Watch Extension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Watch Extension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E0CA107030499D561FB4E3 /* libPods-OSX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OSX.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -965,7 +980,14 @@
 			files = (
 				6D3326D82678A08300BC0958 /* SwiftUI.framework in Frameworks */,
 				6D3326D62678A08300BC0958 /* WidgetKit.framework in Frameworks */,
-				047CB57ED2B39F36141E4E64 /* libPods-WidgetsExtension.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6D386587267A17180013641F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6D38658C267A17180013641F /* Intents.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1047,8 +1069,6 @@
 				05D6A14E3A302E800760DF9B /* Pods-NotificationServiceIOS.release.xcconfig */,
 				915F08D3F47DAEE01035E9DC /* Pods-NotificationServiceOSX.debug.xcconfig */,
 				93B83AC6B0D9703983A2468A /* Pods-NotificationServiceOSX.release.xcconfig */,
-				C3095A1B07FDF45DBA847194 /* Pods-WidgetsExtension.debug.xcconfig */,
-				E9D3AD995ABB2D86DCD4C6F7 /* Pods-WidgetsExtension.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -1169,12 +1189,23 @@
 		6D3326ED2678A46800BC0958 /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
+				6D502F472678C89C008B26F7 /* Widgets-Bridging-Header.h */,
 				6D3326EE2678A4C700BC0958 /* ShortcutsWidget.swift */,
 				6D3326F02678A84A00BC0958 /* ChartsWidget.swift */,
 				6D3326DA2678A08300BC0958 /* Widgets.swift */,
-				6D502F472678C89C008B26F7 /* Widgets-Bridging-Header.h */,
+				6DD41C8E2679F50E0083DFDE /* Utils.swift */,
 			);
 			path = Widgets;
+			sourceTree = "<group>";
+		};
+		6D38658D267A17180013641F /* WidgetIntents */ = {
+			isa = PBXGroup;
+			children = (
+				6D38658E267A17180013641F /* IntentHandler.h */,
+				6D38658F267A17180013641F /* IntentHandler.m */,
+				6D386591267A17180013641F /* Info.plist */,
+			);
+			path = WidgetIntents;
 			sourceTree = "<group>";
 		};
 		6D3DC0842660A43000F42070 /* WebManager */ = {
@@ -1509,6 +1540,7 @@
 				6D897D57262D77140048D9A6 /* WatchNotificationService.appex */,
 				6D6F3CF3263D28EA00A2578B /* Chanify.app */,
 				6D3326D42678A08300BC0958 /* WidgetsExtension.appex */,
+				6D38658A267A17180013641F /* WidgetIntents.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1518,6 +1550,7 @@
 			children = (
 				6DC6C21D25D0FB7600512E36 /* NotificationService */,
 				6DA2A70A2622F8F100D898C7 /* NotificationContent */,
+				6D38658D267A17180013641F /* WidgetIntents */,
 				6D3326D92678A08300BC0958 /* Widgets */,
 				6DC6C1E725D0DE3800512E36 /* Classes */,
 				6DC6C1E925D0DEA700512E36 /* Views */,
@@ -1969,7 +2002,7 @@
 				B42F10054EB28789A4132543 /* libPods-NotificationServiceOSX.a */,
 				6D3326D52678A08300BC0958 /* WidgetKit.framework */,
 				6D3326D72678A08300BC0958 /* SwiftUI.framework */,
-				704A680DF4070D3A18E0BCC0 /* libPods-WidgetsExtension.a */,
+				6D38658B267A17180013641F /* Intents.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1981,7 +2014,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6D3326E72678A08400BC0958 /* Build configuration list for PBXNativeTarget "WidgetsExtension" */;
 			buildPhases = (
-				7EE02D9BC6545A5C84EF25C5 /* [CP] Check Pods Manifest.lock */,
 				6D3326D02678A08300BC0958 /* Sources */,
 				6D3326D12678A08300BC0958 /* Frameworks */,
 				6D3326D22678A08300BC0958 /* Resources */,
@@ -1993,6 +2025,23 @@
 			name = WidgetsExtension;
 			productName = WidgetsExtension;
 			productReference = 6D3326D42678A08300BC0958 /* WidgetsExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		6D386589267A17180013641F /* WidgetIntents */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6D386597267A17180013641F /* Build configuration list for PBXNativeTarget "WidgetIntents" */;
+			buildPhases = (
+				6D386586267A17180013641F /* Sources */,
+				6D386587267A17180013641F /* Frameworks */,
+				6D386588267A17180013641F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WidgetIntents;
+			productName = WidgetIntents;
+			productReference = 6D38658A267A17180013641F /* WidgetIntents.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		6D6F3CF2263D28EA00A2578B /* OSX */ = {
@@ -2110,6 +2159,7 @@
 				6DA2A7132622F8F100D898C7 /* PBXTargetDependency */,
 				6D90AFD8262D623300FBE1A6 /* PBXTargetDependency */,
 				6D3326E32678A08400BC0958 /* PBXTargetDependency */,
+				6D386593267A17180013641F /* PBXTargetDependency */,
 			);
 			name = iOS;
 			productName = Chanify;
@@ -2145,6 +2195,9 @@
 				LastUpgradeCheck = 1250;
 				TargetAttributes = {
 					6D3326D32678A08300BC0958 = {
+						CreatedOnToolsVersion = 12.5;
+					};
+					6D386589267A17180013641F = {
 						CreatedOnToolsVersion = 12.5;
 					};
 					6D6F3CF2263D28EA00A2578B = {
@@ -2191,6 +2244,7 @@
 				6DC6C21B25D0FB7600512E36 /* NotificationServiceIOS */,
 				6DA2A7042622F8F000D898C7 /* NotificationContentIOS */,
 				6D3326D32678A08300BC0958 /* WidgetsExtension */,
+				6D386589267A17180013641F /* WidgetIntents */,
 				6D90AFB7262D623200FBE1A6 /* Watch */,
 				6D90AFC0262D623200FBE1A6 /* Watch Extension */,
 				6D897D56262D77140048D9A6 /* WatchNotificationService */,
@@ -2206,6 +2260,13 @@
 			files = (
 				6D3326DE2678A08400BC0958 /* Assets.xcassets in Resources */,
 				6D3326EA2678A15200BC0958 /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6D386588267A17180013641F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2356,28 +2417,6 @@
 			shellPath = /bin/sh;
 			shellScript = "PLISTBUDDY=\"/usr/libexec/PlistBuddy\"\nINFO_PLIST=\"$CODESIGNING_FOLDER_PATH/Info.plist\"\nSETTINGS_PLIST=\"$CODESIGNING_FOLDER_PATH/Settings.bundle/Root.plist\"\nVERSION=\"`$PLISTBUDDY -c \\\"Print CFBundleShortVersionString\\\" \\\"$INFO_PLIST\\\"`\"\n$PLISTBUDDY -c \"Set :PreferenceSpecifiers:1:DefaultValue '$VERSION'\"  \"${SETTINGS_PLIST}\"\n";
 		};
-		7EE02D9BC6545A5C84EF25C5 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-WidgetsExtension-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		95628EC79C9D628D741AD6C8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2436,6 +2475,16 @@
 				6D3326F72678B88700BC0958 /* Widgets.intentdefinition in Sources */,
 				6D3326F12678A84A00BC0958 /* ChartsWidget.swift in Sources */,
 				6D3326DB2678A08300BC0958 /* Widgets.swift in Sources */,
+				6DD41C8F2679F50E0083DFDE /* Utils.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6D386586267A17180013641F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6D386598267A178A0013641F /* Widgets.intentdefinition in Sources */,
+				6D386590267A17180013641F /* IntentHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2784,6 +2833,11 @@
 			target = 6D3326D32678A08300BC0958 /* WidgetsExtension */;
 			targetProxy = 6D3326E22678A08400BC0958 /* PBXContainerItemProxy */;
 		};
+		6D386593267A17180013641F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6D386589267A17180013641F /* WidgetIntents */;
+			targetProxy = 6D386592267A17180013641F /* PBXContainerItemProxy */;
+		};
 		6D897D5E262D77140048D9A6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6D897D56262D77140048D9A6 /* WatchNotificationService */;
@@ -2897,7 +2951,6 @@
 /* Begin XCBuildConfiguration section */
 		6D3326E52678A08400BC0958 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C3095A1B07FDF45DBA847194 /* Pods-WidgetsExtension.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
@@ -2925,7 +2978,6 @@
 		};
 		6D3326E62678A08400BC0958 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E9D3AD995ABB2D86DCD4C6F7 /* Pods-WidgetsExtension.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
@@ -2946,6 +2998,46 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "iOS/Widgets/Widgets/Widgets-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		6D386595267A17180013641F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 37;
+				DEVELOPMENT_TEAM = P4XS4AVCLW;
+				INFOPLIST_FILE = "$(SRCROOT)/iOS/WidgetIntents/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.widgetintents;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6D386596267A17180013641F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 37;
+				DEVELOPMENT_TEAM = P4XS4AVCLW;
+				INFOPLIST_FILE = "$(SRCROOT)/iOS/WidgetIntents/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.widgetintents;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -3477,6 +3569,15 @@
 			buildConfigurations = (
 				6D3326E52678A08400BC0958 /* Debug */,
 				6D3326E62678A08400BC0958 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6D386597267A17180013641F /* Build configuration list for PBXNativeTarget "WidgetIntents" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6D386595267A17180013641F /* Debug */,
+				6D386596267A17180013641F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

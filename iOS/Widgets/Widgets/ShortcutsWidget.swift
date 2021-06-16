@@ -31,11 +31,13 @@ struct ShortcutsProvider: IntentTimelineProvider {
 }
 
 struct ShortcutsEntryView : View {
+    @Environment(\.colorScheme) var colorScheme
+
     var entry: ShortcutsProvider.Entry
 
     var body: some View {
         ZStack {
-            Color(.systemFill)
+            Color(.systemBackground)
             HStack {
                 Link(destination:URL(string: "chanify:///home")!) {
                     Image(systemName: "qrcode")
@@ -52,7 +54,7 @@ struct ShortcutsEntryView : View {
                         .frame(width: 32, height: 32, alignment: .center)
                 }
             }
-        }
+        }.colorScheme(colorScheme.withAppearance(entry.configuration.appearance))
     }
 }
 
