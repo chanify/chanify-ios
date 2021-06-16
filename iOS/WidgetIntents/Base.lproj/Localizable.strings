@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings (Base)
+  Chanify
+
+  Created by WizJin on 2021/6/16.
+  
+*/
+"action"="Action";
+"channel"="Channel";
+"node"="Node";
+"scan"="Scan QR code";
+"sys.none"="Uncategorized";
+"sys.device"="Devices";

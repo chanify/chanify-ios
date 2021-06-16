@@ -64,6 +64,8 @@
 		6D386590267A17180013641F /* IntentHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D38658F267A17180013641F /* IntentHandler.m */; };
 		6D386594267A17180013641F /* WidgetIntents.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6D38658A267A17180013641F /* WidgetIntents.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6D386598267A178A0013641F /* Widgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6D3326F92678B88700BC0958 /* Widgets.intentdefinition */; };
+		6D38659B267A376F0013641F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D386599267A376F0013641F /* Localizable.strings */; };
+		6D38659D267A37C90013641F /* NSString+CHLocalized.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD7B5D8260DF520001D5DCB /* NSString+CHLocalized.m */; };
 		6D3DC0872660C60200F42070 /* CHWebAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3DC0862660C60200F42070 /* CHWebAudioManager.m */; };
 		6D3DC0882660C60800F42070 /* CHWebAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3DC0862660C60200F42070 /* CHWebAudioManager.m */; };
 		6D3DC08C2660E80800F42070 /* CHAudiosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3DC08B2660E80800F42070 /* CHAudiosViewController.m */; };
@@ -629,6 +631,8 @@
 		6D38658E267A17180013641F /* IntentHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntentHandler.h; sourceTree = "<group>"; };
 		6D38658F267A17180013641F /* IntentHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntentHandler.m; sourceTree = "<group>"; };
 		6D386591267A17180013641F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6D38659A267A376F0013641F /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6D38659C267A378E0013641F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6D3DC0852660C60200F42070 /* CHWebAudioManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebAudioManager.h; sourceTree = "<group>"; };
 		6D3DC0862660C60200F42070 /* CHWebAudioManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHWebAudioManager.m; sourceTree = "<group>"; };
 		6D3DC08A2660E80800F42070 /* CHAudiosViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHAudiosViewController.h; sourceTree = "<group>"; };
@@ -1201,6 +1205,7 @@
 		6D38658D267A17180013641F /* WidgetIntents */ = {
 			isa = PBXGroup;
 			children = (
+				6D386599267A376F0013641F /* Localizable.strings */,
 				6D38658E267A17180013641F /* IntentHandler.h */,
 				6D38658F267A17180013641F /* IntentHandler.m */,
 				6D386591267A17180013641F /* Info.plist */,
@@ -2267,6 +2272,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D38659B267A376F0013641F /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2483,6 +2489,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D38659D267A37C90013641F /* NSString+CHLocalized.m in Sources */,
 				6D386598267A178A0013641F /* Widgets.intentdefinition in Sources */,
 				6D386590267A17180013641F /* IntentHandler.m in Sources */,
 			);
@@ -2891,6 +2898,15 @@
 				6D3326FB2678B8AA00BC0958 /* zh-Hans */,
 			);
 			name = Widgets.intentdefinition;
+			sourceTree = "<group>";
+		};
+		6D386599267A376F0013641F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6D38659A267A376F0013641F /* Base */,
+				6D38659C267A378E0013641F /* zh-Hans */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		6D3F61D8262DB64500E122BC /* Localizable.strings */ = {

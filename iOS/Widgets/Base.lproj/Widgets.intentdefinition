@@ -446,7 +446,7 @@
 			<key>INTypeDisplayNameID</key>
 			<string>CuIzmV</string>
 			<key>INTypeLastPropertyTag</key>
-			<integer>99</integer>
+			<integer>101</integer>
 			<key>INTypeName</key>
 			<string>EntryType</string>
 			<key>INTypeProperties</key>
@@ -500,6 +500,34 @@
 					<integer>4</integer>
 					<key>INTypePropertyType</key>
 					<string>SpeakableString</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayName</key>
+					<string>Icon</string>
+					<key>INTypePropertyDisplayNameID</key>
+					<string>QvSISX</string>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>5</integer>
+					<key>INTypePropertyName</key>
+					<string>icon</string>
+					<key>INTypePropertyTag</key>
+					<integer>100</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayName</key>
+					<string>Link</string>
+					<key>INTypePropertyDisplayNameID</key>
+					<string>7TBwfp</string>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>6</integer>
+					<key>INTypePropertyName</key>
+					<string>link</string>
+					<key>INTypePropertyTag</key>
+					<integer>101</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
 				</dict>
 			</array>
 		</dict>

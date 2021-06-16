@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings (Chinese, Simplified)
+  Chanify
+
+  Created by WizJin on 2021/6/16.
+  
+*/
+"action"="动作";
+"channel"="频道";
+"node"="节点";
+"scan"="扫一扫";
+"sys.none"="未分类消息";
+"sys.device"="设备消息";
