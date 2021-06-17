@@ -9,3 +9,6 @@
 "Charts"="Charts";
 "A quick way to open selected page in Chanify."="A quick way to open selected page in Chanify.";
 "Show charts of timeline notification."="Show status of timeline notification.";
+
+"sys.none"="Uncategorized";
+"sys.device"="Devices";

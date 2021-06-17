@@ -8,18 +8,18 @@
 import SwiftUI
 
 struct IconView: View {
-    var iconImage: UIImage
+    var iconImage: Image
     var tintColor: UIColor
     var backgroundColor: UIColor
     
     init(icon: String?) {
-        var image: UIImage? = nil
+        var image: Image? = nil
         var tint: UIColor? = nil
         var bkgColor: UIColor? = nil
         if let components = URLComponents(string: icon ?? "") {
             if components.scheme == "sys" {
                 if let host = components.host {
-                    image = UIImage(systemName: host)!.withRenderingMode(.alwaysTemplate)
+                    image = Image(systemName: host)
                 }
                 if let items = components.queryItems {
                     for item in items {
@@ -34,13 +34,13 @@ struct IconView: View {
                 }
             }
         }
-        iconImage = image ?? UIImage(named: "Channel")!
+        iconImage = image ?? Image("Channel")
         tintColor = tint ?? UIColor.white
         backgroundColor = bkgColor ?? UIColor(named: "AccentColor")!
     }
     
-    init(icon: UIImage, tint: UIColor, background: UIColor) {
-        iconImage = icon.withRenderingMode(.alwaysTemplate)
+    init(icon: Image, tint: UIColor, background: UIColor) {
+        iconImage = icon
         tintColor = tint
         backgroundColor = background
     }
@@ -52,12 +52,19 @@ struct IconView: View {
                 RoundedRectangle(cornerRadius: size*0.2)
                     .fill(Color(backgroundColor))
                     .frame(width: size, height: size, alignment: .center)
-                Image(uiImage: iconImage)
+                self.iconImage
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
+                    .scaledToFit()
                     .foregroundColor(Color(tintColor))
-                    .frame(width: size*0.7, height: size*0.7, alignment: .center)
+                    .frame(width: size*0.60, height: size*0.60, alignment: .center)
+
             }.offset(x: (geometry.size.width - size)/2.0, y: (geometry.size.height - size)/2.0)
         }
     }
 }
+
+//struct IconView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        IconView(icon: "sys://house")
+//    }
+//}

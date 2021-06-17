@@ -10,5 +10,6 @@
 "channel"="频道";
 "node"="节点";
 "scan"="扫一扫";
+
 "sys.none"="未分类消息";
 "sys.device"="设备消息";

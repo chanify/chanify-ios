@@ -84,12 +84,27 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
 
 - (BOOL)handleURL:(NSURL *)url {
     NSString *target = url.absoluteString;
+    NSDictionary *params = nil;
     if ([url.scheme isEqualToString:@"chanify"]) {
+        NSURLComponents *components = [NSURLComponents componentsWithString:target];
         if ([url.path isEqualToString:@"/action/scan"]) {
             target = @"/page/scan?show=present&jump=1";
+        } else if ([url.path isEqualToString:@"/page/channel"]) {
+            NSString *cid = nil;
+            for (NSURLQueryItem *item in components.queryItems) {
+                if ([item.name isEqualToString:@"cid"]) {
+                    cid = item.value;
+                    break;
+                }
+            }
+            if (cid.length <= 0) {
+                return NO;
+            }
+            target = [url.path stringByAppendingString:@"?show=detail&singleton=1"];
+            params = @{ @"cid": cid };
         }
     }
-    return [self routeTo:target withParams:nil];
+    return [self routeTo:target withParams:params];
 }
 
 - (BOOL)routeTo:(NSString *)url {
@@ -98,13 +113,17 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
 
 - (BOOL)routeTo:(NSString *)url withParams:(nullable NSDictionary<NSString *, id> *)params {
     BOOL res = NO;
-    if ([[params valueForKey:@"singleton"] boolValue]) {
-        [self popToRootViewControllerAnimated:NO];
-    }
-    if ([[params valueForKey:@"noauth"] boolValue] || CHLogic.shared.me != nil) {
-        res = [JLRoutes routeURL:[NSURL URLWithString:url] withParameters:params];
-    } else {
+    if (![[params valueForKey:@"noauth"] boolValue] && CHLogic.shared.me == nil) {
         res = [JLRoutes routeURL:[NSURL URLWithString:@"/page/login"]];
+    } else {
+        NSURL *u = [NSURL URLWithString:url];
+        if (u.query.length > 0) {
+            params = mixURLParams(params, url);
+        }
+        if ([[params valueForKey:@"singleton"] boolValue]) {
+            [self popToRootViewControllerAnimated:NO];
+        }
+        res = [JLRoutes routeURL:u withParameters:params];
     }
     return res;
 }
@@ -338,6 +357,20 @@ static inline BOOL openURL(NSURL *url) {
         res = YES;
     }
     return res;
+}
+
+static inline NSDictionary *mixURLParams(NSDictionary *params, NSString *url) {
+    NSURLComponents *components = [NSURLComponents componentsWithString:url];
+    if (components.queryItems.count > 0) {
+        NSMutableDictionary *items = [NSMutableDictionary dictionaryWithDictionary:params ?: @{}];
+        for (NSURLQueryItem *item in components.queryItems) {
+            if (item.name.length > 0) {
+                [items setValue:item.value ?: @"" forKey:item.name];
+            }
+        }
+        params = items;
+    }
+    return params;
 }
 
 static inline CHRouterShowMode parseShowMode(NSString *show) {

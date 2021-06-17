@@ -10,3 +10,6 @@
 "A quick way to open selected page in Chanify."="在 Chanify 中快速打开所选页面";
 "Show charts of timeline notification."="显示基于时间线通知的数据图表";
 "Scan"="扫一扫";
+
+"sys.none"="未分类消息";
+"sys.device"="设备消息";

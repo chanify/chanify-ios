@@ -4,3 +4,5 @@
 #import "UIColor+CHExt.h"
 #import "NSString+CHExt.h"
 #import "CHWidgetManager.h"
+#import "ShortcutsConfigurationIntent.h"
+#import "ChartsConfigurationIntent.h"

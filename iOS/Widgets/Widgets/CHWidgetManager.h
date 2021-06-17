@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (class, nonatomic, readonly, strong) CHWidgetManager *shared;
 
 - (BOOL)reloadDB;
+- (NSString *)channelName:(NSString *)cid;
+- (NSString *)channelIcon:(NSString *)cid;
 
 
 @end

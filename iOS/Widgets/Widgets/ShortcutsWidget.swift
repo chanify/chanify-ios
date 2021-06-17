@@ -20,7 +20,7 @@ extension EntryType {
         return ""
     }
     
-    public var key: String {
+    public var code: String {
         if let id = self.identifier {
             if let index = id.firstIndex(of: ".") {
                 return String(id.suffix(from: id.index(after: index)))
@@ -30,6 +30,9 @@ extension EntryType {
     }
     
     public var title: String {
+        if type == "channel" {
+            return CHWidgetManager.shared.channelName(code)
+        }
         let text = self.displayString
         if let index = text.firstIndex(of: ":") {
             return String(self.displayString.suffix(from: text.index(after: index)))
@@ -37,16 +40,27 @@ extension EntryType {
         return text
     }
     
+    public var icon: String {
+        if type == "channel" {
+            return CHWidgetManager.shared.channelIcon(code)
+        }
+        return ""
+    }
+    
     public var linkURL: URL {
-        if type == "action" && key == "scan" {
-            return URL(string: "chanify:///action/scan")!
+        switch type {
+        case "action":
+            if code == "scan" {
+                return URL(string: "chanify:///action/scan")!
+            }
+        case "channel":
+            return URL(string: "chanify:///page/channel?cid=\(code)")!
+        default:
+            break
         }
         return URL(string: "chanify://")!
     }
-    
-    public var icon: String {
-        return ""
-    }
+
 }
 
 struct ShortcutsEntry: TimelineEntry {
@@ -80,7 +94,7 @@ struct EntryItemView : View {
         case "action":
             Link(destination: entry.linkURL) {
                 VStack(alignment: .center) {
-                    IconView(icon: UIImage(systemName: "qrcode.viewfinder")!, tint: .label, background: .systemFill)
+                    IconView(icon: Image(systemName: "qrcode.viewfinder"), tint: .label, background: .systemFill)
                     Text(entry.title).font(.system(size: 10)).lineLimit(1)
                 }
             }
