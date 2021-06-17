@@ -14,6 +14,7 @@
 	<key>com.apple.security.application-groups</key>
 	<array>
 		<string>group.net.chanify.share</string>
+		<string>group.net.chanify.share.widget</string>
 	</array>
 	<key>keychain-access-groups</key>
 	<array>

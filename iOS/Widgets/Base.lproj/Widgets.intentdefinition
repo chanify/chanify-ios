@@ -6,13 +6,13 @@
 	<array>
 		<dict>
 			<key>INEnumDisplayName</key>
-			<string>Position Enum</string>
+			<string>Alignment Enum</string>
 			<key>INEnumDisplayNameID</key>
 			<string>4R1CaK</string>
 			<key>INEnumGeneratesHeader</key>
 			<true/>
 			<key>INEnumName</key>
-			<string>PositionEnum</string>
+			<string>AlignmentEnum</string>
 			<key>INEnumType</key>
 			<string>Regular</string>
 			<key>INEnumValues</key>
@@ -44,6 +44,26 @@
 					<integer>2</integer>
 					<key>INEnumValueName</key>
 					<string>right</string>
+				</dict>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>Top</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>AZqx2s</string>
+					<key>INEnumValueIndex</key>
+					<integer>3</integer>
+					<key>INEnumValueName</key>
+					<string>top</string>
+				</dict>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>Bottom</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>X3t71I</string>
+					<key>INEnumValueIndex</key>
+					<integer>4</integer>
+					<key>INEnumValueName</key>
+					<string>bottom</string>
 				</dict>
 			</array>
 		</dict>
@@ -132,13 +152,13 @@
 					<key>INIntentParameterConfigurable</key>
 					<true/>
 					<key>INIntentParameterDisplayName</key>
-					<string>Position</string>
+					<string>Alignment</string>
 					<key>INIntentParameterDisplayNameID</key>
 					<string>HQkhve</string>
 					<key>INIntentParameterDisplayPriority</key>
 					<integer>1</integer>
 					<key>INIntentParameterEnumType</key>
-					<string>PositionEnum</string>
+					<string>AlignmentEnum</string>
 					<key>INIntentParameterEnumTypeNamespace</key>
 					<string>88xZPY</string>
 					<key>INIntentParameterMetadata</key>
@@ -147,7 +167,7 @@
 						<string>left</string>
 					</dict>
 					<key>INIntentParameterName</key>
-					<string>position</string>
+					<string>alignment</string>
 					<key>INIntentParameterPromptDialogs</key>
 					<array>
 						<dict>
@@ -166,7 +186,7 @@
 							<key>INIntentParameterPromptDialogCustom</key>
 							<true/>
 							<key>INIntentParameterPromptDialogFormatString</key>
-							<string>There are ${count} options matching ‘${position}’.</string>
+							<string>There are ${count} options matching ‘${alignment}’.</string>
 							<key>INIntentParameterPromptDialogFormatStringID</key>
 							<string>OnqSkw</string>
 							<key>INIntentParameterPromptDialogType</key>
@@ -176,7 +196,7 @@
 							<key>INIntentParameterPromptDialogCustom</key>
 							<true/>
 							<key>INIntentParameterPromptDialogFormatString</key>
-							<string>Just to confirm, you wanted ‘${position}’?</string>
+							<string>Just to confirm, you wanted ‘${alignment}’?</string>
 							<key>INIntentParameterPromptDialogFormatStringID</key>
 							<string>XCe090</string>
 							<key>INIntentParameterPromptDialogType</key>
@@ -500,34 +520,6 @@
 					<integer>4</integer>
 					<key>INTypePropertyType</key>
 					<string>SpeakableString</string>
-				</dict>
-				<dict>
-					<key>INTypePropertyDisplayName</key>
-					<string>Icon</string>
-					<key>INTypePropertyDisplayNameID</key>
-					<string>QvSISX</string>
-					<key>INTypePropertyDisplayPriority</key>
-					<integer>5</integer>
-					<key>INTypePropertyName</key>
-					<string>icon</string>
-					<key>INTypePropertyTag</key>
-					<integer>100</integer>
-					<key>INTypePropertyType</key>
-					<string>String</string>
-				</dict>
-				<dict>
-					<key>INTypePropertyDisplayName</key>
-					<string>Link</string>
-					<key>INTypePropertyDisplayNameID</key>
-					<string>7TBwfp</string>
-					<key>INTypePropertyDisplayPriority</key>
-					<integer>6</integer>
-					<key>INTypePropertyName</key>
-					<string>link</string>
-					<key>INTypePropertyTag</key>
-					<integer>101</integer>
-					<key>INTypePropertyType</key>
-					<string>String</string>
 				</dict>
 			</array>
 		</dict>

@@ -5,6 +5,7 @@
   Created by WizJin on 2021/6/16.
   
 */
+"none"="无";
 "action"="动作";
 "channel"="频道";
 "node"="节点";

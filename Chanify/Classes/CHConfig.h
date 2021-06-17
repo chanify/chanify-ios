@@ -18,12 +18,14 @@
 #define kCHAPIHostname                  "api.chanify.net"
 #define kCHAppGroupName                 "group.net.chanify.share"
 #define kCHAppWatchGroupName            "group.net.chanify.share.watch"
+#define kCHAppWidgetGroupName           "group.net.chanify.share.widget"
 #define kCHAppOSXGroupName              "P4XS4AVCLW.group.net.chanify.share.osx"
 #define kCHAppKeychainName              "P4XS4AVCLW.net.chanify.keychain"
 #define kCHDeviceSecKeyName             "net.chanify.device.key"
 #define kCHUserSecKeyName               "net.chanify.user.key"
 #define kCHDBDataName                   "data.db"
 #define kCHDBNotificationServiceName    "notification-service.db"
+#define kCHDBWidgetName                 "widget.db"
 #define kCHCodeFormatterLength          24
 #define kCHMessageListPageSize          16
 #define kCHMessageListDateDiff          300

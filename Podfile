@@ -35,6 +35,18 @@ target 'NotificationServiceIOS' do
 	pod 'Protobuf'
 end
 
+target 'WidgetsExtension' do
+	platform :ios, $ios_version
+
+	pod 'FMDB'
+end
+
+target 'WidgetIntents' do
+	platform :ios, $ios_version
+
+	pod 'FMDB'
+end
+
 target 'Watch Extension' do 
 	platform :watchos, $watchos_version
 

@@ -6,12 +6,14 @@
 //
 
 #import "IntentHandler.h"
+#import <FMDB.h>
+#import <sqlite3.h>
 #import "ShortcutsConfigurationIntent.h"
-#import "NSString+CHLocalized.h"
+#import "CHUserModel.h"
 
 @interface IntentHandler () <ShortcutsConfigurationIntentHandling>
 
-@property (nonatomic, readonly, strong) NSArray<NSString *> *types;
+@property (nonatomic, readonly, strong) FMDatabaseQueue *dbQueue;
 
 @end
 
@@ -19,7 +21,8 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        _types = @[@"action", @"channel", @"node"];
+        NSURL *url = [NSFileManager.defaultManager URLForGroupId:@kCHAppWidgetGroupName path:@kCHDBWidgetName];
+        _dbQueue = [FMDatabaseQueue databaseQueueWithURL:url flags:SQLITE_OPEN_READONLY|kCHDBFileProtectionFlags];
     }
     return self;
 }
@@ -27,7 +30,6 @@
 - (id)handlerForIntent:(INIntent *)intent {
     // This is the default implementation.  If you want different objects to handle different intents,
     // you can override this and return the handler you want for that particular intent.
-    
     return self;
 }
 
@@ -35,31 +37,35 @@
 - (void)provideEntriesOptionsCollectionForShortcutsConfiguration:(ShortcutsConfigurationIntent *)intent withCompletion:(void (^)(INObjectCollection<EntryType *> * _Nullable entriesOptionsCollection, NSError * _Nullable error))completion {
     if (completion) {
         NSMutableArray<EntryType *> *items = [NSMutableArray new];
-        [items addObject:[self entryWithIdentifier:@"action.scan"]];
-        [items addObject:[self entryWithIdentifier:@"channel.sys.none"]];
-        [items addObject:[self entryWithIdentifier:@"channel.sys.device"]];
+        [items addObject:self.noneEntry];
+        [items addObject:self.scanEntry];
+
+        CHUserModel *me = [CHUserModel modelWithKey:[CHSecKey secKeyWithName:@kCHUserSecKeyName device:NO created:NO]];
+        if (me.uid.length > 0) {
+            [self.dbQueue inDatabase:^(FMDatabase *db) {
+                FMResultSet *rows = [db executeQuery:@"SELECT `cid`,`name` FROM `channels` WHERE `uid`=?;", me.uid];
+                while (rows.next) {
+                    NSString *eid = [@"channel." stringByAppendingString:[rows stringForColumnIndex:0]];
+                    NSString *title = [NSString stringWithFormat:@"%@: %@", @"channel".localized, [rows stringForColumnIndex:1].localized];
+                    [items addObject:[[EntryType alloc] initWithIdentifier:eid displayString:title]];
+                }
+            }];
+        }
         completion([[INObjectCollection alloc] initWithItems:items], nil);
     }
 }
 
 - (nullable NSArray<EntryType *> *)defaultEntriesForShortcutsConfiguration:(ShortcutsConfigurationIntent *)intent {
-    return  @[[self entryWithIdentifier:@"action.scan"]];
+    return  @[self.scanEntry];
 }
 
 #pragma mark - Private Methods
-- (EntryType *)entryWithIdentifier:(NSString *)identifier {
-    NSString *title = @"";
-    for (NSString *name in self.types) {
-        NSInteger index = name.length;
-        if ([identifier hasPrefix:name] && [identifier characterAtIndex:index] == '.') {
-            title = [NSString stringWithFormat:@"%@: %@", name.localized, [identifier substringFromIndex:index + 1].localized];
-            break;
-        }
-    }
-    EntryType *entry = [[EntryType alloc] initWithIdentifier:identifier displayString:title];
-    entry.icon = @"";
-    entry.link = @"chanify:///action/scan";
-    return entry;
+- (EntryType *)noneEntry {
+    return [[EntryType alloc] initWithIdentifier:@"none" displayString:@"none".localized];
+}
+
+- (EntryType *)scanEntry {
+    return [[EntryType alloc] initWithIdentifier:@"action.scan" displayString:@"scan".localized];
 }
 
 

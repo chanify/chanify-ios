@@ -9,6 +9,46 @@ import WidgetKit
 import SwiftUI
 import Intents
 
+extension EntryType {
+    public var type: String {
+        if let id = self.identifier {
+            if let index = id.firstIndex(of: ".") {
+                return String(id.prefix(upTo: index))
+            }
+            return id
+        }
+        return ""
+    }
+    
+    public var key: String {
+        if let id = self.identifier {
+            if let index = id.firstIndex(of: ".") {
+                return String(id.suffix(from: id.index(after: index)))
+            }
+        }
+        return ""
+    }
+    
+    public var title: String {
+        let text = self.displayString
+        if let index = text.firstIndex(of: ":") {
+            return String(self.displayString.suffix(from: text.index(after: index)))
+        }
+        return text
+    }
+    
+    public var linkURL: URL {
+        if type == "action" && key == "scan" {
+            return URL(string: "chanify:///action/scan")!
+        }
+        return URL(string: "chanify://")!
+    }
+    
+    public var icon: String {
+        return ""
+    }
+}
+
 struct ShortcutsEntry: TimelineEntry {
     let date: Date
     let configuration: ShortcutsConfigurationIntent
@@ -34,8 +74,23 @@ struct EntryItemView : View {
     var entry: EntryType
     
     var body: some View {
-        Link(destination: URL(string: (entry.link ?? "")) ?? URL(string: "chanify:///home")!) {
-            IconView(icon: entry.icon)
+        switch entry.type {
+        case "none":
+            Color(.clear)
+        case "action":
+            Link(destination: entry.linkURL) {
+                VStack(alignment: .center) {
+                    IconView(icon: UIImage(systemName: "qrcode.viewfinder")!, tint: .label, background: .systemFill)
+                    Text(entry.title).font(.system(size: 10)).lineLimit(1)
+                }
+            }
+        default:
+            Link(destination: entry.linkURL) {
+                VStack(alignment: .center) {
+                    IconView(icon: entry.icon)
+                    Text(entry.title).font(.system(size: 10)).lineLimit(1)
+                }
+            }
         }
     }
 }
@@ -44,23 +99,43 @@ struct ShortcutsEntryView : View {
     @Environment(\.colorScheme) var colorScheme
 
     var entry: ShortcutsProvider.Entry
+    var isLogin: Bool
 
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 Color(.systemBackground)
                 if let entries = entry.configuration.entries {
-                    let size = geometry.size.height * 0.35
-                    let margin = CGPoint(x: (geometry.size.width - size * 4.0)/5.0, y: geometry.size.height * 0.1)
-                    let offset = CGPoint(x: size*0.5 + margin.x, y: size*0.5 + margin.y)
                     ForEach(0..<entries.count) { i in
+                        let frame = LayoutItem(geometry, i, entry.configuration)
                         EntryItemView(entry: entries[i])
-                            .frame(width: size, height: size, alignment: .center)
-                            .position(x: offset.x + (size + margin.x) * CGFloat(i%4), y: offset.y + (size + margin.y) * CGFloat(i/4))
+                            .frame(width: frame.width, height: frame.height, alignment: .center)
+                            .position(frame.origin)
                     }
                 }
             }.colorScheme(colorScheme.withAppearance(entry.configuration.appearance))
         }
+    }
+    
+    private func LayoutItem(_ geometry: GeometryProxy, _ index: Int, _ configuration: ShortcutsConfigurationIntent) -> CGRect {
+        let size = geometry.size.height * 0.4
+        var frame = CGRect(x: 0, y: 0, width: size, height: size);
+        let margin = CGPoint(x: (geometry.size.width - size * 4.0)/5.0, y: (geometry.size.height - size * 2.0)/3.0)
+        switch configuration.alignment {
+        case .right:
+            frame.origin.x = geometry.size.width -  size*0.5 - margin.x - (size + margin.x) * CGFloat(index/2)
+            frame.origin.y = size*0.5 + margin.y + (size + margin.y) * CGFloat(index%2)
+        case .top:
+            frame.origin.x = size*0.5 + margin.x + (size + margin.x) * CGFloat(index%4)
+            frame.origin.y = size*0.5 + margin.y + (size + margin.y) * CGFloat(index/4)
+        case .bottom:
+            frame.origin.x = size*0.5 + margin.x + (size + margin.x) * CGFloat(index%4)
+            frame.origin.y = geometry.size.height - size*0.5 - margin.y - (size + margin.y) * CGFloat(index/4)
+        default:
+            frame.origin.x = size*0.5 + margin.x + (size + margin.x) * CGFloat(index/2)
+            frame.origin.y = size*0.5 + margin.y + (size + margin.y) * CGFloat(index%2)
+        }
+        return frame
     }
 }
 
@@ -69,37 +144,10 @@ struct ShortcutsWidget: Widget {
 
     var body: some WidgetConfiguration {
         IntentConfiguration(kind: kind, intent: ShortcutsConfigurationIntent.self, provider: ShortcutsProvider()) { entry in
-            ShortcutsEntryView(entry: entry)
+            ShortcutsEntryView(entry: entry, isLogin: CHWidgetManager.shared.reloadDB())
         }
         .configurationDisplayName("Shortcuts")
         .description("A quick way to open selected page in Chanify.")
         .supportedFamilies([.systemMedium])
     }
 }
-
-//struct ShortcutsWidget_Previews: PreviewProvider {
-//    static func entry(identifier: String, display: String, icon: String) -> EntryType {
-//        let entry = EntryType(identifier: identifier, display: display)
-//        entry.icon = icon
-//        entry.link = "chanify:///action/scan"
-//        return entry
-//    }
-//
-//    static func configuration() -> ShortcutsConfigurationIntent {
-//        let c = ShortcutsConfigurationIntent();
-//        c.appearance = .dark
-//        c.entries = [
-//            entry(identifier: "action.scan", display: "Scan", icon: "sys://qrcode.viewfinder"),
-//            entry(identifier: "action.channel.001", display: "Channel", icon: ""),
-//            entry(identifier: "action.channel.002", display: "Channel", icon: ""),
-//            entry(identifier: "action.channel.003", display: "Channel", icon: ""),
-//            entry(identifier: "action.channel.004", display: "Channel", icon: "")
-//        ]
-//        return c
-//    }
-//
-//    static var previews: some View {
-//        ShortcutsEntryView(entry: ShortcutsEntry(date: Date(), configuration: configuration()))
-//            .previewContext(WidgetPreviewContext(family: .systemMedium))
-//    }
-//}

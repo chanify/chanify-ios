@@ -17,6 +17,7 @@
 #import "CHNotification+Badge.h"
 #import "CHDevice.h"
 #import "CHRouter.h"
+#import "CHWidget.h"
 #import "CHToken.h"
 #import "CHMock.h"
 #import "CHTP.pbobjc.h"
@@ -63,6 +64,7 @@
 }
 
 - (void)deactive {
+    [CHWidget.shared reloadIfNeeded];
     [self reloadBadge];
     [super deactive];
 }
@@ -191,6 +193,11 @@
 }
 
 #pragma mark - Subclass Methods
+- (void)reloadUserDB:(BOOL)force {
+    [super reloadUserDB:force];
+    [CHWidget.shared reloadDB:self.me.uid];
+}
+
 - (void)sendBlockTokenChanged {
     [super sendBlockTokenChanged];
     [self syncDataToWatch:NO];

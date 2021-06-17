@@ -5,6 +5,7 @@
   Created by WizJin on 2021/6/16.
   
 */
+"none"="None";
 "action"="Action";
 "channel"="Channel";
 "node"="Node";

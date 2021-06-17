@@ -6,7 +6,7 @@
 //
 
 #import "CHChannelModel.h"
-#include "CHTP.pbobjc.h"
+#import "CHTP.pbobjc.h"
 
 @implementation CHChannelModel
 
@@ -30,11 +30,11 @@
             switch (chan.code) {
                 case CHTPChanCode_GPBUnrecognizedEnumeratorValue:break;
                 case CHTPChanCode_Uncategorized:
-                    model->_code = @"sys.none".localized;
+                    model->_code = @"sys.none";
                     model->_icon = @"sys://tray.2.fill";
                     break;
                 case CHTPChanCode_Device:
-                    model->_code = @"sys.device".localized;
+                    model->_code = @"sys.device";
                     model->_icon = @"sys://iphone";
                     break;
             }
@@ -77,7 +77,7 @@
 }
 
 - (NSString *)title {
-    return (self.name.length > 0 ? self.name : self.code);
+    return (self.name.length > 0 ? self.name : self.code.localized);
 }
 
 - (BOOL)isEqual:(CHChannelModel *)rhs {

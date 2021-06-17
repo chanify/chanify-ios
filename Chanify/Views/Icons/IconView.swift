@@ -38,6 +38,12 @@ struct IconView: View {
         tintColor = tint ?? UIColor.white
         backgroundColor = bkgColor ?? UIColor(named: "AccentColor")!
     }
+    
+    init(icon: UIImage, tint: UIColor, background: UIColor) {
+        iconImage = icon.withRenderingMode(.alwaysTemplate)
+        tintColor = tint
+        backgroundColor = background
+    }
 
     var body: some View {
         GeometryReader { geometry in
@@ -51,7 +57,7 @@ struct IconView: View {
                     .aspectRatio(contentMode: .fit)
                     .foregroundColor(Color(tintColor))
                     .frame(width: size*0.7, height: size*0.7, alignment: .center)
-            }
+            }.offset(x: (geometry.size.width - size)/2.0, y: (geometry.size.height - size)/2.0)
         }
     }
 }
