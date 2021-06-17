@@ -61,15 +61,14 @@
 - (void)reloadDB:(nullable NSString *)uid {
     if (![_uid isEqualToString:uid]) {
         _uid = uid;
+        isReloadNeeded = YES;
         if (_uid.length > 0) {
             [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
                 int n = [db intForQuery:@"SELECT COUNT(*) FROM `channels` WHERE `uid`=?;", uid];
                 if (n <= 0) {
                     NSArray<CHChannelModel *> *channels = [CHLogic.shared.userDataSource loadChannels];
-                    for (CHChannelModel *channel in channels) {
-                        NSString *name = (channel.type == CHChanTypeSys ? channel.code : channel.title);
-                        BOOL res = [db executeUpdate:@"INSERT INTO `channels`(`uid`,`cid`,`name`,`icon`) VALUES(?,?,?,?) ON CONFLICT(`uid`,`cid`) DO UPDATE SET `name`=excluded.`name`,`icon`=excluded.`icon`;", uid, channel.cid, name, channel.icon];
-                        if (!res) {
+                    for (CHChannelModel *model in channels) {
+                        if (!upsertChannel(db, uid, model)) {
                             *rollback = YES;
                             break;
                         }
@@ -86,6 +85,32 @@
         [self.dbQueue close];
         [CHWidgetKit reloadAllTimelines];
     }
+}
+
+- (void)upsertChannel:(CHChannelModel *)model {
+    if (self.uid.length > 0) {
+        [self.dbQueue inDatabase:^(FMDatabase *db) {
+            if (upsertChannel(db, self.uid, model)) {
+                isReloadNeeded = YES;
+            }
+        }];
+    }
+}
+
+- (void)deleteChannel:(nullable NSString *)cid {
+    if (self.uid.length > 0) {
+        [self.dbQueue inDatabase:^(FMDatabase *db) {
+            if ([db executeUpdate:@"DELETE FROM `channels` WHERE `uid`=? AND `cid`=? LIMIT 1;", self.uid, cid]) {
+                isReloadNeeded = YES;
+            }
+        }];
+    }
+}
+
+#pragma mark - Private Methods
+static inline BOOL upsertChannel(FMDatabase *db, NSString *uid, CHChannelModel *model) {
+    NSString *name = (model.type == CHChanTypeSys ? model.code : model.title);
+    return [db executeUpdate:@"INSERT INTO `channels`(`uid`,`cid`,`name`,`icon`) VALUES(?,?,?,?) ON CONFLICT(`uid`,`cid`) DO UPDATE SET `name`=excluded.`name`,`icon`=excluded.`icon`;", uid, model.cid, name, model.icon];
 }
 
 

@@ -30,14 +30,18 @@ extension EntryType {
     }
     
     public var title: String {
-        if type == "channel" {
+        switch type {
+        case "none":
+            return ""
+        case "channel":
             return CHWidgetManager.shared.channelName(code)
+        default:
+            let text = self.displayString
+            if let index = text.firstIndex(of: ":") {
+                return String(self.displayString.suffix(from: text.index(after: index)))
+            }
+            return text
         }
-        let text = self.displayString
-        if let index = text.firstIndex(of: ":") {
-            return String(self.displayString.suffix(from: text.index(after: index)))
-        }
-        return text
     }
     
     public var icon: String {
@@ -58,7 +62,7 @@ extension EntryType {
         default:
             break
         }
-        return URL(string: "chanify://")!
+        return URL(string: "chanify:///")!
     }
 
 }
@@ -88,21 +92,24 @@ struct EntryItemView : View {
     var entry: EntryType
     
     var body: some View {
-        switch entry.type {
-        case "none":
+        let title = entry.title
+        if title.isEmpty {
             Color(.clear)
-        case "action":
-            Link(destination: entry.linkURL) {
-                VStack(alignment: .center) {
-                    IconView(icon: Image(systemName: "qrcode.viewfinder"), tint: .label, background: .systemFill)
-                    Text(entry.title).font(.system(size: 10)).lineLimit(1)
+        } else {
+            switch entry.type {
+            case "action":
+                Link(destination: entry.linkURL) {
+                    VStack(alignment: .center) {
+                        IconView(icon: Image(systemName: "qrcode.viewfinder"), tint: .label, background: .systemFill)
+                        Text(entry.title).font(.system(size: 10)).lineLimit(1)
+                    }
                 }
-            }
-        default:
-            Link(destination: entry.linkURL) {
-                VStack(alignment: .center) {
-                    IconView(icon: entry.icon)
-                    Text(entry.title).font(.system(size: 10)).lineLimit(1)
+            default:
+                Link(destination: entry.linkURL) {
+                    VStack(alignment: .center) {
+                        IconView(icon: entry.icon)
+                        Text(entry.title).font(.system(size: 10)).lineLimit(1)
+                    }
                 }
             }
         }
@@ -113,21 +120,24 @@ struct ShortcutsEntryView : View {
     @Environment(\.colorScheme) var colorScheme
 
     var entry: ShortcutsProvider.Entry
-    var isLogin: Bool
 
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                Color(.systemBackground)
-                if let entries = entry.configuration.entries {
-                    ForEach(0..<entries.count) { i in
-                        let frame = LayoutItem(geometry, i, entry.configuration)
-                        EntryItemView(entry: entries[i])
-                            .frame(width: frame.width, height: frame.height, alignment: .center)
-                            .position(frame.origin)
+        if !CHWidgetManager.shared.isLogin {
+            Text("Please login first to continue!").font(.footnote)
+        } else {
+            GeometryReader { geometry in
+                ZStack {
+                    Color(.systemBackground)
+                    if let entries = entry.configuration.entries {
+                        ForEach(0..<entries.count) { i in
+                            let frame = LayoutItem(geometry, i, entry.configuration)
+                            EntryItemView(entry: entries[i])
+                                .frame(width: frame.width, height: frame.height, alignment: .center)
+                                .position(frame.origin)
+                        }
                     }
-                }
-            }.colorScheme(colorScheme.withAppearance(entry.configuration.appearance))
+                }.colorScheme(colorScheme.withAppearance(entry.configuration.appearance))
+            }
         }
     }
     
@@ -158,7 +168,7 @@ struct ShortcutsWidget: Widget {
 
     var body: some WidgetConfiguration {
         IntentConfiguration(kind: kind, intent: ShortcutsConfigurationIntent.self, provider: ShortcutsProvider()) { entry in
-            ShortcutsEntryView(entry: entry, isLogin: CHWidgetManager.shared.reloadDB())
+            ShortcutsEntryView(entry: entry)
         }
         .configurationDisplayName("Shortcuts")
         .description("A quick way to open selected page in Chanify.")

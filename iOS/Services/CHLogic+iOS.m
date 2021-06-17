@@ -192,6 +192,31 @@
     }
 }
 
+#pragma mark - Channel Methods
+- (BOOL)insertChannel:(CHChannelModel *)model {
+    BOOL res = [super insertChannel:model];
+    if (res) {
+        [CHWidget.shared upsertChannel:model];
+    }
+    return res;
+}
+
+- (BOOL)updateChannel:(CHChannelModel *)model {
+    BOOL res = [super updateChannel:model];
+    if (res) {
+        [CHWidget.shared upsertChannel:model];
+    }
+    return res;
+}
+
+- (BOOL)deleteChannel:(nullable NSString *)cid {
+    BOOL res = [super deleteChannel:cid];
+    if (res) {
+        [CHWidget.shared deleteChannel:cid];
+    }
+    return res;
+}
+
 #pragma mark - Subclass Methods
 - (void)reloadUserDB:(BOOL)force {
     [super reloadUserDB:force];

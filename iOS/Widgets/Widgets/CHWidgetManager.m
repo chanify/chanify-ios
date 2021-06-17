@@ -37,9 +37,9 @@
     return self;
 }
 
-- (BOOL)reloadDB {
+- (BOOL)isLogin {
     NSString *uid = readUID();
-    if ([_uid isEqualToString:uid]) {
+    if (![_uid isEqualToString:uid]) {
         _uid = uid;
     }
     return (self.uid.length > 0);

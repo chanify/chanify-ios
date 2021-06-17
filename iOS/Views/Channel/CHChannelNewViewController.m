@@ -7,6 +7,7 @@
 
 #import "CHChannelNewViewController.h"
 #import "CHUserDataSource.h"
+#import "CHChannelModel.h"
 #import "CHRouter.h"
 #import "CHLogic.h"
 
@@ -60,7 +61,8 @@
         NSDictionary *values = self.form.formValues;
         NSString *icon = [values valueForKey:@"icon"];
         if (icon.length <= 0) icon = nil;
-        if ([CHLogic.shared insertChannel:[values valueForKey:@"code"] name:[values valueForKey:@"name"] icon:icon]) {
+        CHChannelModel *model = [CHChannelModel modelWithCode:[values valueForKey:@"code"] name:[values valueForKey:@"name"] icon:icon];
+        if (model != nil && [CHLogic.shared insertChannel:model]) {
             [self closeAnimated:YES completion:nil];
         } else {
             [CHRouter.shared makeToast:@"Create channel failed".localized];

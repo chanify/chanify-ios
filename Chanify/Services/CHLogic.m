@@ -33,14 +33,10 @@
 }
 
 #pragma mark - Channels
-- (BOOL)insertChannel:(NSString *)code name:(NSString *)name icon:(nullable NSString *)icon {
-    BOOL res = NO;
-    CHChannelModel *model = [CHChannelModel modelWithCode:code name:name icon:icon];
-    if (model != nil) {
-        res = [self.userDataSource insertChannel:model];
-        if (res) {
-            [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[model.cid]];
-        }
+- (BOOL)insertChannel:(CHChannelModel *)model {
+    BOOL res = [self.userDataSource insertChannel:model];
+    if (res) {
+        [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[model.cid]];
     }
     return res;
 }

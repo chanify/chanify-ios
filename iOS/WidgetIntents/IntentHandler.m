@@ -65,7 +65,7 @@
 }
 
 - (EntryType *)scanEntry {
-    return [[EntryType alloc] initWithIdentifier:@"action.scan" displayString:@"scan".localized];
+    return [[EntryType alloc] initWithIdentifier:@"action.scan" displayString:[NSString stringWithFormat:@"%@: %@", @"action".localized, @"scan".localized]];
 }
 
 

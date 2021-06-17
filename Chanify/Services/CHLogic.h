@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithAppGroup:(NSString *)appGroup;
 // Channels
-- (BOOL)insertChannel:(NSString *)code name:(nullable NSString *)name icon:(nullable NSString *)icon;
+- (BOOL)insertChannel:(CHChannelModel *)model;
 - (BOOL)updateChannel:(CHChannelModel *)model;
 - (BOOL)deleteChannel:(nullable NSString *)cid;
 // Messages

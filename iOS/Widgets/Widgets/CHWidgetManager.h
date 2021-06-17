@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CHWidgetManager : NSObject
 
 @property (class, nonatomic, readonly, strong) CHWidgetManager *shared;
+@property (nonatomic, readonly, assign) BOOL isLogin;
 
-- (BOOL)reloadDB;
 - (NSString *)channelName:(NSString *)cid;
 - (NSString *)channelIcon:(NSString *)cid;
 

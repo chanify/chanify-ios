@@ -9,11 +9,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class CHChannelModel;
+
 @interface CHWidget : NSObject
 
 + (instancetype)shared;
 - (void)reloadDB:(nullable NSString *)uid;
 - (void)reloadIfNeeded;
+- (void)upsertChannel:(CHChannelModel *)model;
+- (void)deleteChannel:(nullable NSString *)cid;
 
 
 @end

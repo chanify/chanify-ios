@@ -9,6 +9,9 @@
 "Charts"="Charts";
 "A quick way to open selected page in Chanify."="A quick way to open selected page in Chanify.";
 "Show charts of timeline notification."="Show status of timeline notification.";
+"Please login first to continue!"="Please login first to continue!";
+
+"scan"="Scan QRCode";
 
 "sys.none"="Uncategorized";
 "sys.device"="Devices";
