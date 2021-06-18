@@ -293,7 +293,7 @@
 					<key>INIntentParameterConfigurable</key>
 					<true/>
 					<key>INIntentParameterDisplayName</key>
-					<string>Entries</string>
+					<string>Targets</string>
 					<key>INIntentParameterDisplayNameID</key>
 					<string>22dpBq</string>
 					<key>INIntentParameterDisplayPriority</key>

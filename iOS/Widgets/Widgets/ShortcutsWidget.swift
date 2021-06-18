@@ -33,6 +33,8 @@ extension EntryType {
         switch type {
         case "none":
             return ""
+        case "action":
+            return code.localized;
         case "channel":
             return CHWidgetManager.shared.channelName(code)
         default:
@@ -145,18 +147,19 @@ struct ShortcutsEntryView : View {
         let size = geometry.size.height * 0.4
         var frame = CGRect(x: 0, y: 0, width: size, height: size);
         let margin = CGPoint(x: (geometry.size.width - size * 4.0)/5.0, y: (geometry.size.height - size * 2.0)/3.0)
+        frame.size.width += margin.x
         switch configuration.alignment {
         case .right:
-            frame.origin.x = geometry.size.width -  size*0.5 - margin.x - (size + margin.x) * CGFloat(index/2)
+            frame.origin.x = geometry.size.width -  size*0.5 - margin.x - frame.size.width * CGFloat(index/2)
             frame.origin.y = size*0.5 + margin.y + (size + margin.y) * CGFloat(index%2)
         case .top:
-            frame.origin.x = size*0.5 + margin.x + (size + margin.x) * CGFloat(index%4)
+            frame.origin.x = size*0.5 + margin.x + frame.size.width * CGFloat(index%4)
             frame.origin.y = size*0.5 + margin.y + (size + margin.y) * CGFloat(index/4)
         case .bottom:
-            frame.origin.x = size*0.5 + margin.x + (size + margin.x) * CGFloat(index%4)
+            frame.origin.x = size*0.5 + margin.x + frame.size.width * CGFloat(index%4)
             frame.origin.y = geometry.size.height - size*0.5 - margin.y - (size + margin.y) * CGFloat(index/4)
         default:
-            frame.origin.x = size*0.5 + margin.x + (size + margin.x) * CGFloat(index/2)
+            frame.origin.x = size*0.5 + margin.x + frame.size.width * CGFloat(index/2)
             frame.origin.y = size*0.5 + margin.y + (size + margin.y) * CGFloat(index%2)
         }
         return frame
@@ -171,7 +174,7 @@ struct ShortcutsWidget: Widget {
             ShortcutsEntryView(entry: entry)
         }
         .configurationDisplayName("Shortcuts")
-        .description("A quick way to open selected page in Chanify.")
+        .description("The shortcut to open selected targets.")
         .supportedFamilies([.systemMedium])
     }
 }

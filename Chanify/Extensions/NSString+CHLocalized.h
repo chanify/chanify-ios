@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSString (CHLocalized)
 
-- (NSString *)localized;
+@property (nonatomic, readonly, strong) NSString *localized;
 
 
 @end

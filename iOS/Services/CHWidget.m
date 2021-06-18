@@ -14,7 +14,6 @@
 
 #define kCHWSInitSql    \
     "CREATE TABLE IF NOT EXISTS `channels`(`uid` TEXT,`cid` TEXT,`name` TEXT,`icon` TEXT,PRIMARY KEY(`uid`,`cid`));" \
-    "CREATE TABLE IF NOT EXISTS `nodes`(`uid` TEXT,`nid` TEXT,`name` TEXT,`icon` TEXT,PRIMARY KEY(`uid`,`nid`));" \
 
 @interface CHWidgetKit
 + (void)reloadAllTimelines;
