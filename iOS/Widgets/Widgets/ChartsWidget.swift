@@ -46,10 +46,14 @@ struct ChartsEntryView : View {
     var entry: ChartsProvider.Entry
 
     var body: some View {
-        ZStack {
-            Color(.systemBackground)
-            Text(entry.date, style: .time)
-        }.colorScheme(colorScheme.withAppearance(entry.configuration.appearance))
+        if !CHWidgetManager.shared.isLogin {
+            Text("Please login first to continue!").font(.footnote)
+        } else {
+            ZStack {
+                Color(.systemBackground)
+                Text("Chanify")
+            }.colorScheme(colorScheme.withAppearance(entry.configuration.appearance))
+        }
     }
 }
 
@@ -62,6 +66,7 @@ struct ChartsWidget: Widget {
         }
         .configurationDisplayName("Charts")
         .description("Show charts of timeline notification.")
+        .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
 
