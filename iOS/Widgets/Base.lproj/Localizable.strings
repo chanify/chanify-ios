@@ -6,9 +6,9 @@
   
 */
 "Shortcuts"="Shortcuts";
-"Charts"="Charts";
+"Dashboard"="Dashboard";
 "The shortcut to open selected targets."="The shortcut to open selected targets.";
-"Show charts of timeline notification."="Show status of timeline notification.";
+"Show dashboard of timeline notification."="Show dashboard of timeline notification.";
 "Please login first to continue!"="Please login first to continue!";
 
 "scan"="Scan QR code";

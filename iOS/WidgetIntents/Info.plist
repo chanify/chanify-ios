@@ -30,7 +30,7 @@
 			<array/>
 			<key>IntentsSupported</key>
 			<array>
-				<string>ChartsConfigurationIntent</string>
+				<string>DashboardConfigurationIntent</string>
 				<string>ShortcutsConfigurationIntent</string>
 			</array>
 		</dict>

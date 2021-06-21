@@ -9,9 +9,10 @@
 #import <FMDB.h>
 #import <sqlite3.h>
 #import "ShortcutsConfigurationIntent.h"
+#import "DashboardConfigurationIntent.h"
 #import "CHUserModel.h"
 
-@interface IntentHandler () <ShortcutsConfigurationIntentHandling>
+@interface IntentHandler () <ShortcutsConfigurationIntentHandling, DashboardConfigurationIntentHandling>
 
 @property (nonatomic, readonly, strong) FMDatabaseQueue *dbQueue;
 
@@ -59,6 +60,19 @@
     return  @[self.scanEntry];
 }
 
+#pragma mark - DashboardConfigurationIntent
+- (void)provideChannelOptionsCollectionForDashboardConfiguration:(DashboardConfigurationIntent *)intent withCompletion:(void (^)(INObjectCollection<ChannelType *> * _Nullable channelOptionsCollection, NSError * _Nullable error))completion {
+    if (completion) {
+        NSMutableArray<ChannelType *> *items = [NSMutableArray new];
+        [items addObject:self.noneChannel];
+        completion([[INObjectCollection alloc] initWithItems:items], nil);
+    }
+}
+
+- (nullable ChannelType *)defaultChannelForDashboardConfiguration:(DashboardConfigurationIntent *)intent {
+    return  self.noneChannel;
+}
+
 #pragma mark - Private Methods
 - (EntryType *)noneEntry {
     return [[EntryType alloc] initWithIdentifier:@"none" displayString:@"none".localized];
@@ -66,6 +80,10 @@
 
 - (EntryType *)scanEntry {
     return [[EntryType alloc] initWithIdentifier:@"action.scan" displayString:[NSString stringWithFormat:@"%@: %@", @"action".localized, @"scan".localized]];
+}
+
+- (ChannelType *)noneChannel {
+    return [[ChannelType alloc] initWithIdentifier:@"" displayString:@"none".localized];
 }
 
 

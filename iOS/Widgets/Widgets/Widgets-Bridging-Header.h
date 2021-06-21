@@ -6,4 +6,4 @@
 #import "NSString+CHLocalized.h"
 #import "CHWidgetManager.h"
 #import "ShortcutsConfigurationIntent.h"
-#import "ChartsConfigurationIntent.h"
+#import "DashboardConfigurationIntent.h"

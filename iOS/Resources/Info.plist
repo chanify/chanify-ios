@@ -50,7 +50,7 @@
 	<string>To picker a QR code from photo when you need it.</string>
 	<key>NSUserActivityTypes</key>
 	<array>
-		<string>ChartsConfigurationIntent</string>
+		<string>DashboardConfigurationIntent</string>
 		<string>ShortcutsConfigurationIntent</string>
 	</array>
 	<key>UIApplicationShortcutItems</key>

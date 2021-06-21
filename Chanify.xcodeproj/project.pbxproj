@@ -37,6 +37,9 @@
 		6D17176B2665D35600A89A33 /* NSView+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D17176A2665D35600A89A33 /* NSView+CHExt.m */; };
 		6D180E01262441BC000BDE82 /* NSString+CHNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD7B5DE260DF588001D5DCB /* NSString+CHNotification.m */; };
 		6D1C613B26613E3C002E968B /* CHAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C613A26613E3C002E968B /* CHAudioPlayer.m */; };
+		6D1C7DBB26802E8200B5822F /* CHDashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C7DBA26802E8200B5822F /* CHDashboardViewController.m */; };
+		6D1C7DBE2680593E00B5822F /* CHPanelCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C7DBD2680593E00B5822F /* CHPanelCellConfiguration.m */; };
+		6D1C7DC126805D0100B5822F /* CHPanelCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C7DC026805D0100B5822F /* CHPanelCollectionViewCell.m */; };
 		6D229C5F26316078005BF375 /* CHLogicBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C27325D13E5500512E36 /* CHLogicBase.m */; };
 		6D278E4125E0ECAC00FC48CD /* CHChannelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278E4025E0ECAC00FC48CD /* CHChannelTableViewCell.m */; };
 		6D278E5E25E1EF7A00FC48CD /* CHPrivacyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278E5D25E1EF7A00FC48CD /* CHPrivacyViewController.m */; };
@@ -153,7 +156,7 @@
 		6DA617AF267B3A46003F665B /* WidgetKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA617AE267B3A46003F665B /* WidgetKit.swift */; };
 		6DA617B8267B5C5A003F665B /* NSString+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C26425D1151E00512E36 /* NSString+CHExt.m */; };
 		6DA617BB267B5DD3003F665B /* NSString+CHLocalized.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD7B5D8260DF520001D5DCB /* NSString+CHLocalized.m */; };
-		6DA617BF267B5E75003F665B /* ChartsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3326F02678A84A00BC0958 /* ChartsWidget.swift */; };
+		6DA617BF267B5E75003F665B /* DashboardWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3326F02678A84A00BC0958 /* DashboardWidget.swift */; };
 		6DA617C0267B6607003F665B /* NSFileManager+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C31825D1615100512E36 /* NSFileManager+CHExt.m */; };
 		6DA617C1267B671A003F665B /* CHUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C27A25D13EFA00512E36 /* CHUserModel.m */; };
 		6DA617C2267B6731003F665B /* CHSecKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2AD25D14C2400512E36 /* CHSecKey.m */; };
@@ -617,6 +620,12 @@
 		6D17176A2665D35600A89A33 /* NSView+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSView+CHExt.m"; sourceTree = "<group>"; };
 		6D1C613926613E3C002E968B /* CHAudioPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHAudioPlayer.h; sourceTree = "<group>"; };
 		6D1C613A26613E3C002E968B /* CHAudioPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHAudioPlayer.m; sourceTree = "<group>"; };
+		6D1C7DB926802E8200B5822F /* CHDashboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHDashboardViewController.h; sourceTree = "<group>"; };
+		6D1C7DBA26802E8200B5822F /* CHDashboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHDashboardViewController.m; sourceTree = "<group>"; };
+		6D1C7DBC2680593E00B5822F /* CHPanelCellConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHPanelCellConfiguration.h; sourceTree = "<group>"; };
+		6D1C7DBD2680593E00B5822F /* CHPanelCellConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHPanelCellConfiguration.m; sourceTree = "<group>"; };
+		6D1C7DBF26805D0100B5822F /* CHPanelCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHPanelCollectionViewCell.h; sourceTree = "<group>"; };
+		6D1C7DC026805D0100B5822F /* CHPanelCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHPanelCollectionViewCell.m; sourceTree = "<group>"; };
 		6D278E3F25E0ECAC00FC48CD /* CHChannelTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelTableViewCell.h; sourceTree = "<group>"; };
 		6D278E4025E0ECAC00FC48CD /* CHChannelTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelTableViewCell.m; sourceTree = "<group>"; };
 		6D278E5C25E1EF7A00FC48CD /* CHPrivacyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHPrivacyViewController.h; sourceTree = "<group>"; };
@@ -647,7 +656,7 @@
 		6D3326EB2678A17200BC0958 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6D3326EC2678A2E200BC0958 /* WidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetsExtension.entitlements; sourceTree = "<group>"; };
 		6D3326EE2678A4C700BC0958 /* ShortcutsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutsWidget.swift; sourceTree = "<group>"; };
-		6D3326F02678A84A00BC0958 /* ChartsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsWidget.swift; sourceTree = "<group>"; };
+		6D3326F02678A84A00BC0958 /* DashboardWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardWidget.swift; sourceTree = "<group>"; };
 		6D3326F82678B88700BC0958 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; name = Base; path = Base.lproj/Widgets.intentdefinition; sourceTree = "<group>"; };
 		6D3326FB2678B8AA00BC0958 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Widgets.strings"; sourceTree = "<group>"; };
 		6D38658A267A17180013641F /* WidgetIntents.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetIntents.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1186,6 +1195,19 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		6D1C7DB826802E5400B5822F /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				6D1C7DBC2680593E00B5822F /* CHPanelCellConfiguration.h */,
+				6D1C7DBD2680593E00B5822F /* CHPanelCellConfiguration.m */,
+				6D1C7DBF26805D0100B5822F /* CHPanelCollectionViewCell.h */,
+				6D1C7DC026805D0100B5822F /* CHPanelCollectionViewCell.m */,
+				6D1C7DB926802E8200B5822F /* CHDashboardViewController.h */,
+				6D1C7DBA26802E8200B5822F /* CHDashboardViewController.m */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
 		6D1FAA7A263D2F2A00582170 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -1238,7 +1260,7 @@
 				6D0D32FB267B8A1B00BCE575 /* CHWidgetManager.h */,
 				6D0D32FC267B8A1B00BCE575 /* CHWidgetManager.m */,
 				6D3326EE2678A4C700BC0958 /* ShortcutsWidget.swift */,
-				6D3326F02678A84A00BC0958 /* ChartsWidget.swift */,
+				6D3326F02678A84A00BC0958 /* DashboardWidget.swift */,
 				6D3326DA2678A08300BC0958 /* Widgets.swift */,
 				6DD41C8E2679F50E0083DFDE /* Utils.swift */,
 			);
@@ -1629,6 +1651,7 @@
 				6DBA92DC25F8A82100B792FE /* Split​View​ */,
 				6DC6C33125D1680D00512E36 /* Channels */,
 				6DC6C37B25D16DE600512E36 /* Channel */,
+				6D1C7DB826802E5400B5822F /* Dashboard */,
 				6D278EA125E4CC4800FC48CD /* Nodes */,
 				6DDC86C125E74EF900C26203 /* Node */,
 				6D120373264F8DF80075F5C1 /* Token */,
@@ -2585,7 +2608,7 @@
 				6DF70B87267B915800892B2E /* NSData+CHExt.m in Sources */,
 				6DD41C8F2679F50E0083DFDE /* Utils.swift in Sources */,
 				6DA617BB267B5DD3003F665B /* NSString+CHLocalized.m in Sources */,
-				6DA617BF267B5E75003F665B /* ChartsWidget.swift in Sources */,
+				6DA617BF267B5E75003F665B /* DashboardWidget.swift in Sources */,
 				6D0D32FD267B8A1B00BCE575 /* CHWidgetManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2831,6 +2854,7 @@
 				6DABBB292612D9EA00FCBDD3 /* CHPreviewItem.m in Sources */,
 				6DC6C38B25D16E6A00512E36 /* CHMsgCellConfiguration.m in Sources */,
 				6DD6955025F20C140047FF08 /* CHFormSection.m in Sources */,
+				6D1C7DC126805D0100B5822F /* CHPanelCollectionViewCell.m in Sources */,
 				6DC6C24225D1117A00512E36 /* CHTheme.m in Sources */,
 				6D44171325F330630041EBA0 /* CHFormInputItem.m in Sources */,
 				6DC6C2EC25D15F9700512E36 /* CHNSDataSource.m in Sources */,
@@ -2872,8 +2896,10 @@
 				6D278E4125E0ECAC00FC48CD /* CHChannelTableViewCell.m in Sources */,
 				6D12BC462626BBE7005659EA /* NSNumber+CHExt.m in Sources */,
 				6DAD5403266E1A8A0036B68F /* CHLinkLabel.m in Sources */,
+				6D1C7DBB26802E8200B5822F /* CHDashboardViewController.m in Sources */,
 				6D0D6B5D266B22C400B4AB91 /* CHBlockeModel.m in Sources */,
 				6D515648266A3C8B00137071 /* CHBlockTokenViewController.m in Sources */,
+				6D1C7DBE2680593E00B5822F /* CHPanelCellConfiguration.m in Sources */,
 				6DD7B5B7260DE63B001D5DCB /* CHBubbleMsgCellConfiguration.m in Sources */,
 				6DC6C32725D1626D00512E36 /* CryptoKit.swift in Sources */,
 				6DD6954B25F20BFD0047FF08 /* CHForm.m in Sources */,
