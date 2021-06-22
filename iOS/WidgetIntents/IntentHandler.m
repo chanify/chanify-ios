@@ -61,15 +61,15 @@
 }
 
 #pragma mark - DashboardConfigurationIntent
-- (void)provideChannelOptionsCollectionForDashboardConfiguration:(DashboardConfigurationIntent *)intent withCompletion:(void (^)(INObjectCollection<ChannelType *> * _Nullable channelOptionsCollection, NSError * _Nullable error))completion {
+- (void)providePanelOptionsCollectionForDashboardConfiguration:(DashboardConfigurationIntent *)intent withCompletion:(void (^)(INObjectCollection<PanelType *> * _Nullable channelOptionsCollection, NSError * _Nullable error))completion {
     if (completion) {
-        NSMutableArray<ChannelType *> *items = [NSMutableArray new];
+        NSMutableArray<PanelType *> *items = [NSMutableArray new];
         [items addObject:self.noneChannel];
         completion([[INObjectCollection alloc] initWithItems:items], nil);
     }
 }
 
-- (nullable ChannelType *)defaultChannelForDashboardConfiguration:(DashboardConfigurationIntent *)intent {
+- (nullable PanelType *)defaultPanelForDashboardConfiguration:(DashboardConfigurationIntent *)intent {
     return  self.noneChannel;
 }
 
@@ -82,8 +82,8 @@
     return [[EntryType alloc] initWithIdentifier:@"action.scan" displayString:[NSString stringWithFormat:@"%@: %@", @"action".localized, @"scan".localized]];
 }
 
-- (ChannelType *)noneChannel {
-    return [[ChannelType alloc] initWithIdentifier:@"" displayString:@"none".localized];
+- (PanelType *)noneChannel {
+    return [[PanelType alloc] initWithIdentifier:@"" displayString:@"none".localized];
 }
 
 

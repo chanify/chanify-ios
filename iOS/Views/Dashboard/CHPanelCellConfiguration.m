@@ -23,8 +23,7 @@
 - (instancetype)initWithConfiguration:(CHPanelCellConfiguration *)configuration {
     if (self = [super initWithFrame:CGRectZero]) {
         self.configuration = configuration;
-        self.backgroundColor = UIColor.grayColor;
-        
+
         UILabel *titleLabel = [UILabel new];
         [self addSubview:(_titleLabel = titleLabel)];
         titleLabel.textColor = CHTheme.shared.labelColor;

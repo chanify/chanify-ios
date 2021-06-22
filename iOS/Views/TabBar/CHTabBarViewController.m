@@ -19,7 +19,7 @@
     self.view.backgroundColor = CHTheme.shared.backgroundColor;
     self.viewControllers = @[
         tabBarItemWithName(@"Channels", @"Channel"),
-        tabBarItemWithName(@"Dashboard", @"Dashboard"),
+        //tabBarItemWithName(@"Dashboard", @"Dashboard"),
         tabBarItemWithName(@"Nodes", @"Network"),
         tabBarItemWithName(@"Settings", @"Settings"),
     ];

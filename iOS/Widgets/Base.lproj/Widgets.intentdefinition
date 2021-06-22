@@ -435,15 +435,15 @@
 					<key>INIntentParameterConfigurable</key>
 					<true/>
 					<key>INIntentParameterDisplayName</key>
-					<string>Channel</string>
+					<string>Panel</string>
 					<key>INIntentParameterDisplayNameID</key>
 					<string>f5kzuw</string>
 					<key>INIntentParameterDisplayPriority</key>
 					<integer>2</integer>
 					<key>INIntentParameterName</key>
-					<string>channel</string>
+					<string>panel</string>
 					<key>INIntentParameterObjectType</key>
-					<string>ChannelType</string>
+					<string>PanelType</string>
 					<key>INIntentParameterObjectTypeNamespace</key>
 					<string>88xZPY</string>
 					<key>INIntentParameterPromptDialogs</key>
@@ -459,26 +459,6 @@
 							<true/>
 							<key>INIntentParameterPromptDialogType</key>
 							<string>Primary</string>
-						</dict>
-						<dict>
-							<key>INIntentParameterPromptDialogCustom</key>
-							<true/>
-							<key>INIntentParameterPromptDialogFormatString</key>
-							<string>There are ${count} options matching ‘${channel}’.</string>
-							<key>INIntentParameterPromptDialogFormatStringID</key>
-							<string>2gA9yX</string>
-							<key>INIntentParameterPromptDialogType</key>
-							<string>DisambiguationIntroduction</string>
-						</dict>
-						<dict>
-							<key>INIntentParameterPromptDialogCustom</key>
-							<true/>
-							<key>INIntentParameterPromptDialogFormatString</key>
-							<string>Just to confirm, you wanted ‘${channel}’?</string>
-							<key>INIntentParameterPromptDialogFormatStringID</key>
-							<string>7Diqwg</string>
-							<key>INIntentParameterPromptDialogType</key>
-							<string>Confirmation</string>
 						</dict>
 					</array>
 					<key>INIntentParameterSupportsDynamicEnumeration</key>
@@ -582,13 +562,13 @@
 		</dict>
 		<dict>
 			<key>INTypeDisplayName</key>
-			<string>Channel Type</string>
+			<string>Panel Type</string>
 			<key>INTypeDisplayNameID</key>
 			<string>5YS8T8</string>
 			<key>INTypeLastPropertyTag</key>
 			<integer>99</integer>
 			<key>INTypeName</key>
-			<string>ChannelType</string>
+			<string>PanelType</string>
 			<key>INTypeProperties</key>
 			<array>
 				<dict>

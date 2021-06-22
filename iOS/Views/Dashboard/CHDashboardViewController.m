@@ -10,6 +10,7 @@
 #import "CHPanelCellConfiguration.h"
 #import "CHPanelCollectionViewCell.h"
 #import "CHTheme.h"
+#import "CHRouter.h"
 
 typedef UICollectionViewDiffableDataSource<NSString *, CHPanelCellConfiguration *> CHDashboardDataSource;
 typedef NSDiffableDataSourceSnapshot<NSString *, CHPanelCellConfiguration *> CHDashboardDiffableSnapshot;
@@ -70,9 +71,10 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHPanelCellConfiguration *> CHD
 
     UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:[CHCollectionViewDashboardLayout new]];
     [self.view addSubview:(_collectionView = collectionView)];
-    collectionView.alwaysBounceVertical = YES;
-    collectionView.allowsSelection = NO;
     collectionView.backgroundColor = CHTheme.shared.groupedBackgroundColor;
+    collectionView.alwaysBounceVertical = YES;
+    collectionView.allowsSelection = YES;
+    collectionView.allowsMultipleSelection = NO;
     collectionView.dragInteractionEnabled = YES;
     collectionView.dragDelegate = self;
     collectionView.dropDelegate = self;
@@ -81,7 +83,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHPanelCellConfiguration *> CHD
         make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
         make.left.right.bottom.equalTo(self.view);
     }];
-    UICollectionViewCellRegistration *registration = [UICollectionViewCellRegistration registrationWithCellClass:UICollectionViewCell.class configurationHandler:^(CHPanelCollectionViewCell *cell, NSIndexPath *indexPath, CHPanelCellConfiguration *item) {
+    UICollectionViewCellRegistration *registration = [UICollectionViewCellRegistration registrationWithCellClass:CHPanelCollectionViewCell.class configurationHandler:^(CHPanelCollectionViewCell *cell, NSIndexPath *indexPath, CHPanelCellConfiguration *item) {
         cell.contentConfiguration = item;
     }];
     _dataSource = [[CHDashboardDataSource alloc] initWithCollectionView:collectionView cellProvider:^CHPanelCollectionViewCell *(UICollectionView *collectionView, NSIndexPath *indexPath, CHPanelCellConfiguration *item) {
@@ -93,9 +95,9 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHPanelCellConfiguration *> CHD
     [items addObject:[CHPanelCellConfiguration cellConfiguration:@"2"]];
     [items addObject:[CHPanelCellConfiguration cellConfiguration:@"4"]];
     [items addObject:[CHPanelCellConfiguration cellConfiguration:@"3"]];
-    [items addObject:[CHPanelCellConfiguration cellConfiguration:@"6"]];
     [items addObject:[CHPanelCellConfiguration cellConfiguration:@"5"]];
-    
+    [items addObject:[CHPanelCellConfiguration cellConfiguration:@"6"]];
+
     CHDashboardDiffableSnapshot *snapshot = [CHDashboardDiffableSnapshot new];
     [snapshot appendSectionsWithIdentifiers:@[@"main"]];
     [snapshot appendItemsWithIdentifiers:items];
@@ -105,6 +107,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHPanelCellConfiguration *> CHD
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    [CHRouter.shared routeTo:@"/page/panel" withParams:@{ @"show": @"detail", @"code": [[self.dataSource itemIdentifierForIndexPath:indexPath] code] }];
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
@@ -124,6 +127,14 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHPanelCellConfiguration *> CHD
     UIDragItem *dragItem = [[UIDragItem alloc] initWithItemProvider:itemProvider];
     dragItem.localObject = item;
     return @[dragItem];
+}
+
+- (UIDragPreviewParameters *)collectionView:(UICollectionView *)collectionView dragPreviewParametersForItemAtIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    UIDragPreviewParameters *parameters = [UIDragPreviewParameters new];
+    parameters.visiblePath = [UIBezierPath bezierPathWithRoundedRect:cell.bounds cornerRadius:cell.backgroundConfiguration.cornerRadius];
+    parameters.backgroundColor = UIColor.clearColor;
+    return parameters;
 }
 
 #pragma mark - UICollectionViewDropDelegate
@@ -157,7 +168,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHPanelCellConfiguration *> CHD
 
 #pragma mark - Action Methods
 - (void)actionCreate:(id)sender {
-
+    [CHRouter.shared routeTo:@"/page/panel/new" withParams:@{ @"show": @"detail" }];
 }
 
 - (void)actionReorder:(UILongPressGestureRecognizer *)gestureRecognizer {
