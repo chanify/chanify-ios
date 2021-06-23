@@ -12,7 +12,8 @@
 #import "CHChannelModel.h"
 #import "CHLogic+iOS.h"
 
-#define kCHWSInitSql    \
+#define kCHWidgetDBVersion  1
+#define kCHWSInitSql        \
     "CREATE TABLE IF NOT EXISTS `channels`(`uid` TEXT,`cid` TEXT,`name` TEXT,`icon` TEXT,PRIMARY KEY(`uid`,`cid`));" \
 
 @interface CHWidgetKit
@@ -64,8 +65,13 @@
         if (_uid.length > 0) {
             [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
                 int n = [db intForQuery:@"SELECT COUNT(*) FROM `channels` WHERE `uid`=?;", uid];
+                if (n > 0 && db.userVersion == 0) {
+                    db.userVersion = kCHWidgetDBVersion;
+                    n = 0;
+                }
+                CHUserDataSource *userDataSource = CHLogic.shared.userDataSource;
                 if (n <= 0) {
-                    NSArray<CHChannelModel *> *channels = [CHLogic.shared.userDataSource loadChannels];
+                    NSArray<CHChannelModel *> *channels = userDataSource.loadChannels;
                     for (CHChannelModel *model in channels) {
                         if (!upsertChannel(db, uid, model)) {
                             *rollback = YES;

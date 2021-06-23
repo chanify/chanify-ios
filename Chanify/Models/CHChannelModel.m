@@ -37,6 +37,10 @@
                     model->_code = @"sys.device";
                     model->_icon = @"sys://iphone";
                     break;
+                case CHTPChanCode_TimeSets:
+                    model->_code = @"sys.timesets";
+                    model->_icon = @"sys://waveform.path.ecg";
+                    break;
             }
         }
     }

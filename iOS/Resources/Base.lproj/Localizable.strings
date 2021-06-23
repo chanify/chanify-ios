@@ -135,6 +135,7 @@
 
 "sys.none"="Uncategorized";
 "sys.device"="Devices";
+"sys.timesets"="Timeline";
 
 "register.limit"="Public registration disabled";
 "store.device"="Store device info";

@@ -21,6 +21,7 @@
     "CREATE TABLE IF NOT EXISTS `nodes`(`nid` TEXT PRIMARY KEY,`deleted` BOOLEAN DEFAULT 0,`name` TEXT,`version` TEXT,`endpoint` TEXT,`pubkey` BLOB,`icon` TEXT,`flags` INTEGER DEFAULT 0,`features` TEXT,`secret` BLOB);" \
     "INSERT OR IGNORE INTO `channels`(`cid`) VALUES(X'0801');"      \
     "INSERT OR IGNORE INTO `channels`(`cid`) VALUES(X'08011001');"  \
+    "INSERT OR IGNORE INTO `channels`(`cid`) VALUES(X'08011002');"  \
     "INSERT OR IGNORE INTO `nodes`(`nid`,`features`) VALUES(\"sys\",\"store.device,platform.watchos,msg.text,msg.link,msg.action\") ON CONFLICT(`nid`) DO UPDATE SET `features`=excluded.`features` WHERE `features`!=excluded.`features`;"  \
 
 @interface CHUserDataSource ()
@@ -44,7 +45,11 @@
         _srvkeyCache = nil;
         _dbQueue = [FMDatabaseQueue databaseQueueWithURL:url flags:SQLITE_OPEN_READWRITE|SQLITE_OPEN_CREATE|kCHDBFileProtectionFlags];
         [self.dbQueue inDatabase:^(FMDatabase *db) {
-            if (db.applicationID < kCHUserDBVersion) {
+            if (db.applicationID > 0) {
+                db.userVersion = db.applicationID;
+                db.applicationID = 0;
+            }
+            if (db.userVersion < kCHUserDBVersion) {
                 BOOL res = YES;
                 if ([db tableExists:@"nodes"]) {
                     if (![db columnExists:@"version" inTableWithName:@"nodes"]
@@ -61,7 +66,7 @@
                     }
                 }
                 if (res) {
-                    db.applicationID = kCHUserDBVersion;
+                    db.userVersion = kCHUserDBVersion;
                 }
             }
             if ([db executeStatements:@kCHNSInitSql]) {
