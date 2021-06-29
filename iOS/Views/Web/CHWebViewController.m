@@ -144,12 +144,17 @@
 }
 
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
-    if (error.code == 0) {
-        NSString *url = [error.userInfo valueForKey:NSURLErrorFailingURLStringErrorKey];
-        if (url.length > 0) {
-            [UIApplication.sharedApplication openURL:[NSURL URLWithString:url] options:@{} completionHandler:nil];
-            return;
+    switch (error.code) {
+        default:break;
+        case 0: case -1002:
+        {
+            NSString *url = [error.userInfo valueForKey:NSURLErrorFailingURLStringErrorKey];
+            if (url.length > 0) {
+                [UIApplication.sharedApplication openURL:[NSURL URLWithString:url] options:@{} completionHandler:nil];
+                return;
+            }
         }
+            break;
     }
     [self showEmpty:YES];
 }
