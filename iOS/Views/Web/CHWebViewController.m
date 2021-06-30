@@ -20,6 +20,7 @@
 @property (nonatomic, nullable, strong) NSString *defaultTitle;
 @property (nonatomic, nullable, strong) UIView *emptyView;
 @property (nonatomic, readonly, strong) NSURL *url;
+@property (nonatomic, nullable, strong) NSArray *leftItems;
 
 @end
 
@@ -52,7 +53,12 @@
     [super viewDidLoad];
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"⋯" style:UIBarButtonItemStylePlain target:self action:@selector(actionMore:)];
-    
+    if (self.navigationController.viewControllers.count > 1) {
+        self.leftItems = @[self.closeButtonItem];
+        self.navigationItem.leftItemsSupplementBackButton = YES;
+        self.navigationItem.leftBarButtonItems = @[];
+    }
+
     CHWebViewRefresher *refreshControl = [CHWebViewRefresher new];
     [refreshControl addTarget:self action:@selector(actionRefresh:) forControlEvents:UIControlEventValueChanged];
 
@@ -99,22 +105,7 @@
     if (navigationAction.navigationType == WKNavigationTypeLinkActivated) {
         NSURL *url = navigationAction.request.URL;
         if (url != nil) {
-            BOOL appOpen = NO;
-            NSString *scheme = url.scheme.lowercaseString;
-            if ([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"]) {
-                NSString *host = url.host.lowercaseString;
-                appOpen = [host isEqualToString:@"itunes.apple.com"];
-            } else {
-                if (![scheme isEqualToString:@"chanify"]) {
-                    appOpen = YES;
-                } else {
-                    NSString *host = self.url.host.lowercaseString;
-                    if ([host isEqualToString:@"chanify.net"] || [host isEqualToString:@"www.chanify.net"]) {
-                        appOpen = YES;
-                    }
-                }
-            }
-            if (appOpen) {
+            if (canOpenURL(url, self.url)) {
                 if ([UIApplication.sharedApplication canOpenURL:url]) {
                     [UIApplication.sharedApplication openURL:url options:@{} completionHandler:nil];
                     decisionHandler(WKNavigationActionPolicyCancel);
@@ -144,17 +135,23 @@
 }
 
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
+    BOOL appOpen = NO;
+    NSURL *url = nil;
+    NSString *failedURL = [error.userInfo valueForKey:NSURLErrorFailingURLStringErrorKey];
+    if (failedURL.length > 0) {
+        url = [NSURL URLWithString:failedURL];
+    }
     switch (error.code) {
-        default:break;
-        case 0: case -1002:
-        {
-            NSString *url = [error.userInfo valueForKey:NSURLErrorFailingURLStringErrorKey];
-            if (url.length > 0) {
-                [UIApplication.sharedApplication openURL:[NSURL URLWithString:url] options:@{} completionHandler:nil];
-                return;
-            }
-        }
+        case 0:
+            appOpen = YES;
             break;
+        default:
+            appOpen = canOpenURL(url, self.url);
+            break;
+    }
+    if (appOpen && url != nil) {
+        [UIApplication.sharedApplication openURL:url options:@{} completionHandler:nil];
+        return;
     }
     [self showEmpty:YES];
 }
@@ -201,7 +198,13 @@
             self.refresher.hasOnlySecureContent = self.webView.hasOnlySecureContent;
             return;
         } else if ([keyPath isEqualToString:@"canGoBack"]) {
-            self.navigationController.interactivePopGestureRecognizer.enabled = !self.webView.canGoBack;
+            BOOL canGoBack = self.webView.canGoBack;
+            self.navigationController.interactivePopGestureRecognizer.enabled = !canGoBack;
+            if (canGoBack) {
+                self.navigationItem.leftBarButtonItems = self.leftItems;
+            } else {
+                self.navigationItem.leftBarButtonItems = @[];
+            }
             return;
         }
     }
@@ -272,6 +275,25 @@
             [emptyView addGestureRecognizer:tapGestureRecognizer];
         }
     }
+}
+
+static inline BOOL canOpenURL(NSURL *url, NSURL *refrenceURL) {
+    BOOL appOpen = NO;
+    NSString *scheme = url.scheme.lowercaseString;
+    if ([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"]) {
+        NSString *host = url.host.lowercaseString;
+        appOpen = [host isEqualToString:@"itunes.apple.com"];
+    } else {
+        if (![scheme isEqualToString:@"chanify"]) {
+            appOpen = YES;
+        } else if (refrenceURL != nil) {
+            NSString *host = refrenceURL.host.lowercaseString;
+            if ([host isEqualToString:@"chanify.net"] || [host isEqualToString:@"www.chanify.net"]) {
+                appOpen = YES;
+            }
+        }
+    }
+    return appOpen;
 }
 
 
