@@ -30,24 +30,24 @@
 - (void)didReceiveNotificationRequest:(UNNotificationRequest *)request withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler {
     self.contentHandler = contentHandler;
     self.attemptContent = [request.content mutableCopy];
-    BOOL blocked = NO;
+    CHMessageProcessFlags flags = 0;
     NSData *data = nil;
     NSString *mid = nil;
     NSString *uid = [CHMessageModel parsePacket:self.attemptContent.userInfo mid:&mid data:&data];
     if (uid.length > 0 && mid.length > 0 && data.length > 0) {
         CHNSDataSource *dbsrc = self.class.sharedDB;
-        CHMessageModel *model = [dbsrc pushMessage:data mid:mid uid:uid blocked:&blocked];
-        if (!blocked) {
+        CHMessageModel *model = [dbsrc pushMessage:data mid:mid uid:uid flags:&flags];
+        if (!(flags&CHMessageProcessFlagNoAlert)) {
             self.attemptContent.badge = @([dbsrc nextBadgeForUID:uid]);
             if (model != nil) {
                 [model formatNotification:self.attemptContent];
             }
         }
     }
-    if (blocked) {
-        self.contentHandler([UNNotificationContent new]);
-    } else {
+    if (!(flags&CHMessageProcessFlagNoAlert)) {
         self.contentHandler(self.attemptContent);
+    } else {
+        self.contentHandler([UNNotificationContent new]);
     }
 }
 

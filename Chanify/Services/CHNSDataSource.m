@@ -100,12 +100,12 @@
     }
 }
 
-- (nullable CHMessageModel *)pushMessage:(NSData *)data mid:(NSString *)mid uid:(NSString *)uid blocked:(BOOL * _Nullable)blocked {
+- (nullable CHMessageModel *)pushMessage:(NSData *)data mid:(NSString *)mid uid:(NSString *)uid flags:(CHMessageProcessFlags * _Nullable)flags {
     CHMessageModel *msg = nil;
-    BOOL isBlocked = NO;
+    CHMessageProcessFlags uFlags = 0;
     if (uid.length > 0 && mid.length > 0 && data.length > 0) {
-        msg = [CHMessageModel modelWithStorage:self uid:uid mid:mid data:data raw:nil blocked:&isBlocked];
-        if (!isBlocked) {
+        msg = [CHMessageModel modelWithStorage:self uid:uid mid:mid data:data raw:nil flags:&uFlags];
+        if ((uFlags&CHMessageProcessFlagBlocked) != CHMessageProcessFlagBlocked) {
             [self.dbQueue inDatabase:^(FMDatabase *db) {
                 for (int i = 0; i < 3; i++) {
                     if (![db executeUpdate:@"INSERT OR IGNORE INTO `msgs`(`uid`,`mid`,`data`) VALUES(?,?,?);", uid, mid, data]) {
@@ -118,8 +118,8 @@
             }];
         }
     }
-    if (blocked != nil) {
-        *blocked = isBlocked;
+    if (flags != nil) {
+        *flags = uFlags;
     }
     return msg;
 }

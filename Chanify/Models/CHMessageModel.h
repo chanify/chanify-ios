@@ -33,6 +33,12 @@ typedef NS_OPTIONS(NSUInteger, CHMessageFlags) {
     CHMessageFlagAutoCopy   = 1 << 0,
 };
 
+typedef NS_OPTIONS(NSUInteger, CHMessageProcessFlags) {
+    CHMessageProcessFlagNoAlert   = 1 << 0,
+    CHMessageProcessFlagBlocked   = (1 << 1 | CHMessageProcessFlagNoAlert),
+};
+
+
 @interface CHMessageModel : NSObject
 
 @property (nonatomic, readonly, strong) NSString *mid;
@@ -53,7 +59,7 @@ typedef NS_OPTIONS(NSUInteger, CHMessageFlags) {
 @property (nonatomic, readonly, nullable, strong) NSArray<CHActionItemModel *> *actions;
 
 + (nullable instancetype)modelWithData:(nullable NSData *)data mid:(NSString *)mid;
-+ (nullable instancetype)modelWithStorage:(id<CHKeyStorage, CHBlockedStorage>)storage uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw blocked:(BOOL *_Nullable)blocked;
++ (nullable instancetype)modelWithStorage:(id<CHKeyStorage, CHBlockedStorage>)storage uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw flags:(CHMessageProcessFlags *_Nullable)flags;
 + (nullable NSString *)parsePacket:(NSDictionary *)info mid:(NSString * _Nullable * _Nullable)mid data:(NSData * _Nullable * _Nullable)data;
 
 - (void)formatNotification:(UNMutableNotificationContent *)content;
@@ -61,6 +67,7 @@ typedef NS_OPTIONS(NSUInteger, CHMessageFlags) {
 - (NSString *)summaryBodyText;
 - (nullable NSString *)fileURL;
 - (nullable NSString *)copyTextString;
+- (BOOL)needNoAlert;
 
 
 @end

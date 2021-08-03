@@ -27,9 +27,9 @@
     return nil;
 }
 
-+ (nullable instancetype)modelWithStorage:(id<CHKeyStorage, CHBlockedStorage>)storage uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw blocked:(BOOL *_Nullable)blocked {
++ (nullable instancetype)modelWithStorage:(id<CHKeyStorage, CHBlockedStorage>)storage uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw flags:(CHMessageProcessFlags *_Nullable)flags {
     id model = nil;
-    BOOL isBlocked = NO;
+    CHMessageProcessFlags uFlags = 0;
     if (mid.length > 0) {
         NSString *keyID = uid;
         NSString *src = getSrcFromMID(mid);
@@ -44,7 +44,7 @@
                 CHTPMessage *msg = [CHTPMessage parseFromData:payload error:&error];
                 if (error == nil && msg != nil) {
                     if (msg.tokenHash.length > 0 && [storage checkBlockedTokenWithKey:msg.tokenHash.hex uid:uid]) {
-                        isBlocked = YES;
+                        uFlags |= CHMessageProcessFlagBlocked;
                     } else {
                         if (msg.ciphertext.length > kCHAesGcmNonceBytes + kCHAesGcmTagBytes) {
                             key = [storage keyForUID:[NSString stringWithFormat:@"%@.%@", uid, msg.from.base32]];
@@ -64,13 +64,16 @@
                             *raw = payload;
                         }
                         model = [self.class modelWithData:payload mid:mid];
+                        if ([model needNoAlert]) {
+                            uFlags |= CHMessageProcessFlagNoAlert;
+                        }
                     }
                 }
             }
         }
     }
-    if (blocked != nil) {
-        *blocked = isBlocked;
+    if (flags != nil) {
+        *flags = uFlags;
     }
     return model;
 }
@@ -295,6 +298,17 @@
     NSString *copy = self.copytext;
     if (copy.length <= 0) copy = self.text;
     return copy;
+}
+
+- (BOOL)needNoAlert {
+    if (self != nil && self.channel.length > 0) {
+        NSError *error = nil;
+        CHTPChannel *chan = [CHTPChannel parseFromData:self.channel error:&error];
+        if (error == nil && chan.type == CHTPChanType_Sys && chan.code == CHTPChanCode_TimeSets) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 - (BOOL)isEqual:(CHMessageModel *)rhs {

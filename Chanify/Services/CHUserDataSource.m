@@ -374,7 +374,7 @@
     CHMessageModel *msg = nil;
     if (mid.length > 0) {
         NSData *raw = nil;
-        CHMessageModel *model = [CHMessageModel modelWithStorage:nsDB uid:uid mid:mid data:data raw:&raw blocked:nil];
+        CHMessageModel *model = [CHMessageModel modelWithStorage:nsDB uid:uid mid:mid data:data raw:&raw flags:nil];
         if (model != nil) {
             __block BOOL res = NO;
             __block CHUpsertMessageFlags flags = 0;
@@ -387,6 +387,7 @@
                 } else {
                     NSString *oldMid = nil;
                     BOOL chanFound = NO;
+                    int unread = (model.needNoAlert ? 0 : 1);
                     FMResultSet *result = [db executeQuery:@"SELECT `mid` FROM `channels` WHERE `cid`=? AND `deleted`=0 LIMIT 1;", ccid];
                     if (result.next) {
                         oldMid = [result stringForColumnIndex:0];
@@ -395,12 +396,12 @@
                     [result close];
                     [result setParentDB:nil];
                     if (!chanFound) {
-                        if([db executeUpdate:@"INSERT INTO `channels`(`cid`,`mid`,`unread`) VALUES(?,?,1) ON CONFLICT(`cid`) DO UPDATE SET `mid`=excluded.`mid`,`unread`=IFNULL(`unread`,0)+1,`deleted`=0;", ccid, mid]) {
+                        if([db executeUpdate:@"INSERT INTO `channels`(`cid`,`mid`,`unread`) VALUES(?,?,1) ON CONFLICT(`cid`) DO UPDATE SET `mid`=excluded.`mid`,`unread`=IFNULL(`unread`,0)+?,`deleted`=0;", ccid, mid, @(unread)]) {
                             flags |= CHUpsertMessageFlagChannel;
                         }
                     }
                     if (changes > 0 && checker != nil && checker(ccid.base64)) {
-                        [db executeUpdate:@"UPDATE OR IGNORE `channels` SET `unread`=IFNULL(`unread`,0)+1 WHERE `cid`=? LIMIT 1;", ccid];
+                        [db executeUpdate:@"UPDATE OR IGNORE `channels` SET `unread`=IFNULL(`unread`,0)+? WHERE `cid`=? LIMIT 1;", @(unread), ccid];
                         flags |= CHUpsertMessageFlagUnread;
                     }
                     if (oldMid.length <= 0 || [oldMid compare:mid] == NSOrderedAscending) {
