@@ -38,7 +38,6 @@ typedef NS_OPTIONS(NSUInteger, CHMessageProcessFlags) {
     CHMessageProcessFlagBlocked   = (1 << 1 | CHMessageProcessFlagNoAlert),
 };
 
-
 @interface CHMessageModel : NSObject
 
 @property (nonatomic, readonly, strong) NSString *mid;
@@ -57,6 +56,8 @@ typedef NS_OPTIONS(NSUInteger, CHMessageProcessFlags) {
 @property (nonatomic, readonly, nullable, strong) CHThumbnailModel *thumbnail;
 @property (nonatomic, readonly, nullable, strong) NSString *copytext;
 @property (nonatomic, readonly, nullable, strong) NSArray<CHActionItemModel *> *actions;
+@property (nonatomic, readonly, nullable, strong) NSString *code;
+@property (nonatomic, readonly, nullable, strong) NSDictionary<NSString *, NSNumber *> *timeItems;
 
 + (nullable instancetype)modelWithData:(nullable NSData *)data mid:(NSString *)mid;
 + (nullable instancetype)modelWithStorage:(id<CHKeyStorage, CHBlockedStorage>)storage uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw flags:(CHMessageProcessFlags *_Nullable)flags;

@@ -188,6 +188,27 @@
                     break;
                 case CHTPMsgType_Timeline:
                     _type = CHMessageTypeTimeline;
+                    if (content.title.length > 0) {
+                        _title = content.title;
+                    }
+                    if (content.hasTimeContent) {
+                        CHTPTimeContent *timeContent = content.timeContent;
+                        _code = timeContent.code;
+                        NSMutableDictionary *items = [NSMutableDictionary dictionaryWithCapacity:timeContent.timeItemsArray_Count];
+                        for (CHTPTimeItem *item in timeContent.timeItemsArray) {
+                            switch (item.valueType) {
+                                default:
+                                    continue;
+                                case CHTPValueType_ValueTypeInteger:
+                                    [items setValue:@(item.integerValue) forKey:item.name];
+                                    break;
+                                case CHTPValueType_ValueTypeDouble:
+                                    [items setValue:@(item.doubleValue) forKey:item.name];
+                                    break;
+                            }
+                        }
+                        _timeItems = items;
+                    }
                     break;
             }
         }
@@ -276,6 +297,11 @@
                     txt = [txt stringByAppendingFormat:@" %@", self.filename];
                 }
                 break;
+            case CHMessageTypeTimeline:
+                if (self.code.length > 0) {
+                    txt = self.code;
+                    break;
+                }
             default:
                 txt = @"NewMsg".localized;
                 break;
@@ -301,14 +327,7 @@
 }
 
 - (BOOL)needNoAlert {
-    if (self != nil && self.channel.length > 0) {
-        NSError *error = nil;
-        CHTPChannel *chan = [CHTPChannel parseFromData:self.channel error:&error];
-        if (error == nil && chan.type == CHTPChanType_Sys && chan.code == CHTPChanCode_TimeSets) {
-            return YES;
-        }
-    }
-    return NO;
+    return (self != nil && self.type == CHMessageTypeTimeline);
 }
 
 - (BOOL)isEqual:(CHMessageModel *)rhs {
