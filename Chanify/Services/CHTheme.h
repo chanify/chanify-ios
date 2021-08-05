@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) CHImage *backImage;
 @property (nonatomic, readonly, strong) CHFont *messageTextFont;
 @property (nonatomic, readonly, strong) CHFont *messageTitleFont;
+@property (nonatomic, readonly, strong) CHFont *messageSmallFont;
 
 #if TARGET_OS_OSX
 @property (nonatomic, readonly, strong) CHColor *selectedCellBackgroundColor;

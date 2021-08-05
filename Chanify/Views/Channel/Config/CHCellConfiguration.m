@@ -9,11 +9,12 @@
 #import "CHMessageCellView.h"
 #import "CHDateCellConfiguration.h"
 #import "CHTextMsgCellConfiguration.h"
-#import "CHActionMsgCellConfiguration.h"
 #import "CHLinkMsgCellConfiguration.h"
 #import "CHFileMsgCellConfiguration.h"
 #import "CHImageMsgCellConfiguration.h"
 #import "CHAudioMsgCellConfiguration.h"
+#import "CHActionMsgCellConfiguration.h"
+#import "CHTimelineMsgCellConfiguration.h"
 #import "CHUnknownMsgCellConfiguration.h"
 
 @implementation CHCellConfiguration
@@ -32,6 +33,8 @@
             return [CHAudioMsgCellConfiguration cellConfiguration:model];
         case CHMessageTypeAction:
             return [CHActionMsgCellConfiguration cellConfiguration:model];
+        case CHMessageTypeTimeline:
+            return [CHTimelineMsgCellConfiguration cellConfiguration:model];
         default:
             break;
     }
@@ -43,11 +46,12 @@
     return @{
         CellConfiguration(CHDateCellConfiguration),
         CellConfiguration(CHTextMsgCellConfiguration),
-        CellConfiguration(CHActionMsgCellConfiguration),
         CellConfiguration(CHLinkMsgCellConfiguration),
         CellConfiguration(CHFileMsgCellConfiguration),
         CellConfiguration(CHImageMsgCellConfiguration),
         CellConfiguration(CHAudioMsgCellConfiguration),
+        CellConfiguration(CHActionMsgCellConfiguration),
+        CellConfiguration(CHTimelineMsgCellConfiguration),
         CellConfiguration(CHUnknownMsgCellConfiguration),
     };
 }

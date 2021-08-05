@@ -47,12 +47,14 @@
         _selectedCellBackgroundColor = [CHColor colorNamed:@"SelectedCellColor"];
         _messageTextFont = [CHFont systemFontOfSize:15 weight:NSFontWeightLight];
         _messageTitleFont = [CHFont systemFontOfSize:15];
+        _messageSmallFont = [CHFont systemFontOfSize:12 weight:NSFontWeightLight];
 
         [NSApp addObserver:self forKeyPath:@"effectiveAppearance" options:0 context:nil];
 #else
         _cellBackgroundColor = UIBackgroundConfiguration.listGroupedCellConfiguration.backgroundColor;
         _messageTextFont = [CHFont systemFontOfSize:16];
         _messageTitleFont = [CHFont boldSystemFontOfSize:16];
+        _messageSmallFont = [CHFont systemFontOfSize:14];
 
         // Appearance
         UINavigationBar *navigationBar = UINavigationBar.appearance;

@@ -350,6 +350,8 @@
 		6DF70B87267B915800892B2E /* NSData+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C25F25D114E800512E36 /* NSData+CHExt.m */; };
 		6DF70B8A267BAC3100892B2E /* NSURLComponents+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF70B89267BAC3100892B2E /* NSURLComponents+CHExt.m */; };
 		6DF70B8B267BAC3100892B2E /* NSURLComponents+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF70B89267BAC3100892B2E /* NSURLComponents+CHExt.m */; };
+		6DFC445626BBC5CB002C26A5 /* CHTimelineMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DFC445526BBC5CB002C26A5 /* CHTimelineMsgCellConfiguration.m */; };
+		6DFC445726BBC5D7002C26A5 /* CHTimelineMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DFC445526BBC5CB002C26A5 /* CHTimelineMsgCellConfiguration.m */; };
 		6DFC77FA26627606002EF541 /* CHAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C613A26613E3C002E968B /* CHAudioPlayer.m */; };
 		6DFDE2182634041000A4BE43 /* CHNotification+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DFDE2172634041000A4BE43 /* CHNotification+Badge.m */; };
 		6DFDE225263408D000A4BE43 /* CHNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C26E25D13D2900512E36 /* CHNotification.m */; };
@@ -1003,6 +1005,8 @@
 		6DF611222665E6FD00426830 /* CHNotification+Badge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHNotification+Badge.m"; sourceTree = "<group>"; };
 		6DF70B88267BAC3100892B2E /* NSURLComponents+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURLComponents+CHExt.h"; sourceTree = "<group>"; };
 		6DF70B89267BAC3100892B2E /* NSURLComponents+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSURLComponents+CHExt.m"; sourceTree = "<group>"; };
+		6DFC445426BBC5CB002C26A5 /* CHTimelineMsgCellConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHTimelineMsgCellConfiguration.h; sourceTree = "<group>"; };
+		6DFC445526BBC5CB002C26A5 /* CHTimelineMsgCellConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHTimelineMsgCellConfiguration.m; sourceTree = "<group>"; };
 		6DFDE2162634041000A4BE43 /* CHNotification+Badge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CHNotification+Badge.h"; sourceTree = "<group>"; };
 		6DFDE2172634041000A4BE43 /* CHNotification+Badge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHNotification+Badge.m"; sourceTree = "<group>"; };
 		7449FFA76F6737E127F2D04E /* libPods-WidgetIntents.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WidgetIntents.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1166,6 +1170,8 @@
 				6DDCBCD3265F41DF00D210E3 /* CHAudioMsgCellConfiguration.m */,
 				6DD7B5AE260DE2D4001D5DCB /* CHImageMsgCellConfiguration.h */,
 				6DD7B5AF260DE2D4001D5DCB /* CHImageMsgCellConfiguration.m */,
+				6DFC445426BBC5CB002C26A5 /* CHTimelineMsgCellConfiguration.h */,
+				6DFC445526BBC5CB002C26A5 /* CHTimelineMsgCellConfiguration.m */,
 				6DC6C39325D16ECA00512E36 /* CHUnknownMsgCellConfiguration.h */,
 				6DC6C39425D16ECA00512E36 /* CHUnknownMsgCellConfiguration.m */,
 			);
@@ -2696,6 +2702,7 @@
 				6DE7C066263D471E0092D88D /* CHUtils.m in Sources */,
 				6D8352322664C818005CE6D1 /* CHRouter+OSX.m in Sources */,
 				6D029B79266F187600BF046A /* NSBezierPath+CHExt.m in Sources */,
+				6DFC445726BBC5D7002C26A5 /* CHTimelineMsgCellConfiguration.m in Sources */,
 				6DB1C268266F48C7007C0C02 /* NSAnimationContext+CHExt.m in Sources */,
 				6DB5513C266DEA5200B00E9E /* CHCellConfiguration.m in Sources */,
 				6DAD5402266E19850036B68F /* CHLinkLabel.m in Sources */,
@@ -2886,6 +2893,7 @@
 				6DC6C39025D16EA200512E36 /* CHTextMsgCellConfiguration.m in Sources */,
 				6DA617AF267B3A46003F665B /* WidgetKit.swift in Sources */,
 				6D4416FE25F2655C0041EBA0 /* CHFormValueItem.m in Sources */,
+				6DFC445626BBC5CB002C26A5 /* CHTimelineMsgCellConfiguration.m in Sources */,
 				6D2EA160264D018A00246EB4 /* CHActionItemModel.m in Sources */,
 				6DC6C1CA25D0DCD100512E36 /* CHViewController.m in Sources */,
 				6DBA92C525F60B3B00B792FE /* UIColor+CHExt.m in Sources */,
