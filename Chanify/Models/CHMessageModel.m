@@ -194,6 +194,7 @@
                     if (content.hasTimeContent) {
                         CHTPTimeContent *timeContent = content.timeContent;
                         _code = timeContent.code;
+                        _timestamp = [NSDate dateWithTimeIntervalSince1970:timeContent.timestamp/1000.0];
                         NSMutableDictionary *items = [NSMutableDictionary dictionaryWithCapacity:timeContent.timeItemsArray_Count];
                         for (CHTPTimeItem *item in timeContent.timeItemsArray) {
                             switch (item.valueType) {

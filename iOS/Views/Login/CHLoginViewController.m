@@ -84,7 +84,7 @@
     [privacyTipsLabel addTarget:self action:@selector(actionGotoPrivacy:) forControlEvents:UIControlEventTouchUpInside];
     [privacyTipsLabel setTitle:@"Privacy Policy".localized forState:UIControlStateNormal];
     [privacyTipsLabel setTitleColor:theme.minorLabelColor forState:UIControlStateNormal];
-    privacyTipsLabel.titleLabel.font = [UIFont systemFontOfSize:12];
+    privacyTipsLabel.titleLabel.font = theme.detailFont;
     [privacyTipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view).offset(30);
         make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom).offset(-30);

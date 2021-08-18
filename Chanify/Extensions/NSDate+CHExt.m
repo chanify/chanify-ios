@@ -20,6 +20,16 @@
     return nil;
 }
 
+- (NSString *)timeFormat {
+    if (self != nil) {
+        NSDateFormatter *formatter = [NSDateFormatter new];
+        formatter.timeStyle = NSDateFormatterMediumStyle;
+        formatter.dateStyle = NSDateFormatterNoStyle;
+        return [formatter stringFromDate:self];
+    }
+    return @"";
+}
+
 - (NSString *)shortFormat {
     if (self != nil) {
         NSCalendar *calendar = NSCalendar.currentCalendar;

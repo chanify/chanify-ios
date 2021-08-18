@@ -45,7 +45,7 @@
             make.right.equalTo(self.contentView).offset(-kCHDataItemCellMargin);
             make.bottom.equalTo(self.contentView).offset(-6);
         }];
-        fileSizeLabel.font = [UIFont systemFontOfSize:12];
+        fileSizeLabel.font = theme.detailFont;
         fileSizeLabel.textColor = theme.lightLabelColor;
         fileSizeLabel.numberOfLines = 1;
         
@@ -56,7 +56,7 @@
             make.bottom.equalTo(self.contentView).offset(-6);
             make.height.equalTo(fileSizeLabel);
         }];
-        createDateLabel.font = [UIFont systemFontOfSize:12];
+        createDateLabel.font = theme.detailFont;
         createDateLabel.textColor = theme.minorLabelColor;
         createDateLabel.numberOfLines = 1;
 
@@ -68,7 +68,7 @@
             make.left.equalTo(createDateLabel);
             make.bottom.equalTo(createDateLabel.mas_top).offset(-4);
         }];
-        nameLabel.font = [UIFont systemFontOfSize:16];
+        nameLabel.font = theme.textFont;
         nameLabel.textColor = theme.labelColor;
         nameLabel.numberOfLines = 1;
     }

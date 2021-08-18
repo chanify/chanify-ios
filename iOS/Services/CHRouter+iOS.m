@@ -533,7 +533,7 @@ static inline void showToast(NSString *message) {
     toast.alpha = 0;
     toast.numberOfLines = 1;
     toast.textAlignment = NSTextAlignmentCenter;
-    toast.font = [UIFont systemFontOfSize:14];
+    toast.font = CHTheme.shared.mediumFont;
     toast.textColor = UIColor.whiteColor;
     toast.backgroundColor = [UIColor colorWithWhite:0.3 alpha:0.8];
     toast.layer.cornerRadius = radius;

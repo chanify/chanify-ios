@@ -59,7 +59,7 @@
     detailLabel.backgroundColor = CHColor.clearColor;
     detailLabel.textColor = theme.minorLabelColor;
     detailLabel.numberOfLines = 2;
-    detailLabel.font = [CHFont systemFontOfSize:12];
+    detailLabel.font = theme.messageSmallFont;
     
     CHLabel *statusLabel = [CHLabel new];
     [self.bubbleView addSubview:(_statusLabel = statusLabel)];
@@ -67,7 +67,7 @@
     statusLabel.backgroundColor = CHColor.clearColor;
     statusLabel.textColor = theme.minorLabelColor;
     statusLabel.numberOfLines = 1;
-    statusLabel.font = [CHFont monospacedSystemFontOfSize:8 weight:UIFontWeightRegular];
+    statusLabel.font = theme.messageSmallDigitalFont;
     
     CHImageView *iconView = [[CHImageView alloc] initWithImage:[CHImage systemImageNamed:@"doc.fill"]];
     [self.bubbleView addSubview:(_iconView = iconView)];

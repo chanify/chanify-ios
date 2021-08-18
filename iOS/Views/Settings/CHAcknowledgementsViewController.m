@@ -26,7 +26,7 @@
 
     UIView *lastView = nil;
     UIFont *titleFont = [UIFont boldSystemFontOfSize:18];
-    UIFont *contextFont = [UIFont systemFontOfSize:14];
+    UIFont *contextFont = theme.mediumFont;
 
     NSURL *url = [[NSBundle.mainBundle URLForResource:@"Settings" withExtension:@"bundle"] URLByAppendingPathComponent:@"Acknowledgements.plist"];
     NSDictionary *data = [self loadPlist:url];

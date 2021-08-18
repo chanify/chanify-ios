@@ -60,7 +60,7 @@
             make.left.equalTo(channelIconView.mas_right).offset(4);
             make.centerY.equalTo(channelIconView);
         }];
-        channelTitleLabel.font = [UIFont systemFontOfSize:12];
+        channelTitleLabel.font = theme.detailFont;
         channelTitleLabel.textColor = theme.minorLabelColor;
         channelTitleLabel.numberOfLines = 1;
         
@@ -79,7 +79,7 @@
             make.left.equalTo(channelTitleLabel);
             make.centerY.equalTo(nodeIconView);
         }];
-        nodeTitleLabel.font = [UIFont systemFontOfSize:12];
+        nodeTitleLabel.font = theme.detailFont;
         nodeTitleLabel.textColor = theme.minorLabelColor;
         nodeTitleLabel.numberOfLines = 1;
         
@@ -90,7 +90,7 @@
             make.right.equalTo(tokenLabel);
             make.bottom.equalTo(nodeTitleLabel);
         }];
-        expriedDateLabel.font = [UIFont systemFontOfSize:10];
+        expriedDateLabel.font = theme.smallFont;
         expriedDateLabel.textColor = theme.lightLabelColor;
         expriedDateLabel.numberOfLines = 1;
     }

@@ -99,7 +99,7 @@
     style.lineSpacing = 8;
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:@"UserInfoDetail".localized];
     [text addAttributes:@{
-        NSFontAttributeName: [UIFont systemFontOfSize:16],
+        NSFontAttributeName: theme.textFont,
         NSForegroundColorAttributeName: theme.labelColor,
         NSParagraphStyleAttributeName:style,
     } range:NSMakeRange(0, text.length)];

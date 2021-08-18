@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSDate (CHExt)
 
 + (nullable instancetype)dateFromMID:(NSString *)mid;
+- (NSString *)timeFormat;
 - (NSString *)shortFormat;
 - (NSString *)mediumFormat;
 - (NSString *)fullDayFormat;

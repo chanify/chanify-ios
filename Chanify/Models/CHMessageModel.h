@@ -57,6 +57,7 @@ typedef NS_OPTIONS(NSUInteger, CHMessageProcessFlags) {
 @property (nonatomic, readonly, nullable, strong) NSString *copytext;
 @property (nonatomic, readonly, nullable, strong) NSArray<CHActionItemModel *> *actions;
 @property (nonatomic, readonly, nullable, strong) NSString *code;
+@property (nonatomic, readonly, nullable, strong) NSDate *timestamp;
 @property (nonatomic, readonly, nullable, strong) NSDictionary<NSString *, NSNumber *> *timeItems;
 
 + (nullable instancetype)modelWithData:(nullable NSData *)data mid:(NSString *)mid;

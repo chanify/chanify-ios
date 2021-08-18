@@ -45,7 +45,7 @@
     titleLabel.backgroundColor = CHColor.clearColor;
     titleLabel.textColor = theme.labelColor;
     titleLabel.numberOfLines = 1;
-    titleLabel.font = [CHFont boldSystemFontOfSize:16];
+    titleLabel.font = theme.messageTitleFont;
     
     CHImageView *iconView = [CHImageView new];
     [self.bubbleView addSubview:(_iconView = iconView)];
@@ -61,7 +61,7 @@
     detailLabel.backgroundColor = CHColor.clearColor;
     detailLabel.textColor = theme.minorLabelColor;
     detailLabel.numberOfLines = 2;
-    detailLabel.font = [CHFont systemFontOfSize:15];
+    detailLabel.font = theme.messageMediumFont;
     
     CHLabel *linkLabel = [CHLabel new];
     [self.bubbleView addSubview:(_linkLabel = linkLabel)];

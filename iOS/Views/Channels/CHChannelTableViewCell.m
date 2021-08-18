@@ -46,7 +46,7 @@
             make.left.equalTo(iconView.mas_right).offset(16);
             make.top.equalTo(iconView).offset(3);
         }];
-        titleLabel.font = [UIFont systemFontOfSize:16];
+        titleLabel.font = theme.textFont;
         titleLabel.textColor = theme.labelColor;
         titleLabel.numberOfLines = 1;
         
@@ -57,7 +57,7 @@
             make.bottom.equalTo(iconView).offset(-3);
             make.left.equalTo(titleLabel);
         }];
-        detailLabel.font = [UIFont systemFontOfSize:16];
+        detailLabel.font = theme.textFont;
         detailLabel.textColor = theme.minorLabelColor;
         detailLabel.numberOfLines = 1;
         
@@ -68,7 +68,7 @@
             make.right.equalTo(detailLabel);
             make.left.greaterThanOrEqualTo(titleLabel.mas_right).offset(8);
         }];
-        dateLabel.font = [UIFont systemFontOfSize:12];
+        dateLabel.font = theme.detailFont;
         dateLabel.textColor = theme.lightLabelColor;
         dateLabel.numberOfLines = 1;
 

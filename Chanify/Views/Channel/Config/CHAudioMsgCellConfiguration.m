@@ -54,7 +54,7 @@
     durationLabel.backgroundColor = CHColor.clearColor;
     durationLabel.textColor = theme.labelColor;
     durationLabel.numberOfLines = 1;
-    durationLabel.font = [CHFont monospacedSystemFontOfSize:8 weight:UIFontWeightRegular];
+    durationLabel.font = theme.messageSmallDigitalFont;
 
     CHLabel *statusLabel = [CHLabel new];
     [self.bubbleView addSubview:(_statusLabel = statusLabel)];
@@ -62,7 +62,7 @@
     statusLabel.backgroundColor = CHColor.clearColor;
     statusLabel.textColor = theme.minorLabelColor;
     statusLabel.numberOfLines = 1;
-    statusLabel.font = [CHFont monospacedSystemFontOfSize:8 weight:UIFontWeightRegular];
+    statusLabel.font = theme.messageSmallDigitalFont;
     
     CHProgressView *audioTrackView = [[CHProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
     [self.bubbleView addSubview:(_audioTrackView = audioTrackView)];

@@ -45,16 +45,28 @@
 #if TARGET_OS_OSX
         _cellBackgroundColor = [CHColor colorNamed:@"CellColor"];
         _selectedCellBackgroundColor = [CHColor colorNamed:@"SelectedCellColor"];
+        _textFont = [CHFont systemFontOfSize:15 weight:NSFontWeightLight];
+        _mediumFont = [CHFont systemFontOfSize:12 weight:NSFontWeightLight];
+        _smallFont = [CHFont systemFontOfSize:8 weight:NSFontWeightLight];
+        _detailFont = [CHFont systemFontOfSize:10 weight:NSFontWeightLight];
         _messageTextFont = [CHFont systemFontOfSize:15 weight:NSFontWeightLight];
         _messageTitleFont = [CHFont systemFontOfSize:15];
-        _messageSmallFont = [CHFont systemFontOfSize:12 weight:NSFontWeightLight];
+        _messageMediumFont = [CHFont systemFontOfSize:12 weight:NSFontWeightLight];
+        _messageSmallFont = [CHFont systemFontOfSize:10 weight:NSFontWeightLight];
+        _messageSmallDigitalFont = [CHFont monospacedSystemFontOfSize:8 weight:NSFontWeightLight];
 
         [NSApp addObserver:self forKeyPath:@"effectiveAppearance" options:0 context:nil];
 #else
         _cellBackgroundColor = UIBackgroundConfiguration.listGroupedCellConfiguration.backgroundColor;
+        _textFont = [CHFont systemFontOfSize:16];
+        _mediumFont = [CHFont systemFontOfSize:14];
+        _smallFont =  [CHFont systemFontOfSize:10];
+        _detailFont = [CHFont systemFontOfSize:12];
         _messageTextFont = [CHFont systemFontOfSize:16];
         _messageTitleFont = [CHFont boldSystemFontOfSize:16];
-        _messageSmallFont = [CHFont systemFontOfSize:14];
+        _messageMediumFont = [CHFont systemFontOfSize:14];
+        _messageSmallFont = [CHFont systemFontOfSize:12];
+        _messageSmallDigitalFont = [CHFont monospacedSystemFontOfSize:8 weight:UIFontWeightRegular];
 
         // Appearance
         UINavigationBar *navigationBar = UINavigationBar.appearance;

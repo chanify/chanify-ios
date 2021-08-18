@@ -51,7 +51,7 @@
         
         UILabel *tipsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 12)];
         [self addSubview:(_tipsLabel = tipsLabel)];
-        tipsLabel.font = [UIFont systemFontOfSize:10];
+        tipsLabel.font = theme.smallFont;
         tipsLabel.textColor = theme.minorLabelColor;
         tipsLabel.textAlignment = NSTextAlignmentCenter;
         tipsLabel.numberOfLines = 1;

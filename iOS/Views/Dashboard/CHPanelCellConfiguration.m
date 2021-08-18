@@ -23,12 +23,14 @@
 - (instancetype)initWithConfiguration:(CHPanelCellConfiguration *)configuration {
     if (self = [super initWithFrame:CGRectZero]) {
         self.configuration = configuration;
+        
+        CHTheme *theme = CHTheme.shared;
 
         UILabel *titleLabel = [UILabel new];
         [self addSubview:(_titleLabel = titleLabel)];
-        titleLabel.textColor = CHTheme.shared.labelColor;
+        titleLabel.textColor = theme.labelColor;
         titleLabel.textAlignment = NSTextAlignmentCenter;
-        titleLabel.font = [UIFont systemFontOfSize:16];
+        titleLabel.font = theme.textFont;
         titleLabel.numberOfLines = 1;
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self);

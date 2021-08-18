@@ -23,11 +23,12 @@
 - (instancetype)initWithConfiguration:(CHDateCellConfiguration *)configuration {
     if (self = [super initWithFrame:CGRectZero]) {
         _configuration = nil;
+        CHTheme *theme = CHTheme.shared;
         CHLabel *dateLabel = [CHLabel new];
         [self addSubview:(_dateLabel = dateLabel)];
-        dateLabel.textColor = CHTheme.shared.minorLabelColor;
+        dateLabel.textColor = theme.minorLabelColor;
         dateLabel.textAlignment = NSTextAlignmentCenter;
-        dateLabel.font = [CHFont systemFontOfSize:12];
+        dateLabel.font = theme.messageSmallFont;
         dateLabel.numberOfLines = 1;
         [dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self);

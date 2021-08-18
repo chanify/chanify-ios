@@ -52,7 +52,7 @@
             make.top.equalTo(iconView).offset(2);
             make.right.lessThanOrEqualTo(statusIcon.mas_left).offset(-16);
         }];
-        nameLabel.font = [UIFont systemFontOfSize:16];
+        nameLabel.font = theme.textFont;
         nameLabel.textColor = theme.labelColor;
         nameLabel.numberOfLines = 1;
         
@@ -63,7 +63,7 @@
             make.right.equalTo(nameLabel);
             make.bottom.equalTo(iconView).offset(-3);
         }];
-        endpointLabel.font = [UIFont systemFontOfSize:12];
+        endpointLabel.font = theme.detailFont;
         endpointLabel.textColor = theme.minorLabelColor;
         endpointLabel.numberOfLines = 1;
     }

@@ -263,7 +263,7 @@
 
             UILabel *tapLabel = [UILabel new];
             [emptyView addSubview:tapLabel];
-            tapLabel.font = [UIFont systemFontOfSize:16];
+            tapLabel.font = theme.textFont;
             tapLabel.textColor = theme.minorLabelColor;
             tapLabel.text = @"Tap to reload".localized;
             [tapLabel mas_makeConstraints:^(MASConstraintMaker *make) {

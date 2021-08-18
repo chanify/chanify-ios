@@ -11,12 +11,14 @@
 
 #define kCHTimelineTitleHeight      24.0
 #define kCHTimelineTitleLabelHeight 20.0
+#define kCHTimelineTimeLabelWidth   60.0
 
 static CHEdgeInsets textInsets = { 8, 12, 8, 12 };
 
 @interface CHTimelineMsgCellConfiguration ()
 
 @property (nonatomic, readonly, strong) NSString *title;
+@property (nonatomic, readonly, strong) NSString *time;
 @property (nonatomic, readonly, strong) NSString *body;
 @property (nonatomic, readonly, assign) CGRect bodyRect;
 
@@ -25,6 +27,7 @@ static CHEdgeInsets textInsets = { 8, 12, 8, 12 };
 @interface CHTimelineMsgCellContentView : CHBubbleMsgCellContentView<CHTimelineMsgCellConfiguration *>
 
 @property (nonatomic, readonly, strong) CHLabel *titleLabel;
+@property (nonatomic, readonly, strong) CHLabel *timeLabel;
 @property (nonatomic, readonly, strong) CHLabel *bodyLabel;
 
 @end
@@ -43,6 +46,15 @@ static CHEdgeInsets textInsets = { 8, 12, 8, 12 };
     titleLabel.textColor = theme.labelColor;
     titleLabel.numberOfLines = 1;
     titleLabel.font = theme.messageTitleFont;
+    
+    CHLabel *timeLabel = [CHLabel new];
+    [self.bubbleView addSubview:(_timeLabel = timeLabel)];
+    timeLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    timeLabel.backgroundColor = CHColor.clearColor;
+    timeLabel.textColor = theme.minorLabelColor;
+    timeLabel.textAlignment = NSTextAlignmentRight;
+    timeLabel.numberOfLines = 1;
+    timeLabel.font = theme.messageSmallFont;
 
     CHLabel *bodyLabel = [CHLabel new];
     [self.bubbleView addSubview:(_bodyLabel = bodyLabel)];
@@ -50,17 +62,21 @@ static CHEdgeInsets textInsets = { 8, 12, 8, 12 };
     bodyLabel.backgroundColor = CHColor.clearColor;
     bodyLabel.textColor = theme.labelColor;
     bodyLabel.numberOfLines = 3;
-    bodyLabel.font = theme.messageSmallFont;
+    bodyLabel.font = theme.messageMediumFont;
 }
 
 - (void)applyConfiguration:(CHTimelineMsgCellConfiguration *)configuration {
     [super applyConfiguration:configuration];
 
-    CGSize size = self.frame.size;
+    CGRect frame = CGRectMake(textInsets.left, textInsets.top, configuration.bubbleRect.size.width - textInsets.left - textInsets.right - kCHTimelineTimeLabelWidth - 4, kCHTimelineTitleLabelHeight);
     NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:configuration.title];
     [title addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlineStyleSingle) range:NSMakeRange(0, title.length)];
     self.titleLabel.attributedText = title;
-    self.titleLabel.frame = CGRectMake(textInsets.left, textInsets.top, size.width - textInsets.left - textInsets.right, kCHTimelineTitleLabelHeight);
+    self.titleLabel.frame = frame;
+
+    self.timeLabel.text = configuration.time;
+    self.timeLabel.frame = CGRectMake(frame.origin.x + frame.size.width + 4, frame.origin.y, kCHTimelineTimeLabelWidth, frame.size.height);
+    
     self.bodyLabel.text = configuration.body;
     self.bodyLabel.frame = configuration.bodyRect;
 }
@@ -83,28 +99,30 @@ static CHEdgeInsets textInsets = { 8, 12, 8, 12 };
     [CHRouter.shared showShareItem:@[text] sender:self.contentView handler:nil];
 }
 
-
 @end
 
 @implementation CHTimelineMsgCellConfiguration
 
 + (instancetype)cellConfiguration:(CHMessageModel *)model {
     NSString *title = model.title ?: model.code;
+    NSString *time = model.timestamp.timeFormat;
     NSMutableArray<NSString *> *items = [NSMutableArray new];
-    for (NSString *key in model.timeItems) {
+    NSArray *keys = [model.timeItems.allKeys sortedArrayUsingSelector:@selector(compare:)];
+    for (NSString *key in keys) {
         [items addObject:[NSString stringWithFormat:@"%@:\t%@", key, [model.timeItems valueForKey:key]]];
     }
     NSString *body = [items componentsJoinedByString:@"\n"];
-    return [[self.class alloc] initWithMID:model.mid title:title body:body bodyRect:CGRectZero bubbleRect:CGRectZero];
+    return [[self.class alloc] initWithMID:model.mid title:title time:time body:body bodyRect:CGRectZero bubbleRect:CGRectZero];
 }
 
 - (nonnull id)copyWithZone:(nullable NSZone *)zone {
-    return [[self.class allocWithZone:zone] initWithMID:self.mid title:self.title body:self.body bodyRect:self.bodyRect bubbleRect:self.bubbleRect];
+    return [[self.class allocWithZone:zone] initWithMID:self.mid title:self.title time:self.time body:self.body bodyRect:self.bodyRect bubbleRect:self.bubbleRect];
 }
 
-- (instancetype)initWithMID:(NSString *)mid title:(NSString * _Nullable)title body:(NSString * _Nullable)body bodyRect:(CGRect)bodyRect bubbleRect:(CGRect)bubbleRect {
+- (instancetype)initWithMID:(NSString *)mid title:(NSString * _Nullable)title time:(NSString * _Nullable)time body:(NSString * _Nullable)body bodyRect:(CGRect)bodyRect bubbleRect:(CGRect)bubbleRect {
     if (self = [super initWithMID:mid bubbleRect:bubbleRect]) {
         _title = title ?: @"";
+        _time = time ?: @"";
         _body = body ?: @"";
     }
     return self;

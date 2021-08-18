@@ -59,7 +59,7 @@
         make.top.equalTo(tokenView.mas_bottom).offset(10);
         make.left.equalTo(tokenView);
     }];
-    warnLabel.font = [UIFont systemFontOfSize:12];
+    warnLabel.font = theme.detailFont;
     warnLabel.textColor = theme.alertColor;
     warnLabel.text = @"Invalid token".localized;
     warnLabel.alpha = 0;
