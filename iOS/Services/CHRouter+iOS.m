@@ -199,6 +199,10 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     [self presentSystemViewController:vc animated:YES];
 }
 
+- (void)showAlertView:(UIAlertController *)alert {
+    [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
+}
+
 - (void)showAlertWithTitle:(NSString *)title action:(NSString *)action handler:(void (^ __nullable)(void))handler {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:@"" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel".localized style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];

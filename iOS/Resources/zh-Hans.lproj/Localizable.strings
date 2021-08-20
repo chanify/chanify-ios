@@ -12,12 +12,15 @@
 "Delete"="删除";
 "Enable"="启用";
 "Disable"="禁用";
+"Login"="登录";
 "Share"="分享";
 "Copy"="复制";
 "Copied"="已复制";
 "Select"="多选";
 "Channel"="频道";
 "Channels"="频道";
+"Username"="用户名";
+"Password"="密码";
 "Open Link"="打开链接";
 "Scan QR Code"="扫二维码";
 "New Channel"="添加频道";
@@ -118,6 +121,8 @@
 "Download failed and click to retry"="下载失败，点击重试";
 "Copy token from pasteboard"="从剪贴板复制令牌";
 "Invalid token"="无效的令牌";
+"Your connection to this site is not private."="您与此网站之间建立的连接不安全。";
+"%@ requires username and password."="%@ 需要用户名和密码。";
 
 "%@ copied"="%@已复制";
 "Expires at %@"="有效期到 %@";

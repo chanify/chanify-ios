@@ -12,12 +12,15 @@
 "Delete"="Delete";
 "Enable"="Enable";
 "Disable"="Disable";
+"Login"="Login";
 "Share"="Share";
 "Copy"="Copy";
 "Copied"="Copied";
 "Select"="Select";
 "Channel"="Channel";
 "Channels"="Channels";
+"Username"="Username";
+"Password"="Password";
 "Open Link"="Open Link";
 "Scan QR Code"="Scan QR Code";
 "New Channel"="New Channel";
@@ -118,6 +121,8 @@
 "Download failed and click to retry"="Download failed and click to retry";
 "Copy token from pasteboard"="Copy token from pasteboard";
 "Invalid token"="Invalid token";
+"Your connection to this site is not private."="Your connection to this site is not private.";
+"%@ requires username and password."="%@ requires username and password.";
 
 "%@ copied"="%@ Copied";
 "Expires at %@"="Expires at %@";

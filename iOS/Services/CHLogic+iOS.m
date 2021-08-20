@@ -69,6 +69,10 @@
     [super deactive];
 }
 
+- (void)receiveRemoteNotification:(NSDictionary *)userInfo {
+    [self recivePushMessage:userInfo];
+}
+
 - (BOOL)recivePushMessage:(NSDictionary *)userInfo {
     // TODO: Remove this update call.
     [self updatePushMessage:YES];

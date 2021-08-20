@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class UIWindow;
 @class UIViewController;
+@class UIAlertController;
 
 @protocol CHMainViewController <NSObject>
 - (void)viewReset;
@@ -28,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)presentViewController:(UIViewController *)viewController animated:(BOOL)animated;
 - (void)presentSystemViewController:(UIViewController *)viewController animated:(BOOL)animated;
 - (void)closeViewController:(UIViewController *)vc animated:(BOOL)animated completion: (void (^ __nullable)(void))completion;
+- (void)showAlertView:(UIAlertController *)alert;
 - (void)showIndicator:(BOOL)show;
 
 

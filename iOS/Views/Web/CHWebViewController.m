@@ -156,6 +156,39 @@
     [self showEmpty:YES];
 }
 
+- (void)webView:(WKWebView *)webView didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential * _Nullable credential))completionHandler {
+    NSURLCredential *credential = challenge.proposedCredential;
+    if (credential != nil && challenge.previousFailureCount > 0) {
+        credential = nil;
+    }
+    if (credential == nil) {
+        NSString *authenticationMethod = challenge.protectionSpace.authenticationMethod;
+        if ([authenticationMethod isEqualToString:NSURLAuthenticationMethodDefault]
+            || [authenticationMethod isEqualToString:NSURLAuthenticationMethodHTTPBasic]
+            || [authenticationMethod isEqualToString:NSURLAuthenticationMethodHTTPDigest]) {
+            if (challenge.previousFailureCount == 0) {
+                [self authenticationWithHTTPBasic:^(NSURLCredential * _Nullable credential) {
+                    if (credential != nil) {
+                        completionHandler(NSURLSessionAuthChallengeUseCredential, credential);
+                    } else {
+                        completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, nil);
+                    }
+                }];
+                return;
+            }
+        } else if ([authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+            if (challenge.previousFailureCount == 0) {
+                credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+            }
+        }
+    }
+    if (credential != nil) {
+        completionHandler(NSURLSessionAuthChallengeUseCredential, credential);
+    } else {
+        completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, nil);
+    }
+}
+
 #pragma mark - Observe Methods
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if (object == self.webView) {
@@ -234,6 +267,42 @@
 }
 
 #pragma mark - Private Methods
+- (void)authenticationWithHTTPBasic:(void (^)(NSURLCredential * _Nullable credential))completionHandler {
+    NSString *msg = [NSString stringWithFormat:@"%@://%@", self.url.scheme, self.url.host];
+    if (self.url.port != nil) {
+        msg = [msg stringByAppendingFormat:@":%d", self.url.port.intValue];
+    }
+    if (msg.length > 0) {
+        msg = [NSString stringWithFormat:@"%@ requires username and password.".localized, msg];
+    }
+    if (!self.webView.hasOnlySecureContent) {
+        msg = [msg stringByAppendingFormat:@" %@", @"Your connection to this site is not private.".localized];
+    }
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Login".localized message:msg preferredStyle: UIAlertControllerStyleAlert];
+    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"Username".localized;
+        textField.returnKeyType = UIReturnKeyNext;
+        textField.font = [UIFont systemFontOfSize:16];
+    }];
+    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"Password".localized;
+        textField.font = [UIFont systemFontOfSize:16];
+        textField.returnKeyType = UIReturnKeyDone;
+        textField.secureTextEntry = YES;
+    }];
+    UIAlertAction* loginAction = [UIAlertAction actionWithTitle:@"Login".localized style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSString *username = [alert.textFields[0] text];
+        NSString *password = [alert.textFields[1] text];
+        completionHandler([NSURLCredential credentialWithUser:username password:password persistence:NSURLCredentialPersistenceForSession]);
+    }];
+    UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel".localized style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        completionHandler(nil);
+    }];
+    [alert addAction:loginAction];
+    [alert addAction:cancelAction];
+    [CHRouter.shared showAlertView:alert];
+}
+
 - (void)showEmpty:(BOOL)show {
     if (!show) {
         if (self.emptyView != nil) {
