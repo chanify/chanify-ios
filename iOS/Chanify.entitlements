@@ -15,6 +15,7 @@
 	<array>
 		<string>group.net.chanify.share</string>
 		<string>group.net.chanify.share.widget</string>
+		<string>group.net.chanify.share.timeline</string>
 	</array>
 	<key>keychain-access-groups</key>
 	<array>

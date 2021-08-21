@@ -9,8 +9,9 @@
 #import <WatchConnectivity/WatchConnectivity.h>
 #import <UserNotifications/UserNotifications.h>
 #import <AudioToolbox/AudioToolbox.h>
-#import "CHUserDataSource.h"
 #import "CHNSDataSource.h"
+#import "CHUserDataSource.h"
+#import "CHTimelineDataSource.h"
 #import "CHMessageModel.h"
 #import "CHChannelModel.h"
 #import "CHNodeModel.h"
@@ -24,6 +25,7 @@
 
 @interface CHLogic () <WCSessionDelegate, CHNotificationMessageDelegate>
 
+@property (nonatomic, readonly, strong) CHTimelineDataSource *timelineDataSource;
 @property (nonatomic, readonly, strong) WCSession *watchSession;
 
 @end
@@ -41,6 +43,8 @@
 
 - (instancetype)init {
     if (self = [super initWithAppGroup:@kCHAppGroupName]) {
+        _timelineDataSource = [CHTimelineDataSource dataSourceWithURL:[NSFileManager.defaultManager URLForGroupId:@kCHAppTimelineGroupName path:@kCHDBTimelineName]];
+
         if (!WCSession.isSupported) {
             _watchSession = nil;
         } else {
@@ -57,6 +61,11 @@
     [self.watchSession activateSession];
 }
 
+- (void)close {
+    [super close];
+    [self.timelineDataSource close];
+}
+
 - (void)active {
     [super active];
     [self updatePushMessage:NO];
@@ -65,6 +74,7 @@
 
 - (void)deactive {
     [CHWidget.shared reloadIfNeeded];
+    [self.timelineDataSource flush];
     [self reloadBadge];
     [super deactive];
 }
@@ -115,6 +125,7 @@
 
 - (void)doLogout {
     [super doLogout];
+    [self.timelineDataSource close];
     [self updateBadge:0];
     [self syncDataToWatch:NO];
 }

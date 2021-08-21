@@ -7,6 +7,7 @@
 
 #import "NotificationService.h"
 #import "CHNSDataSource.h"
+#import "CHTimelineDataSource.h"
 #import "CHTP.pbobjc.h"
 
 @interface NotificationService ()
@@ -23,6 +24,15 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         dbsrc = [CHNSDataSource dataSourceWithURL:[NSFileManager.defaultManager URLForGroupId:@kCHAppGroupName path:@kCHDBNotificationServiceName]];
+    });
+    return dbsrc;
+}
+
++ (CHTimelineDataSource *)sharedTimelineDB {
+    static CHTimelineDataSource *dbsrc;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dbsrc = [CHTimelineDataSource dataSourceWithURL:[NSFileManager.defaultManager URLForGroupId:@kCHAppTimelineGroupName path:@kCHDBTimelineName]];
     });
     return dbsrc;
 }

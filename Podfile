@@ -39,6 +39,7 @@ target 'WidgetsExtension' do
 	platform :ios, $ios_version
 
 	pod 'FMDB'
+	pod 'Protobuf'
 end
 
 target 'WidgetIntents' do
