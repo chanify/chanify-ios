@@ -6,14 +6,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CHTimelineModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+@class CHTPTimeContent;
 
 @interface CHTimelineDataSource : NSObject
 
 + (instancetype)dataSourceWithURL:(NSURL *)url;
 - (void)close;
 - (void)flush;
+- (BOOL)upsertUid:(NSString *)uid from:(NSString *)from model:(nullable CHTimelineModel *)model;
 
 
 @end

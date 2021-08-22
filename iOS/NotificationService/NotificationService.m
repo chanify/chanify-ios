@@ -47,11 +47,12 @@
     if (uid.length > 0 && mid.length > 0 && data.length > 0) {
         CHNSDataSource *dbsrc = self.class.sharedDB;
         CHMessageModel *model = [dbsrc pushMessage:data mid:mid uid:uid flags:&flags];
-        if (!(flags&CHMessageProcessFlagNoAlert)) {
-            self.attemptContent.badge = @([dbsrc nextBadgeForUID:uid]);
-            if (model != nil) {
+        if (model != nil) {
+            if (!(flags&CHMessageProcessFlagNoAlert)) {
+                self.attemptContent.badge = @([dbsrc nextBadgeForUID:uid]);
                 [model formatNotification:self.attemptContent];
             }
+            [self.class.sharedTimelineDB upsertUid:uid from:model.from model:model.timeline];
         }
     }
     if (!(flags&CHMessageProcessFlagNoAlert)) {

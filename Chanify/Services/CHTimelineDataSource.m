@@ -10,7 +10,7 @@
 #import <sqlite3.h>
 
 #define kCHNSInitSql    \
-    "CREATE TABLE IF NOT EXISTS `tspts`(`uid` TEXT,`code` TEXT,`from` TEXT,`point` TIMESTAMP,`values` BLOB, PRIMARY KEY(`uid`,`code`,`from`,`point`));"  \
+    "CREATE TABLE IF NOT EXISTS `tspts`(`uid` TEXT,`code` TEXT,`from` TEXT,`point` TIMESTAMP,`content` BLOB, PRIMARY KEY(`uid`,`code`,`from`,`point`));"  \
 
 
 @interface CHTimelineDataSource ()
@@ -45,6 +45,17 @@
 
 - (void)flush {
     [self.dbQueue close];
+}
+
+- (BOOL)upsertUid:(NSString *)uid from:(NSString *)from model:(nullable CHTimelineModel *)model {
+    __block BOOL res = YES;
+    if (model != nil) {
+        res = NO;
+        [self.dbQueue inDatabase:^(FMDatabase *db) {
+            res = [db executeUpdate:@"INSERT OR IGNORE INTO `tspts`(`uid`,`code`,`from`,`point`,`content`) VALUES(?,?,?,?,?);", uid, model.code, from, model.timestamp, model.data];
+        }];
+    }
+    return res;
 }
 
 

@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 #import "CHThumbnailModel.h"
 #import "CHActionItemModel.h"
+#import "CHTimelineModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -56,9 +57,7 @@ typedef NS_OPTIONS(NSUInteger, CHMessageProcessFlags) {
 @property (nonatomic, readonly, nullable, strong) CHThumbnailModel *thumbnail;
 @property (nonatomic, readonly, nullable, strong) NSString *copytext;
 @property (nonatomic, readonly, nullable, strong) NSArray<CHActionItemModel *> *actions;
-@property (nonatomic, readonly, nullable, strong) NSString *code;
-@property (nonatomic, readonly, nullable, strong) NSDate *timestamp;
-@property (nonatomic, readonly, nullable, strong) NSDictionary<NSString *, NSNumber *> *timeItems;
+@property (nonatomic, readonly, nullable, strong) CHTimelineModel *timeline;
 
 + (nullable instancetype)modelWithData:(nullable NSData *)data mid:(NSString *)mid;
 + (nullable instancetype)modelWithStorage:(id<CHKeyStorage, CHBlockedStorage>)storage uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw flags:(CHMessageProcessFlags *_Nullable)flags;
@@ -69,6 +68,9 @@ typedef NS_OPTIONS(NSUInteger, CHMessageProcessFlags) {
 - (NSString *)summaryBodyText;
 - (nullable NSString *)fileURL;
 - (nullable NSString *)copyTextString;
+//- (nullable NSString *)code;
+//- (nullable NSDate*)timestamp;
+//- (nullable NSDictionary<NSString *, NSNumber *> *)timeItems;
 - (BOOL)needNoAlert;
 
 

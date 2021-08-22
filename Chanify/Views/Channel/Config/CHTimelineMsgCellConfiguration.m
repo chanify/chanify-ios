@@ -104,12 +104,13 @@ static CHEdgeInsets textInsets = { 8, 12, 8, 12 };
 @implementation CHTimelineMsgCellConfiguration
 
 + (instancetype)cellConfiguration:(CHMessageModel *)model {
-    NSString *title = model.title ?: model.code;
-    NSString *time = model.timestamp.timeFormat;
+    NSString *title = model.title ?: model.timeline.code;
+    NSString *time = model.timeline.timestamp.timeFormat;
     NSMutableArray<NSString *> *items = [NSMutableArray new];
-    NSArray *keys = [model.timeItems.allKeys sortedArrayUsingSelector:@selector(compare:)];
+    NSDictionary *values = model.timeline.values;
+    NSArray *keys = [values.allKeys sortedArrayUsingSelector:@selector(compare:)];
     for (NSString *key in keys) {
-        [items addObject:[NSString stringWithFormat:@"%@:\t%@", key, [model.timeItems valueForKey:key]]];
+        [items addObject:[NSString stringWithFormat:@"%@:\t%@", key, [values valueForKey:key]]];
     }
     NSString *body = [items componentsJoinedByString:@"\n"];
     return [[self.class alloc] initWithMID:model.mid title:title time:time body:body bodyRect:CGRectZero bubbleRect:CGRectZero];

@@ -192,23 +192,7 @@
                         _title = content.title;
                     }
                     if (content.hasTimeContent) {
-                        CHTPTimeContent *timeContent = content.timeContent;
-                        _code = timeContent.code;
-                        _timestamp = [NSDate dateWithTimeIntervalSince1970:timeContent.timestamp/1000.0];
-                        NSMutableDictionary *items = [NSMutableDictionary dictionaryWithCapacity:timeContent.timeItemsArray_Count];
-                        for (CHTPTimeItem *item in timeContent.timeItemsArray) {
-                            switch (item.valueType) {
-                                default:
-                                    continue;
-                                case CHTPValueType_ValueTypeInteger:
-                                    [items setValue:@(item.integerValue) forKey:item.name];
-                                    break;
-                                case CHTPValueType_ValueTypeDouble:
-                                    [items setValue:@(item.doubleValue) forKey:item.name];
-                                    break;
-                            }
-                        }
-                        _timeItems = items;
+                        _timeline = [CHTimelineModel timelineWithContent:content.timeContent];
                     }
                     break;
             }
@@ -299,8 +283,8 @@
                 }
                 break;
             case CHMessageTypeTimeline:
-                if (self.code.length > 0) {
-                    txt = self.code;
+                if (self.timeline.code.length > 0) {
+                    txt = self.timeline.code;
                     break;
                 }
             default:

@@ -105,6 +105,7 @@
                 // TODO: Fix calc unread count
                 [self sendNotifyWithSelector:@selector(logicMessagesUnreadChanged:) withObject:@(self.userDataSource.unreadSumAllChannel)];
             }
+            [self.timelineDataSource upsertUid:uid from:model.from model:model.timeline];
             res = YES;
         }
     }
@@ -253,19 +254,20 @@
         NSMutableArray<NSString *> *mids = [NSMutableArray new];
         [self.nsDataSource enumerateMessagesWithUID:uid block:^(FMDatabase *db, NSString *mid, NSData *data) {
             CHUpsertMessageFlags flags = 0;
-            CHMessageModel *msg = [self.userDataSource upsertMessageData:data nsDB:[CHTempNSDatasource datasourceFromDB:db] uid:uid mid:mid checker:^BOOL(NSString * _Nonnull cid) {
+            CHMessageModel *model = [self.userDataSource upsertMessageData:data nsDB:[CHTempNSDatasource datasourceFromDB:db] uid:uid mid:mid checker:^BOOL(NSString * _Nonnull cid) {
                 return ![self isReadChannel:cid];
             } flags:&flags];
-            if (msg != nil) {
+            if (model != nil) {
                 if (flags & CHUpsertMessageFlagChannel) {
-                    [cids addObject:msg.channel.base64];
+                    [cids addObject:model.channel.base64];
                 }
                 if (flags & CHUpsertMessageFlagUnread) {
                     unreadChanged = YES;
-                    if ([msg.sound boolValue] > 0) {
+                    if ([model.sound boolValue] > 0) {
                         needAlertUnread = YES;
                     }
                 }
+                [self.timelineDataSource upsertUid:uid from:model.from model:model.timeline];
             }
             if (mid.length > 0) {
                 [mids addObject:mid];
