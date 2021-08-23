@@ -150,7 +150,7 @@
                     break;
                 case CHTPMsgType_Link:
                     _type = CHMessageTypeLink;
-                    _link = [NSURL URLWithString:content.link];
+                    _link = [NSURL URLWithString:[content.link stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet]];
                     break;
                 case CHTPMsgType_File:
                     _type = CHMessageTypeFile;
@@ -175,7 +175,7 @@
                         NSMutableArray<CHActionItemModel *> *items = [NSMutableArray arrayWithCapacity:content.actionsArray_Count];
                         for (CHTPActionItem *item in content.actionsArray) {
                             if (item.type == CHTPActType_ActURL) {
-                                NSURL *link = [NSURL URLWithString:item.link];
+                                NSURL *link = [NSURL URLWithString:[item.link stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet]];
                                 if (link != nil) {
                                     [items addObject:[CHActionItemModel actionItemWithName:item.name link:link]];
                                 }
