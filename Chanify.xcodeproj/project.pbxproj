@@ -93,6 +93,7 @@
 		6D3F6287262FBB6400E122BC /* CHLogic+iOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3F6286262FBB6400E122BC /* CHLogic+iOS.m */; };
 		6D3F629D262FD82100E122BC /* CHLogic+watchOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3F629C262FD82100E122BC /* CHLogic+watchOS.m */; };
 		6D3F62D02630167200E122BC /* CHManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2D525D15CCD00512E36 /* CHManager.m */; };
+		6D4284F726D392030086B05E /* CHTimelineChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4284F626D392030086B05E /* CHTimelineChartViewController.m */; };
 		6D4416F925F264A70041EBA0 /* CHFormButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4416F825F264A70041EBA0 /* CHFormButtonItem.m */; };
 		6D4416FE25F2655C0041EBA0 /* CHFormValueItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4416FD25F2655C0041EBA0 /* CHFormValueItem.m */; };
 		6D44170525F273150041EBA0 /* CHFormCodeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D44170425F273150041EBA0 /* CHFormCodeItem.m */; };
@@ -717,6 +718,8 @@
 		6D3F6286262FBB6400E122BC /* CHLogic+iOS.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHLogic+iOS.m"; sourceTree = "<group>"; };
 		6D3F629B262FD82100E122BC /* CHLogic+watchOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CHLogic+watchOS.h"; sourceTree = "<group>"; };
 		6D3F629C262FD82100E122BC /* CHLogic+watchOS.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHLogic+watchOS.m"; sourceTree = "<group>"; };
+		6D4284F526D392030086B05E /* CHTimelineChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHTimelineChartViewController.h; sourceTree = "<group>"; };
+		6D4284F626D392030086B05E /* CHTimelineChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHTimelineChartViewController.m; sourceTree = "<group>"; };
 		6D4416F725F264A70041EBA0 /* CHFormButtonItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormButtonItem.h; sourceTree = "<group>"; };
 		6D4416F825F264A70041EBA0 /* CHFormButtonItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormButtonItem.m; sourceTree = "<group>"; };
 		6D4416FC25F2655C0041EBA0 /* CHFormValueItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormValueItem.h; sourceTree = "<group>"; };
@@ -1382,6 +1385,15 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		6D4284F426D391E60086B05E /* Chart */ = {
+			isa = PBXGroup;
+			children = (
+				6D4284F526D392030086B05E /* CHTimelineChartViewController.h */,
+				6D4284F626D392030086B05E /* CHTimelineChartViewController.m */,
+			);
+			path = Chart;
+			sourceTree = "<group>";
+		};
 		6D4416F425F264540041EBA0 /* Item */ = {
 			isa = PBXGroup;
 			children = (
@@ -1705,6 +1717,7 @@
 				6D120373264F8DF80075F5C1 /* Token */,
 				6DC6C34825D16A6300512E36 /* Settings */,
 				6DC6C27E25D1406E00512E36 /* TabBar */,
+				6D4284F426D391E60086B05E /* Chart */,
 				6D8F9EA025EF435000A8912C /* Form */,
 				6DD969C325F4799B00EEEECF /* Icons */,
 				6DC6C28C25D1433F00512E36 /* Login */,
@@ -2989,6 +3002,7 @@
 				6D4B262E265E292E00E0E2B1 /* CHDataItemsViewController.m in Sources */,
 				6DC6C1C425D0DCD100512E36 /* AppDelegate.m in Sources */,
 				6DC6C29A25D143BC00512E36 /* CHWebViewController.m in Sources */,
+				6D4284F726D392030086B05E /* CHTimelineChartViewController.m in Sources */,
 				6D12BC342625A0DA005659EA /* CHLoadingView.m in Sources */,
 				6DC6C3A925D1702F00512E36 /* CHChannelNewViewController.m in Sources */,
 				6DC6C2B525D1592900512E36 /* NSException+CHExt.m in Sources */,

@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)close;
 - (void)flush;
 - (BOOL)upsertUid:(NSString *)uid from:(NSString *)from model:(nullable CHTimelineModel *)model;
+- (nullable CHTimelineModel *)modelWithUid:(NSString *)uid code:(NSString *)code from:(NSString *)from point:(NSDate *)point;
 
 
 @end

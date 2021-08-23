@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)code;
 - (const char *)cstr;
 - (uint64_t)uint64Hex;
+- (nullable NSURL *)urlWithPercentEncoding;
 - (BOOL)compareAsVersion:(nullable NSString *)rhs;
 
 

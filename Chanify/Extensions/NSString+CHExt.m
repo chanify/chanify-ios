@@ -77,6 +77,13 @@
     return 0;
 }
 
+- (nullable NSURL *)urlWithPercentEncoding {
+    if (self.length > 0) {
+        return [NSURL URLWithString:[self stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet]];
+    }
+    return nil;
+}
+
 - (BOOL)compareAsVersion:(nullable NSString *)rhs {
     BOOL res = NO;
     if (self.length > 0 && rhs.length > 0) {

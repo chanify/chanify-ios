@@ -8,6 +8,7 @@
 #import "CHTimelineDataSource.h"
 #import <FMDB.h>
 #import <sqlite3.h>
+#import "CHTP.pbobjc.h"
 
 #define kCHNSInitSql    \
     "CREATE TABLE IF NOT EXISTS `tspts`(`uid` TEXT,`code` TEXT,`from` TEXT,`point` TIMESTAMP,`content` BLOB, PRIMARY KEY(`uid`,`code`,`from`,`point`));"  \
@@ -56,6 +57,23 @@
         }];
     }
     return res;
+}
+
+- (nullable CHTimelineModel *)modelWithUid:(NSString *)uid code:(NSString *)code from:(NSString *)from point:(NSDate *)point {
+    __block CHTimelineModel *model = nil;
+    [self.dbQueue inDatabase:^(FMDatabase * _Nonnull db) {
+        NSData *data = [db dataForQuery:@"SELECT `content` FROM `tspts` WHERE `uid`=? AND `code`=? AND `from`=? AND `point`=? LIMIT 1;", uid, code, from, point];
+        if (data.length > 0) {
+            NSError *error = nil;
+            CHTPTimeContent *content = [CHTPTimeContent parseFromData:data error:&error];
+            if (error != nil) {
+                CHLogE("Invalid timeline content format: %s", error.description.cstr);
+            } else {
+                model = [CHTimelineModel timelineWithContent:content];
+            }
+        }
+    }];
+    return model;
 }
 
 
