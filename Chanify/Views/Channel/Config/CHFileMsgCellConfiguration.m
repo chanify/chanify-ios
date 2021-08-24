@@ -8,6 +8,7 @@
 #import "CHFileMsgCellConfiguration.h"
 #import "CHPreviewController.h"
 #import "CHWebFileManager.h"
+#import "CHActionGroup.h"
 #import "CHPasteboard.h"
 #import "CHRouter.h"
 #import "CHLogic.h"
@@ -22,6 +23,7 @@
 @property (nonatomic, nullable, readonly, strong) NSString *filename;
 @property (nonatomic, readonly, assign) uint64_t fileSize;
 @property (nonatomic, readonly, strong) NSString *fileURL;
+@property (nonatomic, readonly, nullable, strong) NSArray<CHActionItemModel *> *actions;
 
 @end
 
@@ -31,11 +33,12 @@
 @property (nonatomic, readonly, strong) CHLabel *detailLabel;
 @property (nonatomic, readonly, strong) CHLabel *statusLabel;
 @property (nonatomic, readonly, strong) CHImageView *iconView;
+@property (nonatomic, readonly, strong) CHActionGroup *actionGroup;
 @property (nonatomic, nullable, readonly, strong) NSURL *localFileURL;
 
 @end
 
-@interface CHFileMsgCellContentView () <CHWebFileItem>
+@interface CHFileMsgCellContentView () <CHWebFileItem, CHActionGroupDelegate>
 @end
 
 @implementation CHFileMsgCellContentView
@@ -73,6 +76,10 @@
     [self.bubbleView addSubview:(_iconView = iconView)];
     iconView.contentMode = UIViewContentModeScaleAspectFit;
     iconView.tintColor = theme.lightLabelColor;
+    
+    CHActionGroup *actionGroup = [CHActionGroup new];
+    [self.bubbleView addSubview:(_actionGroup = actionGroup)];
+    actionGroup.delegate = self;
 }
 
 - (void)applyConfiguration:(CHFileMsgCellConfiguration *)configuration {
@@ -86,6 +93,16 @@
     }
 
     CGSize size = configuration.bubbleRect.size;
+    
+    if (configuration.actions.count <= 0) {
+        self.actionGroup.actions = @[];
+        self.actionGroup.hidden = YES;
+    } else {
+        size.height -= CHActionGroup.defaultHeight;
+        self.actionGroup.actions = configuration.actions;
+        self.actionGroup.frame = CGRectMake(0, size.height, size.width, CHActionGroup.defaultHeight);
+        self.actionGroup.hidden = NO;
+    }
     CGFloat offset = kCHFileMsgCellIconWidth + 20;
     CGFloat width = size.width - kCHFileMsgCellIconWidth - 30;
     self.statusLabel.frame = CGRectMake(offset, size.height - 16, width, 10);
@@ -114,6 +131,13 @@
     return items;
 }
 
+- (BOOL)canGestureRecognizer:(CHGestureRecognizer *)recognizer {
+    if (CGRectContainsPoint(self.actionGroup.bounds, [recognizer locationInView:self.actionGroup])) {
+        return NO;
+    }
+    return [super canGestureRecognizer:recognizer];
+}
+
 #pragma mark - CHWebFileItem
 - (void)webFileUpdated:(nullable NSURL *)item fileURL:(nullable NSString *)fileURL {
     CHFileMsgCellConfiguration *configuration = (CHFileMsgCellConfiguration *)self.configuration;
@@ -131,6 +155,16 @@
     CHFileMsgCellConfiguration *configuration = (CHFileMsgCellConfiguration *)self.configuration;
     if ([configuration.fileURL isEqualToString:fileURL]) {
         self.statusLabel.text = [NSString stringWithFormat:@"Downloading %6.02f%%".localized, progress * 100];
+    }
+}
+
+#pragma mark - CHActionGroupDelegate
+- (void)actionGroupSelected:(nullable CHActionItemModel *)item {
+    NSURL *link = item.link;
+    if (link == nil) {
+        [CHRouter.shared makeToast:@"Can't open url".localized];
+    } else {
+        [CHRouter.shared handleURL:link];
     }
 }
 
@@ -162,20 +196,21 @@
 @implementation CHFileMsgCellConfiguration
 
 + (instancetype)cellConfiguration:(CHMessageModel *)model {
-    return [[self.class alloc] initWithMID:model.mid text:model.text title:model.title filename:model.filename fileURL:model.fileURL fileSize:model.fileSize bubbleRect:CGRectZero];
+    return [[self.class alloc] initWithMID:model.mid text:model.text title:model.title filename:model.filename fileURL:model.fileURL fileSize:model.fileSize actions:model.actions bubbleRect:CGRectZero];
 }
 
 - (nonnull id)copyWithZone:(nullable NSZone *)zone {
-    return [[self.class allocWithZone:zone] initWithMID:self.mid text:self.text title:self.title filename:self.filename fileURL:self.fileURL fileSize:self.fileSize bubbleRect:self.bubbleRect];
+    return [[self.class allocWithZone:zone] initWithMID:self.mid text:self.text title:self.title filename:self.filename fileURL:self.fileURL fileSize:self.fileSize actions:self.actions bubbleRect:self.bubbleRect];
 }
 
-- (instancetype)initWithMID:(NSString *)mid text:(NSString * _Nullable)text title:(NSString * _Nullable)title filename:(NSString * _Nullable)filename fileURL:(NSString * _Nullable)fileURL fileSize:(uint64_t)fileSize bubbleRect:(CGRect)bubbleRect {
+- (instancetype)initWithMID:(NSString *)mid text:(NSString * _Nullable)text title:(NSString * _Nullable)title filename:(NSString * _Nullable)filename fileURL:(NSString * _Nullable)fileURL fileSize:(uint64_t)fileSize actions:(NSArray<CHActionItemModel *> * _Nullable)actions bubbleRect:(CGRect)bubbleRect {
     if (self = [super initWithMID:mid bubbleRect:bubbleRect]) {
         _title = title;
         _text = text;
         _filename = filename;
         _fileURL = fileURL;
         _fileSize = fileSize;
+        _actions = actions;
     }
     return self;
 }
@@ -185,7 +220,11 @@
 }
 
 - (CGSize)calcContentSize:(CGSize)size {
-    return CGSizeMake(MIN(size.width, 300), 80);
+    CGFloat height = 80;
+    if (self.actions.count > 0) {
+        height += CHActionGroup.defaultHeight;
+    }
+    return CGSizeMake(MIN(size.width, 300), height);
 }
 
 

@@ -155,6 +155,7 @@
                 case CHTPMsgType_File:
                     _type = CHMessageTypeFile;
                     _file = content.file;
+                    _actions = parseActions(content);
                     if (content.filename.length > 0) {
                         _filename = content.filename;
                     }
@@ -171,20 +172,7 @@
                         _title = content.title;
                     }
                     _text = [content.text stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
-                    if (content.actionsArray_Count > 0) {
-                        NSMutableArray<CHActionItemModel *> *items = [NSMutableArray arrayWithCapacity:content.actionsArray_Count];
-                        for (CHTPActionItem *item in content.actionsArray) {
-                            if (item.type == CHTPActType_ActURL) {
-                                NSURL *link = item.link.urlWithPercentEncoding;
-                                if (link != nil) {
-                                    [items addObject:[CHActionItemModel actionItemWithName:item.name link:link]];
-                                }
-                            }
-                        }
-                        if (items.count > 0) {
-                            _actions = items;
-                        }
-                    }
+                    _actions = parseActions(content);
                     break;
                 case CHTPMsgType_Timeline:
                     _type = CHMessageTypeTimeline;
@@ -227,17 +215,15 @@
                 content.categoryIdentifier = @"link";
             }
             break;
-        case CHMessageTypeAction:
-            if (self.actions.count > 0) {
-                NSMutableArray *actions = [NSMutableArray arrayWithCapacity:self.actions.count];
-                for (CHActionItemModel *item in self.actions) {
-                    [actions addObject:item.dictionary];
-                }
-                NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:content.userInfo];
-                [userInfo setValue:actions forKey:@"actions"];
-                content.userInfo = userInfo;
-            }
-            break;
+    }
+    if (self.actions.count > 0) {
+        NSMutableArray *actions = [NSMutableArray arrayWithCapacity:self.actions.count];
+        for (CHActionItemModel *item in self.actions) {
+            [actions addObject:item.dictionary];
+        }
+        NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:content.userInfo];
+        [userInfo setValue:actions forKey:@"actions"];
+        content.userInfo = userInfo;
     }
     content.threadIdentifier = self.channel.sha1.base64;
     content.body = self.summaryBodyText;
@@ -323,7 +309,23 @@
     return self.mid.hash;
 }
 
-inline static NSString *getSrcFromMID(NSString *mid) {
+static inline NSArray<CHActionItemModel *> *parseActions(CHTPMsgContent *content) {
+    NSMutableArray<CHActionItemModel *> *items = nil;
+    if (content.actionsArray_Count > 0) {
+        items = [NSMutableArray arrayWithCapacity:content.actionsArray_Count];
+        for (CHTPActionItem *item in content.actionsArray) {
+            if (item.type == CHTPActType_ActURL) {
+                NSURL *link = item.link.urlWithPercentEncoding;
+                if (link != nil) {
+                    [items addObject:[CHActionItemModel actionItemWithName:item.name link:link]];
+                }
+            }
+        }
+    }
+    return items.count > 0 ? items : nil;
+}
+
+static inline NSString *getSrcFromMID(NSString *mid) {
     NSString *res = nil;
     if (mid.length > 0) {
         NSArray *items = [mid componentsSeparatedByString:@"."];
@@ -334,7 +336,7 @@ inline static NSString *getSrcFromMID(NSString *mid) {
     return res;
 }
 
-inline static NSString *parseMID(const uint8_t *ptr, NSString *str) {
+static inline NSString *parseMID(const uint8_t *ptr, NSString *str) {
     uint64_t mid = CFSwapInt64BigToHost(*(uint64_t *)(ptr + 4));
     if (mid <= 0) {
         return @"";
