@@ -7,6 +7,8 @@
 */
 "Shortcuts"="快捷入口";
 "Dashboard"="仪表盘";
+"ShortcutsConfiguration"="快捷入口配置";
+"DashboardConfiguration"="仪表盘配置";
 "The shortcut to open selected targets."="打开选定目标的快捷方式";
 "Show dashboard of timeline notification."="显示基于时间线通知的仪表盘";
 "Please login first to continue!"="请先登录以继续！";

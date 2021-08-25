@@ -7,6 +7,8 @@
 */
 "Shortcuts"="Shortcuts";
 "Dashboard"="Dashboard";
+"ShortcutsConfiguration"="Shortcuts Configuration";
+"DashboardConfiguration"="Dashboard Configuration";
 "The shortcut to open selected targets."="The shortcut to open selected targets.";
 "Show dashboard of timeline notification."="Show dashboard of timeline notification.";
 "Please login first to continue!"="Please login first to continue!";
