@@ -121,6 +121,7 @@
 - (void)actionShow:(id)sender {
     if (NSApp.keyWindow == nil) {
         [self.window makeKeyAndOrderFront:NSApp];
+        [NSApp activateIgnoringOtherApps:YES];
     }
 }
 
