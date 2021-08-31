@@ -21,7 +21,7 @@
 	<true/>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)net.chanify.keychain</string>
+		<string>$(AppIdentifierPrefix)net.chanify.keychain.osx</string>
 	</array>
 </dict>
 </plist>

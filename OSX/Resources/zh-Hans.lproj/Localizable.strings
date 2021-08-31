@@ -12,6 +12,7 @@
 "Delete"="删除";
 "Enable"="启用";
 "Disable"="禁用";
+"Login"="登录";
 "Share"="分享";
 "Copy"="复制";
 "Copied"="已复制";
@@ -27,9 +28,11 @@
 "Expired"="已到期";
 "Can't open url"="无法打开url";
 "Preferences"="设置";
+"Logout"="登出";
 "About Chanify"="关于Chanify";
 "Quit Chanify"="退出Chanify";
 "Unknown message type"="未知的消息类型";
+"Import account failed!"="导入账号失败！";
 "Export failed"="导出失败";
 "Export success"="导出成功";
 "Delete all messages or not?"="是否要删除所有消息？";
@@ -41,6 +44,9 @@
 "Delete this token or not?"="是否要删除这个令牌？";
 "URLScheme clicked"="点击该链接将会打开其他App，并且离开Chanify";
 "Download failed and click to retry"="下载失败，点击重试";
+"Release QR code to login."="释放二维码登录。";
+"Drop QR code here to login."="将二维码拖到此处登录。";
+"Get QR code from Chanify app on your iPhone."="从 iPhone 上的 Chanify 应用程序获取二维码。";
 
 "%@ copied"="%@已复制";
 "Expires at %@"="有效期到 %@";

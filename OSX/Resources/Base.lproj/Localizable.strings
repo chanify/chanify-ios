@@ -12,6 +12,7 @@
 "Delete"="Delete";
 "Enable"="Enable";
 "Disable"="Disable";
+"Login"="Login";
 "Share"="Share";
 "Copy"="Copy";
 "Copied"="Copied";
@@ -27,9 +28,11 @@
 "Expired"="Expired";
 "Can't open url"="Can't open url";
 "Preferences"="Preferences";
+"Logout"="Logout";
 "About Chanify"="About Chanify";
 "Quit Chanify"="Quit Chanify";
 "Unknown message type"="Unknown message type";
+"Import account failed!"="Import account failed!";
 "Export failed"="Export failed";
 "Export success"="Export success";
 "Delete all messages or not?"="Delete all messages or not?";
@@ -41,6 +44,9 @@
 "Delete this token or not?"="Delete this token or not?";
 "URLScheme clicked"="Click this link to open other App and leave Chanify";
 "Download failed and click to retry"="Download failed and click to retry";
+"Release QR code to login."="Release QR code to login.";
+"Drop QR code here to login."="Drop QR code here to login.";
+"Get QR code from Chanify app on your iPhone."="Get QR code from Chanify app on your iPhone.";
 
 "%@ copied"="%@ Copied";
 "Expires at %@"="Expires at %@";

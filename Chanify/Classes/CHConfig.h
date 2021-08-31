@@ -8,6 +8,8 @@
 #ifndef __CHCONFIG_H__
 #define __CHCONFIG_H__
 
+#include <TargetConditionals.h>
+
 #define kQuickStartURL                  "https://www.chanify.net/quickstart.html"
 #define kUsageManualURL                 "https://github.com/chanify/chanify"
 #define kCHPrivacyURL                   "https://www.chanify.net/privacy.html"
@@ -21,7 +23,6 @@
 #define kCHAppWidgetGroupName           "group.net.chanify.share.widget"
 #define kCHAppTimelineGroupName         "group.net.chanify.share.timeline"
 #define kCHAppOSXGroupName              "P4XS4AVCLW.group.net.chanify.share.osx"
-#define kCHAppKeychainName              "P4XS4AVCLW.net.chanify.keychain"
 #define kCHDeviceSecKeyName             "net.chanify.device.key"
 #define kCHUserSecKeyName               "net.chanify.user.key"
 #define kCHDBDataName                   "data.db"
@@ -52,7 +53,9 @@
 #endif
 #if TARGET_OS_OSX
 #   define kCHDBFileProtectionFlags     0
+#   define kCHAppKeychainName           "P4XS4AVCLW.net.chanify.keychain.osx"
 #else
+#   define kCHAppKeychainName           "P4XS4AVCLW.net.chanify.keychain"
 #   define kCHDBFileProtectionFlags     SQLITE_OPEN_FILEPROTECTION_COMPLETEUNTILFIRSTUSERAUTHENTICATION
 #endif
 

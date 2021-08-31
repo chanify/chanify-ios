@@ -8,10 +8,13 @@
 #import "CHRouter+OSX.h"
 #import <JLRoutes/JLRoutes.h>
 #import "CHMainViewController.h"
+#import "CHLoginViewController.h"
 #import "CHChannelView.h"
 #import "CHLogic.h"
 
-@interface CHRouter () <NSWindowDelegate, NSSharingServicePickerDelegate>
+#define kMenuLogoutTag  10000
+
+@interface CHRouter () <NSWindowDelegate, NSSharingServicePickerDelegate, NSMenuItemValidation>
 
 @property (nonatomic, readonly, strong) NSStatusItem *statusIcon;
 @property (nonatomic, nullable, strong) void (^shareHandler)(BOOL completed, NSError *error);
@@ -39,8 +42,7 @@
 }
 
 - (void)launch {
-    NSWindowStyleMask styleMask = NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskMiniaturizable|NSWindowStyleMaskResizable|NSWindowStyleMaskFullSizeContentView;
-    NSWindow *window = [[NSWindow alloc] initWithContentRect:NSZeroRect styleMask:styleMask backing:NSBackingStoreBuffered defer:NO];
+    NSWindow *window = [[NSWindow alloc] initWithContentRect:NSZeroRect styleMask:0 backing:NSBackingStoreBuffered defer:NO];
     _window = window;
     window.movableByWindowBackground = YES;
     window.titlebarAppearsTransparent = YES;
@@ -75,7 +77,13 @@
 }
 
 - (BOOL)routeTo:(NSString *)url withParams:(nullable NSDictionary<NSString *, id> *)params {
-    return [JLRoutes routeURL:[NSURL URLWithString:url] withParameters:params];
+    BOOL res = NO;
+    if (CHLogic.shared.me != nil) {
+        res = [JLRoutes routeURL:[NSURL URLWithString:url] withParameters:params];
+    } else {
+        res = [JLRoutes routeURL:[NSURL URLWithString:@"/page/login"]];
+    }
+    return res;
 }
 
 - (void)showShareItem:(NSArray *)items sender:(id)sender handler:(void (^ __nullable)(BOOL completed, NSError *error))handler {
@@ -117,6 +125,14 @@
     }
 }
 
+#pragma mark - NSMenuItemValidation
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+    if (menuItem.tag == kMenuLogoutTag) {
+        return (CHLogic.shared.me != nil);
+    }
+    return YES;
+}
+
 #pragma mark - Action Methods
 - (void)actionShow:(id)sender {
     if (NSApp.keyWindow == nil) {
@@ -133,14 +149,32 @@
     
 }
 
+- (void)actionLogout:(id)sender {
+    [CHLogic.shared logoutWithCompletion:^(CHLCode result) {
+        if (result == CHLCodeOK) {
+            [CHRouter.shared routeTo:@"/page/main"];
+        }
+    }];
+}
+
 #pragma mark - Private Methods
 - (void)initRouters:(JLRoutes *)routes {
     [routes addRoute:@"/page/main" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
         NSWindow *window = CHRouter.shared.window;
         if (![window.contentViewController isKindOfClass:CHMainViewController.class]) {
+            window.styleMask = NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskMiniaturizable|NSWindowStyleMaskResizable|NSWindowStyleMaskFullSizeContentView;
             window.minSize = CGSizeMake(640, 480);
             window.contentViewController = [CHMainViewController new];
-            [window setFrame:NSMakeRect(0, 0, 800, 600) display:YES animate:YES];
+            showWindowWithSize(window, NSMakeSize(800, 600));
+        }
+        return YES;
+    }];
+    [routes addRoute:@"/page/login" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
+        NSWindow *window = CHRouter.shared.window;
+        if (![window.contentViewController isKindOfClass:CHLoginViewController.class]) {
+            window.styleMask = NSWindowStyleMaskTitled|NSWindowStyleMaskClosable;
+            window.contentViewController = [CHLoginViewController new];
+            showWindowWithSize(window, NSMakeSize(300, 400));
         }
         return YES;
     }];
@@ -171,9 +205,14 @@
     [mainMenu addItem:appMenu];
     NSMenu *menu = [NSMenu new];
     appMenu.submenu = menu;
-    [menu addItem:CreateMenuItem(@"About Chanify", self, @selector(actionAbout:), @"i")];
-    [menu addItem:NSMenuItem.separatorItem];
-    [menu addItem:CreateMenuItem(@"Preferences", self, @selector(actionPreferences:), @",")];
+//    [menu setAutoenablesItems:NO];
+//    [menu addItem:CreateMenuItem(@"About Chanify", self, @selector(actionAbout:), @"i")];
+//    [menu addItem:NSMenuItem.separatorItem];
+//    [menu addItem:CreateMenuItem(@"Preferences", self, @selector(actionPreferences:), @",")];
+//    [menu addItem:NSMenuItem.separatorItem];
+    NSMenuItem *logoutItem = CreateMenuItem(@"Logout", self, @selector(actionLogout:), @"o");
+    logoutItem.tag = kMenuLogoutTag;
+    [menu addItem:logoutItem];
     [menu addItem:NSMenuItem.separatorItem];
     [menu addItem:CreateMenuItem(@"Quit Chanify", NSApp, @selector(terminate:), @"q")];
     NSApp.mainMenu = mainMenu;
@@ -185,5 +224,12 @@ static inline NSMenuItem *CreateMenuItem(NSString *title, id target, SEL action,
     return menu;
 }
 
+static inline void showWindowWithSize(NSWindow *window, NSSize size) {
+    NSRect frame = window.screen.frame;
+    if (NSIsEmptyRect(frame)) {
+        frame = NSScreen.mainScreen.frame;
+    }
+    [window setFrame:NSMakeRect((frame.size.width - size.width)/2.0, (frame.size.height - size.height)/2.0, size.width, size.height) display:YES animate:YES];
+}
 
 @end

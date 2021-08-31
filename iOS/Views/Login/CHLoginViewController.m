@@ -100,7 +100,7 @@
         @weakify(self);
         [CHRouter.shared showIndicator:YES];
         NSString *key = @"";
-        NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:nil];
+        NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
         for (NSURLQueryItem *item in components.queryItems) {
             if ([item.name isEqual:@"key"]) {
                 key = item.value;

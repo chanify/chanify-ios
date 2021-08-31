@@ -16,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)handleReopen:(id)sender;
 - (void)setBadgeText:(NSString *)badgeText;
 
-
 @end
 
 NS_ASSUME_NONNULL_END
