@@ -10,6 +10,7 @@
 #import "CHMainViewController.h"
 #import "CHLoginViewController.h"
 #import "CHChannelView.h"
+#import "CHAboutView.h"
 #import "CHLogic.h"
 
 #define kMenuLogoutTag  10000
@@ -18,6 +19,7 @@
 
 @property (nonatomic, readonly, strong) NSStatusItem *statusIcon;
 @property (nonatomic, nullable, strong) void (^shareHandler)(BOOL completed, NSError *error);
+@property (nonatomic, nullable, weak) NSPanel *aboutPanel;
 
 @end
 
@@ -113,6 +115,7 @@
 
 #pragma mark - NSWindowDelegate
 - (BOOL)windowShouldClose:(NSWindow *)window {
+    [self.aboutPanel close];
     [window orderOut:self];
     return NO;
 }
@@ -142,11 +145,22 @@
 }
 
 - (void)actionAbout:(id)sender {
-
+    if (self.aboutPanel == nil) {
+        NSPanel *aboutPanel = [NSPanel new];
+        aboutPanel.movableByWindowBackground = YES;
+        aboutPanel.titlebarAppearsTransparent = YES;
+        aboutPanel.contentView = [CHAboutView new];
+        _aboutPanel = aboutPanel;
+    }
+    NSRect frame = NSMakeRect(0, 0, 480, 220);
+    NSRect wndFrame = self.window.frame;
+    frame.origin.x = wndFrame.origin.x + (wndFrame.size.width - frame.size.width)/2.0;
+    frame.origin.y = wndFrame.origin.y + (wndFrame.size.height - frame.size.height)/2.0;
+    [self.aboutPanel setFrame:frame display:YES animate:NO];
+    [self.aboutPanel orderFrontRegardless];
 }
 
 - (void)actionPreferences:(id)sender {
-    
 }
 
 - (void)actionLogout:(id)sender {
@@ -205,9 +219,8 @@
     [mainMenu addItem:appMenu];
     NSMenu *menu = [NSMenu new];
     appMenu.submenu = menu;
-//    [menu setAutoenablesItems:NO];
-//    [menu addItem:CreateMenuItem(@"About Chanify", self, @selector(actionAbout:), @"i")];
-//    [menu addItem:NSMenuItem.separatorItem];
+    [menu addItem:CreateMenuItem(@"About Chanify", self, @selector(actionAbout:), @"i")];
+    [menu addItem:NSMenuItem.separatorItem];
 //    [menu addItem:CreateMenuItem(@"Preferences", self, @selector(actionPreferences:), @",")];
 //    [menu addItem:NSMenuItem.separatorItem];
     NSMenuItem *logoutItem = CreateMenuItem(@"Logout", self, @selector(actionLogout:), @"o");
@@ -231,5 +244,6 @@ static inline void showWindowWithSize(NSWindow *window, NSSize size) {
     }
     [window setFrame:NSMakeRect((frame.size.width - size.width)/2.0, (frame.size.height - size.height)/2.0, size.width, size.height) display:YES animate:YES];
 }
+
 
 @end

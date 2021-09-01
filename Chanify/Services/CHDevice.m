@@ -62,6 +62,10 @@
     return self;
 }
 
+- (NSString *)copyright {
+    return [NSBundle.mainBundle objectForInfoDictionaryKey:@"NSHumanReadableCopyright"];
+}
+
 #pragma mark - Private Methods
 static inline NSString *get_sysctl(const char *name) {
     char buffer[512] = { 0 };

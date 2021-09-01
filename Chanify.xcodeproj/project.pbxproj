@@ -125,6 +125,9 @@
 		6D6F3D02263D28EB00A2578B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6F3D01263D28EB00A2578B /* main.m */; };
 		6D723296263EDD8C007C8582 /* CHSecKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2AD25D14C2400512E36 /* CHSecKey.m */; };
 		6D723298263EDDAD007C8582 /* CHSecKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2AD25D14C2400512E36 /* CHSecKey.m */; };
+		6D75352A26DF1C7A009E019E /* CHAboutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D75352926DF1C7A009E019E /* CHAboutView.m */; };
+		6D75352C26DF2DAA009E019E /* Acknowledgements.markdown in Resources */ = {isa = PBXBuildFile; fileRef = 6D75352B26DF2DAA009E019E /* Acknowledgements.markdown */; };
+		6D75352D26DF3688009E019E /* CHCodeFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278E6825E222C300FC48CD /* CHCodeFormatter.m */; };
 		6D7ACE97266478D600B3FCF4 /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C21F25D0FB7600512E36 /* NotificationService.m */; };
 		6D8352322664C818005CE6D1 /* CHRouter+OSX.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8352312664C818005CE6D1 /* CHRouter+OSX.m */; };
 		6D8352362664D423005CE6D1 /* CHChannelsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8352352664D423005CE6D1 /* CHChannelsView.m */; };
@@ -772,6 +775,9 @@
 		6D6F3D00263D28EB00A2578B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6D6F3D01263D28EB00A2578B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6D6F3D03263D28EB00A2578B /* Chanify.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Chanify.entitlements; sourceTree = "<group>"; };
+		6D75352826DF1C7A009E019E /* CHAboutView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHAboutView.h; sourceTree = "<group>"; };
+		6D75352926DF1C7A009E019E /* CHAboutView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHAboutView.m; sourceTree = "<group>"; };
+		6D75352B26DF2DAA009E019E /* Acknowledgements.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Acknowledgements.markdown; sourceTree = "<group>"; };
 		6D8352302664C818005CE6D1 /* CHRouter+OSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CHRouter+OSX.h"; sourceTree = "<group>"; };
 		6D8352312664C818005CE6D1 /* CHRouter+OSX.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHRouter+OSX.m"; sourceTree = "<group>"; };
 		6D8352342664D423005CE6D1 /* CHChannelsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelsView.h; sourceTree = "<group>"; };
@@ -1246,6 +1252,8 @@
 				6DD5A102260EFB9900799032 /* CHWebImageView.m */,
 				6D909113265CDCFE0064A580 /* CHLoadMoreView.h */,
 				6D909114265CDCFE0064A580 /* CHLoadMoreView.m */,
+				6D278E6725E222C300FC48CD /* CHCodeFormatter.h */,
+				6D278E6825E222C300FC48CD /* CHCodeFormatter.m */,
 				6DC6C1C825D0DCD100512E36 /* CHViewController.h */,
 			);
 			path = Utils;
@@ -1281,6 +1289,7 @@
 		6D1FAA7B263D2F3A00582170 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6D75352B26DF2DAA009E019E /* Acknowledgements.markdown */,
 				6DE7C05C263D45DE0092D88D /* InfoPlist.strings */,
 				6DE7C060263D46190092D88D /* Localizable.strings */,
 				6D6F3CFB263D28EB00A2578B /* Assets.xcassets */,
@@ -1492,6 +1501,15 @@
 				6D6F3D03263D28EB00A2578B /* Chanify.entitlements */,
 			);
 			path = OSX;
+			sourceTree = "<group>";
+		};
+		6D75352726DF1C68009E019E /* About */ = {
+			isa = PBXGroup;
+			children = (
+				6D75352826DF1C7A009E019E /* CHAboutView.h */,
+				6D75352926DF1C7A009E019E /* CHAboutView.m */,
+			);
+			path = About;
 			sourceTree = "<group>";
 		};
 		6D8352332664D411005CE6D1 /* Channels */ = {
@@ -1830,8 +1848,6 @@
 				6DC6C1C925D0DCD100512E36 /* CHViewController.m */,
 				6DC6C36D25D16C4E00512E36 /* CHQrCodeView.h */,
 				6DC6C36E25D16C4E00512E36 /* CHQrCodeView.m */,
-				6D278E6725E222C300FC48CD /* CHCodeFormatter.h */,
-				6D278E6825E222C300FC48CD /* CHCodeFormatter.m */,
 				6D3EB449262AABD900BE797F /* CHNavigationTitleView.h */,
 				6D3EB44A262AABD900BE797F /* CHNavigationTitleView.m */,
 			);
@@ -2136,6 +2152,7 @@
 			children = (
 				6D8352332664D411005CE6D1 /* Channels */,
 				6D5156342666497900137071 /* Channel */,
+				6D75352726DF1C68009E019E /* About */,
 				6DB929E826DE17010093F927 /* Login */,
 				6DF6111D2665E19400426830 /* Main */,
 				6D83523E2665CFE9005CE6D1 /* Utils */,
@@ -2446,6 +2463,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D6F3CFC263D28EB00A2578B /* Assets.xcassets in Resources */,
+				6D75352C26DF2DAA009E019E /* Acknowledgements.markdown in Resources */,
 				6DE7C062263D46190092D88D /* Localizable.strings in Resources */,
 				6DE7C05E263D45DE0092D88D /* InfoPlist.strings in Resources */,
 			);
@@ -2731,6 +2749,7 @@
 				6DB929E726DE13260093F927 /* CHLoginViewController.m in Sources */,
 				6DE7C080263D48E10092D88D /* NSDictionary+CHExt.m in Sources */,
 				6DB1C25F266F4669007C0C02 /* CHLoadMoreView.m in Sources */,
+				6D75352A26DF1C7A009E019E /* CHAboutView.m in Sources */,
 				6DE7C07B263D48B80092D88D /* NSString+CHExt.m in Sources */,
 				6DAD53F5266E004D0036B68F /* CHPasteboard.m in Sources */,
 				6DE7C075263D487B0092D88D /* CHSecKey.m in Sources */,
@@ -2774,6 +2793,7 @@
 				6D029B7F266F20FA00BF046A /* CHActionMsgCellConfiguration.m in Sources */,
 				6D029B72266F093C00BF046A /* CHWebImageView.m in Sources */,
 				6DE7C08A263D49560092D88D /* CHUserDataSource.m in Sources */,
+				6D75352D26DF3688009E019E /* CHCodeFormatter.m in Sources */,
 				6DE7C07E263D48D50092D88D /* NSPredicate+CHExt.m in Sources */,
 				6D029B73266F098000BF046A /* CHLoadingView.m in Sources */,
 				6DE7C066263D471E0092D88D /* CHUtils.m in Sources */,

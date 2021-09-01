@@ -29,6 +29,10 @@
 "Can't open url"="Can't open url";
 "Preferences"="Preferences";
 "Logout"="Logout";
+"Device"="Device";
+"Version"="Version";
+"Privacy Policy"="Privacy Policy";
+"Acknowledgements"="Acknowledgements";
 "About Chanify"="About Chanify";
 "Quit Chanify"="Quit Chanify";
 "Unknown message type"="Unknown message type";

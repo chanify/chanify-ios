@@ -29,6 +29,10 @@
 "Can't open url"="无法打开url";
 "Preferences"="设置";
 "Logout"="登出";
+"Device"="设备";
+"Version"="版本";
+"Privacy Policy"="隐私协议";
+"Acknowledgements"="版权声明";
 "About Chanify"="关于Chanify";
 "Quit Chanify"="退出Chanify";
 "Unknown message type"="未知的消息类型";
