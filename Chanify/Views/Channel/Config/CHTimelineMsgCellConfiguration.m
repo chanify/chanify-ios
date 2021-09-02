@@ -91,7 +91,7 @@ static CHEdgeInsets textInsets = { 8, 12, 8, 12 };
 
 #pragma mark - Action Methods
 - (void)actionClicked:(CHTapGestureRecognizer *)sender {
-    [CHRouter.shared routeTo:@"/page/timeline_chart" withParams:@{ @"mid": self.configuration.mid, @"show": @"detail" }];
+    //[CHRouter.shared routeTo:@"/page/timeline_chart" withParams:@{ @"mid": self.configuration.mid, @"show": @"detail" }];
 }
 
 - (void)actionShare:(id)sender {

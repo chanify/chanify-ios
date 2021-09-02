@@ -128,6 +128,7 @@
 		6D75352A26DF1C7A009E019E /* CHAboutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D75352926DF1C7A009E019E /* CHAboutView.m */; };
 		6D75352C26DF2DAA009E019E /* Acknowledgements.markdown in Resources */ = {isa = PBXBuildFile; fileRef = 6D75352B26DF2DAA009E019E /* Acknowledgements.markdown */; };
 		6D75352D26DF3688009E019E /* CHCodeFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278E6825E222C300FC48CD /* CHCodeFormatter.m */; };
+		6D75353426DF878C009E019E /* CHTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D75353326DF878C009E019E /* CHTabBarView.m */; };
 		6D7ACE97266478D600B3FCF4 /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C21F25D0FB7600512E36 /* NotificationService.m */; };
 		6D8352322664C818005CE6D1 /* CHRouter+OSX.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8352312664C818005CE6D1 /* CHRouter+OSX.m */; };
 		6D8352362664D423005CE6D1 /* CHChannelsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8352352664D423005CE6D1 /* CHChannelsView.m */; };
@@ -778,6 +779,8 @@
 		6D75352826DF1C7A009E019E /* CHAboutView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHAboutView.h; sourceTree = "<group>"; };
 		6D75352926DF1C7A009E019E /* CHAboutView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHAboutView.m; sourceTree = "<group>"; };
 		6D75352B26DF2DAA009E019E /* Acknowledgements.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Acknowledgements.markdown; sourceTree = "<group>"; };
+		6D75353226DF878C009E019E /* CHTabBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHTabBarView.h; sourceTree = "<group>"; };
+		6D75353326DF878C009E019E /* CHTabBarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHTabBarView.m; sourceTree = "<group>"; };
 		6D8352302664C818005CE6D1 /* CHRouter+OSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CHRouter+OSX.h"; sourceTree = "<group>"; };
 		6D8352312664C818005CE6D1 /* CHRouter+OSX.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHRouter+OSX.m"; sourceTree = "<group>"; };
 		6D8352342664D423005CE6D1 /* CHChannelsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelsView.h; sourceTree = "<group>"; };
@@ -1512,6 +1515,15 @@
 			path = About;
 			sourceTree = "<group>";
 		};
+		6D75353126DF8773009E019E /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				6D75353226DF878C009E019E /* CHTabBarView.h */,
+				6D75353326DF878C009E019E /* CHTabBarView.m */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
 		6D8352332664D411005CE6D1 /* Channels */ = {
 			isa = PBXGroup;
 			children = (
@@ -2152,6 +2164,7 @@
 			children = (
 				6D8352332664D411005CE6D1 /* Channels */,
 				6D5156342666497900137071 /* Channel */,
+				6D75353126DF8773009E019E /* TabBar */,
 				6D75352726DF1C68009E019E /* About */,
 				6DB929E826DE17010093F927 /* Login */,
 				6DF6111D2665E19400426830 /* Main */,
@@ -2788,6 +2801,7 @@
 				6D51563326662F5600137071 /* CHBadgeView.m in Sources */,
 				6DB1C26A266F721F007C0C02 /* CHPreviewItem.m in Sources */,
 				6DE7C076263D487D0092D88D /* CryptoKit.swift in Sources */,
+				6D75353426DF878C009E019E /* CHTabBarView.m in Sources */,
 				6D098E1D2671F4F300E71538 /* CHScrollView.m in Sources */,
 				6DB1C265266F47BE007C0C02 /* CHIndicatorView.m in Sources */,
 				6D029B7F266F20FA00BF046A /* CHActionMsgCellConfiguration.m in Sources */,
@@ -3349,7 +3363,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 50;
+				CURRENT_PROJECT_VERSION = 42;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
@@ -3364,7 +3378,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.5.0;
+				MARKETING_VERSION = 1.2.4;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = macosx;
@@ -3383,7 +3397,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 50;
+				CURRENT_PROJECT_VERSION = 42;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
@@ -3398,7 +3412,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.5.0;
+				MARKETING_VERSION = 1.2.4;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = macosx;
@@ -3675,7 +3689,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -3731,7 +3745,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

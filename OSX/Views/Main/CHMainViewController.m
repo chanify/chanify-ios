@@ -7,14 +7,15 @@
 
 #import "CHMainViewController.h"
 #import <Masonry/Masonry.h>
-#import "CHChannelsView.h"
+#import "CHTabBarView.h"
 #import "CHContentView.h"
 
 #define kCHMinSplitPosition     240
+#define kCHMaxSplitPosition     400
 
 @interface CHMainViewController () <NSSplitViewDelegate>
 
-@property (nonatomic, readonly, strong) CHChannelsView *sidebarView;
+@property (nonatomic, readonly, strong) CHTabBarView *sidebarView;
 @property (nonatomic, readonly, strong) CHContentView *contentView;
 
 @end
@@ -32,7 +33,7 @@
     splitView.dividerStyle = NSSplitViewDividerStyleThin;
     splitView.vertical = YES;
     splitView.delegate = self;
-    [splitView addSubview:(_sidebarView = [CHChannelsView new])];
+    [splitView addSubview:(_sidebarView = [CHTabBarView new])];
     [splitView addSubview:(_contentView = [CHContentView new])];
 }
 
@@ -61,13 +62,14 @@
 }
 
 - (CGFloat)splitView:(NSSplitView *)splitView constrainMaxCoordinate:(CGFloat)proposedMaximumPosition ofSubviewAt:(NSInteger)dividerIndex {
-    return MAX(splitView.bounds.size.width/2, kCHMinSplitPosition);
+    return kCHMaxSplitPosition;
 }
 
-- (void)splitView:(NSSplitView *)splitView resizeSubviewsWithOldSize:(NSSize)oldSize {
+- (void)splitViewWillResizeSubviews:(NSNotification *)notification {
+    NSSplitView *splitView = (NSSplitView *)notification.object;
     NSRect frame = splitView.bounds;
     CGFloat position = MAX(MIN(self.sidebarView.frame.size.width, frame.size.width/2), kCHMinSplitPosition);
-    self.sidebarView.frame = CGRectMake(0, 28, position, frame.size.height);
+    self.sidebarView.frame = CGRectMake(0, 0, position, frame.size.height);
     CGFloat divider = splitView.dividerThickness;
     self.contentView.frame = CGRectMake(position + divider, 0, frame.size.width - position - divider, frame.size.height);
 }

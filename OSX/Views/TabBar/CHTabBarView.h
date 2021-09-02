@@ -1,15 +1,15 @@
 //
-//  CHChannelsView.h
+//  CHTabBarView.h
 //  OSX
 //
-//  Created by WizJin on 2021/5/31.
+//  Created by WizJin on 2021/9/1.
 //
 
 #import "CHUI.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHChannelsView : CHView
+@interface CHTabBarView : CHView
 
 - (void)reloadData;
 

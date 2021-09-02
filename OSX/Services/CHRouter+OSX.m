@@ -71,7 +71,20 @@
 }
 
 - (BOOL)handleURL:(NSURL *)url {
-    return NO;
+    NSString *target = url.absoluteString;
+    NSDictionary *params = nil;
+    if ([url.scheme isEqualToString:@"chanify"]) {
+        NSURLComponents *components = [NSURLComponents componentsWithString:target];
+        if ([url.path isEqualToString:@"/page/channel"]) {
+            NSString *cid = [components queryValueForName:@"cid"];
+            if (cid.length <= 0) {
+                return NO;
+            }
+            target = url.path;
+            params = @{ @"show": @"detail", @"singleton": @YES, @"cid": cid };
+        }
+    }
+    return [self routeTo:target withParams:params];
 }
 
 - (BOOL)routeTo:(NSString *)url {
@@ -204,6 +217,12 @@
         }
         return YES;
     }];
+    // unmatched router
+    routes.unmatchedURLHandler = ^(JLRoutes *routes, NSURL *url, NSDictionary<NSString *, id> *parameters) {
+        if (url != nil) {
+            [NSWorkspace.sharedWorkspace openURL:url];
+        }
+    };
 }
 
 - (void)loadMainMenu {

@@ -38,6 +38,16 @@
 }
 
 - (NSString *)linkForPoint:(CGPoint)point {
+    NSUInteger index = [self characterIndexForInsertionAtPoint:point];
+    if (index >= 0 && index < self.text.length) {
+        NSDictionary *info = [self.textStorage attributesAtIndex:index effectiveRange:nil];
+        if (info != nil) {
+            NSURL *url = [info valueForKey:NSLinkAttributeName];
+            if (url != nil) {
+                return url.absoluteString;
+            }
+        }
+    }
     return @"";
 }
 

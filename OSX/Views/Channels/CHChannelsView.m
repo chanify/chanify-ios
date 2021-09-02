@@ -31,12 +31,15 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
 @implementation CHChannelsView
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
+    frameRect.size.height = MAX(frameRect.size.height, 60);
     if (self = [super initWithFrame:frameRect]) {
         _selected = nil;
         
         CHTheme *theme = CHTheme.shared;
+        self.backgroundColor = theme.groupedBackgroundColor;
 
         NSCollectionViewFlowLayout *layout = [NSCollectionViewFlowLayout new];
+        layout.minimumInteritemSpacing = 0;
         layout.minimumLineSpacing = 1;
         CHCollectionView *listView = [[CHCollectionView alloc] initWithLayout:layout];
         _listView = listView;
@@ -47,10 +50,16 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
         listView.selectable = YES;
         listView.delegate = self;
         
-        self.documentView = listView;
-        self.hasVerticalScroller = YES;
-        self.backgroundColor = theme.groupedBackgroundColor;
-
+        NSScrollView *scrollView = [NSScrollView new];
+        [self addSubview:scrollView];
+        [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self).offset(58);
+            make.left.right.bottom.equalTo(self);
+        }];
+        scrollView.documentView = listView;
+        scrollView.hasVerticalScroller = YES;
+        scrollView.hasHorizontalScroller = NO;
+        
         @weakify(self);
         _dataSource = [[CHChannelDataSource alloc] initWithCollectionView:listView itemProvider:^NSCollectionViewItem * _Nullable(NSCollectionView * collectionView, NSIndexPath * indexPath, CHChannelModel * model) {
             CHChannelCellView *item = [collectionView makeItemWithIdentifier:cellIdentifier forIndexPath:indexPath];
@@ -90,7 +99,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
 
 #pragma mark - NSCollectionViewDelegateFlowLayout
 - (NSSize)collectionView:(NSCollectionView *)collectionView layout:(NSCollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(collectionView.bounds.size.width, 60);
+    return CGSizeMake(collectionView.safeAreaRect.size.width, 60);
 }
 
 #pragma mark - CHLogicDelegate
