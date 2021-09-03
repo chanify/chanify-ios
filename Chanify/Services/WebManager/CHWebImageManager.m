@@ -178,12 +178,40 @@
     @weakify(self);
     dispatch_async(self.workerQueue, ^{
         @strongify(self);
-        NSFileManager *fileManager = NSFileManager.defaultManager;
+        NSFileManager *fm = NSFileManager.defaultManager;
         for (NSURL *url in urls) {
             [self.dataCache removeObjectForKey:url.URLByResolvingSymlinksInPath.absoluteString];
-            [fileManager removeItemAtURL:url error:nil];
+            [fm removeItemAtURL:url error:nil];
         }
         [self setNeedUpdateAllocatedFileSize];
+    });
+}
+
+- (void)removeWithDate:(NSDate *)limit completion:(nullable CHWebCacheManagerRemoveBlock)completion {
+    @weakify(self);
+    dispatch_async(self.workerQueue, ^{
+        @strongify(self);
+        NSFileManager *fm = NSFileManager.defaultManager;
+        NSArray *fieldKeys = @[NSURLContentModificationDateKey];
+        NSDirectoryEnumerator *enumerator = [NSFileManager.defaultManager enumeratorAtURL:self.fileBaseDir includingPropertiesForKeys:fieldKeys options:NSDirectoryEnumerationSkipsHiddenFiles|NSDirectoryEnumerationSkipsPackageDescendants errorHandler:nil];
+        NSUInteger count = 0;
+        for (NSURL *url in enumerator) {
+            NSDictionary *fields = [url resourceValuesForKeys:fieldKeys error:nil];
+            NSDate *date = [fields valueForKey:NSURLContentModificationDateKey];
+            if (date != nil && [date compare:limit] != NSOrderedDescending) {
+                [self.dataCache removeObjectForKey:url.URLByResolvingSymlinksInPath.absoluteString];
+                [fm removeItemAtURL:url error:nil];
+                count++;
+            }
+        }
+        if (count > 0) {
+            [self setNeedUpdateAllocatedFileSize];
+        }
+        if (completion != nil) {
+            dispatch_main_async(^{
+                completion(count);
+            });
+        }
     });
 }
 

@@ -49,7 +49,7 @@
     self.navigationItem.titleView = titleView;
 
     @weakify(self);
-    NSArray *actions = @[
+    NSArray<UIAction *> *actions = @[
         [UIAction actionWithTitle:@"Channel Detail".localized image:[UIImage systemImageNamed:@"info"] identifier:@"detail" handler:^(UIAction *action) {
             @strongify(self);
             [self actionInfo:nil];

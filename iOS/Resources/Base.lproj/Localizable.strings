@@ -121,6 +121,14 @@
 "Download failed and click to retry"="Download failed and click to retry";
 "Copy token from pasteboard"="Copy token from pasteboard";
 "Invalid token"="Invalid token";
+"Delete items 3 days ago"="Delete items 3 days ago";
+"Delete items 1 week ago"="Delete items 1 week ago";
+"Delete items 1 month ago"="Delete items 1 month ago";
+"Delete all items"="Delete all items";
+"Delete items 3 days ago or not?"="Delete items 3 days ago or not?";
+"Delete items 1 week ago or not?"="Delete items 1 week ago or not?";
+"Delete items 1 month ago or not?"="Delete items 1 month ago or not?";
+"Delete all items or not?"="Delete all items or not?";
 "Your connection to this site is not private."="Your connection to this site is not private.";
 "%@ requires username and password."="%@ requires username and password.";
 

@@ -168,6 +168,39 @@
     });
 }
 
+- (void)removeWithDate:(NSDate *)limit completion:(nullable CHWebCacheManagerRemoveBlock)completion {
+    @weakify(self);
+    dispatch_async(self.workerQueue, ^{
+        @strongify(self);
+        NSFileManager *fm = NSFileManager.defaultManager;
+        NSArray *fieldKeys = @[NSURLIsRegularFileKey, NSURLContentModificationDateKey];
+        NSDirectoryEnumerator *enumerator = [NSFileManager.defaultManager enumeratorAtURL:self.fileBaseDir includingPropertiesForKeys:fieldKeys options:NSDirectoryEnumerationSkipsHiddenFiles|NSDirectoryEnumerationSkipsPackageDescendants errorHandler:nil];
+        NSUInteger count = 0;
+        for (NSURL *url in enumerator) {
+            NSDictionary *fields = [url resourceValuesForKeys:fieldKeys error:nil];
+            if ([[fields valueForKey:NSURLIsRegularFileKey] boolValue]) {
+                NSDate *date = [fields valueForKey:NSURLContentModificationDateKey];
+                if (date != nil && [date compare:limit] != NSOrderedDescending) {
+                    NSURL *dir = url.URLByResolvingSymlinksInPath;
+                    if ([dir.absoluteString hasPrefix:self.fileBaseDir.absoluteString]) {
+                        [self.dataCache removeObjectForKey:dir.absoluteString];
+                        [fm removeItemAtURL:url.URLByDeletingLastPathComponent error:nil];
+                        count++;
+                    }
+                }
+            }
+        }
+        if (count > 0) {
+            [self setNeedUpdateAllocatedFileSize];
+        }
+        if (completion != nil) {
+            dispatch_main_async(^{
+                completion(count);
+            });
+        }
+    });
+}
+
 - (NSDictionary *)infoWithURL:(NSURL *)url {
     NSDictionary *attrs = [url resourceValuesForKeys:@[NSURLNameKey, NSURLCreationDateKey, NSURLFileAllocatedSizeKey] error:nil];
     NSMutableDictionary *info = [NSMutableDictionary new];

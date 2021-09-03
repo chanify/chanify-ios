@@ -21,6 +21,7 @@ static NSString *const cellIdentifier = @"cell";
 @property (nonatomic, readonly, strong) CHTableView *tableView;
 @property (nonatomic, readonly, strong) CHDataListDataSource *dataSource;
 @property (nonatomic, readonly, strong) NSDirectoryEnumerator *enumerator;
+@property (nonatomic, readonly, strong) UIBarButtonItem *trashButtonItem;
 
 @end
 
@@ -53,6 +54,28 @@ static NSString *const cellIdentifier = @"cell";
     tableView.delegate = self;
 
     @weakify(self);
+    NSArray<UIAction *> *actions = @[
+        [UIAction actionWithTitle:@"Delete items 3 days ago".localized image:nil identifier:@"day" handler:^(UIAction *action) {
+            @strongify(self);
+            [self actionDeleteItems:action];
+        }],
+        [UIAction actionWithTitle:@"Delete items 1 week ago".localized image:nil identifier:@"week" handler:^(UIAction *action) {
+            @strongify(self);
+            [self actionDeleteItems:action];
+        }],
+        [UIAction actionWithTitle:@"Delete items 1 month ago".localized image:nil identifier:@"month" handler:^(UIAction *action) {
+            @strongify(self);
+            [self actionDeleteItems:action];
+        }],
+        [UIAction actionWithTitle:@"Delete all items".localized image:nil identifier:@"clear" handler:^(UIAction *action) {
+            @strongify(self);
+            [self actionDeleteItems:action];
+        }],
+    ];
+    actions.lastObject.attributes = UIMenuElementAttributesDestructive;
+    _trashButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"trash"] menu:[UIMenu menuWithChildren:actions]];
+    self.navigationItem.rightBarButtonItem = _trashButtonItem;
+
     _dataSource = [[CHDataListDataSource alloc] initWithTableView:tableView cellProvider:^UITableViewCell *(UITableView *tableView, NSIndexPath *indexPath, NSURL *url) {
         CHDataItemCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
         if (cell != nil) {
@@ -134,6 +157,40 @@ static NSString *const cellIdentifier = @"cell";
     [self setEditing:NO animated:YES];
 }
 
+- (void)actionDeleteItems:(UIAction *)action {
+    @weakify(self);
+    if ([action.identifier isEqualToString:@"day"]) {
+        [CHRouter.shared showAlertWithTitle:@"Delete items 3 days ago or not?".localized action:@"Delete".localized handler:^{
+            @strongify(self);
+            NSInteger era,year,month,day;
+            NSCalendar *calender = NSCalendar.currentCalendar;
+            [calender getEra:&era year:&year month:&month day:&day fromDate:NSDate.now];
+            [self deleteItemsWithDate:[calender dateWithEra:era year:year month:month day:day-3 hour:0 minute:0 second:0 nanosecond:0]];
+        }];
+    } else if ([action.identifier isEqualToString:@"week"]) {
+        [CHRouter.shared showAlertWithTitle:@"Delete items 1 week ago or not?".localized action:@"Delete".localized handler:^{
+            @strongify(self);
+            NSInteger era,year,weak,day;
+            NSCalendar *calender = NSCalendar.currentCalendar;
+            [calender getEra:&era yearForWeekOfYear:&year weekOfYear:&weak weekday:&day fromDate:NSDate.now];
+            [self deleteItemsWithDate:[calender dateWithEra:era yearForWeekOfYear:year weekOfYear:weak-1 weekday:day hour:0 minute:0 second:0 nanosecond:0]];
+        }];
+    } else if ([action.identifier isEqualToString:@"month"]) {
+        [CHRouter.shared showAlertWithTitle:@"Delete items 1 month ago or not?".localized action:@"Delete".localized handler:^{
+            @strongify(self);
+            NSInteger era,year,month,day;
+            NSCalendar *calender = NSCalendar.currentCalendar;
+            [calender getEra:&era year:&year month:&month day:&day fromDate:NSDate.now];
+            [self deleteItemsWithDate:[calender dateWithEra:era year:year month:month-1 day:day hour:0 minute:0 second:0 nanosecond:0]];
+        }];
+    } else {
+        [CHRouter.shared showAlertWithTitle:@"Delete all items or not?".localized action:@"Delete".localized handler:^{
+            @strongify(self);
+            [self deleteItemsWithDate:NSDate.now];
+        }];
+    }
+}
+
 #pragma mark - Private Nethods
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
     [self.tableView setEditing:editing];
@@ -142,7 +199,7 @@ static NSString *const cellIdentifier = @"cell";
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Delete".localized style:UIBarButtonItemStylePlain target:self action:@selector(actionDelete:)];
         self.navigationItem.leftBarButtonItem.tintColor = CHTheme.shared.alertColor;
     } else {
-        self.navigationItem.rightBarButtonItem = nil;
+        self.navigationItem.rightBarButtonItem = self.trashButtonItem;
         self.navigationItem.leftBarButtonItem = nil;
     }
     [super setEditing:editing animated:animated];
@@ -183,6 +240,24 @@ static NSString *const cellIdentifier = @"cell";
     [snapshot deleteItemsWithIdentifiers:items];
     [self.dataSource applySnapshot:snapshot animatingDifferences:YES];
     [self scrollViewDidScroll:self.tableView];
+}
+
+- (void)deleteItemsWithDate:(NSDate *)date {
+    @weakify(self);
+    [CHRouter.shared showIndicator:YES];
+    [self.manager removeWithDate:date completion:^(NSUInteger count){
+        if (count > 0) {
+            @strongify(self);
+            CHDataListDiffableSnapshot *snapshot = self.dataSource.snapshot;
+            [snapshot deleteItemsWithIdentifiers:snapshot.itemIdentifiers];
+            [self.dataSource applySnapshot:snapshot animatingDifferences:NO];
+            [CHRouter.shared showIndicator:NO];
+            CHLoadMoreView *loadMore = (CHLoadMoreView *)self.tableView.tableFooterView;
+            loadMore.status = CHLoadStatusNormal;
+            self->_enumerator = self.manager.fileEnumerator;
+            [self loadMore:YES];
+        }
+    }];
 }
 
 - (UIContextualAction *)actionInfo:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath {

@@ -121,6 +121,14 @@
 "Download failed and click to retry"="下载失败，点击重试";
 "Copy token from pasteboard"="从剪贴板复制令牌";
 "Invalid token"="无效的令牌";
+"Delete items 3 days ago"="删除三天前的数据";
+"Delete items 1 week ago"="删除一周前的数据";
+"Delete items 1 month ago"="删除一个月前的数据";
+"Delete all items"="删除所有数据";
+"Delete items 3 days ago or not?"="是否要删除三天前的数据？";
+"Delete items 1 week ago or not?"="是否要删除一周前的数据？";
+"Delete items 1 month ago or not?"="是否要删除一个月前的数据？";
+"Delete all items or not?"="是否要删除所有数据？";
 "Your connection to this site is not private."="您与此网站之间建立的连接不安全。";
 "%@ requires username and password."="%@ 需要用户名和密码。";
 

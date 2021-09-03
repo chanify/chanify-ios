@@ -178,25 +178,46 @@
 }
 
 - (void)removeWithURLs:(NSArray<NSURL *> *)urls {
-    CHAudioPlayer *audioPlayer = CHAudioPlayer.shared;
-    if (audioPlayer.isPlaying) {
-        NSURL *playURL = audioPlayer.currentURL;
-        for (NSURL *url in urls) {
-            if ([playURL isEqual:url.URLByResolvingSymlinksInPath]) {
-                [audioPlayer stop];
-                break;
-            }
-        }
-    }
+    [self stopPlayingAudio:urls];
     @weakify(self);
     dispatch_async(self.workerQueue, ^{
         @strongify(self);
-        NSFileManager *fileManager = NSFileManager.defaultManager;
+        NSFileManager *fm = NSFileManager.defaultManager;
         for (NSURL *url in urls) {
             [self.dataCache removeObjectForKey:url.URLByResolvingSymlinksInPath.absoluteString];
-            [fileManager removeItemAtURL:url error:nil];
+            [fm removeItemAtURL:url error:nil];
         }
         [self setNeedUpdateAllocatedFileSize];
+    });
+}
+
+
+- (void)removeWithDate:(NSDate *)limit completion:(nullable CHWebCacheManagerRemoveBlock)completion {
+    [self stopPlayingAudio:nil];
+    @weakify(self);
+    dispatch_async(self.workerQueue, ^{
+        @strongify(self);
+        NSFileManager *fm = NSFileManager.defaultManager;
+        NSArray *fieldKeys = @[NSURLContentModificationDateKey];
+        NSDirectoryEnumerator *enumerator = [NSFileManager.defaultManager enumeratorAtURL:self.fileBaseDir includingPropertiesForKeys:fieldKeys options:NSDirectoryEnumerationSkipsHiddenFiles|NSDirectoryEnumerationSkipsPackageDescendants errorHandler:nil];
+        NSUInteger count = 0;
+        for (NSURL *url in enumerator) {
+            NSDictionary *fields = [url resourceValuesForKeys:fieldKeys error:nil];
+            NSDate *date = [fields valueForKey:NSURLContentModificationDateKey];
+            if (date != nil && [date compare:limit] != NSOrderedDescending) {
+                [self.dataCache removeObjectForKey:url.URLByResolvingSymlinksInPath.absoluteString];
+                [fm removeItemAtURL:url error:nil];
+                count++;
+            }
+        }
+        if (count > 0) {
+            [self setNeedUpdateAllocatedFileSize];
+        }
+        if (completion != nil) {
+            dispatch_main_async(^{
+                completion(count);
+            });
+        }
     });
 }
 
@@ -270,6 +291,22 @@
 }
 
 #pragma mark - Private Methods
+- (void)stopPlayingAudio:(nullable NSArray<NSURL *> *)urls {
+    CHAudioPlayer *audioPlayer = CHAudioPlayer.shared;
+    if (audioPlayer.isPlaying) {
+        NSURL *playURL = audioPlayer.currentURL;
+        if (urls == nil) {
+            urls = @[playURL];
+        }
+        for (NSURL *url in urls) {
+            if ([playURL isEqual:url.URLByResolvingSymlinksInPath]) {
+                [audioPlayer stop];
+                break;
+            }
+        }
+    }
+}
+
 - (void)asyncStartTask:(CHWebAudioTask *)task {
     @weakify(self);
     dispatch_async(self.workerQueue, ^{

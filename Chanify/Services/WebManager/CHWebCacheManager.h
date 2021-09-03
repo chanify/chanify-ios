@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class CHWebCacheManager;
 
+typedef void (^CHWebCacheManagerRemoveBlock)(NSUInteger count);
+
 @protocol CHWebCacheManagerDelegate <NSObject>
 - (void)webCacheAllocatedFileSizeChanged:(CHWebCacheManager *)manager;
 @end
@@ -26,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)notifyAllocatedFileSizeChanged:(NSURL *)filepath;
 - (void)setNeedUpdateAllocatedFileSize;
 - (void)removeWithURLs:(NSArray<NSURL *> *)urls;
+- (void)removeWithDate:(NSDate *)limit completion:(nullable CHWebCacheManagerRemoveBlock)completion;
 - (NSDictionary *)infoWithURL:(NSURL *)url;
 - (NSDirectoryEnumerator *)fileEnumerator;
 

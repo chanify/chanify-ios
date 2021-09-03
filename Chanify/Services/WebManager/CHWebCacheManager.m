@@ -69,6 +69,9 @@
 - (void)removeWithURLs:(NSArray<NSURL *> *)urls {
 }
 
+- (void)removeWithDate:(NSDate *)limit completion:(nullable CHWebCacheManagerRemoveBlock)completion {
+}
+
 - (NSDictionary *)infoWithURL:(NSURL *)url {
     return @{};
 }
