@@ -39,7 +39,6 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
         self.backgroundColor = theme.groupedBackgroundColor;
 
         NSCollectionViewFlowLayout *layout = [NSCollectionViewFlowLayout new];
-        layout.minimumInteritemSpacing = 0;
         layout.minimumLineSpacing = 1;
         CHCollectionView *listView = [[CHCollectionView alloc] initWithLayout:layout];
         _listView = listView;
@@ -49,7 +48,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
         listView.allowsEmptySelection = NO;
         listView.selectable = YES;
         listView.delegate = self;
-        
+
         NSScrollView *scrollView = [NSScrollView new];
         [self addSubview:scrollView];
         [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {

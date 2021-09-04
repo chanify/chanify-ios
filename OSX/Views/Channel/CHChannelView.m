@@ -7,9 +7,9 @@
 
 #import "CHChannelView.h"
 #import <Masonry/Masonry.h>
+#import "CHCollectionView.h"
 #import "CHUserDataSource.h"
 #import "CHMsgsDataSource.h"
-#import "CHCollectionView.h"
 #import "CHChannelModel.h"
 #import "CHMessageModel.h"
 #import "CHScrollView.h"
@@ -36,7 +36,7 @@
 
         CHTheme *theme = CHTheme.shared;
         
-        self.backgroundColor = theme.selectedCellBackgroundColor;
+        self.backgroundColor = theme.backgroundColor;
         
         CHLabel *titleLabel = [CHLabel new];
         [self addSubview:(_titleLabel = titleLabel)];
@@ -52,7 +52,7 @@
         layout.minimumLineSpacing = 16;
         CHCollectionView *listView = [[CHCollectionView alloc] initWithLayout:layout];
         _listView = listView;
-        listView.backgroundColor = theme.backgroundColor;
+        listView.backgroundColor = theme.groupedBackgroundColor;
         listView.allowsMultipleSelection = NO;
         listView.selectable = NO;
         listView.delegate = self;
@@ -65,10 +65,11 @@
         }];
         scrollView.contentInsets = NSEdgeInsetsMake(0, 0, kCHChannelViewBottomMargin, 0);
         scrollView.scrollerInsets = NSEdgeInsetsMake(0, 0, -kCHChannelViewBottomMargin, 0);
-        scrollView.backgroundColor = theme.backgroundColor;
+        scrollView.backgroundColor = theme.groupedBackgroundColor;
         scrollView.automaticallyAdjustsContentInsets = NO;
         scrollView.documentView = listView;
         scrollView.hasVerticalScroller = YES;
+        scrollView.hasHorizontalScroller = NO;
         scrollView.delegate = self;
 
         _dataSource = [CHMsgsDataSource dataSourceWithCollectionView:listView channelID:cid];
@@ -91,6 +92,19 @@
 
 - (void)viewDidDisappear {
     [CHLogic.shared removeReadChannel:self.cid];
+}
+
+- (void)layout {
+    CHScrollView *scroller = self.scrollView;
+    CGPoint offset = scroller.documentVisibleRect.origin;
+    CGFloat height = NSHeight(scroller.documentVisibleRect);
+    CGFloat allH = NSHeight(scroller.documentView.bounds);
+    CGFloat insets = scroller.contentInsets.top + scroller.contentInsets.bottom;
+    [super layout];
+    if (offset.y + height >= allH + insets) {
+        offset.y += height - NSHeight(scroller.documentVisibleRect);
+        [scroller.documentView scrollPoint:offset];
+    }
 }
 
 #pragma mark - NSCollectionViewDelegate
