@@ -1,15 +1,15 @@
 //
-//  CHTabBarView.h
+//  CHSideBarView.h
 //  OSX
 //
-//  Created by WizJin on 2021/9/1.
+//  Created by WizJin on 2021/9/6.
 //
 
 #import "CHUI.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHTabBarView : CHView
+@interface CHSideBarView : CHView
 
 - (void)reloadData;
 

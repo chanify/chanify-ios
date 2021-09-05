@@ -5,13 +5,11 @@
 //  Created by WizJin on 2021/5/31.
 //
 
-#import "CHUI.h"
+#import "CHSideBarView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHChannelsView : CHView
-
-- (void)reloadData;
+@interface CHChannelsView : CHSideBarView
 
 
 @end

@@ -13,7 +13,6 @@
 		6D025F70266DC61800C17512 /* CHMsgsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D025F6F266DC61800C17512 /* CHMsgsDataSource.m */; };
 		6D025F73266DE72B00C17512 /* CHMessageCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D025F72266DE72B00C17512 /* CHMessageCellItem.m */; };
 		6D029B68266F03F400BF046A /* CHLinkMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBF865B261826E3006F108C /* CHLinkMsgCellConfiguration.m */; };
-		6D029B6B266F04E900BF046A /* NSImageView+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D029B6A266F04E900BF046A /* NSImageView+CHExt.m */; };
 		6D029B6D266F078000BF046A /* CHImageMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD7B5AF260DE2D4001D5DCB /* CHImageMsgCellConfiguration.m */; };
 		6D029B72266F093C00BF046A /* CHWebImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD5A102260EFB9900799032 /* CHWebImageView.m */; };
 		6D029B73266F098000BF046A /* CHLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D12BC332625A0DA005659EA /* CHLoadingView.m */; };
@@ -128,7 +127,6 @@
 		6D75352A26DF1C7A009E019E /* CHAboutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D75352926DF1C7A009E019E /* CHAboutView.m */; };
 		6D75352C26DF2DAA009E019E /* Acknowledgements.markdown in Resources */ = {isa = PBXBuildFile; fileRef = 6D75352B26DF2DAA009E019E /* Acknowledgements.markdown */; };
 		6D75352D26DF3688009E019E /* CHCodeFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278E6825E222C300FC48CD /* CHCodeFormatter.m */; };
-		6D75353426DF878C009E019E /* CHTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D75353326DF878C009E019E /* CHTabBarView.m */; };
 		6D7ACE97266478D600B3FCF4 /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C21F25D0FB7600512E36 /* NotificationService.m */; };
 		6D8352322664C818005CE6D1 /* CHRouter+OSX.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8352312664C818005CE6D1 /* CHRouter+OSX.m */; };
 		6D8352362664D423005CE6D1 /* CHChannelsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8352352664D423005CE6D1 /* CHChannelsView.m */; };
@@ -287,6 +285,10 @@
 		6DC6C3A925D1702F00512E36 /* CHChannelNewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C3A825D1702F00512E36 /* CHChannelNewViewController.m */; };
 		6DC6C3AE25D1705100512E36 /* CHChannelDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C3AD25D1705100512E36 /* CHChannelDetailViewController.m */; };
 		6DC6C3B525D2193500512E36 /* CHMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C3B425D2193500512E36 /* CHMock.m */; };
+		6DC7CF4026E5B447002F7869 /* CHContentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC7CF3F26E5B447002F7869 /* CHContentItem.m */; };
+		6DC7CF4626E5C575002F7869 /* NSImageView+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC7CF4426E5C575002F7869 /* NSImageView+CHExt.m */; };
+		6DC7CF4926E5EDE7002F7869 /* CHSideBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC7CF4826E5EDE7002F7869 /* CHSideBarView.m */; };
+		6DC7CF4D26E5F394002F7869 /* CHNodesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC7CF4C26E5F394002F7869 /* CHNodesView.m */; };
 		6DCAD2212621D52F00F43F20 /* CHWebFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCAD2202621D52F00F43F20 /* CHWebFileManager.m */; };
 		6DCC882D25FB62D70028B473 /* CHToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC882C25FB62D70028B473 /* CHToken.m */; };
 		6DD2780026D628B0009E9738 /* CHTimelineChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD277FF26D628B0009E9738 /* CHTimelineChartView.m */; };
@@ -634,8 +636,6 @@
 		6D025F6F266DC61800C17512 /* CHMsgsDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHMsgsDataSource.m; sourceTree = "<group>"; };
 		6D025F71266DE72B00C17512 /* CHMessageCellItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHMessageCellItem.h; sourceTree = "<group>"; };
 		6D025F72266DE72B00C17512 /* CHMessageCellItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHMessageCellItem.m; sourceTree = "<group>"; };
-		6D029B69266F04E900BF046A /* NSImageView+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSImageView+CHExt.h"; sourceTree = "<group>"; };
-		6D029B6A266F04E900BF046A /* NSImageView+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSImageView+CHExt.m"; sourceTree = "<group>"; };
 		6D029B74266F179B00BF046A /* NSButton+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSButton+CHExt.h"; sourceTree = "<group>"; };
 		6D029B75266F179B00BF046A /* NSButton+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSButton+CHExt.m"; sourceTree = "<group>"; };
 		6D029B77266F187600BF046A /* NSBezierPath+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+CHExt.h"; sourceTree = "<group>"; };
@@ -779,8 +779,6 @@
 		6D75352826DF1C7A009E019E /* CHAboutView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHAboutView.h; sourceTree = "<group>"; };
 		6D75352926DF1C7A009E019E /* CHAboutView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHAboutView.m; sourceTree = "<group>"; };
 		6D75352B26DF2DAA009E019E /* Acknowledgements.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Acknowledgements.markdown; sourceTree = "<group>"; };
-		6D75353226DF878C009E019E /* CHTabBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHTabBarView.h; sourceTree = "<group>"; };
-		6D75353326DF878C009E019E /* CHTabBarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHTabBarView.m; sourceTree = "<group>"; };
 		6D8352302664C818005CE6D1 /* CHRouter+OSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CHRouter+OSX.h"; sourceTree = "<group>"; };
 		6D8352312664C818005CE6D1 /* CHRouter+OSX.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHRouter+OSX.m"; sourceTree = "<group>"; };
 		6D8352342664D423005CE6D1 /* CHChannelsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelsView.h; sourceTree = "<group>"; };
@@ -986,6 +984,14 @@
 		6DC6C3AD25D1705100512E36 /* CHChannelDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelDetailViewController.m; sourceTree = "<group>"; };
 		6DC6C3B325D2193500512E36 /* CHMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHMock.h; sourceTree = "<group>"; };
 		6DC6C3B425D2193500512E36 /* CHMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHMock.m; sourceTree = "<group>"; };
+		6DC7CF3E26E5B447002F7869 /* CHContentItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHContentItem.h; sourceTree = "<group>"; };
+		6DC7CF3F26E5B447002F7869 /* CHContentItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHContentItem.m; sourceTree = "<group>"; };
+		6DC7CF4426E5C575002F7869 /* NSImageView+CHExt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImageView+CHExt.m"; sourceTree = "<group>"; };
+		6DC7CF4526E5C575002F7869 /* NSImageView+CHExt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImageView+CHExt.h"; sourceTree = "<group>"; };
+		6DC7CF4726E5EDE7002F7869 /* CHSideBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHSideBarView.h; sourceTree = "<group>"; };
+		6DC7CF4826E5EDE7002F7869 /* CHSideBarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHSideBarView.m; sourceTree = "<group>"; };
+		6DC7CF4B26E5F394002F7869 /* CHNodesView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNodesView.h; sourceTree = "<group>"; };
+		6DC7CF4C26E5F394002F7869 /* CHNodesView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNodesView.m; sourceTree = "<group>"; };
 		6DCAD21F2621D52F00F43F20 /* CHWebFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebFileManager.h; sourceTree = "<group>"; };
 		6DCAD2202621D52F00F43F20 /* CHWebFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHWebFileManager.m; sourceTree = "<group>"; };
 		6DCC882B25FB62D70028B473 /* CHToken.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHToken.h; sourceTree = "<group>"; };
@@ -1515,15 +1521,6 @@
 			path = About;
 			sourceTree = "<group>";
 		};
-		6D75353126DF8773009E019E /* TabBar */ = {
-			isa = PBXGroup;
-			children = (
-				6D75353226DF878C009E019E /* CHTabBarView.h */,
-				6D75353326DF878C009E019E /* CHTabBarView.m */,
-			);
-			path = TabBar;
-			sourceTree = "<group>";
-		};
 		6D8352332664D411005CE6D1 /* Channels */ = {
 			isa = PBXGroup;
 			children = (
@@ -1946,6 +1943,15 @@
 			path = Channel;
 			sourceTree = "<group>";
 		};
+		6DC7CF4A26E5F37E002F7869 /* Nodes */ = {
+			isa = PBXGroup;
+			children = (
+				6DC7CF4B26E5F394002F7869 /* CHNodesView.h */,
+				6DC7CF4C26E5F394002F7869 /* CHNodesView.m */,
+			);
+			path = Nodes;
+			sourceTree = "<group>";
+		};
 		6DD969C325F4799B00EEEECF /* Icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -2024,12 +2030,12 @@
 				6D17176A2665D35600A89A33 /* NSView+CHExt.m */,
 				6DDEB4DF263FA73600CAD501 /* NSImage+CHExt.h */,
 				6DDEB4E0263FA73600CAD501 /* NSImage+CHExt.m */,
+				6DC7CF4526E5C575002F7869 /* NSImageView+CHExt.h */,
+				6DC7CF4426E5C575002F7869 /* NSImageView+CHExt.m */,
 				6DAD53F6266E033C0036B68F /* NSScreen+CHExt.h */,
 				6DAD53F7266E033C0036B68F /* NSScreen+CHExt.m */,
 				6D029B74266F179B00BF046A /* NSButton+CHExt.h */,
 				6D029B75266F179B00BF046A /* NSButton+CHExt.m */,
-				6D029B69266F04E900BF046A /* NSImageView+CHExt.h */,
-				6D029B6A266F04E900BF046A /* NSImageView+CHExt.m */,
 				6DB1C270266F804B007C0C02 /* NSMenuItem+CHExt.h */,
 				6DB1C271266F804B007C0C02 /* NSMenuItem+CHExt.m */,
 				6D029B77266F187600BF046A /* NSBezierPath+CHExt.h */,
@@ -2164,7 +2170,7 @@
 			children = (
 				6D8352332664D411005CE6D1 /* Channels */,
 				6D5156342666497900137071 /* Channel */,
-				6D75353126DF8773009E019E /* TabBar */,
+				6DC7CF4A26E5F37E002F7869 /* Nodes */,
 				6D75352726DF1C68009E019E /* About */,
 				6DB929E826DE17010093F927 /* Login */,
 				6DF6111D2665E19400426830 /* Main */,
@@ -2180,6 +2186,10 @@
 				6D6F3CF9263D28EA00A2578B /* CHMainViewController.m */,
 				6DF6111E2665E32E00426830 /* CHContentView.h */,
 				6DF6111F2665E32E00426830 /* CHContentView.m */,
+				6DC7CF3E26E5B447002F7869 /* CHContentItem.h */,
+				6DC7CF3F26E5B447002F7869 /* CHContentItem.m */,
+				6DC7CF4726E5EDE7002F7869 /* CHSideBarView.h */,
+				6DC7CF4826E5EDE7002F7869 /* CHSideBarView.m */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -2783,6 +2793,8 @@
 				6D51563226662C7A00137071 /* CHLabel.m in Sources */,
 				6DB1C2792670B6A4007C0C02 /* CHLogic.m in Sources */,
 				6DB1C272266F804B007C0C02 /* NSMenuItem+CHExt.m in Sources */,
+				6DC7CF4026E5B447002F7869 /* CHContentItem.m in Sources */,
+				6DC7CF4626E5C575002F7869 /* NSImageView+CHExt.m in Sources */,
 				6DFC77FA26627606002EF541 /* CHAudioPlayer.m in Sources */,
 				6DE7C083263D49150092D88D /* CHLogicBase.m in Sources */,
 				6D0D6B63266B22D300B4AB91 /* CHBlockeModel.m in Sources */,
@@ -2795,13 +2807,11 @@
 				6DB1C262266F46C0007C0C02 /* NSFont+CHExt.m in Sources */,
 				6D029B6D266F078000BF046A /* CHImageMsgCellConfiguration.m in Sources */,
 				6DE7C06F263D483B0092D88D /* CHUserModel.m in Sources */,
-				6D029B6B266F04E900BF046A /* NSImageView+CHExt.m in Sources */,
 				6DB929EB26DE18A00093F927 /* CHLoginView.m in Sources */,
 				6DE7C07F263D48DA0092D88D /* NSException+CHExt.m in Sources */,
 				6D51563326662F5600137071 /* CHBadgeView.m in Sources */,
 				6DB1C26A266F721F007C0C02 /* CHPreviewItem.m in Sources */,
 				6DE7C076263D487D0092D88D /* CryptoKit.swift in Sources */,
-				6D75353426DF878C009E019E /* CHTabBarView.m in Sources */,
 				6D098E1D2671F4F300E71538 /* CHScrollView.m in Sources */,
 				6DB1C265266F47BE007C0C02 /* CHIndicatorView.m in Sources */,
 				6D029B7F266F20FA00BF046A /* CHActionMsgCellConfiguration.m in Sources */,
@@ -2826,11 +2836,13 @@
 				6D025F73266DE72B00C17512 /* CHMessageCellItem.m in Sources */,
 				6DE7C086263D49340092D88D /* CHDevice.m in Sources */,
 				6D6F3D02263D28EB00A2578B /* main.m in Sources */,
+				6DC7CF4926E5EDE7002F7869 /* CHSideBarView.m in Sources */,
 				6DE7C071263D485C0092D88D /* CHNodeModel.m in Sources */,
 				6D029B7B266F1DB300BF046A /* CHAudioMsgCellConfiguration.m in Sources */,
 				6DE7C069263D47410092D88D /* CHTP.proto in Sources */,
 				6DDEB4E4263FAA4B00CAD501 /* CHWebFileManager.m in Sources */,
 				6DAD53EE266DF68A0036B68F /* CHUnknownMsgCellConfiguration.m in Sources */,
+				6DC7CF4D26E5F394002F7869 /* CHNodesView.m in Sources */,
 				6DB1C26F266F7FC1007C0C02 /* CHMenuController.m in Sources */,
 				6DDEB4E1263FA73600CAD501 /* NSImage+CHExt.m in Sources */,
 				6DF611232665E6FD00426830 /* CHNotification+Badge.m in Sources */,

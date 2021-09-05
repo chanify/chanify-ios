@@ -6,7 +6,6 @@
 //
 
 #import "CHChannelsView.h"
-#import <Masonry/Masonry.h>
 #import "CHChannelCellView.h"
 #import "CHCollectionView.h"
 #import "CHUserDataSource.h"
@@ -22,6 +21,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
 
 @interface CHChannelsView () <NSCollectionViewDelegate, NSCollectionViewDelegateFlowLayout, CHLogicDelegate>
 
+@property (nonatomic, readonly, strong) NSScrollView *scrollView;
 @property (nonatomic, readonly, strong) CHCollectionView *listView;
 @property (nonatomic, readonly, strong) CHChannelDataSource *dataSource;
 @property (nonatomic, nullable, strong) CHChannelModel *selected;
@@ -31,7 +31,6 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
 @implementation CHChannelsView
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
-    frameRect.size.height = MAX(frameRect.size.height, 60);
     if (self = [super initWithFrame:frameRect]) {
         _selected = nil;
         
@@ -50,11 +49,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
         listView.delegate = self;
 
         NSScrollView *scrollView = [NSScrollView new];
-        [self addSubview:scrollView];
-        [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self).offset(58);
-            make.left.right.bottom.equalTo(self);
-        }];
+        [self addSubview:(_scrollView = scrollView)];
         scrollView.documentView = listView;
         scrollView.hasVerticalScroller = YES;
         scrollView.hasHorizontalScroller = NO;
@@ -76,6 +71,12 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
 
 - (void)dealloc {
     [CHLogic.shared removeDelegate:self];
+}
+
+- (void)layout {
+    [super layout];
+    NSRect frame = self.bounds;
+    self.scrollView.frame = NSMakeRect(0, 0, NSWidth(frame), NSHeight(frame) - 58);
 }
 
 - (void)reloadData {

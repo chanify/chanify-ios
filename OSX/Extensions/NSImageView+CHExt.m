@@ -20,5 +20,13 @@
     self.imageScaling = contentMode;
 }
 
+- (void)setTintColor:(NSColor *)tintColor {
+    [self setContentTintColor:tintColor];
+}
+
+- (nullable NSColor *)tintColor {
+    return self.contentTintColor;
+}
+
 
 @end

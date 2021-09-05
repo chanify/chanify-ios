@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSImageView (CHExt)
 
+@property (nonatomic, nullable, strong) NSColor *tintColor;
+
 - (instancetype)initWithImage:(NSImage *)image;
 - (void)setContentMode:(NSInteger)contentMode;
 
