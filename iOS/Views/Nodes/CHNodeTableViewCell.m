@@ -15,9 +15,9 @@
 @interface CHNodeTableViewCell ()
 
 @property (nonatomic, readonly, strong) CHIconView *iconView;
-@property (nonatomic, readonly, strong) UILabel *nameLabel;
-@property (nonatomic, readonly, strong) UILabel *endpointLabel;
-@property (nonatomic, readonly, strong) UIImageView *statusIcon;
+@property (nonatomic, readonly, strong) CHLabel *nameLabel;
+@property (nonatomic, readonly, strong) CHLabel *endpointLabel;
+@property (nonatomic, readonly, strong) CHImageView *statusIcon;
 
 @end
 
@@ -36,7 +36,7 @@
             make.width.equalTo(iconView.mas_height);
         }];
         
-        UIImageView *statusIcon = [UIImageView new];
+        CHImageView *statusIcon = [CHImageView new];
         [self.contentView addSubview:(_statusIcon = statusIcon)];
         [statusIcon mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(30);
@@ -45,7 +45,7 @@
         }];
         statusIcon.contentMode = UIViewContentModeScaleAspectFit;
         
-        UILabel *nameLabel = [UILabel new];
+        CHLabel *nameLabel = [CHLabel new];
         [self.contentView addSubview:(_nameLabel = nameLabel)];
         [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(iconView.mas_right).offset(10);
@@ -56,7 +56,7 @@
         nameLabel.textColor = theme.labelColor;
         nameLabel.numberOfLines = 1;
         
-        UILabel *endpointLabel = [UILabel new];
+        CHLabel *endpointLabel = [CHLabel new];
         [self.contentView addSubview:(_endpointLabel = endpointLabel)];
         [endpointLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(nameLabel);
@@ -78,10 +78,10 @@
     self.iconView.image = model.icon;
     self.statusIcon.hidden = !model.isStoreDevice;
     if ([CHLogic.shared nodeIsConnected:model.nid]) {
-        self.statusIcon.image = [UIImage systemImageNamed:@"checkmark.icloud.fill"];
+        self.statusIcon.image = [CHImage systemImageNamed:@"checkmark.icloud.fill"];
         self.statusIcon.tintColor = CHTheme.shared.secureColor;
     } else {
-        self.statusIcon.image = [UIImage systemImageNamed:@"xmark.icloud.fill"];
+        self.statusIcon.image = [CHImage systemImageNamed:@"xmark.icloud.fill"];
         self.statusIcon.tintColor = CHTheme.shared.alertColor;
     }
 }
@@ -92,7 +92,7 @@
         [CHRouter.shared routeTo:@"/page/node" withParams:@{ @"nid": model.nid, @"show": @"detail" }];
         completionHandler(YES);
     }];
-    action.image = [UIImage systemImageNamed:@"info.circle.fill"];
+    action.image = [CHImage systemImageNamed:@"info.circle.fill"];
     action.backgroundColor = CHTheme.shared.secureColor;
     return action;
 }
@@ -107,7 +107,7 @@
             }];
             completionHandler(YES);
         }];
-        action.image = [UIImage systemImageNamed:@"trash.fill"];
+        action.image = [CHImage systemImageNamed:@"trash.fill"];
     }
     return action;
 }
@@ -126,7 +126,7 @@
             }];
             completionHandler(YES);
         }];
-        action.image = [UIImage systemImageNamed:@"arrow.clockwise.icloud.fill"];
+        action.image = [CHImage systemImageNamed:@"arrow.clockwise.icloud.fill"];
         action.backgroundColor = CHTheme.shared.warnColor;
     }
     return action;

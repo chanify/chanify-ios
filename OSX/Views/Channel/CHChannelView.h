@@ -5,11 +5,11 @@
 //  Created by WizJin on 2021/6/1.
 //
 
-#import "CHUI.h"
+#import "CHPageView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHChannelView : NSView
+@interface CHChannelView : CHPageView
 
 @property (nonatomic, readonly, strong) NSString *cid;
 

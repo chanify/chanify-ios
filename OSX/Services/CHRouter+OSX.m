@@ -10,6 +10,7 @@
 #import "CHMainViewController.h"
 #import "CHLoginViewController.h"
 #import "CHChannelView.h"
+#import "CHNodeView.h"
 #import "CHAboutView.h"
 #import "CHLogic.h"
 
@@ -210,9 +211,21 @@
         if ([window.contentViewController isKindOfClass:CHMainViewController.class]) {
             NSString *cid = [parameters valueForKey:@"cid"];
             CHMainViewController *vc = (CHMainViewController *)window.contentViewController;
-            NSView *contentView = vc.topContentView;
+            CHView *contentView = vc.topContentView;
             if (!([contentView isKindOfClass:CHChannelView.class] && [cid isEqualTo:[(CHChannelView *)vc.topContentView cid]])) {
                 [vc pushContentView:[[CHChannelView alloc] initWithCID:cid]];
+            }
+        }
+        return YES;
+    }];
+    [routes addRoute:@"/page/node" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
+        NSWindow *window = CHRouter.shared.window;
+        if ([window.contentViewController isKindOfClass:CHMainViewController.class]) {
+            NSString *nid = [parameters valueForKey:@"nid"];
+            CHMainViewController *vc = (CHMainViewController *)window.contentViewController;
+            CHView *contentView = vc.topContentView;
+            if (!([contentView isKindOfClass:CHNodeView.class] && [nid isEqualTo:[(CHNodeView *)vc.topContentView nid]])) {
+                [vc pushContentView:[[CHNodeView alloc] initWithNID:nid]];
             }
         }
         return YES;

@@ -289,6 +289,9 @@
 		6DC7CF4626E5C575002F7869 /* NSImageView+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC7CF4426E5C575002F7869 /* NSImageView+CHExt.m */; };
 		6DC7CF4926E5EDE7002F7869 /* CHSideBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC7CF4826E5EDE7002F7869 /* CHSideBarView.m */; };
 		6DC7CF4D26E5F394002F7869 /* CHNodesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC7CF4C26E5F394002F7869 /* CHNodesView.m */; };
+		6DC7CF5026E609A9002F7869 /* CHNodeCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC7CF4F26E609A9002F7869 /* CHNodeCellView.m */; };
+		6DC7CF5426E61141002F7869 /* CHNodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC7CF5326E61141002F7869 /* CHNodeView.m */; };
+		6DC7CF5726E614A0002F7869 /* CHPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC7CF5626E614A0002F7869 /* CHPageView.m */; };
 		6DCAD2212621D52F00F43F20 /* CHWebFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCAD2202621D52F00F43F20 /* CHWebFileManager.m */; };
 		6DCC882D25FB62D70028B473 /* CHToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC882C25FB62D70028B473 /* CHToken.m */; };
 		6DD2780026D628B0009E9738 /* CHTimelineChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD277FF26D628B0009E9738 /* CHTimelineChartView.m */; };
@@ -992,6 +995,12 @@
 		6DC7CF4826E5EDE7002F7869 /* CHSideBarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHSideBarView.m; sourceTree = "<group>"; };
 		6DC7CF4B26E5F394002F7869 /* CHNodesView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNodesView.h; sourceTree = "<group>"; };
 		6DC7CF4C26E5F394002F7869 /* CHNodesView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNodesView.m; sourceTree = "<group>"; };
+		6DC7CF4E26E609A9002F7869 /* CHNodeCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNodeCellView.h; sourceTree = "<group>"; };
+		6DC7CF4F26E609A9002F7869 /* CHNodeCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNodeCellView.m; sourceTree = "<group>"; };
+		6DC7CF5226E61141002F7869 /* CHNodeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNodeView.h; sourceTree = "<group>"; };
+		6DC7CF5326E61141002F7869 /* CHNodeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNodeView.m; sourceTree = "<group>"; };
+		6DC7CF5526E614A0002F7869 /* CHPageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHPageView.h; sourceTree = "<group>"; };
+		6DC7CF5626E614A0002F7869 /* CHPageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHPageView.m; sourceTree = "<group>"; };
 		6DCAD21F2621D52F00F43F20 /* CHWebFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebFileManager.h; sourceTree = "<group>"; };
 		6DCAD2202621D52F00F43F20 /* CHWebFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHWebFileManager.m; sourceTree = "<group>"; };
 		6DCC882B25FB62D70028B473 /* CHToken.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHToken.h; sourceTree = "<group>"; };
@@ -1539,6 +1548,8 @@
 				6D51563126662C7A00137071 /* CHLabel.m */,
 				6D029B84266F279800BF046A /* CHLineView.h */,
 				6D029B85266F279800BF046A /* CHLineView.m */,
+				6DC7CF5526E614A0002F7869 /* CHPageView.h */,
+				6DC7CF5626E614A0002F7869 /* CHPageView.m */,
 				6D098E1B2671F4F300E71538 /* CHScrollView.h */,
 				6D098E1C2671F4F300E71538 /* CHScrollView.m */,
 				6D51563826672BE100137071 /* CHCollectionView.h */,
@@ -1948,8 +1959,19 @@
 			children = (
 				6DC7CF4B26E5F394002F7869 /* CHNodesView.h */,
 				6DC7CF4C26E5F394002F7869 /* CHNodesView.m */,
+				6DC7CF4E26E609A9002F7869 /* CHNodeCellView.h */,
+				6DC7CF4F26E609A9002F7869 /* CHNodeCellView.m */,
 			);
 			path = Nodes;
+			sourceTree = "<group>";
+		};
+		6DC7CF5126E61118002F7869 /* Node */ = {
+			isa = PBXGroup;
+			children = (
+				6DC7CF5226E61141002F7869 /* CHNodeView.h */,
+				6DC7CF5326E61141002F7869 /* CHNodeView.m */,
+			);
+			path = Node;
 			sourceTree = "<group>";
 		};
 		6DD969C325F4799B00EEEECF /* Icons */ = {
@@ -2171,6 +2193,7 @@
 				6D8352332664D411005CE6D1 /* Channels */,
 				6D5156342666497900137071 /* Channel */,
 				6DC7CF4A26E5F37E002F7869 /* Nodes */,
+				6DC7CF5126E61118002F7869 /* Node */,
 				6D75352726DF1C68009E019E /* About */,
 				6DB929E826DE17010093F927 /* Login */,
 				6DF6111D2665E19400426830 /* Main */,
@@ -2808,6 +2831,7 @@
 				6D029B6D266F078000BF046A /* CHImageMsgCellConfiguration.m in Sources */,
 				6DE7C06F263D483B0092D88D /* CHUserModel.m in Sources */,
 				6DB929EB26DE18A00093F927 /* CHLoginView.m in Sources */,
+				6DC7CF5026E609A9002F7869 /* CHNodeCellView.m in Sources */,
 				6DE7C07F263D48DA0092D88D /* NSException+CHExt.m in Sources */,
 				6D51563326662F5600137071 /* CHBadgeView.m in Sources */,
 				6DB1C26A266F721F007C0C02 /* CHPreviewItem.m in Sources */,
@@ -2847,6 +2871,8 @@
 				6DDEB4E1263FA73600CAD501 /* NSImage+CHExt.m in Sources */,
 				6DF611232665E6FD00426830 /* CHNotification+Badge.m in Sources */,
 				6D029B68266F03F400BF046A /* CHLinkMsgCellConfiguration.m in Sources */,
+				6DC7CF5726E614A0002F7869 /* CHPageView.m in Sources */,
+				6DC7CF5426E61141002F7869 /* CHNodeView.m in Sources */,
 				6D029B76266F179B00BF046A /* NSButton+CHExt.m in Sources */,
 				6DE7C087263D493E0092D88D /* CHManager.m in Sources */,
 				6D029B80266F210F00BF046A /* CHActionGroup.m in Sources */,

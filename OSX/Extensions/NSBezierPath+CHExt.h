@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSBezierPath (CHExt)
 
 + (instancetype)bezierPathWithArcCenter:(CGPoint)center radius:(CGFloat)radius startAngle:(CGFloat)startAngle endAngle:(CGFloat)endAngle clockwise:(BOOL)clockwise;
-- (CGPathRef)CGPath;
+- (CGPathRef)CGPath NS_RETURNS_INNER_POINTER;
 
 
 @end

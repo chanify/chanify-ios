@@ -5,13 +5,13 @@
 //  Created by WizJin on 2021/6/1.
 //
 
-#import "CHUI.h"
+#import "CHPageView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHContentView : NSView
+@interface CHContentView : CHView
 
-@property (nonatomic, nullable, strong) NSView *contentView;
+@property (nonatomic, nullable, strong) CHPageView *contentView;
 
 - (void)viewDidAppear;
 - (void)viewDidDisappear;

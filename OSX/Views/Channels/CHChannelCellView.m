@@ -14,7 +14,7 @@
 #import "CHLogic.h"
 #import "CHTheme.h"
 
-@interface CHChannelCellView () <CHLogicDelegate>
+@interface CHChannelCellView ()
 
 @property (nonatomic, readonly, strong) CHIconView *iconView;
 @property (nonatomic, readonly, strong) CHBadgeView *badgeView;

@@ -6,7 +6,6 @@
 //
 
 #import "CHChannelView.h"
-#import <Masonry/Masonry.h>
 #import "CHCollectionView.h"
 #import "CHUserDataSource.h"
 #import "CHMsgsDataSource.h"
@@ -20,7 +19,7 @@
 
 @interface CHChannelView () <NSCollectionViewDelegate, NSCollectionViewDelegateFlowLayout, CHScrollViewDelegate, CHLogicDelegate>
 
-@property (nonatomic, readonly, strong) CHLabel *titleLabel;
+@property (nonatomic, readonly, strong) CHChannelModel *model;
 @property (nonatomic, readonly, strong) CHScrollView *scrollView;
 @property (nonatomic, readonly, strong) CHCollectionView *listView;
 @property (nonatomic, readonly, strong) CHMsgsDataSource *dataSource;
@@ -30,23 +29,13 @@
 @implementation CHChannelView
 
 - (instancetype)initWithCID:(NSString *)cid {
-    if (self = [super initWithFrame:NSMakeRect(0, 0, 0, 100)]) {
+    if (self = [super initWithFrame:NSZeroRect]) {
         _cid = cid;
-        CHChannelModel *model = [CHLogic.shared.userDataSource channelWithCID:cid];
+        _model = [CHLogic.shared.userDataSource channelWithCID:cid];
 
         CHTheme *theme = CHTheme.shared;
         
         self.backgroundColor = theme.backgroundColor;
-        
-        CHLabel *titleLabel = [CHLabel new];
-        [self addSubview:(_titleLabel = titleLabel)];
-        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self);
-            make.left.equalTo(self).offset(16);
-            make.height.mas_equalTo(58);
-        }];
-        titleLabel.font = [CHFont systemFontOfSize:16];
-        titleLabel.text = model.title;
         
         NSCollectionViewFlowLayout *layout = [NSCollectionViewFlowLayout new];
         layout.minimumLineSpacing = 16;
@@ -59,10 +48,6 @@
         
         CHScrollView *scrollView = [CHScrollView new];
         [self addSubview:(_scrollView = scrollView)];
-        [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.bottom.equalTo(self);
-            make.top.equalTo(titleLabel.mas_bottom);
-        }];
         scrollView.contentInsets = NSEdgeInsetsMake(0, 0, kCHChannelViewBottomMargin, 0);
         scrollView.scrollerInsets = NSEdgeInsetsMake(0, 0, -kCHChannelViewBottomMargin, 0);
         scrollView.backgroundColor = theme.groupedBackgroundColor;
@@ -86,11 +71,17 @@
     [CHLogic.shared removeDelegate:self];
 }
 
+- (NSString *)title {
+    return self.model.title;
+}
+
 - (void)viewDidAppear {
+    [super viewDidAppear];
     [CHLogic.shared addReadChannel:self.cid];
 }
 
 - (void)viewDidDisappear {
+    [super viewDidDisappear];
     [CHLogic.shared removeReadChannel:self.cid];
 }
 
@@ -101,6 +92,7 @@
     CGFloat allH = NSHeight(scroller.documentView.bounds);
     CGFloat insets = scroller.contentInsets.top + scroller.contentInsets.bottom;
     [super layout];
+    scroller.frame = self.bounds;
     if (offset.y + height >= allH + insets) {
         offset.y += height - NSHeight(scroller.documentVisibleRect);
         [scroller.documentView scrollPoint:offset];

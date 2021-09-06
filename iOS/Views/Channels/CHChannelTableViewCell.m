@@ -19,9 +19,9 @@
 
 @property (nonatomic, readonly, strong) CHIconView *iconView;
 @property (nonatomic, readonly, strong) CHBadgeView *badgeView;
-@property (nonatomic, readonly, strong) UILabel *titleLabel;
-@property (nonatomic, readonly, strong) UILabel *detailLabel;
-@property (nonatomic, readonly, strong) UILabel *dateLabel;
+@property (nonatomic, readonly, strong) CHLabel *titleLabel;
+@property (nonatomic, readonly, strong) CHLabel *detailLabel;
+@property (nonatomic, readonly, strong) CHLabel *dateLabel;
 
 @end
 
@@ -40,7 +40,7 @@
             make.width.equalTo(iconView.mas_height);
         }];
 
-        UILabel *titleLabel = [UILabel new];
+        CHLabel *titleLabel = [CHLabel new];
         [self.contentView addSubview:(_titleLabel = titleLabel)];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(iconView.mas_right).offset(16);
@@ -50,7 +50,7 @@
         titleLabel.textColor = theme.labelColor;
         titleLabel.numberOfLines = 1;
         
-        UILabel *detailLabel = [UILabel new];
+        CHLabel *detailLabel = [CHLabel new];
         [self.contentView addSubview:(_detailLabel = detailLabel)];
         [detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self.contentView).offset(-16);
@@ -61,7 +61,7 @@
         detailLabel.textColor = theme.minorLabelColor;
         detailLabel.numberOfLines = 1;
         
-        UILabel *dateLabel = [UILabel new];
+        CHLabel *dateLabel = [CHLabel new];
         [self.contentView addSubview:(_dateLabel = dateLabel)];
         [dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(titleLabel);
@@ -106,7 +106,7 @@
         [CHRouter.shared routeTo:@"/page/channel/detail" withParams:@{ @"cid": model.cid, @"show": @"detail" }];
         completionHandler(YES);
     }];
-    action.image = [UIImage systemImageNamed:@"info.circle.fill"];
+    action.image = [CHImage systemImageNamed:@"info.circle.fill"];
     action.backgroundColor = CHTheme.shared.secureColor;
     return action;
 }
@@ -121,7 +121,7 @@
             }];
             completionHandler(YES);
         }];
-        action.image = [UIImage systemImageNamed:@"trash.fill"];
+        action.image = [CHImage systemImageNamed:@"trash.fill"];
     }
     return action;
 }

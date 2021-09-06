@@ -8,6 +8,7 @@
 #import "CHChannelsView.h"
 #import "CHChannelCellView.h"
 #import "CHCollectionView.h"
+#import "CHScrollView.h"
 #import "CHUserDataSource.h"
 #import "CHMessageModel.h"
 #import "CHRouter.h"
@@ -21,7 +22,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
 
 @interface CHChannelsView () <NSCollectionViewDelegate, NSCollectionViewDelegateFlowLayout, CHLogicDelegate>
 
-@property (nonatomic, readonly, strong) NSScrollView *scrollView;
+@property (nonatomic, readonly, strong) CHScrollView *scrollView;
 @property (nonatomic, readonly, strong) CHCollectionView *listView;
 @property (nonatomic, readonly, strong) CHChannelDataSource *dataSource;
 @property (nonatomic, nullable, strong) CHChannelModel *selected;
@@ -48,7 +49,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
         listView.selectable = YES;
         listView.delegate = self;
 
-        NSScrollView *scrollView = [NSScrollView new];
+        CHScrollView *scrollView = [CHScrollView new];
         [self addSubview:(_scrollView = scrollView)];
         scrollView.documentView = listView;
         scrollView.hasVerticalScroller = YES;
@@ -84,7 +85,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
     CHChannelDiffableSnapshot *snapshot = [CHChannelDiffableSnapshot new];
     [snapshot appendSectionsWithIdentifiers:@[@"main"]];
     [snapshot appendItemsWithIdentifiers:[items sortedArrayUsingSelector:@selector(messageCompare:)]];
-    [self.dataSource applySnapshot:snapshot animatingDifferences:YES];
+    [self.dataSource applySnapshot:snapshot animatingDifferences:NO];
     [self fixSelectChannel];
 }
 
@@ -108,7 +109,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
     if (chan != nil) {
         CHChannelDiffableSnapshot *snapshot = self.dataSource.snapshot;
         [snapshot reloadItemsWithIdentifiers:@[chan]];
-        [self.dataSource applySnapshot:snapshot animatingDifferences:YES];
+        [self.dataSource applySnapshot:snapshot animatingDifferences:NO];
     }
 }
 
@@ -139,7 +140,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
         [snapshot appendItemsWithIdentifiers:[items sortedArrayUsingSelector:@selector(messageCompare:)]];
     }
     [snapshot reloadItemsWithIdentifiers:reloadItems.allObjects];
-    [self.dataSource applySnapshot:snapshot animatingDifferences:YES];
+    [self.dataSource applySnapshot:snapshot animatingDifferences:NO];
     [self fixSelectChannel];
 }
 

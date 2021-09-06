@@ -10,7 +10,8 @@
 
 @interface CHContentView ()
 
-@property (nonatomic, nullable, weak) NSView *appearView;
+@property (nonatomic, readonly, strong) CHLabel *titleLabel;
+@property (nonatomic, nullable, weak) CHPageView *appearView;
 
 @end
 
@@ -21,16 +22,22 @@
         _contentView = nil;
         _appearView = nil;
         self.backgroundColor = CHTheme.shared.backgroundColor;
+        
+        CHLabel *titleLabel = [CHLabel new];
+        [self addSubview:(_titleLabel = titleLabel)];
+        titleLabel.font = [CHFont systemFontOfSize:16];
     }
     return self;
 }
 
 - (void)layout {
     [super layout];
-    self.contentView.frame = self.bounds;
+    NSRect frame = self.bounds;
+    self.titleLabel.frame = NSMakeRect(16, NSHeight(frame) - 58, NSWidth(frame), 58);
+    self.contentView.frame = NSMakeRect(0, 0, NSWidth(frame), NSHeight(frame) - 58);
 }
 
-- (void)setContentView:(NSView *)contentView {
+- (void)setContentView:(CHPageView *)contentView {
     if (_contentView != contentView) {
         [self viewDidDisappear];
         [_contentView removeFromSuperview];
@@ -43,19 +50,15 @@
 - (void)viewDidAppear {
     if (_appearView != self.contentView) {
         _appearView = self.contentView;
-        if ([self.contentView respondsToSelector:@selector(viewDidAppear)]) {
-            [self.contentView performSelector:@selector(viewDidAppear)];
-        }
-        
+        [self.contentView viewDidAppear];
+        self.titleLabel.text = [self.contentView title];
     }
 }
 
 - (void)viewDidDisappear {
     if (_appearView == self.contentView) {
         _appearView = nil;
-        if ([self.contentView respondsToSelector:@selector(viewDidDisappear)]) {
-            [self.contentView performSelector:@selector(viewDidDisappear)];
-        }
+        [self.contentView viewDidDisappear];
     }
 }
 

@@ -9,10 +9,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class CHPageView;
+
 @interface CHMainViewController : CHViewController
 
-- (void)pushContentView:(nullable NSView *)contentView;
-- (nullable NSView *)topContentView;
+- (void)pushContentView:(nullable CHPageView *)contentView;
+- (nullable CHPageView *)topContentView;
 
 
 @end

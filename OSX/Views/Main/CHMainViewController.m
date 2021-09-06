@@ -73,11 +73,11 @@
     [super viewDidDisappear];
 }
 
-- (void)pushContentView:(nullable NSView *)contentView {
+- (void)pushContentView:(nullable CHPageView *)contentView {
     self.contentView.contentView = contentView;
 }
 
-- (nullable NSView *)topContentView {
+- (nullable CHPageView *)topContentView {
     return self.contentView.contentView;
 }
 
