@@ -23,8 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)loadAudioURL:(nullable NSString *)fileURL toItem:(id<CHWebAudioItem>)item expectedSize:(uint64_t)expectedSize;
 - (nullable NSNumber *)loadLocalURLDuration:(nullable NSURL *)url;
 - (void)resetFileURLFailed:(nullable NSString *)fileURL;
-- (void)removeWithURLs:(NSArray<NSURL *> *)urls;
-- (NSDictionary *)infoWithURL:(NSURL *)url;
 
 
 @end

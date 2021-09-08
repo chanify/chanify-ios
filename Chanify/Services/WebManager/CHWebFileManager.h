@@ -22,8 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)close;
 - (void)loadFileURL:(nullable NSString *)fileURL filename:(nullable NSString *)filename toItem:(id<CHWebFileItem>)item expectedSize:(uint64_t)expectedSize;
 - (void)resetFileURLFailed:(nullable NSString *)fileURL;
-- (void)removeWithURLs:(NSArray<NSURL *> *)urls;
-- (NSDictionary *)infoWithURL:(NSURL *)url;
 
 
 @end

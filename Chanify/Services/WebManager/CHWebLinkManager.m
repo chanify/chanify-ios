@@ -44,6 +44,7 @@
 @interface CHWebLinkManager ()
 
 @property (nonatomic, readonly, strong) NSMutableDictionary<NSURL *, CHWebLinkTask *> *tasks;
+@property (nonatomic, readonly, strong) dispatch_queue_t workerQueue;
 
 @end
 
@@ -56,6 +57,7 @@
 - (instancetype)initWithURL:(NSURL *)fileBaseDir {
     if (self = [super initWithFileBase:fileBaseDir]) {
         _tasks = [NSMutableDictionary new];
+        _workerQueue = dispatch_queue_create_for(self, DISPATCH_QUEUE_SERIAL);
     }
     return self;
 }
@@ -73,6 +75,7 @@
                 @"host-desc": url.scheme ?: @"",
                 @"icon": [CHImage systemImageNamed:@"link.circle"],
                 @"title": @"URLScheme clicked".localized,
+                @"link": url,
             }];
             return;
         }
@@ -88,9 +91,81 @@
             task = [[CHWebLinkTask alloc] initWithURL:url];
             [self.tasks setObject:task forKey:url];
             [task.items addObject:item];
-            [self asyncStartTask:task fileURL:[self url2Path:url]];
+            [self asyncStartTask:task fileURL:[self url2Path:url] link:url];
         }
     }
+}
+
+- (void)removeWithURLs:(NSArray<NSURL *> *)urls {
+    @weakify(self);
+    dispatch_async(self.workerQueue, ^{
+        @strongify(self);
+        NSFileManager *fm = NSFileManager.defaultManager;
+        for (NSURL *url in urls) {
+            [self.dataCache removeObjectForKey:url.URLByResolvingSymlinksInPath];
+            [fm removeItemAtURL:url error:nil];
+        }
+        [self setNeedUpdateAllocatedFileSize];
+    });
+}
+
+- (void)removeWithDate:(NSDate *)limit completion:(nullable CHWebCacheManagerRemoveBlock)completion {
+    @weakify(self);
+    dispatch_async(self.workerQueue, ^{
+        @strongify(self);
+        NSFileManager *fm = NSFileManager.defaultManager;
+        NSArray *fieldKeys = @[NSURLIsRegularFileKey, NSURLContentModificationDateKey];
+        NSDirectoryEnumerator *enumerator = [NSFileManager.defaultManager enumeratorAtURL:self.fileBaseDir includingPropertiesForKeys:fieldKeys options:NSDirectoryEnumerationSkipsHiddenFiles|NSDirectoryEnumerationSkipsPackageDescendants errorHandler:nil];
+        NSUInteger count = 0;
+        for (NSURL *url in enumerator) {
+            NSDictionary *fields = [url resourceValuesForKeys:fieldKeys error:nil];
+            if ([[fields valueForKey:NSURLIsRegularFileKey] boolValue]) {
+                NSDate *date = [fields valueForKey:NSURLContentModificationDateKey];
+                if (date != nil && [date compare:limit] != NSOrderedDescending) {
+                    [self.dataCache removeObjectForKey:url.URLByResolvingSymlinksInPath];
+                    [fm removeItemAtURL:url error:nil];
+                    count++;
+                }
+            }
+        }
+        if (count > 0) {
+            [self setNeedUpdateAllocatedFileSize];
+        }
+        if (completion != nil) {
+            dispatch_main_async(^{
+                completion(count);
+            });
+        }
+    });
+}
+
+- (NSDictionary *)infoWithURL:(NSURL *)url {
+    NSDictionary *attrs = [url resourceValuesForKeys:@[NSURLCreationDateKey, NSURLFileAllocatedSizeKey] error:nil];
+    NSMutableDictionary *info = [NSMutableDictionary new];
+    id date = [attrs valueForKey:NSURLCreationDateKey];
+    if (date != nil) {
+        [info setValue:date forKey:@"date"];
+    }
+    id size = [attrs valueForKey:NSURLFileAllocatedSizeKey];
+    if (size != nil) {
+        [info setValue:size forKey:@"size"];
+    }
+    NSDictionary *data = [self loadLocalMetaFile:url.URLByResolvingSymlinksInPath];
+    if (data.count > 0) {
+        id link = [data valueForKey:@"link"];
+        if (link != nil) {
+            [info setValue:link forKey:@"link"];
+        }
+        id icon = [data valueForKey:@"icon"];
+        if (icon != nil) {
+            [info setValue:icon forKey:@"icon"];
+        }
+        id title = [data valueForKey:@"title"];
+        if (title != nil) {
+            [info setValue:title forKey:@"title"];
+        }
+    }
+    return info;
 }
 
 #pragma mark - Private Methods
@@ -102,24 +177,29 @@
 - (nullable id)loadLocalMeta:(nullable NSURL *)url {
     id res = nil;
     if (url != nil) {
-        NSURL *filePath = [self url2Path:url];
-        res = [self.dataCache objectForKey:filePath];
-        if (res == nil) {
-            res = [self decodeData:[NSData dataFromNoCacheURL:filePath]];
-            if (res != nil) {
-                [self.dataCache setObject:res forKey:filePath];
-            }
+        res = [self loadLocalMetaFile:[self url2Path:url]];
+    }
+    return res;
+}
+
+- (nullable id)loadLocalMetaFile:(nullable NSURL *)filePath {
+    id res = [self.dataCache objectForKey:filePath];
+    if (res == nil) {
+        res = [self decodeData:[NSData dataFromNoCacheURL:filePath]];
+        if (res != nil) {
+            [self.dataCache setObject:res forKey:filePath];
         }
     }
     return res;
 }
 
-- (void)asyncStartTask:(CHWebLinkTask *)task fileURL:(NSURL *)fileURL {
+- (void)asyncStartTask:(CHWebLinkTask *)task fileURL:(NSURL *)fileURL link:(NSURL *)link {
     @weakify(self);
     [task.provider startFetchingMetadataForURL:task.link completionHandler:^(LPLinkMetadata *metadata, NSError *error) {
         @strongify(self);
         if (error == nil && metadata != nil) {
             NSMutableDictionary *result = [NSMutableDictionary new];
+            [result setObject:link forKey:@"link"];
             if (metadata.title.length > 0) {
                 [result setObject:metadata.title forKey:@"title"];
             }
@@ -172,6 +252,14 @@
                     [items setObject:image forKey:@"icon"];
                 }
             }
+            NSString *link = [items objectForKey:@"link"];
+            [items removeObjectForKey:@"link"];
+            if (link.length > 0) {
+                NSURL *urlLink = [NSURL URLWithString:link];
+                if (urlLink != nil) {
+                    [items setObject:urlLink forKey:@"link"];
+                }
+            }
             res = items;
         }
     }
@@ -187,6 +275,11 @@
         [save removeObjectForKey:@"icon-raw"];
         if (icon.length > 0) {
             [save setObject:icon.base64 forKey:@"icon"];
+        }
+        NSURL *link = [save objectForKey:@"link"];
+        [save removeObjectForKey:@"link"];
+        if (link != nil) {
+            [save setObject:link.absoluteString forKey:@"link"];
         }
         data = save.json;
         if (data.length > 0) {

@@ -69,6 +69,7 @@
 "Images"="Images";
 "Audios"="Audios";
 "Files"="Files";
+"Links"="Links";
 "WATCH"="WATCH";
 "No watch app installed"="No watch app installed";
 "Force data sync to watch"="Force data sync to watch";
@@ -108,6 +109,7 @@
 "Delete this channel or not?"="Delete this channel or not?";
 "Delete this node or not?"="Delete this node or not?";
 "Delete this file or not?"="Delete this file or not?";
+"Delete this link or not?"="Delete this link or not?";
 "Delete this image or not?"="Delete this image or not?";
 "Delete this token or not?"="Delete this token or not?";
 "Logout or not?"="Logout or not?";
@@ -136,6 +138,7 @@
 "Expires at %@"="Expires at %@";
 "Downloading %6.02f%%"="Downloading %6.02f%%";
 "Delete %d selected files or not?"="Delete %d selected files or not?";
+"Delete %d selected links or not?"="Delete %d selected links or not?";
 "Delete %d selected images or not?"="Delete %d selected images or not?";
 "Delete %d selected messages or not?"="Delete %d selected messages or not?";
 "Delete %d selected tokens or not?"="Delete %d selected tokens or not?";

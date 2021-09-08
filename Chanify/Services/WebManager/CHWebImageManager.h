@@ -25,8 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)resetFileURLFailed:(nullable NSString *)fileURL;
 - (nullable CHImage *)loadLocalFile:(nullable NSString *)fileURL;
 - (nullable NSURL *)localFileURL:(nullable NSString *)fileURL;
-- (void)removeWithURLs:(NSArray<NSURL *> *)urls;
-- (NSDictionary *)infoWithURL:(NSURL *)url;
 
 
 @end

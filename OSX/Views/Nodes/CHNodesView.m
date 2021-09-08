@@ -83,7 +83,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHNodeModel *> CHNodeDiffableSn
     CHNodeDiffableSnapshot *snapshot = [CHNodeDiffableSnapshot new];
     [snapshot appendSectionsWithIdentifiers:@[@"main"]];
     [snapshot appendItemsWithIdentifiers:[CHLogic.shared.userDataSource loadNodes]];
-    [self.dataSource applySnapshot:snapshot animatingDifferences:YES];
+    [self.dataSource applySnapshot:snapshot animatingDifferences:NO];
     [self fixSelectNode];
 }
 
@@ -107,7 +107,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHNodeModel *> CHNodeDiffableSn
     if (node != nil) {
         CHNodeDiffableSnapshot *snapshot = self.dataSource.snapshot;
         [snapshot reloadItemsWithIdentifiers:@[node]];
-        [self.dataSource applySnapshot:snapshot animatingDifferences:YES];
+        [self.dataSource applySnapshot:snapshot animatingDifferences:NO];
     }
 }
 

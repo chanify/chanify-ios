@@ -10,6 +10,7 @@
 #import "CHWebFileManager.h"
 #import "CHWebImageManager.h"
 #import "CHWebAudioManager.h"
+#import "CHWebLinkManager.h"
 #import "CHDevice.h"
 #import "CHRouter.h"
 #import "CHLogic.h"
@@ -47,9 +48,11 @@
     [logic.webFileManager addDelegate:self];
     [logic.webImageManager addDelegate:self];
     [logic.webAudioManager addDelegate:self];
+    [logic.webLinkManager addDelegate:self];
     [self webCacheAllocatedFileSizeChanged:logic.webFileManager];
     [self webCacheAllocatedFileSizeChanged:logic.webImageManager];
     [self webCacheAllocatedFileSizeChanged:logic.webAudioManager];
+    [self webCacheAllocatedFileSizeChanged:logic.webLinkManager];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -57,6 +60,7 @@
     [logic.webFileManager removeDelegate:self];
     [logic.webImageManager removeDelegate:self];
     [logic.webAudioManager removeDelegate:self];
+    [logic.webLinkManager removeDelegate:self];
     [super viewDidDisappear:animated];
 }
 
@@ -90,6 +94,13 @@
     } else if (manager == logic.webFileManager) {
         CHFormValueItem *item = (CHFormValueItem *)[self.form formItemWithName:@"files"];
         NSUInteger size = logic.webFileManager.allocatedFileSize;
+        if ([item.value unsignedIntegerValue] != size) {
+            item.value = @(size);
+            [self reloadItem:item];
+        }
+    } else if (manager == logic.webLinkManager) {
+        CHFormValueItem *item = (CHFormValueItem *)[self.form formItemWithName:@"links"];
+        NSUInteger size = logic.webLinkManager.allocatedFileSize;
         if ([item.value unsignedIntegerValue] != size) {
             item.value = @(size);
             [self reloadItem:item];
@@ -171,7 +182,15 @@
         return [value formatFileSize];
     }];
     [section addFormItem:item];
-    
+    item = [CHFormValueItem itemWithName:@"links" title:@"Links".localized value:@(0)];
+    item.action = ^(CHFormItem *itm) {
+        [CHRouter.shared routeTo:@"/page/links" withParams:@{ @"show": @"detail" }];
+    };
+    [(CHFormValueItem *)item setFormatter:^(CHFormValueItem *item, NSNumber *value) {
+        return [value formatFileSize];
+    }];
+    [section addFormItem:item];
+
     // WATCH
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"WATCH".localized])];
     section.hidden = [NSPredicate predicateWithObject:logic attribute:@"hasWatch" expected:@NO];
