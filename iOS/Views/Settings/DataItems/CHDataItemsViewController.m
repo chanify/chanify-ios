@@ -257,6 +257,9 @@ static NSString *const cellIdentifier = @"cell";
             self->_enumerator = self.manager.fileEnumerator;
             [self loadMore:YES];
         }
+        dispatch_main_after(kCHAnimateMediumDuration, ^{
+            [CHRouter.shared showIndicator:NO];
+        });
     }];
 }
 
