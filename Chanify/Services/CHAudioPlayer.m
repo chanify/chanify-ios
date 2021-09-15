@@ -13,6 +13,7 @@
 
 @property (nonatomic, readonly, strong) AVAudioPlayer *audioPlayer;
 @property (nonatomic, nullable, strong) NSTimer *trackTimer;
+@property (nonatomic, nullable, strong) NSURL *audioUrl;
 
 @end
 
@@ -31,6 +32,7 @@
     if (self = [super init]) {
         _audioPlayer = nil;
         _trackTimer = nil;
+        _audioUrl = nil;
 #if TARGET_OS_IOS
         AVAudioSession *session = AVAudioSession.sharedInstance;
         [session setCategory:AVAudioSessionCategoryPlayback error:nil];
@@ -47,10 +49,9 @@
 
 - (uint64_t)durationForURL:(NSURL *)url {
     uint64_t res = 0;
-    NSError *error = nil;
-    AVAudioPlayer* player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
-    if (error == nil) {
-        res = player.duration * 1000;
+    AVAudioPlayer* audioPlayer = createPlayerWithURL(url);
+    if (audioPlayer != nil) {
+        res = audioPlayer.duration * 1000;
     }
     return res;
 }
@@ -60,9 +61,9 @@
         [self stopAudioPlayer:self.audioPlayer];
     }
     if (_audioPlayer == nil) {
-        NSError *error = nil;
-        AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
-        if (error == nil) {
+        AVAudioPlayer* audioPlayer = createPlayerWithURL(url);
+        if (audioPlayer != nil) {
+            _audioUrl = url;
             _audioPlayer = audioPlayer;
             audioPlayer.delegate = self;
             audioPlayer.numberOfLoops = 0;
@@ -78,7 +79,7 @@
 
 - (nullable NSURL *)currentURL {
     if (_audioPlayer != nil) {
-        return _audioPlayer.url;
+        return self.audioUrl ?: _audioPlayer.url;
     }
     return nil;
 }
@@ -194,6 +195,7 @@
         [_audioPlayer stop];
         [self stopTimer];
         [self updatePlayStatus];
+        _audioUrl = nil;
         _audioPlayer = nil;
     }
 }
@@ -220,6 +222,23 @@
         [self updateTrack];
     }
     [self sendNotifyWithSelector:@selector(audioPlayStatusChanged:) withObject:self];
+}
+
+static inline AVAudioPlayer *createPlayerWithURL(NSURL *url) {
+    NSError *error = nil;
+    AVAudioPlayer* player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
+    if (error != nil) {
+        player = nil;
+        NSData *data = [[NSData alloc] initWithContentsOfURL:url options:NSDataReadingMappedIfSafe error:&error];
+        if (data.length > 0) {
+            error = nil;
+            player = [[AVAudioPlayer alloc] initWithData:data fileTypeHint:AVFileTypeMPEGLayer3 error:&error];
+            if (error != nil) {
+                player = nil;
+            }
+        }
+    }
+    return player;
 }
 
 
