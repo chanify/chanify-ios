@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)shared;
 - (uint64_t)durationForURL:(NSURL *)url;
-- (void)playWithURL:(NSURL *)url;
+- (void)playWithURL:(NSURL *)url title:(nullable NSString *)title;
 - (nullable NSURL *)currentURL;
 - (NSNumber *)audioTrack;
 - (BOOL)isPlaying;

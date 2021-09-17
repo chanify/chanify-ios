@@ -110,6 +110,7 @@
 "Delete this node or not?"="Delete this node or not?";
 "Delete this file or not?"="Delete this file or not?";
 "Delete this link or not?"="Delete this link or not?";
+"Delete this audio or not?"="Delete this audio or not?";
 "Delete this image or not?"="Delete this image or not?";
 "Delete this token or not?"="Delete this token or not?";
 "Logout or not?"="Logout or not?";
@@ -139,6 +140,7 @@
 "Downloading %6.02f%%"="Downloading %6.02f%%";
 "Delete %d selected files or not?"="Delete %d selected files or not?";
 "Delete %d selected links or not?"="Delete %d selected links or not?";
+"Delete %d selected audios or not?"="Delete %d selected audios or not?";
 "Delete %d selected images or not?"="Delete %d selected images or not?";
 "Delete %d selected messages or not?"="Delete %d selected messages or not?";
 "Delete %d selected tokens or not?"="Delete %d selected tokens or not?";

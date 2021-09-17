@@ -155,7 +155,7 @@
         if ([self.localFileURL isEqual:audioPlayer.currentURL] && audioPlayer.isPlaying) {
             [audioPlayer pause];
         } else {
-            [audioPlayer playWithURL:self.localFileURL];
+            [audioPlayer playWithURL:self.localFileURL title:nil];
         }
     } else {
         CHWebAudioManager *webAudioManager = CHLogic.shared.webAudioManager;

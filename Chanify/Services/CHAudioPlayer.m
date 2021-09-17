@@ -14,6 +14,7 @@
 @property (nonatomic, readonly, strong) AVAudioPlayer *audioPlayer;
 @property (nonatomic, nullable, strong) NSTimer *trackTimer;
 @property (nonatomic, nullable, strong) NSURL *audioUrl;
+@property (nonatomic, nullable, strong) NSString *title;
 
 @end
 
@@ -33,6 +34,7 @@
         _audioPlayer = nil;
         _trackTimer = nil;
         _audioUrl = nil;
+        _title = nil;
 #if TARGET_OS_IOS
         AVAudioSession *session = AVAudioSession.sharedInstance;
         [session setCategory:AVAudioSessionCategoryPlayback error:nil];
@@ -42,6 +44,8 @@
         [commandCenter.playCommand addTarget:self action:@selector(actionPlayCommand:)];
         [commandCenter.pauseCommand addTarget:self action:@selector(actionPauseCommand:)];
         [commandCenter.togglePlayPauseCommand addTarget:self action:@selector(actionTogglePlayPauseCommand:)];
+        [commandCenter.skipForwardCommand addTarget:self action:@selector(actionSkipForwardCommand:)];
+        [commandCenter.skipBackwardCommand addTarget:self action:@selector(actionSkipBackwardCommand:)];
         [commandCenter.changePlaybackPositionCommand addTarget:self action:@selector(actionChangePositionCommand:)];
     }
     return self;
@@ -56,22 +60,27 @@
     return res;
 }
 
-- (void)playWithURL:(NSURL *)url {
+- (void)playWithURL:(NSURL *)url title:(nullable NSString *)title {
     if (_audioPlayer != nil && ![self.audioPlayer.url isEqual:url]) {
         [self stopAudioPlayer:self.audioPlayer];
     }
     if (_audioPlayer == nil) {
         AVAudioPlayer* audioPlayer = createPlayerWithURL(url);
         if (audioPlayer != nil) {
+            _title = title;
             _audioUrl = url;
             _audioPlayer = audioPlayer;
             audioPlayer.delegate = self;
             audioPlayer.numberOfLoops = 0;
             [audioPlayer prepareToPlay];
-            MPNowPlayingInfoCenter.defaultCenter.nowPlayingInfo = @{
+            NSMutableDictionary *info = [NSMutableDictionary dictionaryWithDictionary:@{
                 MPMediaItemPropertyPlaybackDuration: @(audioPlayer.duration),
                 MPNowPlayingInfoPropertyElapsedPlaybackTime: @(audioPlayer.currentTime),
-            };
+            }];
+            if (self.title.length > 0) {
+                [info setObject:self.title forKey:MPMediaItemPropertyTitle];
+            }
+            MPNowPlayingInfoCenter.defaultCenter.nowPlayingInfo = info;
         }
     }
     [self play];
@@ -163,6 +172,24 @@
     return MPRemoteCommandHandlerStatusCommandFailed;
 }
 
+- (MPRemoteCommandHandlerStatus)actionSkipForwardCommand:(MPSkipIntervalCommandEvent *)event {
+    if (self.audioPlayer != nil) {
+        self.audioPlayer.currentTime = self.audioPlayer.currentTime + event.interval;
+        [self updateTrackChanged];
+        return MPRemoteCommandHandlerStatusSuccess;
+    }
+    return MPRemoteCommandHandlerStatusCommandFailed;
+}
+
+- (MPRemoteCommandHandlerStatus)actionSkipBackwardCommand:(MPSkipIntervalCommandEvent *)event {
+    if (self.audioPlayer != nil) {
+        self.audioPlayer.currentTime = MAX(self.audioPlayer.currentTime - event.interval, 0);
+        [self updateTrackChanged];
+        return MPRemoteCommandHandlerStatusSuccess;
+    }
+    return MPRemoteCommandHandlerStatusCommandFailed;
+}
+
 - (MPRemoteCommandHandlerStatus)actionChangePositionCommand:(MPChangePlaybackPositionCommandEvent *)event {
     if (self.audioPlayer != nil) {
         self.audioPlayer.currentTime = event.positionTime;
@@ -195,6 +222,7 @@
         [_audioPlayer stop];
         [self stopTimer];
         [self updatePlayStatus];
+        _title = nil;
         _audioUrl = nil;
         _audioPlayer = nil;
     }
