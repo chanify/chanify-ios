@@ -12,6 +12,8 @@
 #import "CHLogic.h"
 #import "CHTheme.h"
 
+#define kCHAudioTitleHeight     24
+
 @interface CHAudioMsgCellConfiguration ()
 
 @property (nonatomic, readonly, strong) NSString *title;
@@ -24,6 +26,7 @@
 @interface CHAudioMsgCellContentView : CHBubbleMsgCellContentView<CHAudioMsgCellConfiguration *>
 
 @property (nonatomic, readonly, strong) CHImageView *ctrlIcon;
+@property (nonatomic, readonly, strong) CHLabel *titleLabel;
 @property (nonatomic, readonly, strong) CHLabel *durationLabel;
 @property (nonatomic, readonly, strong) CHLabel *statusLabel;
 @property (nonatomic, readonly, strong) CHProgressView *audioTrackView;
@@ -50,6 +53,13 @@
     [self.bubbleView addSubview:(_ctrlIcon = ctrlIcon)];
     ctrlIcon.contentMode = UIViewContentModeScaleAspectFit;
 
+    CHLabel *titleLabel = [CHLabel new];
+    [self.bubbleView addSubview:(_titleLabel = titleLabel)];
+    titleLabel.backgroundColor = CHColor.clearColor;
+    titleLabel.textColor = theme.labelColor;
+    titleLabel.numberOfLines = 1;
+    titleLabel.font = theme.messageTextFont;
+    
     CHLabel *durationLabel = [CHLabel new];
     [self.bubbleView addSubview:(_durationLabel = durationLabel)];
     durationLabel.backgroundColor = CHColor.clearColor;
@@ -77,18 +87,21 @@
     [super applyConfiguration:configuration];
     
     CGSize size = configuration.bubbleRect.size;
-    self.ctrlIcon.frame = CGRectMake(16, (size.height - 30)/2, 30, 30);
+    CGFloat titleHeight = (configuration.title.length > 0 ? kCHAudioTitleHeight : 0);
+    self.titleLabel.frame = CGRectMake(16, 8, size.width - 32, titleHeight);
+    self.ctrlIcon.frame = CGRectMake(16, (size.height - titleHeight - 30)/2 + titleHeight, 30, 30);
     CGFloat offset = CGRectGetMaxX(self.ctrlIcon.frame) + 10;
     CGRect frame = CGRectMake(offset, size.height - 16, size.width - offset - 10, 10);
     self.durationLabel.frame = frame;
     self.statusLabel.frame = frame;
     frame.size.height = 1;
-    frame.origin.y = (size.height - 10)/2;
+    frame.origin.y = (size.height - titleHeight - 10)/2 + titleHeight;
     self.audioTrackView.frame = frame;
     self.audioTrackView.progress = 0;
-    
+
     _duration = @(0);
     _localFileURL = nil;
+    self.titleLabel.text = configuration.title ?: @"";
     self.durationLabel.text = @"";
     self.statusLabel.text = @"";
     [self updatePlayStatus];
@@ -240,7 +253,7 @@
 }
 
 - (CGSize)calcContentSize:(CGSize)size {
-    return CGSizeMake(MIN(size.width, 300), 60);
+    return CGSizeMake(MIN(size.width, 300), 60 + (self.title.length > 0 ? kCHAudioTitleHeight : 0));
 }
 
 

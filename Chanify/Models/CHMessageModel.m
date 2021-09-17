@@ -146,6 +146,7 @@
                 case CHTPMsgType_Audio:
                     _type = CHMessageTypeAudio;
                     _file = content.file;
+                    _title = content.title;
                     _duration = content.duration;
                     break;
                 case CHTPMsgType_Link:
@@ -236,7 +237,15 @@
 }
 
 - (NSString *)summaryText {
-    return (self.title.length > 0 ? self.title : self.summaryBodyText);
+    switch (self.type) {
+    case CHMessageTypeImage:
+    case CHMessageTypeVideo:
+    case CHMessageTypeAudio:
+    case CHMessageTypeFile:
+        return self.summaryBodyText;
+    default:
+        return (self.title.length > 0 ? self.title : self.summaryBodyText);
+    }
 }
 
 - (NSString *)summaryBodyText {
