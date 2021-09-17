@@ -251,6 +251,9 @@
                 break;
             case CHMessageTypeAudio:
                 txt = @"AudioMsg".localized;
+                if (self.title.length > 0) {
+                    txt = [txt stringByAppendingFormat:@" %@", self.title];
+                }
                 break;
             case CHMessageTypeLink:
                 txt = @"LinkMsg".localized;

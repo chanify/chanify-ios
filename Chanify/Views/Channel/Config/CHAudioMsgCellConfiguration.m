@@ -14,6 +14,7 @@
 
 @interface CHAudioMsgCellConfiguration ()
 
+@property (nonatomic, readonly, strong) NSString *title;
 @property (nonatomic, readonly, strong) NSString *fileURL;
 @property (nonatomic, readonly, assign) uint64_t fileSize;
 @property (nonatomic, readonly, assign) uint64_t duration;
@@ -144,23 +145,35 @@
 #pragma mark - Action Methods
 - (void)actionShare:(id)sender {
     if (self.localFileURL != nil) {
-        NSURL *url = [NSFileManager.defaultManager URLLinkForFile:self.localFileURL withName:@"audio.mp3"];
+        CHAudioMsgCellConfiguration *configuration = (CHAudioMsgCellConfiguration *)self.configuration;
+        NSString *name = @"audio.mp3";
+        if (configuration.title.length > 0) {
+            NSString *fname = configuration.title.lastPathComponent;
+            if (fname.length > 0 && ![fname containsString:@"/"]) {
+                if ([fname containsString:@"."]) {
+                    name = fname;
+                } else {
+                    name = [fname stringByAppendingString:@".mp3"];
+                }
+            }
+        }
+        NSURL *url = [NSFileManager.defaultManager URLLinkForFile:self.localFileURL withName:name];
         [CHRouter.shared showShareItem:@[url] sender:self.contentView handler:nil];
     }
 }
 
 - (void)actionClicked:(CHTapGestureRecognizer *)sender {
+    CHAudioMsgCellConfiguration *configuration = (CHAudioMsgCellConfiguration *)self.configuration;
     if (self.localFileURL != nil) {
         CHAudioPlayer *audioPlayer = CHAudioPlayer.shared;
         if ([self.localFileURL isEqual:audioPlayer.currentURL] && audioPlayer.isPlaying) {
             [audioPlayer pause];
         } else {
-            [audioPlayer playWithURL:self.localFileURL title:nil];
+            [audioPlayer playWithURL:self.localFileURL title:configuration.title];
         }
     } else {
         CHWebAudioManager *webAudioManager = CHLogic.shared.webAudioManager;
         self.statusLabel.text = @"";
-        CHAudioMsgCellConfiguration *configuration = (CHAudioMsgCellConfiguration *)self.configuration;
         [webAudioManager resetFileURLFailed:configuration.fileURL];
         [webAudioManager loadAudioURL:configuration.fileURL toItem:self expectedSize:configuration.fileSize];
     }
@@ -205,15 +218,16 @@
 @implementation CHAudioMsgCellConfiguration
 
 + (instancetype)cellConfiguration:(CHMessageModel *)model {
-    return [[self.class alloc] initWithMID:model.mid fileURL:model.fileURL fileSize:model.fileSize duration:model.duration bubbleRect:CGRectZero];
+    return [[self.class alloc] initWithMID:model.mid title:model.title fileURL:model.fileURL fileSize:model.fileSize duration:model.duration bubbleRect:CGRectZero];
 }
 
 - (nonnull id)copyWithZone:(nullable NSZone *)zone {
-    return [[self.class allocWithZone:zone] initWithMID:self.mid fileURL:self.fileURL fileSize:self.fileSize duration:self.duration bubbleRect:self.bubbleRect];
+    return [[self.class allocWithZone:zone] initWithMID:self.mid title:self.title fileURL:self.fileURL fileSize:self.fileSize duration:self.duration bubbleRect:self.bubbleRect];
 }
 
-- (instancetype)initWithMID:(NSString *)mid fileURL:(NSString * _Nullable)fileURL fileSize:(uint64_t)fileSize duration:(uint64_t)duration bubbleRect:(CGRect)bubbleRect {
+- (instancetype)initWithMID:(NSString *)mid title:(NSString * _Nullable)title fileURL:(NSString * _Nullable)fileURL fileSize:(uint64_t)fileSize duration:(uint64_t)duration bubbleRect:(CGRect)bubbleRect {
     if (self = [super initWithMID:mid bubbleRect:bubbleRect]) {
+        _title = title;
         _fileURL = fileURL;
         _fileSize = fileSize;
         _duration = duration;
