@@ -6,7 +6,7 @@
 //
 
 #import "CHFormSwitchItem.h"
-#import "CHFormViewController.h"
+#import "CHForm.h"
 #import "CHTheme.h"
 
 @implementation CHFormSwitchItem
@@ -18,9 +18,9 @@
     return self;
 }
 
-- (void)prepareCell:(UITableViewCell *)cell {
+- (void)prepareCell:(CHFormViewCell *)cell {
     [super prepareCell:cell];
-    UISwitch *switchView = [self switchViewForCell:cell];
+    CHSwitch *switchView = [self switchViewForCell:cell];
     if (switchView != nil) {
         switchView.on = [self.value boolValue];
         [switchView setHidden:!self.enbaled];
@@ -43,7 +43,7 @@
 }
 
 #pragma mark - Action Methods
-- (void)valueChanged:(UISwitch *)sender {
+- (void)valueChanged:(CHSwitch *)sender {
     BOOL old = [self.value boolValue];
     if (old != sender.on) {
         self.value = @(sender.on);
@@ -52,13 +52,13 @@
 }
 
 #pragma mark - Private Methods
-- (nullable UISwitch *)switchViewForCell:(nullable UITableViewCell *)cell {
-    UISwitch *switchView = nil;
+- (nullable CHSwitch *)switchViewForCell:(nullable CHFormViewCell *)cell {
+    CHSwitch *switchView = nil;
     if (cell != nil) {
-        UIListContentView *contentView = (UIListContentView *)cell.contentView;
+        CHListContentView *contentView = (CHListContentView *)cell.contentView;
         switchView = [contentView viewWithTag:kCHFormSwitchViewTag];
         if (switchView == nil) {
-            switchView = [UISwitch new];
+            switchView = [CHSwitch new];
             [contentView addSubview:switchView];
             switchView.translatesAutoresizingMaskIntoConstraints = NO;
             [contentView addConstraints:@[
@@ -66,7 +66,7 @@
                 [switchView.bottomAnchor constraintEqualToAnchor:contentView.bottomAnchor constant:-8],
                 [switchView.rightAnchor constraintEqualToAnchor:contentView.secondaryTextLayoutGuide.rightAnchor],
             ]];
-            [switchView addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
+            [switchView addTarget:self action:@selector(valueChanged:) forControlEvents:CHControlEventValueChanged];
             switchView.tag = kCHFormSwitchViewTag;
         }
     }

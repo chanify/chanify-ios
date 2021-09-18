@@ -228,7 +228,7 @@ typedef NSDiffableDataSourceSnapshot<CHFormSection *, CHFormItem *> CHFormDiffab
             }
             [self.dataSource applySnapshot:snapshot animatingDifferences:self.canAnimated && animated];
         }
-        self.form.viewController = self;
+        self.form.viewDelegate = self;
     }
 }
 

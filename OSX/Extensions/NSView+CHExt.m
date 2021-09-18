@@ -62,5 +62,9 @@ static const char *kTintColorTagKey = "TintColorTagKey";
     self.layer.cornerRadius = cornerRadius;
 }
 
+- (void)setTag:(NSInteger)tag {
+    // TODO:
+}
+
 
 @end

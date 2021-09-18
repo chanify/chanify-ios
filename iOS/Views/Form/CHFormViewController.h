@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHFormViewController : CHViewController
+@interface CHFormViewController : CHViewController<CHFormViewDelegate>
 
 @property (nonatomic, nullable, strong) CHForm *form;
 

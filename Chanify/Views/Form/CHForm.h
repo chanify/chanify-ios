@@ -9,11 +9,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class CHAlertController;
 @class CHFormViewController;
 
 @protocol CHFormDelegate <NSObject>
 @optional
 - (void)formItemValueHasChanged:(CHFormItem *)item oldValue:(id)oldValue newValue:(id)newValue;
+@end
+
+@protocol CHFormViewDelegate <NSObject>
+- (void)reloadItem:(CHFormItem *)item;
+- (void)itemBecomeFirstResponder:(CHFormInputItem *)item;
+- (nullable CHFormViewCell *)cellForItem:(CHFormItem *)item;
+- (__kindof CHView *)itemAccessoryView:(CHFormInputItem *)item;
+- (BOOL)itemShouldInputReturn:(CHFormInputItem *)item;
+- (BOOL)itemIsLastInput:(CHFormInputItem *)item;
+- (void)showActionSheet:(CHAlertController *)alertController item:(CHFormItem *)item animated:(BOOL)animated;
 @end
 
 @interface CHForm : NSObject
@@ -22,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) NSHashTable *errorItems;
 @property (nonatomic, assign) BOOL assignFirstResponderOnShow;
 @property (nonatomic, nullable, weak) id<CHFormDelegate> delegate;
-@property (nonatomic, nullable, weak) CHFormViewController *viewController;
+@property (nonatomic, nullable, weak) id<CHFormViewDelegate> viewDelegate;
 
 + (instancetype)formWithTitle:(NSString *)title;
 - (void)reloadData;

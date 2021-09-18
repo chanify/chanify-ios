@@ -15,7 +15,7 @@ typedef NSString * _Nullable (^CHFormValueFormatter)(__kindof CHFormValueItem *i
 
 @interface CHFormValueItem : CHFormItem
 
-@property (nonatomic, readonly, strong) UIListContentConfiguration *configuration;
+@property (nonatomic, readonly, strong) CHListContentConfiguration *configuration;
 @property (nonatomic, nullable, strong) id value;
 @property (nonatomic, nullable, strong) NSString* copiedName;
 @property (nonatomic, nullable, copy) CHFormValueFormatter formatter;
@@ -23,9 +23,9 @@ typedef NSString * _Nullable (^CHFormValueFormatter)(__kindof CHFormValueItem *i
 + (instancetype)itemWithName:(NSString *)name title:(NSString *)title value:(nullable id)value;
 + (instancetype)itemWithName:(NSString *)name title:(NSString *)title;
 - (instancetype)initWithName:(NSString *)name title:(NSString *)title value:(nullable id)value NS_DESIGNATED_INITIALIZER;
-- (void)setTitleTextColor:(UIColor *)textColor;
-- (void)setIcon:(nullable UIImage *)icon;
-- (UITableViewCellAccessoryType)accessoryType;
+- (void)setTitleTextColor:(CHColor *)textColor;
+- (void)setIcon:(nullable CHImage *)icon;
+- (CHFormViewCellAccessoryType)accessoryType;
 - (__kindof NSString *)textValue;
 
 

@@ -10,7 +10,7 @@
 
 @interface CHFormButtonItem ()
 
-@property (nonatomic, readonly, strong) UIListContentConfiguration *configuration;
+@property (nonatomic, readonly, strong) CHListContentConfiguration *configuration;
 
 @end
 
@@ -22,8 +22,8 @@
 
 - (instancetype)initWithName:(NSString *)name title:(NSString *)title action:(CHFormItemActionBlock)action {
     if (self = [super initWithName:name]) {
-        UIListContentConfiguration *configuration = UIListContentConfiguration.cellConfiguration;
-        configuration.textProperties.alignment = UIListContentTextAlignmentCenter;
+        CHListContentConfiguration *configuration = CHListContentConfiguration.cellConfiguration;
+        configuration.textProperties.alignment = CHListContentTextAlignmentCenter;
         configuration.textProperties.color = CHTheme.shared.alertColor;
         configuration.text = title;
         _configuration = configuration;
@@ -32,7 +32,7 @@
     return self;
 }
 
-- (id<UIContentConfiguration>)contentConfiguration {
+- (id<CHContentConfiguration>)contentConfiguration {
     return self.configuration;
 }
 

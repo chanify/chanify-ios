@@ -24,12 +24,12 @@
     return self;
 }
 
-- (id<UIContentConfiguration>)contentConfiguration {
+- (id<CHContentConfiguration>)contentConfiguration {
     return nil;
 }
 
-- (void)prepareCell:(UITableViewCell *)cell {
-    for (UIView *view in cell.contentView.subviews) {
+- (void)prepareCell:(CHFormViewCell *)cell {
+    for (CHView *view in cell.contentView.subviews) {
         if (view.tag >= kCHFormFirstViewTag) {
             [view removeFromSuperview];
         }
@@ -37,8 +37,8 @@
 
     cell.accessoryType = self.accessoryType;
     cell.contentConfiguration = self.contentConfiguration;
-    UIView *accessoryView = nil;
-    if (cell.accessoryType == UITableViewCellAccessoryNone) {
+    CHView *accessoryView = nil;
+    if (cell.accessoryType == CHFormViewCellAccessoryNone) {
         accessoryView = self.accessoryView;
     }
     if (cell.accessoryView != accessoryView) {
@@ -46,11 +46,11 @@
     }
 }
 
-- (UITableViewCellAccessoryType)accessoryType {
-    return UITableViewCellAccessoryNone;
+- (CHFormViewCellAccessoryType)accessoryType {
+    return CHFormViewCellAccessoryNone;
 }
 
-- (nullable UIView *)accessoryView {
+- (nullable CHView *)accessoryView {
     return nil;
 }
 

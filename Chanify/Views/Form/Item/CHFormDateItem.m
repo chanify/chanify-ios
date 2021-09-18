@@ -6,7 +6,7 @@
 //
 
 #import "CHFormDateItem.h"
-#import "CHFormViewController.h"
+#import "CHForm.h"
 
 @implementation CHFormDateItem
 
@@ -17,9 +17,9 @@
     return self;
 }
 
-- (void)prepareCell:(UITableViewCell *)cell {
+- (void)prepareCell:(CHFormViewCell *)cell {
     [super prepareCell:cell];
-    UIDatePicker *datePicker = [self datePickerForCell:cell];
+    CHDatePicker *datePicker = [self datePickerForCell:cell];
     if (datePicker != nil) {
         datePicker.minimumDate = self.minimumDate;
         datePicker.maximumDate = self.maximumDate;
@@ -27,8 +27,8 @@
     }
 }
 
-- (UITableViewCellAccessoryType)accessoryType {
-    return UITableViewCellAccessoryNone;
+- (CHFormViewCellAccessoryType)accessoryType {
+    return CHFormViewCellAccessoryNone;
 }
 
 - (__kindof NSString *)textValue {
@@ -36,7 +36,7 @@
 }
 
 #pragma mark - Action Methods
-- (void)valueChanged:(UIDatePicker *)sender {
+- (void)valueChanged:(CHDatePicker *)sender {
     NSDate *old = self.value;
     if (![old isEqualToDate:sender.date]) {
         self.value = sender.date;
@@ -45,22 +45,22 @@
 }
 
 #pragma mark - Private Methods
-- (nullable UIDatePicker *)datePickerForCell:(nullable UITableViewCell *)cell {
-    UIDatePicker *datePicker = nil;
+- (nullable CHDatePicker *)datePickerForCell:(nullable CHFormViewCell *)cell {
+    CHDatePicker *datePicker = nil;
     if (cell != nil) {
-        UIListContentView *contentView = (UIListContentView *)cell.contentView;
+        CHListContentView *contentView = (CHListContentView *)cell.contentView;
         datePicker = [contentView viewWithTag:kCHFormDatePickerTag];
         if (datePicker == nil) {
-            datePicker = [UIDatePicker new];
+            datePicker = [CHDatePicker new];
             [contentView addSubview:datePicker];
             datePicker.translatesAutoresizingMaskIntoConstraints = NO;
             [contentView addConstraints:@[
                 [datePicker.centerYAnchor constraintEqualToAnchor:contentView.centerYAnchor],
                 [datePicker.rightAnchor constraintEqualToAnchor:contentView.secondaryTextLayoutGuide.rightAnchor],
             ]];
-            [datePicker addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
-            datePicker.preferredDatePickerStyle = UIDatePickerStyleCompact;
-            datePicker.datePickerMode = UIDatePickerModeDate;
+            [datePicker addTarget:self action:@selector(valueChanged:) forControlEvents:CHControlEventValueChanged];
+            datePicker.preferredDatePickerStyle = CHDatePickerStyleCompact;
+            datePicker.datePickerMode = CHDatePickerModeDate;
             datePicker.tag = kCHFormDatePickerTag;
         }
     }

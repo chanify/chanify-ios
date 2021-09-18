@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setNeedsDisplay;
 - (void)setNeedsLayout;
 - (void)setCornerRadius:(CGFloat)cornerRadius;
+- (void)setTag:(NSInteger)tag;
 
 
 @end

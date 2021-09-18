@@ -6,6 +6,7 @@
 //
 
 #import "CHNodeView.h"
+#import "CHFormView.h"
 #import "CHUserDataSource.h"
 #import "CHNodeModel.h"
 #import "CHLogic.h"
@@ -14,6 +15,7 @@
 @interface CHNodeView ()
 
 @property (nonatomic, readonly, strong) CHNodeModel *model;
+@property (nonatomic, readonly, strong) CHFormView *formView;
 
 @end
 
@@ -25,12 +27,20 @@
         _model = [CHLogic.shared.userDataSource nodeWithNID:nid];
 
         self.backgroundColor = CHTheme.shared.groupedBackgroundColor;
+        
+        CHFormView *formView = [CHFormView new];
+        [self addSubview:(_formView = formView)];
     }
     return self;
 }
 
 - (NSString *)title {
     return self.model.name;
+}
+
+- (void)layout {
+    [super layout];
+    self.formView.frame = self.bounds;
 }
 
 

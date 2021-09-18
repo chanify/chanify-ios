@@ -21,7 +21,7 @@ typedef NS_ENUM(NSInteger, CHFormInputType) {
 @property (nonatomic, assign) CHFormInputType inputType;
 
 - (void)startEditing;
-- (__kindof UIView *)editView;
+- (__kindof CHView *)editView;
 
 
 @end

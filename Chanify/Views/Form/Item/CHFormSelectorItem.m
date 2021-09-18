@@ -6,7 +6,7 @@
 //
 
 #import "CHFormSelectorItem.h"
-#import "CHFormViewController.h"
+#import "CHForm.h"
 
 @implementation CHFormOption
 
@@ -44,8 +44,8 @@
 }
 
 
-- (UITableViewCellAccessoryType)accessoryType {
-    return UITableViewCellAccessoryDisclosureIndicator;
+- (CHFormViewCellAccessoryType)accessoryType {
+    return CHFormViewCellAccessoryDisclosureIndicator;
 }
 
 - (void)setSelected:(id)selected {
@@ -62,7 +62,7 @@
 
 - (void)doSelectItem {
     if (self.options.count > 0) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        CHAlertController *alert = [CHAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         @weakify(self);
         for (CHFormOption *option in self.options) {
             UIAlertAction *act = [UIAlertAction actionWithTitle:option.title style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -74,7 +74,7 @@
             [alert addAction:act];
         }
         [alert addAction:[UIAlertAction actionWithTitle:@"Cancel".localized style:UIAlertActionStyleCancel handler:nil]];
-        [self.section.form.viewController showActionSheet:alert item:self animated:YES];
+        [self.section.form.viewDelegate showActionSheet:alert item:self animated:YES];
     }
 }
 
@@ -84,7 +84,7 @@
         self.selected = option.value;
         [self.section.form notifyItemValueHasChanged:self oldValue:oldValue newValue:option.value];
         [self setSelected:option.value];
-        [self.section.form.viewController reloadItem:self];
+        [self.section.form.viewDelegate reloadItem:self];
     }
 }
 

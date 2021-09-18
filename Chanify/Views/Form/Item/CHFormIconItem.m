@@ -6,9 +6,9 @@
 //
 
 #import "CHFormIconItem.h"
-#import "CHFormViewController.h"
 #import "CHIconsViewController.h"
 #import "CHIconView.h"
+#import "CHForm.h"
 #import "CHRouter.h"
 
 @interface CHFormIconItem () <CHIconsViewControllerDelegate>
@@ -29,7 +29,7 @@
 
 - (void)setValue:(id)value {
     [super setValue:value];
-    CHIconView *iconView = [self iconViewForCell:[self.section.form.viewController cellForItem:self]];
+    CHIconView *iconView = [self iconViewForCell:[self.section.form.viewDelegate cellForItem:self]];
     if (iconView != nil) {
         iconView.image = self.value;
     }
@@ -39,7 +39,7 @@
     return @"";
 }
 
-- (void)prepareCell:(UITableViewCell *)cell {
+- (void)prepareCell:(CHFormViewCell *)cell {
     [super prepareCell:cell];
     CHIconView *iconView = [self iconViewForCell:cell];
     if (iconView != nil) {
@@ -63,10 +63,10 @@
     [CHRouter.shared presentViewController:vc animated:YES];
 }
 
-- (nullable CHIconView *)iconViewForCell:(nullable UITableViewCell *)cell {
+- (nullable CHIconView *)iconViewForCell:(nullable CHFormViewCell *)cell {
     CHIconView *iconView = nil;
     if (cell != nil) {
-        UIListContentView *contentView = (UIListContentView *)cell.contentView;
+        CHListContentView *contentView = (CHListContentView *)cell.contentView;
         iconView = [contentView viewWithTag:kCHFormImageViewTag];
         if (iconView == nil) {
             iconView = [CHIconView new];

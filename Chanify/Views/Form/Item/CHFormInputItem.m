@@ -6,7 +6,7 @@
 //
 
 #import "CHFormInputItem.h"
-#import "CHFormViewController.h"
+#import "CHForm.h"
 #import "CHTheme.h"
 
 @interface CHFormInputItem () <UITextFieldDelegate>
@@ -26,17 +26,17 @@
     return self;
 }
 
-- (UITableViewCellAccessoryType)accessoryType {
-    return UITableViewCellAccessoryNone;
+- (CHFormViewCellAccessoryType)accessoryType {
+    return CHFormViewCellAccessoryNone;
 }
 
 - (void)startEditing {
     self.editView.alpha = 1;
-    [self.section.form.viewController itemBecomeFirstResponder:self];
+    [self.section.form.viewDelegate itemBecomeFirstResponder:self];
 }
 
 - (UITextField *)editView {
-    UIListContentView *contentView = (UIListContentView *)[[self.section.form.viewController cellForItem:self] contentView];
+    CHListContentView *contentView = (CHListContentView *)[[self.section.form.viewDelegate cellForItem:self] contentView];
     UITextField *textField = [contentView viewWithTag:kCHFormTextFieldTag];
     if (textField == nil) {
         textField = [UITextField new];
@@ -69,11 +69,11 @@
 
 #pragma mark - UITextFieldDelegate
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    CHFormViewController *viewController = self.section.form.viewController;
+    id<CHFormViewDelegate> viewDelegate = self.section.form.viewDelegate;
     textField.text = self.value;
-    textField.inputAccessoryView = [viewController itemAccessoryView:self];
-    textField.returnKeyType = ([viewController itemIsLastInput:self] ? UIReturnKeyDone : UIReturnKeyNext);
-    UITableViewCell *cell = [self.section.form.viewController cellForItem:self];
+    textField.inputAccessoryView = [viewDelegate itemAccessoryView:self];
+    textField.returnKeyType = ([viewDelegate itemIsLastInput:self] ? UIReturnKeyDone : UIReturnKeyNext);
+    UITableViewCell *cell = [viewDelegate cellForItem:self];
     if (cell != nil) {
         self.configuration.secondaryTextProperties.color = UIColor.clearColor;
         cell.contentConfiguration = self.contentConfiguration;
@@ -84,7 +84,7 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     [self textFieldDidChanged:textField];
     textField.alpha = 0;
-    UITableViewCell *cell = [self.section.form.viewController cellForItem:self];
+    CHFormViewCell *cell = [self.section.form.viewDelegate cellForItem:self];
     if (cell != nil) {
         self.configuration.secondaryTextProperties.color = CHTheme.shared.minorLabelColor;
         cell.contentConfiguration = self.contentConfiguration;
@@ -93,7 +93,7 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    return [self.section.form.viewController itemShouldInputReturn:self];
+    return [self.section.form.viewDelegate itemShouldInputReturn:self];
 }
 
 - (void)textFieldDidChanged:(UITextField *)textField {

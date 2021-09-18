@@ -5,7 +5,7 @@
 //  Created by WizJin on 2021/3/3.
 //
 
-#import <UIKit/UIKit.h>
+#import "CHUI.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -29,10 +29,10 @@ typedef void (^CHFormItemOnChangedBlock)(__kindof CHFormItem *item, __nullable i
 @property (nonatomic, nullable, copy) CHFormItemActionBlock action;
 
 - (instancetype)initWithName:(NSString *)name;
-- (id<UIContentConfiguration>)contentConfiguration;
-- (UITableViewCellAccessoryType)accessoryType;
-- (nullable UIView *)accessoryView;
-- (void)prepareCell:(UITableViewCell *)cell;
+- (id<CHContentConfiguration>)contentConfiguration;
+- (CHFormViewCellAccessoryType)accessoryType;
+- (nullable CHView *)accessoryView;
+- (void)prepareCell:(CHFormViewCell *)cell;
 - (void)updateStatus;
 - (BOOL)tryDoAction;
 - (BOOL)isHidden;

@@ -23,7 +23,7 @@
     if (self = [super initWithName:name]) {
         _value = value;
         _copiedName = nil;
-        UIListContentConfiguration *configuration = UIListContentConfiguration.valueCellConfiguration;
+        CHListContentConfiguration *configuration = CHListContentConfiguration.valueCellConfiguration;
         configuration.secondaryTextProperties.color = CHTheme.shared.minorLabelColor;
         configuration.secondaryText = self.textValue;
         configuration.text = title;
@@ -32,7 +32,7 @@
     return self;
 }
 
-- (id<UIContentConfiguration>)contentConfiguration {
+- (id<CHContentConfiguration>)contentConfiguration {
     return self.configuration;
 }
 
@@ -43,11 +43,11 @@
     }
 }
 
-- (void)setTitleTextColor:(UIColor *)textColor {
+- (void)setTitleTextColor:(CHColor *)textColor {
     self.configuration.textProperties.color = textColor;
 }
 
-- (void)setIcon:(nullable UIImage *)icon {
+- (void)setIcon:(nullable CHImage *)icon {
     self.configuration.image = icon;
 }
 
@@ -58,16 +58,16 @@
     }
 }
 
-- (UITableViewCellAccessoryType)accessoryType {
+- (CHFormViewCellAccessoryType)accessoryType {
     if (self.action != nil && self.configuration.textProperties.alignment == NSTextAlignmentLeft) {
-        return UITableViewCellAccessoryDisclosureIndicator;
+        return CHFormViewCellAccessoryDisclosureIndicator;
     }
-    return UITableViewCellAccessoryNone;
+    return CHFormViewCellAccessoryNone;
 }
 
-- (nullable UIView *)accessoryView {
+- (nullable CHView *)accessoryView {
     if (self.copiedName != nil) {
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage systemImageNamed:@"doc.on.doc"]];
+        CHImageView *imageView = [[CHImageView alloc] initWithImage:[CHImage systemImageNamed:@"doc.on.doc"]];
         imageView.tintColor = CHTheme.shared.lightLabelColor;
         return imageView;
     }
