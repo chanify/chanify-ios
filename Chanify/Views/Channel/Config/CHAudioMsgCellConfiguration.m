@@ -16,10 +16,13 @@
 
 @interface CHAudioMsgCellConfiguration ()
 
-@property (nonatomic, readonly, strong) NSString *title;
+@property (nonatomic, nullable, strong) NSString *title;
+@property (nonatomic, nullable, strong) NSString *filename;
 @property (nonatomic, readonly, strong) NSString *fileURL;
 @property (nonatomic, readonly, assign) uint64_t fileSize;
 @property (nonatomic, readonly, assign) uint64_t duration;
+
+- (NSString *)displayTitle;
 
 @end
 
@@ -87,7 +90,7 @@
     [super applyConfiguration:configuration];
     
     CGSize size = configuration.bubbleRect.size;
-    CGFloat titleHeight = (configuration.title.length > 0 ? kCHAudioTitleHeight : 0);
+    CGFloat titleHeight = (configuration.displayTitle.length > 0 ? kCHAudioTitleHeight : 0);
     self.titleLabel.frame = CGRectMake(16, 8, size.width - 32, titleHeight);
     self.ctrlIcon.frame = CGRectMake(16, (size.height - titleHeight - 30)/2 + titleHeight, 30, 30);
     CGFloat offset = CGRectGetMaxX(self.ctrlIcon.frame) + 10;
@@ -101,7 +104,7 @@
 
     _duration = @(0);
     _localFileURL = nil;
-    self.titleLabel.text = configuration.title ?: @"";
+    self.titleLabel.text = configuration.displayTitle;
     self.durationLabel.text = @"";
     self.statusLabel.text = @"";
     [self updatePlayStatus];
@@ -160,8 +163,8 @@
     if (self.localFileURL != nil) {
         CHAudioMsgCellConfiguration *configuration = (CHAudioMsgCellConfiguration *)self.configuration;
         NSString *name = @"audio.mp3";
-        if (configuration.title.length > 0) {
-            NSString *fname = configuration.title.lastPathComponent;
+        if (configuration.filename.length > 0) {
+            NSString *fname = configuration.filename.lastPathComponent;
             if (fname.length > 0 && ![fname containsString:@"/"]) {
                 if ([fname containsString:@"."]) {
                     name = fname;
@@ -182,7 +185,7 @@
         if ([self.localFileURL isEqual:audioPlayer.currentURL] && audioPlayer.isPlaying) {
             [audioPlayer pause];
         } else {
-            [audioPlayer playWithURL:self.localFileURL title:configuration.title];
+            [audioPlayer playWithURL:self.localFileURL title:configuration.displayTitle];
         }
     } else {
         CHWebAudioManager *webAudioManager = CHLogic.shared.webAudioManager;
@@ -231,16 +234,17 @@
 @implementation CHAudioMsgCellConfiguration
 
 + (instancetype)cellConfiguration:(CHMessageModel *)model {
-    return [[self.class alloc] initWithMID:model.mid title:model.title fileURL:model.fileURL fileSize:model.fileSize duration:model.duration bubbleRect:CGRectZero];
+    return [[self.class alloc] initWithMID:model.mid title:model.title filename:model.filename fileURL:model.fileURL fileSize:model.fileSize duration:model.duration bubbleRect:CGRectZero];
 }
 
 - (nonnull id)copyWithZone:(nullable NSZone *)zone {
-    return [[self.class allocWithZone:zone] initWithMID:self.mid title:self.title fileURL:self.fileURL fileSize:self.fileSize duration:self.duration bubbleRect:self.bubbleRect];
+    return [[self.class allocWithZone:zone] initWithMID:self.mid title:self.title filename:self.filename fileURL:self.fileURL fileSize:self.fileSize duration:self.duration bubbleRect:self.bubbleRect];
 }
 
-- (instancetype)initWithMID:(NSString *)mid title:(NSString * _Nullable)title fileURL:(NSString * _Nullable)fileURL fileSize:(uint64_t)fileSize duration:(uint64_t)duration bubbleRect:(CGRect)bubbleRect {
+- (instancetype)initWithMID:(NSString *)mid title:(NSString * _Nullable)title filename:(NSString * _Nullable)filename fileURL:(NSString * _Nullable)fileURL fileSize:(uint64_t)fileSize duration:(uint64_t)duration bubbleRect:(CGRect)bubbleRect {
     if (self = [super initWithMID:mid bubbleRect:bubbleRect]) {
         _title = title;
+        _filename = filename;
         _fileURL = fileURL;
         _fileSize = fileSize;
         _duration = duration;
@@ -253,7 +257,11 @@
 }
 
 - (CGSize)calcContentSize:(CGSize)size {
-    return CGSizeMake(MIN(size.width, 300), 60 + (self.title.length > 0 ? kCHAudioTitleHeight : 0));
+    return CGSizeMake(MIN(size.width, 300), 60 + (self.displayTitle.length > 0 ? kCHAudioTitleHeight : 0));
+}
+
+- (NSString *)displayTitle {
+    return (self.title ?: self.filename) ?: @"";
 }
 
 

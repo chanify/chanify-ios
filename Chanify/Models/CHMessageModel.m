@@ -146,7 +146,12 @@
                 case CHTPMsgType_Audio:
                     _type = CHMessageTypeAudio;
                     _file = content.file;
-                    _title = content.title;
+                    if (content.title.length > 0) {
+                        _title = content.title;
+                    }
+                    if (content.filename.length > 0) {
+                        _filename = content.filename;
+                    }
                     _duration = content.duration;
                     break;
                 case CHTPMsgType_Link:
@@ -262,6 +267,8 @@
                 txt = @"AudioMsg".localized;
                 if (self.title.length > 0) {
                     txt = [txt stringByAppendingFormat:@" %@", self.title];
+                } else if (self.filename.length > 0) {
+                    txt = [txt stringByAppendingFormat:@" %@", self.filename];
                 }
                 break;
             case CHMessageTypeLink:
