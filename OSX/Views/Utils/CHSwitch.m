@@ -9,4 +9,9 @@
 
 @implementation CHSwitch
 
+- (void)addTarget:(id)target action:(SEL)action forControlEvents:(CHControlEvents)events {
+    
+}
+
+
 @end

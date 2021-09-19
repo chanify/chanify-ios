@@ -9,4 +9,12 @@
 
 @implementation CHIconsViewController
 
+- (instancetype)initWithIcon:(NSString *)icon {
+    if (self = [super init]) {
+        
+    }
+    return self;
+}
+
+
 @end

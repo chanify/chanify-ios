@@ -1295,6 +1295,8 @@
 				6D0384D326F5BAD3002C3BE1 /* CHFormView.m */,
 				6D0384E426F5C801002C3BE1 /* CHFormViewCell.h */,
 				6D0384E526F5C801002C3BE1 /* CHFormViewCell.m */,
+				6D0384FC26F5DD1C002C3BE1 /* CHFormInputItem+OSX.m */,
+				6D0384FE26F5DD56002C3BE1 /* CHFormSelectorItem+OSX.m */,
 			);
 			path = Form;
 			sourceTree = "<group>";
@@ -1692,8 +1694,6 @@
 				6DD6954525F1FF6C0047FF08 /* CHFormViewController.m */,
 				6D51563C266A186200137071 /* CHFormSectionHeaderView.h */,
 				6D51563D266A186200137071 /* CHFormSectionHeaderView.m */,
-				6D0384FC26F5DD1C002C3BE1 /* CHFormInputItem+OSX.m */,
-				6D0384FE26F5DD56002C3BE1 /* CHFormSelectorItem+OSX.m */,
 			);
 			path = Form;
 			sourceTree = "<group>";

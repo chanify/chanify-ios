@@ -9,7 +9,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class CHCellConfiguration;
 @protocol CHContentConfiguration;
 @protocol CHConfigurationState
 @end
@@ -32,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CHCollectionViewCell : NSCollectionViewItem
 
 @property (nonatomic, nullable, strong) NSView *contentView;
-@property (nonatomic, nullable, strong) CHCellConfiguration *contentConfiguration;
+@property (nonatomic, nullable, strong) id<CHContentConfiguration> contentConfiguration;
 
 - (void)updateConfigurationUsingState:(CHCellConfigurationState *)state;
 

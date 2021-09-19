@@ -9,4 +9,9 @@
 
 @implementation CHDatePicker
 
+- (void)addTarget:(nullable id)target action:(SEL)action forControlEvents:(CHControlEvents)controlEvents {
+    
+}
+
+
 @end

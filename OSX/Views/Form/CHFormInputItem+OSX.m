@@ -9,4 +9,13 @@
 
 @implementation CHFormInputItem
 
+- (void)startEditing {
+    
+}
+
+- (__kindof CHView *)editView {
+    return nil;
+}
+
+
 @end
