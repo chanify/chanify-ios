@@ -12,6 +12,7 @@
 #import "NSString+CHLocalized.h"
 #import "CHUtils.h"
 #import "CHConfig.h"
+#import "CHTheme.h"
 
 @interface NotificationViewController () <UNNotificationContentExtension, CHActionGroupDelegate>
 
@@ -28,18 +29,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    CHTheme *theme = CHTheme.shared;
 
     UILabel *toastLabel = [UILabel new];
     [self.view addSubview:(_toastLabel = toastLabel)];
     toastLabel.textAlignment = NSTextAlignmentCenter;
     toastLabel.backgroundColor = UIColor.secondarySystemBackgroundColor;
-    toastLabel.textColor = UIColor.labelColor;
+    toastLabel.textColor = theme.labelColor;
     toastLabel.font = [UIFont systemFontOfSize:16];
     toastLabel.numberOfLines = 1;
     toastLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _toastConstraint = [toastLabel.heightAnchor constraintEqualToConstant:0];
+    NSLayoutConstraint *toastTopConstraint = [toastLabel.topAnchor constraintEqualToAnchor:self.view.topAnchor];
     [self.view addConstraints:@[
-        [toastLabel.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        toastTopConstraint,
         [toastLabel.leftAnchor constraintEqualToAnchor:self.view.leftAnchor],
         [toastLabel.rightAnchor constraintEqualToAnchor:self.view.rightAnchor],
         self.toastConstraint,
@@ -48,29 +52,30 @@
     UILabel *titleLabel = [UILabel new];
     [self.view addSubview:(_titleLabel = titleLabel)];
     titleLabel.textAlignment = NSTextAlignmentLeft;
-    titleLabel.textColor = UIColor.labelColor;
+    titleLabel.textColor = theme.labelColor;
     titleLabel.font = [UIFont boldSystemFontOfSize:16];
     titleLabel.numberOfLines = 1;
     titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    NSLayoutConstraint *titleLeftConstraint = [titleLabel.leftAnchor constraintEqualToAnchor:self.view.leftAnchor constant:16];
     [self.view addConstraints:@[
         [titleLabel.topAnchor constraintEqualToAnchor:toastLabel.bottomAnchor],
-        [titleLabel.leftAnchor constraintEqualToAnchor:self.view.leftAnchor constant:16],
         [titleLabel.rightAnchor constraintEqualToAnchor:self.view.rightAnchor constant:-16],
+        titleLeftConstraint,
     ]];
 
     UILabel *bodyLabel = [UILabel new];
     [self.view addSubview:(_bodyLabel = bodyLabel)];
     bodyLabel.textAlignment = NSTextAlignmentLeft;
-    bodyLabel.textColor = UIColor.labelColor;
+    bodyLabel.textColor = theme.labelColor;
     bodyLabel.font = [UIFont systemFontOfSize:16];
     bodyLabel.numberOfLines = 10;
     bodyLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addConstraints:@[
         [bodyLabel.topAnchor constraintEqualToAnchor:titleLabel.bottomAnchor],
-        [bodyLabel.leftAnchor constraintEqualToAnchor:self.view.leftAnchor constant:16],
+        [bodyLabel.leftAnchor constraintEqualToAnchor:titleLabel.leftAnchor],
         [bodyLabel.rightAnchor constraintEqualToAnchor:self.view.rightAnchor constant:-16],
     ]];
-    
+
     CHActionGroup *actionGroup = [CHActionGroup new];
     [self.view addSubview:(_actionGroup = actionGroup)];
     actionGroup.translatesAutoresizingMaskIntoConstraints = NO;
@@ -84,6 +89,23 @@
         [actionGroup.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
         self.actionConstraint,
     ]];
+
+    if (@available(iOS 15, *)) {
+        toastTopConstraint.constant = 12;
+        titleLeftConstraint.constant += 40;
+
+        UIView *iconView = [UIView new];
+        [self.view addSubview:iconView];
+        iconView.backgroundColor = theme.tintColor;
+        iconView.layer.cornerRadius = 10;
+        iconView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.view addConstraints:@[
+            [iconView.topAnchor constraintEqualToAnchor:titleLabel.topAnchor],
+            [iconView.leftAnchor constraintEqualToAnchor:self.view.leftAnchor constant:8],
+            [iconView.widthAnchor constraintEqualToConstant:38],
+            [iconView.heightAnchor constraintEqualToAnchor:iconView.widthAnchor],
+        ]];
+    }
 }
 
 #pragma mark - UNNotificationContentExtension
@@ -106,7 +128,12 @@
             }
         }
     }
-    self.title = [info valueForKey:@"title"] ?: @"CHANIFY";
+    self.title = [info valueForKey:@"title"] ?: @"Chanify";
+    if (@available(iOS 15, *)) {
+        if (self.titleLabel.text.length <= 0) {
+            self.titleLabel.text = self.title;
+        }
+    }
     self.actionGroup.actions = actions;
     self.actionConstraint.constant = (actions.count > 0 ? CHActionGroup.defaultHeight : 0);
     [self.view setNeedsLayout];

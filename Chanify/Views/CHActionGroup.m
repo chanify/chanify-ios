@@ -6,6 +6,7 @@
 //
 
 #import "CHActionGroup.h"
+#import "CHTheme.h"
 
 #define kCHActionItemMaxN       4
 #define kCHActionItemViewTag    1000
@@ -25,20 +26,19 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        CHColor *lightLabelColor = CHColor.tertiaryLabelColor;
-        CHColor *tintColor = [CHColor colorNamed:@"AccentColor"];
-        CHColor *btnTitleColor = [tintColor colorWithAlphaComponent:0.7];
+        CHTheme *theme = CHTheme.shared;
+        CHColor *btnTitleColor = [theme.tintColor colorWithAlphaComponent:0.7];
         CHFont *btnTitleFont = [CHFont systemFontOfSize:16];
         CHColor *bkgColor = [CHColor colorWithWhite:0 alpha:0.01];
-        
+
         CHView *lineView = [CHView new];
         [self addSubview:(_lineView = lineView)];
-        lineView.backgroundColor = lightLabelColor;
+        lineView.backgroundColor = theme.lightLabelColor;
         for (int i = 0; i < kCHActionItemMaxN; i++) {
             CHButton *btn = [CHButton button];
             [self addSubview:btn];
             [btn addTarget:self action:@selector(doAction:)];
-            btn.titleTintColor = tintColor;
+            btn.titleTintColor = theme.tintColor;
             btn.titleSelectColor = btnTitleColor;
             btn.titleFont = btnTitleFont;
             btn.backgroundColor = bkgColor;
@@ -48,7 +48,7 @@
                 CHLineView *line = [CHLineView new];
                 [self addSubview:line];
                 line.tag = kCHActionItemLineTag + i;
-                line.backgroundColor = lightLabelColor;
+                line.backgroundColor = theme.lightLabelColor;
                 line.hidden = YES;
             }
         }

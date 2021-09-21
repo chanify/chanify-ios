@@ -69,6 +69,7 @@
 		6D278E6925E222C300FC48CD /* CHCodeFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278E6825E222C300FC48CD /* CHCodeFormatter.m */; };
 		6D278EA825E4CC9500FC48CD /* CHNodesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278EA725E4CC9500FC48CD /* CHNodesViewController.m */; };
 		6D278EAD25E5598A00FC48CD /* CHTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278EAC25E5598A00FC48CD /* CHTableView.m */; };
+		6D2B0FC226F9BC7F000577CE /* CHTheme+CNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2B0FC026F9BC41000577CE /* CHTheme+CNotification.m */; };
 		6D2C721C261E002A003CDCDB /* CHFileMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2C721B261E002A003CDCDB /* CHFileMsgCellConfiguration.m */; };
 		6D2EA160264D018A00246EB4 /* CHActionItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2EA15F264D018A00246EB4 /* CHActionItemModel.m */; };
 		6D2EA161264D018A00246EB4 /* CHActionItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2EA15F264D018A00246EB4 /* CHActionItemModel.m */; };
@@ -725,6 +726,7 @@
 		6D278EA725E4CC9500FC48CD /* CHNodesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNodesViewController.m; sourceTree = "<group>"; };
 		6D278EAB25E5598A00FC48CD /* CHTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHTableView.h; sourceTree = "<group>"; };
 		6D278EAC25E5598A00FC48CD /* CHTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHTableView.m; sourceTree = "<group>"; };
+		6D2B0FC026F9BC41000577CE /* CHTheme+CNotification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHTheme+CNotification.m"; sourceTree = "<group>"; };
 		6D2C721A261E002A003CDCDB /* CHFileMsgCellConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFileMsgCellConfiguration.h; sourceTree = "<group>"; };
 		6D2C721B261E002A003CDCDB /* CHFileMsgCellConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFileMsgCellConfiguration.m; sourceTree = "<group>"; };
 		6D2EA15E264D018A00246EB4 /* CHActionItemModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHActionItemModel.h; sourceTree = "<group>"; };
@@ -1752,6 +1754,7 @@
 				6DA2A70B2622F8F100D898C7 /* NotificationViewController.h */,
 				6DA2A70C2622F8F100D898C7 /* NotificationViewController.m */,
 				6DA2A7112622F8F100D898C7 /* Info.plist */,
+				6D2B0FC026F9BC41000577CE /* CHTheme+CNotification.m */,
 			);
 			path = NotificationContent;
 			sourceTree = "<group>";
@@ -3084,6 +3087,7 @@
 			files = (
 				6DA2A70D2622F8F100D898C7 /* NotificationViewController.m in Sources */,
 				6D180E01262441BC000BDE82 /* NSString+CHNotification.m in Sources */,
+				6D2B0FC226F9BC7F000577CE /* CHTheme+CNotification.m in Sources */,
 				6D2EA16E264D2FB700246EB4 /* CHActionItemModel.m in Sources */,
 				6DB1C264266F47BE007C0C02 /* CHIndicatorView.m in Sources */,
 				6D2EA170264D2FD900246EB4 /* CHActionGroup.m in Sources */,
