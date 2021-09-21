@@ -34,7 +34,8 @@
     UIScrollView *view = [UIScrollView new];
     [self.view addSubview:view];
     [view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
+        make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
+        make.left.right.bottom.equalTo(self.view);
     }];
     view.alwaysBounceVertical = YES;
     view.backgroundColor = theme.groupedBackgroundColor;
