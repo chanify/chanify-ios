@@ -8,6 +8,7 @@
 #import "NotificationViewController.h"
 #import <UserNotifications/UserNotifications.h>
 #import <UserNotificationsUI/UserNotificationsUI.h>
+#import "CHIconView.h"
 #import "CHActionGroup.h"
 #import "NSString+CHLocalized.h"
 #import "CHUtils.h"
@@ -79,6 +80,7 @@
     CHActionGroup *actionGroup = [CHActionGroup new];
     [self.view addSubview:(_actionGroup = actionGroup)];
     actionGroup.translatesAutoresizingMaskIntoConstraints = NO;
+    actionGroup.lineWidth = 1.0;
     actionGroup.delegate = self;
     _actionConstraint = [actionGroup.heightAnchor constraintEqualToConstant:0];
     self.actionConstraint.priority = UILayoutPriorityDefaultHigh;
@@ -94,10 +96,9 @@
         toastTopConstraint.constant = 12;
         titleLeftConstraint.constant += 40;
 
-        UIView *iconView = [UIView new];
+        CHIconView *iconView = [CHIconView new];
         [self.view addSubview:iconView];
-        iconView.backgroundColor = theme.tintColor;
-        iconView.layer.cornerRadius = 10;
+        iconView.image = @"";
         iconView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.view addConstraints:@[
             [iconView.topAnchor constraintEqualToAnchor:titleLabel.topAnchor],

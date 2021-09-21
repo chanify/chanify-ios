@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (class, nonatomic, readonly, assign) CGFloat defaultHeight;
 @property (nonatomic, nullable, weak) id<CHActionGroupDelegate> delegate;
 @property (nonatomic, nullable, strong) NSArray<CHActionItemModel *> *actions;
+@property (nonatomic, assign) CGFloat lineWidth;
 
 
 @end

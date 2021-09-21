@@ -26,6 +26,8 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        _lineWidth = 1.0/CHScreen.mainScreen.scale;
+
         CHTheme *theme = CHTheme.shared;
         CHColor *btnTitleColor = [theme.tintColor colorWithAlphaComponent:0.7];
         CHFont *btnTitleFont = [CHFont systemFontOfSize:16];
@@ -59,15 +61,14 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     CGSize size = self.bounds.size;
-    CGFloat pt = 1.0/CHScreen.mainScreen.scale;
-    self.lineView.frame = CGRectMake(0, 0, size.width, pt);
+    self.lineView.frame = CGRectMake(0, 0, size.width, self.lineWidth);
     NSUInteger n = self.actions.count;
     CGFloat width = (n > 0 ? size.width/n : 0);
     for (int i = 0; i < n; i++) {
         CHButton *btn = [self viewWithTag:kCHActionItemViewTag + i];
-        btn.frame = CGRectMake(width * i, pt, width, size.height - pt);
+        btn.frame = CGRectMake(width * i, self.lineWidth, width, size.height - self.lineWidth);
         CHView *line = [self viewWithTag:kCHActionItemLineTag + i];
-        line.frame = CGRectMake(width * i, pt, pt, size.height - pt);
+        line.frame = CGRectMake(width * i, self.lineWidth, self.lineWidth, size.height - self.lineWidth);
     }
 }
 

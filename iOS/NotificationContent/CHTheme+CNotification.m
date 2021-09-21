@@ -20,7 +20,8 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        _tintColor = [UIColor colorWithRed:10.0/255.0 green:132.0/255.0 blue:1.0 alpha:1.0];
+        //_tintColor = [UIColor colorWithRed:10.0/255.0 green:132.0/255.0 blue:1.0 alpha:1.0];
+        _tintColor = [UIColor colorNamed:@"AccentColor"];
         _labelColor = UIColor.labelColor;
         _lightLabelColor = UIColor.tertiaryLabelColor;
     }
