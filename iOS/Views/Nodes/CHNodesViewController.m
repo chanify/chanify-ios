@@ -38,7 +38,8 @@ static NSString *const cellIdentifier = @"node";
     CHTableView *tableView = [CHTableView new];
     [self.view addSubview:(_tableView = tableView)];
     [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
+        make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
+        make.left.right.bottom.equalTo(self.view);
     }];
     [tableView registerClass:CHNodeTableViewCell.class forCellReuseIdentifier:cellIdentifier];
     tableView.rowHeight = 61;

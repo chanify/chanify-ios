@@ -44,7 +44,8 @@ static NSString *const cellIdentifier = @"cell";
     CHTableView *tableView = [CHTableView new];
     [self.view addSubview:(_tableView = tableView)];
     [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
+        make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
+        make.left.right.bottom.equalTo(self.view);
     }];
     [tableView registerClass:self.cellClass forCellReuseIdentifier:cellIdentifier];
     tableView.tableFooterView = [CHLoadMoreView new];

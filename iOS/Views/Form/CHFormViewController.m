@@ -34,7 +34,8 @@ typedef NSDiffableDataSourceSnapshot<CHFormSection *, CHFormItem *> CHFormDiffab
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     [self.view addSubview:(_tableView = tableView)];
     [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
+        make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
+        make.left.right.bottom.equalTo(self.view);
     }];
     [tableView registerClass:CHFormSectionHeaderView.class forHeaderFooterViewReuseIdentifier:headerIdentifier];
     [tableView registerClass:UITableViewCell.class forCellReuseIdentifier:cellIdentifier];
