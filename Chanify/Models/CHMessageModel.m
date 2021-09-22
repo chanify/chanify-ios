@@ -12,6 +12,12 @@
 #import "CHCrpyto.h"
 #import "CHTP.pbobjc.h"
 
+@interface CHMessageModel ()
+
+@property (nonatomic, readonly, assign) NSInteger interruptionLevel;
+
+@end
+
 @implementation CHMessageModel
 
 + (nullable instancetype)modelWithData:(nullable NSData *)data mid:(NSString *)mid {
@@ -98,6 +104,7 @@
         _mid = mid;
         _from = msg.from.base32;
         _channel = msg.channel.length > 0 ? msg.channel : [NSData dataFromHex:@kCHDefChanCode];
+        _interruptionLevel = msg.interruptionLevel;
 
         CHTPSound *sound = msg.sound;
         if (sound != nil && sound.type == CHTPSoundType_NormalSound) {
@@ -238,6 +245,21 @@
     }
     if (self.sound.length > 0) {
         content.sound = [UNNotificationSound defaultSound];
+    }
+    if (@available(iOS 15, watchOS 8.0, *)) {
+        if (content.interruptionLevel == UNNotificationInterruptionLevelActive) {
+            switch (self.interruptionLevel) {
+                default:
+                case CHTPInterruptionLevel_IlActive:
+                    break;
+                case CHTPInterruptionLevel_IlPassive:
+                    content.interruptionLevel = UNNotificationInterruptionLevelPassive;
+                    break;
+                case CHTPInterruptionLevel_IlTimeSensitive:
+                    content.interruptionLevel = UNNotificationInterruptionLevelTimeSensitive;
+                    break;
+            }
+        }
     }
 }
 
