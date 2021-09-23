@@ -44,6 +44,7 @@
 
 #if TARGET_OS_OSX
         _cellBackgroundColor = [CHColor colorNamed:@"CellColor"];
+        _separatorLineColor = CHColor.separatorColor;
         _selectedCellBackgroundColor = [CHColor colorNamed:@"SelectedCellColor"];
         _textFont = [CHFont systemFontOfSize:15 weight:NSFontWeightLight];
         _mediumFont = [CHFont systemFontOfSize:12 weight:NSFontWeightLight];

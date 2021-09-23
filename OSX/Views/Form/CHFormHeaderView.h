@@ -9,9 +9,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class CHFormSection;
+
 @interface CHFormHeaderView : UICollectionReusableView
 
-@property (nonatomic, nullable, strong) NSString *title;
+- (void)setSection:(CHFormSection * _Nullable)section;
 
 
 @end

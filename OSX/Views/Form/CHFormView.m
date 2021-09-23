@@ -40,12 +40,11 @@ static NSString *const headerIdentifier = @"header";
         [listView registerClass:CHFormHeaderView.class forSupplementaryViewOfKind:NSCollectionElementKindSectionHeader withIdentifier:headerIdentifier];
         listView.backgroundColor = theme.groupedBackgroundColor;
         listView.allowsMultipleSelection = NO;
-        listView.selectable = NO;
+        listView.selectable = YES;
         listView.delegate = self;
 
         CHScrollView *scrollView = [CHScrollView new];
         [self addSubview:(_scrollView = scrollView)];
-        scrollView.backgroundColor = theme.groupedBackgroundColor;
         scrollView.automaticallyAdjustsContentInsets = NO;
         scrollView.documentView = listView;
         scrollView.hasVerticalScroller = YES;
@@ -58,7 +57,7 @@ static NSString *const headerIdentifier = @"header";
             CHFormViewCell *cell = [collectionView makeItemWithIdentifier:cellRegistration.itemIdentifier forIndexPath:indexPath];
             if (cell != nil) {
                 cellRegistration.configurationHandler(cell, indexPath, item.contentConfiguration);
-                [item prepareCell:cell];
+                cell.item = item;
             }
             return cell;
             return nil;
@@ -69,7 +68,7 @@ static NSString *const headerIdentifier = @"header";
                 CHFormHeaderView *headerView = [collectionView makeSupplementaryViewOfKind:kind withIdentifier:headerIdentifier forIndexPath:indexPath];
                 if (headerView != nil) {
                     @strongify(self);
-                    headerView.title = [[self.dataSource.snapshot.sectionIdentifiers objectAtIndex:indexPath.section] title];
+                    headerView.section = [self.dataSource.snapshot.sectionIdentifiers objectAtIndex:indexPath.section];
                 }
                 return headerView;
             }

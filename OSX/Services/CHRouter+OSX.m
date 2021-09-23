@@ -7,11 +7,13 @@
 
 #import "CHRouter+OSX.h"
 #import <JLRoutes/JLRoutes.h>
+#import <Masonry/Masonry.h>
 #import "CHMainViewController.h"
 #import "CHLoginViewController.h"
 #import "CHChannelView.h"
 #import "CHNodeView.h"
 #import "CHAboutView.h"
+#import "CHToast.h"
 #import "CHLogic.h"
 
 #define kMenuLogoutTag  10000
@@ -125,6 +127,7 @@
 }
 
 - (void)makeToast:(NSString *)message {
+    [CHToast showMessage:message inView:CHRouter.shared.window.contentView];
 }
 
 #pragma mark - NSWindowDelegate

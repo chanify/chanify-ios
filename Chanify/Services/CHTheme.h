@@ -36,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) CHFont *messageSmallDigitalFont;
 
 #if TARGET_OS_OSX
+@property (nonatomic, readonly, strong) CHColor *separatorLineColor;
 @property (nonatomic, readonly, strong) CHColor *selectedCellBackgroundColor;
 #else
 @property (nonatomic, assign) UIUserInterfaceStyle userInterfaceStyle API_AVAILABLE(ios(13.0));

@@ -18,6 +18,7 @@
 
 @property (nonatomic, readonly, strong) NSArray<CHContentItem *> *items;
 @property (nonatomic, readonly, assign) NSInteger selectIndex;
+@property (nonatomic, readonly, strong) CHView *separatorLine;
 @property (nonatomic, readonly, strong) CHView *tabView;
 
 @end
@@ -26,11 +27,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    self.view.backgroundColor = CHTheme.shared.backgroundColor;
     
+    CHTheme *theme = CHTheme.shared;
+
+    self.view.backgroundColor = theme.backgroundColor;
+
     CHView *tabView = [CHView new];
     [self.view addSubview:(_tabView = tabView)];
+
+    CHView *separatorLine = [CHView new];
+    [self.view addSubview:(_separatorLine = separatorLine)];
+    separatorLine.backgroundColor = theme.separatorLineColor;
 
     NSPressGestureRecognizer *pressGestureRecognizer = [[NSPressGestureRecognizer alloc] initWithTarget:self action:@selector(actionClickTabItem:)];
     pressGestureRecognizer.minimumPressDuration = 0.001;
@@ -147,7 +154,8 @@
     NSRect frame = self.view.bounds;
     self.tabView.frame = NSMakeRect(0, 0, kCHMainTabBarWidth, 60);
     self.sidebarView.frame = NSMakeRect(0, 60, kCHMainTabBarWidth, NSHeight(frame) - 60);
-    self.contentView.frame = NSMakeRect(kCHMainTabBarWidth, 0, NSWidth(frame) - kCHMainTabBarWidth, NSHeight(frame));
+    self.separatorLine.frame = NSMakeRect(kCHMainTabBarWidth, 0, 1, NSHeight(frame));
+    self.contentView.frame = NSMakeRect(kCHMainTabBarWidth + 1, 0, NSWidth(frame) - kCHMainTabBarWidth - 1, NSHeight(frame));
 }
 
 

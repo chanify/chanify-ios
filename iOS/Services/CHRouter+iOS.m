@@ -19,6 +19,7 @@
 #import "CHDevice.h"
 #import "CHLogic.h"
 #import "CHTheme.h"
+#import "CHToast.h"
 
 typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     CHRouterShowModePush    = 0,
@@ -116,6 +117,10 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
         res = [JLRoutes routeURL:[NSURL URLWithString:@"/page/login"]];
     }
     return res;
+}
+
+- (void)showIndicator:(BOOL)show {
+    
 }
 
 - (void)resetDetailViewController {
@@ -225,9 +230,7 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
 }
 
 - (void)makeToast:(NSString *)message {
-    dispatch_main_async(^{
-        showToast(message);
-    });
+    [CHToast showMessage:message inView:CHRouter.shared.window];
 }
 
 #pragma mark - MFMailComposeViewControllerDelegate
@@ -515,63 +518,6 @@ static inline void showIndicator(BOOL show) {
             [alert startAnimating];
         }
     }
-}
-
-#pragma mark - Toast Helper
-static inline void showToast(NSString *message) {
-    static const CGFloat radius = 14.0;
-
-    NSTimeInterval delay = 0;
-
-    static UILabel *lastToast = nil;
-    if (lastToast != nil) {
-        delay += 0.2;
-        closeToast(lastToast, 0);
-        lastToast = nil;
-    }
-    
-    UIView *view = CHRouter.shared.window;
-    UILabel *toast = [UILabel new];
-    [view addSubview:(lastToast = toast)];
-    toast.text = message;
-    toast.alpha = 0;
-    toast.numberOfLines = 1;
-    toast.textAlignment = NSTextAlignmentCenter;
-    toast.font = CHTheme.shared.mediumFont;
-    toast.textColor = UIColor.whiteColor;
-    toast.backgroundColor = [UIColor colorWithWhite:0.3 alpha:0.8];
-    toast.layer.cornerRadius = radius;
-    toast.clipsToBounds = YES;
-
-    CGSize size = [toast sizeThatFits:CGSizeMake(UIScreen.mainScreen.bounds.size.width * 0.8, radius * 2)];
-    size.height = radius * 2;
-    size.width += floor(radius * 2);
-    size.width = fmax(size.width, radius * 4);
-    
-    [toast mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(view.mas_safeAreaLayoutGuideBottom).offset(-60);
-        make.centerX.equalTo(view);
-        make.size.mas_equalTo(size);
-    }];
-
-    openToast(toast, delay);
-    dispatch_main_after(2.0, ^{
-        closeToast(toast, delay);
-    });
-}
-
-static inline void openToast(UILabel *toast, NSTimeInterval delay) {
-    [UIViewPropertyAnimator runningPropertyAnimatorWithDuration:kCHAnimateFastDuration delay:delay options:UIViewAnimationOptionCurveEaseIn animations:^{
-        toast.alpha = 1;
-    } completion:nil];
-}
-
-static inline void closeToast(UILabel *toast, NSTimeInterval delay) {
-    [UIViewPropertyAnimator runningPropertyAnimatorWithDuration:kCHAnimateFastDuration delay:delay options:UIViewAnimationOptionCurveEaseOut animations:^{
-        toast.alpha = 0;
-    } completion:^(UIViewAnimatingPosition finalPosition) {
-        [toast removeFromSuperview];
-    }];
 }
 
 

@@ -7,11 +7,13 @@
 
 #import "CHFormHeaderView.h"
 #import <Masonry/Masonry.h>
+#import "CHForm.h"
 #import "CHTheme.h"
 
 @interface CHFormHeaderView ()
 
 @property (nonatomic, readonly, strong) CHLabel *titleLabel;
+@property (nonatomic, readonly, strong) CHLabel *noteLabel;
 
 @end
 
@@ -29,16 +31,24 @@
             make.left.equalTo(self).offset(CHListContentViewMargin);
             make.bottom.equalTo(self).offset(-4);
         }];
+        
+        CHLabel *noteLabel = [CHLabel new];
+        [self addSubview:(_noteLabel = noteLabel)];
+        noteLabel.textColor = theme.minorLabelColor;
+        noteLabel.alignment = NSTextAlignmentRight;
+        noteLabel.font = [CHFont systemFontOfSize:10 weight:NSFontWeightLight];
+        [noteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self).offset(-CHListContentViewMargin);
+            make.left.equalTo(titleLabel.mas_right).offset(4);
+            make.bottom.equalTo(titleLabel);
+        }];
     }
     return self;
 }
 
-- (void)setTitle:(NSString *)title {
-    self.titleLabel.text = title ?: @"";
-}
-
-- (NSString *)title {
-    return self.titleLabel.text;
+- (void)setSection:(CHFormSection * _Nullable)section {
+    self.titleLabel.text = section.title ?: @"";
+    self.noteLabel.text = section.note ?: @"";
 }
 
 

@@ -9,6 +9,7 @@
 #import "CHUserDataSource.h"
 #import "CHNSDataSource.h"
 #import "CHPasteboard.h"
+#import "CHFeature.h"
 #import "CHNodeModel.h"
 #import "CHCrpyto.h"
 #import "CHRouter.h"
@@ -204,7 +205,7 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
         if ([feature isEqualToString:@"store.device"] && self.status != CHNodeVCStatusNone) {
             @weakify(self);
             CHFormSwitchItem *item = [CHFormSwitchItem itemWithName:feature title:feature.localized];
-            item.icon = [self featureIconWithName:feature];
+            item.icon = [CHFeature featureIconWithName:feature];
             item.value = @(self.model.isStoreDevice);
             item.enbaled = (self.status != CHNodeVCStatusShow);
             item.onChanged = ^(CHFormSwitchItem *item, id oldValue, NSNumber *newValue) {
@@ -218,7 +219,7 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
             [section addFormItem:item];
         } else {
             CHFormValueItem *item = [CHFormValueItem itemWithName:feature title:feature.localized];
-            item.icon = [self featureIconWithName:feature];
+            item.icon = [CHFeature featureIconWithName:feature];
             [section addFormItem:item];
         }
     }
@@ -254,31 +255,6 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
             break;
     }
     self.form = form;
-}
-
-- (UIImage *)featureIconWithName:(NSString *)name {
-    static NSDictionary<NSString *, NSString *> *iconTable;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        iconTable = @{
-            @"msg.text": @"doc.plaintext",
-            @"msg.link": @"link",
-            @"msg.action": @"arrow.left.arrow.right.circle",
-            @"msg.image": @"photo",
-            @"msg.video": @"video",
-            @"msg.audio": @"waveform",
-            @"msg.file": @"doc.richtext",
-            @"msg.timeline": @"waveform.path.ecg",
-            @"store.device": @"externaldrive.badge.person.crop",
-            @"platform.watchos": @"applewatch",
-            @"register.limit": @"lock.shield",
-        };
-    });
-    NSString *image = [iconTable objectForKey:name];
-    if (image.length > 0) {
-        return [UIImage systemImageNamed:image];
-    }
-    return nil;
 }
 
 

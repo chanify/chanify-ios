@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)handleReopen:(id)sender;
 - (void)setBadgeText:(NSString *)badgeText;
 - (void)presentViewController:(CHViewController *)viewController animated:(BOOL)animated;
+- (void)showIndicator:(BOOL)show;
 
 @end
 

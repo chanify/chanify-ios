@@ -6,12 +6,13 @@
 //
 
 #import "CHListContentView.h"
-#import "CHListContentConfiguration.h"
 #import <Masonry/Masonry.h>
+#import "CHListContentConfiguration.h"
 #import "CHTheme.h"
 
 @interface CHListContentView ()
 
+@property (nonatomic, readonly, strong) CHImageView *iconView;
 @property (nonatomic, readonly, strong) CHLabel *textLabel;
 @property (nonatomic, readonly, strong) CHLabel *secondaryTexLabel;
 
@@ -22,15 +23,23 @@
 - (instancetype)initWithConfiguration:(CHListContentConfiguration *)configuration {
     if (self = [super init]) {
         CHTheme *theme = CHTheme.shared;
-        self.backgroundColor = theme.cellBackgroundColor;
-    
+        
+        CHImageView *iconView = [CHImageView new];
+        [self addSubview:(_iconView = iconView)];
+        [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self).offset(CHListContentViewMargin);
+            make.centerY.equalTo(self);
+            make.size.mas_equalTo(NSMakeSize(26, 26));
+        }];
+        iconView.tintColor = theme.tintColor;
+        
         CHLabel *textLabel = [CHLabel new];
         [self addSubview:(_textLabel = textLabel)];
         [textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(CHListContentViewMargin);
             make.centerY.equalTo(self);
         }];
-        
+
         CHLabel *secondaryTexLabel = [CHLabel new];
         [self addSubview:(_secondaryTexLabel = secondaryTexLabel)];
         [secondaryTexLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -50,6 +59,14 @@
         if ([configuration isKindOfClass:CHListContentConfiguration.class]) {
             CHListContentConfiguration *listConfiguration = (CHListContentConfiguration *)configuration;
             
+            CHImage *image = listConfiguration.image;
+            self.iconView.image = image;
+            self.iconView.hidden = (image == nil);
+            
+            [self.textLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self).offset(CHListContentViewMargin + (image == nil ? 0 : 36));
+            }];
+
             self.textLabel.text = listConfiguration.text ?: @"";
             self.textLabel.textColor = listConfiguration.textProperties.color;
             self.textLabel.font = listConfiguration.textProperties.font;

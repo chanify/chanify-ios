@@ -123,6 +123,9 @@
                 } else {
                     [CHRouter.shared makeToast:@"Sync device info failed".localized];
                 }
+                dispatch_main_after(kCHLoadingDuration, ^{
+                    [tableView reloadData];
+                });
             }];
             completionHandler(YES);
         }];
