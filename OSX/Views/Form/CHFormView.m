@@ -37,7 +37,6 @@ static NSString *const headerIdentifier = @"header";
         layout.minimumLineSpacing = 1;
         CHCollectionView *listView = [[CHCollectionView alloc] initWithLayout:layout];
         _listView = listView;
-        //[listView registerClass:CHFormViewCell.class forItemWithIdentifier:cellIdentifier];
         [listView registerClass:CHFormHeaderView.class forSupplementaryViewOfKind:NSCollectionElementKindSectionHeader withIdentifier:headerIdentifier];
         listView.backgroundColor = theme.groupedBackgroundColor;
         listView.allowsMultipleSelection = NO;
