@@ -6,7 +6,9 @@
 //
 
 #import "CHFormViewCell.h"
+#import "CHTheme.h"
 
 @implementation CHFormViewCell
+
 
 @end

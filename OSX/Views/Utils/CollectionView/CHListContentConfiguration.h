@@ -16,19 +16,18 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CHContentTextProperties : NSObject
 
 @property (nonatomic, assign) NSTextAlignment alignment;
-@property (nonatomic, nullable, strong) NSColor *color;
-@property (nonatomic, nullable, strong) NSFont *font;
+@property (nonatomic, strong) NSColor *color;
+@property (nonatomic, strong) NSFont *font;
 
 @end
-
 
 @interface CHListContentConfiguration : NSObject<CHContentConfiguration>
 
 @property (nonatomic, nullable, strong) NSImage *image;
 @property (nonatomic, nullable, strong) NSString *text;
 @property (nonatomic, nullable, strong) NSString *secondaryText;
-@property (nonatomic, nullable, strong) CHContentTextProperties *textProperties;
-@property (nonatomic, nullable, strong) CHContentTextProperties *secondaryTextProperties;
+@property (nonatomic, strong) CHContentTextProperties *textProperties;
+@property (nonatomic, strong) CHContentTextProperties *secondaryTextProperties;
 
 + (instancetype)valueCellConfiguration;
 + (instancetype)cellConfiguration;

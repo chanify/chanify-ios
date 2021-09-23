@@ -5,11 +5,11 @@
 //  Created by WizJin on 2021/9/6.
 //
 
-#import "CHPageView.h"
+#import "CHFormView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHNodeView : CHPageView
+@interface CHNodeView : CHFormView
 
 @property (nonatomic, readonly, strong) NSString *nid;
 

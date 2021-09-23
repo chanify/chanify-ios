@@ -22,7 +22,7 @@
     }
 }
 
-- (void)setContentConfiguration:(CHCellConfiguration *)contentConfiguration {
+- (void)setContentConfiguration:(id<CHContentConfiguration>)contentConfiguration {
     if (_contentConfiguration != contentConfiguration) {
         _contentConfiguration = contentConfiguration;
         if (_contentView != nil) {

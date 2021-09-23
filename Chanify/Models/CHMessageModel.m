@@ -14,7 +14,7 @@
 
 @interface CHMessageModel ()
 
-@property (nonatomic, readonly, assign) NSInteger interruptionLevel;
+@property (nonatomic, readonly, assign) NSInteger interruptionLevel API_AVAILABLE(macos(12.0), ios(15.0), watchos(8.0));
 
 @end
 
@@ -247,6 +247,7 @@
         content.sound = [UNNotificationSound defaultSound];
     }
     if (@available(iOS 15, watchOS 8.0, *)) {
+#if !TARGET_OS_OSX
         if (content.interruptionLevel == UNNotificationInterruptionLevelActive) {
             switch (self.interruptionLevel) {
                 default:
@@ -260,6 +261,7 @@
                     break;
             }
         }
+#endif
     }
 }
 
