@@ -51,6 +51,7 @@ typedef NS_OPTIONS(NSUInteger, CHControlEvents) {
 #   import "CHCollectionViewCell.h"
 #   import "CHCollectionViewCellRegistration.h"
 #   import "CHListContentConfiguration.h"
+#   import "CHBarButtonItem.h"
 #   import "CHFormViewCell.h"
 #   import "CHAlertController.h"
 #else
@@ -70,6 +71,7 @@ typedef NS_OPTIONS(NSUInteger, CHControlEvents) {
 #   define CHDatePickerModeDate                         UIDatePickerModeDate
 #   define CHDatePickerStyleCompact                     UIDatePickerStyleCompact
 #   define CHMenuItem                                   UIMenuItem
+#   define CHBarButtonItem                              UIBarButtonItem
 #   define CHBezierPath                                 UIBezierPath
 #   define CHProgressView                               UIProgressView
 #   define CHContentView                                UIContentView

@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)presentViewController:(CHViewController *)viewController animated:(BOOL)animated;
 - (void)showIndicator:(BOOL)show;
 
+
 @end
 
 NS_ASSUME_NONNULL_END

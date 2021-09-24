@@ -119,10 +119,6 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     return res;
 }
 
-- (void)showIndicator:(BOOL)show {
-    
-}
-
 - (void)resetDetailViewController {
     UIViewController *vc = self.window.rootViewController;
     if ([vc isKindOfClass:CHSplitViewController.class]) {

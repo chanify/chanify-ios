@@ -28,10 +28,11 @@
         [self addSubview:(_iconView = iconView)];
         [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(CHListContentViewMargin);
-            make.centerY.equalTo(self);
-            make.size.mas_equalTo(NSMakeSize(26, 26));
+            make.top.bottom.equalTo(self);
+            make.width.mas_equalTo(20);
         }];
         iconView.tintColor = theme.tintColor;
+        iconView.imageScaling = NSImageScaleProportionallyUpOrDown;
         
         CHLabel *textLabel = [CHLabel new];
         [self addSubview:(_textLabel = textLabel)];

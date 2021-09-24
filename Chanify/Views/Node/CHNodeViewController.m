@@ -22,7 +22,7 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
     CHNodeVCStatusUpdate    = 3,
 };
 
-@interface CHNodeViewController () <UITableViewDelegate>
+@interface CHNodeViewController ()
 
 @property (nonatomic, readonly, assign) CHNodeVCStatus status;
 @property (nonatomic, readonly, strong) CHNodeModel *model;
@@ -64,7 +64,7 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     if (self.status == CHNodeVCStatusShow) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"arrow.triangle.2.circlepath.circle"] style:UIBarButtonItemStylePlain target:self action:@selector(actionRefresh:)];
+        self.rightBarButtonItem = [CHBarButtonItem itemWithIcon:@"arrow.triangle.2.circlepath.circle" target:self action:@selector(actionRefresh:)];
     }
 }
 

@@ -59,6 +59,10 @@
 #   import "UIButton+CHExt.h"
 #endif
 
+#if __has_include(<UIKit/UIBarButtonItem.h>)
+#   import "UIBarButtonItem+CHExt.h"
+#endif
+
 #if __has_include(<UIKit/UIView.h>)
 #   import "UIView+CHExt.h"
 #endif

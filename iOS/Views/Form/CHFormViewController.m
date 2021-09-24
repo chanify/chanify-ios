@@ -157,6 +157,10 @@ typedef NSDiffableDataSourceSnapshot<CHFormSection *, CHFormItem *> CHFormDiffab
     [item.editView becomeFirstResponder];
 }
 
+- (void)setRightBarButtonItem:(UIBarButtonItem *)item {
+    self.navigationItem.rightBarButtonItem = item;
+}
+
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

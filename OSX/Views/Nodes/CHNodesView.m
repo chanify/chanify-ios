@@ -36,7 +36,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHNodeModel *> CHNodeDiffableSn
 
         CHTheme *theme = CHTheme.shared;
         self.backgroundColor = theme.groupedBackgroundColor;
-
+        
         NSCollectionViewFlowLayout *layout = [NSCollectionViewFlowLayout new];
         layout.minimumLineSpacing = 1;
         CHCollectionView *listView = [[CHCollectionView alloc] initWithLayout:layout];

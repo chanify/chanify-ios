@@ -10,8 +10,8 @@
 #import <Masonry/Masonry.h>
 #import "CHMainViewController.h"
 #import "CHLoginViewController.h"
+#import "CHNodeViewController.h"
 #import "CHChannelView.h"
-#import "CHNodeView.h"
 #import "CHAboutView.h"
 #import "CHToast.h"
 #import "CHLogic.h"
@@ -126,6 +126,10 @@
     self.statusIcon.button.title = badgeText;
 }
 
+- (void)showIndicator:(BOOL)show {
+    
+}
+
 - (void)makeToast:(NSString *)message {
     [CHToast showMessage:message inView:CHRouter.shared.window.contentView];
 }
@@ -214,7 +218,7 @@
         if ([window.contentViewController isKindOfClass:CHMainViewController.class]) {
             NSString *cid = [parameters valueForKey:@"cid"];
             CHMainViewController *vc = (CHMainViewController *)window.contentViewController;
-            CHView *contentView = vc.topContentView;
+            CHPageView *contentView = vc.topContentView;
             if (!([contentView isKindOfClass:CHChannelView.class] && [cid isEqualTo:[(CHChannelView *)vc.topContentView cid]])) {
                 [vc pushContentView:[[CHChannelView alloc] initWithCID:cid]];
             }
@@ -224,11 +228,10 @@
     [routes addRoute:@"/page/node" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
         NSWindow *window = CHRouter.shared.window;
         if ([window.contentViewController isKindOfClass:CHMainViewController.class]) {
-            NSString *nid = [parameters valueForKey:@"nid"];
             CHMainViewController *vc = (CHMainViewController *)window.contentViewController;
-            CHView *contentView = vc.topContentView;
-            if (!([contentView isKindOfClass:CHNodeView.class] && [nid isEqualTo:[(CHNodeView *)vc.topContentView nid]])) {
-                [vc pushContentView:[[CHNodeView alloc] initWithNID:nid]];
+            CHPageView *contentView = vc.topContentView;
+            if (!([contentView isKindOfClass:CHNodeViewController.class] && [contentView isEqualToViewController:vc.topContentView])) {
+                [vc pushContentView:[[CHNodeViewController alloc] initWithParameters:parameters]];
             }
         }
         return YES;

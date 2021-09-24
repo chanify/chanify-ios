@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIToolbar *)itemAccessoryView:(CHFormInputItem *)item;
 - (void)itemBecomeFirstResponder:(CHFormInputItem *)item;
 
+- (void)setRightBarButtonItem:(UIBarButtonItem *)item;
+
 
 @end
 

@@ -247,6 +247,9 @@
 		6DBA92BE25F609CD00B792FE /* CHColorConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92BD25F609CD00B792FE /* CHColorConfiguration.m */; };
 		6DBA92C525F60B3B00B792FE /* UIColor+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92C425F60B3B00B792FE /* UIColor+CHExt.m */; };
 		6DBA92DF25F8A83700B792FE /* CHSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92DE25F8A83700B792FE /* CHSplitViewController.m */; };
+		6DBDF93326FDC48A001F6F1B /* CHNodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDC86C325E74F0C00C26203 /* CHNodeViewController.m */; };
+		6DBDF93926FDCAD1001F6F1B /* UIBarButtonItem+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBDF93826FDCAD1001F6F1B /* UIBarButtonItem+CHExt.m */; };
+		6DBDF93C26FDCC23001F6F1B /* CHBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBDF93B26FDCC23001F6F1B /* CHBarButtonItem.m */; };
 		6DBF865C261826E3006F108C /* CHLinkMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBF865B261826E3006F108C /* CHLinkMsgCellConfiguration.m */; };
 		6DBF866326183E53006F108C /* CHWebLinkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBF866226183E53006F108C /* CHWebLinkManager.m */; };
 		6DC6C1C425D0DCD100512E36 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C1C325D0DCD100512E36 /* AppDelegate.m */; };
@@ -319,7 +322,6 @@
 		6DC7CF4926E5EDE7002F7869 /* CHSideBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC7CF4826E5EDE7002F7869 /* CHSideBarView.m */; };
 		6DC7CF4D26E5F394002F7869 /* CHNodesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC7CF4C26E5F394002F7869 /* CHNodesView.m */; };
 		6DC7CF5026E609A9002F7869 /* CHNodeCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC7CF4F26E609A9002F7869 /* CHNodeCellView.m */; };
-		6DC7CF5426E61141002F7869 /* CHNodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC7CF5326E61141002F7869 /* CHNodeView.m */; };
 		6DC7CF5726E614A0002F7869 /* CHPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC7CF5626E614A0002F7869 /* CHPageView.m */; };
 		6DCAD2212621D52F00F43F20 /* CHWebFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCAD2202621D52F00F43F20 /* CHWebFileManager.m */; };
 		6DCC882D25FB62D70028B473 /* CHToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC882C25FB62D70028B473 /* CHToken.m */; };
@@ -926,6 +928,11 @@
 		6DBA92C425F60B3B00B792FE /* UIColor+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+CHExt.m"; sourceTree = "<group>"; };
 		6DBA92DD25F8A83700B792FE /* CHSplitViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHSplitViewController.h; sourceTree = "<group>"; };
 		6DBA92DE25F8A83700B792FE /* CHSplitViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHSplitViewController.m; sourceTree = "<group>"; };
+		6DBDF93426FDC576001F6F1B /* CHFormViewPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormViewPage.h; sourceTree = "<group>"; };
+		6DBDF93726FDCAD1001F6F1B /* UIBarButtonItem+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+CHExt.h"; sourceTree = "<group>"; };
+		6DBDF93826FDCAD1001F6F1B /* UIBarButtonItem+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+CHExt.m"; sourceTree = "<group>"; };
+		6DBDF93A26FDCC23001F6F1B /* CHBarButtonItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHBarButtonItem.h; sourceTree = "<group>"; };
+		6DBDF93B26FDCC23001F6F1B /* CHBarButtonItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHBarButtonItem.m; sourceTree = "<group>"; };
 		6DBF865A261826E3006F108C /* CHLinkMsgCellConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHLinkMsgCellConfiguration.h; sourceTree = "<group>"; };
 		6DBF865B261826E3006F108C /* CHLinkMsgCellConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHLinkMsgCellConfiguration.m; sourceTree = "<group>"; };
 		6DBF866126183E53006F108C /* CHWebLinkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebLinkManager.h; sourceTree = "<group>"; };
@@ -1055,8 +1062,6 @@
 		6DC7CF4C26E5F394002F7869 /* CHNodesView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNodesView.m; sourceTree = "<group>"; };
 		6DC7CF4E26E609A9002F7869 /* CHNodeCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNodeCellView.h; sourceTree = "<group>"; };
 		6DC7CF4F26E609A9002F7869 /* CHNodeCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNodeCellView.m; sourceTree = "<group>"; };
-		6DC7CF5226E61141002F7869 /* CHNodeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNodeView.h; sourceTree = "<group>"; };
-		6DC7CF5326E61141002F7869 /* CHNodeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNodeView.m; sourceTree = "<group>"; };
 		6DC7CF5526E614A0002F7869 /* CHPageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHPageView.h; sourceTree = "<group>"; };
 		6DC7CF5626E614A0002F7869 /* CHPageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHPageView.m; sourceTree = "<group>"; };
 		6DCAD21F2621D52F00F43F20 /* CHWebFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebFileManager.h; sourceTree = "<group>"; };
@@ -1327,6 +1332,7 @@
 				6DD6954A25F20BFD0047FF08 /* CHForm.m */,
 				6DD6954E25F20C140047FF08 /* CHFormSection.h */,
 				6DD6954F25F20C140047FF08 /* CHFormSection.m */,
+				6DBDF93426FDC576001F6F1B /* CHFormViewPage.h */,
 			);
 			path = Form;
 			sourceTree = "<group>";
@@ -1676,6 +1682,8 @@
 				6DC7CF5626E614A0002F7869 /* CHPageView.m */,
 				6D098E1B2671F4F300E71538 /* CHScrollView.h */,
 				6D098E1C2671F4F300E71538 /* CHScrollView.m */,
+				6DBDF93A26FDCC23001F6F1B /* CHBarButtonItem.h */,
+				6DBDF93B26FDCC23001F6F1B /* CHBarButtonItem.m */,
 				6D51563826672BE100137071 /* CHCollectionView.h */,
 				6D51563926672BE100137071 /* CHCollectionView.m */,
 				6D8352402665CFF8005CE6D1 /* CHViewController.m */,
@@ -1828,6 +1836,15 @@
 			path = "Split​View​";
 			sourceTree = "<group>";
 		};
+		6DBDF93226FDC45E001F6F1B /* Node */ = {
+			isa = PBXGroup;
+			children = (
+				6DDC86C225E74F0C00C26203 /* CHNodeViewController.h */,
+				6DDC86C325E74F0C00C26203 /* CHNodeViewController.m */,
+			);
+			path = Node;
+			sourceTree = "<group>";
+		};
 		6DC6C1B625D0DCD100512E36 = {
 			isa = PBXGroup;
 			children = (
@@ -1896,7 +1913,6 @@
 				6DC6C37B25D16DE600512E36 /* Channel */,
 				6D1C7DB826802E5400B5822F /* Dashboard */,
 				6D278EA125E4CC4800FC48CD /* Nodes */,
-				6DDC86C125E74EF900C26203 /* Node */,
 				6D120373264F8DF80075F5C1 /* Token */,
 				6DC6C34825D16A6300512E36 /* Settings */,
 				6DC6C27E25D1406E00512E36 /* TabBar */,
@@ -1957,6 +1973,8 @@
 				6D029B82266F23B900BF046A /* UIButton+CHExt.m */,
 				6DC6C37425D16CA000512E36 /* UIView+CHExt.h */,
 				6DC6C37525D16CA000512E36 /* UIView+CHExt.m */,
+				6DBDF93726FDCAD1001F6F1B /* UIBarButtonItem+CHExt.h */,
+				6DBDF93826FDCAD1001F6F1B /* UIBarButtonItem+CHExt.m */,
 				6DC6C28725D1410D00512E36 /* UIViewController+CHExt.h */,
 				6DC6C28825D1410D00512E36 /* UIViewController+CHExt.m */,
 				6DB1C273266F853E007C0C02 /* UIMenuController+CHExt.h */,
@@ -2089,15 +2107,6 @@
 			path = Nodes;
 			sourceTree = "<group>";
 		};
-		6DC7CF5126E61118002F7869 /* Node */ = {
-			isa = PBXGroup;
-			children = (
-				6DC7CF5226E61141002F7869 /* CHNodeView.h */,
-				6DC7CF5326E61141002F7869 /* CHNodeView.m */,
-			);
-			path = Node;
-			sourceTree = "<group>";
-		};
 		6DD969C325F4799B00EEEECF /* Icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -2131,15 +2140,6 @@
 			path = IndicatorView;
 			sourceTree = "<group>";
 		};
-		6DDC86C125E74EF900C26203 /* Node */ = {
-			isa = PBXGroup;
-			children = (
-				6DDC86C225E74F0C00C26203 /* CHNodeViewController.h */,
-				6DDC86C325E74F0C00C26203 /* CHNodeViewController.m */,
-			);
-			path = Node;
-			sourceTree = "<group>";
-		};
 		6DDD6B06263E312B00684EE7 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -2156,6 +2156,7 @@
 			isa = PBXGroup;
 			children = (
 				6D025F74266DE93000C17512 /* Channel */,
+				6DBDF93226FDC45E001F6F1B /* Node */,
 				6D0384D526F5BFDB002C3BE1 /* Form */,
 				6D51562B266624DD00137071 /* Icons */,
 				6D1717682665D2B700A89A33 /* Utils */,
@@ -2318,7 +2319,6 @@
 				6D8352332664D411005CE6D1 /* Channels */,
 				6D5156342666497900137071 /* Channel */,
 				6DC7CF4A26E5F37E002F7869 /* Nodes */,
-				6DC7CF5126E61118002F7869 /* Node */,
 				6D03850026F5DD92002C3BE1 /* Icons */,
 				6D75352726DF1C68009E019E /* About */,
 				6DB929E826DE17010093F927 /* Login */,
@@ -2945,6 +2945,7 @@
 				6D0384F526F5D5CA002C3BE1 /* CHDatePicker.m in Sources */,
 				6D51563A26672BE100137071 /* CHCollectionView.m in Sources */,
 				6DE7C074263D48790092D88D /* CHCrpyto.m in Sources */,
+				6DBDF93326FDC48A001F6F1B /* CHNodeViewController.m in Sources */,
 				6D025F70266DC61800C17512 /* CHMsgsDataSource.m in Sources */,
 				6D51563226662C7A00137071 /* CHLabel.m in Sources */,
 				6DB1C2792670B6A4007C0C02 /* CHLogic.m in Sources */,
@@ -3003,6 +3004,7 @@
 				6DE7C07C263D48C80092D88D /* NSString+CHLocalized.m in Sources */,
 				6DB1C26C266F727B007C0C02 /* CHPreviewController.m in Sources */,
 				6D0384D926F5C11F002C3BE1 /* CHFormValueItem.m in Sources */,
+				6DBDF93C26FDCC23001F6F1B /* CHBarButtonItem.m in Sources */,
 				6D025F73266DE72B00C17512 /* CHMessageCellItem.m in Sources */,
 				6DE7C086263D49340092D88D /* CHDevice.m in Sources */,
 				6D6F3D02263D28EB00A2578B /* main.m in Sources */,
@@ -3021,7 +3023,6 @@
 				6D029B68266F03F400BF046A /* CHLinkMsgCellConfiguration.m in Sources */,
 				6D0384F626F5D7DD002C3BE1 /* CHFormIconItem.m in Sources */,
 				6DC7CF5726E614A0002F7869 /* CHPageView.m in Sources */,
-				6DC7CF5426E61141002F7869 /* CHNodeView.m in Sources */,
 				6D029B76266F179B00BF046A /* NSButton+CHExt.m in Sources */,
 				6DE7C087263D493E0092D88D /* CHManager.m in Sources */,
 				6D029B80266F210F00BF046A /* CHActionGroup.m in Sources */,
@@ -3144,6 +3145,7 @@
 				6DC6C38625D16E4200512E36 /* CHDateCellConfiguration.m in Sources */,
 				6D278E5E25E1EF7A00FC48CD /* CHPrivacyViewController.m in Sources */,
 				6DD325F1265259AF00A5CEC4 /* CHFormDateItem.m in Sources */,
+				6DBDF93926FDCAD1001F6F1B /* UIBarButtonItem+CHExt.m in Sources */,
 				6D257B7B26FD8DF40040739D /* CHToast.m in Sources */,
 				6DC6C39F25D16FE600512E36 /* CHMessagesDataSource.m in Sources */,
 				6D13B60926E8668700E7A5C4 /* CHLinkTableViewCell.m in Sources */,
