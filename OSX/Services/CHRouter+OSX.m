@@ -236,6 +236,9 @@
         }
         return YES;
     }];
+    [routes addRoute:@"/page/node/add" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
+        return YES;
+    }];
     // unmatched router
     routes.unmatchedURLHandler = ^(JLRoutes *routes, NSURL *url, NSDictionary<NSString *, id> *parameters) {
         if (url != nil) {

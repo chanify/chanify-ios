@@ -15,12 +15,14 @@
 }
 
 - (instancetype)initWithIcon:(NSString *)icon target:(id)target action:(SEL)action {
-    if (self = [super initWithFrame:NSZeroRect]) {
+    if (self = [super initWithFrame:NSMakeRect(0, 0, 32, 32)]) {
         self.image = [CHImage systemImageNamed:icon];
         self.imageScaling = NSImageScaleProportionallyUpOrDown;
         self.contentTintColor = CHTheme.shared.labelColor;
-        self.bezelStyle = NSBezelStyleInline;
-        self.bordered = NO;
+        self.bezelStyle = NSBezelStyleTexturedSquare;
+        self.showsBorderOnlyWhileMouseInside = YES;
+        self.target = target;
+        self.action = action;
     }
     return self;
 }

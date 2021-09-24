@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CHSideBarView : CHView
 
+@property (nonatomic, nullable, strong) CHBarButtonItem *rightBarButtonItem;
+
 - (void)reloadData;
 
 

@@ -37,6 +37,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
         
         CHTheme *theme = CHTheme.shared;
         self.backgroundColor = theme.groupedBackgroundColor;
+        self.rightBarButtonItem = [CHBarButtonItem itemWithIcon:@"plus" target:self action:@selector(actionAddChannel:)];
 
         NSCollectionViewFlowLayout *layout = [NSCollectionViewFlowLayout new];
         layout.minimumLineSpacing = 1;
@@ -76,8 +77,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
 
 - (void)layout {
     [super layout];
-    NSRect frame = self.bounds;
-    self.scrollView.frame = NSMakeRect(0, 0, NSWidth(frame), NSHeight(frame) - 58);
+    self.scrollView.frame = self.bounds;
 }
 
 - (void)reloadData {
@@ -142,6 +142,11 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
     [snapshot reloadItemsWithIdentifiers:reloadItems.allObjects];
     [self.dataSource applySnapshot:snapshot animatingDifferences:NO];
     [self fixSelectChannel];
+}
+
+#pragma mark - Action Methods
+- (void)actionAddChannel:(id)sender {
+    
 }
 
 #pragma mark - Private Methods

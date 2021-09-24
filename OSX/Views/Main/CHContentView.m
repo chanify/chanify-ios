@@ -11,7 +11,7 @@
 @interface CHContentView ()
 
 @property (nonatomic, readonly, strong) CHLabel *titleLabel;
-@property (nonatomic, nullable, weak) CHButton *rightButton;
+@property (nonatomic, nullable, weak) CHBarButtonItem *rightBarButtonItem;
 @property (nonatomic, readonly, strong) CHView *separatorLine;
 @property (nonatomic, nullable, weak) CHPageView *appearView;
 
@@ -22,10 +22,10 @@
 - (instancetype)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
         CHTheme *theme = CHTheme.shared;
-        
-        _rightButton = nil;
+
         _contentView = nil;
         _appearView = nil;
+        _rightBarButtonItem = nil;
         self.backgroundColor = theme.backgroundColor;
         
         CHLabel *titleLabel = [CHLabel new];
@@ -45,7 +45,11 @@
     self.titleLabel.frame = NSMakeRect(16, NSHeight(frame) - 58, NSWidth(frame), 58);
     self.separatorLine.frame = NSMakeRect(0, NSHeight(frame) - 59, NSWidth(frame), 1);
     self.contentView.frame = NSMakeRect(0, 0, NSWidth(frame), NSHeight(frame) - 59);
-    self.rightButton.frame = NSMakeRect(NSWidth(frame) - 42, NSHeight(frame) - 42, 26, 26);
+    CHBarButtonItem *barButtonItem = self.rightBarButtonItem;
+    if (barButtonItem != nil) {
+        NSSize size = barButtonItem.bounds.size;
+        barButtonItem.frame = NSMakeRect(NSWidth(frame) - (58 + size.width) / 2, NSHeight(frame) - (58 + size.height) / 2, size.width, size.height);
+    }
 }
 
 - (void)setContentView:(CHPageView *)contentView {
@@ -54,13 +58,13 @@
         [_contentView removeFromSuperview];
         [self addSubview:(_contentView = contentView)];
         if (self.contentView != nil) {
-            if (self.rightButton != self.contentView.rightBarButtonItem) {
-                if (self.rightButton != nil) {
-                    [self.rightButton removeFromSuperview];
+            if (self.rightBarButtonItem != self.contentView.rightBarButtonItem) {
+                if (self.rightBarButtonItem != nil) {
+                    [self.rightBarButtonItem removeFromSuperview];
                 }
-                _rightButton = self.contentView.rightBarButtonItem;
-                if (self.rightButton != nil) {
-                    [self addSubview:self.rightButton];
+                _rightBarButtonItem = self.contentView.rightBarButtonItem;
+                if (self.rightBarButtonItem != nil) {
+                    [self addSubview:self.rightBarButtonItem];
                 }
             }
         }

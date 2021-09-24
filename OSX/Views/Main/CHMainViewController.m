@@ -20,6 +20,7 @@
 @property (nonatomic, readonly, assign) NSInteger selectIndex;
 @property (nonatomic, readonly, strong) CHView *separatorLine;
 @property (nonatomic, readonly, strong) CHView *tabView;
+@property (nonatomic, nullable, weak) CHBarButtonItem *rightBarButtonItem;
 
 @end
 
@@ -29,6 +30,8 @@
     [super viewDidLoad];
     
     CHTheme *theme = CHTheme.shared;
+    
+    _rightBarButtonItem = nil;
 
     self.view.backgroundColor = theme.backgroundColor;
 
@@ -141,6 +144,18 @@
 
         _selectIndex = selectIndex;
         
+        CHBarButtonItem *rightBarButtonItem = self.sidebarView.rightBarButtonItem;
+        if (self.rightBarButtonItem != rightBarButtonItem) {
+            if (self.rightBarButtonItem != nil) {
+                [self.rightBarButtonItem removeFromSuperview];
+                _rightBarButtonItem = nil;
+            }
+            _rightBarButtonItem = rightBarButtonItem;
+            if (self.rightBarButtonItem != nil) {
+                [self.view addSubview:self.rightBarButtonItem];
+            }
+        }
+        
         [self.selectedItem setSelected:YES];
         [self.sidebarView setHidden:NO];
         [self.contentView setHidden:NO];
@@ -153,9 +168,14 @@
 - (void)updateLayout {
     NSRect frame = self.view.bounds;
     self.tabView.frame = NSMakeRect(0, 0, kCHMainTabBarWidth, 60);
-    self.sidebarView.frame = NSMakeRect(0, 60, kCHMainTabBarWidth, NSHeight(frame) - 60);
+    self.sidebarView.frame = NSMakeRect(0, 60, kCHMainTabBarWidth, NSHeight(frame) - 60 - 58);
     self.separatorLine.frame = NSMakeRect(kCHMainTabBarWidth, 0, 1, NSHeight(frame));
     self.contentView.frame = NSMakeRect(kCHMainTabBarWidth + 1, 0, NSWidth(frame) - kCHMainTabBarWidth - 1, NSHeight(frame));
+    CHBarButtonItem *barButtonItem = self.rightBarButtonItem;
+    if (barButtonItem != nil) {
+        NSSize size = barButtonItem.bounds.size;
+        barButtonItem.frame = NSMakeRect(kCHMainTabBarWidth - (48 + size.width) / 2, NSHeight(frame) - (64 + size.height) / 2, size.width, size.height);
+    }
 }
 
 

@@ -8,19 +8,16 @@
 #import "CHPageView.h"
 #import "CHTheme.h"
 
+@interface CHPageView ()
+
+@property (nonatomic, readonly, assign) BOOL isLoad;
+
+@end
+
 @implementation CHPageView
 
 - (instancetype)initWithParameters:(NSDictionary *)params {
-    return [self init];
-}
-
-- (instancetype)init {
     if (self = [super init]) {
-        @weakify(self);
-        dispatch_main_async(^{
-            @strongify(self);
-            [self viewDidLoad];
-        });
     }
     return self;
 }
@@ -31,6 +28,14 @@
 
 - (NSString *)title {
     return @"";
+}
+
+- (void)viewWillMoveToSuperview:(NSView *)newSuperview {
+    if (!self.isLoad) {
+        _isLoad = YES;
+        [self viewDidLoad];
+    }
+    [super viewWillMoveToSuperview:newSuperview];
 }
 
 - (void)viewDidLoad {

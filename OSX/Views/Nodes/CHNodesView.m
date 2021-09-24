@@ -36,6 +36,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHNodeModel *> CHNodeDiffableSn
 
         CHTheme *theme = CHTheme.shared;
         self.backgroundColor = theme.groupedBackgroundColor;
+        self.rightBarButtonItem = [CHBarButtonItem itemWithIcon:@"plus.circle" target:self action:@selector(actionAddNode:)];
         
         NSCollectionViewFlowLayout *layout = [NSCollectionViewFlowLayout new];
         layout.minimumLineSpacing = 1;
@@ -75,8 +76,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHNodeModel *> CHNodeDiffableSn
 
 - (void)layout {
     [super layout];
-    NSRect frame = self.bounds;
-    self.scrollView.frame = NSMakeRect(0, 0, NSWidth(frame), NSHeight(frame) - 58);
+    self.scrollView.frame = self.bounds;
 }
 
 - (void)reloadData {
@@ -113,6 +113,11 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHNodeModel *> CHNodeDiffableSn
 
 - (void)logicNodesUpdated:(NSArray<NSString *> *)nids {
     [self reloadData];
+}
+
+#pragma mark - Action Methods
+- (void)actionAddNode:(id)sender {
+    [CHRouter.shared routeTo:@"/page/node/add" withParams:@{ @"show": @"detail" }];
 }
 
 #pragma mark - Private Methods
