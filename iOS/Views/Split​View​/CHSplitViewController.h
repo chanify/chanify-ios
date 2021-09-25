@@ -14,7 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly, nullable, weak) UINavigationController *detailViewController;
 
-- (BOOL)showDetailViewController:(nullable UIViewController *)vc;
+- (void)resetDetailViewController;
+- (void)shouldChangeDetailViewControllerTo:(UIViewController *)vc;
+- (BOOL)showDetailViewController:(nullable UIViewController *)vc params:(nullable NSDictionary *)params;
 
 
 @end

@@ -45,8 +45,8 @@
     [self.webView removeObserver:self forKeyPath:@"canGoBack"];
 }
 
-- (BOOL)isEqualToViewController:(CHWebViewController *)rhs {
-    return [self.url isEqual:rhs.url];
+- (BOOL)isEqualWithParameters:(NSDictionary *)params {
+    return [self.url isEqual:[params valueForKey:@"url"]];
 }
 
 - (void)viewDidLoad {

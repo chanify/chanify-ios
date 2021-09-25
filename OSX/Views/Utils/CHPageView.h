@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable, strong) CHBarButtonItem *rightBarButtonItem;
 
 - (instancetype)initWithParameters:(NSDictionary *)params;
-- (BOOL)isEqualToViewController:(__kindof CHPageView *)rhs;
+- (BOOL)isEqualWithParameters:(NSDictionary *)params;
 - (NSString *)title;
 - (void)viewDidLoad;
 - (void)viewDidAppear;

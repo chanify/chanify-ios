@@ -146,7 +146,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
 
 #pragma mark - Action Methods
 - (void)actionAddChannel:(id)sender {
-    
+    [CHRouter.shared routeTo:@"page/scan" withParams:@{ @"show": @"popover" }];
 }
 
 #pragma mark - Private Methods

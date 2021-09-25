@@ -11,6 +11,8 @@
 #import "CHMainViewController.h"
 #import "CHLoginViewController.h"
 #import "CHNodeViewController.h"
+#import "CHLinkPickerPage.h"
+#import "CHPopoverWindow.h"
 #import "CHChannelView.h"
 #import "CHAboutView.h"
 #import "CHToast.h"
@@ -211,32 +213,19 @@
             window.contentViewController = [CHLoginViewController new];
             showWindowWithSize(window, NSMakeSize(300, 400));
         }
+        showPushDetailPage(CHChannelView.class, parameters);
         return YES;
     }];
     [routes addRoute:@"/page/channel" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
-        NSWindow *window = CHRouter.shared.window;
-        if ([window.contentViewController isKindOfClass:CHMainViewController.class]) {
-            NSString *cid = [parameters valueForKey:@"cid"];
-            CHMainViewController *vc = (CHMainViewController *)window.contentViewController;
-            CHPageView *contentView = vc.topContentView;
-            if (!([contentView isKindOfClass:CHChannelView.class] && [cid isEqualTo:[(CHChannelView *)vc.topContentView cid]])) {
-                [vc pushContentView:[[CHChannelView alloc] initWithCID:cid]];
-            }
-        }
-        return YES;
+        return showPushDetailPage(CHChannelView.class, parameters);
     }];
     [routes addRoute:@"/page/node" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
-        NSWindow *window = CHRouter.shared.window;
-        if ([window.contentViewController isKindOfClass:CHMainViewController.class]) {
-            CHMainViewController *vc = (CHMainViewController *)window.contentViewController;
-            CHPageView *contentView = vc.topContentView;
-            if (!([contentView isKindOfClass:CHNodeViewController.class] && [contentView isEqualToViewController:vc.topContentView])) {
-                [vc pushContentView:[[CHNodeViewController alloc] initWithParameters:parameters]];
-            }
-        }
-        return YES;
+        return showPushDetailPage(CHNodeViewController.class, parameters);
     }];
-    [routes addRoute:@"/page/node/add" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
+    [routes addRoute:@"/page/scan" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
+        dispatch_main_async(^{
+            showPopoverPage(CHLinkPickerPage.class, parameters);
+        });
         return YES;
     }];
     // unmatched router
@@ -276,6 +265,36 @@ static inline NSMenuItem *CreateMenuItem(NSString *title, id target, SEL action,
     NSMenuItem *menu = [[NSMenuItem alloc] initWithTitle:title.localized action:action keyEquivalent:key];
     [menu setTarget:target];
     return menu;
+}
+
+static inline CHPageView *loadPage(Class clz, NSDictionary<NSString *, id> *parameters) {
+    id page = [clz alloc];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    SEL selector = NSSelectorFromString(@"initWithParameters:");
+    if ([page respondsToSelector:selector]) {
+        page = [page performSelector:selector withObject:parameters];
+    } else {
+        page = [page init];
+    }
+#pragma clang diagnostic pop
+    return page;
+}
+
+static inline BOOL showPushDetailPage(Class clz, NSDictionary<NSString *, id> *parameters) {
+    NSWindow *window = CHRouter.shared.window;
+    if ([window.contentViewController isKindOfClass:CHMainViewController.class]) {
+        CHMainViewController *vc = (CHMainViewController *)window.contentViewController;
+        CHPageView *contentView = vc.topContentView;
+        if (![contentView isKindOfClass:clz] || ![contentView isEqualWithParameters:parameters]) {
+            [vc pushContentView:loadPage(clz, parameters)];
+        }
+    }
+    return YES;
+}
+
+static inline void showPopoverPage(Class clz, NSDictionary<NSString *, id> *parameters) {
+    [[CHPopoverWindow windowWithPage:loadPage(clz, parameters)] run];
 }
 
 static inline void showWindowWithSize(NSWindow *window, NSSize size) {

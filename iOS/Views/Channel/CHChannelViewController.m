@@ -124,8 +124,8 @@
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
-- (BOOL)isEqualToViewController:(CHChannelViewController *)rhs {
-    return [self.model isEqual:rhs.model];
+- (BOOL)isEqualWithParameters:(NSDictionary *)params {
+    return [self.model.cid isEqual:[params valueForKey:@"cid"]];
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {

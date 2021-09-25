@@ -6,6 +6,7 @@
 //
 
 #import "CHPageView.h"
+#import "CHPopoverWindow.h"
 #import "CHTheme.h"
 
 @interface CHPageView ()
@@ -22,7 +23,7 @@
     return self;
 }
 
-- (BOOL)isEqualToViewController:(__kindof CHPageView *)rhs {
+- (BOOL)isEqualWithParameters:(NSDictionary *)params {
     return NO;
 }
 
@@ -48,6 +49,9 @@
 }
 
 - (void)closeAnimated:(BOOL)animated completion: (void (^ __nullable)(void))completion {
+    if ([self.window isKindOfClass:CHPopoverWindow.class]) {
+        [self.window close];
+    }
 }
 
 

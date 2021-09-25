@@ -15,9 +15,8 @@
     }
 }
 
-- (BOOL)isEqualToViewController:(__kindof CHViewController *)rhs {
-    // TODO: fix this
-    return YES;
+- (BOOL)isEqualWithParameters:(NSDictionary *)params {
+    return NO;
 }
 
 

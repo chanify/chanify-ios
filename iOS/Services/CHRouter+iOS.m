@@ -119,17 +119,17 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     return res;
 }
 
-- (void)resetDetailViewController {
-    UIViewController *vc = self.window.rootViewController;
-    if ([vc isKindOfClass:CHSplitViewController.class]) {
-        [(CHSplitViewController *)vc showDetailViewController:nil];
+- (void)shouldChangeDetailViewControllerTo:(UIViewController *)vc {
+    UIViewController *rootVC = self.window.rootViewController;
+    if ([rootVC isKindOfClass:CHSplitViewController.class]) {
+        [(CHSplitViewController *)rootVC shouldChangeDetailViewControllerTo:vc];
     }
 }
 
 - (void)popToRootViewControllerAnimated:(BOOL)animated {
     UIViewController *vc = self.window.rootViewController.topViewController;
     if ([vc isKindOfClass:CHSplitViewController.class]) {
-        [(CHSplitViewController *)vc showDetailViewController:nil];
+        [(CHSplitViewController *)vc resetDetailViewController];
         return;
     }
     if ([vc isKindOfClass:UITabBarController.class]) {
@@ -143,7 +143,7 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
 }
 
 - (void)presentViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    showViewController(viewController, animated, CHRouterShowModePush);
+    showViewController(viewController, animated, CHRouterShowModePush, nil);
 }
 
 - (void)presentSystemViewController:(UIViewController *)viewController animated:(BOOL)animated {
@@ -159,7 +159,7 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
         if ([rootVC isKindOfClass:CHSplitViewController.class]) {
             CHSplitViewController *splitVC = (CHSplitViewController *)rootVC;
             if (splitVC.detailViewController == vc.navigationController || splitVC.detailViewController == vc) {
-                [splitVC showDetailViewController:nil];
+                [splitVC resetDetailViewController];
                 if (completion != nil) {
                     dispatch_main_async(completion);
                 }
@@ -278,7 +278,7 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
                         vc = [vc init];
                     }
 #pragma clang diagnostic pop
-                    res = showViewController(vc, YES, parseShowMode([parameters valueForKey:@"show"]));
+                    res = showViewController(vc, YES, parseShowMode([parameters valueForKey:@"show"]), parameters);
                 }
             }
         }
@@ -308,7 +308,7 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
                 mailVC.title = @"Feedback".localized;
                 [mailVC setToRecipients:@[email]];
                 [mailVC setSubject:[NSString stringWithFormat:@"[%@] %@", CHDevice.shared.app, mailVC.title]];
-                res = showViewController(mailVC, YES, CHRouterShowModePresent);
+                res = showViewController(mailVC, YES, CHRouterShowModePresent, nil);
             }
         }
         return res;
@@ -331,7 +331,7 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     routes.unmatchedURLHandler = ^(JLRoutes *routes, NSURL *url, NSDictionary<NSString *, id> *parameters) {
         NSString *scheme = url.scheme;
         if ([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"]) {
-            if (showViewController([[CHWebViewController alloc] initWithUrl:url parameters:parameters], YES, parseShowMode([parameters valueForKey:@"show"]))) {
+            if (showViewController([[CHWebViewController alloc] initWithUrl:url parameters:parameters], YES, parseShowMode([parameters valueForKey:@"show"]), @{ @"url": url })) {
                 return;
             }
         }
@@ -382,15 +382,15 @@ static inline UIViewController *setRootViewController(UIWindow *window, Class cl
     return rootVC;
 }
 
-static inline BOOL showViewController(UIViewController *vc, BOOL animated, CHRouterShowMode showMode) {
-    return showViewControllerToVC(vc, CHRouter.shared.window.rootViewController, animated, showMode);
+static inline BOOL showViewController(UIViewController *vc, BOOL animated, CHRouterShowMode showMode, NSDictionary *params) {
+    return showViewControllerToVC(vc, CHRouter.shared.window.rootViewController, animated, showMode, params);
 }
 
-static inline BOOL showViewControllerToVC(UIViewController *vc, UIViewController *rootViewController, BOOL animated, CHRouterShowMode showMode) {
+static inline BOOL showViewControllerToVC(UIViewController *vc, UIViewController *rootViewController, BOOL animated, CHRouterShowMode showMode, NSDictionary *params) {
     UIViewController *topViewController = rootViewController.topViewController;
     if (showMode == CHRouterShowModeDetail) {
         if ([rootViewController isKindOfClass:CHSplitViewController.class]) {
-            if ([(CHSplitViewController *)rootViewController showDetailViewController:vc]) {
+            if ([(CHSplitViewController *)rootViewController showDetailViewController:vc params:params]) {
                 return YES;
             }
         }
@@ -407,7 +407,7 @@ static inline BOOL showViewControllerToVC(UIViewController *vc, UIViewController
             if (splitVC.detailViewController != nil) {
                 navigationController = splitVC.detailViewController;
             } else {
-                [splitVC showDetailViewController:vc];
+                [splitVC showDetailViewController:vc params:params];
                 return YES;
             }
         }

@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)canSendMail;
 - (BOOL)launchWithOptions:(NSDictionary *)options;
 - (BOOL)handleShortcut:(NSString *)type;
-- (void)resetDetailViewController;
+- (void)shouldChangeDetailViewControllerTo:(UIViewController *)vc;
 - (void)popToRootViewControllerAnimated:(BOOL)animated;
 - (void)presentViewController:(UIViewController *)viewController animated:(BOOL)animated;
 - (void)presentSystemViewController:(UIViewController *)viewController animated:(BOOL)animated;

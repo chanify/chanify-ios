@@ -68,8 +68,12 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
     }
 }
 
-- (BOOL)isEqualToViewController:(CHNodeViewController *)rhs {
-    return [self.model isEqual:rhs.model];
+- (BOOL)isEqualWithParameters:(NSDictionary *)params {
+    NSString *endpoint = [params valueForKey:@"endpoint"];
+    if (endpoint.length > 0) {
+        return [self.model.endpoint isEqualToString:endpoint];
+    }
+    return [self.model.nid isEqualToString:[params valueForKey:@"nid"]];
 }
 
 #pragma mark - Action Methods

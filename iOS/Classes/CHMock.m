@@ -58,7 +58,7 @@ NSDictionary *try_mock_notification(NSDictionary* info) {
     CHNSDataSource *nsDS = CHLogic.shared.nsDataSource;
     NSData *key = [nsDS keyForUID:uid];
     NSData *data = [CHCrpyto aesSealWithKey:[key subdataWithRange:NSMakeRange(0, kCHAesGcmKeyBytes)] data:payload nonce:nonce auth:[key subdataWithRange:NSMakeRange(kCHAesGcmKeyBytes, key.length - kCHAesGcmKeyBytes)]];
-    [nsDS pushMessage:data mid:[NSString stringWithFormat:@"%016llX", mid] uid:uid blocked:nil];
+    [nsDS pushMessage:data mid:[NSString stringWithFormat:@"%016llX", mid] uid:uid flags:nil];
     return @{
         @"uid": uid,
         @"msg": data.base64,

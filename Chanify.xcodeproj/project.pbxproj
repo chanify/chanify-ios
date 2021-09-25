@@ -173,6 +173,8 @@
 		6D8F37CF26D20832001A8884 /* CHTimelineModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F37CB26D20832001A8884 /* CHTimelineModel.m */; };
 		6D8F37D026D20845001A8884 /* CHTimelineModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F37CB26D20832001A8884 /* CHTimelineModel.m */; };
 		6D8F37D126D20CA2001A8884 /* CHTimelineModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F37CB26D20832001A8884 /* CHTimelineModel.m */; };
+		6D8F427227003D340073D06B /* CHLinkPickerPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F427127003D340073D06B /* CHLinkPickerPage.m */; };
+		6D8F427627003F280073D06B /* CHPopoverWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F427527003F280073D06B /* CHPopoverWindow.m */; };
 		6D8F9EAC25EF45E800A8912C /* CHFormItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F9EAB25EF45E800A8912C /* CHFormItem.m */; };
 		6D909112265CAA8E0064A580 /* CHImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D909111265CAA8E0064A580 /* CHImageTableViewCell.m */; };
 		6D909115265CDCFE0064A580 /* CHLoadMoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D909114265CDCFE0064A580 /* CHLoadMoreView.m */; };
@@ -857,6 +859,10 @@
 		6D8F37C326CFB43D001A8884 /* CHTimelineDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHTimelineDataSource.m; sourceTree = "<group>"; };
 		6D8F37CA26D20832001A8884 /* CHTimelineModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHTimelineModel.h; sourceTree = "<group>"; };
 		6D8F37CB26D20832001A8884 /* CHTimelineModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHTimelineModel.m; sourceTree = "<group>"; };
+		6D8F427027003D340073D06B /* CHLinkPickerPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHLinkPickerPage.h; sourceTree = "<group>"; };
+		6D8F427127003D340073D06B /* CHLinkPickerPage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHLinkPickerPage.m; sourceTree = "<group>"; };
+		6D8F427427003F280073D06B /* CHPopoverWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHPopoverWindow.h; sourceTree = "<group>"; };
+		6D8F427527003F280073D06B /* CHPopoverWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHPopoverWindow.m; sourceTree = "<group>"; };
 		6D8F9EAA25EF45E800A8912C /* CHFormItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormItem.h; sourceTree = "<group>"; };
 		6D8F9EAB25EF45E800A8912C /* CHFormItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFormItem.m; sourceTree = "<group>"; };
 		6D909110265CAA8E0064A580 /* CHImageTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHImageTableViewCell.h; sourceTree = "<group>"; };
@@ -1669,6 +1675,8 @@
 		6D83523E2665CFE9005CE6D1 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				6D8F427327003D420073D06B /* Picker */,
+				6D8F4277270044E70073D06B /* Popover */,
 				6D1B1F7C26FC762800041FAC /* CollectionView */,
 				6D51563026662C7A00137071 /* CHLabel.h */,
 				6D51563126662C7A00137071 /* CHLabel.m */,
@@ -1723,6 +1731,24 @@
 				6D897D5C262D77140048D9A6 /* Info.plist */,
 			);
 			path = WatchNotificationService;
+			sourceTree = "<group>";
+		};
+		6D8F427327003D420073D06B /* Picker */ = {
+			isa = PBXGroup;
+			children = (
+				6D8F427027003D340073D06B /* CHLinkPickerPage.h */,
+				6D8F427127003D340073D06B /* CHLinkPickerPage.m */,
+			);
+			path = Picker;
+			sourceTree = "<group>";
+		};
+		6D8F4277270044E70073D06B /* Popover */ = {
+			isa = PBXGroup;
+			children = (
+				6D8F427427003F280073D06B /* CHPopoverWindow.h */,
+				6D8F427527003F280073D06B /* CHPopoverWindow.m */,
+			);
+			path = Popover;
 			sourceTree = "<group>";
 		};
 		6D8F9EA025EF435000A8912C /* Form */ = {
@@ -2950,6 +2976,7 @@
 				6D51563226662C7A00137071 /* CHLabel.m in Sources */,
 				6DB1C2792670B6A4007C0C02 /* CHLogic.m in Sources */,
 				6DB1C272266F804B007C0C02 /* NSMenuItem+CHExt.m in Sources */,
+				6D8F427227003D340073D06B /* CHLinkPickerPage.m in Sources */,
 				6D1B1F7B26FC6E0900041FAC /* CHFormHeaderView.m in Sources */,
 				6DC7CF4026E5B447002F7869 /* CHContentItem.m in Sources */,
 				6D0384D726F5BFFB002C3BE1 /* CHFormSection.m in Sources */,
@@ -2967,6 +2994,7 @@
 				6DB1C262266F46C0007C0C02 /* NSFont+CHExt.m in Sources */,
 				6D029B6D266F078000BF046A /* CHImageMsgCellConfiguration.m in Sources */,
 				6D0384E826F5CBC9002C3BE1 /* CHFormSwitchItem.m in Sources */,
+				6D8F427627003F280073D06B /* CHPopoverWindow.m in Sources */,
 				6DE7C06F263D483B0092D88D /* CHUserModel.m in Sources */,
 				6D0384D426F5BAD3002C3BE1 /* CHFormView.m in Sources */,
 				6DB929EB26DE18A00093F927 /* CHLoginView.m in Sources */,

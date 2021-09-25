@@ -27,8 +27,9 @@
 }
 
 #pragma mark - UITabBarControllerDelegate
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-    [CHRouter.shared resetDetailViewController];
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
+    [CHRouter.shared shouldChangeDetailViewControllerTo:viewController];
+    return YES;
 }
 
 #pragma mark - CHMainViewController

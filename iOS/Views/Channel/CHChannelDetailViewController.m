@@ -58,8 +58,8 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"checkmark.shield"] style:UIBarButtonItemStylePlain target:self action:@selector(actionCreateToken:)];
 }
 
-- (BOOL)isEqualToViewController:(CHChannelDetailViewController *)rhs {
-    return [self.model isEqual:rhs.model];
+- (BOOL)isEqualWithParameters:(NSDictionary *)params {
+    return [self.model.cid isEqual:[params valueForKey:@"cid"]];
 }
 
 #pragma mark - Action Methods

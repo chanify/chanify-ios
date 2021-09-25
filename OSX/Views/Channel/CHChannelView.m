@@ -28,10 +28,9 @@
 
 @implementation CHChannelView
 
-- (instancetype)initWithCID:(NSString *)cid {
+- (instancetype)initWithParameters:(NSDictionary *)params {
     if (self = [super initWithFrame:NSZeroRect]) {
-        _cid = cid;
-        _model = [CHLogic.shared.userDataSource channelWithCID:cid];
+        _model = [CHLogic.shared.userDataSource channelWithCID:[params valueForKey:@"cid"]];
 
         CHTheme *theme = CHTheme.shared;
         
@@ -57,7 +56,7 @@
         scrollView.hasHorizontalScroller = NO;
         scrollView.delegate = self;
 
-        _dataSource = [CHMsgsDataSource dataSourceWithCollectionView:listView channelID:cid];
+        _dataSource = [CHMsgsDataSource dataSourceWithCollectionView:listView channelID:self.model.cid];
         self.dataSource.scroller = scrollView;
         
         [CHLogic.shared addDelegate:self];
@@ -75,14 +74,18 @@
     return self.model.title;
 }
 
+- (BOOL)isEqualWithParameters:(NSDictionary *)params {
+    return [self.model.cid isEqual:[params valueForKey:@"cid"]];
+}
+
 - (void)viewDidAppear {
     [super viewDidAppear];
-    [CHLogic.shared addReadChannel:self.cid];
+    [CHLogic.shared addReadChannel:self.model.cid];
 }
 
 - (void)viewDidDisappear {
     [super viewDidDisappear];
-    [CHLogic.shared removeReadChannel:self.cid];
+    [CHLogic.shared removeReadChannel:self.model.cid];
 }
 
 - (void)layout {
@@ -135,7 +138,7 @@
 }
 
 - (void)logicMessagesCleared:(NSString *)cid {
-    if ([self.cid isEqualToString:cid]) {
+    if ([self.model.cid isEqualToString:cid]) {
         [self.dataSource reset:YES];
     }
 }
