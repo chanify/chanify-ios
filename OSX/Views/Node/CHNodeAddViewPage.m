@@ -1,24 +1,24 @@
 //
-//  CHAddNodePage.m
+//  CHNodeAddViewPage.m
 //  OSX
 //
 //  Created by WizJin on 2021/9/26.
 //
 
-#import "CHAddNodePage.h"
+#import "CHNodeAddViewPage.h"
 #import <AVFoundation/AVFoundation.h>
 #import <Masonry/Masonry.h>
 #import "CHRouter.h"
 #import "CHTheme.h"
 
-@interface CHAddNodePage () <NSTextFieldDelegate, NSDraggingDestination>
+@interface CHNodeAddViewPage () <NSTextFieldDelegate, NSDraggingDestination>
 
 @property (nonatomic, readonly, strong) NSTextField *inputText;
 @property (nonatomic, readonly, strong) NSButton *doneButton;
 
 @end
 
-@implementation CHAddNodePage
+@implementation CHNodeAddViewPage
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -26,6 +26,8 @@
     [self registerForDraggedTypes:@[NSPasteboardTypeFileURL]];
 
     CHTheme *theme = CHTheme.shared;
+    
+    self.title = @"Add node".localized;
     
     NSTextField *inputText = [NSTextField new];
     [self addSubview:(_inputText = inputText)];
@@ -75,10 +77,6 @@
         make.right.equalTo(doneButton.mas_left).offset(-10);
         make.bottom.width.equalTo(doneButton);
     }];
-}
-
-- (NSString *)title {
-    return @"Add node".localized;
 }
 
 - (NSSize)intrinsicContentSize {

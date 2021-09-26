@@ -138,7 +138,7 @@
 		6D51562F2666264200137071 /* NSColor+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D51562E2666264200137071 /* NSColor+CHExt.m */; };
 		6D51563226662C7A00137071 /* CHLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D51563126662C7A00137071 /* CHLabel.m */; };
 		6D51563326662F5600137071 /* CHBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDE057B262976C4004336DD /* CHBadgeView.m */; };
-		6D515637266649A000137071 /* CHChannelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D515636266649A000137071 /* CHChannelView.m */; };
+		6D515637266649A000137071 /* CHChannelViewPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D515636266649A000137071 /* CHChannelViewPage.m */; };
 		6D51563A26672BE100137071 /* CHCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D51563926672BE100137071 /* CHCollectionView.m */; };
 		6D51563E266A186200137071 /* CHFormSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D51563D266A186200137071 /* CHFormSectionHeaderView.m */; };
 		6D515641266A286700137071 /* CHBlocklistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D515640266A286700137071 /* CHBlocklistViewController.m */; };
@@ -173,7 +173,7 @@
 		6D8F37CF26D20832001A8884 /* CHTimelineModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F37CB26D20832001A8884 /* CHTimelineModel.m */; };
 		6D8F37D026D20845001A8884 /* CHTimelineModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F37CB26D20832001A8884 /* CHTimelineModel.m */; };
 		6D8F37D126D20CA2001A8884 /* CHTimelineModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F37CB26D20832001A8884 /* CHTimelineModel.m */; };
-		6D8F427227003D340073D06B /* CHAddNodePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F427127003D340073D06B /* CHAddNodePage.m */; };
+		6D8F427227003D340073D06B /* CHNodeAddViewPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F427127003D340073D06B /* CHNodeAddViewPage.m */; };
 		6D8F427627003F280073D06B /* CHPopoverWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F427527003F280073D06B /* CHPopoverWindow.m */; };
 		6D8F427F2700838F0073D06B /* NSURLComponents+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF70B89267BAC3100892B2E /* NSURLComponents+CHExt.m */; };
 		6D8F9EAC25EF45E800A8912C /* CHFormItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F9EAB25EF45E800A8912C /* CHFormItem.m */; };
@@ -816,8 +816,8 @@
 		6D51562E2666264200137071 /* NSColor+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSColor+CHExt.m"; sourceTree = "<group>"; };
 		6D51563026662C7A00137071 /* CHLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHLabel.h; sourceTree = "<group>"; };
 		6D51563126662C7A00137071 /* CHLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHLabel.m; sourceTree = "<group>"; };
-		6D515635266649A000137071 /* CHChannelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelView.h; sourceTree = "<group>"; };
-		6D515636266649A000137071 /* CHChannelView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelView.m; sourceTree = "<group>"; };
+		6D515635266649A000137071 /* CHChannelViewPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelViewPage.h; sourceTree = "<group>"; };
+		6D515636266649A000137071 /* CHChannelViewPage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelViewPage.m; sourceTree = "<group>"; };
 		6D51563826672BE100137071 /* CHCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHCollectionView.h; sourceTree = "<group>"; };
 		6D51563926672BE100137071 /* CHCollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHCollectionView.m; sourceTree = "<group>"; };
 		6D51563B2667504700137071 /* CHUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHUI.h; sourceTree = "<group>"; };
@@ -860,8 +860,8 @@
 		6D8F37C326CFB43D001A8884 /* CHTimelineDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHTimelineDataSource.m; sourceTree = "<group>"; };
 		6D8F37CA26D20832001A8884 /* CHTimelineModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHTimelineModel.h; sourceTree = "<group>"; };
 		6D8F37CB26D20832001A8884 /* CHTimelineModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHTimelineModel.m; sourceTree = "<group>"; };
-		6D8F427027003D340073D06B /* CHAddNodePage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHAddNodePage.h; sourceTree = "<group>"; };
-		6D8F427127003D340073D06B /* CHAddNodePage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHAddNodePage.m; sourceTree = "<group>"; };
+		6D8F427027003D340073D06B /* CHNodeAddViewPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHNodeAddViewPage.h; sourceTree = "<group>"; };
+		6D8F427127003D340073D06B /* CHNodeAddViewPage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHNodeAddViewPage.m; sourceTree = "<group>"; };
 		6D8F427427003F280073D06B /* CHPopoverWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHPopoverWindow.h; sourceTree = "<group>"; };
 		6D8F427527003F280073D06B /* CHPopoverWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHPopoverWindow.m; sourceTree = "<group>"; };
 		6D8F9EAA25EF45E800A8912C /* CHFormItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormItem.h; sourceTree = "<group>"; };
@@ -1617,8 +1617,8 @@
 		6D5156342666497900137071 /* Channel */ = {
 			isa = PBXGroup;
 			children = (
-				6D515635266649A000137071 /* CHChannelView.h */,
-				6D515636266649A000137071 /* CHChannelView.m */,
+				6D515635266649A000137071 /* CHChannelViewPage.h */,
+				6D515636266649A000137071 /* CHChannelViewPage.m */,
 				6D025F71266DE72B00C17512 /* CHMessageCellItem.h */,
 				6D025F72266DE72B00C17512 /* CHMessageCellItem.m */,
 				6D025F6E266DC61800C17512 /* CHMsgsDataSource.h */,
@@ -1745,8 +1745,8 @@
 		6D8F427B2700699E0073D06B /* Node */ = {
 			isa = PBXGroup;
 			children = (
-				6D8F427027003D340073D06B /* CHAddNodePage.h */,
-				6D8F427127003D340073D06B /* CHAddNodePage.m */,
+				6D8F427027003D340073D06B /* CHNodeAddViewPage.h */,
+				6D8F427127003D340073D06B /* CHNodeAddViewPage.m */,
 			);
 			path = Node;
 			sourceTree = "<group>";
@@ -2959,7 +2959,7 @@
 				6D029B7E266F1F0000BF046A /* NSProgressIndicator+CHExt.m in Sources */,
 				6DAD5404266E1AF60036B68F /* CHTextMsgCellConfiguration.m in Sources */,
 				6D83523A2664EDC0005CE6D1 /* CHTheme.m in Sources */,
-				6D515637266649A000137071 /* CHChannelView.m in Sources */,
+				6D515637266649A000137071 /* CHChannelViewPage.m in Sources */,
 				6DAD53FF266E150E0036B68F /* CHCollectionViewCell.m in Sources */,
 				6DAD53FC266E13D60036B68F /* CHCollectionViewCellRegistration.m in Sources */,
 				6D0384EB26F5CE9C002C3BE1 /* CHSwitch.m in Sources */,
@@ -2977,7 +2977,7 @@
 				6D51563226662C7A00137071 /* CHLabel.m in Sources */,
 				6DB1C2792670B6A4007C0C02 /* CHLogic.m in Sources */,
 				6DB1C272266F804B007C0C02 /* NSMenuItem+CHExt.m in Sources */,
-				6D8F427227003D340073D06B /* CHAddNodePage.m in Sources */,
+				6D8F427227003D340073D06B /* CHNodeAddViewPage.m in Sources */,
 				6D1B1F7B26FC6E0900041FAC /* CHFormHeaderView.m in Sources */,
 				6DC7CF4026E5B447002F7869 /* CHContentItem.m in Sources */,
 				6D0384D726F5BFFB002C3BE1 /* CHFormSection.m in Sources */,

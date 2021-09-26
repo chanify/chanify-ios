@@ -21,6 +21,7 @@
 #   define CHBezierPath                             NSBezierPath
 #   define CHProgressView                           NSProgressIndicator
 #   define CHUIViewController                       NSViewController
+#   define CHNodeViewController                     CHNodeViewPage
 #   define clipsToBounds                            chClipsToBounds
 #   define layoutSubviews                           layout
 #   define CHGestureRecognizer                      NSGestureRecognizer

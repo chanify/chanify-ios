@@ -10,10 +10,8 @@
 #import <Masonry/Masonry.h>
 #import "CHMainViewController.h"
 #import "CHLoginViewController.h"
-#import "CHNodeViewController.h"
-#import "CHAddNodePage.h"
+#import "CHChannelViewPage.h"
 #import "CHPopoverWindow.h"
-#import "CHChannelView.h"
 #import "CHAboutView.h"
 #import "CHToast.h"
 #import "CHLogic.h"
@@ -213,18 +211,25 @@
             window.contentViewController = [CHLoginViewController new];
             showWindowWithSize(window, NSMakeSize(300, 400));
         }
-        showPushDetailPage(CHChannelView.class, parameters);
+        showPushDetailPage(CHChannelViewPage.class, parameters);
         return YES;
     }];
-    [routes addRoute:@"/page/channel" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
-        return showShowPage(CHChannelView.class, parameters);
+    [routes addRoute:@"/page/:name(/:subname)" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
+        BOOL res = NO;
+        NSString *name = [parameters valueForKey:@"name"];
+        NSString *subname = [parameters valueForKey:@"subname"];
+        if (subname.length > 0) {
+            name = [name stringByAppendingString:subname.code];
+        }
+        if (name.length > 0) {
+            Class clz = NSClassFromString([NSString stringWithFormat:@"CH%@ViewPage", name.code]);
+            if ([clz isSubclassOfClass:CHPageView.class]) {
+                res = showShowPage(clz, parameters);
+            }
+        }
+        return res;
     }];
-    [routes addRoute:@"/page/node" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
-        return showShowPage(CHNodeViewController.class, parameters);
-    }];
-    [routes addRoute:@"/page/node/add" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
-        return showShowPage(CHAddNodePage.class, parameters);
-    }];
+    
     // unmatched router
     routes.unmatchedURLHandler = ^(JLRoutes *routes, NSURL *url, NSDictionary<NSString *, id> *parameters) {
         if (url != nil) {

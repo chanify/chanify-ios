@@ -13,6 +13,8 @@
 #import "CHFormHeaderView.h"
 #import "CHTheme.h"
 
+#define kCHFormViewBottomMargin     60
+
 typedef NSCollectionViewDiffableDataSource<CHFormSection *, CHFormItem *> CHFormDataSource;
 typedef NSDiffableDataSourceSnapshot<CHFormSection *, CHFormItem *> CHFormDiffableSnapshot;
 
@@ -45,6 +47,8 @@ static NSString *const headerIdentifier = @"header";
 
         CHScrollView *scrollView = [CHScrollView new];
         [self addSubview:(_scrollView = scrollView)];
+        scrollView.contentInsets = NSEdgeInsetsMake(0, 0, kCHFormViewBottomMargin, 0);
+        scrollView.scrollerInsets = NSEdgeInsetsMake(0, 0, -kCHFormViewBottomMargin, 0);
         scrollView.automaticallyAdjustsContentInsets = NO;
         scrollView.documentView = listView;
         scrollView.hasVerticalScroller = YES;
@@ -93,11 +97,6 @@ static NSString *const headerIdentifier = @"header";
 - (void)layout {
     [super layout];
     self.scrollView.frame = self.bounds;
-}
-
-
-- (NSString *)title {
-    return self.form.title ?: @"";
 }
 
 - (void)reloadItem:(CHFormItem *)item {
@@ -169,6 +168,7 @@ static NSString *const headerIdentifier = @"header";
         }
         self.form.viewDelegate = self;
     }
+    self.title = self.form.title;
 }
 
 - (BOOL)canAnimated {

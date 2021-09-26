@@ -1,5 +1,5 @@
 //
-//  CHChannelView.h
+//  CHChannelViewPage.h
 //  OSX
 //
 //  Created by WizJin on 2021/6/1.
@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHChannelView : CHPageView
+@interface CHChannelViewPage : CHPageView
 
 @end
 

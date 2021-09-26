@@ -8,7 +8,7 @@
 #import "CHContentView.h"
 #import "CHTheme.h"
 
-@interface CHContentView ()
+@interface CHContentView () <CHPageViewDelegate>
 
 @property (nonatomic, readonly, strong) CHLabel *titleLabel;
 @property (nonatomic, nullable, weak) CHBarButtonItem *rightBarButtonItem;
@@ -55,9 +55,11 @@
 - (void)setContentView:(CHPageView *)contentView {
     if (_contentView != contentView) {
         [self viewDidDisappear];
+        self.contentView.delegate = nil;
         [_contentView removeFromSuperview];
         [self addSubview:(_contentView = contentView)];
         if (self.contentView != nil) {
+            self.contentView.delegate = self;
             if (self.rightBarButtonItem != self.contentView.rightBarButtonItem) {
                 if (self.rightBarButtonItem != nil) {
                     [self.rightBarButtonItem removeFromSuperview];
@@ -86,6 +88,11 @@
         _appearView = nil;
         [self.contentView viewDidDisappear];
     }
+}
+
+#pragma mark - CHPageViewDelegate
+- (void)titleUpdated {
+    self.titleLabel.text = self.contentView.title ?: @"";
 }
 
 

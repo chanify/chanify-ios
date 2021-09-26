@@ -1,11 +1,11 @@
 //
-//  CHChannelView.m
+//  CHChannelViewPage.m
 //  OSX
 //
 //  Created by WizJin on 2021/6/1.
 //
 
-#import "CHChannelView.h"
+#import "CHChannelViewPage.h"
 #import "CHCollectionView.h"
 #import "CHUserDataSource.h"
 #import "CHMsgsDataSource.h"
@@ -17,7 +17,7 @@
 
 #define kCHChannelViewBottomMargin  30
 
-@interface CHChannelView () <NSCollectionViewDelegate, NSCollectionViewDelegateFlowLayout, CHScrollViewDelegate, CHLogicDelegate>
+@interface CHChannelViewPage () <NSCollectionViewDelegate, NSCollectionViewDelegateFlowLayout, CHScrollViewDelegate, CHLogicDelegate>
 
 @property (nonatomic, readonly, strong) CHChannelModel *model;
 @property (nonatomic, readonly, strong) CHScrollView *scrollView;
@@ -26,7 +26,7 @@
 
 @end
 
-@implementation CHChannelView
+@implementation CHChannelViewPage
 
 - (instancetype)initWithParameters:(NSDictionary *)params {
     if (self = [super initWithFrame:NSZeroRect]) {
@@ -34,6 +34,7 @@
 
         CHTheme *theme = CHTheme.shared;
         
+        self.title = self.model.title;
         self.backgroundColor = theme.backgroundColor;
         
         NSCollectionViewFlowLayout *layout = [NSCollectionViewFlowLayout new];
@@ -68,10 +69,6 @@
 
 - (void)dealloc {
     [CHLogic.shared removeDelegate:self];
-}
-
-- (NSString *)title {
-    return self.model.title;
 }
 
 - (BOOL)isEqualWithParameters:(NSDictionary *)params {

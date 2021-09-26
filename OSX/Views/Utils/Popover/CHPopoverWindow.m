@@ -9,8 +9,9 @@
 #import <Masonry/Masonry.h>
 #import "CHTheme.h"
 
-@interface CHPopoverWindow ()
+@interface CHPopoverWindow () <CHPageViewDelegate>
 
+@property (nonatomic, readonly, strong) CHLabel *titleLabel;
 @property (nonatomic, readonly, strong) CHPageView *pageView;
 
 @end
@@ -25,6 +26,7 @@
     NSWindowStyleMask styleMask = NSWindowStyleMaskTitled|NSWindowStyleMaskFullSizeContentView;
     if (self = [super initWithContentRect:NSZeroRect styleMask:styleMask backing:NSBackingStoreBuffered defer:NO]) {
         _pageView = page;
+        page.delegate = self;
         
         CHTheme *theme = CHTheme.shared;
 
@@ -44,16 +46,18 @@
         }];
         closeButton.target = self;
         
+        [view addSubview:page];
+        
         CHLabel *titleLabel = [CHLabel new];
-        [view addSubview:titleLabel];
+        [view addSubview:(_titleLabel = titleLabel)];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.centerX.equalTo(view);
             make.height.mas_equalTo(28);
         }];
         titleLabel.textColor = theme.labelColor;
         titleLabel.font = theme.textFont;
-        titleLabel.text = self.pageView.title;
-        [view addSubview:page];
+        [self titleUpdated];
+
         [page mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(titleLabel.mas_bottom);
             make.left.right.bottom.equalTo(view);
@@ -64,6 +68,11 @@
         [self setFrame:NSMakeRect(0, 0, size.width, size.height + 30) display:YES animate:NO];
     }
     return self;
+}
+
+#pragma mark - CHPageViewDelegate
+- (void)titleUpdated {
+    self.titleLabel.text = self.pageView.title ?: @"";
 }
 
 

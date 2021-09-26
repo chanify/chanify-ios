@@ -27,10 +27,6 @@
     return NO;
 }
 
-- (NSString *)title {
-    return @"";
-}
-
 - (void)viewWillMoveToSuperview:(NSView *)newSuperview {
     if (!self.isLoad) {
         _isLoad = YES;
@@ -46,6 +42,15 @@
 }
 
 - (void)viewDidDisappear {
+}
+
+- (void)setTitle:(NSString *)title {
+    if (_title != title) {
+        _title = title;
+        if (self.delegate != nil) {
+            [self.delegate titleUpdated];
+        }
+    }
 }
 
 - (void)closeAnimated:(BOOL)animated completion: (void (^ __nullable)(void))completion {

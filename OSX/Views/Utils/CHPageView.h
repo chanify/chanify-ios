@@ -9,13 +9,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol CHPageViewDelegate <NSObject>
+- (void)titleUpdated;
+@end
+
 @interface CHPageView : CHView
 
 @property (nonatomic, nullable, strong) CHBarButtonItem *rightBarButtonItem;
+@property (nonatomic, nullable, strong) NSString *title;
+@property (nonatomic, nullable, weak) id<CHPageViewDelegate> delegate;
 
 - (instancetype)initWithParameters:(NSDictionary *)params;
 - (BOOL)isEqualWithParameters:(NSDictionary *)params;
-- (NSString *)title;
 - (void)viewDidLoad;
 - (void)viewDidAppear;
 - (void)viewDidDisappear;
