@@ -76,6 +76,10 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
     return [self.model.nid isEqualToString:[params valueForKey:@"nid"]];
 }
 
+- (CGSize)calcContentSize {
+    return CGSizeMake(400, 500);
+}
+
 #pragma mark - Action Methods
 - (void)actionRefresh:(id)sender {
     @weakify(self);

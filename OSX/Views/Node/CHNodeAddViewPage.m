@@ -79,7 +79,7 @@
     }];
 }
 
-- (NSSize)intrinsicContentSize {
+- (NSSize)calcContentSize {
     return NSMakeSize(400, 120);
 }
 

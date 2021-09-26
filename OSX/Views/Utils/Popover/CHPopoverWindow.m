@@ -62,7 +62,7 @@
             make.top.equalTo(titleLabel.mas_bottom);
             make.left.right.bottom.equalTo(view);
         }];
-        NSSize size = page.intrinsicContentSize;
+        NSSize size = page.calcContentSize;
         if (size.width <= 0) size.width = 400;
         if (size.height <= 0) size.height = 270;
         [self setFrame:NSMakeRect(0, 0, size.width, size.height + 30) display:YES animate:NO];

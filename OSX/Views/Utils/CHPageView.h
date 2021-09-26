@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)viewDidLoad;
 - (void)viewDidAppear;
 - (void)viewDidDisappear;
+- (CGSize)calcContentSize;
 - (void)closeAnimated:(BOOL)animated completion: (void (^ __nullable)(void))completion;
 
 

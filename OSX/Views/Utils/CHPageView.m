@@ -53,6 +53,10 @@
     }
 }
 
+- (CGSize)calcContentSize {
+    return CGSizeZero;
+}
+
 - (void)closeAnimated:(BOOL)animated completion: (void (^ __nullable)(void))completion {
     if ([self.window isKindOfClass:CHPopoverWindow.class]) {
         [self.window close];
