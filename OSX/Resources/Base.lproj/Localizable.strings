@@ -168,9 +168,11 @@
 "msg.file"="Send file message";
 "msg.timeline"="Send timeline message";
 
+"Add channel"="Add channel";
 "About Chanify"="About Chanify";
 "Quit Chanify"="Quit Chanify";
 "Import account failed!"="Import account failed!";
 "Release QR code to login."="Release QR code to login.";
 "Drop QR code here to login."="Drop QR code here to login.";
 "Get QR code from Chanify app on your iPhone."="Get QR code from Chanify app on your iPhone.";
+

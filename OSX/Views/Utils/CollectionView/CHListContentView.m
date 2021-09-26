@@ -44,7 +44,6 @@
         CHLabel *secondaryTexLabel = [CHLabel new];
         [self addSubview:(_secondaryTexLabel = secondaryTexLabel)];
         [secondaryTexLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(textLabel.mas_right).offset(4);
             make.centerY.equalTo(textLabel);
             make.right.equalTo(self).offset(-CHListContentViewMargin);
         }];
@@ -57,27 +56,35 @@
 - (void)setConfiguration:(id<CHContentConfiguration>)configuration {
     if (_configuration != configuration) {
         _configuration = configuration;
-        if ([configuration isKindOfClass:CHListContentConfiguration.class]) {
-            CHListContentConfiguration *listConfiguration = (CHListContentConfiguration *)configuration;
-            
-            CHImage *image = listConfiguration.image;
-            self.iconView.image = image;
-            self.iconView.hidden = (image == nil);
-            
-            [self.textLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(self).offset(CHListContentViewMargin + (image == nil ? 0 : 36));
-            }];
+    }
+    if ([configuration isKindOfClass:CHListContentConfiguration.class]) {
+        CHListContentConfiguration *listConfiguration = (CHListContentConfiguration *)configuration;
+        
+        CHImage *image = listConfiguration.image;
+        self.iconView.image = image;
+        self.iconView.hidden = (image == nil);
+        
+        [self.textLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self).offset(CHListContentViewMargin + (image == nil ? 0 : 36));
+        }];
 
-            self.textLabel.text = listConfiguration.text ?: @"";
-            self.textLabel.textColor = listConfiguration.textProperties.color;
-            self.textLabel.font = listConfiguration.textProperties.font;
-            self.textLabel.alignment = listConfiguration.textProperties.alignment;
-            
-            self.secondaryTexLabel.text = listConfiguration.secondaryText ?: @"";
-            self.secondaryTexLabel.textColor = listConfiguration.secondaryTextProperties.color;
-            self.secondaryTexLabel.font = listConfiguration.secondaryTextProperties.font;
-            self.secondaryTexLabel.alignment = listConfiguration.secondaryTextProperties.alignment;
-        }
+        self.textLabel.text = listConfiguration.text ?: @"";
+        self.textLabel.textColor = listConfiguration.textProperties.color;
+        self.textLabel.font = listConfiguration.textProperties.font;
+        self.textLabel.alignment = listConfiguration.textProperties.alignment;
+        
+        self.secondaryTexLabel.text = listConfiguration.secondaryText ?: @"";
+        self.secondaryTexLabel.textColor = listConfiguration.secondaryTextProperties.color;
+        self.secondaryTexLabel.font = listConfiguration.secondaryTextProperties.font;
+        self.secondaryTexLabel.alignment = listConfiguration.secondaryTextProperties.alignment;
+        
+        [self.textLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            if (self.secondaryTexLabel.text.length > 0) {
+                make.right.equalTo(self.secondaryTexLabel.mas_left).offset(-4);
+            } else {
+                make.right.equalTo(self).offset(-CHListContentViewMargin);
+            }
+        }];
     }
 }
 

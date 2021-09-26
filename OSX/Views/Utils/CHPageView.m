@@ -51,6 +51,9 @@
 - (void)closeAnimated:(BOOL)animated completion: (void (^ __nullable)(void))completion {
     if ([self.window isKindOfClass:CHPopoverWindow.class]) {
         [self.window close];
+        if (completion != nil) {
+            dispatch_main_async(completion);
+        }
     }
 }
 

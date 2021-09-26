@@ -27,7 +27,12 @@
         _contentConfiguration = contentConfiguration;
         if (_contentView != nil) {
             [_contentView removeFromSuperview];
+            _contentView = nil;
         }
+    }
+    if (_contentView != nil) {
+        self.contentView.configuration = contentConfiguration;
+    } else {
         _contentView = [self.contentConfiguration makeContentView];
         if (_contentView != nil) {
             [self.view addSubview:_contentView];

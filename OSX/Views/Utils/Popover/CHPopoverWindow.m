@@ -9,7 +9,7 @@
 #import <Masonry/Masonry.h>
 #import "CHTheme.h"
 
-@interface CHPopoverWindow () <NSWindowDelegate>
+@interface CHPopoverWindow ()
 
 @property (nonatomic, readonly, strong) CHPageView *pageView;
 
@@ -22,7 +22,7 @@
 }
 
 - (instancetype)initWithPage:(CHPageView *)page {
-    NSWindowStyleMask styleMask = NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskFullSizeContentView;
+    NSWindowStyleMask styleMask = NSWindowStyleMaskTitled|NSWindowStyleMaskFullSizeContentView;
     if (self = [super initWithContentRect:NSZeroRect styleMask:styleMask backing:NSBackingStoreBuffered defer:NO]) {
         _pageView = page;
         
@@ -33,11 +33,17 @@
         self.titlebarAppearsTransparent = YES;
         self.releasedWhenClosed = YES;
         self.hasShadow = YES;
-        self.delegate = self;
         
         CHView *view = [CHView new];
         self.contentView = view;
-
+        
+        NSButton *closeButton = [NSWindow standardWindowButton:NSWindowCloseButton forStyleMask:styleMask];
+        [view addSubview:closeButton];
+        [closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.equalTo(view).offset(7);
+        }];
+        closeButton.target = self;
+        
         CHLabel *titleLabel = [CHLabel new];
         [view addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -52,21 +58,12 @@
             make.top.equalTo(titleLabel.mas_bottom);
             make.left.right.bottom.equalTo(view);
         }];
-        
-        [self setFrame:NSMakeRect(0, 0, 400, 300) display:YES animate:NO];
+        NSSize size = page.intrinsicContentSize;
+        if (size.width <= 0) size.width = 400;
+        if (size.height <= 0) size.height = 270;
+        [self setFrame:NSMakeRect(0, 0, size.width, size.height + 30) display:YES animate:NO];
     }
     return self;
-}
-
-- (void)run {
-    [NSApp runModalForWindow:self];
-}
-
-#pragma mark - NSWindowDelegate
-- (BOOL)windowShouldClose:(NSWindow *)sender {
-    [NSApp stopModalWithCode:NSModalResponseOK];
-    [NSApp endSheet:self];
-    return NO;
 }
 
 

@@ -1,5 +1,5 @@
 //
-//  CHLinkPickerPage.h
+//  CHAddNodePage.h
 //  OSX
 //
 //  Created by WizJin on 2021/9/26.
@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHLinkPickerPage : CHPageView
+@interface CHAddNodePage : CHPageView
 
 @end
 

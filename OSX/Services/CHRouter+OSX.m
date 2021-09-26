@@ -11,7 +11,7 @@
 #import "CHMainViewController.h"
 #import "CHLoginViewController.h"
 #import "CHNodeViewController.h"
-#import "CHLinkPickerPage.h"
+#import "CHAddNodePage.h"
 #import "CHPopoverWindow.h"
 #import "CHChannelView.h"
 #import "CHAboutView.h"
@@ -217,16 +217,13 @@
         return YES;
     }];
     [routes addRoute:@"/page/channel" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
-        return showPushDetailPage(CHChannelView.class, parameters);
+        return showShowPage(CHChannelView.class, parameters);
     }];
     [routes addRoute:@"/page/node" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
-        return showPushDetailPage(CHNodeViewController.class, parameters);
+        return showShowPage(CHNodeViewController.class, parameters);
     }];
-    [routes addRoute:@"/page/scan" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
-        dispatch_main_async(^{
-            showPopoverPage(CHLinkPickerPage.class, parameters);
-        });
-        return YES;
+    [routes addRoute:@"/page/node/add" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
+        return showShowPage(CHAddNodePage.class, parameters);
     }];
     // unmatched router
     routes.unmatchedURLHandler = ^(JLRoutes *routes, NSURL *url, NSDictionary<NSString *, id> *parameters) {
@@ -293,11 +290,22 @@ static inline BOOL showPushDetailPage(Class clz, NSDictionary<NSString *, id> *p
     return YES;
 }
 
-static inline void showPopoverPage(Class clz, NSDictionary<NSString *, id> *parameters) {
-    [[CHPopoverWindow windowWithPage:loadPage(clz, parameters)] run];
+static inline BOOL showShowPage(Class clz, NSDictionary<NSString *, id> *parameters) {
+    if ([@"popover" isEqualToString:[parameters valueForKey:@"show"]]) {
+        dispatch_main_async(^{
+            CHPopoverWindow *window = [CHPopoverWindow windowWithPage:loadPage(clz, parameters)];
+            [CHRouter.shared.window beginSheet:window completionHandler:^(NSModalResponse returnCode) {
+            }];
+        });
+        return YES;
+    }
+    return showPushDetailPage(clz, parameters);
 }
 
 static inline void showWindowWithSize(NSWindow *window, NSSize size) {
+    for (NSWindow *sheet in window.sheets) {
+        [window endSheet:sheet];
+    }
     NSRect frame = window.screen.frame;
     if (NSIsEmptyRect(frame)) {
         frame = NSScreen.mainScreen.frame;
