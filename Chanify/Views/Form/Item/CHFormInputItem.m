@@ -50,7 +50,7 @@
         ]];
         [textField addTarget:self action:@selector(textFieldDidChanged:) forControlEvents:UIControlEventEditingChanged];
         textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        textField.tag = kCHFormTextFieldTag;
+        textField.tagID = kCHFormTextFieldTag;
         textField.delegate = self;
         switch (self.inputType) {
             case CHFormInputTypeText:

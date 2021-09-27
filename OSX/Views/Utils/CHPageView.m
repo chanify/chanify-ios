@@ -35,6 +35,10 @@
     [super viewWillMoveToSuperview:newSuperview];
 }
 
+- (CHView *)view {
+    return self;
+}
+
 - (void)viewDidLoad {
 }
 

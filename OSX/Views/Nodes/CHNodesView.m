@@ -105,9 +105,11 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHNodeModel *> CHNodeDiffableSn
 - (void)logicNodeUpdated:(NSString *)nid {
     CHNodeModel *node = [CHLogic.shared.userDataSource nodeWithNID:nid];
     if (node != nil) {
-        CHNodeDiffableSnapshot *snapshot = self.dataSource.snapshot;
-        [snapshot reloadItemsWithIdentifiers:@[node]];
-        [self.dataSource applySnapshot:snapshot animatingDifferences:NO];
+        [self reloadData];
+//        CHNodeDiffableSnapshot *snapshot = self.dataSource.snapshot;
+//        [snapshot reloadItemsWithIdentifiers:@[node]];
+//        [self.dataSource applySnapshot:snapshot animatingDifferences:NO];
+//        [self.listView setNeedsDisplay];
     }
 }
 

@@ -30,7 +30,7 @@
 
 - (void)prepareCell:(CHFormViewCell *)cell {
     for (CHView *view in cell.contentView.subviews) {
-        if (view.tag >= kCHFormFirstViewTag) {
+        if (view.tagID >= kCHFormFirstViewTag) {
             [view removeFromSuperview];
         }
     }

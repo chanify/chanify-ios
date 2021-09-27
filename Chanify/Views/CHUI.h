@@ -24,6 +24,8 @@
 #   define CHNodeViewController                     CHNodeViewPage
 #   define clipsToBounds                            chClipsToBounds
 #   define layoutSubviews                           layout
+#   define mas_safeLayoutGuideTop                   mas_top
+#   define mas_safeLayoutGuideBottom                mas_bottom
 #   define CHGestureRecognizer                      NSGestureRecognizer
 #   define UIGraphicsGetCurrentContext()            (NSGraphicsContext.currentContext.CGContext)
 #   define UIViewContentModeScaleAspectFill         NSImageScaleAxesIndependently
@@ -46,6 +48,7 @@ typedef NS_OPTIONS(NSUInteger, CHControlEvents) {
 #   import "CHLabel.h"
 #   import "CHSwitch.h"
 #   import "CHDatePicker.h"
+#   import "CHSegmentedControl.h"
 #   import "CHLineView.h"
 #   import "CHMessageCellItem.h"
 #   import "CHMenuController.h"
@@ -57,6 +60,7 @@ typedef NS_OPTIONS(NSUInteger, CHControlEvents) {
 #   import "CHAlertController.h"
 #else
 #   import <UIKit/UIKit.h>
+#   define tagID                                        tag
 #   define CHImage                                      UIImage
 #   define CHColor                                      UIColor
 #   define CHView                                       UIView
@@ -78,6 +82,7 @@ typedef NS_OPTIONS(NSUInteger, CHControlEvents) {
 #   define CHContentView                                UIContentView
 #   define CHUIViewController                           UIViewController
 #   define CHAlertController                            UIAlertController
+#   define CHSegmentedControl                           UISegmentedControl
 #   define CHCollectionViewCell                         UICollectionViewCell
 #   define CHContentConfiguration                       UIContentConfiguration
 #   define CHConfigurationState                         UIConfigurationState
@@ -95,6 +100,8 @@ typedef NS_OPTIONS(NSUInteger, CHControlEvents) {
 #   define CHFormViewCellAccessoryNone                  UITableViewCellAccessoryNone
 #   define CHFormViewCellAccessoryDisclosureIndicator   UITableViewCellAccessoryDisclosureIndicator
 #   define CHControlEventValueChanged                   UIControlEventValueChanged
+#   define mas_safeLayoutGuideTop                       mas_safeAreaLayoutGuideTop
+#   define mas_safeLayoutGuideBottom                    mas_safeAreaLayoutGuideBottom
 #endif
 
 #endif /* __CHUI_H__ */

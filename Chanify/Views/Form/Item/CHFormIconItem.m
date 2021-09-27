@@ -78,7 +78,7 @@
                 [iconView.rightAnchor constraintEqualToAnchor:contentView.secondaryTextLayoutGuide.rightAnchor],
                 [iconView.widthAnchor constraintEqualToAnchor:iconView.heightAnchor],
             ]];
-            iconView.tag = kCHFormImageViewTag;
+            iconView.tagID = kCHFormImageViewTag;
         }
     }
     return iconView;

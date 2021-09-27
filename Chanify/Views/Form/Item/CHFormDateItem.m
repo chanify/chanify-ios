@@ -61,7 +61,7 @@
             [datePicker addTarget:self action:@selector(valueChanged:) forControlEvents:CHControlEventValueChanged];
             datePicker.preferredDatePickerStyle = CHDatePickerStyleCompact;
             datePicker.datePickerMode = CHDatePickerModeDate;
-            datePicker.tag = kCHFormDatePickerTag;
+            datePicker.tagID = kCHFormDatePickerTag;
         }
     }
     return datePicker;

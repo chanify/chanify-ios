@@ -7,12 +7,13 @@
 
 #import "CHFormCodeItem.h"
 #import "CHCodeFormatter.h"
+#import "CHTheme.h"
 
 @implementation CHFormCodeItem
 
 - (instancetype)initWithName:(NSString *)name title:(NSString *)title value:(nullable id)value {
     if (self = [super initWithName:name title:title value:nil]) {
-        self.configuration.secondaryTextProperties.font = [CHFont fontWithName:@kCHCodeFontName size:15];
+        self.configuration.secondaryTextProperties.font = CHTheme.shared.codeFont;
         self.value = value ?: @"";
     }
     return self;

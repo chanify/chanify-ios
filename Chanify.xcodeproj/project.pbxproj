@@ -54,6 +54,9 @@
 		6D12BC462626BBE7005659EA /* NSNumber+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D12BC452626BBE7005659EA /* NSNumber+CHExt.m */; };
 		6D13B60626E8665400E7A5C4 /* CHLinksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D13B60526E8665400E7A5C4 /* CHLinksViewController.m */; };
 		6D13B60926E8668700E7A5C4 /* CHLinkTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D13B60826E8668700E7A5C4 /* CHLinkTableViewCell.m */; };
+		6D156037270195D60027E556 /* CHIconManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D156036270195D60027E556 /* CHIconManager.m */; };
+		6D156038270195D60027E556 /* CHIconManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D156036270195D60027E556 /* CHIconManager.m */; };
+		6D15603B27019D8F0027E556 /* CHSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D15603A27019D8F0027E556 /* CHSegmentedControl.m */; };
 		6D17176B2665D35600A89A33 /* NSView+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D17176A2665D35600A89A33 /* NSView+CHExt.m */; };
 		6D180E01262441BC000BDE82 /* NSString+CHNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD7B5DE260DF588001D5DCB /* NSString+CHNotification.m */; };
 		6D1B1F7B26FC6E0900041FAC /* CHFormHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1B1F7A26FC6E0900041FAC /* CHFormHeaderView.m */; };
@@ -716,6 +719,10 @@
 		6D13B60526E8665400E7A5C4 /* CHLinksViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHLinksViewController.m; sourceTree = "<group>"; };
 		6D13B60726E8668700E7A5C4 /* CHLinkTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHLinkTableViewCell.h; sourceTree = "<group>"; };
 		6D13B60826E8668700E7A5C4 /* CHLinkTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHLinkTableViewCell.m; sourceTree = "<group>"; };
+		6D156035270195D60027E556 /* CHIconManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHIconManager.h; sourceTree = "<group>"; };
+		6D156036270195D60027E556 /* CHIconManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHIconManager.m; sourceTree = "<group>"; };
+		6D15603927019D8F0027E556 /* CHSegmentedControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHSegmentedControl.h; sourceTree = "<group>"; };
+		6D15603A27019D8F0027E556 /* CHSegmentedControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHSegmentedControl.m; sourceTree = "<group>"; };
 		6D1717692665D35600A89A33 /* NSView+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSView+CHExt.h"; sourceTree = "<group>"; };
 		6D17176A2665D35600A89A33 /* NSView+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSView+CHExt.m"; sourceTree = "<group>"; };
 		6D1B1F7926FC6E0900041FAC /* CHFormHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFormHeaderView.h; sourceTree = "<group>"; };
@@ -1612,6 +1619,8 @@
 			isa = PBXGroup;
 			children = (
 				6DD969C425F479B800EEEECF /* CHIconsViewController.h */,
+				6D156035270195D60027E556 /* CHIconManager.h */,
+				6D156036270195D60027E556 /* CHIconManager.m */,
 				6DD969D225F4A1E700EEEECF /* CHIconView.h */,
 				6DD969D325F4A1E700EEEECF /* CHIconView.m */,
 				6D59464626356941004D3748 /* IconView.swift */,
@@ -1708,6 +1717,8 @@
 				6D0384F826F5DB65002C3BE1 /* CHAlertController.m */,
 				6DB1C26D266F7FC1007C0C02 /* CHMenuController.h */,
 				6DB1C26E266F7FC1007C0C02 /* CHMenuController.m */,
+				6D15603927019D8F0027E556 /* CHSegmentedControl.h */,
+				6D15603A27019D8F0027E556 /* CHSegmentedControl.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -3047,12 +3058,14 @@
 				6DC7CF4926E5EDE7002F7869 /* CHSideBarView.m in Sources */,
 				6DE7C071263D485C0092D88D /* CHNodeModel.m in Sources */,
 				6D257B8026FDA3AD0040739D /* CHFeature.m in Sources */,
+				6D15603B27019D8F0027E556 /* CHSegmentedControl.m in Sources */,
 				6D029B7B266F1DB300BF046A /* CHAudioMsgCellConfiguration.m in Sources */,
 				6DE7C069263D47410092D88D /* CHTP.proto in Sources */,
 				6DDEB4E4263FAA4B00CAD501 /* CHWebFileManager.m in Sources */,
 				6DAD53EE266DF68A0036B68F /* CHUnknownMsgCellConfiguration.m in Sources */,
 				6D0384EF26F5D2FA002C3BE1 /* CHFormButtonItem.m in Sources */,
 				6DC7CF4D26E5F394002F7869 /* CHNodesView.m in Sources */,
+				6D156038270195D60027E556 /* CHIconManager.m in Sources */,
 				6DB1C26F266F7FC1007C0C02 /* CHMenuController.m in Sources */,
 				6DDEB4E1263FA73600CAD501 /* NSImage+CHExt.m in Sources */,
 				6DF611232665E6FD00426830 /* CHNotification+Badge.m in Sources */,
@@ -3291,6 +3304,7 @@
 				6DC6C25325D112BB00512E36 /* CHLogger.m in Sources */,
 				6DC6C35C25D16B6A00512E36 /* NSPredicate+CHExt.m in Sources */,
 				6DC6C3B525D2193500512E36 /* CHMock.m in Sources */,
+				6D156037270195D60027E556 /* CHIconManager.m in Sources */,
 				6D4B262E265E292E00E0E2B1 /* CHDataItemsViewController.m in Sources */,
 				6DC6C1C425D0DCD100512E36 /* AppDelegate.m in Sources */,
 				6DC6C29A25D143BC00512E36 /* CHWebViewController.m in Sources */,

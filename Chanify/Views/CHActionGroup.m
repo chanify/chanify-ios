@@ -44,12 +44,12 @@
             btn.titleSelectColor = btnTitleColor;
             btn.titleFont = btnTitleFont;
             btn.backgroundColor = bkgColor;
-            btn.tag = kCHActionItemViewTag + i;
+            btn.tagID = kCHActionItemViewTag + i;
             btn.hidden = YES;
             if (i > 0) {
                 CHLineView *line = [CHLineView new];
                 [self addSubview:line];
-                line.tag = kCHActionItemLineTag + i;
+                line.tagID = kCHActionItemLineTag + i;
                 line.backgroundColor = theme.lightLabelColor;
                 line.hidden = YES;
             }

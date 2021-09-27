@@ -11,10 +11,23 @@
 
 @implementation NSView (CHExt)
 
+static const char *kTagTagKey       = "TagTagKey";
 static const char *kTintColorTagKey = "TintColorTagKey";
 
 @dynamic chClipsToBounds;
 @dynamic tintColor;
+
+- (NSInteger)tagID {
+    NSNumber *t = objc_getAssociatedObject(self, kTagTagKey);
+    if (t != nil) {
+        return t.integerValue;
+    }
+    return -1;
+}
+
+- (void)setTagID:(NSInteger)tagID {
+    objc_setAssociatedObject(self, kTagTagKey, @(tagID), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
 
 - (nullable NSColor *)tintColor {
     return objc_getAssociatedObject(self, kTintColorTagKey);
@@ -60,10 +73,6 @@ static const char *kTintColorTagKey = "TintColorTagKey";
 - (void)setCornerRadius:(CGFloat)cornerRadius {
     self.layer.masksToBounds = YES;
     self.layer.cornerRadius = cornerRadius;
-}
-
-- (void)setTag:(NSInteger)tag {
-    // TODO:
 }
 
 

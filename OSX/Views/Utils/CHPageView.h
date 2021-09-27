@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithParameters:(NSDictionary *)params;
 - (BOOL)isEqualWithParameters:(NSDictionary *)params;
+- (CHView *)view;
 - (void)viewDidLoad;
 - (void)viewDidAppear;
 - (void)viewDidDisappear;

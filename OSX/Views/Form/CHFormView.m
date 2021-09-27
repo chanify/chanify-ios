@@ -64,7 +64,6 @@ static NSString *const headerIdentifier = @"header";
                 cell.item = item;
             }
             return cell;
-            return nil;
         }];
         @weakify(self);
         _dataSource.supplementaryViewProvider = ^NSView * _Nullable(NSCollectionView *collectionView, NSString *kind, NSIndexPath *indexPath) {

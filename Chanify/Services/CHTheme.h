@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) CHFont *mediumFont;
 @property (nonatomic, readonly, strong) CHFont *smallFont;
 @property (nonatomic, readonly, strong) CHFont *detailFont;
+@property (nonatomic, readonly, strong) CHFont *codeFont;
 @property (nonatomic, readonly, strong) CHFont *messageTextFont;
 @property (nonatomic, readonly, strong) CHFont *messageTitleFont;
 @property (nonatomic, readonly, strong) CHFont *messageMediumFont;

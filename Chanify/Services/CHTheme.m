@@ -50,6 +50,7 @@
         _mediumFont = [CHFont systemFontOfSize:12 weight:NSFontWeightLight];
         _smallFont = [CHFont systemFontOfSize:8 weight:NSFontWeightLight];
         _detailFont = [CHFont systemFontOfSize:10 weight:NSFontWeightLight];
+        _codeFont = [CHFont fontWithName:@kCHCodeFontName size:13];
         _messageTextFont = [CHFont systemFontOfSize:15 weight:NSFontWeightLight];
         _messageTitleFont = [CHFont systemFontOfSize:15];
         _messageMediumFont = [CHFont systemFontOfSize:12 weight:NSFontWeightLight];
@@ -63,6 +64,7 @@
         _mediumFont = [CHFont systemFontOfSize:14];
         _smallFont =  [CHFont systemFontOfSize:10];
         _detailFont = [CHFont systemFontOfSize:12];
+        _codeFont = [CHFont fontWithName:@kCHCodeFontName size:15];
         _messageTextFont = [CHFont systemFontOfSize:16];
         _messageTitleFont = [CHFont boldSystemFontOfSize:16];
         _messageMediumFont = [CHFont systemFontOfSize:14];

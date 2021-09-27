@@ -67,7 +67,7 @@
                 [switchView.rightAnchor constraintEqualToAnchor:contentView.secondaryTextLayoutGuide.rightAnchor],
             ]];
             [switchView addTarget:self action:@selector(valueChanged:) forControlEvents:CHControlEventValueChanged];
-            switchView.tag = kCHFormSwitchViewTag;
+            switchView.tagID = kCHFormSwitchViewTag;
         }
     }
     return switchView;
