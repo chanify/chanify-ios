@@ -16,6 +16,12 @@
 #import "CHToast.h"
 #import "CHLogic.h"
 
+typedef NS_ENUM(NSInteger, CHRouterShowMode) {
+    CHRouterShowModePush    = 0,
+    CHRouterShowModePresent = 1,
+    CHRouterShowModeDetail  = 2,
+};
+
 #define kMenuLogoutTag  10000
 
 @interface CHRouter () <NSWindowDelegate, NSSharingServicePickerDelegate, NSMenuItemValidation>
@@ -126,6 +132,20 @@
     self.statusIcon.button.title = badgeText;
 }
 
+- (void)pushViewController:(CHPageView *)page animated:(BOOL)animated {
+    NSWindow *window = self.window;
+    NSWindow *sheet = window.attachedSheet;
+    if (sheet != nil) {
+        if ([sheet isKindOfClass:CHPopoverWindow.class]) {
+            [(CHPopoverWindow *)sheet pushPage:page animate:animated];
+        }
+    } else {
+        if ([window.contentViewController isKindOfClass:CHMainViewController.class]) {
+            [(CHMainViewController *)window.contentViewController pushPage:page animate:animated reset:NO];
+        }
+    }
+}
+
 - (void)showIndicator:(BOOL)show {
     
 }
@@ -211,7 +231,7 @@
             window.contentViewController = [CHLoginViewController new];
             showWindowWithSize(window, NSMakeSize(300, 400));
         }
-        showPushDetailPage(CHChannelViewPage.class, parameters);
+        showDetailPage(CHChannelViewPage.class, parameters, YES);
         return YES;
     }];
     [routes addRoute:@"/page/:name(/:subname)" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
@@ -283,20 +303,21 @@ static inline CHPageView *loadPage(Class clz, NSDictionary<NSString *, id> *para
     return page;
 }
 
-static inline BOOL showPushDetailPage(Class clz, NSDictionary<NSString *, id> *parameters) {
+static inline BOOL showDetailPage(Class clz, NSDictionary<NSString *, id> *parameters, BOOL isPushed) {
     NSWindow *window = CHRouter.shared.window;
     if ([window.contentViewController isKindOfClass:CHMainViewController.class]) {
         CHMainViewController *vc = (CHMainViewController *)window.contentViewController;
         CHPageView *contentView = vc.topContentView;
         if (![contentView isKindOfClass:clz] || ![contentView isEqualWithParameters:parameters]) {
-            [vc pushContentView:loadPage(clz, parameters)];
+            [vc pushPage:loadPage(clz, parameters) animate:YES reset:!isPushed];
         }
     }
     return YES;
 }
 
 static inline BOOL showShowPage(Class clz, NSDictionary<NSString *, id> *parameters) {
-    if ([@"popover" isEqualToString:[parameters valueForKey:@"show"]]) {
+    CHRouterShowMode mode = parseShowMode([parameters valueForKey:@"show"]);
+    if (mode == CHRouterShowModePresent) {
         dispatch_main_async(^{
             CHPopoverWindow *window = [CHPopoverWindow windowWithPage:loadPage(clz, parameters)];
             [CHRouter.shared.window beginSheet:window completionHandler:^(NSModalResponse returnCode) {
@@ -304,7 +325,7 @@ static inline BOOL showShowPage(Class clz, NSDictionary<NSString *, id> *paramet
         });
         return YES;
     }
-    return showPushDetailPage(clz, parameters);
+    return showDetailPage(clz, parameters, mode == CHRouterShowModePush);
 }
 
 static inline void showWindowWithSize(NSWindow *window, NSSize size) {
@@ -316,6 +337,18 @@ static inline void showWindowWithSize(NSWindow *window, NSSize size) {
         frame = NSScreen.mainScreen.frame;
     }
     [window setFrame:NSMakeRect((frame.size.width - size.width)/2.0, (frame.size.height - size.height)/2.0, size.width, size.height) display:YES animate:YES];
+}
+
+static inline CHRouterShowMode parseShowMode(NSString *show) {
+    CHRouterShowMode mode = CHRouterShowModePush;
+    if (show.length > 0) {
+        if ([show isEqualToString:@"present"]) {
+            mode = CHRouterShowModePresent;
+        } else if ([show isEqualToString:@"detail"]) {
+            mode = CHRouterShowModeDetail;
+        }
+    }
+    return mode;
 }
 
 

@@ -60,7 +60,7 @@
 - (void)doSelectIcon {
     CHIconsViewController *vc = [[CHIconsViewController alloc] initWithIcon:self.value];
     vc.delegate = self;
-    [CHRouter.shared presentViewController:vc animated:YES];
+    [CHRouter.shared pushViewController:vc animated:YES];
 }
 
 - (nullable CHIconView *)iconViewForCell:(nullable CHFormViewCell *)cell {

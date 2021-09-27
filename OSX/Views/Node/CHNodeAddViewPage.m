@@ -133,7 +133,7 @@
     }
     if (url != nil) {
         [self closeAnimated:YES completion:^{
-            [CHRouter.shared routeTo:@"page/node" withParams:@{ @"endpoint": url.absoluteString, @"show": @"popover" }];
+            [CHRouter.shared routeTo:@"page/node" withParams:@{ @"endpoint": url.absoluteString, @"show": @"present" }];
         }];
     }
 }

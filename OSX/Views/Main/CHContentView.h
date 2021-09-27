@@ -11,10 +11,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CHContentView : CHView
 
-@property (nonatomic, nullable, strong) CHPageView *contentView;
-
+- (void)pushPage:(nullable CHPageView *)page animate:(BOOL)animate reset:(BOOL)reset;
 - (void)viewDidAppear;
 - (void)viewDidDisappear;
+- (nullable CHPageView *)topContentView;
 
 
 @end

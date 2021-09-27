@@ -145,7 +145,7 @@
 - (void)actionImportAccount:(id)sender {
     CHScanViewController *scan = [CHScanViewController new];
     scan.delegate = self;
-    [CHRouter.shared presentViewController:scan animated:YES];
+    [CHRouter.shared pushViewController:scan animated:YES];
 }
 
 

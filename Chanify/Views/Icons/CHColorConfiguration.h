@@ -5,14 +5,14 @@
 //  Created by WizJin on 2021/3/8.
 //
 
-#import <UIKit/UIKit.h>
+#import "CHUI.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHColorConfiguration : NSObject<UIContentConfiguration>
+@interface CHColorConfiguration : NSObject<CHContentConfiguration>
 
 @property (nonatomic, readonly, strong) NSString *color;
-@property (nonatomic, nullable, strong) UIColor *defaultColor;
+@property (nonatomic, nullable, strong) CHColor *defaultColor;
 
 + (instancetype)configurationWithColor:(NSString *)color;
 

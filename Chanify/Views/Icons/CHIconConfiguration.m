@@ -10,7 +10,7 @@
 #import "CHIconView.h"
 #import "CHTheme.h"
 
-@interface CHIconContentView : CHIconView <UIContentView>
+@interface CHIconContentView : CHIconView <CHContentView>
 
 @property (nonatomic, copy) CHIconConfiguration *configuration;
 
@@ -29,7 +29,7 @@
     _configuration = configuration;
     self.tintColor = CHTheme.shared.minorLabelColor;
     self.image = configuration.icon;
-    self.backgroundColor = UIColor.clearColor;
+    self.backgroundColor = CHColor.clearColor;
 }
 
 @end
@@ -53,7 +53,7 @@
 
 - (nonnull CHIconContentView *)makeContentView {
     CHIconContentView *iconView = [[CHIconContentView alloc] initWithConfiguration:self];
-    iconView.backgroundColor = UIColor.clearColor;
+    iconView.backgroundColor = CHColor.clearColor;
     return iconView;
 }
 

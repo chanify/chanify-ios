@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, nullable, strong) CHBarButtonItem *rightBarButtonItem;
 @property (nonatomic, nullable, strong) NSString *title;
-@property (nonatomic, nullable, weak) id<CHPageViewDelegate> delegate;
+@property (nonatomic, nullable, weak) id<CHPageViewDelegate> pageDelegate;
 
 - (instancetype)initWithParameters:(NSDictionary *)params;
 - (BOOL)isEqualWithParameters:(NSDictionary *)params;

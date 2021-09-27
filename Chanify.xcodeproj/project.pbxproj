@@ -362,6 +362,8 @@
 		6DDEB4E2263FA87100CAD501 /* CHWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD5A0F8260EF99E00799032 /* CHWebImageManager.m */; };
 		6DDEB4E3263FA8BB00CAD501 /* CHToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC882C25FB62D70028B473 /* CHToken.m */; };
 		6DDEB4E4263FAA4B00CAD501 /* CHWebFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCAD2202621D52F00F43F20 /* CHWebFileManager.m */; };
+		6DE5C7E3270160A7004543D4 /* CHIconConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC569D25F4F6F600AD6DC9 /* CHIconConfiguration.m */; };
+		6DE5C7E5270160A7004543D4 /* CHColorConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92BD25F609CD00B792FE /* CHColorConfiguration.m */; };
 		6DE7C05E263D45DE0092D88D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6DE7C05C263D45DE0092D88D /* InfoPlist.strings */; };
 		6DE7C062263D46190092D88D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6DE7C060263D46190092D88D /* Localizable.strings */; };
 		6DE7C066263D471E0092D88D /* CHUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C24825D1122100512E36 /* CHUtils.m */; };
@@ -1131,6 +1133,7 @@
 		6DDE057B262976C4004336DD /* CHBadgeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHBadgeView.m; sourceTree = "<group>"; };
 		6DDEB4DF263FA73600CAD501 /* NSImage+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSImage+CHExt.h"; sourceTree = "<group>"; };
 		6DDEB4E0263FA73600CAD501 /* NSImage+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSImage+CHExt.m"; sourceTree = "<group>"; };
+		6DE5C7E727016415004543D4 /* CHViewPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHViewPage.h; sourceTree = "<group>"; };
 		6DE7C05D263D45DE0092D88D /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6DE7C05F263D45F90092D88D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		6DE7C061263D46190092D88D /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1381,6 +1384,7 @@
 				6D257B7926FD8A750040739D /* CHToast.m */,
 				6D257B7D26FDA3AD0040739D /* CHFeature.h */,
 				6D257B7E26FDA3AD0040739D /* CHFeature.m */,
+				6DE5C7E727016415004543D4 /* CHViewPage.h */,
 				6DDE057A262976C4004336DD /* CHBadgeView.h */,
 				6DDE057B262976C4004336DD /* CHBadgeView.m */,
 				6DAD5400266E19850036B68F /* CHLinkLabel.h */,
@@ -1607,9 +1611,14 @@
 		6D51562B266624DD00137071 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				6DD969C425F479B800EEEECF /* CHIconsViewController.h */,
 				6DD969D225F4A1E700EEEECF /* CHIconView.h */,
 				6DD969D325F4A1E700EEEECF /* CHIconView.m */,
 				6D59464626356941004D3748 /* IconView.swift */,
+				6DBA92BC25F609CD00B792FE /* CHColorConfiguration.h */,
+				6DBA92BD25F609CD00B792FE /* CHColorConfiguration.m */,
+				6DEC569C25F4F6F600AD6DC9 /* CHIconConfiguration.h */,
+				6DEC569D25F4F6F600AD6DC9 /* CHIconConfiguration.m */,
 			);
 			path = Icons;
 			sourceTree = "<group>";
@@ -2136,12 +2145,7 @@
 		6DD969C325F4799B00EEEECF /* Icons */ = {
 			isa = PBXGroup;
 			children = (
-				6DD969C425F479B800EEEECF /* CHIconsViewController.h */,
 				6DD969C525F479B800EEEECF /* CHIconsViewController.m */,
-				6DBA92BC25F609CD00B792FE /* CHColorConfiguration.h */,
-				6DBA92BD25F609CD00B792FE /* CHColorConfiguration.m */,
-				6DEC569C25F4F6F600AD6DC9 /* CHIconConfiguration.h */,
-				6DEC569D25F4F6F600AD6DC9 /* CHIconConfiguration.m */,
 			);
 			path = Icons;
 			sourceTree = "<group>";
@@ -2951,9 +2955,11 @@
 				6DE7C080263D48E10092D88D /* NSDictionary+CHExt.m in Sources */,
 				6DB1C25F266F4669007C0C02 /* CHLoadMoreView.m in Sources */,
 				6D75352A26DF1C7A009E019E /* CHAboutView.m in Sources */,
+				6DE5C7E3270160A7004543D4 /* CHIconConfiguration.m in Sources */,
 				6D0384E326F5C786002C3BE1 /* CHListContentConfiguration.m in Sources */,
 				6DE7C07B263D48B80092D88D /* NSString+CHExt.m in Sources */,
 				6DAD53F5266E004D0036B68F /* CHPasteboard.m in Sources */,
+				6DE5C7E5270160A7004543D4 /* CHColorConfiguration.m in Sources */,
 				6DE7C075263D487B0092D88D /* CHSecKey.m in Sources */,
 				6DE7C088263D49480092D88D /* CHNotification.m in Sources */,
 				6D029B7E266F1F0000BF046A /* NSProgressIndicator+CHExt.m in Sources */,

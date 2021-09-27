@@ -5,11 +5,11 @@
 //  Created by WizJin on 2021/3/7.
 //
 
-#import <UIKit/UIKit.h>
+#import "CHUI.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHIconConfiguration : NSObject<UIContentConfiguration>
+@interface CHIconConfiguration : NSObject<CHContentConfiguration>
 
 @property (nonatomic, readonly, strong) NSString *icon;
 

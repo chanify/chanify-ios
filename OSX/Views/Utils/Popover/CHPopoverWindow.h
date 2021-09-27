@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CHPopoverWindow : NSWindow
 
 + (instancetype)windowWithPage:(CHPageView *)page;
+- (void)pushPage:(CHPageView *)page animate:(BOOL)animate;
+- (void)popPage:(CHPageView *)page;
 
 
 @end

@@ -5,7 +5,7 @@
 //  Created by WizJin on 2021/3/7.
 //
 
-#import "CHViewController.h"
+#import "CHViewPage.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)iconChanged:(NSString *)icon;
 @end
 
-@interface CHIconsViewController : CHViewController
+@interface CHIconsViewController : CHViewPage
 
 @property (nonatomic, nullable, weak) id<CHIconsViewControllerDelegate> delegate;
 

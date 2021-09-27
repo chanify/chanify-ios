@@ -47,8 +47,8 @@
 - (void)setTitle:(NSString *)title {
     if (_title != title) {
         _title = title;
-        if (self.delegate != nil) {
-            [self.delegate titleUpdated];
+        if (self.pageDelegate != nil) {
+            [self.pageDelegate titleUpdated];
         }
     }
 }
@@ -59,7 +59,7 @@
 
 - (void)closeAnimated:(BOOL)animated completion: (void (^ __nullable)(void))completion {
     if ([self.window isKindOfClass:CHPopoverWindow.class]) {
-        [self.window close];
+        [(CHPopoverWindow *)self.window popPage:self];
         if (completion != nil) {
             dispatch_main_async(completion);
         }

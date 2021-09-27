@@ -142,7 +142,7 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     }
 }
 
-- (void)presentViewController:(UIViewController *)viewController animated:(BOOL)animated {
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
     showViewController(viewController, animated, CHRouterShowModePush, nil);
 }
 

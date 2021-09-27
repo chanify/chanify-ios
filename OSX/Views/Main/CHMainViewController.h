@@ -13,8 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CHMainViewController : CHViewController
 
-- (void)pushContentView:(nullable CHPageView *)contentView;
 - (nullable CHPageView *)topContentView;
+- (void)pushPage:(nullable CHPageView *)page animate:(BOOL)animate reset:(BOOL)reset;
 
 
 @end

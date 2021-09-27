@@ -83,12 +83,12 @@
     [super viewDidDisappear];
 }
 
-- (void)pushContentView:(nullable CHPageView *)contentView {
-    self.contentView.contentView = contentView;
+- (nullable CHPageView *)topContentView {
+    return self.contentView.topContentView;
 }
 
-- (nullable CHPageView *)topContentView {
-    return self.contentView.contentView;
+- (void)pushPage:(CHPageView *)page animate:(BOOL)animate reset:(BOOL)reset {
+    [self.contentView pushPage:page animate:animate reset:reset];
 }
 
 #pragma mark - Action Metrhods
@@ -174,7 +174,7 @@
     CHBarButtonItem *barButtonItem = self.rightBarButtonItem;
     if (barButtonItem != nil) {
         NSSize size = barButtonItem.bounds.size;
-        barButtonItem.frame = NSMakeRect(kCHMainTabBarWidth - (48 + size.width) / 2, NSHeight(frame) - (64 + size.height) / 2, size.width, size.height);
+        barButtonItem.frame = NSMakeRect(kCHMainTabBarWidth - (48 + size.width) / 2, NSHeight(frame) - (58 + size.height) / 2, size.width, size.height);
     }
 }
 

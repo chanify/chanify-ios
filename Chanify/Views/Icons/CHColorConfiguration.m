@@ -7,7 +7,7 @@
 
 #import "CHColorConfiguration.h"
 
-@interface CHColorContentView : UIView <UIContentView>
+@interface CHColorContentView : CHView <CHContentView>
 
 @property (nonatomic, copy) CHColorConfiguration *configuration;
 
@@ -25,7 +25,7 @@
 - (void)setConfiguration:(CHColorConfiguration *)configuration {
     _configuration = configuration;
     NSString *color = configuration.color;
-    self.backgroundColor = (color.length <= 0 ? configuration.defaultColor : [UIColor colorWithRGB:(uint32_t)color.uint64Hex]);
+    self.backgroundColor = (color.length <= 0 ? configuration.defaultColor : [CHColor colorWithRGB:(uint32_t)color.uint64Hex]);
 }
 
 - (void)layoutSubviews {
@@ -57,7 +57,7 @@
     return [[CHColorContentView alloc] initWithConfiguration:self];
 }
 
-- (nonnull instancetype)updatedConfigurationForState:(nonnull id<UIConfigurationState>)state {
+- (nonnull instancetype)updatedConfigurationForState:(nonnull id<CHConfigurationState>)state {
     return self;
 }
 

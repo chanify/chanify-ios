@@ -12,7 +12,7 @@
 @interface CHPopoverWindow () <CHPageViewDelegate>
 
 @property (nonatomic, readonly, strong) CHLabel *titleLabel;
-@property (nonatomic, readonly, strong) CHPageView *pageView;
+@property (nonatomic, readonly, strong) NSMutableArray<CHPageView *> *pages;
 
 @end
 
@@ -25,8 +25,8 @@
 - (instancetype)initWithPage:(CHPageView *)page {
     NSWindowStyleMask styleMask = NSWindowStyleMaskTitled|NSWindowStyleMaskFullSizeContentView;
     if (self = [super initWithContentRect:NSZeroRect styleMask:styleMask backing:NSBackingStoreBuffered defer:NO]) {
-        _pageView = page;
-        page.delegate = self;
+        _pages = [NSMutableArray arrayWithObject:page];
+        page.pageDelegate = self;
         
         CHTheme *theme = CHTheme.shared;
 
@@ -38,16 +38,14 @@
         
         CHView *view = [CHView new];
         self.contentView = view;
-        
+
         NSButton *closeButton = [NSWindow standardWindowButton:NSWindowCloseButton forStyleMask:styleMask];
         [view addSubview:closeButton];
         [closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.left.equalTo(view).offset(7);
         }];
         closeButton.target = self;
-        
-        [view addSubview:page];
-        
+
         CHLabel *titleLabel = [CHLabel new];
         [view addSubview:(_titleLabel = titleLabel)];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -56,23 +54,46 @@
         }];
         titleLabel.textColor = theme.labelColor;
         titleLabel.font = theme.textFont;
-        [self titleUpdated];
 
-        [page mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(titleLabel.mas_bottom);
-            make.left.right.bottom.equalTo(view);
-        }];
-        NSSize size = page.calcContentSize;
-        if (size.width <= 0) size.width = 400;
-        if (size.height <= 0) size.height = 270;
-        [self setFrame:NSMakeRect(0, 0, size.width, size.height + 30) display:YES animate:NO];
+        [self pushPage:page animate:NO];
     }
     return self;
 }
 
+- (void)pushPage:(CHPageView *)page animate:(BOOL)animate {
+    CHView *view = self.contentView;
+    if (self.pages.count > 0) {
+        CHPageView *oldPage = self.pages.firstObject;
+        [oldPage removeFromSuperview];
+        oldPage.pageDelegate = self;
+    }
+    [self.pages addObject:page];
+    page.pageDelegate = self;
+    [view addSubview:page];
+    [self titleUpdated];
+    [page mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.titleLabel.mas_bottom);
+        make.left.right.bottom.equalTo(view);
+    }];
+    NSSize size = page.calcContentSize;
+    if (size.width <= 0) size.width = 400;
+    if (size.height <= 0) size.height = 270;
+    [self setFrame:NSMakeRect(0, 0, size.width, size.height + 30) display:YES animate:animate];
+}
+
+- (void)popPage:(CHPageView *)page {
+    if (page == self.pages.firstObject) {
+        [self close];
+    }
+}
+
 #pragma mark - CHPageViewDelegate
 - (void)titleUpdated {
-    self.titleLabel.text = self.pageView.title ?: @"";
+    NSString *title = nil;
+    if (self.pages.count > 0) {
+        title = self.pages.lastObject.title;
+    }
+    self.titleLabel.text = title ?: @"";
 }
 
 

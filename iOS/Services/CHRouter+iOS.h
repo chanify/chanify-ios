@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)handleShortcut:(NSString *)type;
 - (void)shouldChangeDetailViewControllerTo:(UIViewController *)vc;
 - (void)popToRootViewControllerAnimated:(BOOL)animated;
-- (void)presentViewController:(UIViewController *)viewController animated:(BOOL)animated;
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated;
 - (void)presentSystemViewController:(UIViewController *)viewController animated:(BOOL)animated;
 - (void)closeViewController:(UIViewController *)vc animated:(BOOL)animated completion: (void (^ __nullable)(void))completion;
 - (void)showAlertView:(UIAlertController *)alert;
