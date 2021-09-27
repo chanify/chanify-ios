@@ -110,6 +110,20 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     return res;
 }
 
+- (void)popToRootViewControllerAnimated:(BOOL)animated {
+    NSWindow *window = CHRouter.shared.window;
+    if (window.sheets.count > 0) {
+        window = window.sheets.lastObject;
+        if ([window isKindOfClass:CHPopoverWindow.class]) {
+            [window close];
+        }
+    } else {
+        if ([window.contentViewController isKindOfClass:CHMainViewController.class]) {
+            [(CHMainViewController *)window.contentViewController restDetailViewController];
+        }
+    }
+}
+
 - (void)showShareItem:(NSArray *)items sender:(id)sender handler:(void (^ __nullable)(BOOL completed, NSError *error))handler {
     NSSharingServicePicker *sharingServicePicker = [[NSSharingServicePicker alloc] initWithItems:items];
     sharingServicePicker.delegate = self;
@@ -124,7 +138,20 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
 }
 
 - (void)showAlertWithTitle:(NSString *)title action:(NSString *)action handler:(void (^ __nullable)(void))handler {
-    
+    NSAlert *alert = [NSAlert new];
+    alert.alertStyle = NSAlertStyleWarning;
+    alert.messageText = title;
+    if (action.length <= 0) {
+        action = @"OK".localized;
+    }
+    [alert addButtonWithTitle:@"Cancel".localized];
+    [[alert addButtonWithTitle:action] setTag:NSModalResponseOK];
+
+    [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == NSModalResponseOK && handler != nil) {
+            dispatch_main_async(handler);
+        }
+    }];
 }
 
 - (void)setBadgeText:(NSString *)badgeText {
@@ -151,7 +178,13 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
 }
 
 - (void)makeToast:(NSString *)message {
-    [CHToast showMessage:message inView:CHRouter.shared.window.contentView];
+    dispatch_main_async(^{
+        NSWindow *window = CHRouter.shared.window;
+        if (window.sheets.count > 0) {
+            window = window.sheets.lastObject;
+        }
+        [CHToast showMessage:message inView:window.contentView];
+    });
 }
 
 #pragma mark - NSWindowDelegate
@@ -249,7 +282,6 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
         }
         return res;
     }];
-    
     // unmatched router
     routes.unmatchedURLHandler = ^(JLRoutes *routes, NSURL *url, NSDictionary<NSString *, id> *parameters) {
         if (url != nil) {

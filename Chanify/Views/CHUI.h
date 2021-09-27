@@ -22,6 +22,7 @@
 #   define CHProgressView                           NSProgressIndicator
 #   define CHUIViewController                       NSViewController
 #   define CHNodeViewController                     CHNodeViewPage
+#   define CHChannelDetailViewController            CHChannelDetailViewPage
 #   define clipsToBounds                            chClipsToBounds
 #   define layoutSubviews                           layout
 #   define mas_safeLayoutGuideTop                   mas_top

@@ -87,6 +87,10 @@
     return self.contentView.topContentView;
 }
 
+- (void)restDetailViewController {
+    [self.contentView resetContentView];
+}
+
 - (void)pushPage:(CHPageView *)page animate:(BOOL)animate reset:(BOOL)reset {
     [self.contentView pushPage:page animate:animate reset:reset];
 }

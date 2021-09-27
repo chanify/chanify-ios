@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)handleURL:(NSURL *)url;
 - (BOOL)routeTo:(NSString *)url;
 - (BOOL)routeTo:(NSString *)url withParams:(nullable NSDictionary<NSString *, id> *)params;
+- (void)popToRootViewControllerAnimated:(BOOL)animated;
 - (void)showShareItem:(NSArray *)items sender:(id)sender handler:(void (^ __nullable)(BOOL completed, NSError *error))handler;
 - (void)showAlertWithTitle:(NSString *)title action:(NSString *)action handler:(void (^ __nullable)(void))handler;
 - (void)makeToast:(NSString *)message;

@@ -1,5 +1,5 @@
 //
-//  CHNodeAddViewPage.h
+//  CHNodeNewViewPage.h
 //  OSX
 //
 //  Created by WizJin on 2021/9/26.
@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHNodeAddViewPage : CHPageView
+@interface CHNodeNewViewPage : CHPageView
 
 @end
 

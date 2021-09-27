@@ -1036,7 +1036,7 @@
             @"xmark.shield.fill",
             @"zzz",
         ]];
-        if (@available(iOS 15, *)) {
+        if (@available(iOS 15, macOS 12, *)) {
             [iconSet addObjectsFromArray:@[
                 @"airplane.arrival",
                 @"airplane.departure",

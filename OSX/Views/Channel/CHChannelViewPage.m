@@ -12,6 +12,7 @@
 #import "CHChannelModel.h"
 #import "CHMessageModel.h"
 #import "CHScrollView.h"
+#import "CHRouter.h"
 #import "CHLogic.h"
 #import "CHTheme.h"
 
@@ -36,7 +37,8 @@
         
         self.title = self.model.title;
         self.backgroundColor = theme.backgroundColor;
-        
+        self.rightBarButtonItem = [CHBarButtonItem itemWithTitle:@"⋯" target:self action:@selector(actionInfo:)];
+
         NSCollectionViewFlowLayout *layout = [NSCollectionViewFlowLayout new];
         layout.minimumLineSpacing = 16;
         CHCollectionView *listView = [[CHCollectionView alloc] initWithLayout:layout];
@@ -138,6 +140,11 @@
     if ([self.model.cid isEqualToString:cid]) {
         [self.dataSource reset:YES];
     }
+}
+
+#pragma mark - Action Methods
+- (void)actionInfo:(id)sender {
+    [CHRouter.shared routeTo:@"/page/channel/detail" withParams:@{ @"cid": self.model.cid }];
 }
 
 

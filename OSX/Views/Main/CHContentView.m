@@ -11,7 +11,6 @@
 @interface CHContentView () <CHPageViewDelegate>
 
 @property (nonatomic, readonly, strong) NSMutableArray<CHPageView *>    *pages;
-@property (nonatomic, readonly, strong) CHLabel *titleLabel;
 @property (nonatomic, readonly, strong) CHBarButtonItem *backBarButtonItem;
 @property (nonatomic, nullable, weak) CHBarButtonItem *rightBarButtonItem;
 @property (nonatomic, readonly, strong) CHView *separatorLine;
@@ -25,6 +24,8 @@
     if (self = [super initWithFrame:frameRect]) {
         CHTheme *theme = CHTheme.shared;
 
+        _headerMargin = 16;
+        _headerHeight = 58;
         _pages = [NSMutableArray new];
         _appearView = nil;
         _rightBarButtonItem = nil;
@@ -47,23 +48,31 @@
 - (void)layout {
     [super layout];
     NSRect frame = self.bounds;
-    CGFloat offset = 16;
+    CGFloat offset = self.headerMargin;
     if(self.pages.count <= 1) {
         self.backBarButtonItem.hidden = YES;
     } else {
         NSSize size = NSMakeSize(26, 30);
         self.backBarButtonItem.hidden = NO;
-        self.backBarButtonItem.frame = NSMakeRect(12, NSHeight(frame) - (58 + size.height) / 2, size.width, size.height);
+        self.backBarButtonItem.frame = NSMakeRect(offset - 4, NSHeight(frame) - (self.headerHeight + size.height) / 2, size.width, size.height);
         offset += size.width + 4;
     }
-    self.titleLabel.frame = NSMakeRect(offset, NSHeight(frame) - 58, NSWidth(frame), 58);
-    self.separatorLine.frame = NSMakeRect(0, NSHeight(frame) - 59, NSWidth(frame), 1);
-    self.topContentView.frame = NSMakeRect(0, 0, NSWidth(frame), NSHeight(frame) - 59);
+    self.titleLabel.frame = NSMakeRect(offset, NSHeight(frame) - self.headerHeight, NSWidth(frame) - offset * 2, self.headerHeight);
+    self.separatorLine.frame = NSMakeRect(0, NSHeight(frame) - self.headerHeight - 1, NSWidth(frame), 1);
+    self.topContentView.frame = NSMakeRect(0, 0, NSWidth(frame), NSHeight(frame) - self.headerHeight - 1);
     CHBarButtonItem *barButtonItem = self.rightBarButtonItem;
     if (barButtonItem != nil) {
         NSSize size = barButtonItem.bounds.size;
-        barButtonItem.frame = NSMakeRect(NSWidth(frame) - (58 + size.width) / 2, NSHeight(frame) - (58 + size.height) / 2, size.width, size.height);
+        barButtonItem.frame = NSMakeRect(NSWidth(frame) - (self.headerHeight + size.width) / 2, NSHeight(frame) - (self.headerHeight + size.height) / 2, size.width, size.height);
     }
+}
+
+- (void)resetContentView {
+    [self popPage:self.pages.firstObject animate:YES];
+}
+
+- (NSInteger)pageCount {
+    return self.pages.count;
 }
 
 - (nullable CHPageView *)topContentView {

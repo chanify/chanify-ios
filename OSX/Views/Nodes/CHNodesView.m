@@ -119,7 +119,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHNodeModel *> CHNodeDiffableSn
 
 #pragma mark - Action Methods
 - (void)actionAddNode:(id)sender {
-    [CHRouter.shared routeTo:@"page/node/add" withParams:@{ @"show": @"present" }];
+    [CHRouter.shared routeTo:@"page/node/new" withParams:@{ @"show": @"present" }];
 }
 
 #pragma mark - Private Methods

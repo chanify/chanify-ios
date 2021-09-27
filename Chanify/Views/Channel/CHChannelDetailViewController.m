@@ -55,7 +55,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"checkmark.shield"] style:UIBarButtonItemStylePlain target:self action:@selector(actionCreateToken:)];
+    self.rightBarButtonItem = [CHBarButtonItem itemWithIcon:@"checkmark.shield" target:self action:@selector(actionCreateToken:)];
 }
 
 - (BOOL)isEqualWithParameters:(NSDictionary *)params {

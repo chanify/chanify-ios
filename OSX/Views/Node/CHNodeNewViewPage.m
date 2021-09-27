@@ -1,24 +1,24 @@
 //
-//  CHNodeAddViewPage.m
+//  CHNodeNewViewPage.m
 //  OSX
 //
 //  Created by WizJin on 2021/9/26.
 //
 
-#import "CHNodeAddViewPage.h"
+#import "CHNodeNewViewPage.h"
 #import <AVFoundation/AVFoundation.h>
 #import <Masonry/Masonry.h>
 #import "CHRouter.h"
 #import "CHTheme.h"
 
-@interface CHNodeAddViewPage () <NSTextFieldDelegate, NSDraggingDestination>
+@interface CHNodeNewViewPage () <NSTextFieldDelegate, NSDraggingDestination>
 
 @property (nonatomic, readonly, strong) NSTextField *inputText;
 @property (nonatomic, readonly, strong) NSButton *doneButton;
 
 @end
 
-@implementation CHNodeAddViewPage
+@implementation CHNodeNewViewPage
 
 - (void)viewDidLoad {
     [super viewDidLoad];
