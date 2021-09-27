@@ -108,6 +108,16 @@ static NSString *const headerIdentifier = @"header";
     }
 }
 
+- (void)reloadSection:(CHFormSection *)section {
+    if (self.dataSource != nil && section != nil) {
+        CHFormDiffableSnapshot *snapshot = self.dataSource.snapshot;
+        if ([snapshot indexOfSectionIdentifier:section] != NSNotFound) {
+            [snapshot reloadSectionsWithIdentifiers:@[section]];
+        }
+        [self.dataSource applySnapshot:snapshot animatingDifferences:self.canAnimated];
+    }
+}
+
 - (void)itemBecomeFirstResponder:(CHFormInputItem *)item {
 }
 

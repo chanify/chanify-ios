@@ -157,6 +157,10 @@ typedef NSDiffableDataSourceSnapshot<CHFormSection *, CHFormItem *> CHFormDiffab
     [item.editView becomeFirstResponder];
 }
 
+- (UIBarButtonItem *)rightBarButtonItem {
+    return self.navigationItem.rightBarButtonItem;
+}
+
 - (void)setRightBarButtonItem:(UIBarButtonItem *)item {
     self.navigationItem.rightBarButtonItem = item;
 }

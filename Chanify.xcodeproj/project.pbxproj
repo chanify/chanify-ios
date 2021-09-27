@@ -58,6 +58,8 @@
 		6D156038270195D60027E556 /* CHIconManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D156036270195D60027E556 /* CHIconManager.m */; };
 		6D15603B27019D8F0027E556 /* CHSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D15603A27019D8F0027E556 /* CHSegmentedControl.m */; };
 		6D15603F2701DC530027E556 /* CHChannelDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C3AD25D1705100512E36 /* CHChannelDetailViewController.m */; };
+		6D156040270201C90027E556 /* CHChannelNewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C3A825D1702F00512E36 /* CHChannelNewViewController.m */; };
+		6D15604127022C080027E556 /* CHTokenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD325ED2652429800A5CEC4 /* CHTokenViewController.m */; };
 		6D17176B2665D35600A89A33 /* NSView+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D17176A2665D35600A89A33 /* NSView+CHExt.m */; };
 		6D180E01262441BC000BDE82 /* NSString+CHNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD7B5DE260DF588001D5DCB /* NSString+CHNotification.m */; };
 		6D1B1F7B26FC6E0900041FAC /* CHFormHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1B1F7A26FC6E0900041FAC /* CHFormHeaderView.m */; };
@@ -1294,6 +1296,8 @@
 				6DDE056926281F5C004336DD /* CHMessageCellView.m */,
 				6DC6C3AC25D1705100512E36 /* CHChannelDetailViewController.h */,
 				6DC6C3AD25D1705100512E36 /* CHChannelDetailViewController.m */,
+				6DC6C3A725D1702F00512E36 /* CHChannelNewViewController.h */,
+				6DC6C3A825D1702F00512E36 /* CHChannelNewViewController.m */,
 			);
 			path = Channel;
 			sourceTree = "<group>";
@@ -1962,7 +1966,6 @@
 				6DC6C37B25D16DE600512E36 /* Channel */,
 				6D1C7DB826802E5400B5822F /* Dashboard */,
 				6D278EA125E4CC4800FC48CD /* Nodes */,
-				6D120373264F8DF80075F5C1 /* Token */,
 				6DC6C34825D16A6300512E36 /* Settings */,
 				6DC6C27E25D1406E00512E36 /* TabBar */,
 				6D4284F426D391E60086B05E /* Chart */,
@@ -2137,8 +2140,6 @@
 				6DC6C39E25D16FE600512E36 /* CHMessagesDataSource.m */,
 				6DC6C3A225D1700A00512E36 /* CHChannelViewController.h */,
 				6DC6C3A325D1700A00512E36 /* CHChannelViewController.m */,
-				6DC6C3A725D1702F00512E36 /* CHChannelNewViewController.h */,
-				6DC6C3A825D1702F00512E36 /* CHChannelNewViewController.m */,
 			);
 			path = Channel;
 			sourceTree = "<group>";
@@ -2199,6 +2200,7 @@
 			children = (
 				6D025F74266DE93000C17512 /* Channel */,
 				6DBDF93226FDC45E001F6F1B /* Node */,
+				6D120373264F8DF80075F5C1 /* Token */,
 				6D0384D526F5BFDB002C3BE1 /* Form */,
 				6D51562B266624DD00137071 /* Icons */,
 				6D1717682665D2B700A89A33 /* Utils */,
@@ -3084,7 +3086,9 @@
 				6DE7C089263D494F0092D88D /* CHNSDataSource.m in Sources */,
 				6DE7C067263D47210092D88D /* CHLogger.m in Sources */,
 				6DE7C073263D48680092D88D /* CHThumbnailModel.m in Sources */,
+				6D156040270201C90027E556 /* CHChannelNewViewController.m in Sources */,
 				6D8F37CF26D20832001A8884 /* CHTimelineModel.m in Sources */,
+				6D15604127022C080027E556 /* CHTokenViewController.m in Sources */,
 				6DE7C07D263D48CE0092D88D /* NSNumber+CHExt.m in Sources */,
 				6DDEB4E3263FA8BB00CAD501 /* CHToken.m in Sources */,
 				6D6F3CF7263D28EA00A2578B /* AppDelegate.m in Sources */,

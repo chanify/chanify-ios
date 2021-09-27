@@ -276,6 +276,9 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
         }
         if (name.length > 0) {
             Class clz = NSClassFromString([NSString stringWithFormat:@"CH%@ViewPage", name.code]);
+            if (clz == nil) {
+                clz = NSClassFromString([NSString stringWithFormat:@"CH%@ViewController", name.code]);
+            }
             if ([clz isSubclassOfClass:CHPageView.class]) {
                 res = showShowPage(clz, parameters);
             }

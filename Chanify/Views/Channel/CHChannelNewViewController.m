@@ -19,11 +19,19 @@
 - (instancetype)init {
     if (self = [super init]) {
         [self initializeForm];
-        UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(actionDone:)];
-        self.navigationItem.rightBarButtonItem = rightBarButtonItem;
+        CHBarButtonItem *rightBarButtonItem = [CHBarButtonItem itemDoneWithTarget:self action:@selector(actionDone:)];
+        self.rightBarButtonItem = rightBarButtonItem;
         rightBarButtonItem.enabled = NO;
     }
     return self;
+}
+
+- (instancetype)initWithParameters:(NSDictionary *)params {
+    return [self init];
+}
+
+- (CGSize)calcContentSize {
+    return CGSizeMake(400, 500);
 }
 
 #pragma mark - Private Methods
@@ -52,7 +60,7 @@
 
 #pragma mark - CHFormDelegate
 - (void)formItemValueHasChanged:(CHFormItem *)item oldValue:(id)oldValue newValue:(id)newValue {
-    self.navigationItem.rightBarButtonItem.enabled = (self.form.errorItems.count <= 0);
+    self.rightBarButtonItem.enabled = (self.form.errorItems.count <= 0);
 }
 
 #pragma mark - Action Methods

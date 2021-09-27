@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable, strong) CHForm *form;
 
 - (void)reloadItem:(CHFormItem *)item;
+- (void)reloadSection:(CHFormSection *)section;
 - (void)itemBecomeFirstResponder:(CHFormInputItem *)item;
 - (nullable CHFormViewCell *)cellForItem:(CHFormItem *)item;
 - (__kindof CHView *)itemAccessoryView:(CHFormInputItem *)item;

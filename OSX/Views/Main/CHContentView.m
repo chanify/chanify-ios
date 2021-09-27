@@ -24,8 +24,9 @@
     if (self = [super initWithFrame:frameRect]) {
         CHTheme *theme = CHTheme.shared;
 
-        _headerMargin = 16;
         _headerHeight = 58;
+        _headerMarginLeft = 16;
+        _headerMarginRight = 12;
         _pages = [NSMutableArray new];
         _appearView = nil;
         _rightBarButtonItem = nil;
@@ -48,7 +49,7 @@
 - (void)layout {
     [super layout];
     NSRect frame = self.bounds;
-    CGFloat offset = self.headerMargin;
+    CGFloat offset = self.headerMarginLeft;
     if(self.pages.count <= 1) {
         self.backBarButtonItem.hidden = YES;
     } else {
@@ -63,7 +64,7 @@
     CHBarButtonItem *barButtonItem = self.rightBarButtonItem;
     if (barButtonItem != nil) {
         NSSize size = barButtonItem.bounds.size;
-        barButtonItem.frame = NSMakeRect(NSWidth(frame) - (self.headerHeight + size.width) / 2, NSHeight(frame) - (self.headerHeight + size.height) / 2, size.width, size.height);
+        barButtonItem.frame = NSMakeRect(NSWidth(frame) - size.width - self.headerMarginRight, NSHeight(frame) - (self.headerHeight + size.height) / 2, size.width, size.height);
     }
 }
 

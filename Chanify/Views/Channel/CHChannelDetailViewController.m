@@ -64,7 +64,7 @@
 
 #pragma mark - Action Methods
 - (void)actionCreateToken:(id)sender {
-    [CHRouter.shared routeTo:@"/page/token" withParams:@{ @"cid": self.model.cid, @"show": @"detail" }];
+    [CHRouter.shared routeTo:@"/page/token" withParams:@{ @"cid": self.model.cid }];
 }
 
 #pragma mark - Private Methods

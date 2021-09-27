@@ -10,12 +10,30 @@
 
 @implementation CHBarButtonItem
 
++ (instancetype)itemDoneWithTarget:(id)target action:(SEL)action {
+    return [[self.class alloc] initDoneWithTarget:target action:action];
+}
+
 + (instancetype)itemWithTitle:(NSString *)title target:(id)target action:(SEL)action {
     return [[self.class alloc] initWithTitle:title target:target action:action];
 }
 
 + (instancetype)itemWithIcon:(NSString *)icon target:(id)target action:(SEL)action {
     return [[self.class alloc] initWithIcon:icon target:target action:action];
+}
+
+- (instancetype)initDoneWithTarget:(id)target action:(SEL)action {
+    if (self = [super initWithFrame:NSMakeRect(0, 0, 50, 32)]) {
+        self.contentTintColor = CHTheme.shared.labelColor;
+        self.bezelStyle = NSBezelStyleTexturedSquare;
+        self.showsBorderOnlyWhileMouseInside = YES;
+        self.font = [CHFont systemFontOfSize:14];
+        self.alignment = NSTextAlignmentCenter;
+        self.title = @"Done".localized;
+        self.target = target;
+        self.action = action;
+    }
+    return self;
 }
 
 - (instancetype)initWithTitle:(NSString *)title target:(id)target action:(SEL)action {

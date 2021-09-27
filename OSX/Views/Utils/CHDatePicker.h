@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 #define CHDatePickerModeDate        NSDatePickerModeSingle
-#define CHDatePickerStyleCompact    NSDatePickerStyleTextFieldAndStepper
+#define CHDatePickerStyleCompact    NSDatePickerStyleTextField
 
 @interface CHDatePicker : NSDatePicker
 

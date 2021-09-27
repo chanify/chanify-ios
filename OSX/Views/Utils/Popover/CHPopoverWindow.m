@@ -45,8 +45,8 @@
             make.edges.equalTo(view);
         }];
         pagesView.titleLabel.alignment = NSTextAlignmentCenter;
-        pagesView.headerMargin = kCHPopoverMargin;
         pagesView.headerHeight = kCHPopoverHeight;
+        pagesView.headerMarginLeft = kCHPopoverMargin;
 
         NSButton *closeButton = [NSWindow standardWindowButton:NSWindowCloseButton forStyleMask:styleMask];
         [view addSubview:closeButton];

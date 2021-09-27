@@ -12,7 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CHContentView : CHView
 
 @property (nonatomic, readonly, strong) CHLabel *titleLabel;
-@property (nonatomic, assign) CGFloat headerMargin;
+@property (nonatomic, assign) CGFloat headerMarginLeft;
+@property (nonatomic, assign) CGFloat headerMarginRight;
 @property (nonatomic, assign) CGFloat headerHeight;
 
 - (void)pushPage:(nullable CHPageView *)page animate:(BOOL)animate reset:(BOOL)reset;

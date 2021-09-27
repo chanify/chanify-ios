@@ -5,11 +5,11 @@
 //  Created by WizJin on 2021/5/17.
 //
 
-#import "CHFormViewController.h"
+#import "CHFormViewPage.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHTokenViewController : CHFormViewController
+@interface CHTokenViewController : CHFormViewPage
 
 @end
 
