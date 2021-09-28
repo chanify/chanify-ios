@@ -69,7 +69,16 @@
 }
 
 - (void)resetContentView {
-    [self popPage:self.pages.firstObject animate:YES];
+    CHPageView *page = self.pages.firstObject;
+    if (page != nil) {
+        while (self.pages.count > 0) {
+            CHPageView *last = self.pages.lastObject;
+            [self preRemovePage:last];
+            [self.pages removeObject:last];
+        }
+        [self resetTopPage];
+        self.needsLayout = YES;
+    }
 }
 
 - (NSInteger)pageCount {
@@ -162,7 +171,9 @@
 - (void)resetTopPage {
     CHPageView *page = self.topContentView;
     page.pageDelegate = self;
-    [self addSubview:page];
+    if (page != nil) {
+        [self addSubview:page];
+    }
     if (_appearView != page) {
         _appearView = page;
         [page viewDidAppear];

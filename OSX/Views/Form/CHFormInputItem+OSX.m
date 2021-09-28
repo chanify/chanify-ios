@@ -105,5 +105,10 @@
     }
 }
 
+- (void)controlTextDidChange:(NSNotification *)info {
+    NSTextView *textView = [info.userInfo valueForKey:@"NSFieldEditor"];
+    [self.section.form notifyItemValueHasChanged:self oldValue:self.value newValue:textView.string];
+}
+
 
 @end
