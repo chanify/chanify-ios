@@ -67,7 +67,7 @@
     CHIconView *iconView = nil;
     if (cell != nil) {
         CHListContentView *contentView = (CHListContentView *)cell.contentView;
-        iconView = [contentView viewWithTag:kCHFormImageViewTag];
+        iconView = [contentView viewWithTagID:kCHFormImageViewTag];
         if (iconView == nil) {
             iconView = [CHIconView new];
             [contentView addSubview:iconView];

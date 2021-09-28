@@ -37,7 +37,7 @@
 
 - (UITextField *)editView {
     CHListContentView *contentView = (CHListContentView *)[[self.section.form.viewDelegate cellForItem:self] contentView];
-    UITextField *textField = [contentView viewWithTag:kCHFormTextFieldTag];
+    UITextField *textField = [contentView viewWithTagID:kCHFormTextFieldTag];
     if (textField == nil) {
         textField = [UITextField new];
         [contentView addSubview:textField];

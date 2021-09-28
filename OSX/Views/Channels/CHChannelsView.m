@@ -107,9 +107,10 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
 - (void)logicChannelUpdated:(NSString *)cid {
     CHChannelModel *chan =  [CHLogic.shared.userDataSource channelWithCID:cid];
     if (chan != nil) {
-        CHChannelDiffableSnapshot *snapshot = self.dataSource.snapshot;
-        [snapshot reloadItemsWithIdentifiers:@[chan]];
-        [self.dataSource applySnapshot:snapshot animatingDifferences:NO];
+        [self reloadData];
+        //CHChannelDiffableSnapshot *snapshot = self.dataSource.snapshot;
+        //[snapshot reloadItemsWithIdentifiers:@[chan]];
+        //[self.dataSource applySnapshot:snapshot animatingDifferences:NO];
     }
 }
 

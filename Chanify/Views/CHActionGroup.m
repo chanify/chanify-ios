@@ -65,9 +65,9 @@
     NSUInteger n = self.actions.count;
     CGFloat width = (n > 0 ? size.width/n : 0);
     for (int i = 0; i < n; i++) {
-        CHButton *btn = [self viewWithTag:kCHActionItemViewTag + i];
+        CHButton *btn = [self viewWithTagID:kCHActionItemViewTag + i];
         btn.frame = CGRectMake(width * i, self.lineWidth, width, size.height - self.lineWidth);
-        CHView *line = [self viewWithTag:kCHActionItemLineTag + i];
+        CHView *line = [self viewWithTagID:kCHActionItemLineTag + i];
         line.frame = CGRectMake(width * i, self.lineWidth, self.lineWidth, size.height - self.lineWidth);
     }
 }
@@ -77,7 +77,7 @@
     if (![_actions isEqualToArray:actions]) {
         _actions = actions;
         for (int i = 0; i < kCHActionItemMaxN; i++) {
-            CHButton *btn = [self viewWithTag:kCHActionItemViewTag + i];
+            CHButton *btn = [self viewWithTagID:kCHActionItemViewTag + i];
             if (i >= actions.count) {
                 btn.hidden = YES;
             } else {
@@ -85,7 +85,7 @@
                 CHActionItemModel *model = [actions objectAtIndex:i];
                 btn.normalTitle = model.name;
             }
-            CHView *line = [self viewWithTag:kCHActionItemLineTag + i];
+            CHView *line = [self viewWithTagID:kCHActionItemLineTag + i];
             line.hidden = btn.hidden;
         }
         [self setNeedsLayout];

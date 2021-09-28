@@ -17,6 +17,18 @@
     return [NSButton new];
 }
 
+- (void)setTagID:(NSInteger)tagID {
+    self.tag = tagID;
+}
+
+- (NSInteger)tagID {
+    return self.tag;
+}
+
+- (nullable NSView *)viewWithTagID:(NSInteger)tagID {
+    return [self viewWithTag:tagID];
+}
+
 - (void)setTitleFont:(NSFont *)font {
     // TODO: set font
 }

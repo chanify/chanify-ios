@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)systemButtonWithImage:(NSImage *)image target:(nullable id)target action:(nullable SEL)action;
 + (instancetype)button;
+- (nullable __kindof NSButton *)viewWithTagID:(NSInteger)tagID;
 - (void)setTitleFont:(NSFont *)font;
 - (void)setTitleTintColor:(NSColor *)color;
 - (void)setTitleSelectColor:(NSColor *)color;

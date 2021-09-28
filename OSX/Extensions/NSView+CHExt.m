@@ -37,6 +37,15 @@ static const char *kTintColorTagKey = "TintColorTagKey";
     objc_setAssociatedObject(self, kTintColorTagKey, tintColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+- (nullable __kindof NSView *)viewWithTagID:(NSInteger)tagID {
+    for (NSView *view in self.subviews) {
+        if (view.tagID == tagID) {
+            return view;
+        }
+    }
+    return nil;
+}
+
 - (void)setUserInteractionEnabled:(BOOL)userInteractionEnabled {
 }
 

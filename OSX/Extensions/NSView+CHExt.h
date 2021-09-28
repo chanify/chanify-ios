@@ -16,12 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGFloat alpha;
 @property (nonatomic, assign) NSInteger tagID;
 
+- (nullable __kindof NSView *)viewWithTagID:(NSInteger)tagID;
 - (void)setUserInteractionEnabled:(BOOL)userInteractionEnabled;
 - (void)setBackgroundColor:(NSColor *)color;
 - (void)setNeedsDisplay;
 - (void)setNeedsLayout;
 - (void)setCornerRadius:(CGFloat)cornerRadius;
-//- (void)setTag:(NSInteger)tag;
 
 
 @end

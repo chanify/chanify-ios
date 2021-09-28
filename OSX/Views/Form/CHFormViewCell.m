@@ -43,6 +43,11 @@
     }
 }
 
+- (void)setNeedsUpdateConfiguration {
+    self.contentView.configuration = self.contentConfiguration;
+    [self.view setNeedsUpdateConstraints:YES];
+}
+
 - (void)viewDidLayout {
     [super viewDidLayout];
     if (self.rightView != nil && self.contentView != nil) {

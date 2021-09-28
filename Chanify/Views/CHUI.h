@@ -99,6 +99,7 @@ typedef NS_OPTIONS(NSUInteger, CHControlEvents) {
 #   define CHFormViewCellAccessoryNone                  UITableViewCellAccessoryNone
 #   define CHFormViewCellAccessoryDisclosureIndicator   UITableViewCellAccessoryDisclosureIndicator
 #   define CHControlEventValueChanged                   UIControlEventValueChanged
+#   define viewWithTagID                                viewWithTag
 #   define mas_safeLayoutGuideTop                       mas_safeAreaLayoutGuideTop
 #   define mas_safeLayoutGuideBottom                    mas_safeAreaLayoutGuideBottom
 #endif

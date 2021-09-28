@@ -56,7 +56,7 @@
     CHSwitch *switchView = nil;
     if (cell != nil) {
         CHListContentView *contentView = (CHListContentView *)cell.contentView;
-        switchView = [contentView viewWithTag:kCHFormSwitchViewTag];
+        switchView = [contentView viewWithTagID:kCHFormSwitchViewTag];
         if (switchView == nil) {
             switchView = [CHSwitch new];
             [contentView addSubview:switchView];

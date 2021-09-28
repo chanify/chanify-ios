@@ -23,6 +23,7 @@ typedef NS_ENUM(NSInteger, CHFormViewCellAccessoryType) {
 @property (nonatomic, nullable, strong) NSView *accessoryView;
 
 - (void)setItem:(CHFormItem *)item;
+- (void)setNeedsUpdateConfiguration;
 
 
 @end

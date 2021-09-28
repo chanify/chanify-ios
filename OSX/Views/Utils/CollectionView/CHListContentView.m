@@ -79,7 +79,7 @@
         self.secondaryTexLabel.alignment = listConfiguration.secondaryTextProperties.alignment;
         
         [self.textLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-            if (self.secondaryTexLabel.text.length > 0) {
+            if (self.secondaryTexLabel.text.length > 0 || listConfiguration.textProperties.alignment != NSTextAlignmentCenter) {
                 make.right.equalTo(self.secondaryTexLabel.mas_left).offset(-4);
             } else {
                 make.right.equalTo(self).offset(-CHListContentViewMargin);

@@ -49,7 +49,7 @@
     CHDatePicker *datePicker = nil;
     if (cell != nil) {
         CHListContentView *contentView = (CHListContentView *)cell.contentView;
-        datePicker = [contentView viewWithTag:kCHFormDatePickerTag];
+        datePicker = [contentView viewWithTagID:kCHFormDatePickerTag];
         if (datePicker == nil) {
             datePicker = [CHDatePicker new];
             [contentView addSubview:datePicker];
