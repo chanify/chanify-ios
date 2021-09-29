@@ -285,6 +285,24 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
         }
         return res;
     }];
+    [routes addRoute:@"/action/openurl" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
+        BOOL res = NO;
+        NSURL *url = parseURL([parameters valueForKey:@"url"]);
+        if (url != nil) {
+            [NSWorkspace.sharedWorkspace openURL:url];
+            res = YES;
+        }
+        return res;
+    }];
+    [routes addRoute:@"/action/openfile" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
+        BOOL res = NO;
+        NSURL *url = parseURL([parameters valueForKey:@"url"]);
+        if (url != nil) {
+            [NSWorkspace.sharedWorkspace openURL:url];
+            res = YES;
+        }
+        return res;
+    }];
     // unmatched router
     routes.unmatchedURLHandler = ^(JLRoutes *routes, NSURL *url, NSDictionary<NSString *, id> *parameters) {
         if (url != nil) {
@@ -385,6 +403,18 @@ static inline CHRouterShowMode parseShowMode(NSString *show) {
         }
     }
     return mode;
+}
+
+static inline NSURL *parseURL(id u) {
+    NSURL *url = nil;
+    if (u != nil) {
+        if ([u isKindOfClass:NSURL.class]) {
+            url = u;
+        } else if ([u isKindOfClass:NSString.class] && [u length] > 0) {
+            url = [NSURL URLWithString:u];
+        }
+    }
+    return url;
 }
 
 

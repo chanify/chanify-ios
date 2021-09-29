@@ -107,10 +107,6 @@
 #   import "NSMenuItem+CHExt.h"
 #endif
 
-#if __has_include(<AppKit/NSProgressIndicator.h>)
-#   import "NSProgressIndicator+CHExt.h"
-#endif
-
 #if __has_include(<AppKit/NSAnimationContext.h>)
 #   import "NSAnimationContext+CHExt.h"
 #endif

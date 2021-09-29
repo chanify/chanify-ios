@@ -46,7 +46,7 @@
 - (void)setupViews {
     [super setupViews];
 
-    CHView *bubbleView = [CHView new];
+    CHView *bubbleView = [CHMsgBubbleView new];
     [self addSubview:(_bubbleView = bubbleView)];
     bubbleView.backgroundColor = CHTheme.shared.bubbleBackgroundColor;
     bubbleView.cornerRadius = 8; // Fix: for macOS

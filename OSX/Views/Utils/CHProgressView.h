@@ -1,20 +1,20 @@
 //
-//  NSProgressIndicator+CHExt.h
+//  CHProgressView.h
 //  OSX
 //
-//  Created by WizJin on 2021/6/8.
+//  Created by WizJin on 2021/9/30.
 //
 
-#import <AppKit/NSProgressIndicator.h>
+#import <AppKit/AppKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSProgressIndicator (CHExt)
+@interface CHProgressView : NSView
 
+@property (nonatomic, strong) NSColor *trackTintColor;
 @property (nonatomic, assign) CGFloat progress;
 
 - (instancetype)initWithProgressViewStyle:(NSProgressIndicatorStyle)style;
-- (void)setTrackTintColor:(NSColor *)trackTintColor;
 
 
 @end

@@ -14,7 +14,10 @@
 }
 
 + (instancetype)button {
-    return [NSButton new];
+    NSButton *button = [NSButton new];
+    button.bezelStyle = NSBezelStyleInline;
+    button.bordered = NO;
+    return button;
 }
 
 - (void)setTagID:(NSInteger)tagID {
@@ -30,11 +33,11 @@
 }
 
 - (void)setTitleFont:(NSFont *)font {
-    // TODO: set font
+    self.font = font;
 }
 
 - (void)setTitleTintColor:(NSColor *)color {
-    
+    self.contentTintColor = color;
 }
 
 - (void)setTitleSelectColor:(NSColor *)color {

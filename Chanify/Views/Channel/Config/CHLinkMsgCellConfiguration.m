@@ -92,7 +92,7 @@
     NSMutableArray *items = [NSMutableArray arrayWithArray:@[
         [[CHMenuItem alloc]initWithTitle:@"Copy".localized action:@selector(actionCopy:)],
         [[CHMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)],
-        [[CHMenuItem alloc]initWithTitle:@"Safari" action:@selector(actionOpen:)],
+        [[CHMenuItem alloc]initWithTitle:@"Safari".localized action:@selector(actionOpen:)],
     ]];
     [items addObjectsFromArray:super.menuActions];
     return items;

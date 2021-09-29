@@ -42,6 +42,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     if (self = [super initWithCollectionView:collectionView itemProvider:cellProvider]) {
         _cid = cid;
         _collectionView = collectionView;
+        collectionView.alpha = 0;
         [collectionView registerClass:CHLoadMoreView.class forSupplementaryViewOfKind:NSCollectionElementKindSectionHeader withIdentifier:@"CHLoadMoreView"];
         @weakify(self);
         self.supplementaryViewProvider = ^NSView * _Nullable(NSCollectionView *collectionView, NSString *kind, NSIndexPath *indexPath) {
@@ -177,10 +178,14 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
 }
 
 - (void)scrollToBottom:(BOOL)animated {
-    NSInteger count = [self.collectionView numberOfItemsInSection:0];
+    NSCollectionView *collectionView = self.collectionView;
+    if (collectionView.alpha != 1) {
+        collectionView.alpha = 1;
+    }
+    NSInteger count = [collectionView numberOfItemsInSection:0];
     if (count > 0) {
-        [self.collectionView layoutSubtreeIfNeeded];
-        [self.collectionView scrollToItemsAtIndexPaths:[NSSet setWithObject:[NSIndexPath indexPathForItem:count-1 inSection:0]] scrollPosition:NSCollectionViewScrollPositionBottom];
+        [collectionView layoutSubtreeIfNeeded];
+        [collectionView scrollToItemsAtIndexPaths:[NSSet setWithObject:[NSIndexPath indexPathForItem:count-1 inSection:0]] scrollPosition:NSCollectionViewScrollPositionBottom];
     }
 }
 

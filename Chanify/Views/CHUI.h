@@ -19,7 +19,6 @@
 #   define CHButton                                 NSButton
 #   define CHMenuItem                               NSMenuItem
 #   define CHBezierPath                             NSBezierPath
-#   define CHProgressView                           NSProgressIndicator
 #   define CHUIViewController                       NSViewController
 #   define clipsToBounds                            chClipsToBounds
 #   define layoutSubviews                           layout
@@ -47,8 +46,10 @@ typedef NS_OPTIONS(NSUInteger, CHControlEvents) {
 #   import "CHLabel.h"
 #   import "CHSwitch.h"
 #   import "CHDatePicker.h"
+#   import "CHProgressView.h"
 #   import "CHSegmentedControl.h"
 #   import "CHLineView.h"
+#   import "CHMsgBubbleView.h"
 #   import "CHMessageCellItem.h"
 #   import "CHMenuController.h"
 #   import "CHCollectionViewCell.h"
@@ -64,6 +65,7 @@ typedef NS_OPTIONS(NSUInteger, CHControlEvents) {
 #   define CHColor                                      UIColor
 #   define CHView                                       UIView
 #   define CHLineView                                   UIView
+#   define CHMsgBubbleView                              UIView
 #   define CHFont                                       UIFont
 #   define CHScreen                                     UIScreen
 #   define CHLabel                                      UILabel

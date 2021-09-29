@@ -26,6 +26,8 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        self.backgroundColor = CHColor.clearColor;
+        
         _lineWidth = 1.0/CHScreen.mainScreen.scale;
 
         CHTheme *theme = CHTheme.shared;
@@ -96,6 +98,12 @@
 - (void)doAction:(CHButton *)button {
     [self.delegate actionGroupSelected:[self.actions objectAtIndex:button.tag - kCHActionItemViewTag]];
 }
+
+#if TARGET_OS_OSX
+- (BOOL)isFlipped {
+    return YES;
+}
+#endif
 
 
 @end

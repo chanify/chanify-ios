@@ -6,7 +6,6 @@
 //
 
 #import "CHFileMsgCellConfiguration.h"
-#import "CHPreviewController.h"
 #import "CHWebFileManager.h"
 #import "CHActionGroup.h"
 #import "CHPasteboard.h"
@@ -177,11 +176,7 @@
 
 - (void)actionClicked:(CHTapGestureRecognizer *)sender {
     if (self.localFileURL != nil) {
-#if TARGET_OS_OSX
-#else
-        CHPreviewController *vc = [CHPreviewController previewFile:self.localFileURL];
-        [CHRouter.shared presentSystemViewController:vc animated:YES];
-#endif
+        [CHRouter.shared routeTo:@"/action/openfile" withParams:@{ @"url": self.localFileURL }];
     } else {
         CHWebFileManager *webFileManager = CHLogic.shared.webFileManager;
         self.statusLabel.text = @"";

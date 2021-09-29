@@ -90,7 +90,6 @@
             [self addSubview:(_checkIcon = [CHImageView new])];
         }
         self.checkIcon.frame = CGRectMake((50 - kCheckIconSize)/2, (frame.size.height - kCheckIconSize)/2, kCheckIconSize, kCheckIconSize);
-       
     }
 }
 
@@ -152,7 +151,9 @@
 
 - (NSArray<CHMenuItem *> *)menuActions {
     return @[
+#if !TARGET_OS_OSX
         [[CHMenuItem alloc] initWithTitle:@"Select".localized action:@selector(actionSelect:)],
+#endif
         [[CHMenuItem alloc] initWithTitle:@"Delete".localized action:@selector(actionDelete:)],
     ];
 }

@@ -13,6 +13,7 @@
 #import "CHSplitViewController.h"
 #import "CHLoginViewController.h"
 #import "CHWebViewController.h"
+#import "CHPreviewController.h"
 #import "CHIndicatorPanelView.h"
 #import "CHPasteboard.h"
 #import "CHToken.h"
@@ -286,15 +287,19 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     }];
     [routes addRoute:@"/action/openurl" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
         BOOL res = NO;
-        id u = [parameters valueForKey:@"url"];
-        if (u != nil) {
-            NSURL *url = nil;
-            if ([u isKindOfClass:NSURL.class]) {
-                url = u;
-            } else if ([u isKindOfClass:NSString.class] && [u length] > 0) {
-                url = [NSURL URLWithString:u];
-            }
+        NSURL *url = parseURL([parameters valueForKey:@"url"]);
+        if (url != nil) {
             res = openURL(url);
+        }
+        return res;
+    }];
+    [routes addRoute:@"/action/openfile" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
+        BOOL res = NO;
+        NSURL *url = parseURL([parameters valueForKey:@"url"]);
+        if (url != nil) {
+            CHPreviewController *vc = [CHPreviewController previewFile:url];
+            [CHRouter.shared presentSystemViewController:vc animated:YES];
+            res = YES;
         }
         return res;
     }];
@@ -337,6 +342,18 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
         }
         openURL(url);
     };
+}
+
+static inline NSURL *parseURL(id u) {
+    NSURL *url = nil;
+    if (u != nil) {
+        if ([u isKindOfClass:NSURL.class]) {
+            url = u;
+        } else if ([u isKindOfClass:NSString.class] && [u length] > 0) {
+            url = [NSURL URLWithString:u];
+        }
+    }
+    return url;
 }
 
 static inline BOOL openURL(NSURL *url) {
