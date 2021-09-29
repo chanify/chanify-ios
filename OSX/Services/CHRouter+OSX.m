@@ -356,6 +356,7 @@ static inline BOOL showShowPage(Class clz, NSDictionary<NSString *, id> *paramet
         dispatch_main_async(^{
             CHPopoverWindow *window = [CHPopoverWindow windowWithPage:loadPage(clz, parameters)];
             [CHRouter.shared.window beginSheet:window completionHandler:^(NSModalResponse returnCode) {
+                [NSApp endSheet:window];
             }];
         });
         return YES;

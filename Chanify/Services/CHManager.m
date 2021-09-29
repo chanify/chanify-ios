@@ -34,7 +34,8 @@
     @weakify(self);
     dispatch_main_async(^{
         @strongify(self);
-        for (id delegate in self.delegates) {
+        NSArray *delegates = self.delegates.allObjects;
+        for (id delegate in delegates) {
             if ([delegate respondsToSelector:action]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
@@ -49,7 +50,8 @@
     @weakify(self);
     dispatch_main_async(^{
         @strongify(self);
-        for (id delegate in self.delegates) {
+        NSArray *delegates = self.delegates.allObjects;
+        for (id delegate in delegates) {
             if ([delegate respondsToSelector:action]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
