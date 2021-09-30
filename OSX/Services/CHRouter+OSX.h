@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)launch;
 - (void)close;
-- (void)handleReopen:(id)sender;
+- (BOOL)handleReopen:(id)sender hasVisibleWindows:(BOOL)flag;
 - (void)setBadgeText:(NSString *)badgeText;
 - (void)pushViewController:(CHPageView *)page animated:(BOOL)animated;
 - (void)showIndicator:(BOOL)show;

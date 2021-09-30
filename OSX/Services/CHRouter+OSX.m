@@ -75,8 +75,9 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     [CHLogic.shared close];
 }
 
-- (void)handleReopen:(id)sender {
+- (BOOL)handleReopen:(id)sender hasVisibleWindows:(BOOL)flag {
     [self actionShow:self];
+    return YES;
 }
 
 - (BOOL)handleURL:(NSURL *)url {

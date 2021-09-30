@@ -31,10 +31,7 @@
 }
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag {
-    if (flag) {
-        [CHRouter.shared handleReopen:sender];
-    }
-    return flag;
+    return [CHRouter.shared handleReopen:sender hasVisibleWindows:flag];
 }
 
 @end
