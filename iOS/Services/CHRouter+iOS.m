@@ -293,7 +293,7 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
         }
         return res;
     }];
-    [routes addRoute:@"/action/openfile" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
+    [routes addRoute:@"/action/previewfile" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
         BOOL res = NO;
         NSURL *url = parseURL([parameters valueForKey:@"url"]);
         if (url != nil) {

@@ -176,7 +176,7 @@
 
 - (void)actionClicked:(CHTapGestureRecognizer *)sender {
     if (self.localFileURL != nil) {
-        [CHRouter.shared routeTo:@"/action/openfile" withParams:@{ @"url": self.localFileURL }];
+        [CHRouter.shared routeTo:@"/action/previewfile" withParams:@{ @"url": self.localFileURL }];
     } else {
         CHWebFileManager *webFileManager = CHLogic.shared.webFileManager;
         self.statusLabel.text = @"";

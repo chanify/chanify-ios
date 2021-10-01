@@ -10,6 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class CHPageView;
+@class CHPreviewItem;
 
 @interface CHRouter (OSX)
 
@@ -18,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)handleReopen:(id)sender hasVisibleWindows:(BOOL)flag;
 - (void)setBadgeText:(NSString *)badgeText;
 - (void)pushViewController:(CHPageView *)page animated:(BOOL)animated;
+- (void)showPreviewPanel:(CHPreviewItem *)item;
 - (void)showIndicator:(BOOL)show;
 
 

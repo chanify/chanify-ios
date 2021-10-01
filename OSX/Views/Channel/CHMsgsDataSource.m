@@ -9,10 +9,13 @@
 #import "CHUserDataSource.h"
 #import "CHUnknownMsgCellConfiguration.h"
 #import "CHDateCellConfiguration.h"
+#import "CHWebImageManager.h"
 #import "CHLoadMoreView.h"
+#import "CHPreviewItem.h"
+#import "CHRouter.h"
 #import "CHLogic.h"
 
-@interface CHMsgsDataSource ()
+@interface CHMsgsDataSource () <CHMessageSource>
 
 @property (nonatomic, readonly, strong) NSString *cid;
 @property (nonatomic, nullable, strong) CHLoadMoreView *headerView;
@@ -170,6 +173,35 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     [self.collectionView deselectItemsAtIndexPaths:indexPaths];
 }
 
+#pragma mark - CHMessageSource
+- (void)setNeedRecalcLayoutItem:(CHCellConfiguration *)cell {
+    [cell setNeedRecalcLayout];
+    [self.collectionView.collectionViewLayout invalidateLayout];
+}
+
+- (void)beginEditingWithItem:(CHCellConfiguration *)cell {
+}
+
+- (void)previewImageWithMID:(NSString *)mid {
+    for (CHCellConfiguration *cell in self.snapshot.itemIdentifiers) {
+        if ([cell.mid isEqualToString:mid]) {
+            NSString *thumbnailUrl = cell.mediaThumbnailURL;
+            if (thumbnailUrl.length > 0) {
+                NSURL *url = [CHLogic.shared.webImageManager localFileURL:thumbnailUrl];
+                if (url != nil) {
+                    CHPreviewItem *item = [CHPreviewItem itemWithURL:url title:cell.date.mediumFormat uti:@"public.jpeg"];
+                    [CHRouter.shared showPreviewPanel:item];
+                }
+            }
+            break;
+        }
+    }
+}
+
+- (BOOL)isEditing {
+    return NO;
+}
+
 #pragma mark - Private Methods
 - (void)updateHeaderView {
     if (self.headerView != nil && self.headerView.status != CHLoadStatusLoading) {
@@ -254,6 +286,13 @@ static inline void loadRegistrationsToCollectionVoew(NSCollectionView * collecti
 static inline NSCollectionViewItem* loadCell(NSCollectionView *collectionView, CHCollectionViewCellRegistration *registration, NSIndexPath *indexPath, CHCellConfiguration *item) {
     CHCollectionViewCell *cell = [collectionView makeItemWithIdentifier:registration.itemIdentifier forIndexPath:indexPath];
     registration.configurationHandler(cell, indexPath, item);
+    CHView *contentView = cell.contentView;
+    if ([contentView isKindOfClass:CHMsgCellContentView.class]) {
+        id source = collectionView.dataSource;
+        if ([source isKindOfClass:CHMsgsDataSource.class]) {
+            [(CHMsgCellContentView *)contentView setSource:(CHMsgsDataSource *)collectionView.dataSource];
+        }
+    }
     return cell;
 }
 

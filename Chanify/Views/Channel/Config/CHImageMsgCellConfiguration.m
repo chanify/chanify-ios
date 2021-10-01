@@ -150,12 +150,8 @@
 - (void)actionClicked:(CHTapGestureRecognizer *)sender {
     NSURL *localFileURL = self.imageView.localFileURL;
     if (localFileURL != nil) {
-#if TARGET_OS_OSX
-        [CHRouter.shared routeTo:@"/action/openfile" withParams:@{ @"url": localFileURL }];
-#else
         CHImageMsgCellConfiguration *configuration = (CHImageMsgCellConfiguration *)self.configuration;
         [self.source previewImageWithMID:configuration.mid];
-#endif
     }
 }
 

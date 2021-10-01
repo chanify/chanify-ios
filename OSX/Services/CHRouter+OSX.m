@@ -12,6 +12,7 @@
 #import "CHLoginViewController.h"
 #import "CHChannelViewPage.h"
 #import "CHPopoverWindow.h"
+#import "CHPreviewItem.h"
 #import "CHAboutView.h"
 #import "CHToast.h"
 #import "CHLogic.h"
@@ -24,11 +25,12 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
 
 #define kMenuLogoutTag  10000
 
-@interface CHRouter () <NSWindowDelegate, NSSharingServicePickerDelegate, NSMenuItemValidation>
+@interface CHRouter () <NSWindowDelegate, NSSharingServicePickerDelegate, NSMenuItemValidation, QLPreviewPanelDataSource>
 
 @property (nonatomic, readonly, strong) NSStatusItem *statusIcon;
 @property (nonatomic, nullable, strong) void (^shareHandler)(BOOL completed, NSError *error);
 @property (nonatomic, nullable, weak) NSPanel *aboutPanel;
+@property (nonatomic, nullable, strong) id<QLPreviewItem> previewItem;
 
 @end
 
@@ -45,6 +47,7 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
 
 - (instancetype)init {
     if (self = [super init]) {
+        _previewItem = nil;
         _shareHandler = nil;
         [self initRouters:JLRoutes.globalRoutes];
         [self loadMainMenu];
@@ -174,6 +177,10 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     }
 }
 
+- (void)showPreviewPanel:(CHPreviewItem *)item {
+    [self showPreviewItemPanel:item];
+}
+
 - (void)showIndicator:(BOOL)show {
     
 }
@@ -211,6 +218,15 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     return YES;
 }
 
+#pragma mark - QLPreviewPanelDataSource
+- (NSInteger)numberOfPreviewItemsInPreviewPanel:(QLPreviewPanel *)panel {
+    return (self.previewItem == nil ? 0 : 1);
+}
+
+- (id <QLPreviewItem>)previewPanel:(QLPreviewPanel *)panel previewItemAtIndex:(NSInteger)index {
+    return self.previewItem;
+}
+
 #pragma mark - Action Methods
 - (void)actionShow:(id)sender {
     if (NSApp.keyWindow == nil) {
@@ -244,6 +260,19 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
             [CHRouter.shared routeTo:@"/page/main"];
         }
     }];
+}
+
+#pragma mark - QLPreviewPanelController
+- (BOOL)acceptsPreviewPanelControl:(QLPreviewPanel *)panel {
+    return YES;
+}
+
+- (void)beginPreviewPanelControl:(QLPreviewPanel *)panel {
+    panel.dataSource = self;
+}
+
+- (void)endPreviewPanelControl:(QLPreviewPanel *)panel {
+    panel.dataSource = nil;
 }
 
 #pragma mark - Private Methods
@@ -295,11 +324,11 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
         }
         return res;
     }];
-    [routes addRoute:@"/action/openfile" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
+    [routes addRoute:@"/action/previewfile" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
         BOOL res = NO;
         NSURL *url = parseURL([parameters valueForKey:@"url"]);
         if (url != nil) {
-            [NSWorkspace.sharedWorkspace openURL:url];
+            [CHRouter.shared showPreviewItemPanel:url];
             res = YES;
         }
         return res;
@@ -335,6 +364,19 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     [menu addItem:NSMenuItem.separatorItem];
     [menu addItem:CreateMenuItem(@"Quit Chanify", NSApp, @selector(terminate:), @"q")];
     NSApp.mainMenu = mainMenu;
+}
+
+- (void)showPreviewItemPanel:(nullable id<QLPreviewItem>)item {
+    _previewItem = item;
+    if (item != nil) {
+        QLPreviewPanel *panel = QLPreviewPanel.sharedPreviewPanel;
+        if (QLPreviewPanel.sharedPreviewPanelExists && panel.isVisible) {
+            [panel orderOut:nil];
+        } else {
+            [panel makeKeyAndOrderFront:nil];
+            [panel reloadData];
+        }
+    }
 }
 
 static inline NSMenuItem *CreateMenuItem(NSString *title, id target, SEL action, NSString *key) {
