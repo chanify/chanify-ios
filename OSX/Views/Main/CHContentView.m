@@ -121,18 +121,18 @@
     }
 }
 
-- (void)viewDidAppear {
+- (void)viewDidAppear:(BOOL)animated {
     if (_appearView != self.topContentView) {
         _appearView = self.topContentView;
-        [self.topContentView viewDidAppear];
+        [self.topContentView viewDidAppear:animated];
         self.titleLabel.text = [self.topContentView title] ?: @"";
     }
 }
 
-- (void)viewDidDisappear {
+- (void)viewDidDisappear:(BOOL)animated {
     if (_appearView == self.topContentView) {
         _appearView = nil;
-        [self.topContentView viewDidDisappear];
+        [self.topContentView viewDidDisappear:animated];
     }
 }
 
@@ -151,12 +151,12 @@
 #pragma mark - Private Methods
 - (void)preRemovePage:(CHPageView *)page {
     if (page != nil) {
-        [page viewDidDisappear];
+        [page viewDidDisappear:NO];
         page.pageDelegate = nil;
         [page removeFromSuperview];
         if (_appearView == page) {
             _appearView = nil;
-            [self.topContentView viewDidDisappear];
+            [self.topContentView viewDidDisappear:NO];
         }
         if (page == self.topContentView) {
             self.titleLabel.text = @"";
@@ -176,7 +176,7 @@
     }
     if (_appearView != page) {
         _appearView = page;
-        [page viewDidAppear];
+        [page viewDidAppear:NO];
         self.titleLabel.text = page.title ?: @"";
     }
     if (self.rightBarButtonItem != page.rightBarButtonItem) {

@@ -407,6 +407,7 @@
 		6DE7C08C263D49950092D88D /* CHNSDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2EB25D15F9700512E36 /* CHNSDataSource.m */; };
 		6DEBD180270531A2003845BF /* CHMsgBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DEBD17F270531A2003845BF /* CHMsgBubbleView.m */; };
 		6DEBD18627055951003845BF /* CHProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DEBD18527055951003845BF /* CHProgressView.m */; };
+		6DEBD1AB2706CA56003845BF /* CHSettingsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DEBD1AA2706CA56003845BF /* CHSettingsView.m */; };
 		6DEC569E25F4F6F600AD6DC9 /* CHIconConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC569D25F4F6F600AD6DC9 /* CHIconConfiguration.m */; };
 		6DF2C34A263582EF00DBFC2D /* NodeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF2C349263582EF00DBFC2D /* NodeDetailView.swift */; };
 		6DF611202665E32E00426830 /* CHContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF6111F2665E32E00426830 /* CHContentView.m */; };
@@ -1151,6 +1152,8 @@
 		6DEBD17F270531A2003845BF /* CHMsgBubbleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHMsgBubbleView.m; sourceTree = "<group>"; };
 		6DEBD18427055951003845BF /* CHProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHProgressView.h; sourceTree = "<group>"; };
 		6DEBD18527055951003845BF /* CHProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHProgressView.m; sourceTree = "<group>"; };
+		6DEBD1A92706CA56003845BF /* CHSettingsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHSettingsView.h; sourceTree = "<group>"; };
+		6DEBD1AA2706CA56003845BF /* CHSettingsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHSettingsView.m; sourceTree = "<group>"; };
 		6DEC569C25F4F6F600AD6DC9 /* CHIconConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHIconConfiguration.h; sourceTree = "<group>"; };
 		6DEC569D25F4F6F600AD6DC9 /* CHIconConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHIconConfiguration.m; sourceTree = "<group>"; };
 		6DF2C349263582EF00DBFC2D /* NodeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeDetailView.swift; sourceTree = "<group>"; };
@@ -2369,6 +2372,7 @@
 				6D5156342666497900137071 /* Channel */,
 				6DC7CF4A26E5F37E002F7869 /* Nodes */,
 				6D8F427B2700699E0073D06B /* Node */,
+				6DEBD1A82706CA47003845BF /* Settings */,
 				6D03850026F5DD92002C3BE1 /* Icons */,
 				6D75352726DF1C68009E019E /* About */,
 				6DB929E826DE17010093F927 /* Login */,
@@ -2377,6 +2381,15 @@
 				6D83523E2665CFE9005CE6D1 /* Utils */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		6DEBD1A82706CA47003845BF /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				6DEBD1A92706CA56003845BF /* CHSettingsView.h */,
+				6DEBD1AA2706CA56003845BF /* CHSettingsView.m */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		6DF6111D2665E19400426830 /* Main */ = {
@@ -3083,6 +3096,7 @@
 				6D0384F626F5D7DD002C3BE1 /* CHFormIconItem.m in Sources */,
 				6DC7CF5726E614A0002F7869 /* CHPageView.m in Sources */,
 				6D029B76266F179B00BF046A /* NSButton+CHExt.m in Sources */,
+				6DEBD1AB2706CA56003845BF /* CHSettingsView.m in Sources */,
 				6DE7C087263D493E0092D88D /* CHManager.m in Sources */,
 				6D029B80266F210F00BF046A /* CHActionGroup.m in Sources */,
 				6DAD53F0266DF8630036B68F /* CHDateCellConfiguration.m in Sources */,

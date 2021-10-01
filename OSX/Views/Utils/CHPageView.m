@@ -42,10 +42,10 @@
 - (void)viewDidLoad {
 }
 
-- (void)viewDidAppear {
+- (void)viewDidAppear:(BOOL)animated {
 }
 
-- (void)viewDidDisappear {
+- (void)viewDidDisappear:(BOOL)animated {
 }
 
 - (void)setTitle:(NSString *)title {

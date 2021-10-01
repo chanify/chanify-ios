@@ -80,6 +80,11 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
     self.scrollView.frame = self.bounds;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self reloadData];
+}
+
 - (void)reloadData {
     NSArray<CHChannelModel *> *items = [CHLogic.shared.userDataSource loadChannels];
     CHChannelDiffableSnapshot *snapshot = [CHChannelDiffableSnapshot new];

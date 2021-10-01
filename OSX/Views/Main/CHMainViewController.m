@@ -10,6 +10,7 @@
 #import "CHContentItem.h"
 #import "CHChannelsView.h"
 #import "CHNodesView.h"
+#import "CHSettingsView.h"
 #import "CHTheme.h"
 
 #define kCHMainTabBarWidth  240
@@ -21,6 +22,7 @@
 @property (nonatomic, readonly, strong) CHView *separatorLine;
 @property (nonatomic, readonly, strong) CHView *tabView;
 @property (nonatomic, nullable, weak) CHBarButtonItem *rightBarButtonItem;
+@property (nonatomic, nullable, weak) CHSideBarView *lastSideBarView;
 
 @end
 
@@ -31,6 +33,7 @@
     
     CHTheme *theme = CHTheme.shared;
     
+    _lastSideBarView = nil;
     _rightBarButtonItem = nil;
 
     self.view.backgroundColor = theme.backgroundColor;
@@ -48,21 +51,20 @@
     pressGestureRecognizer.delaysPrimaryMouseButtonEvents = NO;
     [tabView addGestureRecognizer:pressGestureRecognizer];
 
-    CHContentItem *item1 = [CHContentItem itemWithTitle:@"Channels" image:@"Channel" clz:CHChannelsView.class];
-    [tabView addSubview:item1];
-    [item1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(tabView);
-        make.left.equalTo(tabView);
-        make.size.mas_equalTo(NSMakeSize(74, 38));
-    }];
-    CHContentItem *item2 = [CHContentItem itemWithTitle:@"Nodes" image:@"Network" clz:CHNodesView.class];
-    [tabView addSubview:item2];
-    [item2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(tabView);
-        make.centerX.equalTo(tabView);
-        make.size.mas_equalTo(NSMakeSize(74, 38));
-    }];
-    _items = @[item1, item2];
+    _items = @[
+        [self contentItemWithTitle:@"Channels" image:@"Channel" clz:CHChannelsView.class],
+        [self contentItemWithTitle:@"Nodes" image:@"Network" clz:CHNodesView.class],
+        [self contentItemWithTitle:@"Settings" image:@"Settings" clz:CHSettingsView.class],
+    ];
+    CGFloat offset = 0;
+    CGFloat width = kCHMainTabBarWidth / self.items.count;
+    for (CHContentItem *item in self.items) {
+        [item mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.tabView).offset(offset);
+            make.width.mas_equalTo(width);
+        }];
+        offset += width;
+    }
     _selectIndex = -1;
     self.selectIndex = 0;
 }
@@ -74,12 +76,13 @@
 
 - (void)viewDidAppear {
     [super viewDidAppear];
-    [self.sidebarView reloadData];
-    [self.contentView viewDidAppear];
+    [self.lastSideBarView viewDidAppear:YES];
+    [self.contentView viewDidAppear:YES];
 }
 
 - (void)viewDidDisappear {
-    [self.contentView viewDidDisappear];
+    [self.lastSideBarView viewDidDisappear:YES];
+    [self.contentView viewDidDisappear:YES];
     [super viewDidDisappear];
 }
 
@@ -109,6 +112,16 @@
 }
 
 #pragma mark - Private Methods
+- (CHContentItem *)contentItemWithTitle:(NSString *)title image:(NSString *)image clz:(Class)clz {
+    CHContentItem *item = [CHContentItem itemWithTitle:title image:image clz:clz];
+    [self.tabView addSubview:item];
+    [item mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.tabView);
+        make.height.mas_equalTo(38);
+    }];
+    return item;
+}
+
 - (nullable CHContentItem *)selectedItem {
     NSInteger index = self.selectIndex;
     if (index >= 0 && index < self.items.count) {
@@ -120,8 +133,17 @@
 - (nullable CHSideBarView *)sidebarView {
     CHSideBarView *sideBarView = [self.selectedItem sidebarView];
     if (sideBarView != nil) {
-        if (sideBarView.superview != self.view) {
-            [self.view addSubview:sideBarView];
+        if (sideBarView != self.lastSideBarView) {
+            if (self.lastSideBarView != nil) {
+                self.lastSideBarView.hidden = YES;
+                [self.lastSideBarView viewDidDisappear:YES];
+            }
+            _lastSideBarView = sideBarView;
+            if (sideBarView.superview != self.view) {
+                [self.view addSubview:sideBarView];
+            }
+            self.lastSideBarView.hidden = NO;
+            [self.lastSideBarView viewDidAppear:YES];
         }
         return sideBarView;
     }
@@ -144,7 +166,7 @@
         [self.selectedItem setSelected:NO];
         [self.sidebarView setHidden:YES];
         [self.contentView setHidden:YES];
-        [self.contentView viewDidDisappear];
+        [self.contentView viewDidDisappear:NO];
 
         _selectIndex = selectIndex;
         
@@ -164,8 +186,7 @@
         [self.sidebarView setHidden:NO];
         [self.contentView setHidden:NO];
         [self updateLayout];
-        [self.sidebarView reloadData];
-        [self.contentView viewDidAppear];
+        [self.contentView viewDidAppear:NO];
     }
 }
 

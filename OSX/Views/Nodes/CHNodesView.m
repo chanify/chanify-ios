@@ -79,6 +79,11 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHNodeModel *> CHNodeDiffableSn
     self.scrollView.frame = self.bounds;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self reloadData];
+}
+
 - (void)reloadData {
     CHNodeDiffableSnapshot *snapshot = [CHNodeDiffableSnapshot new];
     [snapshot appendSectionsWithIdentifiers:@[@"main"]];

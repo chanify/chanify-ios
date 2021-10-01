@@ -98,6 +98,10 @@ static NSString *const headerIdentifier = @"header";
     self.scrollView.frame = self.bounds;
 }
 
+- (void)reloadData {
+    [self.listView reloadData];
+}
+
 - (void)reloadItem:(CHFormItem *)item {
     if (self.dataSource != nil && item != nil) {
         CHFormDiffableSnapshot *snapshot = self.dataSource.snapshot;

@@ -7,9 +7,29 @@
 
 #import "CHSideBarView.h"
 
+@interface CHSideBarView ()
+
+@property (nonatomic, readonly, assign) BOOL isLoad;
+
+@end
+
 @implementation CHSideBarView
 
-- (void)reloadData {    
+- (void)viewWillMoveToSuperview:(NSView *)newSuperview {
+    if (!self.isLoad) {
+        _isLoad = YES;
+        [self viewDidLoad];
+    }
+    [super viewWillMoveToSuperview:newSuperview];
+}
+
+- (void)viewDidLoad {
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
 }
 
 

@@ -18,8 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)pushPage:(nullable CHPageView *)page animate:(BOOL)animate reset:(BOOL)reset;
 - (void)popPage:(nullable CHPageView *)page animate:(BOOL)animate;
-- (void)viewDidAppear;
-- (void)viewDidDisappear;
+- (void)viewDidAppear:(BOOL)animated;
+- (void)viewDidDisappear:(BOOL)animated;
 - (void)resetContentView;
 - (NSInteger)pageCount;
 - (nullable CHPageView *)topContentView;

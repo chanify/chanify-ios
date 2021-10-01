@@ -78,6 +78,10 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     [CHLogic.shared close];
 }
 
+- (BOOL)canSendMail {
+    return YES;
+}
+
 - (BOOL)handleReopen:(id)sender hasVisibleWindows:(BOOL)flag {
     [self actionShow:self];
     return YES;
@@ -255,11 +259,7 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
 }
 
 - (void)actionLogout:(id)sender {
-    [CHLogic.shared logoutWithCompletion:^(CHLCode result) {
-        if (result == CHLCodeOK) {
-            [CHRouter.shared routeTo:@"/page/main"];
-        }
-    }];
+    [CHRouter.shared routeTo:@"/action/logout"];
 }
 
 #pragma mark - QLPreviewPanelController
@@ -314,6 +314,20 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
             }
         }
         return res;
+    }];
+    [routes addRoute:@"/action/logout" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
+        [CHRouter.shared showAlertWithTitle:@"Logout or not?".localized action:@"OK".localized handler:^{
+            [CHRouter.shared showIndicator:YES];
+            [CHLogic.shared logoutWithCompletion:^(CHLCode result) {
+                [CHRouter.shared showIndicator:NO];
+                if (result == CHLCodeOK) {
+                    [CHRouter.shared routeTo:@"/page/main"];
+                } else {
+                    [CHRouter.shared makeToast:@"Logout failed".localized];
+                }
+            }];
+        }];
+        return YES;
     }];
     [routes addRoute:@"/action/openurl" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
         BOOL res = NO;

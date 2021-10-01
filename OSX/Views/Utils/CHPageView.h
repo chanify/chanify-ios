@@ -23,8 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)isEqualWithParameters:(NSDictionary *)params;
 - (CHView *)view;
 - (void)viewDidLoad;
-- (void)viewDidAppear;
-- (void)viewDidDisappear;
+- (void)viewDidAppear:(BOOL)animated;
+- (void)viewDidDisappear:(BOOL)animated;
 - (CGSize)calcContentSize;
 - (void)closeAnimated:(BOOL)animated completion: (void (^ __nullable)(void))completion;
 
