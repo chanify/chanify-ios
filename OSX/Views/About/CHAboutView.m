@@ -9,6 +9,7 @@
 #import <Masonry/Masonry.h>
 #import "CHCodeFormatter.h"
 #import "CHDevice.h"
+#import "CHRouter.h"
 #import "CHTheme.h"
 
 @implementation CHAboutView
@@ -89,11 +90,11 @@
 
 #pragma mark - Action Methods
 - (void)actionAcknowledgements:(id)sender {
-    [NSWorkspace.sharedWorkspace openURL:[NSBundle.mainBundle URLForResource:@"Acknowledgements" withExtension:@"markdown"]];
+    [CHRouter.shared routeTo:@"/action/previewfile" withParams:@{ @"url": [NSBundle.mainBundle URLForResource:@"Acknowledgements" withExtension:@"markdown"] }];
 }
 
 - (void)actionPrivacyPolicy:(id)sender {
-    [NSWorkspace.sharedWorkspace openURL:[NSURL URLWithString:@kCHPrivacyURL]];
+    [CHRouter.shared routeTo:@"/action/openurl" withParams:@{ @"url": [NSURL URLWithString:@kCHPrivacyURL] }];
 }
 
 

@@ -77,13 +77,13 @@
     return [self.model.cid isEqual:[params valueForKey:@"cid"]];
 }
 
-- (void)viewDidAppear {
-    [super viewDidAppear];
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     [CHLogic.shared addReadChannel:self.model.cid];
 }
 
-- (void)viewDidDisappear {
-    [super viewDidDisappear];
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
     [CHLogic.shared removeReadChannel:self.model.cid];
 }
 
