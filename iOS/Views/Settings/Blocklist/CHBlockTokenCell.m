@@ -105,7 +105,7 @@
     self.contentView.frame = frame;
 }
 
-- (void)setModel:(CHBlockeModel *)model {
+- (void)setModel:(CHBlockedModel *)model {
     _model = model;
     self.tokenLabel.text = [CHCodeFormatter.shared formatCode:self.model.raw length:32];
     CHChannelModel *chan = [CHLogic.shared.userDataSource channelWithCID:self.model.channel.base64];

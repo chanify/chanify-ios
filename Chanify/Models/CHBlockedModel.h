@@ -1,5 +1,5 @@
 //
-//  CHBlockeModel.h
+//  CHBlockedModel.h
 //  Chanify
 //
 //  Created by WizJin on 2021/6/5.
@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CHBlockeModel : NSObject
+@interface CHBlockedModel : NSObject
 
 @property (nonatomic, readonly, strong) NSString *raw;
 @property (nonatomic, nullable, readonly, strong) NSDate *expired;

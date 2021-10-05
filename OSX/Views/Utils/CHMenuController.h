@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nullable, nonatomic,copy) NSArray<CHMenuItem *> *menuItems;
 
 + (instancetype)sharedMenuController;
-- (void)showMenuFromView:(CHView *)targetView target:(CHView *)target point:(CGPoint)point;
+- (void)showMenuFromView:(CHView *)targetView target:(id)target point:(CGPoint)point;
 - (BOOL)isMenuVisible;
 - (void)hideMenuFromView:(CHView *)targetView;
 

@@ -1,20 +1,20 @@
 //
-//  CHBlockeModel.m
+//  CHBlockedModel.m
 //  Chanify
 //
 //  Created by WizJin on 2021/6/5.
 //
 
-#import "CHBlockeModel.h"
+#import "CHBlockedModel.h"
 #import "CHToken.h"
 
-@interface CHBlockeModel ()
+@interface CHBlockedModel ()
 
 @property (nonatomic, nullable, strong) CHToken *token;
 
 @end
 
-@implementation CHBlockeModel
+@implementation CHBlockedModel
 
 + (instancetype)modelWithRaw:(NSString *)raw {
     return [[self.class alloc] initWithRaw:raw];
@@ -52,7 +52,7 @@
     return nid.length > 0 ? nid : @"sys";
 }
 
-- (BOOL)isEqual:(CHBlockeModel *)rhs {
+- (BOOL)isEqual:(CHBlockedModel *)rhs {
     return [self.raw isEqualToString:rhs.raw];
 }
 

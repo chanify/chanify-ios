@@ -18,8 +18,8 @@
 
 static NSString *const cellIdentifier = @"cell";
 
-typedef UITableViewDiffableDataSource<NSString *, CHBlockeModel *> CHTokensDataSource;
-typedef NSDiffableDataSourceSnapshot<NSString *, CHBlockeModel *> CHTokensDiffableSnapshot;
+typedef UITableViewDiffableDataSource<NSString *, CHBlockedModel *> CHTokensDataSource;
+typedef NSDiffableDataSourceSnapshot<NSString *, CHBlockedModel *> CHTokensDiffableSnapshot;
 
 @interface CHBlocklistViewController () <UITableViewDelegate, CHLogicDelegate>
 
@@ -55,7 +55,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHBlockeModel *> CHTokensDiffab
     tableView.allowsMultipleSelectionDuringEditing = YES;
     tableView.delegate = self;
 
-    _dataSource = [[CHTokensDataSource alloc] initWithTableView:tableView cellProvider:^UITableViewCell *(UITableView *tableView, NSIndexPath *indexPath, CHBlockeModel *model) {
+    _dataSource = [[CHTokensDataSource alloc] initWithTableView:tableView cellProvider:^UITableViewCell *(UITableView *tableView, NSIndexPath *indexPath, CHBlockedModel *model) {
         CHBlockTokenCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
         if (cell != nil) {
             cell.model = model;
@@ -142,9 +142,9 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHBlockeModel *> CHTokensDiffab
     CHTokensDiffableSnapshot *snapshot = [CHTokensDiffableSnapshot new];
     [snapshot appendSectionsWithIdentifiers:@[@""]];
     NSArray<NSString *> *tokens = CHLogic.shared.blockedTokens;
-    NSMutableArray<CHBlockeModel *> *items = [NSMutableArray arrayWithCapacity:tokens.count];
+    NSMutableArray<CHBlockedModel *> *items = [NSMutableArray arrayWithCapacity:tokens.count];
     for (NSString *raw in tokens) {
-        [items addObject:[CHBlockeModel modelWithRaw:raw]];
+        [items addObject:[CHBlockedModel modelWithRaw:raw]];
     }
     [snapshot appendItemsWithIdentifiers:items];
     [self.dataSource applySnapshot:snapshot animatingDifferences:animated];

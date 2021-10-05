@@ -32,7 +32,7 @@
     return self;
 }
 
-- (void)showMenuFromView:(CHView *)targetView target:(CHView *)target point:(CGPoint)point {
+- (void)showMenuFromView:(CHView *)targetView target:(id)target point:(CGPoint)point {
     [self hideMenuFromView:targetView];
     if (_menu == nil) {
         [target becomeFirstResponder];
