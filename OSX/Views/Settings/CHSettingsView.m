@@ -120,47 +120,47 @@
     [section addFormItem:item];
     
     // DATA
-    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"DATA".localized])];
-    item = [CHFormValueItem itemWithName:@"images" title:@"Images".localized value:@(0)];
-    item.action = ^(CHFormItem *itm) {
-        [CHRouter.shared routeTo:@"/page/images" withParams:@{ @"show": @"detail" }];
-    };
-    [(CHFormValueItem *)item setFormatter:^(CHFormValueItem *item, NSNumber *value) {
-        return [value formatFileSize];
-    }];
-    [section addFormItem:item];
-    item = [CHFormValueItem itemWithName:@"audios" title:@"Audios".localized value:@(0)];
-    item.action = ^(CHFormItem *itm) {
-        [CHRouter.shared routeTo:@"/page/audios" withParams:@{ @"show": @"detail" }];
-    };
-    [(CHFormValueItem *)item setFormatter:^(CHFormValueItem *item, NSNumber *value) {
-        return [value formatFileSize];
-    }];
-    [section addFormItem:item];
-    item = [CHFormValueItem itemWithName:@"files" title:@"Files".localized value:@(0)];
-    item.action = ^(CHFormItem *itm) {
-        [CHRouter.shared routeTo:@"/page/files" withParams:@{ @"show": @"detail" }];
-    };
-    [(CHFormValueItem *)item setFormatter:^(CHFormValueItem *item, NSNumber *value) {
-        return [value formatFileSize];
-    }];
-    [section addFormItem:item];
-    item = [CHFormValueItem itemWithName:@"links" title:@"Links".localized value:@(0)];
-    item.action = ^(CHFormItem *itm) {
-        [CHRouter.shared routeTo:@"/page/links" withParams:@{ @"show": @"detail" }];
-    };
-    [(CHFormValueItem *)item setFormatter:^(CHFormValueItem *item, NSNumber *value) {
-        return [value formatFileSize];
-    }];
-    [section addFormItem:item];
+//    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"DATA".localized])];
+//    item = [CHFormValueItem itemWithName:@"images" title:@"Images".localized value:@(0)];
+//    item.action = ^(CHFormItem *itm) {
+//        [CHRouter.shared routeTo:@"/page/images" withParams:@{ @"show": @"detail" }];
+//    };
+//    [(CHFormValueItem *)item setFormatter:^(CHFormValueItem *item, NSNumber *value) {
+//        return [value formatFileSize];
+//    }];
+//    [section addFormItem:item];
+//    item = [CHFormValueItem itemWithName:@"audios" title:@"Audios".localized value:@(0)];
+//    item.action = ^(CHFormItem *itm) {
+//        [CHRouter.shared routeTo:@"/page/audios" withParams:@{ @"show": @"detail" }];
+//    };
+//    [(CHFormValueItem *)item setFormatter:^(CHFormValueItem *item, NSNumber *value) {
+//        return [value formatFileSize];
+//    }];
+//    [section addFormItem:item];
+//    item = [CHFormValueItem itemWithName:@"files" title:@"Files".localized value:@(0)];
+//    item.action = ^(CHFormItem *itm) {
+//        [CHRouter.shared routeTo:@"/page/files" withParams:@{ @"show": @"detail" }];
+//    };
+//    [(CHFormValueItem *)item setFormatter:^(CHFormValueItem *item, NSNumber *value) {
+//        return [value formatFileSize];
+//    }];
+//    [section addFormItem:item];
+//    item = [CHFormValueItem itemWithName:@"links" title:@"Links".localized value:@(0)];
+//    item.action = ^(CHFormItem *itm) {
+//        [CHRouter.shared routeTo:@"/page/links" withParams:@{ @"show": @"detail" }];
+//    };
+//    [(CHFormValueItem *)item setFormatter:^(CHFormValueItem *item, NSNumber *value) {
+//        return [value formatFileSize];
+//    }];
+//    [section addFormItem:item];
 
     // HELP
-    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"HELP".localized])];
-    item = [CHFormValueItem itemWithName:@"quick" title:@"Quick Start".localized];
-    item.action = ^(CHFormItem *itm) {
-        [CHRouter.shared routeTo:@kQuickStartURL withParams:@{ @"title": @"Quick Start".localized, @"show": @"detail" }];
-    };
-    [section addFormItem:item];
+//    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"HELP".localized])];
+//    item = [CHFormValueItem itemWithName:@"quick" title:@"Quick Start".localized];
+//    item.action = ^(CHFormItem *itm) {
+//        [CHRouter.shared routeTo:@kQuickStartURL withParams:@{ @"title": @"Quick Start".localized, @"show": @"detail" }];
+//    };
+//    [section addFormItem:item];
     
     // ABOUT
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"ABOUT".localized])];
@@ -168,12 +168,14 @@
     [section addFormItem:item];
     item = [CHFormValueItem itemWithName:@"privacy" title:@"Privacy Policy".localized];
     item.action = ^(CHFormItem *itm) {
-        [CHRouter.shared routeTo:@"/page/privacy" withParams:@{ @"show": @"detail" }];
+        [CHRouter.shared routeTo:@"/action/openurl" withParams:@{ @"url": [NSURL URLWithString:@kCHPrivacyURL] }];
+        //[CHRouter.shared routeTo:@"/page/privacy" withParams:@{ @"show": @"detail" }];
     };
     [section addFormItem:item];
     item = [CHFormValueItem itemWithName:@"acknowledgements" title:@"Acknowledgements".localized];
     item.action = ^(CHFormItem *itm) {
-        [CHRouter.shared routeTo:@"/page/acknowledgements" withParams:@{ @"show": @"detail" }];
+        [CHRouter.shared routeTo:@"/action/previewfile" withParams:@{ @"url": [NSBundle.mainBundle URLForResource:@"Acknowledgements" withExtension:@"markdown"] }];
+        //[CHRouter.shared routeTo:@"/page/acknowledgements" withParams:@{ @"show": @"detail" }];
     };
     [section addFormItem:item];
     item = [CHFormValueItem itemWithName:@"contact-us" title:@"Contact Us".localized];

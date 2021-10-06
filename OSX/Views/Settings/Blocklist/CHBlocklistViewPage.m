@@ -7,6 +7,7 @@
 
 #import "CHBlocklistViewPage.h"
 #import "CHBlockItemCellView.h"
+#import "CHLoadMoreView.h"
 #import "CHCollectionView.h"
 #import "CHScrollView.h"
 #import "CHPasteboard.h"
@@ -23,6 +24,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHBlockedModel *> CHTokensDiffa
 
 @property (nonatomic, readonly, strong) CHScrollView *scrollView;
 @property (nonatomic, readonly, strong) CHCollectionView *listView;
+@property (nonatomic, nullable, strong) CHLoadMoreView *footerView;
 @property (nonatomic, readonly, strong) CHTokensDataSource *dataSource;
 
 @end
@@ -46,6 +48,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHBlockedModel *> CHTokensDiffa
     CHCollectionView *listView = [[CHCollectionView alloc] initWithLayout:layout];
     _listView = listView;
     [listView registerClass:CHBlockItemCellView.class forItemWithIdentifier:cellIdentifier];
+    [listView registerClass:CHLoadMoreView.class forSupplementaryViewOfKind:NSCollectionElementKindSectionFooter withIdentifier:@"CHLoadMoreView"];
     listView.backgroundColor = theme.groupedBackgroundColor;
     listView.allowsMultipleSelection = NO;
     listView.allowsEmptySelection = NO;
@@ -58,6 +61,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHBlockedModel *> CHTokensDiffa
     scrollView.hasVerticalScroller = YES;
     scrollView.hasHorizontalScroller = NO;
     
+    @weakify(self);
     _dataSource = [[CHTokensDataSource alloc] initWithCollectionView:listView itemProvider:^NSCollectionViewItem * _Nullable(NSCollectionView *collectionView, NSIndexPath *indexPath, CHBlockedModel *model) {
         CHBlockItemCellView *item = [collectionView makeItemWithIdentifier:cellIdentifier forIndexPath:indexPath];
         if (item != nil) {
@@ -65,6 +69,14 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHBlockedModel *> CHTokensDiffa
         }
         return item;
     }];
+    self.dataSource.supplementaryViewProvider = ^NSView * _Nullable(NSCollectionView *collectionView, NSString *kind, NSIndexPath *indexPath) {
+        @strongify(self);
+        if (self.footerView == nil) {
+            self.footerView = [collectionView makeSupplementaryViewOfKind:kind withIdentifier:@"CHLoadMoreView" forIndexPath:indexPath];
+            self.footerView.status = CHLoadStatusFinish;
+        }
+        return self.footerView;
+    };
     [CHLogic.shared addDelegate:self];
     [self reloadData:NO];
 }
@@ -86,6 +98,10 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHBlockedModel *> CHTokensDiffa
 #pragma mark - NSCollectionViewDelegateFlowLayout
 - (NSSize)collectionView:(NSCollectionView *)collectionView layout:(NSCollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     return CGSizeMake(collectionView.safeAreaRect.size.width, 80);
+}
+
+- (NSSize)collectionView:(NSCollectionView *)collectionView layout:(NSCollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
+    return CGSizeMake(collectionView.bounds.size.width, 30);
 }
 
 #pragma mark - CHLogicDelegate

@@ -372,6 +372,8 @@
 		6DE663D6270E8CAA008B4DCF /* CHBlocklistViewPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE663D5270E8CAA008B4DCF /* CHBlocklistViewPage.m */; };
 		6DE663D9270E9254008B4DCF /* CHBlockItemCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE663D8270E9254008B4DCF /* CHBlockItemCellView.m */; };
 		6DE663DC270E9D06008B4DCF /* CHBlockTokenViewPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE663DB270E9D06008B4DCF /* CHBlockTokenViewPage.m */; };
+		6DE663E0270ED76E008B4DCF /* CHDataItemsViewPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE663DF270ED76E008B4DCF /* CHDataItemsViewPage.m */; };
+		6DE663E5270EE0D3008B4DCF /* CHDataItemCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE663E4270EE0D3008B4DCF /* CHDataItemCellView.m */; };
 		6DE7C05E263D45DE0092D88D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6DE7C05C263D45DE0092D88D /* InfoPlist.strings */; };
 		6DE7C062263D46190092D88D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6DE7C060263D46190092D88D /* Localizable.strings */; };
 		6DE7C066263D471E0092D88D /* CHUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C24825D1122100512E36 /* CHUtils.m */; };
@@ -1153,6 +1155,10 @@
 		6DE663D8270E9254008B4DCF /* CHBlockItemCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHBlockItemCellView.m; sourceTree = "<group>"; };
 		6DE663DA270E9D06008B4DCF /* CHBlockTokenViewPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHBlockTokenViewPage.h; sourceTree = "<group>"; };
 		6DE663DB270E9D06008B4DCF /* CHBlockTokenViewPage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHBlockTokenViewPage.m; sourceTree = "<group>"; };
+		6DE663DE270ED76E008B4DCF /* CHDataItemsViewPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHDataItemsViewPage.h; sourceTree = "<group>"; };
+		6DE663DF270ED76E008B4DCF /* CHDataItemsViewPage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHDataItemsViewPage.m; sourceTree = "<group>"; };
+		6DE663E3270EE0D3008B4DCF /* CHDataItemCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHDataItemCellView.h; sourceTree = "<group>"; };
+		6DE663E4270EE0D3008B4DCF /* CHDataItemCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHDataItemCellView.m; sourceTree = "<group>"; };
 		6DE7C05D263D45DE0092D88D /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6DE7C05F263D45F90092D88D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		6DE7C061263D46190092D88D /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -2270,6 +2276,17 @@
 			path = Blocklist;
 			sourceTree = "<group>";
 		};
+		6DE663DD270ED757008B4DCF /* DataItems */ = {
+			isa = PBXGroup;
+			children = (
+				6DE663DE270ED76E008B4DCF /* CHDataItemsViewPage.h */,
+				6DE663DF270ED76E008B4DCF /* CHDataItemsViewPage.m */,
+				6DE663E3270EE0D3008B4DCF /* CHDataItemCellView.h */,
+				6DE663E4270EE0D3008B4DCF /* CHDataItemCellView.m */,
+			);
+			path = DataItems;
+			sourceTree = "<group>";
+		};
 		6DE7C064263D46760092D88D /* Chanify */ = {
 			isa = PBXGroup;
 			children = (
@@ -2408,6 +2425,7 @@
 		6DEBD1A82706CA47003845BF /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				6DE663DD270ED757008B4DCF /* DataItems */,
 				6DE663D3270E8C34008B4DCF /* Blocklist */,
 				6DEBD1A92706CA56003845BF /* CHSettingsView.h */,
 				6DEBD1AA2706CA56003845BF /* CHSettingsView.m */,
@@ -3045,6 +3063,7 @@
 				6DC7CF4626E5C575002F7869 /* NSImageView+CHExt.m in Sources */,
 				6DFC77FA26627606002EF541 /* CHAudioPlayer.m in Sources */,
 				6DE7C083263D49150092D88D /* CHLogicBase.m in Sources */,
+				6DE663E0270ED76E008B4DCF /* CHDataItemsViewPage.m in Sources */,
 				6D0D6B63266B22D300B4AB91 /* CHBlockedModel.m in Sources */,
 				6DEBD18627055951003845BF /* CHProgressView.m in Sources */,
 				6D2EA164264D018A00246EB4 /* CHActionItemModel.m in Sources */,
@@ -3080,6 +3099,7 @@
 				6D029B73266F098000BF046A /* CHLoadingView.m in Sources */,
 				6DE7C066263D471E0092D88D /* CHUtils.m in Sources */,
 				6D8352322664C818005CE6D1 /* CHRouter+OSX.m in Sources */,
+				6DE663E5270EE0D3008B4DCF /* CHDataItemCellView.m in Sources */,
 				6D029B79266F187600BF046A /* NSBezierPath+CHExt.m in Sources */,
 				6DFC445726BBC5D7002C26A5 /* CHTimelineMsgCellConfiguration.m in Sources */,
 				6D15603F2701DC530027E556 /* CHChannelDetailViewController.m in Sources */,
