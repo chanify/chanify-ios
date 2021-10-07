@@ -14,6 +14,7 @@
 #import "CHPopoverWindow.h"
 #import "CHPreviewItem.h"
 #import "CHAboutView.h"
+#import "CHDevice.h"
 #import "CHToast.h"
 #import "CHLogic.h"
 
@@ -344,6 +345,17 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
         if (url != nil) {
             [CHRouter.shared showPreviewItemPanel:url];
             res = YES;
+        }
+        return res;
+    }];
+    [routes addRoute:@"/action/sendemail" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
+        BOOL res = NO;
+        NSString *email = [parameters valueForKey:@"email"];
+        if (email.length > 0) {
+            NSString *title = @"Feedback".localized;
+            NSString *subject = [[NSString stringWithFormat:@"[%@] %@", CHDevice.shared.app, title] stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet];
+            NSString *url = [NSString stringWithFormat:@"mailto:%@?subject=%@", email, subject];
+            res = [NSWorkspace.sharedWorkspace openURL:[NSURL URLWithString:url]];
         }
         return res;
     }];
