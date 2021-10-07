@@ -248,18 +248,17 @@
     }
     if (@available(iOS 15, watchOS 8.0, *)) {
 #if !TARGET_OS_OSX
-        if (content.interruptionLevel == UNNotificationInterruptionLevelActive) {
-            switch (self.interruptionLevel) {
-                default:
-                case CHTPInterruptionLevel_IlActive:
-                    break;
-                case CHTPInterruptionLevel_IlPassive:
-                    content.interruptionLevel = UNNotificationInterruptionLevelPassive;
-                    break;
-                case CHTPInterruptionLevel_IlTimeSensitive:
-                    content.interruptionLevel = UNNotificationInterruptionLevelTimeSensitive;
-                    break;
-            }
+        switch (self.interruptionLevel) {
+            default:
+            case CHTPInterruptionLevel_IlActive:
+                content.interruptionLevel = UNNotificationInterruptionLevelActive;
+                break;
+            case CHTPInterruptionLevel_IlPassive:
+                content.interruptionLevel = UNNotificationInterruptionLevelPassive;
+                break;
+            case CHTPInterruptionLevel_IlTimeSensitive:
+                content.interruptionLevel = UNNotificationInterruptionLevelTimeSensitive;
+                break;
         }
 #endif
     }
