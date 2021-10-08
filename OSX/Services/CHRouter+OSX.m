@@ -24,9 +24,11 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     CHRouterShowModeDetail  = 2,
 };
 
-#define kMenuLogoutTag  10000
+#define kMenuLogoutTag      10000
+#define kMenuOpenWindowTag  20000
+#define kMenuCloseWindowTag 20001
 
-@interface CHRouter () <NSWindowDelegate, NSSharingServicePickerDelegate, NSMenuItemValidation, QLPreviewPanelDataSource>
+@interface CHRouter () <NSWindowDelegate, NSSharingServicePickerDelegate, NSMenuDelegate, NSMenuItemValidation, QLPreviewPanelDataSource>
 
 @property (nonatomic, readonly, strong) NSStatusItem *statusIcon;
 @property (nonatomic, nullable, strong) void (^shareHandler)(BOOL completed, NSError *error);
@@ -215,10 +217,22 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     }
 }
 
+#pragma mark - NSMenuDelegate
+- (void)menuWillOpen:(NSMenu *)menu {
+    for (NSMenuItem *item in menu.itemArray) {
+        item.enabled = [self validateMenuItem:item];
+    }
+}
+
 #pragma mark - NSMenuItemValidation
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
-    if (menuItem.tag == kMenuLogoutTag) {
-        return (CHLogic.shared.me != nil);
+    switch (menuItem.tag) {
+        case kMenuLogoutTag:
+            return (CHLogic.shared.me != nil);
+        case kMenuOpenWindowTag:
+            return (NSApp.keyWindow == nil);
+        case kMenuCloseWindowTag:
+            return (NSApp.keyWindow != nil);
     }
     return YES;
 }
@@ -261,6 +275,18 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
 
 - (void)actionLogout:(id)sender {
     [CHRouter.shared routeTo:@"/action/logout"];
+}
+
+- (void)actionToggleWindow:(id)sender {
+    if (NSApp.keyWindow == nil) {
+        [self actionShow:sender];
+    } else {
+        [self.window orderOut:nil];
+    }
+}
+
+- (void)actionOpenHelp:(id)sender {
+    [CHRouter.shared routeTo:@kUsageManualURL];
 }
 
 #pragma mark - QLPreviewPanelController
@@ -375,6 +401,7 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     statusIcon.button.target = self;
     statusIcon.button.action = @selector(actionShow:);
 
+    // Main menu
     NSMenu *mainMenu = [NSMenu new];
     NSMenuItem *appMenu = [[NSMenuItem alloc] initWithTitle:@"Chanify" action:nil keyEquivalent:@""];
     [mainMenu addItem:appMenu];
@@ -382,13 +409,40 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     appMenu.submenu = menu;
     [menu addItem:CreateMenuItem(@"About Chanify", self, @selector(actionAbout:), @"i")];
     [menu addItem:NSMenuItem.separatorItem];
-//    [menu addItem:CreateMenuItem(@"Preferences", self, @selector(actionPreferences:), @",")];
-//    [menu addItem:NSMenuItem.separatorItem];
-    NSMenuItem *logoutItem = CreateMenuItem(@"Logout", self, @selector(actionLogout:), @"o");
-    logoutItem.tag = kMenuLogoutTag;
-    [menu addItem:logoutItem];
+    [menu addItem:CreateMenuItemWithTag(@"Logout", self, @selector(actionLogout:), @"o", kMenuLogoutTag)];
     [menu addItem:NSMenuItem.separatorItem];
     [menu addItem:CreateMenuItem(@"Quit Chanify", NSApp, @selector(terminate:), @"q")];
+
+    // File menu
+    NSMenu *fileMenu = [[NSMenu alloc] initWithTitle:@"File".localized];
+    fileMenu.autoenablesItems = NO;
+    fileMenu.delegate = self;
+    NSMenuItem *fileMenuItem = [[NSMenuItem alloc] initWithTitle:@"File".localized action:nil keyEquivalent:@""];
+    [mainMenu addItem:fileMenuItem];
+    fileMenuItem.submenu = fileMenu;
+    [fileMenu addItem:CreateMenuItemWithTag(@"Open Window", self, @selector(actionToggleWindow:), @"", kMenuOpenWindowTag)];
+    [fileMenu addItem:NSMenuItem.separatorItem];
+    [fileMenu addItem:CreateMenuItemWithTag(@"Close Window", self, @selector(actionToggleWindow:), @"", kMenuCloseWindowTag)];
+
+    // Window menu
+    NSMenu *windowMenu = [[NSMenu alloc] initWithTitle:@"Window".localized];
+    NSApp.windowsMenu = windowMenu;
+    NSMenuItem *windowMenuItem = [[NSMenuItem alloc] initWithTitle:@"Window".localized action:nil keyEquivalent:@""];
+    [mainMenu addItem:windowMenuItem];
+    windowMenuItem.submenu = windowMenu;
+    [windowMenu addItem:NSMenuItem.separatorItem];
+    NSMenuItem *windowItem = CreateMenuItem(@"Chanify", self, @selector(actionToggleWindow:), @"");
+    windowItem.state = NSControlStateValueOn;
+    [windowMenu addItem:windowItem];
+
+    // Help menu
+    NSMenu *helpMenu = [[NSMenu alloc] initWithTitle:@"Help".localized];
+    NSApp.helpMenu = helpMenu;
+    NSMenuItem *helpMenuItem = [[NSMenuItem alloc] initWithTitle:@"Help".localized action:nil keyEquivalent:@""];
+    [mainMenu addItem:helpMenuItem];
+    [helpMenu addItem:CreateMenuItem(@"Usage Manual", self, @selector(actionOpenHelp:), @"")];
+    helpMenuItem.submenu = helpMenu;
+    
     NSApp.mainMenu = mainMenu;
 }
 
@@ -410,6 +464,13 @@ static inline NSMenuItem *CreateMenuItem(NSString *title, id target, SEL action,
     [menu setTarget:target];
     return menu;
 }
+
+static inline NSMenuItem *CreateMenuItemWithTag(NSString *title, id target, SEL action, NSString *key, NSInteger tag) {
+    NSMenuItem *menu = CreateMenuItem(title, target, action, key);
+    [menu setTag:tag];
+    return menu;
+}
+
 
 static inline CHPageView *loadPage(Class clz, NSDictionary<NSString *, id> *parameters) {
     id page = [clz alloc];

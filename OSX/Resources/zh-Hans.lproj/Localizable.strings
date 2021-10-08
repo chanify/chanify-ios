@@ -175,4 +175,9 @@
 "Release QR code to login."="释放二维码登录。";
 "Drop QR code here to login."="将二维码拖到此处登录。";
 "Get QR code from Chanify app on your iPhone."="从 iPhone 上的 Chanify 应用程序获取二维码。";
-
+"File"="文件";
+"Open Window"="打开窗口";
+"Close Window"="关闭窗口";
+"Window"="窗口";
+"Help"="帮助";
+"Usage Manual"="使用手册";
