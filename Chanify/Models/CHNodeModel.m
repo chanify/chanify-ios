@@ -64,7 +64,12 @@
 }
 
 - (BOOL)isEqual:(CHNodeModel *)rhs {
-    return [self.nid isEqualToString:rhs.nid];
+    return ([self.nid isEqualToString:rhs.nid]
+            && (self.name == rhs.name || [self.name isEqualToString:rhs.name])
+            && (self.endpoint == rhs.endpoint || [self.endpoint isEqualToString:rhs.endpoint])
+            && self.flags == rhs.flags
+            && (self.icon == rhs.icon || [self.icon isEqualToString:rhs.icon])
+            && (self.features == rhs.features || [[self.features componentsJoinedByString:@","] isEqualToString:[rhs.features componentsJoinedByString:@","]]));
 }
 
 - (NSUInteger)hash {
@@ -96,15 +101,6 @@
         return [self.version compareAsVersion:version];
     }
     return res;
-}
-
-- (BOOL)isFullEqual:(CHNodeModel *)rhs {
-    return ([self.nid isEqualToString:rhs.nid]
-            && (self.name == rhs.name || [self.name isEqualToString:rhs.name])
-            && (self.endpoint == rhs.endpoint || [self.endpoint isEqualToString:rhs.endpoint])
-            && self.flags == rhs.flags
-            && (self.icon == rhs.icon || [self.icon isEqualToString:rhs.icon])
-            && (self.features == rhs.features || [[self.features componentsJoinedByString:@","] isEqualToString:[rhs.features componentsJoinedByString:@","]]));
 }
 
 - (nullable CHSecKey *)requestChiper {

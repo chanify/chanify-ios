@@ -9,8 +9,10 @@
 #import <FMDB.h>
 #import <sqlite3.h>
 
+#define kCHBannerIconModeKey    "banner-icon-mode"
 #define kCHNSInitSql    \
     "CREATE TABLE IF NOT EXISTS `keys`(`uid` TEXT PRIMARY KEY,`key` BLOB);"  \
+    "CREATE TABLE IF NOT EXISTS `opts`(`uid` TEXT,`key` TEXT,`value` BLOB,PRIMARY KEY(`uid`,`key`));"  \
     "CREATE TABLE IF NOT EXISTS `badges`(`uid` TEXT PRIMARY KEY,`badge` UNSIGNED INTEGER);"  \
     "CREATE TABLE IF NOT EXISTS `msgs`(`uid` TEXT,`mid` TEXT,`data` BLOB,PRIMARY KEY(`uid` ASC,`mid` DESC));"  \
     "CREATE TABLE IF NOT EXISTS `chans`(`uid` TEXT,`cid` BLOB,`name` TEXT,`icon` TEXT,`mute` BOOLEAN,PRIMARY KEY(`uid`,`cid`));" \
@@ -69,6 +71,24 @@
             } else {
                 [db executeUpdate:@"INSERT INTO `keys`(`uid`,`key`) VALUES(?,?) ON CONFLICT(`uid`) DO UPDATE SET `key`=excluded.`key`;", uid, key];
             }
+        }];
+    }
+}
+
+- (CHBannerIconMode)bannerIconModeForUID:(nullable NSString *)uid {
+    __block CHBannerIconMode iconMode = CHBannerIconModeNone;
+    if (uid.length > 0) {
+        [self.dbQueue inDatabase:^(FMDatabase *db) {
+            iconMode = [db intForQuery:@"SELECT `value` FROM `opts` WHERE `uid`=? AND `key`=? LIMIT 1;", uid, @kCHBannerIconModeKey];
+        }];
+    }
+    return iconMode;
+}
+
+- (void)updateBannerIconMode:(CHBannerIconMode)iconMode uid:(nullable NSString *)uid {
+    if (uid.length > 0) {
+        [self.dbQueue inDatabase:^(FMDatabase *db) {
+            [db executeUpdate:@"INSERT INTO `opts`(`uid`,`key`,`value`) VALUES(?,?,?) ON CONFLICT(`uid`,`key`) DO UPDATE SET `value`=excluded.`value`;", uid, @kCHBannerIconModeKey, @(iconMode)];
         }];
     }
 }
@@ -206,6 +226,75 @@
     return tokens;
 }
 
+// Nodes
+- (nullable NSString *)nodeIconWithNID:(nullable NSString *)nid uid:(nullable NSString *)uid API_UNAVAILABLE(tvos) {
+    __block NSString *icon = nil;
+    if (nid.length > 0 && uid.length > 0) {
+        [self.dbQueue inDatabase:^(FMDatabase * _Nonnull db) {
+            icon = [db stringForQuery:@"SELECT `icon` FROM `nodes` WHERE `uid`=? AND `nid`=? LIMIT 1;", uid, nid];
+        }];
+    }
+    return icon;
+}
+
+- (BOOL)insertNode:(CHNodeModel *)model uid:(nullable NSString *)uid API_UNAVAILABLE(tvos) {
+    return [self updateNode:model uid:uid];
+}
+
+- (BOOL)updateNode:(CHNodeModel *)model uid:(nullable NSString *)uid API_UNAVAILABLE(tvos) {
+    __block BOOL res = YES;
+    if (uid.length > 0) {
+        [self.dbQueue inDatabase:^(FMDatabase * _Nonnull db) {
+            res = [db executeUpdate:@"INSERT INTO `nodes`(`uid`,`nid`,`name`,`icon`) VALUES(?,?,?,?) ON CONFLICT(`uid`,`nid`) DO UPDATE SET `name`=excluded.`name`,`icon`=excluded.`icon`;", uid, model.nid, model.name, model.icon];
+        }];
+    }
+    return res;
+}
+
+- (BOOL)deleteNode:(nullable NSString *)nid uid:(nullable NSString *)uid API_UNAVAILABLE(tvos) {
+    __block BOOL res = YES;
+    if (nid.length > 0 && uid.length > 0) {
+        [self.dbQueue inDatabase:^(FMDatabase * _Nonnull db) {
+            res = [db executeUpdate:@"DELETE FROM `nodes` WHERE `uid`=? AND `nid`=? LIMIT 1;", uid, nid];
+        }];
+    }
+    return res;
+}
+
+// Channels
+- (nullable NSString *)channelIconWithCID:(nullable NSString *)cid uid:(nullable NSString *)uid API_UNAVAILABLE(watchos, tvos) {
+    __block NSString *icon = nil;
+    if (cid.length > 0 && uid.length > 0) {
+        [self.dbQueue inDatabase:^(FMDatabase * _Nonnull db) {
+            icon = [db stringForQuery:@"SELECT `icon` FROM `chans` WHERE `uid`=? AND `cid`=? LIMIT 1;", uid, cid];
+        }];
+    }
+    return icon;
+}
+
+- (BOOL)insertChannel:(CHChannelModel *)model uid:(nullable NSString *)uid API_UNAVAILABLE(watchos, tvos) {
+    return [self updateChannel:model uid:uid];
+}
+
+- (BOOL)updateChannel:(CHChannelModel *)model uid:(nullable NSString *)uid API_UNAVAILABLE(watchos, tvos) {
+    __block BOOL res = YES;
+    if (uid.length > 0) {
+        [self.dbQueue inDatabase:^(FMDatabase * _Nonnull db) {
+            res = [db executeUpdate:@"INSERT INTO `chans`(`uid`,`cid`,`name`,`icon`) VALUES(?,?,?,?) ON CONFLICT(`uid`,`cid`) DO UPDATE SET `name`=excluded.`name`,`icon`=excluded.`icon`;", uid, model.cid, model.name, model.icon];
+        }];
+    }
+    return res;
+}
+
+- (BOOL)deleteChannel:(nullable NSString *)cid uid:(nullable NSString *)uid API_UNAVAILABLE(watchos, tvos) {
+    __block BOOL res = YES;
+    if (cid.length > 0 && uid.length > 0) {
+        [self.dbQueue inDatabase:^(FMDatabase * _Nonnull db) {
+            res = [db executeUpdate:@"DELETE FROM `chans` WHERE `uid`=? AND `cid`=? LIMIT 1;", uid, cid];
+        }];
+    }
+    return res;
+}
 
 @end
 

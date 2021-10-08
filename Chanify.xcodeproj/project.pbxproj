@@ -381,6 +381,8 @@
 		6DE663EC27105E92008B4DCF /* CHIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD969D325F4A1E700EEEECF /* CHIconView.m */; };
 		6DE663ED27105EB5008B4DCF /* UIColor+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92C425F60B3B00B792FE /* UIColor+CHExt.m */; };
 		6DE663EE27105F5D008B4DCF /* CHTheme+CNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2B0FC026F9BC41000577CE /* CHTheme+CNotification.m */; };
+		6DE663EF27109F67008B4DCF /* NSString+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C26425D1151E00512E36 /* NSString+CHExt.m */; };
+		6DE663F027109F96008B4DCF /* UIColor+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92C425F60B3B00B792FE /* UIColor+CHExt.m */; };
 		6DE7C05E263D45DE0092D88D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6DE7C05C263D45DE0092D88D /* InfoPlist.strings */; };
 		6DE7C062263D46190092D88D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6DE7C060263D46190092D88D /* Localizable.strings */; };
 		6DE7C066263D471E0092D88D /* CHUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C24825D1122100512E36 /* CHUtils.m */; };
@@ -3249,11 +3251,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6DE663EF27109F67008B4DCF /* NSString+CHExt.m in Sources */,
 				6DA2A70D2622F8F100D898C7 /* NotificationViewController.m in Sources */,
 				6D180E01262441BC000BDE82 /* NSString+CHNotification.m in Sources */,
 				6D2B0FC226F9BC7F000577CE /* CHTheme+CNotification.m in Sources */,
 				6D2EA16E264D2FB700246EB4 /* CHActionItemModel.m in Sources */,
 				6DB1C264266F47BE007C0C02 /* CHIndicatorView.m in Sources */,
+				6DE663F027109F96008B4DCF /* UIColor+CHExt.m in Sources */,
 				6D2EA170264D2FD900246EB4 /* CHActionGroup.m in Sources */,
 				6D2B0FC526F9C3DB000577CE /* CHIconView.m in Sources */,
 				6D029B87266F299300BF046A /* UIButton+CHExt.m in Sources */,

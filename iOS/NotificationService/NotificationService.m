@@ -61,7 +61,20 @@
             notificationContent = [UNNotificationContent new];
         } else {
             if (@available(iOS 15.0, *)) {
-                notificationContent = setNotificationContentIcon(self.attemptContent, @"sys://sun.min");
+                NSString *icon = nil;
+                switch ([dbsrc bannerIconModeForUID:uid]) {
+                    case CHBannerIconModeNone:
+                        break;
+                    case CHBannerIconModeChan:
+                        icon = [dbsrc channelIconWithCID:model.channel.base64 uid:uid];
+                        break;
+                    case CHBannerIconModeNode:
+                        icon = [dbsrc nodeIconWithNID:model.from uid:uid];
+                        break;
+                }
+                if (icon.length > 0) {
+                    notificationContent = setNotificationContentIcon(self.attemptContent, icon);
+                }
             }
         }
     }

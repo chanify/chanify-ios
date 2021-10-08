@@ -408,7 +408,7 @@
 }
 
 - (BOOL)insertNode:(CHNodeModel *)model secret:(NSData *)secret {
-    BOOL res = [self.userDataSource insertNode:model secret:secret];
+    BOOL res = [self.userDataSource insertNode:model secret:secret] && [self.nsDataSource insertNode:model uid:self.me.uid];
     if (res) {
         [self sendNotifyWithSelector:@selector(logicNodesUpdated:) withObject:@[model.nid]];
     }
@@ -417,7 +417,7 @@
 
 - (BOOL)deleteNode:(nullable NSString *)nid {
     [self unbindNode:[self.userDataSource nodeWithNID:nid]];
-    BOOL res = [self.userDataSource deleteNode:nid];
+    BOOL res = [self.userDataSource deleteNode:nid] && [self.nsDataSource deleteNode:nid uid:self.me.uid];
     if (res) {
         [self sendNotifyWithSelector:@selector(logicNodesUpdated:) withObject:@[]];
     }
@@ -425,7 +425,7 @@
 }
 
 - (BOOL)updateNode:(CHNodeModel *)model {
-    BOOL res = [self.userDataSource updateNode:model];
+    BOOL res = [self.userDataSource updateNode:model] && [self.nsDataSource updateNode:model uid:self.me.uid];
     if (res) {
         [self sendNotifyWithSelector:@selector(logicNodeUpdated:) withObject:model.nid];
     }

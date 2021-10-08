@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSString *image;
 
-- (CHImage *)saveImage;
+- (CHImage *)saveImage API_UNAVAILABLE(macos, tvos);
 
 
 @end

@@ -69,7 +69,8 @@
     }
 }
 
-- (CHImage *)saveImage {
+#if TARGET_OS_IOS
+- (CHImage *)saveImage API_UNAVAILABLE(macos, tvos) {
     UIGraphicsBeginImageContext(self.bounds.size);
     [self.backgroundColor setFill];
     CGContextFillRect(UIGraphicsGetCurrentContext(), self.bounds);
@@ -80,6 +81,7 @@
     UIGraphicsEndImageContext();
     return image;
 }
+#endif
 
 static inline CGRect fixDrawRect(CGRect rc) {
     rc.origin.x = rc.size.width * 0.15;

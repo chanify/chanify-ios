@@ -34,7 +34,6 @@ typedef NS_OPTIONS(NSUInteger, CHNodeModelFlags) {
 - (void)setEndpoint:(nullable NSString *)endpoint;
 - (void)setFeatures:(nullable NSString *)features;
 - (BOOL)isHigherVersion:(NSString *)version;
-- (BOOL)isFullEqual:(CHNodeModel *)rhs;
 - (nullable CHSecKey *)requestChiper;
 - (NSURL *)apiURL;
 - (BOOL)isSupportWatch;

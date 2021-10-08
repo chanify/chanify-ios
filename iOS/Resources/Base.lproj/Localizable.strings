@@ -44,6 +44,7 @@
 "Delete channel"="Delete channel";
 "Dashboard"="Dashboard";
 "New Panel"="New Panel";
+"Node"="Node";
 "Nodes"="Nodes";
 "Node Detail"="Node Detail";
 "Information"="Information";
@@ -62,6 +63,7 @@
 "Light"="Light";
 "Dark"="Dark";
 "Notification"="Notification";
+"Banner Icon"="Banner Icon";
 "Sound"="Sound";
 "SECURITY"="SECURITY";
 "Token blocklist"="Token blocklist";

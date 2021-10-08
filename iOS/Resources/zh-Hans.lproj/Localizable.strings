@@ -44,6 +44,7 @@
 "Delete channel"="删除频道";
 "Dashboard"="仪表盘";
 "New Panel"="新建面板";
+"Node"="节点";
 "Nodes"="节点";
 "Node Detail"="节点详情";
 "Information"="信息";
@@ -62,6 +63,7 @@
 "Light"="浅色";
 "Dark"="深色";
 "Notification"="通知";
+"Banner Icon"="横幅图标";
 "Sound"="铃声";
 "SECURITY"="安全";
 "Token blocklist"="禁用令牌";

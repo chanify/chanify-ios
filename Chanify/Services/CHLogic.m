@@ -6,6 +6,7 @@
 //
 
 #import "CHLogic.h"
+#import "CHNSDataSource.h"
 #import "CHUserDataSource.h"
 #import "CHChannelModel.h"
 #import "CHWebLinkManager.h"
@@ -34,7 +35,7 @@
 
 #pragma mark - Channels
 - (BOOL)insertChannel:(CHChannelModel *)model {
-    BOOL res = [self.userDataSource insertChannel:model];
+    BOOL res = [self.userDataSource insertChannel:model] && [self.nsDataSource insertChannel:model uid:self.me.uid];
     if (res) {
         [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[model.cid]];
     }
@@ -42,7 +43,7 @@
 }
 
 - (BOOL)updateChannel:(CHChannelModel *)model {
-    BOOL res = [self.userDataSource updateChannel:model];
+    BOOL res = [self.userDataSource updateChannel:model] && [self.nsDataSource updateChannel:model uid:self.me.uid];
     if (res) {
         [self sendNotifyWithSelector:@selector(logicChannelUpdated:) withObject:model.cid];
     }
@@ -50,7 +51,7 @@
 }
 
 - (BOOL)deleteChannel:(nullable NSString *)cid {
-    BOOL res = [self.userDataSource deleteChannel:cid];
+    BOOL res = [self.userDataSource deleteChannel:cid] && [self.nsDataSource deleteChannel:cid uid:self.me.uid];
     if (res) {
         [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[cid]];
     }
