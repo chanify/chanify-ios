@@ -9,6 +9,8 @@
 		<string>applinks:chanify.net</string>
 		<string>webcredentials:chanify.net</string>
 	</array>
+	<key>com.apple.developer.usernotifications.communication</key>
+	<true/>
 	<key>com.apple.developer.usernotifications.time-sensitive</key>
 	<true/>
 	<key>com.apple.security.app-sandbox</key>

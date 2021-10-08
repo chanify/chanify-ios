@@ -23,6 +23,7 @@
 @property (nonatomic, readonly, strong) CHActionGroup *actionGroup;
 @property (nonatomic, readonly, strong) NSLayoutConstraint *toastConstraint;
 @property (nonatomic, readonly, strong) NSLayoutConstraint *actionConstraint;
+@property (nonatomic, nullable, strong) CHIconView *iconView API_AVAILABLE(ios(15.0));
 
 @end
 
@@ -97,8 +98,7 @@
         titleLeftConstraint.constant += 40;
 
         CHIconView *iconView = [CHIconView new];
-        [self.view addSubview:iconView];
-        iconView.image = @"";
+        [self.view addSubview:(_iconView = iconView)];
         iconView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.view addConstraints:@[
             [iconView.topAnchor constraintEqualToAnchor:titleLabel.topAnchor],
@@ -134,6 +134,7 @@
         if (self.titleLabel.text.length <= 0) {
             self.titleLabel.text = self.title;
         }
+        self.iconView.image = [info valueForKey:@"icon"] ?: @"";
     }
     self.actionGroup.actions = actions;
     self.actionConstraint.constant = (actions.count > 0 ? CHActionGroup.defaultHeight : 0);

@@ -7,6 +7,7 @@
 
 #import "CHIconView.h"
 #import <AVFoundation/AVUtilities.h>
+#import "CHIconView.h"
 #import "CHTheme.h"
 
 @interface CHIconView ()
@@ -64,13 +65,28 @@
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     if (self.iconImage != nil) {
-        CGRect rc = self.bounds;
-        rc.origin.x = rc.size.width * 0.15;
-        rc.size.width -= rc.origin.x * 2.0;
-        rc.origin.y = rc.size.height * 0.15;
-        rc.size.height -= rc.origin.y * 2.0;
-        [self.iconImage drawInRect:AVMakeRectWithAspectRatioInsideRect(self.iconImage.size, rc)];
+        [self.iconImage drawInRect:AVMakeRectWithAspectRatioInsideRect(self.iconImage.size, fixDrawRect(self.bounds))];
     }
+}
+
+- (CHImage *)saveImage {
+    UIGraphicsBeginImageContext(self.bounds.size);
+    [self.backgroundColor setFill];
+    CGContextFillRect(UIGraphicsGetCurrentContext(), self.bounds);
+    if (self.iconImage != nil) {
+        [self.iconImage drawInRect:AVMakeRectWithAspectRatioInsideRect(self.iconImage.size, fixDrawRect(self.bounds))];
+    }
+    CHImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
+static inline CGRect fixDrawRect(CGRect rc) {
+    rc.origin.x = rc.size.width * 0.15;
+    rc.size.width -= rc.origin.x * 2.0;
+    rc.origin.y = rc.size.height * 0.15;
+    rc.size.height -= rc.origin.y * 2.0;
+    return rc;
 }
 
 

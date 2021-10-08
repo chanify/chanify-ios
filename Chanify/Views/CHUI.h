@@ -58,6 +58,7 @@ typedef NS_OPTIONS(NSUInteger, CHControlEvents) {
 #   import "CHBarButtonItem.h"
 #   import "CHFormViewCell.h"
 #   import "CHAlertController.h"
+#   import "NSColor+CHExt.h"
 #else
 #   import <UIKit/UIKit.h>
 #   define tagID                                        tag
@@ -104,6 +105,7 @@ typedef NS_OPTIONS(NSUInteger, CHControlEvents) {
 #   define viewWithTagID                                viewWithTag
 #   define mas_safeLayoutGuideTop                       mas_safeAreaLayoutGuideTop
 #   define mas_safeLayoutGuideBottom                    mas_safeAreaLayoutGuideBottom
+#   import "UIColor+CHExt.h"
 #endif
 
 #endif /* __CHUI_H__ */

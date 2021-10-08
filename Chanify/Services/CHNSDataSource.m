@@ -12,8 +12,10 @@
 #define kCHNSInitSql    \
     "CREATE TABLE IF NOT EXISTS `keys`(`uid` TEXT PRIMARY KEY,`key` BLOB);"  \
     "CREATE TABLE IF NOT EXISTS `badges`(`uid` TEXT PRIMARY KEY,`badge` UNSIGNED INTEGER);"  \
-    "CREATE TABLE IF NOT EXISTS `msgs`(`uid` TEXT,`mid` TEXT,`data` BLOB, PRIMARY KEY(`uid` ASC,`mid` DESC));"  \
-    "CREATE TABLE IF NOT EXISTS `blktks`(`uid` TEXT,`key` TEXT,`raw` TEXT,`blocked` UNSIGNED INTEGER DEFAULT 0,`createtime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(`uid`,`key`));" \
+    "CREATE TABLE IF NOT EXISTS `msgs`(`uid` TEXT,`mid` TEXT,`data` BLOB,PRIMARY KEY(`uid` ASC,`mid` DESC));"  \
+    "CREATE TABLE IF NOT EXISTS `chans`(`uid` TEXT,`cid` BLOB,`name` TEXT,`icon` TEXT,`mute` BOOLEAN,PRIMARY KEY(`uid`,`cid`));" \
+    "CREATE TABLE IF NOT EXISTS `nodes`(`uid` TEXT,`nid` TEXT,`name` TEXT,`icon` TEXT,PRIMARY KEY(`uid`,`nid`));" \
+    "CREATE TABLE IF NOT EXISTS `blktks`(`uid` TEXT,`key` TEXT,`raw` TEXT,`blocked` UNSIGNED INTEGER DEFAULT 0,`createtime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(`uid`,`key`));" \
 
 @interface CHNSDataSource ()
 

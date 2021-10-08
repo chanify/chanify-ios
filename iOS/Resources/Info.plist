@@ -52,6 +52,7 @@
 	<array>
 		<string>DashboardConfigurationIntent</string>
 		<string>ShortcutsConfigurationIntent</string>
+		<string>INSendMessageIntent</string>
 	</array>
 	<key>UIApplicationShortcutItems</key>
 	<array>
