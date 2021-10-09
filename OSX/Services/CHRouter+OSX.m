@@ -13,10 +13,13 @@
 #import "CHChannelViewPage.h"
 #import "CHPopoverWindow.h"
 #import "CHPreviewItem.h"
+#import "CHWebViewPage.h"
 #import "CHAboutView.h"
+#import "CHPasteboard.h"
 #import "CHDevice.h"
 #import "CHToast.h"
 #import "CHLogic.h"
+#import "CHToken.h"
 
 typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     CHRouterShowModePush    = 0,
@@ -337,7 +340,7 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
                 clz = NSClassFromString([NSString stringWithFormat:@"CH%@ViewController", name.code]);
             }
             if ([clz isSubclassOfClass:CHPageView.class]) {
-                res = showShowPage(clz, parameters);
+                res = showViewPage(clz, parameters);
             }
         }
         return res;
@@ -355,6 +358,14 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
             }];
         }];
         return YES;
+    }];
+    [routes addRoute:@"/action/openweb" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
+        BOOL res = NO;
+        NSURL *url = parseURL([parameters valueForKey:@"url"]);
+        if (url != nil) {
+            res = showViewPage(CHWebViewPage.class, [parameters dictionaryWithValue:url forKey:@"url"]);
+        }
+        return res;
     }];
     [routes addRoute:@"/action/openurl" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
         BOOL res = NO;
@@ -385,6 +396,15 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
         }
         return res;
     }];
+    // chanify router
+    JLRoutes *chanify = [JLRoutes routesForScheme:@"chanify"];
+    [chanify addRoute:@"/action/token/default" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
+        [CHPasteboard.shared copyWithName:@"Token".localized value:[CHToken.defaultToken formatString:nil direct:YES]];
+        return YES;
+    }];
+    chanify.unmatchedURLHandler = ^(JLRoutes * _Nonnull routes, NSURL * _Nullable URL, NSDictionary<NSString *,id> * _Nullable parameters) {
+        [CHRouter.shared makeToast:@"Can't open url".localized];
+    };
     // unmatched router
     routes.unmatchedURLHandler = ^(JLRoutes *routes, NSURL *url, NSDictionary<NSString *, id> *parameters) {
         if (url != nil) {
@@ -498,7 +518,7 @@ static inline BOOL showDetailPage(Class clz, NSDictionary<NSString *, id> *param
     return YES;
 }
 
-static inline BOOL showShowPage(Class clz, NSDictionary<NSString *, id> *parameters) {
+static inline BOOL showViewPage(Class clz, NSDictionary<NSString *, id> *parameters) {
     CHRouterShowMode mode = parseShowMode([parameters valueForKey:@"show"]);
     if (mode == CHRouterShowModePresent) {
         dispatch_main_async(^{

@@ -15,6 +15,12 @@
     [CHRouter.shared launch];
 }
 
+- (void)application:(NSApplication *)application openURLs:(NSArray<NSURL *> *)urls {
+    if (urls.count > 0) {
+        [CHRouter.shared handleURL:urls.firstObject];
+    }
+}
+
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     [CHRouter.shared close];
 }

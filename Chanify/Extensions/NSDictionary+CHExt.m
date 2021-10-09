@@ -7,6 +7,7 @@
 
 #import "NSDictionary+CHExt.h"
 #import <Foundation/NSJSONSerialization.h>
+#import <Foundation/NSKeyValueCoding.h>
 
 @implementation NSDictionary (CHExt)
 
@@ -19,6 +20,12 @@
         }
     }
     return nil;
+}
+
+- (NSMutableDictionary *)dictionaryWithValue:(nullable id)value forKey:(NSString *)key {
+    NSMutableDictionary *info = [NSMutableDictionary dictionaryWithDictionary:self];
+    [info setValue:value forKey:key];
+    return info;
 }
 
 - (NSData *)json {

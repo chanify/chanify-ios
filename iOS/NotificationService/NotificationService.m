@@ -107,9 +107,7 @@ static inline NSURL *loadIconURL(NSString *icon) {
 static inline UNNotificationContent *setNotificationContentIcon(UNMutableNotificationContent *notificationContent, NSString *icon) API_AVAILABLE(ios(15.0)) {
     NSURL *iconURL = loadIconURL(icon);
     if (iconURL != nil) {
-        NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:notificationContent.userInfo];
-        [userInfo setValue:icon forKey:@"icon"];
-        notificationContent.userInfo = userInfo;
+        notificationContent.userInfo = [notificationContent.userInfo dictionaryWithValue:icon forKey:@"icon"];
 
         NSPersonNameComponents *personName = [NSPersonNameComponents new];
         personName.nickname = notificationContent.title ?: @"";

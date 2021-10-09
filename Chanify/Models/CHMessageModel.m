@@ -210,8 +210,7 @@
         {
             NSString *copy = self.copyTextString;
             if (copy.length > 0) {
-                NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:content.userInfo];
-                [userInfo setValue:copy forKey:@"copy"];
+                NSMutableDictionary *userInfo = [content.userInfo dictionaryWithValue:copy forKey:@"copy"];
                 if (self.flags & CHMessageFlagAutoCopy) {
                     [userInfo setValue:@(TRUE) forKey:@"autocopy"];
                 }
@@ -222,9 +221,7 @@
             break;
         case CHMessageTypeLink:
             if (self.link != nil) {
-                NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:content.userInfo];
-                [userInfo setValue:self.link.absoluteString forKey:@"link"];
-                content.userInfo = userInfo;
+                content.userInfo = [content.userInfo dictionaryWithValue:self.link.absoluteString forKey:@"link"];
                 content.categoryIdentifier = @"link";
             }
             break;
@@ -234,9 +231,7 @@
         for (CHActionItemModel *item in self.actions) {
             [actions addObject:item.dictionary];
         }
-        NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:content.userInfo];
-        [userInfo setValue:actions forKey:@"actions"];
-        content.userInfo = userInfo;
+        content.userInfo = [content.userInfo dictionaryWithValue:actions forKey:@"actions"];
     }
     content.threadIdentifier = self.channel.sha1.base64;
     content.body = self.summaryBodyText;

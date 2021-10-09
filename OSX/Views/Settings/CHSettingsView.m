@@ -155,12 +155,12 @@
 //    [section addFormItem:item];
 
     // HELP
-//    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"HELP".localized])];
-//    item = [CHFormValueItem itemWithName:@"quick" title:@"Quick Start".localized];
-//    item.action = ^(CHFormItem *itm) {
-//        [CHRouter.shared routeTo:@kQuickStartURL withParams:@{ @"title": @"Quick Start".localized, @"show": @"detail" }];
-//    };
-//    [section addFormItem:item];
+    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"HELP".localized])];
+    item = [CHFormValueItem itemWithName:@"quick" title:@"Quick Start".localized];
+    item.action = ^(CHFormItem *itm) {
+        [CHRouter.shared routeTo:@"/action/openweb" withParams:@{ @"url": @kQuickStartURL, @"title": @"Quick Start".localized, @"show": @"detail" }];
+    };
+    [section addFormItem:item];
     
     // ABOUT
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"ABOUT".localized])];
@@ -168,7 +168,7 @@
     [section addFormItem:item];
     item = [CHFormValueItem itemWithName:@"privacy" title:@"Privacy Policy".localized];
     item.action = ^(CHFormItem *itm) {
-        [CHRouter.shared routeTo:@"/action/openurl" withParams:@{ @"url": [NSURL URLWithString:@kCHPrivacyURL] }];
+        [CHRouter.shared routeTo:@"/action/openweb" withParams:@{ @"url": [NSURL URLWithString:@kCHPrivacyURL], @"title": @"Privacy Policy".localized, @"show": @"detail" }];
         //[CHRouter.shared routeTo:@"/page/privacy" withParams:@{ @"show": @"detail" }];
     };
     [section addFormItem:item];
