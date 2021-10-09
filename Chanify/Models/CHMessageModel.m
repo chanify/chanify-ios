@@ -339,6 +339,10 @@
     return copy;
 }
 
+- (nullable NSString *)nodeId {
+    return self.from;
+}
+
 - (BOOL)needNoAlert {
     return (self != nil && self.type == CHMessageTypeTimeline);
 }

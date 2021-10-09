@@ -149,19 +149,20 @@
         [CHRouter.shared routeTo:@"/action/openurl" withParams:@{ @"url": UIApplicationOpenSettingsURLString, @"show": @"detail" }];
     };
     [section addFormItem:item];
-
-    item = [CHFormSelectorItem itemWithName:@"banner-icon-mode" title:@"Banner Icon".localized options:@[
-        [CHFormOption formOptionWithValue:@(CHBannerIconModeNone) title:@"None".localized],
-        [CHFormOption formOptionWithValue:@(CHBannerIconModeChan) title:@"Channel".localized],
-        [CHFormOption formOptionWithValue:@(CHBannerIconModeNode) title:@"Node".localized],
-    ]];
-    selectItem = (CHFormSelectorItem *)item;
-    selectItem.selected = @([logic.nsDataSource bannerIconModeForUID:logic.me.uid]);
-    selectItem.onChanged = ^(CHFormItem *item, id oldValue, id newValue) {
-        CHLogic *logic = CHLogic.shared;
-        [logic.nsDataSource updateBannerIconMode:[newValue integerValue] uid:logic.me.uid];
-    };
-    [section addFormItem:item];
+    if (@available(iOS 15.0, *)) {
+        item = [CHFormSelectorItem itemWithName:@"banner-icon-mode" title:@"Banner Icon".localized options:@[
+            [CHFormOption formOptionWithValue:@(CHBannerIconModeNone) title:@"None".localized],
+            [CHFormOption formOptionWithValue:@(CHBannerIconModeChan) title:@"Channel".localized],
+            [CHFormOption formOptionWithValue:@(CHBannerIconModeNode) title:@"Node".localized],
+        ]];
+        selectItem = (CHFormSelectorItem *)item;
+        selectItem.selected = @([logic.nsDataSource bannerIconModeForUID:logic.me.uid]);
+        selectItem.onChanged = ^(CHFormItem *item, id oldValue, id newValue) {
+            CHLogic *logic = CHLogic.shared;
+            [logic.nsDataSource updateBannerIconMode:[newValue integerValue] uid:logic.me.uid];
+        };
+        [section addFormItem:item];
+    }
 
     // SECURITY
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"SECURITY".localized])];

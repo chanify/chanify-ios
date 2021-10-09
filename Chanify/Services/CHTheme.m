@@ -111,7 +111,7 @@
 
 #else
 
-- (UIUserInterfaceStyle)userInterfaceStyle API_AVAILABLE(ios(13.0)) {
+- (UIUserInterfaceStyle)userInterfaceStyle {
     return CHRouter.shared.window.overrideUserInterfaceStyle;
 }
 

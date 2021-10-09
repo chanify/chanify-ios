@@ -33,31 +33,6 @@
     return self;
 }
 
-#pragma mark - Channels
-- (BOOL)insertChannel:(CHChannelModel *)model {
-    BOOL res = [self.userDataSource insertChannel:model] && [self.nsDataSource insertChannel:model uid:self.me.uid];
-    if (res) {
-        [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[model.cid]];
-    }
-    return res;
-}
-
-- (BOOL)updateChannel:(CHChannelModel *)model {
-    BOOL res = [self.userDataSource updateChannel:model] && [self.nsDataSource updateChannel:model uid:self.me.uid];
-    if (res) {
-        [self sendNotifyWithSelector:@selector(logicChannelUpdated:) withObject:model.cid];
-    }
-    return res;
-}
-
-- (BOOL)deleteChannel:(nullable NSString *)cid {
-    BOOL res = [self.userDataSource deleteChannel:cid] && [self.nsDataSource deleteChannel:cid uid:self.me.uid];
-    if (res) {
-        [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[cid]];
-    }
-    return res;
-}
-
 #pragma mark - Messages
 - (BOOL)deleteMessage:(nullable NSString *)mid {
     CHMessageModel *model = [self.userDataSource messageWithMID:mid];

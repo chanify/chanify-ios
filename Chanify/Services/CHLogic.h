@@ -9,7 +9,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class CHChannelModel;
 @class CHMessageModel;
 @class CHWebLinkManager;
 @class CHWebFileManager;
@@ -18,8 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol CHLogicDelegate <CHLogicBaseDelegate>
 @optional
-- (void)logicChannelUpdated:(NSString *)cid;
-- (void)logicChannelsUpdated:(NSArray<NSString *> *)cids;
 - (void)logicMessageDeleted:(CHMessageModel *)mid;
 - (void)logicMessagesDeleted:(NSArray<NSString *> *)mids;
 - (void)logicMessagesCleared:(NSString *)cid;
@@ -37,10 +34,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable, readonly, strong) CHWebAudioManager *webAudioManager;
 
 - (instancetype)initWithAppGroup:(NSString *)appGroup;
-// Channels
-- (BOOL)insertChannel:(CHChannelModel *)model;
-- (BOOL)updateChannel:(CHChannelModel *)model;
-- (BOOL)deleteChannel:(nullable NSString *)cid;
 // Messages
 - (BOOL)deleteMessage:(nullable NSString *)mid;
 - (BOOL)deleteMessages:(NSArray<NSString *> *)mids;

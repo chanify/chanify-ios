@@ -68,6 +68,7 @@ typedef NS_OPTIONS(NSUInteger, CHMessageProcessFlags) {
 - (NSString *)summaryBodyText;
 - (nullable NSString *)fileURL;
 - (nullable NSString *)copyTextString;
+- (nullable NSString *)nodeId;
 - (BOOL)needNoAlert;
 
 

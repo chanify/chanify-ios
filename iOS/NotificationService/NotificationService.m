@@ -69,7 +69,7 @@
                         icon = [dbsrc channelIconWithCID:model.channel.base64 uid:uid];
                         break;
                     case CHBannerIconModeNode:
-                        icon = [dbsrc nodeIconWithNID:model.from uid:uid];
+                        icon = [dbsrc nodeIconWithNID:model.nodeId uid:uid];
                         break;
                 }
                 if (icon.length > 0) {

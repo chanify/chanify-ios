@@ -9,6 +9,7 @@
 #import <FMDB.h>
 #import <sqlite3.h>
 
+#define kCHSyncVersionKey       "sync-version"
 #define kCHBannerIconModeKey    "banner-icon-mode"
 #define kCHNSInitSql    \
     "CREATE TABLE IF NOT EXISTS `keys`(`uid` TEXT PRIMARY KEY,`key` BLOB);"  \
@@ -75,7 +76,25 @@
     }
 }
 
-- (CHBannerIconMode)bannerIconModeForUID:(nullable NSString *)uid {
+- (NSInteger)syncVersionForUID:(nullable NSString *)uid {
+    __block NSInteger version = 0;
+    if (uid.length > 0) {
+        [self.dbQueue inDatabase:^(FMDatabase *db) {
+            version = [db intForQuery:@"SELECT `value` FROM `opts` WHERE `uid`=? AND `key`=? LIMIT 1;", uid, @kCHSyncVersionKey];
+        }];
+    }
+    return version;
+}
+
+- (void)updateSyncVersion:(NSInteger)version uid:(nullable NSString *)uid {
+    if (uid.length > 0) {
+        [self.dbQueue inDatabase:^(FMDatabase *db) {
+            [db executeUpdate:@"INSERT INTO `opts`(`uid`,`key`,`value`) VALUES(?,?,?) ON CONFLICT(`uid`,`key`) DO UPDATE SET `value`=excluded.`value`;", uid, @kCHSyncVersionKey, @(version)];
+        }];
+    }
+}
+
+- (CHBannerIconMode)bannerIconModeForUID:(nullable NSString *)uid API_AVAILABLE(ios(15.0), macos(12.0), watchos(8.0)) {
     __block CHBannerIconMode iconMode = CHBannerIconModeNone;
     if (uid.length > 0) {
         [self.dbQueue inDatabase:^(FMDatabase *db) {
@@ -85,7 +104,7 @@
     return iconMode;
 }
 
-- (void)updateBannerIconMode:(CHBannerIconMode)iconMode uid:(nullable NSString *)uid {
+- (void)updateBannerIconMode:(CHBannerIconMode)iconMode uid:(nullable NSString *)uid API_AVAILABLE(ios(15.0), macos(12.0), watchos(8.0)) {
     if (uid.length > 0) {
         [self.dbQueue inDatabase:^(FMDatabase *db) {
             [db executeUpdate:@"INSERT INTO `opts`(`uid`,`key`,`value`) VALUES(?,?,?) ON CONFLICT(`uid`,`key`) DO UPDATE SET `value`=excluded.`value`;", uid, @kCHBannerIconModeKey, @(iconMode)];
@@ -237,11 +256,7 @@
     return icon;
 }
 
-- (BOOL)insertNode:(CHNodeModel *)model uid:(nullable NSString *)uid API_UNAVAILABLE(tvos) {
-    return [self updateNode:model uid:uid];
-}
-
-- (BOOL)updateNode:(CHNodeModel *)model uid:(nullable NSString *)uid API_UNAVAILABLE(tvos) {
+- (BOOL)upsertNode:(CHNodeModel *)model uid:(nullable NSString *)uid {
     __block BOOL res = YES;
     if (uid.length > 0) {
         [self.dbQueue inDatabase:^(FMDatabase * _Nonnull db) {
@@ -251,7 +266,7 @@
     return res;
 }
 
-- (BOOL)deleteNode:(nullable NSString *)nid uid:(nullable NSString *)uid API_UNAVAILABLE(tvos) {
+- (BOOL)deleteNode:(nullable NSString *)nid uid:(nullable NSString *)uid {
     __block BOOL res = YES;
     if (nid.length > 0 && uid.length > 0) {
         [self.dbQueue inDatabase:^(FMDatabase * _Nonnull db) {
@@ -262,7 +277,7 @@
 }
 
 // Channels
-- (nullable NSString *)channelIconWithCID:(nullable NSString *)cid uid:(nullable NSString *)uid API_UNAVAILABLE(watchos, tvos) {
+- (nullable NSString *)channelIconWithCID:(nullable NSString *)cid uid:(nullable NSString *)uid {
     __block NSString *icon = nil;
     if (cid.length > 0 && uid.length > 0) {
         [self.dbQueue inDatabase:^(FMDatabase * _Nonnull db) {
@@ -272,11 +287,7 @@
     return icon;
 }
 
-- (BOOL)insertChannel:(CHChannelModel *)model uid:(nullable NSString *)uid API_UNAVAILABLE(watchos, tvos) {
-    return [self updateChannel:model uid:uid];
-}
-
-- (BOOL)updateChannel:(CHChannelModel *)model uid:(nullable NSString *)uid API_UNAVAILABLE(watchos, tvos) {
+- (BOOL)upsertChannel:(CHChannelModel *)model uid:(nullable NSString *)uid {
     __block BOOL res = YES;
     if (uid.length > 0) {
         [self.dbQueue inDatabase:^(FMDatabase * _Nonnull db) {
@@ -286,7 +297,7 @@
     return res;
 }
 
-- (BOOL)deleteChannel:(nullable NSString *)cid uid:(nullable NSString *)uid API_UNAVAILABLE(watchos, tvos) {
+- (BOOL)deleteChannel:(nullable NSString *)cid uid:(nullable NSString *)uid {
     __block BOOL res = YES;
     if (cid.length > 0 && uid.length > 0) {
         [self.dbQueue inDatabase:^(FMDatabase * _Nonnull db) {

@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) CHColor *separatorLineColor;
 @property (nonatomic, readonly, strong) CHColor *selectedCellBackgroundColor;
 #else
-@property (nonatomic, assign) UIUserInterfaceStyle userInterfaceStyle API_AVAILABLE(ios(13.0));
+@property (nonatomic, assign) UIUserInterfaceStyle userInterfaceStyle;
 #endif
 
 + (instancetype)shared;

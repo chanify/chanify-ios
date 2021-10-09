@@ -93,6 +93,7 @@
         if (uid.length > 0) {
             if (self.userDataSource == nil) {
                 _userDataSource = [CHUserDataSource dataSourceWithURL:dbpath];
+                [self syncUserDBToNSDB];
             }
         }
     }
@@ -408,7 +409,7 @@
 }
 
 - (BOOL)insertNode:(CHNodeModel *)model secret:(NSData *)secret {
-    BOOL res = [self.userDataSource insertNode:model secret:secret] && [self.nsDataSource insertNode:model uid:self.me.uid];
+    BOOL res = [self.userDataSource insertNode:model secret:secret] && [self.nsDataSource upsertNode:model uid:self.me.uid];
     if (res) {
         [self sendNotifyWithSelector:@selector(logicNodesUpdated:) withObject:@[model.nid]];
     }
@@ -425,7 +426,7 @@
 }
 
 - (BOOL)updateNode:(CHNodeModel *)model {
-    BOOL res = [self.userDataSource updateNode:model] && [self.nsDataSource updateNode:model uid:self.me.uid];
+    BOOL res = [self.userDataSource updateNode:model] && [self.nsDataSource upsertNode:model uid:self.me.uid];
     if (res) {
         [self sendNotifyWithSelector:@selector(logicNodeUpdated:) withObject:model.nid];
     }
@@ -441,6 +442,31 @@
         return ![self.invalidNodes containsObject:nid];
     }
     return NO;
+}
+
+#pragma mark - Channels
+- (BOOL)insertChannel:(CHChannelModel *)model {
+    BOOL res = [self.userDataSource insertChannel:model] && [self.nsDataSource upsertChannel:model uid:self.me.uid];
+    if (res) {
+        [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[model.cid]];
+    }
+    return res;
+}
+
+- (BOOL)updateChannel:(CHChannelModel *)model {
+    BOOL res = [self.userDataSource updateChannel:model] && [self.nsDataSource upsertChannel:model uid:self.me.uid];
+    if (res) {
+        [self sendNotifyWithSelector:@selector(logicChannelUpdated:) withObject:model.cid];
+    }
+    return res;
+}
+
+- (BOOL)deleteChannel:(nullable NSString *)cid {
+    BOOL res = [self.userDataSource deleteChannel:cid] && [self.nsDataSource deleteChannel:cid uid:self.me.uid];
+    if (res) {
+        [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[cid]];
+    }
+    return res;
 }
 
 #pragma mark - Blocklist Methods
@@ -551,6 +577,28 @@
             [self.invalidNodes addObject:nodeId];
         }
         [self sendNotifyWithSelector:@selector(logicNodeUpdated:) withObject:nodeId];
+    }
+}
+
+- (void)syncUserDBToNSDB {
+    NSString *uid = self.me.uid;
+    if (self.userDataSource != nil && [self.nsDataSource syncVersionForUID:uid] <= 0) {
+        BOOL res = YES;
+        for (CHNodeModel *node in [self.userDataSource loadNodes]) {
+            if (![self.nsDataSource upsertNode:node uid:uid]) {
+                res = NO;
+                break;
+            }
+        }
+        for (CHChannelModel *chan in [self.userDataSource loadChannels]) {
+            if (![self.nsDataSource upsertChannel:chan uid:uid]) {
+                res = NO;
+                break;
+            }
+        }
+        if (res) {
+            [self.nsDataSource updateSyncVersion:1 uid:uid];
+        }
     }
 }
 

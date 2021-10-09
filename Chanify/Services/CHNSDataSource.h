@@ -34,8 +34,10 @@ typedef NS_ENUM(NSInteger, CHBannerIconMode) {
 - (void)flush;
 - (nullable NSData *)keyForUID:(nullable NSString *)uid;
 - (void)updateKey:(nullable NSData *)key uid:(nullable NSString *)uid;
-- (CHBannerIconMode)bannerIconModeForUID:(nullable NSString *)uid;
-- (void)updateBannerIconMode:(CHBannerIconMode)iconMode uid:(nullable NSString *)uid;
+- (NSInteger)syncVersionForUID:(nullable NSString *)uid;
+- (void)updateSyncVersion:(NSInteger)version uid:(nullable NSString *)uid;
+- (CHBannerIconMode)bannerIconModeForUID:(nullable NSString *)uid API_AVAILABLE(ios(15.0), macos(12.0), watchos(8.0));
+- (void)updateBannerIconMode:(CHBannerIconMode)iconMode uid:(nullable NSString *)uid API_AVAILABLE(ios(15.0), macos(12.0), watchos(8.0));
 - (NSUInteger)badgeForUID:(nullable NSString *)uid;
 - (NSUInteger)nextBadgeForUID:(nullable NSString *)uid;
 - (void)updateBadge:(NSUInteger)badge uid:(nullable NSString *)uid;
@@ -46,15 +48,13 @@ typedef NS_ENUM(NSInteger, CHBannerIconMode) {
 - (BOOL)removeBlockedTokens:(NSArray<NSString *> *)tokens uid:(nullable NSString *)uid;
 - (NSArray<NSString *> *)blockedTokensWithUID:(nullable NSString *)uid;
 // Nodes
-- (nullable NSString *)nodeIconWithNID:(nullable NSString *)nid uid:(nullable NSString *)uid API_UNAVAILABLE(tvos);
-- (BOOL)insertNode:(CHNodeModel *)model uid:(nullable NSString *)uid API_UNAVAILABLE(tvos);
-- (BOOL)updateNode:(CHNodeModel *)model uid:(nullable NSString *)uid API_UNAVAILABLE(tvos);
-- (BOOL)deleteNode:(nullable NSString *)nid uid:(nullable NSString *)uid API_UNAVAILABLE(tvos);
+- (nullable NSString *)nodeIconWithNID:(nullable NSString *)nid uid:(nullable NSString *)uid;
+- (BOOL)upsertNode:(CHNodeModel *)model uid:(nullable NSString *)uid;
+- (BOOL)deleteNode:(nullable NSString *)nid uid:(nullable NSString *)uid;
 // Channels
-- (nullable NSString *)channelIconWithCID:(nullable NSString *)cid uid:(nullable NSString *)uid API_UNAVAILABLE(watchos, tvos);
-- (BOOL)insertChannel:(CHChannelModel *)model uid:(nullable NSString *)uid API_UNAVAILABLE(watchos, tvos);
-- (BOOL)updateChannel:(CHChannelModel *)model uid:(nullable NSString *)uid API_UNAVAILABLE(watchos, tvos);
-- (BOOL)deleteChannel:(nullable NSString *)cid uid:(nullable NSString *)uid API_UNAVAILABLE(watchos, tvos);
+- (nullable NSString *)channelIconWithCID:(nullable NSString *)cid uid:(nullable NSString *)uid;
+- (BOOL)upsertChannel:(CHChannelModel *)model uid:(nullable NSString *)uid;
+- (BOOL)deleteChannel:(nullable NSString *)cid uid:(nullable NSString *)uid;
 
 @end
 

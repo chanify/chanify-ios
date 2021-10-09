@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class CHNodeModel;
+@class CHChannelModel;
 @class CHNSDataSource;
 @class CHUserDataSource;
 
@@ -27,6 +28,8 @@ typedef void (^CHLogicResultBlock)(CHLCode result, NSDictionary *data);
 @optional
 - (void)logicNodeUpdated:(NSString *)nid;
 - (void)logicNodesUpdated:(NSArray<NSString *> *)nids;
+- (void)logicChannelUpdated:(NSString *)cid;
+- (void)logicChannelsUpdated:(NSArray<NSString *> *)cids;
 - (void)logicBlockedTokenChanged;
 @end
 
@@ -66,6 +69,10 @@ typedef void (^CHLogicResultBlock)(CHLCode result, NSDictionary *data);
 - (BOOL)updateNode:(CHNodeModel *)model;
 - (nullable CHNodeModel *)nodeModelWithNID:(nullable NSString *)nid;
 - (BOOL)nodeIsConnected:(nullable NSString *)nid;
+// Channels
+- (BOOL)insertChannel:(CHChannelModel *)model;
+- (BOOL)updateChannel:(CHChannelModel *)model;
+- (BOOL)deleteChannel:(nullable NSString *)cid;
 // Blocklist
 - (void)upsertBlockedToken:(NSString *)token;
 - (void)removeBlockedTokens:(NSArray<NSString *> *)tokens;
