@@ -90,11 +90,12 @@
 
 #pragma mark - Action Methods
 - (void)actionAcknowledgements:(id)sender {
-    [CHRouter.shared routeTo:@"/action/previewfile" withParams:@{ @"url": [NSBundle.mainBundle URLForResource:@"Acknowledgements" withExtension:@"markdown"] }];
+    [CHRouter.shared routeTo:@"/page/acknowledgements" withParams:@{ @"show": @"present", @"noauth": @(YES) }];
+    //[CHRouter.shared routeTo:@"/action/previewfile" withParams:@{ @"url": [NSBundle.mainBundle URLForResource:@"Acknowledgements" withExtension:@"markdown"] }];
 }
 
 - (void)actionPrivacyPolicy:(id)sender {
-    [CHRouter.shared routeTo:@"/action/openurl" withParams:@{ @"url": [NSURL URLWithString:@kCHPrivacyURL] }];
+    [CHRouter.shared routeTo:@"/action/openurl" withParams:@{ @"url": [NSURL URLWithString:@kCHPrivacyURL], @"noauth": @(YES) }];
 }
 
 

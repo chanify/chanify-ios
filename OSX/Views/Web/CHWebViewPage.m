@@ -51,7 +51,6 @@
     [webView addObserver:self forKeyPath:@"canGoBack" options:NSKeyValueObservingOptionNew context:nil];
     webView.backgroundColor = CHTheme.shared.backgroundColor;
     webView.navigationDelegate = self;
-    webView.alpha = 0;
     [webView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];

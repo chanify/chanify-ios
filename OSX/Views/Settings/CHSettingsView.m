@@ -174,8 +174,7 @@
     [section addFormItem:item];
     item = [CHFormValueItem itemWithName:@"acknowledgements" title:@"Acknowledgements".localized];
     item.action = ^(CHFormItem *itm) {
-        [CHRouter.shared routeTo:@"/action/previewfile" withParams:@{ @"url": [NSBundle.mainBundle URLForResource:@"Acknowledgements" withExtension:@"markdown"] }];
-        //[CHRouter.shared routeTo:@"/page/acknowledgements" withParams:@{ @"show": @"detail" }];
+        [CHRouter.shared routeTo:@"/page/acknowledgements" withParams:@{ @"show": @"detail" }];
     };
     [section addFormItem:item];
     item = [CHFormValueItem itemWithName:@"contact-us" title:@"Contact Us".localized];

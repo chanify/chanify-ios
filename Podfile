@@ -79,5 +79,5 @@ post_install do |installer|
 	end
 	# Install acknowledgements
 	FileUtils.cp_r('Pods/Target Support Files/Pods-iOS/Pods-iOS-acknowledgements.plist', 'iOS/Resources/Settings.bundle/Acknowledgements.plist', :remove_destination => true)
-	FileUtils.cp_r('Pods/Target Support Files/Pods-OSX/Pods-OSX-acknowledgements.markdown', 'OSX/Resources/Acknowledgements.markdown', :remove_destination => true)
+	FileUtils.cp_r('Pods/Target Support Files/Pods-OSX/Pods-OSX-acknowledgements.plist', 'OSX/Resources/Acknowledgements.plist', :remove_destination => true)
 end

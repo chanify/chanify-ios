@@ -116,7 +116,7 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
 
 - (BOOL)routeTo:(NSString *)url withParams:(nullable NSDictionary<NSString *, id> *)params {
     BOOL res = NO;
-    if (CHLogic.shared.me != nil) {
+    if ([[params valueForKey:@"noauth"] boolValue] || CHLogic.shared.me != nil) {
         res = [JLRoutes routeURL:[NSURL URLWithString:url] withParameters:params];
     } else {
         res = [JLRoutes routeURL:[NSURL URLWithString:@"/page/login"]];
