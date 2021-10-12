@@ -12,6 +12,7 @@
 @interface CHAudioPlayer () <AVAudioPlayerDelegate>
 
 @property (nonatomic, readonly, strong) AVAudioPlayer *audioPlayer;
+@property (nonatomic, readonly, assign) BOOL isResetAudioCategory;
 @property (nonatomic, nullable, strong) NSTimer *trackTimer;
 @property (nonatomic, nullable, strong) NSURL *audioUrl;
 @property (nonatomic, nullable, strong) NSString *title;
@@ -35,11 +36,8 @@
         _trackTimer = nil;
         _audioUrl = nil;
         _title = nil;
-#if TARGET_OS_IOS
-        AVAudioSession *session = AVAudioSession.sharedInstance;
-        [session setCategory:AVAudioSessionCategoryPlayback error:nil];
-        [session setActive:YES error:nil];
-#endif
+        _isResetAudioCategory = NO;
+
         MPRemoteCommandCenter *commandCenter = MPRemoteCommandCenter.sharedCommandCenter;
         [commandCenter.playCommand addTarget:self action:@selector(actionPlayCommand:)];
         [commandCenter.pauseCommand addTarget:self action:@selector(actionPauseCommand:)];
@@ -67,6 +65,7 @@
     if (_audioPlayer == nil) {
         AVAudioPlayer* audioPlayer = createPlayerWithURL(url);
         if (audioPlayer != nil) {
+            [self resetAudioCategory];
             _title = title;
             _audioUrl = url;
             _audioPlayer = audioPlayer;
@@ -200,6 +199,17 @@
 }
 
 #pragma mark - Private Methods
+- (void)resetAudioCategory {
+#if TARGET_OS_IOS
+    if (!self.isResetAudioCategory) {
+        _isResetAudioCategory = YES;
+        AVAudioSession *session = AVAudioSession.sharedInstance;
+        [session setCategory:AVAudioSessionCategoryPlayback error:nil];
+        [session setActive:YES error:nil];
+    }
+#endif
+}
+
 - (void)onTimer:(id)sender {
     [self updateTrackChanged];
 }
