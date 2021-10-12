@@ -43,17 +43,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    CHTheme *theme = CHTheme.shared;
+    self.view.backgroundColor = theme.backgroundColor;
 
     WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:[WKWebViewConfiguration new]];
     [self.view addSubview:(_webView = webView)];
     [webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
     [webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:nil];
     [webView addObserver:self forKeyPath:@"canGoBack" options:NSKeyValueObservingOptionNew context:nil];
-    webView.backgroundColor = CHTheme.shared.backgroundColor;
+    webView.backgroundColor = theme.backgroundColor;
     webView.navigationDelegate = self;
     [webView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
+    webView.alpha = 0;
     
     [webView loadRequest:[NSURLRequest requestWithURL:self.url]];
 }
