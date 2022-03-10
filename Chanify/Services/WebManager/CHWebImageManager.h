@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)webImageManagerWithURL:(NSURL *)fileBaseDir;
 - (void)close;
-- (void)loadImageURL:(nullable NSString *)fileURL toItem:(id<CHWebImageItem>)item expectedSize:(uint64_t)expectedSize;
+- (void)loadImageURL:(nullable NSString *)fileURL toItem:(id<CHWebImageItem>)item expectedSize:(uint64_t)expectedSize network:(BOOL)isNetwork;
 - (void)resetFileURLFailed:(nullable NSString *)fileURL;
 - (nullable CHImage *)loadLocalFile:(nullable NSString *)fileURL;
 - (nullable NSURL *)localFileURL:(nullable NSString *)fileURL;

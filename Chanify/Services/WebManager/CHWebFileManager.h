@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)webFileManagerWithURL:(NSURL *)fileBaseDir;
 - (void)close;
-- (void)loadFileURL:(nullable NSString *)fileURL filename:(nullable NSString *)filename toItem:(id<CHWebFileItem>)item expectedSize:(uint64_t)expectedSize;
+- (void)loadFileURL:(nullable NSString *)fileURL filename:(nullable NSString *)filename toItem:(id<CHWebFileItem>)item expectedSize:(uint64_t)expectedSize network:(BOOL)isNetwork;
 - (void)resetFileURLFailed:(nullable NSString *)fileURL;
 
 

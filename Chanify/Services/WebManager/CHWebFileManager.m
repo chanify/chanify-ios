@@ -113,7 +113,7 @@
     });
 }
 
-- (void)loadFileURL:(nullable NSString *)fileURL filename:(nullable NSString *)filename toItem:(id<CHWebFileItem>)item expectedSize:(uint64_t)expectedSize  {
+- (void)loadFileURL:(nullable NSString *)fileURL filename:(nullable NSString *)filename toItem:(id<CHWebFileItem>)item expectedSize:(uint64_t)expectedSize network:(BOOL)isNetwork {
     if (filename.length <= 0) filename = @"file";
     if (fileURL.length > 0) {
         NSURL *url = [self loadLocalFileURL:fileURL filename:filename];
@@ -121,24 +121,29 @@
             [item webFileUpdated:url fileURL:fileURL];
             return;
         }
-        @weakify(self);
-        dispatch_sync(self.workerQueue, ^{
-            @strongify(self);
-            if ([self.failedTasks containsObject:fileURL]) {
+        if (!isNetwork && !CHLogic.shared.isAutoDownload) {
+            dispatch_sync(self.workerQueue, ^{
                 [item webFileUpdated:nil fileURL:fileURL];
-            } else {
-                CHWebFileTask *task = [self.tasks objectForKey:fileURL];
-                if (task != nil) {
-                    [task addTaskItem:item];
+            });
+        } else {
+            @weakify(self);
+            dispatch_sync(self.workerQueue, ^{
+                @strongify(self);
+                if ([self.failedTasks containsObject:fileURL]) {
+                    [item webFileUpdated:nil fileURL:fileURL];
                 } else {
-                    task = [[CHWebFileTask alloc] initWithFileURL:fileURL filename:filename localFile:[self fileURL2Path:fileURL filename:filename] expectedSize:expectedSize];
-                    [self.tasks setObject:task forKey:fileURL];
-                    [task.items addObject:item];
-                    [self asyncStartTask:task];
+                    CHWebFileTask *task = [self.tasks objectForKey:fileURL];
+                    if (task != nil) {
+                        [task addTaskItem:item];
+                    } else {
+                        task = [[CHWebFileTask alloc] initWithFileURL:fileURL filename:filename localFile:[self fileURL2Path:fileURL filename:filename] expectedSize:expectedSize];
+                        [self.tasks setObject:task forKey:fileURL];
+                        [task.items addObject:item];
+                        [self asyncStartTask:task];
+                    }
                 }
-            
-            }
-        });
+            });
+        }
     }
 }
 

@@ -69,6 +69,10 @@
 "Token blocklist"="Token blocklist";
 "Add Token To Blocklist"="Add Token To Blocklist";
 "DATA"="DATA";
+"Download Mode"="Download Mode";
+"Auto"="Auto";
+"Manual"="Manual";
+"Wi-Fi only"="Wi-Fi only";
 "Images"="Images";
 "Audios"="Audios";
 "Files"="Files";

@@ -5,7 +5,7 @@ PODS:
   - JLRoutes (2.1)
   - M80AttributedLabel (1.9.9)
   - Masonry (1.1.0)
-  - Protobuf (3.18.1)
+  - Protobuf (3.19.4)
 
 DEPENDENCIES:
   - FMDB
@@ -27,8 +27,8 @@ SPEC CHECKSUMS:
   JLRoutes: d755245322b94227662ea3e43492fdca94e05c5b
   M80AttributedLabel: 77fedfe63804c989a6de0fa4d400ea8cad3ab441
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  Protobuf: 0ac2cdc92fb5c33dab66dd1c4e9f9cc4c34d00ba
+  Protobuf: 235750e4696ff59fb07d949a9dbbc92b3c0700fe
 
 PODFILE CHECKSUM: a5272d90d7298d542b16fc84340c82810e103ad0
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.11.2

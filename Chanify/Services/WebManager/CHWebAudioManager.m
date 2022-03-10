@@ -112,30 +112,36 @@
     });
 }
 
-- (void)loadAudioURL:(nullable NSString *)fileURL toItem:(id<CHWebAudioItem>)item expectedSize:(uint64_t)expectedSize {
+- (void)loadAudioURL:(nullable NSString *)fileURL toItem:(id<CHWebAudioItem>)item expectedSize:(uint64_t)expectedSize network:(BOOL)isNetwork {
     if (fileURL.length > 0) {
         NSURL *data = [self loadLocalFile:fileURL];
         if (data != nil) {
             [item webAudioUpdated:data fileURL:fileURL];
             return;
         }
-        @weakify(self);
-        dispatch_sync(self.workerQueue, ^{
-            @strongify(self);
-            if ([self.failedTasks containsObject:fileURL]) {
+        if (!isNetwork && !CHLogic.shared.isAutoDownload) {
+            dispatch_sync(self.workerQueue, ^{
                 [item webAudioUpdated:nil fileURL:fileURL];
-            } else {
-                CHWebAudioTask *task = [self.tasks objectForKey:fileURL];
-                if (task != nil) {
-                    [task addTaskItem:item];
+            });
+        } else {
+            @weakify(self);
+            dispatch_sync(self.workerQueue, ^{
+                @strongify(self);
+                if ([self.failedTasks containsObject:fileURL]) {
+                    [item webAudioUpdated:nil fileURL:fileURL];
                 } else {
-                    task = [[CHWebAudioTask alloc] initWithFileURL:fileURL localFile:[self fileURL2Path:fileURL] expectedSize:expectedSize];
-                    [self.tasks setObject:task forKey:fileURL];
-                    [task.items addObject:item];
-                    [self asyncStartTask:task];
+                    CHWebAudioTask *task = [self.tasks objectForKey:fileURL];
+                    if (task != nil) {
+                        [task addTaskItem:item];
+                    } else {
+                        task = [[CHWebAudioTask alloc] initWithFileURL:fileURL localFile:[self fileURL2Path:fileURL] expectedSize:expectedSize];
+                        [self.tasks setObject:task forKey:fileURL];
+                        [task.items addObject:item];
+                        [self asyncStartTask:task];
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 }
 

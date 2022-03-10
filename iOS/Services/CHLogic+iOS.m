@@ -9,6 +9,7 @@
 #import <WatchConnectivity/WatchConnectivity.h>
 #import <UserNotifications/UserNotifications.h>
 #import <AudioToolbox/AudioToolbox.h>
+#import "CHReachability.h"
 #import "CHNSDataSource.h"
 #import "CHUserDataSource.h"
 #import "CHTimelineDataSource.h"
@@ -23,8 +24,11 @@
 #import "CHMock.h"
 #import "CHTP.pbobjc.h"
 
+#define kCHDataDownloadModeKey  "data.downloadmode"
+
 @interface CHLogic () <WCSessionDelegate, CHNotificationMessageDelegate>
 
+@property (nonatomic, readonly, strong) CHReachability *reachability;
 @property (nonatomic, readonly, strong) CHTimelineDataSource *timelineDataSource;
 @property (nonatomic, readonly, strong) WCSession *watchSession;
 
@@ -43,6 +47,8 @@
 
 - (instancetype)init {
     if (self = [super initWithAppGroup:@kCHAppGroupName]) {
+        _reachability = [CHReachability reachabilityForInternetConnection];
+        _downloadMode = [NSUserDefaults.standardUserDefaults integerForKey:@kCHDataDownloadModeKey];
         _timelineDataSource = [CHTimelineDataSource dataSourceWithURL:[NSFileManager.defaultManager URLForGroupId:@kCHAppTimelineGroupName path:@kCHDBTimelineName]];
 
         if (!WCSession.isSupported) {
@@ -70,9 +76,11 @@
     [super active];
     [self updatePushMessage:NO];
     [self reloadBadge];
+    [self.reachability startNotifier];
 }
 
 - (void)deactive {
+    [self.reachability stopNotifier];
     [CHWidget.shared reloadIfNeeded];
     [self.timelineDataSource flush];
     [self reloadBadge];
@@ -110,6 +118,24 @@
         }
     }
     return res;
+}
+
+- (void)setDownloadMode:(CHLogicDownloadMode)downloadMode {
+    if (_downloadMode != downloadMode) {
+        _downloadMode = downloadMode;
+        [NSUserDefaults.standardUserDefaults setInteger:downloadMode forKey:@kCHDataDownloadModeKey];
+    }
+}
+
+- (BOOL)isAutoDownload {
+    switch (_downloadMode) {
+        case CHLogicDownloadModeAuto:
+            return YES;
+        case CHLogicDownloadModeManual:
+            return NO;
+        case CHLogicDownloadModeWifiOnly:
+            return self.reachability.currentReachabilityStatus == CHNetworkStatusWiFi;
+    }
 }
 
 #pragma mark - API

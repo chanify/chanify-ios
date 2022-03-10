@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CHAppLogic : CHLogicBase<id<CHLogicDelegate>>
 
+@property (nonatomic, readonly, assign) BOOL isAutoDownload;
 @property (nonatomic, nullable, readonly, strong) CHWebLinkManager *webLinkManager;
 @property (nonatomic, nullable, readonly, strong) CHWebFileManager *webFileManager;
 @property (nonatomic, nullable, readonly, strong) CHWebImageManager *webImageManager;

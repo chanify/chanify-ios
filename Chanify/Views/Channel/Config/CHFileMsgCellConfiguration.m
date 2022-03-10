@@ -118,7 +118,7 @@
 
     _localFileURL = nil;
     self.statusLabel.text = @"";
-    [CHLogic.shared.webFileManager loadFileURL:configuration.fileURL filename:configuration.filename toItem:self expectedSize:configuration.fileSize];
+    [CHLogic.shared.webFileManager loadFileURL:configuration.fileURL filename:configuration.filename toItem:self expectedSize:configuration.fileSize network:NO];
 }
 
 - (NSArray<CHMenuItem *> *)menuActions {
@@ -182,7 +182,7 @@
         self.statusLabel.text = @"";
         CHFileMsgCellConfiguration *configuration = (CHFileMsgCellConfiguration *)self.configuration;
         [webFileManager resetFileURLFailed:configuration.fileURL];
-        [webFileManager loadFileURL:configuration.fileURL filename:configuration.filename toItem:self expectedSize:configuration.fileSize];
+        [webFileManager loadFileURL:configuration.fileURL filename:configuration.filename toItem:self expectedSize:configuration.fileSize network:YES];
     }
 }
 

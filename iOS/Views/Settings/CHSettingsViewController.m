@@ -174,6 +174,19 @@
     
     // DATA
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"DATA".localized])];
+    
+    item = [CHFormSelectorItem itemWithName:@"download-mode" title:@"Download Mode".localized options:@[
+        [CHFormOption formOptionWithValue:@(CHLogicDownloadModeAuto) title:@"Auto".localized],
+        [CHFormOption formOptionWithValue:@(CHLogicDownloadModeManual) title:@"Manual".localized],
+        [CHFormOption formOptionWithValue:@(CHLogicDownloadModeWifiOnly) title:@"Wi-Fi only".localized],
+    ]];
+    selectItem = (CHFormSelectorItem *)item;
+    selectItem.selected = @(CHLogic.shared.downloadMode);
+    selectItem.onChanged = ^(CHFormItem *item, id oldValue, id newValue) {
+        CHLogic.shared.downloadMode = [newValue integerValue];
+    };
+    [section addFormItem:item];
+
     item = [CHFormValueItem itemWithName:@"images" title:@"Images".localized value:@(0)];
     item.action = ^(CHFormItem *itm) {
         [CHRouter.shared routeTo:@"/page/images" withParams:@{ @"show": @"detail" }];

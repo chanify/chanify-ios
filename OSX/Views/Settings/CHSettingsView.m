@@ -169,7 +169,6 @@
     item = [CHFormValueItem itemWithName:@"privacy" title:@"Privacy Policy".localized];
     item.action = ^(CHFormItem *itm) {
         [CHRouter.shared routeTo:@"/action/openweb" withParams:@{ @"url": [NSURL URLWithString:@kCHPrivacyURL], @"title": @"Privacy Policy".localized, @"show": @"detail" }];
-        //[CHRouter.shared routeTo:@"/page/privacy" withParams:@{ @"show": @"detail" }];
     };
     [section addFormItem:item];
     item = [CHFormValueItem itemWithName:@"acknowledgements" title:@"Acknowledgements".localized];

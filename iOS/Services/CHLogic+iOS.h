@@ -9,9 +9,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, CHLogicDownloadMode) {
+    CHLogicDownloadModeAuto     = 0,
+    CHLogicDownloadModeManual   = 1,
+    CHLogicDownloadModeWifiOnly = 2,
+};
+
 @interface CHLogic : CHAppLogic
 
 + (instancetype)shared;
+
+@property (nonatomic, assign) CHLogicDownloadMode downloadMode;
 
 // API
 - (void)createAccountWithCompletion:(nullable CHLogicBlock)completion;

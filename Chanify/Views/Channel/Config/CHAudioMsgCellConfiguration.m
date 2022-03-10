@@ -108,7 +108,7 @@
     self.durationLabel.text = @"";
     self.statusLabel.text = @"";
     [self updatePlayStatus];
-    [CHLogic.shared.webAudioManager loadAudioURL:configuration.fileURL toItem:self expectedSize:configuration.fileSize];
+    [CHLogic.shared.webAudioManager loadAudioURL:configuration.fileURL toItem:self expectedSize:configuration.fileSize network:NO];
 }
 
 - (NSArray<CHMenuItem *> *)menuActions {
@@ -191,7 +191,7 @@
         CHWebAudioManager *webAudioManager = CHLogic.shared.webAudioManager;
         self.statusLabel.text = @"";
         [webAudioManager resetFileURLFailed:configuration.fileURL];
-        [webAudioManager loadAudioURL:configuration.fileURL toItem:self expectedSize:configuration.fileSize];
+        [webAudioManager loadAudioURL:configuration.fileURL toItem:self expectedSize:configuration.fileSize network:YES];
     }
 }
 

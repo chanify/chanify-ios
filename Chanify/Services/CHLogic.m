@@ -24,6 +24,7 @@
 
 - (instancetype)initWithAppGroup:(NSString *)appGroup {
     if (self = [super initWithAppGroup:appGroup]) {
+        _isAutoDownload = YES;
         _readChannels = [NSMutableSet new];
         _webLinkManager = nil;
         _webImageManager = nil;

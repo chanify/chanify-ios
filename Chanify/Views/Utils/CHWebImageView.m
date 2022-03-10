@@ -54,7 +54,7 @@
             _loadingView = nil;
         }
         self.image = nil;
-        [CHLogic.shared.webImageManager loadImageURL:fileURL toItem:self expectedSize:expectedSize];
+        [CHLogic.shared.webImageManager loadImageURL:fileURL toItem:self expectedSize:expectedSize network:NO];
     }
 }
 
@@ -74,7 +74,7 @@
 - (void)actionReload:(id)sender {
     [self.loadingView reset];
     [CHLogic.shared.webImageManager resetFileURLFailed:self.fileURL];
-    [CHLogic.shared.webImageManager loadImageURL:self.fileURL toItem:self expectedSize:self.expectedSize];
+    [CHLogic.shared.webImageManager loadImageURL:self.fileURL toItem:self expectedSize:self.expectedSize network:YES];
 }
 
 #pragma mark - CHWebImageItem
