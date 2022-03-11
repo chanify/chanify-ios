@@ -257,7 +257,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
         if (thumbnailUrl.length > 0) {
             NSURL *url = [webImageManager localFileURL:thumbnailUrl];
             if (url != nil) {
-                CHPreviewItem *item = [CHPreviewItem itemWithURL:url title:cell.date.mediumFormat uti:@"public.jpeg"];
+                CHPreviewItem *item = [CHPreviewItem itemWithURL:url title:cell.date.mediumFormat uti:@"image"];
                 [items addObject:item];
                 if ([cell.mid isEqualToString:mid]) {
                     selected = idx;

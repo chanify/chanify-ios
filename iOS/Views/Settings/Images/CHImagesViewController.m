@@ -24,7 +24,7 @@
 }
 
 - (void)previewURL:(NSURL *)url atView:(UIView *)view {
-    CHPreviewItem *item = [CHPreviewItem itemWithURL:url title:@"" uti:@"public.jpeg"];
+    CHPreviewItem *item = [CHPreviewItem itemWithURL:url title:@"" uti:@"image"];
     CHPreviewController *vc = [CHPreviewController previewImages:@[item] selected:0];
     [CHRouter.shared presentSystemViewController:vc animated:YES];
 }

@@ -363,7 +363,7 @@
 
 - (nullable CHImage *)imageDecode:(nullable NSData *)data {
     if (data.length > 0) {
-        return [CHImage imageWithData:data];
+        return [CHImage imageWithAnimatedData:data];
     }
     return nil;
 }

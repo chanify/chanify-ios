@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)systemImageNamed:(NSString *)name;
 + (nullable instancetype)imageWithData:(NSData *)data;
++ (nullable instancetype)imageWithAnimatedData:(NSData *)data;
 - (NSImage *)imageWithTintColor:(NSColor *)color;
 
 

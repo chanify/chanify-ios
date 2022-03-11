@@ -42,6 +42,13 @@ static const char *kImageColorTagKey    = "ImageColorTagKey";
     return nil;
 }
 
++ (nullable instancetype)imageWithAnimatedData:(NSData *)data {
+    if (data.length > 0) {
+        return [[NSImage alloc] initWithData:data];
+    }
+    return nil;
+}
+
 - (NSImage *)imageWithTintColor:(NSColor *)color {
     NSImage *image = self;
     if (image.isTemplate) {

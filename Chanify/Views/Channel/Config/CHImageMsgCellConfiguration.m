@@ -124,7 +124,7 @@
 - (NSArray<CHMenuItem *> *)menuActions {
     NSMutableArray *items = [NSMutableArray new];
     if (self.imageView.image != nil) {
-        [items addObject:[[CHMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)]];
+        [items addObject:[[CHMenuItem alloc] initWithTitle:@"Share".localized action:@selector(actionShare:)]];
     }
     [items addObjectsFromArray:super.menuActions];
     return items;

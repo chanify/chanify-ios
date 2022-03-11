@@ -55,6 +55,10 @@
 #   import "UIColor+CHExt.h"
 #endif
 
+#if __has_include(<UIKit/UIImage.h>)
+#   import "UIImage+CHExt.h"
+#endif
+
 #if __has_include(<UIKit/UIButton.h>)
 #   import "UIButton+CHExt.h"
 #endif
