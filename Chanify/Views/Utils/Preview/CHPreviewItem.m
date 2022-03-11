@@ -7,6 +7,8 @@
 
 #import "CHPreviewItem.h"
 
+#define kCHImageHeaderBytes 12
+
 static const uint8_t gifHdr[] = { 'G', 'I', 'F' };
 static const uint8_t pngHdr[] = { 0x89, 'P', 'N', 'G', '\r', '\n', 0x1a, '\n' };
 
@@ -23,7 +25,7 @@ static const uint8_t pngHdr[] = { 0x89, 'P', 'N', 'G', '\r', '\n', 0x1a, '\n' };
             if (url.isFileURL) {
                 FILE *fp = fopen(url.path.cstr, "rb");
                 if (fp != NULL) {
-                    uint8_t header[sizeof(pngHdr)] = { 0 };
+                    uint8_t header[kCHImageHeaderBytes] = { 0 };
                     fread(header, 1, sizeof(header), fp);
                     fclose(fp);
                     if (memcmp(header, gifHdr, sizeof(gifHdr)) == 0) {
@@ -32,6 +34,8 @@ static const uint8_t pngHdr[] = { 0x89, 'P', 'N', 'G', '\r', '\n', 0x1a, '\n' };
                         uti = @"public.png";
                     } else if (*(uint16_t *)header == 0x4949 || *(uint16_t *)header == 0x4D4D) {
                         uti = @"public.tiff";
+                    } else if (((uint32_t *)header)[0] == *(uint32_t *)"RIFF" && ((uint32_t *)header)[2] == *(uint32_t *)"WEBP") {
+                        uti = @"org.webmproject.webp";
                     }
                 }
             }

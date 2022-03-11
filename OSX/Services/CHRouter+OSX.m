@@ -21,6 +21,10 @@
 #import "CHLogic.h"
 #import "CHToken.h"
 
+#define kCHUIMainWndSizeKey     "ui.mainwnd.size"
+#define kCHUIMainWndWidth       640
+#define kCHUIMainWndHeight      480
+
 typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     CHRouterShowModePush    = 0,
     CHRouterShowModePresent = 1,
@@ -82,6 +86,7 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     [NSStatusBar.systemStatusBar removeStatusItem:self.statusIcon];
     [CHLogic.shared deactive];
     [CHLogic.shared close];
+    [self saveMainWindowFrame];
 }
 
 - (BOOL)canSendMail {
@@ -311,9 +316,9 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
         NSWindow *window = CHRouter.shared.window;
         if (![window.contentViewController isKindOfClass:CHMainViewController.class]) {
             window.styleMask = NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskMiniaturizable|NSWindowStyleMaskResizable|NSWindowStyleMaskFullSizeContentView;
-            window.minSize = CGSizeMake(640, 480);
+            window.minSize = CGSizeMake(kCHUIMainWndWidth, kCHUIMainWndHeight);
             window.contentViewController = [CHMainViewController new];
-            showWindowWithSize(window, NSMakeSize(800, 600));
+            showWindowWithFrame(window, [self loadMainWindowFrame]);
         }
         return YES;
     }];
@@ -322,7 +327,7 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
         if (![window.contentViewController isKindOfClass:CHLoginViewController.class]) {
             window.styleMask = NSWindowStyleMaskTitled|NSWindowStyleMaskClosable;
             window.contentViewController = [CHLoginViewController new];
-            showWindowWithSize(window, NSMakeSize(300, 400));
+            showWindowWithFrame(window, NSMakeRect(0, 0, 300, 400));
         }
         showDetailPage(CHChannelViewPage.class, parameters, YES);
         return YES;
@@ -411,6 +416,33 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
             [NSWorkspace.sharedWorkspace openURL:url];
         }
     };
+}
+
+- (void)saveMainWindowFrame {
+    NSWindow *window = CHRouter.shared.window;
+    if ([window.contentViewController isKindOfClass:CHMainViewController.class]) {
+        NSRect frame = window.frame;
+        frame.size.width = MAX(kCHUIMainWndWidth, frame.size.width);
+        frame.size.height = MAX(kCHUIMainWndHeight, frame.size.height);
+        [NSUserDefaults.standardUserDefaults setValue:NSStringFromRect(frame) forKey:@kCHUIMainWndSizeKey];
+    }
+}
+
+- (NSRect)loadMainWindowFrame {
+    NSRect frame = NSZeroRect;
+    id value = [NSUserDefaults.standardUserDefaults valueForKey:@kCHUIMainWndSizeKey];
+    if ([value isKindOfClass:NSString.class]) {
+        frame = NSRectFromString(value);
+    }
+    if (frame.size.width == 0) {
+        frame.size.width = 800;
+    }
+    if (frame.size.height == 0) {
+        frame.size.height = 600;
+    }
+    frame.size.width = MAX(kCHUIMainWndWidth, frame.size.width);
+    frame.size.height = MAX(kCHUIMainWndHeight, frame.size.height);
+    return frame;
 }
 
 - (void)loadMainMenu {
@@ -532,7 +564,7 @@ static inline BOOL showViewPage(Class clz, NSDictionary<NSString *, id> *paramet
     return showDetailPage(clz, parameters, mode == CHRouterShowModePush);
 }
 
-static inline void showWindowWithSize(NSWindow *window, NSSize size) {
+static inline void showWindowWithFrame(NSWindow *window, NSRect wndFrame) {
     for (NSWindow *sheet in window.sheets) {
         [window endSheet:sheet];
     }
@@ -540,7 +572,13 @@ static inline void showWindowWithSize(NSWindow *window, NSSize size) {
     if (NSIsEmptyRect(frame)) {
         frame = NSScreen.mainScreen.frame;
     }
-    [window setFrame:NSMakeRect((frame.size.width - size.width)/2.0, (frame.size.height - size.height)/2.0, size.width, size.height) display:YES animate:YES];
+    if (wndFrame.origin.x == 0) {
+        wndFrame.origin.x = (frame.size.width - wndFrame.size.width)/2.0;
+    }
+    if (wndFrame.origin.y == 0) {
+        wndFrame.origin.y = (frame.size.height - wndFrame.size.height)/2.0;
+    }
+    [window setFrame:wndFrame display:YES animate:YES];
 }
 
 static inline CHRouterShowMode parseShowMode(NSString *show) {
