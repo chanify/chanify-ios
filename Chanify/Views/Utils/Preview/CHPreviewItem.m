@@ -30,6 +30,8 @@ static const uint8_t pngHdr[] = { 0x89, 'P', 'N', 'G', '\r', '\n', 0x1a, '\n' };
                         uti = @"com.compuserve.gif";
                     } else if (memcmp(header, pngHdr, sizeof(pngHdr)) == 0) {
                         uti = @"public.png";
+                    } else if (*(uint16_t *)header == 0x4949 || *(uint16_t *)header == 0x4D4D) {
+                        uti = @"public.tiff";
                     }
                 }
             }
