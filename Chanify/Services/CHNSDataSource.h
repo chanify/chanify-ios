@@ -36,6 +36,8 @@ typedef NS_ENUM(NSInteger, CHBannerIconMode) {
 - (void)updateKey:(nullable NSData *)key uid:(nullable NSString *)uid;
 - (NSInteger)syncVersionForUID:(nullable NSString *)uid;
 - (void)updateSyncVersion:(NSInteger)version uid:(nullable NSString *)uid;
+- (NSString *)notificationSoundForUID:(nullable NSString *)uid;
+- (void)updateNotificationSound:(NSString *)sound uid:(nullable NSString *)uid;
 - (CHBannerIconMode)bannerIconModeForUID:(nullable NSString *)uid API_AVAILABLE(ios(15.0), macos(12.0), watchos(8.0));
 - (void)updateBannerIconMode:(CHBannerIconMode)iconMode uid:(nullable NSString *)uid API_AVAILABLE(ios(15.0), macos(12.0), watchos(8.0));
 - (NSUInteger)badgeForUID:(nullable NSString *)uid;

@@ -55,7 +55,7 @@
                 self.attemptContent.badge = @([dbsrc nextBadgeForUID:uid]);
                 [model formatNotification:self.attemptContent sound:^NSString *(NSString * name) {
                     if ([name isEqualToString:@"1"]) {
-                        name = @"";
+                        name = [self.class.sharedDB notificationSoundForUID:uid];
                     }
                     if (name.length > 0) {
                         if (![name hasSuffix:@".caf"]) {

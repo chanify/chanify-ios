@@ -6,11 +6,13 @@
 //
 
 #import "CHSoundsViewController.h"
+#import <AudioToolbox/AudioToolbox.h>
 #import <Masonry/Masonry.h>
 #import "CHLoadMoreView.h"
 #import "CHTableView.h"
 #import "CHSoundCell.h"
 #import "CHAudioPlayer.h"
+#import "CHPasteboard.h"
 #import "CHLogic.h"
 #import "CHTheme.h"
 
@@ -23,6 +25,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, NSString *> CHSoundsDiffableSna
 
 @property (nonatomic, readonly, strong) CHTableView *tableView;
 @property (nonatomic, readonly, strong) CHSoundsDataSource *dataSource;
+@property (nonatomic, readonly, strong) NSString *defaultSoundName;
 
 @end
 
@@ -30,7 +33,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, NSString *> CHSoundsDiffableSna
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     self.title = @"Sound".localized;
     
     CHTableView *tableView = [CHTableView new];
@@ -46,11 +49,13 @@ typedef NSDiffableDataSourceSnapshot<NSString *, NSString *> CHSoundsDiffableSna
     tableView.allowsMultipleSelectionDuringEditing = YES;
     tableView.delegate = self;
     
+    @weakify(self);
     _dataSource = [[CHSoundsDataSource alloc] initWithTableView:tableView cellProvider:^UITableViewCell *(UITableView *tableView, NSIndexPath *indexPath, NSString *filePath) {
         CHSoundCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
         if (cell != nil) {
+            @strongify(self);
+            cell.check = [filePath.lastPathComponent.stringByDeletingPathExtension isEqualToString:self.defaultSoundName];
             cell.filePath = filePath;
-            cell.check = [filePath isEqualToString:@""];
         }
         return cell;
     }];
@@ -60,6 +65,8 @@ typedef NSDiffableDataSourceSnapshot<NSString *, NSString *> CHSoundsDiffableSna
 
 #pragma mark - Private Methods
 - (void)reloadData:(BOOL)animated {
+    _defaultSoundName = CHLogic.shared.defaultNotificationSound;
+
     CHSoundsDiffableSnapshot *snapshot = [CHSoundsDiffableSnapshot new];
     [snapshot appendSectionsWithIdentifiers:@[@""]];
     NSMutableArray *items = [NSMutableArray arrayWithObject:@""];
@@ -72,13 +79,36 @@ typedef NSDiffableDataSourceSnapshot<NSString *, NSString *> CHSoundsDiffableSna
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSString *filePath = [self.dataSource itemIdentifierForIndexPath:indexPath];
-    if (filePath.length > 0) {
+    if (filePath.length <= 0) {
+        AudioServicesPlayAlertSound(kCHDefaultNotificationSoundID);
+    } else {
         [CHAudioPlayer.shared playWithURL:[NSURL fileURLWithPath:filePath] title:filePath.lastPathComponent.stringByDeletingPathExtension];
+    }
+    NSString *code = filePath.lastPathComponent.stringByDeletingPathExtension;
+    if (![code isEqualToString:self.defaultSoundName]) {
+        _defaultSoundName = code;
+        CHLogic.shared.defaultNotificationSound = self.defaultSoundName;
+        @weakify(self);
+        dispatch_main_async(^{
+            @strongify(self);
+            [self.tableView reloadData];
+        });
     }
 }
 
 - (nullable UISwipeActionsConfiguration *)tableView:(UITableView *)tableView trailingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return nil;
+    UISwipeActionsConfiguration *configuration = nil;
+    NSString *code = [self.dataSource itemIdentifierForIndexPath:indexPath].lastPathComponent.stringByDeletingPathExtension;
+    if (code.length > 0) {
+        UIContextualAction *action = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive title:nil handler:^(UIContextualAction *action, UIView *sourceView, void (^completionHandler)(BOOL)) {
+            [CHPasteboard.shared copyWithName:@"Sound Code".localized value:code];
+            completionHandler(YES);
+        }];
+        action.image = [UIImage systemImageNamed:@"doc.on.doc.fill"];
+        action.backgroundColor = CHTheme.shared.secureColor;
+        configuration = [UISwipeActionsConfiguration configurationWithActions:@[action]];
+    }
+    return configuration;
 }
 
 

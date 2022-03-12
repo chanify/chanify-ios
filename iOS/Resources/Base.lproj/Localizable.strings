@@ -60,10 +60,12 @@
 "GENERAL"="GENERAL";
 "Appearance"="Appearance";
 "Default"="Default";
+"default"="default";
 "Light"="Light";
 "Dark"="Dark";
 "Notification"="Notification";
 "Sound"="Sound";
+"Sound Code"="Sound Code";
 "Banner Icon"="Banner Icon";
 "SECURITY"="SECURITY";
 "Token blocklist"="Token blocklist";

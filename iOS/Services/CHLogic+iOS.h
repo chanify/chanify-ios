@@ -22,6 +22,7 @@ typedef NS_ENUM(NSInteger, CHLogicDownloadMode) {
 
 @property (nonatomic, assign) CHLogicDownloadMode downloadMode;
 @property (nonatomic, readonly, strong) CHSoundManager *soundManager;
+@property (nonatomic, nullable, strong) NSString *defaultNotificationSound;
 
 // API
 - (void)createAccountWithCompletion:(nullable CHLogicBlock)completion;

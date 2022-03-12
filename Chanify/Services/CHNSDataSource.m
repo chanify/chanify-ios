@@ -11,6 +11,7 @@
 
 #define kCHSyncVersionKey       "sync-version"
 #define kCHBannerIconModeKey    "banner-icon-mode"
+#define kCHNotificationSoundKey "notification-sound"
 #define kCHNSInitSql    \
     "CREATE TABLE IF NOT EXISTS `keys`(`uid` TEXT PRIMARY KEY,`key` BLOB);"  \
     "CREATE TABLE IF NOT EXISTS `opts`(`uid` TEXT,`key` TEXT,`value` BLOB,PRIMARY KEY(`uid`,`key`));"  \
@@ -90,6 +91,24 @@
     if (uid.length > 0) {
         [self.dbQueue inDatabase:^(FMDatabase *db) {
             [db executeUpdate:@"INSERT INTO `opts`(`uid`,`key`,`value`) VALUES(?,?,?) ON CONFLICT(`uid`,`key`) DO UPDATE SET `value`=excluded.`value`;", uid, @kCHSyncVersionKey, @(version)];
+        }];
+    }
+}
+
+- (NSString *)notificationSoundForUID:(nullable NSString *)uid {
+    __block NSString *sound = @"";
+    if (uid.length > 0) {
+        [self.dbQueue inDatabase:^(FMDatabase *db) {
+            sound = [db stringForQuery:@"SELECT `value` FROM `opts` WHERE `uid`=? AND `key`=? LIMIT 1;", uid, @kCHNotificationSoundKey];
+        }];
+    }
+    return sound ?: @"";
+}
+
+- (void)updateNotificationSound:(NSString *)sound uid:(nullable NSString *)uid {
+    if (uid.length > 0) {
+        [self.dbQueue inDatabase:^(FMDatabase *db) {
+            [db executeUpdate:@"INSERT INTO `opts`(`uid`,`key`,`value`) VALUES(?,?,?) ON CONFLICT(`uid`,`key`) DO UPDATE SET `value`=excluded.`value`;", uid, @kCHNotificationSoundKey, sound ?: @""];
         }];
     }
 }

@@ -32,6 +32,7 @@
 #define kCHCodeFormatterLength          24
 #define kCHMessageListPageSize          16
 #define kCHMessageListDateDiff          300
+#define kCHDefaultNotificationSoundID   1315
 #define kCHWebFileCacheMaxN             64
 #define kCHWebBasePath                  "files"
 #define kCHWebFileDownloadTimeout       30

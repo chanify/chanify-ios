@@ -70,6 +70,12 @@
     [self reloadData];
 }
 
+- (void)logicNotificationSoundChanged {
+    CHFormValueItem *item = (CHFormValueItem *)[self.form formItemWithName:@"sound"];
+    item.value = CHLogic.shared.defaultNotificationSound;
+    [self reloadItem:item];
+}
+
 #pragma mark - CHNotificationDelegate
 - (void)notificationStatusChanged {
     [self updateNotificationItem];
@@ -149,7 +155,12 @@
         [CHRouter.shared routeTo:@"/action/openurl" withParams:@{ @"url": UIApplicationOpenSettingsURLString, @"show": @"detail" }];
     };
     [section addFormItem:item];
-    item = [CHFormValueItem itemWithName:@"sounds" title:@"Sound".localized value:@""];
+    
+    item = [CHFormValueItem itemWithName:@"sound" title:@"Sound".localized
+                                   value:[logic.nsDataSource notificationSoundForUID:logic.me.uid]];
+    [(CHFormValueItem *)item setFormatter:^(CHFormValueItem *item, NSString *value) {
+        return value.length > 0 ? value : @"default".localized;
+    }];
     item.action = ^(CHFormItem *itm) {
         [CHRouter.shared routeTo:@"/page/sounds" withParams:@{ @"show": @"detail" }];
     };

@@ -55,7 +55,7 @@
     if (![filePath isEqualToString:_filePath]) {
         _filePath = filePath;
         NSString *name = self.filePath.lastPathComponent.stringByDeletingPathExtension;
-        self.nameLabel.text = name.length > 0 ? name : @"Default".localized;
+        self.nameLabel.text = name.length > 0 ? name : @"default".localized;
     }
 }
 

@@ -60,10 +60,12 @@
 "GENERAL"="通用";
 "Appearance"="外观";
 "Default"="系统默认";
+"default"="默认";
 "Light"="浅色";
 "Dark"="深色";
 "Notification"="通知";
 "Sound"="铃声";
+"Sound Code"="铃声代码";
 "Banner Icon"="横幅图标";
 "SECURITY"="安全";
 "Token blocklist"="禁用令牌";

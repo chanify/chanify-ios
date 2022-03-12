@@ -139,6 +139,22 @@
     }
 }
 
+- (NSString *)defaultNotificationSound {
+    NSString *uid = self.me.uid;
+    if (uid.length > 0) {
+        return [self.nsDataSource notificationSoundForUID:uid];
+    }
+    return @"";
+}
+
+- (void)setDefaultNotificationSound:(NSString *)defaultNotificationSound {
+    NSString *uid = self.me.uid;
+    if (uid.length > 0) {
+        [self.nsDataSource updateNotificationSound:defaultNotificationSound uid:uid];
+        [self sendNotifyWithSelector:@selector(logicNotificationSoundChanged)];
+    }
+}
+
 #pragma mark - API
 - (void)createAccountWithCompletion:(nullable CHLogicBlock)completion {
     [self bindAccount:[CHSecKey new] completion:completion];

@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)logicMessagesUnreadChanged:(NSNumber *)unread;
 // iOS
 - (void)logicWatchStatusChanged API_AVAILABLE(ios(14.0));
+- (void)logicNotificationSoundChanged API_AVAILABLE(ios(14.0));
 @end
 
 @interface CHAppLogic : CHLogicBase<id<CHLogicDelegate>>
