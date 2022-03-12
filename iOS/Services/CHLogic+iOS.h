@@ -6,6 +6,7 @@
 //
 
 #import "CHLogic.h"
+#import "CHSoundManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,6 +21,7 @@ typedef NS_ENUM(NSInteger, CHLogicDownloadMode) {
 + (instancetype)shared;
 
 @property (nonatomic, assign) CHLogicDownloadMode downloadMode;
+@property (nonatomic, readonly, strong) CHSoundManager *soundManager;
 
 // API
 - (void)createAccountWithCompletion:(nullable CHLogicBlock)completion;

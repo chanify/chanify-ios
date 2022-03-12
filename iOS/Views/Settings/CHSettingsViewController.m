@@ -149,6 +149,11 @@
         [CHRouter.shared routeTo:@"/action/openurl" withParams:@{ @"url": UIApplicationOpenSettingsURLString, @"show": @"detail" }];
     };
     [section addFormItem:item];
+    item = [CHFormValueItem itemWithName:@"sounds" title:@"Sound".localized value:@""];
+    item.action = ^(CHFormItem *itm) {
+        [CHRouter.shared routeTo:@"/page/sounds" withParams:@{ @"show": @"detail" }];
+    };
+    [section addFormItem:item];
     if (@available(iOS 15.0, *)) {
         item = [CHFormSelectorItem itemWithName:@"banner-icon-mode" title:@"Banner Icon".localized options:@[
             [CHFormOption formOptionWithValue:@(CHBannerIconModeNone) title:@"None".localized],

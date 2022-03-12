@@ -105,7 +105,6 @@
                 if (code.length > 0) {
                     NSURL *url = [NSURL URLWithString:code];
                     if (url != nil && self.delegate != nil) {
-                        NSLog(@"url: %@", url);
                         [self.delegate loginWithQrCode:url];
                     }
                 }

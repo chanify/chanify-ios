@@ -53,7 +53,18 @@
         if (model != nil) {
             if (!(flags&CHMessageProcessFlagNoAlert)) {
                 self.attemptContent.badge = @([dbsrc nextBadgeForUID:uid]);
-                [model formatNotification:self.attemptContent];
+                [model formatNotification:self.attemptContent sound:^NSString *(NSString * name) {
+                    if ([name isEqualToString:@"1"]) {
+                        name = @"";
+                    }
+                    if (name.length > 0) {
+                        if (![name hasSuffix:@".caf"]) {
+                            name = [name stringByAppendingString:@".caf"];
+                        }
+                        name = formatSoundName(name);
+                    }
+                    return name;
+                }];
             }
             [self.class.sharedTimelineDB upsertUid:uid from:model.from model:model.timeline];
         }
@@ -126,6 +137,33 @@ static inline UNNotificationContent *setNotificationContentIcon(UNMutableNotific
         }
     }
     return notificationContent;
+}
+
+static inline NSString *formatSoundName(NSString *name) {
+    NSUInteger length = name.length;
+    if (length > 0) {
+        unichar *ptr = malloc(sizeof(unichar) * length*2);
+        if (ptr != NULL) {
+            int n = 0;
+            const char *s = name.UTF8String;
+            for (int i = 0; i < length; i++) {
+                char c = s[i];
+                if (c == ' ' || c == '-') {
+                    c = '_';
+                }
+                if (isupper(c)) {
+                    c = tolower(c);
+                    if (n > 0 && (ptr[n-1] != '_')) {
+                        ptr[n++] = '_';
+                    }
+                    
+                }
+                ptr[n++] = c;
+            }
+            name = [[NSString alloc] initWithCharactersNoCopy:ptr length:n freeWhenDone:YES];
+        }
+    }
+    return name;
 }
 
 

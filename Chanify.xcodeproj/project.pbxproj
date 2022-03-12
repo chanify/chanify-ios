@@ -427,6 +427,8 @@
 		6DEBD18627055951003845BF /* CHProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DEBD18527055951003845BF /* CHProgressView.m */; };
 		6DEBD1AB2706CA56003845BF /* CHSettingsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DEBD1AA2706CA56003845BF /* CHSettingsView.m */; };
 		6DEC569E25F4F6F600AD6DC9 /* CHIconConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DEC569D25F4F6F600AD6DC9 /* CHIconConfiguration.m */; };
+		6DF02ABA27DC53C3000BBDAA /* CHSoundCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF02AB927DC53C3000BBDAA /* CHSoundCell.m */; };
+		6DF02ABD27DC5772000BBDAA /* CHSoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF02ABC27DC5772000BBDAA /* CHSoundManager.m */; };
 		6DF2C34A263582EF00DBFC2D /* NodeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF2C349263582EF00DBFC2D /* NodeDetailView.swift */; };
 		6DF611202665E32E00426830 /* CHContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF6111F2665E32E00426830 /* CHContentView.m */; };
 		6DF611232665E6FD00426830 /* CHNotification+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF611222665E6FD00426830 /* CHNotification+Badge.m */; };
@@ -1192,6 +1194,10 @@
 		6DEBD1AA2706CA56003845BF /* CHSettingsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHSettingsView.m; sourceTree = "<group>"; };
 		6DEC569C25F4F6F600AD6DC9 /* CHIconConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHIconConfiguration.h; sourceTree = "<group>"; };
 		6DEC569D25F4F6F600AD6DC9 /* CHIconConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHIconConfiguration.m; sourceTree = "<group>"; };
+		6DF02AB827DC53C3000BBDAA /* CHSoundCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHSoundCell.h; sourceTree = "<group>"; };
+		6DF02AB927DC53C3000BBDAA /* CHSoundCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHSoundCell.m; sourceTree = "<group>"; };
+		6DF02ABB27DC5772000BBDAA /* CHSoundManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHSoundManager.h; sourceTree = "<group>"; };
+		6DF02ABC27DC5772000BBDAA /* CHSoundManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHSoundManager.m; sourceTree = "<group>"; };
 		6DF2C349263582EF00DBFC2D /* NodeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeDetailView.swift; sourceTree = "<group>"; };
 		6DF6111E2665E32E00426830 /* CHContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHContentView.h; sourceTree = "<group>"; };
 		6DF6111F2665E32E00426830 /* CHContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHContentView.m; sourceTree = "<group>"; };
@@ -2060,6 +2066,8 @@
 		6DC6C23F25D1114000512E36 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				6DF02ABB27DC5772000BBDAA /* CHSoundManager.h */,
+				6DF02ABC27DC5772000BBDAA /* CHSoundManager.m */,
 				6D86A86F27D9C55B00D9DA53 /* CHReachability.h */,
 				6D86A87027D9C55B00D9DA53 /* CHReachability.m */,
 				6D3F6285262FBB6400E122BC /* CHLogic+iOS.h */,
@@ -2171,6 +2179,7 @@
 		6DC6C34825D16A6300512E36 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				6DF02AB727DC3E13000BBDAA /* Sound */,
 				6D13B60326E8620300E7A5C4 /* Links */,
 				6D90910F265CAA370064A580 /* Files */,
 				6D90910E265CAA2F0064A580 /* Images */,
@@ -2181,8 +2190,6 @@
 				6DC6C34A25D16A7300512E36 /* CHSettingsViewController.m */,
 				6DC6C36625D16C1600512E36 /* CHUserInfoViewController.h */,
 				6DC6C36725D16C1600512E36 /* CHUserInfoViewController.m */,
-				6DD7B5A7260DC360001D5DCB /* CHSoundsViewController.h */,
-				6DD7B5A8260DC360001D5DCB /* CHSoundsViewController.m */,
 				6D278E5C25E1EF7A00FC48CD /* CHPrivacyViewController.h */,
 				6D278E5D25E1EF7A00FC48CD /* CHPrivacyViewController.m */,
 				6DC6C36125D16BCE00512E36 /* CHAcknowledgementsViewController.h */,
@@ -2468,6 +2475,17 @@
 				6DAA0DDB27140DF400481EB0 /* CHAcknowledgementsViewPage.m */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		6DF02AB727DC3E13000BBDAA /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+				6DD7B5A7260DC360001D5DCB /* CHSoundsViewController.h */,
+				6DD7B5A8260DC360001D5DCB /* CHSoundsViewController.m */,
+				6DF02AB827DC53C3000BBDAA /* CHSoundCell.h */,
+				6DF02AB927DC53C3000BBDAA /* CHSoundCell.m */,
+			);
+			path = Sound;
 			sourceTree = "<group>";
 		};
 		6DF6111D2665E19400426830 /* Main */ = {
@@ -3364,6 +3382,7 @@
 				6DC6C37F25D16E1800512E36 /* CHCellConfiguration.m in Sources */,
 				6DC6C36325D16BCE00512E36 /* CHAcknowledgementsViewController.m in Sources */,
 				6DDC86BE25E745AF00C26203 /* CHTableViewCell.m in Sources */,
+				6DF02ABD27DC5772000BBDAA /* CHSoundManager.m in Sources */,
 				6DC6C28925D1410D00512E36 /* UIViewController+CHExt.m in Sources */,
 				6D8F9EAC25EF45E800A8912C /* CHFormItem.m in Sources */,
 				6DD969CD25F47A6300EEEECF /* CHFormIconItem.m in Sources */,
@@ -3377,6 +3396,7 @@
 				6D51563E266A186200137071 /* CHFormSectionHeaderView.m in Sources */,
 				6DC6C26A25D1159C00512E36 /* CHRouter+iOS.m in Sources */,
 				6DC6C39525D16ECA00512E36 /* CHUnknownMsgCellConfiguration.m in Sources */,
+				6DF02ABA27DC53C3000BBDAA /* CHSoundCell.m in Sources */,
 				6DC6C36F25D16C4E00512E36 /* CHQrCodeView.m in Sources */,
 				6DD969C625F479B800EEEECF /* CHIconsViewController.m in Sources */,
 				6DD7B5D9260DF520001D5DCB /* NSString+CHLocalized.m in Sources */,

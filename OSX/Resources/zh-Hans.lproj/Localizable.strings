@@ -63,8 +63,8 @@
 "Light"="浅色";
 "Dark"="深色";
 "Notification"="通知";
-"Banner Icon"="横幅图标";
 "Sound"="铃声";
+"Banner Icon"="横幅图标";
 "SECURITY"="安全";
 "Token blocklist"="禁用令牌";
 "Add Token To Blocklist"="添加令牌到禁用列表";

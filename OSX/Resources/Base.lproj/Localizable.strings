@@ -63,8 +63,8 @@
 "Light"="Light";
 "Dark"="Dark";
 "Notification"="Notification";
-"Banner Icon"="Banner Icon";
 "Sound"="Sound";
+"Banner Icon"="Banner Icon";
 "SECURITY"="SECURITY";
 "Token blocklist"="Token blocklist";
 "Add Token To Blocklist"="Add Token To Blocklist";

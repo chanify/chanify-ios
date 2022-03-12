@@ -13,6 +13,10 @@
     return [[self URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
+- (NSURL *)URLForLibraryDirectory {
+    return [[self URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
 - (BOOL)fixDirectory:(NSURL *)path {
     BOOL isDirectory = NO;
     NSString *dirpath = path.path;

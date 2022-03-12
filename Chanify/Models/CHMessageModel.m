@@ -202,7 +202,7 @@
     return self;
 }
 
-- (void)formatNotification:(UNMutableNotificationContent *)content {
+- (void)formatNotification:(UNMutableNotificationContent *)content sound:(NSString *(NS_NOESCAPE ^ _Nullable)(NSString *))soundFmt {
     content.categoryIdentifier = @"general";
     switch (self.type) {
         default: break;
@@ -239,7 +239,17 @@
         content.title = self.title;
     }
     if (self.sound.length > 0) {
-        content.sound = [UNNotificationSound defaultSound];
+#if TARGET_OS_WATCH
+        content.sound = UNNotificationSound.defaultSound;
+#else
+        UNNotificationSound *sound = nil;
+        NSString *soundName = self.sound;
+        if (soundFmt != nil) soundName = soundFmt(soundName);
+        if (self.sound.length > 0) {
+            sound = [UNNotificationSound soundNamed:soundName];
+        }
+        content.sound = sound ?: UNNotificationSound.defaultSound;
+#endif
     }
     if (@available(iOS 15, watchOS 8.0, *)) {
 #if !TARGET_OS_OSX

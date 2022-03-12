@@ -24,9 +24,6 @@
 @property (nonatomic, readonly, strong) UILabel *nodeTitleLabel;
 @property (nonatomic, readonly, strong) UILabel *expriedDateLabel;
 
-
-
-
 @end
 
 @implementation CHBlockTokenCell

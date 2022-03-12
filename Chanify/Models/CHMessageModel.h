@@ -63,7 +63,7 @@ typedef NS_OPTIONS(NSUInteger, CHMessageProcessFlags) {
 + (nullable instancetype)modelWithStorage:(id<CHKeyStorage, CHBlockedStorage>)storage uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw flags:(CHMessageProcessFlags *_Nullable)flags;
 + (nullable NSString *)parsePacket:(NSDictionary *)info mid:(NSString * _Nullable * _Nullable)mid data:(NSData * _Nullable * _Nullable)data;
 
-- (void)formatNotification:(UNMutableNotificationContent *)content;
+- (void)formatNotification:(UNMutableNotificationContent *)content sound:(NSString *(NS_NOESCAPE ^ _Nullable)(NSString *))soundFmt;
 - (NSString *)summaryText;
 - (NSString *)summaryBodyText;
 - (nullable NSString *)fileURL;

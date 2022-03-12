@@ -40,7 +40,7 @@
         if (!(flags&CHMessageProcessFlagNoAlert)) {
             self.attemptContent.badge = @([dbsrc nextBadgeForUID:uid]);
             if (model != nil) {
-                [model formatNotification:self.attemptContent];
+                [model formatNotification:self.attemptContent sound:nil];
             }
         }
     }

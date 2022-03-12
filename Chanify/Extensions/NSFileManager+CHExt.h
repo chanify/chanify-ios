@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSFileManager (CHExt)
 
 - (NSURL *)URLForDocumentDirectory;
+- (NSURL *)URLForLibraryDirectory;
 - (BOOL)fixDirectory:(NSURL *)path;
 - (nullable NSURL *)URLForGroupId:(NSString *)groupId path:(NSString *)path;
 - (nullable NSURL *)URLLinkForFile:(nullable NSURL *)filepath withName:(NSString *)filename;

@@ -49,6 +49,7 @@
     if (self = [super initWithAppGroup:@kCHAppGroupName]) {
         _reachability = [CHReachability reachabilityForInternetConnection];
         _downloadMode = [NSUserDefaults.standardUserDefaults integerForKey:@kCHDataDownloadModeKey];
+        _soundManager = [CHSoundManager soundManagerWithGroupId:@kCHAppGroupName];
         _timelineDataSource = [CHTimelineDataSource dataSourceWithURL:[NSFileManager.defaultManager URLForGroupId:@kCHAppTimelineGroupName path:@kCHDBTimelineName]];
 
         if (!WCSession.isSupported) {
