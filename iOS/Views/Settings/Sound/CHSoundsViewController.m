@@ -6,12 +6,10 @@
 //
 
 #import "CHSoundsViewController.h"
-#import <AudioToolbox/AudioToolbox.h>
 #import <Masonry/Masonry.h>
 #import "CHLoadMoreView.h"
 #import "CHTableView.h"
 #import "CHSoundCell.h"
-#import "CHAudioPlayer.h"
 #import "CHPasteboard.h"
 #import "CHLogic.h"
 #import "CHTheme.h"
@@ -70,7 +68,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, NSString *> CHSoundsDiffableSna
     CHSoundsDiffableSnapshot *snapshot = [CHSoundsDiffableSnapshot new];
     [snapshot appendSectionsWithIdentifiers:@[@""]];
     NSMutableArray *items = [NSMutableArray arrayWithObject:@""];
-    [items addObjectsFromArray:CHLogic.shared.soundManager.soundFiles];
+    [items addObjectsFromArray:CHLogic.shared.soundManager.soundNames];
     [snapshot appendItemsWithIdentifiers:items];
     [self.dataSource applySnapshot:snapshot animatingDifferences:animated];
 }
@@ -78,15 +76,10 @@ typedef NSDiffableDataSourceSnapshot<NSString *, NSString *> CHSoundsDiffableSna
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSString *filePath = [self.dataSource itemIdentifierForIndexPath:indexPath];
-    if (filePath.length <= 0) {
-        AudioServicesPlayAlertSound(kCHDefaultNotificationSoundID);
-    } else {
-        [CHAudioPlayer.shared playWithURL:[NSURL fileURLWithPath:filePath] title:filePath.lastPathComponent.stringByDeletingPathExtension];
-    }
-    NSString *code = filePath.lastPathComponent.stringByDeletingPathExtension;
-    if (![code isEqualToString:self.defaultSoundName]) {
-        _defaultSoundName = code;
+    NSString *name = [self.dataSource itemIdentifierForIndexPath:indexPath];
+    [CHLogic.shared.soundManager playWithName:name];
+    if (![name isEqualToString:self.defaultSoundName]) {
+        _defaultSoundName = name;
         CHLogic.shared.defaultNotificationSound = self.defaultSoundName;
         @weakify(self);
         dispatch_main_async(^{
@@ -98,10 +91,10 @@ typedef NSDiffableDataSourceSnapshot<NSString *, NSString *> CHSoundsDiffableSna
 
 - (nullable UISwipeActionsConfiguration *)tableView:(UITableView *)tableView trailingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath {
     UISwipeActionsConfiguration *configuration = nil;
-    NSString *code = [self.dataSource itemIdentifierForIndexPath:indexPath].lastPathComponent.stringByDeletingPathExtension;
-    if (code.length > 0) {
+    NSString *name = [self.dataSource itemIdentifierForIndexPath:indexPath];
+    if (name.length > 0) {
         UIContextualAction *action = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive title:nil handler:^(UIContextualAction *action, UIView *sourceView, void (^completionHandler)(BOOL)) {
-            [CHPasteboard.shared copyWithName:@"Sound Code".localized value:code];
+            [CHPasteboard.shared copyWithName:@"Sound Code".localized value:name];
             completionHandler(YES);
         }];
         action.image = [UIImage systemImageNamed:@"doc.on.doc.fill"];

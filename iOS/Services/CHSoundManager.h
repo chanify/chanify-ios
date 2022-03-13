@@ -12,7 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CHSoundManager : NSObject
 
 + (instancetype)soundManagerWithGroupId:(NSString *)groupId;
-- (NSArray<NSString *> *)soundFiles;
+- (void)playWithName:(NSString *)name;
+- (NSArray<NSString *> *)soundNames;
 
 
 @end

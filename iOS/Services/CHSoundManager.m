@@ -6,6 +6,8 @@
 //
 
 #import "CHSoundManager.h"
+#import <AudioToolbox/AudioToolbox.h>
+#import "CHAudioPlayer.h"
 
 @interface CHSoundManager ()
 
@@ -31,14 +33,24 @@
     return self;
 }
 
-- (NSArray<NSString *> *)soundFiles {
+- (void)playWithName:(NSString *)name {
+    if (name.length <= 0) {
+        AudioServicesPlayAlertSound(kCHDefaultNotificationSoundID);
+    } else {
+        NSURL *fileUrl = [self.soundDirURL URLByAppendingPathComponent:[name stringByAppendingString:@".caf"]];
+        [CHAudioPlayer.shared playWithURL:fileUrl title:name];
+    }
+}
+
+- (NSArray<NSString *> *)soundNames {
     NSMutableArray<NSString *> *files = [NSMutableArray new];
     NSString *dirPath = self.soundDirURL.path;
     NSFileManager *fm = NSFileManager.defaultManager;
     for (int i = 0; i < sizeof(soundtbl)/sizeof(soundtbl[0]); i++) {
-        NSString *filePath = [dirPath stringByAppendingPathComponent:[NSString stringWithFormat:@"/%s.caf", soundtbl[i].name]];
+        NSString *name = [NSString stringWithCString:soundtbl[i].name encoding:NSUTF8StringEncoding];
+        NSString *filePath = [dirPath stringByAppendingPathComponent:[name stringByAppendingString:@".caf"]];
         if ([fm fileExistsAtPath:filePath]) {
-            [files addObject:filePath];
+            [files addObject:name];
         }
     }
     return files;
