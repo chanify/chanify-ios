@@ -75,6 +75,7 @@
 "Auto"="Auto";
 "Manual"="Manual";
 "Wi-Fi only"="Wi-Fi only";
+"ImageFile"="ImageFile";
 "Images"="Images";
 "Audios"="Audios";
 "Files"="Files";

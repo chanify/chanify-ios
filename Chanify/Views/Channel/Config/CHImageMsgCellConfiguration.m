@@ -144,7 +144,10 @@
 
 #pragma mark - Action Methods
 - (void)actionShare:(id)sender {
-    [CHRouter.shared showShareItem:@[self.imageView.image] sender:self.contentView handler:nil];
+    NSURL *url = self.imageView.localFileSharedURL;
+    if (url != nil) {
+        [CHRouter.shared showShareItem:@[url] sender:self.contentView handler:nil];
+    }
 }
 
 - (void)actionClicked:(CHTapGestureRecognizer *)sender {

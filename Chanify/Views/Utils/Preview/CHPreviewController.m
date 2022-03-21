@@ -72,14 +72,16 @@
 
 #pragma mark - Action Methods
 - (void)actionShared:(UIBarButtonItem *)sender {
-    UIImage *image = [UIImage imageWithData:[NSData dataFromNoCacheURL:self.currentPreviewItem.previewItemURL]];
-    [CHRouter.shared showShareItem:@[image] sender:sender handler:^(BOOL completed, NSError *error) {
-        if (error != nil) {
-            [CHRouter.shared makeToast:@"Export failed".localized];
-        } else if (completed) {
-            [CHRouter.shared makeToast:@"Export success".localized];
-        }
-    }];
+    NSURL *imageURL = [CHPreviewItem imageFileSharedURL:self.currentPreviewItem.previewItemURL];
+    if (imageURL != nil) {
+        [CHRouter.shared showShareItem:@[imageURL] sender:sender handler:^(BOOL completed, NSError *error) {
+            if (error != nil) {
+                [CHRouter.shared makeToast:@"Export failed".localized];
+            } else if (completed) {
+                [CHRouter.shared makeToast:@"Export success".localized];
+            }
+        }];
+    }
 }
 
 

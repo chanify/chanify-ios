@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite, strong) NSString *previewItemContentType;
 
 + (instancetype)itemWithURL:(NSURL *)url title:(NSString *)title uti:(NSString *)uti;
++ (nullable NSURL *)imageFileSharedURL:(nullable NSURL *)url;
 
 
 @end

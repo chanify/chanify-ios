@@ -7,6 +7,7 @@
 
 #import "CHWebImageView.h"
 #import "CHLoadingView.h"
+#import "CHPreviewItem.h"
 #import "CHLogic.h"
 #import "CHTheme.h"
 
@@ -56,6 +57,14 @@
         self.image = nil;
         [CHLogic.shared.webImageManager loadImageURL:fileURL toItem:self expectedSize:expectedSize network:NO];
     }
+}
+
+- (nullable NSURL *)localFileSharedURL {
+    NSURL *url = self.localFileURL;
+    if (url != nil) {
+        url = [CHPreviewItem imageFileSharedURL:url];
+    }
+    return url;
 }
 
 - (nullable NSURL *)localFileURL {

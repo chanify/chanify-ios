@@ -69,6 +69,7 @@
 "Token blocklist"="禁用令牌";
 "Add Token To Blocklist"="添加令牌到禁用列表";
 "DATA"="数据";
+"ImageFile"="图片文件";
 "Images"="图片";
 "Audios"="音频";
 "Files"="文件";
