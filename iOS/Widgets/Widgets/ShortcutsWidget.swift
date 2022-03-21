@@ -131,7 +131,7 @@ struct ShortcutsEntryView : View {
                 ZStack {
                     Color(.systemBackground)
                     if let entries = entry.configuration.entries {
-                        ForEach(0..<entries.count) { i in
+                        ForEach(0..<entries.count, id: \.self) { i in
                             let frame = LayoutItem(geometry, i, entry.configuration)
                             EntryItemView(entry: entries[i])
                                 .frame(width: frame.width, height: frame.height, alignment: .center)
