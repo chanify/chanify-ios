@@ -89,10 +89,15 @@ static CGFloat titleSpace = 4;
 
 - (void)actionCopy:(id)sender {
     NSMutableArray<NSString *> *items = [NSMutableArray new];
-    if (self.titleLabel.text.length > 0) {
-        [items addObject:self.titleLabel.text];
+    NSString *selectedText = self.textLabel.selectedText;
+    if (selectedText.length > 0) {
+        [items addObject:selectedText];
+    } else {
+        if (self.titleLabel.text.length > 0) {
+            [items addObject:self.titleLabel.text];
+        }
+        [items addObject:self.textLabel.text];
     }
-    [items addObject:self.textLabel.text];
     [CHPasteboard.shared copyWithName:@"Message".localized value:[items componentsJoinedByString:@"\n"]];
 }
 

@@ -28,6 +28,7 @@
     NSView *view = gestureRecognizer.view;
     SEL selector = NSSelectorFromString(@"canGestureRecognizer:");
     if ([view respondsToSelector:selector]) {
+        [view.window makeFirstResponder:nil];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
         return ([view performSelector:selector withObject:gestureRecognizer] != nil);

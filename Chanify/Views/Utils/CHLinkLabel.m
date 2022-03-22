@@ -37,6 +37,11 @@
     return self.string;
 }
 
+- (BOOL)resignFirstResponder {
+    [self clearSelect];
+    return [super resignFirstResponder];
+}
+
 - (NSString *)linkForPoint:(CGPoint)point {
     NSUInteger index = [self characterIndexForInsertionAtPoint:point];
     if (index >= 0 && index < self.text.length) {
@@ -49,6 +54,14 @@
         }
     }
     return @"";
+}
+
+- (NSString *)selectedText {
+    return [self.text substringWithRange:self.selectedRange];
+}
+
+- (void)clearSelect {
+    self.selectedRange = NSMakeRange(0, 0);
 }
 
 
@@ -90,6 +103,13 @@
         }
     }
     return res;
+}
+
+- (NSString *)selectedText {
+    return @"";
+}
+
+- (void)clearSelect {
 }
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {

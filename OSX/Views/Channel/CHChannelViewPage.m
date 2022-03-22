@@ -73,6 +73,12 @@
     [CHLogic.shared removeDelegate:self];
 }
 
+- (void)mouseDown:(NSEvent *)event {
+    if (![self.window.firstResponder isKindOfClass:self.window.class]) {
+        [self.window makeFirstResponder:nil];
+    }
+}
+
 - (BOOL)isEqualWithParameters:(NSDictionary *)params {
     return [self.model.cid isEqual:[params valueForKey:@"cid"]];
 }
