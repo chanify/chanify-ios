@@ -43,6 +43,7 @@
         }
     }
     [textField becomeFirstResponder];
+    [self.section.form.viewDelegate itemBecomeFirstResponder:self];
 }
 
 - (NSTextField *)editView {
@@ -108,6 +109,14 @@
 - (void)controlTextDidChange:(NSNotification *)info {
     NSTextView *textView = [info.userInfo valueForKey:@"NSFieldEditor"];
     [self.section.form notifyItemValueHasChanged:self oldValue:self.value newValue:textView.string];
+}
+
+- (BOOL)control:(NSControl *)control textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector {
+    if (commandSelector == @selector(insertTab:) || commandSelector == @selector(insertNewline:)) {
+        [self.section.form.viewDelegate itemShouldInputReturn:self];
+        return YES;
+    }
+    return NO;
 }
 
 

@@ -26,13 +26,16 @@ static NSString *const headerIdentifier = @"header";
 @property (nonatomic, readonly, strong) CHScrollView *scrollView;
 @property (nonatomic, readonly, strong) CHCollectionView *listView;
 @property (nonatomic, readonly, strong) CHFormDataSource *dataSource;
+@property (nonatomic, nullable, weak) CHFormInputItem *currentInput;
 
 @end
 
 @implementation CHFormView
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
-    if (self = [super initWithFrame:frameRect]) {        
+    if (self = [super initWithFrame:frameRect]) {
+        _currentInput = nil;
+
         CHTheme *theme = CHTheme.shared;
 
         NSCollectionViewFlowLayout *layout = [NSCollectionViewFlowLayout new];
@@ -123,6 +126,7 @@ static NSString *const headerIdentifier = @"header";
 }
 
 - (void)itemBecomeFirstResponder:(CHFormInputItem *)item {
+    self.currentInput = item;
 }
 
 - (nullable CHFormViewCell *)cellForItem:(CHFormItem *)item {
@@ -138,10 +142,15 @@ static NSString *const headerIdentifier = @"header";
 }
 
 - (BOOL)itemShouldInputReturn:(CHFormInputItem *)item {
+    [self actionGotoInputNext:nil];
     return YES;
 }
 
 - (BOOL)itemIsLastInput:(CHFormInputItem *)item {
+    if (item != nil) {
+        NSArray<CHFormInputItem *> *items = self.form.inputItems;
+        return (items.count > 0 && items.lastObject == item);
+    }
     return NO;
 }
 
@@ -165,6 +174,23 @@ static NSString *const headerIdentifier = @"header";
 
 - (NSSize)collectionView:(NSCollectionView *)collectionView layout:(NSCollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     return NSMakeSize(collectionView.bounds.size.width, 38);
+}
+
+#pragma mark - Action Methods
+- (void)actionGotoInputNext:(id)sender {
+    if ([self itemIsLastInput:self.currentInput]) {
+        [self actionGotoInputDone:nil];
+    } else {
+        NSArray<CHFormInputItem *> *items = self.form.inputItems;
+        NSInteger index = [items indexOfObject:self.currentInput] + 1;
+        if (index >= 0 && index < items.count) {
+            [[items objectAtIndex:index] startEditing];
+        }
+    }
+}
+
+- (void)actionGotoInputDone:(id)sender {
+    [self.window makeFirstResponder:nil];
 }
 
 #pragma mark - Private Methods

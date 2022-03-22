@@ -476,6 +476,23 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     [fileMenu addItem:NSMenuItem.separatorItem];
     [fileMenu addItem:CreateMenuItemWithTag(@"Close Window", self, @selector(actionToggleWindow:), @"", kMenuCloseWindowTag)];
 
+    // Edit menu
+    NSMenu *editMenu = [[NSMenu alloc] initWithTitle:@"Edit".localized];
+    NSMenuItem *editMenuItem = [[NSMenuItem alloc] initWithTitle:@"Edit".localized action:nil keyEquivalent:@""];
+    [mainMenu addItem:editMenuItem];
+    editMenuItem.submenu = editMenu;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+    [editMenu addItemWithTitle:@"Undo" action:@selector(undo:) keyEquivalent:@"z"];
+    [editMenu addItemWithTitle:@"Redo" action:@selector(redo:) keyEquivalent:@"Z"];
+#pragma clang diagnostic pop
+    [editMenu addItem:NSMenuItem.separatorItem];
+    [editMenu addItemWithTitle:@"Cut".localized action:@selector(cut:) keyEquivalent:@"x"];
+    [editMenu addItemWithTitle:@"Copy".localized action:@selector(copy:) keyEquivalent:@"c"];
+    [editMenu addItemWithTitle:@"Paste".localized action:@selector(paste:) keyEquivalent:@"v"];
+    [editMenu addItem:NSMenuItem.separatorItem];
+    [editMenu addItemWithTitle:@"Select All".localized action:@selector(selectAll:) keyEquivalent:@"a"];
+    
     // Window menu
     NSMenu *windowMenu = [[NSMenu alloc] initWithTitle:@"Window".localized];
     NSApp.windowsMenu = windowMenu;

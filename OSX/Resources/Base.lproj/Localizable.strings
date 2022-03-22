@@ -182,6 +182,11 @@
 "File"="File";
 "Open Window"="Open Window";
 "Close Window"="Close Window";
+"Edit"="Edit";
+"Cut"="Cut";
+"Copy"="Copy";
+"Paste"="Paste";
+"Select All"="Select All";
 "Window"="Window";
 "Help"="Help";
 "Usage Manual"="Usage Manual";
