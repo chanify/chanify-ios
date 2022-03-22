@@ -3,14 +3,12 @@ PODS:
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
   - JLRoutes (2.1)
-  - M80AttributedLabel (1.9.9)
   - Masonry (1.1.0)
   - Protobuf (3.19.4)
 
 DEPENDENCIES:
   - FMDB
   - JLRoutes
-  - M80AttributedLabel
   - Masonry
   - Protobuf
 
@@ -18,17 +16,15 @@ SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - FMDB
     - JLRoutes
-    - M80AttributedLabel
     - Masonry
     - Protobuf
 
 SPEC CHECKSUMS:
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   JLRoutes: d755245322b94227662ea3e43492fdca94e05c5b
-  M80AttributedLabel: 77fedfe63804c989a6de0fa4d400ea8cad3ab441
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   Protobuf: 235750e4696ff59fb07d949a9dbbc92b3c0700fe
 
-PODFILE CHECKSUM: a5272d90d7298d542b16fc84340c82810e103ad0
+PODFILE CHECKSUM: d771ddd0c19fd3c7c6f50b54bb6f4343b5ccb476
 
 COCOAPODS: 1.11.2

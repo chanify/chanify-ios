@@ -1,18 +1,15 @@
 //
 //  CHLinkLabel.m
-//  OSX
+//  Chanify
 //
 //  Created by WizJin on 2021/6/7.
 //
 
 #import "CHLinkLabel.h"
 
-#if TARGET_OS_OSX
-
-@interface CHLinkLabel ()
-@end
-
 @implementation CHLinkLabel
+
+#if TARGET_OS_OSX
 
 - (instancetype)init {
     if (self = [super initWithFrame:CGRectZero]) {
@@ -38,12 +35,64 @@
 }
 
 - (BOOL)resignFirstResponder {
-    [self clearSelect];
+    self.selectedRange = NSMakeRange(0, 0);
     return [super resignFirstResponder];
 }
 
+- (void)resetSelectText {
+    if (self.selectedRange.length <= 0) {
+        [self selectAll:nil];
+    }
+}
+
+#else
+
+- (instancetype)init {
+    if (self = [super initWithFrame:CGRectZero]) {
+        self.editable = NO;
+        self.selectable = YES;
+        self.backgroundColor = UIColor.clearColor;
+        self.dataDetectorTypes = UIDataDetectorTypeAll;
+        self.textContainerInset = UIEdgeInsetsZero;
+        self.textContainer.lineFragmentPadding = 0;
+        self.textContainer.lineBreakMode = NSLineBreakByWordWrapping;
+        self.linkTextAttributes = @{
+            NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle),
+        };
+    }
+    return self;
+}
+
+- (nullable CHColor *)linkColor {
+    return [self.linkTextAttributes objectForKey:NSForegroundColorAttributeName];
+}
+
+- (void)setLinkColor:(CHColor *)linkColor {
+    NSMutableDictionary *attrs = [NSMutableDictionary dictionaryWithDictionary:self.linkTextAttributes];
+    [attrs setObject:linkColor forKey:NSForegroundColorAttributeName];
+    self.linkTextAttributes = attrs;
+}
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    return nil;
+}
+
+- (NSInteger)characterIndexForInsertionAtPoint:(CGPoint)point {
+    NSInteger offset = -1;
+    UITextPosition *pos = [self closestPositionToPoint:point];
+    if (pos != nil) {
+        offset = [self offsetFromPosition:self.beginningOfDocument toPosition:pos];
+    }
+    return offset;
+}
+
+- (void)resetSelectText {
+}
+
+#endif
+
 - (NSString *)linkForPoint:(CGPoint)point {
-    NSUInteger index = [self characterIndexForInsertionAtPoint:point];
+    NSInteger index = [self characterIndexForInsertionAtPoint:point];
     if (index >= 0 && index < self.text.length) {
         NSDictionary *info = [self.textStorage attributesAtIndex:index effectiveRange:nil];
         if (info != nil) {
@@ -60,63 +109,6 @@
     return [self.text substringWithRange:self.selectedRange];
 }
 
-- (void)clearSelect {
-    self.selectedRange = NSMakeRange(0, 0);
-}
-
 
 @end
 
-#else
-
-@interface M80AttributedLabel ()
-@property (nonatomic,strong) NSMutableArray<M80AttributedLabelURL *> *linkLocations;
-- (id)linkDataForPoint:(CGPoint)point;
-@end
-
-@implementation CHLinkLabel
-
-- (instancetype)init {
-    if (self = [super initWithFrame:CGRectZero]) {
-        self.backgroundColor = UIColor.clearColor;
-        self.userInteractionEnabled = NO;
-        self.highlightColor = UIColor.clearColor;
-        self.lineBreakMode = kCTLineBreakByWordWrapping;
-        self.autoDetectLinks = YES;
-        self.numberOfLines = 0;
-    }
-    return self;
-}
-
-- (NSString *)linkForPoint:(CGPoint)point {
-    NSString *res = @"";
-    NSUInteger n = self.linkLocations.count;
-    if (n > 0) {
-        id linkData = nil;
-        if (n == 1) {
-            linkData = self.linkLocations.firstObject.linkData;
-        } else {
-            linkData = [super linkDataForPoint:point];
-        }
-        if (linkData != nil && [linkData isKindOfClass:NSString.class]) {
-            res = linkData;
-        }
-    }
-    return res;
-}
-
-- (NSString *)selectedText {
-    return @"";
-}
-
-- (void)clearSelect {
-}
-
-- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
-    return nil;
-}
-
-
-@end
-
-#endif

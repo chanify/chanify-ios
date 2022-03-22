@@ -15,7 +15,6 @@ target 'iOS' do
 	pod 'FMDB'
 	pod 'JLRoutes'
 	pod 'Masonry'
-	pod 'M80AttributedLabel'
 	pod 'Protobuf'
 end
 

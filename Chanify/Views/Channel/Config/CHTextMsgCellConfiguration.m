@@ -87,6 +87,10 @@ static CGFloat titleSpace = 4;
     [self clickedOnLink:[self.textLabel linkForPoint:pt]];
 }
 
+- (void)actionLongClicked:(CHLongPressGestureRecognizer *)recognizer {
+    [self.textLabel resetSelectText];
+}
+
 - (void)actionCopy:(id)sender {
     NSMutableArray<NSString *> *items = [NSMutableArray new];
     NSString *selectedText = self.textLabel.selectedText;

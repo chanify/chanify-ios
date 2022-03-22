@@ -134,6 +134,7 @@
 
 - (void)actionLongPress:(CHLongPressGestureRecognizer *)recognizer {
     if (!self.source.isEditing && [self canGestureRecognizer:recognizer]) {
+        [self actionLongClicked:recognizer];
         CHView *contentView = self.contentView;
         CHMenuController *menu = CHMenuController.sharedMenuController;
         menu.menuItems = self.menuActions;
@@ -147,6 +148,9 @@
 }
 
 - (void)actionClicked:(CHTapGestureRecognizer *)sender {
+}
+
+- (void)actionLongClicked:(CHLongPressGestureRecognizer *)recognizer {
 }
 
 - (NSArray<CHMenuItem *> *)menuActions {
