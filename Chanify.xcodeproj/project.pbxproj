@@ -43,6 +43,7 @@
 		6D0384FD26F5DD2E002C3BE1 /* CHFormInputItem+OSX.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0384FC26F5DD1C002C3BE1 /* CHFormInputItem+OSX.m */; };
 		6D0384FF26F5DD56002C3BE1 /* CHFormSelectorItem+OSX.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0384FE26F5DD56002C3BE1 /* CHFormSelectorItem+OSX.m */; };
 		6D03850226F5DDA3002C3BE1 /* CHIconsViewController+OSX.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D03850126F5DDA2002C3BE1 /* CHIconsViewController+OSX.m */; };
+		6D057A5227EB1AF400C4B098 /* CHLoginAccountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D057A5127EB1AF400C4B098 /* CHLoginAccountView.m */; };
 		6D098E1D2671F4F300E71538 /* CHScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D098E1C2671F4F300E71538 /* CHScrollView.m */; };
 		6D0D32FD267B8A1B00BCE575 /* CHWidgetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D32FC267B8A1B00BCE575 /* CHWidgetManager.m */; };
 		6D0D32FE267B8D8D00BCE575 /* CHSecKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C2AD25D14C2400512E36 /* CHSecKey.m */; };
@@ -255,7 +256,7 @@
 		6DB1C27F2670CF17007C0C02 /* CHRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB1C27E2670CF17007C0C02 /* CHRouter.m */; };
 		6DB5513C266DEA5200B00E9E /* CHCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C37E25D16E1800512E36 /* CHCellConfiguration.m */; };
 		6DB929E726DE13260093F927 /* CHLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB929E626DE13260093F927 /* CHLoginViewController.m */; };
-		6DB929EB26DE18A00093F927 /* CHLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB929EA26DE18A00093F927 /* CHLoginView.m */; };
+		6DB929EB26DE18A00093F927 /* CHLoginQrCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB929EA26DE18A00093F927 /* CHLoginQrCodeView.m */; };
 		6DBA92BE25F609CD00B792FE /* CHColorConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92BD25F609CD00B792FE /* CHColorConfiguration.m */; };
 		6DBA92C525F60B3B00B792FE /* UIColor+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92C425F60B3B00B792FE /* UIColor+CHExt.m */; };
 		6DBA92DF25F8A83700B792FE /* CHSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBA92DE25F8A83700B792FE /* CHSplitViewController.m */; };
@@ -728,6 +729,8 @@
 		6D0384FC26F5DD1C002C3BE1 /* CHFormInputItem+OSX.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHFormInputItem+OSX.m"; sourceTree = "<group>"; };
 		6D0384FE26F5DD56002C3BE1 /* CHFormSelectorItem+OSX.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHFormSelectorItem+OSX.m"; sourceTree = "<group>"; };
 		6D03850126F5DDA2002C3BE1 /* CHIconsViewController+OSX.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHIconsViewController+OSX.m"; sourceTree = "<group>"; };
+		6D057A5027EB1AF400C4B098 /* CHLoginAccountView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHLoginAccountView.h; sourceTree = "<group>"; };
+		6D057A5127EB1AF400C4B098 /* CHLoginAccountView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHLoginAccountView.m; sourceTree = "<group>"; };
 		6D098E1B2671F4F300E71538 /* CHScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHScrollView.h; sourceTree = "<group>"; };
 		6D098E1C2671F4F300E71538 /* CHScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHScrollView.m; sourceTree = "<group>"; };
 		6D0D32FB267B8A1B00BCE575 /* CHWidgetManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWidgetManager.h; sourceTree = "<group>"; };
@@ -967,8 +970,8 @@
 		6DB1C27E2670CF17007C0C02 /* CHRouter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHRouter.m; sourceTree = "<group>"; };
 		6DB929E526DE13260093F927 /* CHLoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHLoginViewController.h; sourceTree = "<group>"; };
 		6DB929E626DE13260093F927 /* CHLoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHLoginViewController.m; sourceTree = "<group>"; };
-		6DB929E926DE18A00093F927 /* CHLoginView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHLoginView.h; sourceTree = "<group>"; };
-		6DB929EA26DE18A00093F927 /* CHLoginView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHLoginView.m; sourceTree = "<group>"; };
+		6DB929E926DE18A00093F927 /* CHLoginQrCodeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHLoginQrCodeView.h; sourceTree = "<group>"; };
+		6DB929EA26DE18A00093F927 /* CHLoginQrCodeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHLoginQrCodeView.m; sourceTree = "<group>"; };
 		6DBA92BC25F609CD00B792FE /* CHColorConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHColorConfiguration.h; sourceTree = "<group>"; };
 		6DBA92BD25F609CD00B792FE /* CHColorConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHColorConfiguration.m; sourceTree = "<group>"; };
 		6DBA92C325F60B3B00B792FE /* UIColor+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+CHExt.h"; sourceTree = "<group>"; };
@@ -1934,8 +1937,10 @@
 			children = (
 				6DB929E526DE13260093F927 /* CHLoginViewController.h */,
 				6DB929E626DE13260093F927 /* CHLoginViewController.m */,
-				6DB929E926DE18A00093F927 /* CHLoginView.h */,
-				6DB929EA26DE18A00093F927 /* CHLoginView.m */,
+				6D057A5027EB1AF400C4B098 /* CHLoginAccountView.h */,
+				6D057A5127EB1AF400C4B098 /* CHLoginAccountView.m */,
+				6DB929E926DE18A00093F927 /* CHLoginQrCodeView.h */,
+				6DB929EA26DE18A00093F927 /* CHLoginQrCodeView.m */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -3135,7 +3140,7 @@
 				6D8F427627003F280073D06B /* CHPopoverWindow.m in Sources */,
 				6DE7C06F263D483B0092D88D /* CHUserModel.m in Sources */,
 				6D0384D426F5BAD3002C3BE1 /* CHFormView.m in Sources */,
-				6DB929EB26DE18A00093F927 /* CHLoginView.m in Sources */,
+				6DB929EB26DE18A00093F927 /* CHLoginQrCodeView.m in Sources */,
 				6DC7CF5026E609A9002F7869 /* CHNodeCellView.m in Sources */,
 				6D0384D826F5C11D002C3BE1 /* CHFormItem.m in Sources */,
 				6DE663DC270E9D06008B4DCF /* CHBlockTokenViewPage.m in Sources */,
@@ -3152,6 +3157,7 @@
 				6DE7C08A263D49560092D88D /* CHUserDataSource.m in Sources */,
 				6D75352D26DF3688009E019E /* CHCodeFormatter.m in Sources */,
 				6DE7C07E263D48D50092D88D /* NSPredicate+CHExt.m in Sources */,
+				6D057A5227EB1AF400C4B098 /* CHLoginAccountView.m in Sources */,
 				6D029B73266F098000BF046A /* CHLoadingView.m in Sources */,
 				6DE7C066263D471E0092D88D /* CHUtils.m in Sources */,
 				6D8352322664C818005CE6D1 /* CHRouter+OSX.m in Sources */,

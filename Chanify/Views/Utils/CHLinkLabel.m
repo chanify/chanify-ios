@@ -7,6 +7,7 @@
 
 #import "CHLinkLabel.h"
 #import "CHTheme.h"
+#import "CHMsgCellConfiguration.h"
 
 @implementation CHLinkLabel
 
@@ -73,8 +74,14 @@
 
 - (void)mouseDown:(NSEvent *)event {
     [super mouseDown:event];
-    CHMsgCellContentView *view = (CHMsgCellContentView *)self.superview.superview;
-    [view.source activeMsgCellItem:view];
+    CHView *v = self.superview;
+    if (v != nil) {
+        v = v.superview;
+        if ([v isKindOfClass:CHMsgCellContentView.class]) {
+            CHMsgCellContentView *view = (CHMsgCellContentView *)v;
+            [view.source activeMsgCellItem:view];
+        }
+    }
 }
 
 #else

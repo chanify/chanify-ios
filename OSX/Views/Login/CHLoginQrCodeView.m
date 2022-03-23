@@ -1,17 +1,17 @@
 //
-//  CHLoginView.m
+//  CHLoginQrCodeView.m
 //  OSX
 //
 //  Created by WizJin on 2021/8/31.
 //
 
-#import "CHLoginView.h"
+#import "CHLoginQrCodeView.h"
 #import <AVFoundation/AVFoundation.h>
 #import <Masonry/Masonry.h>
 #import "CHIndicatorView.h"
 #import "CHTheme.h"
 
-@interface CHLoginView () <NSDraggingDestination>
+@interface CHLoginQrCodeView () <NSDraggingDestination>
 
 @property (nonatomic, readonly, assign) BOOL loading;
 @property (nonatomic, readonly, strong) CHLabel *statusLabel;
@@ -20,7 +20,7 @@
 
 @end
 
-@implementation CHLoginView
+@implementation CHLoginQrCodeView
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
@@ -54,7 +54,7 @@
         [self addSubview:(_noteLabel = noteLabel)];
         [noteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self);
-            make.bottom.equalTo(self).offset(-20);
+            make.bottom.equalTo(self);
         }];
         noteLabel.font = theme.detailFont;
         noteLabel.textColor = theme.minorLabelColor;

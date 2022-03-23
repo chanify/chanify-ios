@@ -172,12 +172,16 @@
 "msg.file"="发送文件消息";
 "msg.timeline"="发送时间线消息";
 
+"Login with QrCode"="使用二维码登录";
+"Login with Account"="使用账号登录";
 "About Chanify"="关于 Chanify";
 "Quit Chanify"="退出 Chanify";
+"Please input account"="请输入账号";
 "Import account failed!"="导入账号失败！";
 "Release QR code to login."="释放二维码登录。";
 "Drop QR code here to login."="将二维码拖到此处登录。";
 "Get QR code from Chanify app on your iPhone."="从 iPhone 上的 Chanify 应用程序获取二维码。";
+"Get Account from Chanify app on your iPhone."="从 iPhone 上的 Chanify 应用程序获取账号信息。";
 "File"="文件";
 "Open Window"="打开窗口";
 "Close Window"="关闭窗口";

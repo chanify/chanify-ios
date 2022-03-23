@@ -9,6 +9,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol CHLoginViewItem <NSObject>
+
+- (void)setStatusText:(NSString *)text;
+- (void)setShowIndicator:(BOOL)bSHow;
+
+@end
+
 @interface CHLoginViewController : CHViewController
 
 
