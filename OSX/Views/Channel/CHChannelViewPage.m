@@ -73,6 +73,7 @@
     [CHLogic.shared removeDelegate:self];
 }
 
+// TODO: try to remove this workaround.
 - (void)mouseDown:(NSEvent *)event {
     [self.dataSource clearActivedCellItem];
 }

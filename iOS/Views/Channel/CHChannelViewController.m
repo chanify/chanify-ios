@@ -22,6 +22,7 @@
 
 @implementation CHMsgCollectionView
 
+// TODO: try to remove this workaround.
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
     id ds = self.dataSource;
     if ([ds isKindOfClass:CHMessagesDataSource.class]) {

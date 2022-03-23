@@ -91,6 +91,7 @@
 "None"="None";
 "NoMore"="No more";
 "Expired"="Expired";
+"Custom Value"="Custom Value";
 "Can't open url"="Can't open url";
 "No QR code"="No QR code";
 "Tap to reload"="Tap to reload";

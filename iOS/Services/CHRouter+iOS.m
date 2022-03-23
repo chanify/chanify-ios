@@ -332,6 +332,11 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
         [CHPasteboard.shared copyWithName:@"Token".localized value:[CHToken.defaultToken formatString:nil direct:YES]];
         return YES;
     }];
+    [chanify addRoute:@"/action/pasteboard" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
+        NSString *text = [NSString stringWithFormat:@"%@", [parameters valueForKey:@"text"]];
+        [CHPasteboard.shared copyWithName:@"Custom Value".localized value:text];
+        return YES;
+    }];
     // unmatched router
     routes.unmatchedURLHandler = ^(JLRoutes *routes, NSURL *url, NSDictionary<NSString *, id> *parameters) {
         NSString *scheme = url.scheme;

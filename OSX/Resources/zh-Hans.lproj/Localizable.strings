@@ -91,6 +91,7 @@
 "None"="无";
 "NoMore"="没有更多了";
 "Expired"="已到期";
+"Custom Value"="自定义值";
 "Can't open url"="无法打开url";
 "No QR code"="没有发现二维码";
 "Tap to reload"="轻触重载页面";
