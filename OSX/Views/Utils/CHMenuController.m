@@ -35,7 +35,7 @@
 - (void)showMenuFromView:(CHView *)targetView target:(id)target point:(CGPoint)point {
     [self hideMenuFromView:targetView];
     if (_menu == nil) {
-        [target becomeFirstResponder];
+        [targetView.window makeFirstResponder:target];
         NSMenu *menu = [[NSMenu alloc] initWithTitle:@"menu"];
         _menu = menu;
         for (NSMenuItem *item in self.menuItems) {

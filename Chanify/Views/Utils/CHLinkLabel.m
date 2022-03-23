@@ -74,13 +74,42 @@
 
 - (void)mouseDown:(NSEvent *)event {
     [super mouseDown:event];
+    CHMsgCellContentView *view = self.contentView;
+    if (view != nil) {
+        [view.source activeMsgCellItem:view];
+    }
+}
+
+- (void)actionCopy:(id)sender {
+    [self callContentViewAction:@selector(actionCopy:) withObject:sender];
+}
+
+- (void)actionShare:(id)sender {
+    [self callContentViewAction:@selector(actionShare:) withObject:sender];
+}
+
+- (void)actionDelete:(id)sender {
+    [self callContentViewAction:@selector(actionDelete:) withObject:sender];
+}
+
+- (nullable CHMsgCellContentView *)contentView {
     CHView *v = self.superview;
     if (v != nil) {
         v = v.superview;
         if ([v isKindOfClass:CHMsgCellContentView.class]) {
-            CHMsgCellContentView *view = (CHMsgCellContentView *)v;
-            [view.source activeMsgCellItem:view];
+            return (CHMsgCellContentView *)v;
         }
+    }
+    return nil;
+}
+
+- (void)callContentViewAction:(SEL)action withObject:(id)object {
+    CHMsgCellContentView *view = self.contentView;
+    if ([view respondsToSelector:action]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        [view performSelector:action withObject:object];
+#pragma clang diagnostic pop
     }
 }
 
@@ -138,13 +167,11 @@
 }
 
 - (void)clearSelectedText {
-    self.selectedRange = NSMakeRange(NSNotFound, 0);
+    if (self.selectedRange.length > 0) {
+        self.selectedRange = NSMakeRange(NSNotFound, 0);
+        [self resignFirstResponder];
+    }
 }
-
-- (void)setText:(NSString *)text {
-    [super setText:text];
-}
-
 
 #endif
 

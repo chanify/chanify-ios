@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (CHView *)contentView;
 - (BOOL)canGestureRecognizer:(CHGestureRecognizer *)recognizer;
 - (void)actionClicked:(CHTapGestureRecognizer *)sender;
-- (nullable CHView *)actionLongClicked:(CHLongPressGestureRecognizer *)recognizer;
+- (nullable CHView *)actionPopMenu:(CHLongPressGestureRecognizer *)recognizer;
 - (NSArray<CHMenuItem *> *)menuActions;
 - (void)updateConfigurationUsingState:(CHCellConfigurationState *)state;
 

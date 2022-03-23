@@ -143,7 +143,7 @@
             CHView *contentView = self.contentView;
             CHMenuController *menu = CHMenuController.sharedMenuController;
             menu.menuItems = self.menuActions;
-            CHView *target = [self actionLongClicked:recognizer];
+            CHView *target = [self actionPopMenu:recognizer];
             [menu showMenuFromView:contentView target:(target ?: self) point:[recognizer locationInView:contentView]];
         }
     }
@@ -157,7 +157,7 @@
 - (void)actionClicked:(CHTapGestureRecognizer *)sender {
 }
 
-- (nullable CHView *)actionLongClicked:(CHLongPressGestureRecognizer *)recognizer {
+- (nullable CHView *)actionPopMenu:(CHLongPressGestureRecognizer *)recognizer {
     return nil;
 }
 

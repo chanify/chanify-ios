@@ -84,18 +84,15 @@ static CGFloat titleSpace = 4;
 #pragma mark - Action Methods
 - (void)actionClicked:(CHTapGestureRecognizer *)sender {
     [self.textLabel clearSelectedText];
-    CGPoint pt = [sender locationInView:self.textLabel];
-    [self clickedOnLink:[self.textLabel linkForPoint:pt]];
+    [self clickedOnLink:[self.textLabel linkForPoint:[sender locationInView:self.textLabel]]];
 }
 
-- (nullable CHView *)actionLongClicked:(CHLongPressGestureRecognizer *)recognizer {
+- (nullable CHView *)actionPopMenu:(CHLongPressGestureRecognizer *)recognizer {
     [self.textLabel resetSelectText];
-#if !TARGET_OS_OSX
     if (CGRectContainsPoint(self.textLabel.frame, [recognizer locationInView:self.contentView])) {
         return self.textLabel;
     }
-#endif
-    return [super actionLongClicked:recognizer];
+    return [super actionPopMenu:recognizer];
 }
 
 - (void)actionCopy:(id)sender {
