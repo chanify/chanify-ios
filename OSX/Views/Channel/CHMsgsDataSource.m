@@ -20,6 +20,7 @@
 @property (nonatomic, readonly, strong) NSString *cid;
 @property (nonatomic, nullable, strong) CHLoadMoreView *headerView;
 @property (nonatomic, readonly, weak) NSCollectionView *collectionView;
+@property (nonatomic, nullable, weak) id<CHMsgCellItem> lastMsgCellItem;
 
 @end
 
@@ -44,6 +45,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     };
     if (self = [super initWithCollectionView:collectionView itemProvider:cellProvider]) {
         _cid = cid;
+        _lastMsgCellItem = nil;
         _collectionView = collectionView;
         collectionView.alpha = 0;
         [collectionView registerClass:CHLoadMoreView.class forSupplementaryViewOfKind:NSCollectionElementKindSectionHeader withIdentifier:@"CHLoadMoreView"];
@@ -80,6 +82,10 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
 
 - (CGSize)sizeForHeaderInSection:(NSInteger)section {
     return CGSizeMake(self.collectionView.bounds.size.width, 30);
+}
+
+- (void)clearActivedCellItem {
+    [self activeMsgCellItem:nil];
 }
 
 - (void)scrollViewDidScroll {
@@ -174,12 +180,23 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
 }
 
 #pragma mark - CHMessageSource
+- (void)activeMsgCellItem:(nullable id<CHMsgCellItem>)cellItem {
+    id<CHMsgCellItem> lastItem = self.lastMsgCellItem;
+    if (lastItem != cellItem) {
+        if ([lastItem respondsToSelector:@selector(msgCellItemWillUnactive:)]) {
+            [lastItem msgCellItemWillUnactive:lastItem];
+        }
+        self.lastMsgCellItem = cellItem;
+    }
+}
+
 - (void)setNeedRecalcLayoutItem:(CHCellConfiguration *)cell {
     [cell setNeedRecalcLayout];
     [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
 - (void)beginEditingWithItem:(CHCellConfiguration *)cell {
+    [self clearActivedCellItem];
 }
 
 - (void)previewImageWithMID:(NSString *)mid {

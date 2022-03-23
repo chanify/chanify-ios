@@ -6,8 +6,27 @@
 //
 
 #import "CHLinkLabel.h"
+#import "CHTheme.h"
 
 @implementation CHLinkLabel
+
+- (NSString *)linkForPoint:(CGPoint)point {
+    NSInteger index = [self characterIndexForInsertionAtPoint:point];
+    if (index >= 0 && index < self.text.length) {
+        NSDictionary *info = [self.textStorage attributesAtIndex:index effectiveRange:nil];
+        if (info != nil) {
+            NSURL *url = [info valueForKey:NSLinkAttributeName];
+            if (url != nil) {
+                return url.absoluteString;
+            }
+        }
+    }
+    return @"";
+}
+
+- (NSString *)selectedText {
+    return [self.text substringWithRange:self.selectedRange];
+}
 
 #if TARGET_OS_OSX
 
@@ -16,6 +35,7 @@
         self.textContainer.lineBreakMode = NSLineBreakByCharWrapping;
         self.textContainer.lineFragmentPadding = 0;
         self.backgroundColor = NSColor.clearColor;
+        self.tintColor = CHTheme.shared.tintColor;
         self.automaticLinkDetectionEnabled = YES;
         self.selectable = NO;
         self.editable = NO;
@@ -34,15 +54,27 @@
     return self.string;
 }
 
-- (BOOL)resignFirstResponder {
-    self.selectedRange = NSMakeRange(0, 0);
-    return [super resignFirstResponder];
-}
-
 - (void)resetSelectText {
     if (self.selectedRange.length <= 0) {
-        [self selectAll:nil];
+        @weakify(self);
+        dispatch_main_async(^{
+            @strongify(self);
+            [self clearSelectedText];
+        });
     }
+}
+
+- (void)clearSelectedText {
+    self.selectedRange = NSMakeRange(NSNotFound, 0);
+    if (self.window.firstResponder == self) {
+        [self.window makeFirstResponder:nil];
+    }
+}
+
+- (void)mouseDown:(NSEvent *)event {
+    [super mouseDown:event];
+    CHMsgCellContentView *view = (CHMsgCellContentView *)self.superview.superview;
+    [view.source activeMsgCellItem:view];
 }
 
 #else
@@ -51,8 +83,11 @@
     if (self = [super initWithFrame:CGRectZero]) {
         self.editable = NO;
         self.selectable = YES;
+        self.scrollEnabled = NO;
+        self.clipsToBounds = NO;
         self.backgroundColor = UIColor.clearColor;
-        self.dataDetectorTypes = UIDataDetectorTypeAll;
+        self.tintColor = CHTheme.shared.tintColor;
+        self.dataDetectorTypes = UIDataDetectorTypePhoneNumber | UIDataDetectorTypeLink;
         self.textContainerInset = UIEdgeInsetsZero;
         self.textContainer.lineFragmentPadding = 0;
         self.textContainer.lineBreakMode = NSLineBreakByWordWrapping;
@@ -74,6 +109,9 @@
 }
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    if (self.selectedRange.length > 0) {
+        return [super hitTest:point withEvent:event];
+    }
     return nil;
 }
 
@@ -87,28 +125,21 @@
 }
 
 - (void)resetSelectText {
+    if (self.selectedRange.length <= 0) {
+        self.selectedRange = NSMakeRange(0, self.text.length);
+    }
 }
+
+- (void)clearSelectedText {
+    self.selectedRange = NSMakeRange(NSNotFound, 0);
+}
+
+- (void)setText:(NSString *)text {
+    [super setText:text];
+}
+
 
 #endif
-
-- (NSString *)linkForPoint:(CGPoint)point {
-    NSInteger index = [self characterIndexForInsertionAtPoint:point];
-    if (index >= 0 && index < self.text.length) {
-        NSDictionary *info = [self.textStorage attributesAtIndex:index effectiveRange:nil];
-        if (info != nil) {
-            NSURL *url = [info valueForKey:NSLinkAttributeName];
-            if (url != nil) {
-                return url.absoluteString;
-            }
-        }
-    }
-    return @"";
-}
-
-- (NSString *)selectedText {
-    return [self.text substringWithRange:self.selectedRange];
-}
-
 
 @end
 

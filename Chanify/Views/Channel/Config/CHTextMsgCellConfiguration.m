@@ -65,7 +65,7 @@ static CGFloat titleSpace = 4;
     self.titleLabel.frame = configuration.titleRect;
     self.titleLabel.hidden = (configuration.title.length <= 0);
     self.textLabel.text = configuration.text;
-    self.textLabel.frame = configuration.textRect;    
+    self.textLabel.frame = configuration.textRect;
 }
 
 - (NSArray<CHMenuItem *> *)menuActions {
@@ -77,18 +77,25 @@ static CGFloat titleSpace = 4;
     return items;
 }
 
+- (void)msgCellItemWillUnactive:(id<CHMsgCellItem>)item {
+    [self.textLabel clearSelectedText];
+}
+
 #pragma mark - Action Methods
 - (void)actionClicked:(CHTapGestureRecognizer *)sender {
-    CHMenuController *menu = CHMenuController.sharedMenuController;
-    if (menu.isMenuVisible) {
-        [menu hideMenuFromView:self.bubbleView];
-    }
+    [self.textLabel clearSelectedText];
     CGPoint pt = [sender locationInView:self.textLabel];
     [self clickedOnLink:[self.textLabel linkForPoint:pt]];
 }
 
-- (void)actionLongClicked:(CHLongPressGestureRecognizer *)recognizer {
+- (nullable CHView *)actionLongClicked:(CHLongPressGestureRecognizer *)recognizer {
     [self.textLabel resetSelectText];
+#if !TARGET_OS_OSX
+    if (CGRectContainsPoint(self.textLabel.frame, [recognizer locationInView:self.contentView])) {
+        return self.textLabel;
+    }
+#endif
+    return [super actionLongClicked:recognizer];
 }
 
 - (void)actionCopy:(id)sender {

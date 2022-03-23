@@ -21,6 +21,8 @@
 @property (nonatomic, readonly, strong) NSString *cid;
 @property (nonatomic, nullable, strong) CHLoadMoreView *headerView;
 @property (nonatomic, readonly, weak) UICollectionView *collectionView;
+@property (nonatomic, nullable, weak) UIMenuController *itemMenu;
+@property (nonatomic, nullable, weak) id<CHMsgCellItem> lastMsgCellItem;
 
 @end
 
@@ -34,6 +36,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
 
 - (instancetype)initWithCollectionView:(UICollectionView *)collectionView channelID:(NSString *)cid {
     _cid = cid;
+    _lastMsgCellItem = nil;
     NSDictionary<NSString *, UICollectionViewCellRegistration *> *cellRegistrations = [CHCellConfiguration cellRegistrations];
     UICollectionViewCellRegistration *unknownCellRegistration = [cellRegistrations objectForKey:NSStringFromClass(CHUnknownMsgCellConfiguration.class)];
     UICollectionViewDiffableDataSourceCellProvider cellProvider = ^UICollectionViewCell *(UICollectionView *collectionView, NSIndexPath *indexPath, CHCellConfiguration *item) {
@@ -57,9 +60,15 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
             return self.headerView;
         };
 
+        [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(actionDidShowMenu:) name:UIMenuControllerDidShowMenuNotification object:nil];
+
         [self reset:NO];
     }
     return self;
+}
+
+- (void)dealloc {
+    [NSNotificationCenter.defaultCenter removeObserver:self];
 }
 
 - (void)reset:(BOOL)animated {
@@ -81,6 +90,15 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
 
 - (CGSize)sizeForHeaderInSection:(NSInteger)section {
     return CGSizeMake(self.collectionView.bounds.size.width, 30);
+}
+
+- (void)clearActivedCellItem {
+    UIMenuController *menu = self.itemMenu;
+    if (menu != nil) {
+        self.itemMenu = nil;
+        [menu hideMenu];
+    }
+    [self activeMsgCellItem:nil];
 }
 
 - (void)setNeedRecalcLayout {
@@ -234,12 +252,27 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
 }
 
 #pragma mark - CHMessageSource
+- (void)activeMsgCellItem:(nullable id<CHMsgCellItem>)cellItem {
+    id<CHMsgCellItem> lastItem = self.lastMsgCellItem;
+    if (lastItem != cellItem) {
+        if (lastItem != nil) {
+            if ([lastItem respondsToSelector:@selector(msgCellItemWillUnactive:)]) {
+                [lastItem msgCellItemWillUnactive:lastItem];
+            }
+            [lastItem resignFirstResponder];
+        }
+        self.lastMsgCellItem = cellItem;
+    }
+}
+
 - (void)setNeedRecalcLayoutItem:(CHCellConfiguration *)cell {
     [cell setNeedRecalcLayout];
     [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
 - (void)beginEditingWithItem:(CHCellConfiguration *)cell {
+    [self clearActivedCellItem];
+
     id delegate = self.collectionView.delegate;
     if ([delegate conformsToProtocol:@protocol(CHMessagesDataSourceDelegate)]) {
         NSIndexPath *indexPath = [self indexPathForItemIdentifier:cell];
@@ -274,6 +307,11 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
 
 - (BOOL)isEditing {
     return self.collectionView.isEditing;
+}
+
+#pragma mark - Action Methods
+- (void)actionDidShowMenu:(NSNotification *)notification {
+    self.itemMenu = notification.object;
 }
 
 #pragma mark - Private Methods

@@ -74,9 +74,7 @@
 }
 
 - (void)mouseDown:(NSEvent *)event {
-    if (![self.window.firstResponder isKindOfClass:self.window.class]) {
-        [self.window makeFirstResponder:nil];
-    }
+    [self.dataSource clearActivedCellItem];
 }
 
 - (BOOL)isEqualWithParameters:(NSDictionary *)params {

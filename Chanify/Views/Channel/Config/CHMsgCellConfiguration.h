@@ -9,7 +9,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class CHMsgCellContentView;
+
+@protocol CHMsgCellItem <NSObject>
+- (BOOL)resignFirstResponder;
+@optional
+- (void)msgCellItemWillUnactive:(id<CHMsgCellItem>)item;
+@end
+
 @protocol CHMessageSource <NSObject>
+- (void)activeMsgCellItem:(nullable id<CHMsgCellItem>)cellItem;
 - (void)setNeedRecalcLayoutItem:(CHCellConfiguration *)cell;
 - (void)beginEditingWithItem:(CHCellConfiguration *)cell;
 - (void)previewImageWithMID:(NSString *)mid;
@@ -25,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface CHMsgCellContentView<Configuration: __kindof CHMsgCellConfiguration*> : CHView<CHContentView>
+@interface CHMsgCellContentView<Configuration: __kindof CHMsgCellConfiguration*> : CHView<CHContentView, CHMsgCellItem>
 
 @property (nonatomic, nullable, copy) CHMsgCellConfiguration *configuration;
 @property (nonatomic, nullable, weak) id<CHMessageSource> source;
@@ -36,10 +45,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (CHView *)contentView;
 - (BOOL)canGestureRecognizer:(CHGestureRecognizer *)recognizer;
 - (void)actionClicked:(CHTapGestureRecognizer *)sender;
-- (void)actionLongClicked:(CHLongPressGestureRecognizer *)recognizer;
+- (nullable CHView *)actionLongClicked:(CHLongPressGestureRecognizer *)recognizer;
 - (NSArray<CHMenuItem *> *)menuActions;
 - (void)updateConfigurationUsingState:(CHCellConfigurationState *)state;
-
 
 @end
 

@@ -16,6 +16,21 @@
 #import "CHLogic.h"
 #import "CHTheme.h"
 
+@interface CHMsgCollectionView : UICollectionView
+
+@end
+
+@implementation CHMsgCollectionView
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
+    id ds = self.dataSource;
+    if ([ds isKindOfClass:CHMessagesDataSource.class]) {
+        [(CHMessagesDataSource *)ds clearActivedCellItem];
+    }
+}
+
+@end
+
 @interface CHChannelViewController () <UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, CHMessagesDataSourceDelegate, CHLogicDelegate>
 
 @property (nonatomic, readonly, strong) CHChannelModel *model;
@@ -76,7 +91,7 @@
 
     UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
     layout.minimumLineSpacing = 16;
-    UICollectionView *listView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+    UICollectionView *listView = [[CHMsgCollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     [self.view addSubview:(_listView = listView)];
     listView.alwaysBounceVertical = YES;
     listView.allowsSelection = NO;
@@ -167,6 +182,7 @@
 
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.dataSource clearActivedCellItem];
     if (scrollView.contentOffset.y <= 0) {
         [self.dataSource scrollViewDidScroll];
     }

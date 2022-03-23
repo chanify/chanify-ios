@@ -34,6 +34,7 @@
 #   define UICollectionReusableView                 NSView
 #   define UIViewPropertyAnimator                   NSAnimationContext
 #   define UIViewAnimatingPosition                  NSInteger
+#   define CHTextView                               NSTextView
 #   define UIViewAnimationOptionCurveEaseIn         0
 #   define UIViewAnimationOptionCurveEaseOut        1
 
@@ -102,6 +103,7 @@ typedef NS_OPTIONS(NSUInteger, CHControlEvents) {
 #   define CHFormViewCellAccessoryNone                  UITableViewCellAccessoryNone
 #   define CHFormViewCellAccessoryDisclosureIndicator   UITableViewCellAccessoryDisclosureIndicator
 #   define CHControlEventValueChanged                   UIControlEventValueChanged
+#   define CHTextView                                   UITextView
 #   define viewWithTagID                                viewWithTag
 #   define mas_safeLayoutGuideTop                       mas_safeAreaLayoutGuideTop
 #   define mas_safeLayoutGuideBottom                    mas_safeAreaLayoutGuideBottom

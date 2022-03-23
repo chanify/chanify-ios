@@ -9,13 +9,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface CHLinkLabel : CHTextView
+
 #if TARGET_OS_OSX
-@interface CHLinkLabel : NSTextView
-
 @property (nonatomic, nullable, strong) NSString *text;
-
-#else
-@interface CHLinkLabel : UITextView
 #endif
 
 @property (nonatomic, nullable, strong) CHColor *linkColor;
@@ -23,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)linkForPoint:(CGPoint)point;
 - (NSString *)selectedText;
 - (void)resetSelectText;
+- (void)clearSelectedText;
 
 
 @end

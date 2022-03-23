@@ -76,10 +76,11 @@
 - (void)setConfiguration:(CHMsgCellConfiguration *)configuration {
     _configuration = configuration;
     [self applyConfiguration:configuration];
-    CGRect frame = self.contentView.frame;
+    CHView *contentView = self.contentView;
+    CGRect frame = contentView.frame;
     BOOL isEditing = self.source.isEditing;
     self.userInteractionEnabled = !isEditing;
-    self.contentView.frame = CGRectMake((isEditing ? 50 : 20), 0, frame.size.width, frame.size.height);
+    contentView.frame = CGRectMake((isEditing ? 50 : 20), 0, frame.size.width, frame.size.height);
     if (!isEditing) {
         if (self.checkIcon != nil) {
             [self.checkIcon removeFromSuperview];
@@ -127,30 +128,37 @@
 
 #pragma mark - Actions Methods
 - (void)actionTap:(CHTapGestureRecognizer *)recognizer {
-    if (!self.source.isEditing && [self canGestureRecognizer:recognizer]) {
-        [self actionClicked:recognizer];
+    if (!self.source.isEditing) {
+        [self.source activeMsgCellItem:self];
+        if ([self canGestureRecognizer:recognizer]) {
+            [self actionClicked:recognizer];
+        }
     }
 }
 
 - (void)actionLongPress:(CHLongPressGestureRecognizer *)recognizer {
-    if (!self.source.isEditing && [self canGestureRecognizer:recognizer]) {
-        [self actionLongClicked:recognizer];
-        CHView *contentView = self.contentView;
-        CHMenuController *menu = CHMenuController.sharedMenuController;
-        menu.menuItems = self.menuActions;
-        [menu showMenuFromView:contentView target:self point:[recognizer locationInView:contentView]];
+    if (!self.source.isEditing) {
+        [self.source activeMsgCellItem:self];
+        if ([self canGestureRecognizer:recognizer]) {
+            CHView *contentView = self.contentView;
+            CHMenuController *menu = CHMenuController.sharedMenuController;
+            menu.menuItems = self.menuActions;
+            CHView *target = [self actionLongClicked:recognizer];
+            [menu showMenuFromView:contentView target:(target ?: self) point:[recognizer locationInView:contentView]];
+        }
     }
 }
 
 - (BOOL)canGestureRecognizer:(CHGestureRecognizer *)recognizer {
     CHView *contentView = self.contentView;
-    return (contentView != nil && CGRectContainsPoint(self.contentView.frame, [recognizer locationInView:self]));
+    return (contentView != nil && CGRectContainsPoint(contentView.frame, [recognizer locationInView:self]));
 }
 
 - (void)actionClicked:(CHTapGestureRecognizer *)sender {
 }
 
-- (void)actionLongClicked:(CHLongPressGestureRecognizer *)recognizer {
+- (nullable CHView *)actionLongClicked:(CHLongPressGestureRecognizer *)recognizer {
+    return nil;
 }
 
 - (NSArray<CHMenuItem *> *)menuActions {

@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)reset:(BOOL)animated;
 - (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath;
 - (CGSize)sizeForHeaderInSection:(NSInteger)section;
+- (void)clearActivedCellItem;
 - (void)setNeedRecalcLayout;
 - (void)scrollViewDidScroll;
 - (void)loadLatestMessage:(BOOL)animated;
