@@ -25,9 +25,12 @@
 // TODO: try to remove this workaround.
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
     id ds = self.dataSource;
-    if ([ds isKindOfClass:CHMessagesDataSource.class]) {
-        [(CHMessagesDataSource *)ds clearActivedCellItem];
+    if (!self.isEditing) {
+        if ([ds isKindOfClass:CHMessagesDataSource.class]) {
+            [(CHMessagesDataSource *)ds clearActivedCellItem];
+        }
     }
+    [super touchesEnded:touches withEvent:event];
 }
 
 @end
