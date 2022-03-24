@@ -57,16 +57,15 @@ extension EntryType {
         switch type {
         case "action":
             if code == "scan" {
-                return URL(string: "chanify:///action/scan")!
+                return URL(string: "chanify://action/scan")!
             }
         case "channel":
-            return URL(string: "chanify:///page/channel?cid=\(code)")!
+            return URL(string: "chanify://page/channel?cid=\(code)")!
         default:
             break
         }
-        return URL(string: "chanify:///")!
+        return URL(string: "chanify://")!
     }
-
 }
 
 struct ShortcutsEntry: TimelineEntry {

@@ -103,12 +103,13 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     NSDictionary *params = nil;
     if ([url.scheme isEqualToString:@"chanify"]) {
         NSURLComponents *components = [NSURLComponents componentsWithString:target];
-        if ([url.path isEqualToString:@"/page/channel"]) {
+        NSString *path = [NSString stringWithFormat:@"/%@%@", url.host, url.path];
+        if ([path isEqualToString:@"/page/channel"]) {
             NSString *cid = [components queryValueForName:@"cid"];
             if (cid.length <= 0) {
                 return NO;
             }
-            target = url.path;
+            target = path;
             params = @{ @"show": @"detail", @"singleton": @YES, @"cid": cid };
         }
     }
