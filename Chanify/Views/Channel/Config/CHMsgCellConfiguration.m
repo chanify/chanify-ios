@@ -178,6 +178,7 @@
 }
 
 - (void)actionDelete:(id)sender {
+    [self.source activeMsgCellItem:nil];
     NSString *mid = self.configuration.mid;
     if (mid.length > 0) {
         [CHRouter.shared showAlertWithTitle:@"Delete this message or not?".localized action:@"Delete".localized handler:^{
