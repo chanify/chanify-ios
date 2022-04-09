@@ -163,6 +163,7 @@
 		6D75352A26DF1C7A009E019E /* CHAboutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D75352926DF1C7A009E019E /* CHAboutView.m */; };
 		6D75352D26DF3688009E019E /* CHCodeFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D278E6825E222C300FC48CD /* CHCodeFormatter.m */; };
 		6D7ACE97266478D600B3FCF4 /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C21F25D0FB7600512E36 /* NotificationService.m */; };
+		6D829E7427F6EF8C00ED4025 /* CHScriptCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D829E7327F6EF8C00ED4025 /* CHScriptCell.m */; };
 		6D8352322664C818005CE6D1 /* CHRouter+OSX.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8352312664C818005CE6D1 /* CHRouter+OSX.m */; };
 		6D8352362664D423005CE6D1 /* CHChannelsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8352352664D423005CE6D1 /* CHChannelsView.m */; };
 		6D83523A2664EDC0005CE6D1 /* CHTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C24125D1117A00512E36 /* CHTheme.m */; };
@@ -346,6 +347,13 @@
 		6DD325FD2653AE5900A5CEC4 /* CHWebCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD325FC2653AE5900A5CEC4 /* CHWebCacheManager.m */; };
 		6DD325FE2653AE6400A5CEC4 /* CHWebCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD325FC2653AE5900A5CEC4 /* CHWebCacheManager.m */; };
 		6DD41C8F2679F50E0083DFDE /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD41C8E2679F50E0083DFDE /* Utils.swift */; };
+		6DD56B4727F67F2C004A12CF /* CHActionScriptsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD56B4627F67F2C004A12CF /* CHActionScriptsViewController.m */; };
+		6DD56B4A27F68669004A12CF /* CHScriptManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD56B4927F68669004A12CF /* CHScriptManager.m */; };
+		6DD56B4B27F68669004A12CF /* CHScriptManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD56B4927F68669004A12CF /* CHScriptManager.m */; };
+		6DD56B4F27F69091004A12CF /* CHActionScriptsViewPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD56B4E27F69091004A12CF /* CHActionScriptsViewPage.m */; };
+		6DD56B5227F69DD6004A12CF /* CHScriptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD56B5127F69DD6004A12CF /* CHScriptViewController.m */; };
+		6DD56B5527F69E77004A12CF /* CHScriptModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD56B5427F69E77004A12CF /* CHScriptModel.m */; };
+		6DD56B5627F69E77004A12CF /* CHScriptModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD56B5427F69E77004A12CF /* CHScriptModel.m */; };
 		6DD5A0F9260EF99E00799032 /* CHWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD5A0F8260EF99E00799032 /* CHWebImageManager.m */; };
 		6DD5A103260EFB9900799032 /* CHWebImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD5A102260EFB9900799032 /* CHWebImageView.m */; };
 		6DD6954625F1FF6C0047FF08 /* CHFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD6954525F1FF6C0047FF08 /* CHFormViewController.m */; };
@@ -881,6 +889,8 @@
 		6D6F3D03263D28EB00A2578B /* Chanify.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Chanify.entitlements; sourceTree = "<group>"; };
 		6D75352826DF1C7A009E019E /* CHAboutView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHAboutView.h; sourceTree = "<group>"; };
 		6D75352926DF1C7A009E019E /* CHAboutView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHAboutView.m; sourceTree = "<group>"; };
+		6D829E7227F6EF8C00ED4025 /* CHScriptCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHScriptCell.h; sourceTree = "<group>"; };
+		6D829E7327F6EF8C00ED4025 /* CHScriptCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHScriptCell.m; sourceTree = "<group>"; };
 		6D8352302664C818005CE6D1 /* CHRouter+OSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CHRouter+OSX.h"; sourceTree = "<group>"; };
 		6D8352312664C818005CE6D1 /* CHRouter+OSX.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHRouter+OSX.m"; sourceTree = "<group>"; };
 		6D8352342664D423005CE6D1 /* CHChannelsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelsView.h; sourceTree = "<group>"; };
@@ -1131,6 +1141,16 @@
 		6DD325FB2653AE5900A5CEC4 /* CHWebCacheManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebCacheManager.h; sourceTree = "<group>"; };
 		6DD325FC2653AE5900A5CEC4 /* CHWebCacheManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHWebCacheManager.m; sourceTree = "<group>"; };
 		6DD41C8E2679F50E0083DFDE /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		6DD56B4527F67F2C004A12CF /* CHActionScriptsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHActionScriptsViewController.h; sourceTree = "<group>"; };
+		6DD56B4627F67F2C004A12CF /* CHActionScriptsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHActionScriptsViewController.m; sourceTree = "<group>"; };
+		6DD56B4827F68669004A12CF /* CHScriptManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHScriptManager.h; sourceTree = "<group>"; };
+		6DD56B4927F68669004A12CF /* CHScriptManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHScriptManager.m; sourceTree = "<group>"; };
+		6DD56B4D27F69091004A12CF /* CHActionScriptsViewPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHActionScriptsViewPage.h; sourceTree = "<group>"; };
+		6DD56B4E27F69091004A12CF /* CHActionScriptsViewPage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHActionScriptsViewPage.m; sourceTree = "<group>"; };
+		6DD56B5027F69DD6004A12CF /* CHScriptViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHScriptViewController.h; sourceTree = "<group>"; };
+		6DD56B5127F69DD6004A12CF /* CHScriptViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHScriptViewController.m; sourceTree = "<group>"; };
+		6DD56B5327F69E77004A12CF /* CHScriptModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHScriptModel.h; sourceTree = "<group>"; };
+		6DD56B5427F69E77004A12CF /* CHScriptModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHScriptModel.m; sourceTree = "<group>"; };
 		6DD5A0F7260EF99E00799032 /* CHWebImageManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebImageManager.h; sourceTree = "<group>"; };
 		6DD5A0F8260EF99E00799032 /* CHWebImageManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHWebImageManager.m; sourceTree = "<group>"; };
 		6DD5A101260EFB9900799032 /* CHWebImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebImageView.h; sourceTree = "<group>"; };
@@ -2184,6 +2204,7 @@
 		6DC6C34825D16A6300512E36 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				6DD56B4427F67EFB004A12CF /* Script */,
 				6DF02AB727DC3E13000BBDAA /* Sound */,
 				6D13B60326E8620300E7A5C4 /* Links */,
 				6D90910F265CAA370064A580 /* Files */,
@@ -2223,6 +2244,28 @@
 				6DC7CF4F26E609A9002F7869 /* CHNodeCellView.m */,
 			);
 			path = Nodes;
+			sourceTree = "<group>";
+		};
+		6DD56B4427F67EFB004A12CF /* Script */ = {
+			isa = PBXGroup;
+			children = (
+				6DD56B4527F67F2C004A12CF /* CHActionScriptsViewController.h */,
+				6DD56B4627F67F2C004A12CF /* CHActionScriptsViewController.m */,
+				6DD56B5027F69DD6004A12CF /* CHScriptViewController.h */,
+				6DD56B5127F69DD6004A12CF /* CHScriptViewController.m */,
+				6D829E7227F6EF8C00ED4025 /* CHScriptCell.h */,
+				6D829E7327F6EF8C00ED4025 /* CHScriptCell.m */,
+			);
+			path = Script;
+			sourceTree = "<group>";
+		};
+		6DD56B4C27F69072004A12CF /* Script */ = {
+			isa = PBXGroup;
+			children = (
+				6DD56B4D27F69091004A12CF /* CHActionScriptsViewPage.h */,
+				6DD56B4E27F69091004A12CF /* CHActionScriptsViewPage.m */,
+			);
+			path = Script;
 			sourceTree = "<group>";
 		};
 		6DD969C325F4799B00EEEECF /* Icons */ = {
@@ -2364,6 +2407,8 @@
 				6DC6C20D25D0F3EF00512E36 /* CHTP.proto */,
 				6DCC882B25FB62D70028B473 /* CHToken.h */,
 				6DCC882C25FB62D70028B473 /* CHToken.m */,
+				6DD56B5327F69E77004A12CF /* CHScriptModel.h */,
+				6DD56B5427F69E77004A12CF /* CHScriptModel.m */,
 				6D0D6B5B266B22C400B4AB91 /* CHBlockedModel.h */,
 				6D0D6B5C266B22C400B4AB91 /* CHBlockedModel.m */,
 				6DC6C27925D13EFA00512E36 /* CHUserModel.h */,
@@ -2440,6 +2485,8 @@
 				6D1C613A26613E3C002E968B /* CHAudioPlayer.m */,
 				6DAE516926155C8C00AF9E90 /* CHPasteboard.h */,
 				6DAE516A26155C8C00AF9E90 /* CHPasteboard.m */,
+				6DD56B4827F68669004A12CF /* CHScriptManager.h */,
+				6DD56B4927F68669004A12CF /* CHScriptManager.m */,
 				6DC6C2EA25D15F9700512E36 /* CHNSDataSource.h */,
 				6DC6C2EB25D15F9700512E36 /* CHNSDataSource.m */,
 				6DC6C2DB25D15DB100512E36 /* CHUserDataSource.h */,
@@ -2472,6 +2519,7 @@
 		6DEBD1A82706CA47003845BF /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				6DD56B4C27F69072004A12CF /* Script */,
 				6DE663DD270ED757008B4DCF /* DataItems */,
 				6DE663D3270E8C34008B4DCF /* Blocklist */,
 				6DEBD1A92706CA56003845BF /* CHSettingsView.h */,
@@ -3092,6 +3140,7 @@
 				6D0384E326F5C786002C3BE1 /* CHListContentConfiguration.m in Sources */,
 				6DE7C07B263D48B80092D88D /* NSString+CHExt.m in Sources */,
 				6DAD53F5266E004D0036B68F /* CHPasteboard.m in Sources */,
+				6DD56B4B27F68669004A12CF /* CHScriptManager.m in Sources */,
 				6DE5C7E5270160A7004543D4 /* CHColorConfiguration.m in Sources */,
 				6DE7C075263D487B0092D88D /* CHSecKey.m in Sources */,
 				6DE7C088263D49480092D88D /* CHNotification.m in Sources */,
@@ -3114,6 +3163,7 @@
 				6DBDF93326FDC48A001F6F1B /* CHNodeViewController.m in Sources */,
 				6D025F70266DC61800C17512 /* CHMsgsDataSource.m in Sources */,
 				6D51563226662C7A00137071 /* CHLabel.m in Sources */,
+				6DD56B4F27F69091004A12CF /* CHActionScriptsViewPage.m in Sources */,
 				6DB1C2792670B6A4007C0C02 /* CHLogic.m in Sources */,
 				6DB1C272266F804B007C0C02 /* NSMenuItem+CHExt.m in Sources */,
 				6DAA0DD72711344B00481EB0 /* CHWebViewPage.m in Sources */,
@@ -3140,6 +3190,7 @@
 				6D8F427627003F280073D06B /* CHPopoverWindow.m in Sources */,
 				6DE7C06F263D483B0092D88D /* CHUserModel.m in Sources */,
 				6D0384D426F5BAD3002C3BE1 /* CHFormView.m in Sources */,
+				6DD56B5627F69E77004A12CF /* CHScriptModel.m in Sources */,
 				6DB929EB26DE18A00093F927 /* CHLoginQrCodeView.m in Sources */,
 				6DC7CF5026E609A9002F7869 /* CHNodeCellView.m in Sources */,
 				6D0384D826F5C11D002C3BE1 /* CHFormItem.m in Sources */,
@@ -3354,6 +3405,7 @@
 				6DC6C2D625D15CCD00512E36 /* CHManager.m in Sources */,
 				6DC6C2E725D15EC100512E36 /* CHMessageModel.m in Sources */,
 				6DBF865C261826E3006F108C /* CHLinkMsgCellConfiguration.m in Sources */,
+				6DD56B5227F69DD6004A12CF /* CHScriptViewController.m in Sources */,
 				6DDE057C262976C4004336DD /* CHBadgeView.m in Sources */,
 				6DD325EE2652429800A5CEC4 /* CHTokenViewController.m in Sources */,
 				6D257B7F26FDA3AD0040739D /* CHFeature.m in Sources */,
@@ -3413,6 +3465,7 @@
 				6DC6C34B25D16A7300512E36 /* CHSettingsViewController.m in Sources */,
 				6D3DC08C2660E80800F42070 /* CHAudiosViewController.m in Sources */,
 				6DC6C2C025D15A7900512E36 /* CHIndicatorView.m in Sources */,
+				6DD56B4A27F68669004A12CF /* CHScriptManager.m in Sources */,
 				6D3DC08F2660E97100F42070 /* CHAudioTableViewCell.m in Sources */,
 				6D9C209426020A4200F40CDD /* CHFormSwitchItem.m in Sources */,
 				6DC6C24925D1122100512E36 /* CHUtils.m in Sources */,
@@ -3429,6 +3482,7 @@
 				6DD6954B25F20BFD0047FF08 /* CHForm.m in Sources */,
 				6D2EA16B264D16C600246EB4 /* CHActionGroup.m in Sources */,
 				6DC6C2AE25D14C2400512E36 /* CHSecKey.m in Sources */,
+				6DD56B4727F67F2C004A12CF /* CHActionScriptsViewController.m in Sources */,
 				6DC6C27425D13E5500512E36 /* CHLogicBase.m in Sources */,
 				6DC6C26025D114E800512E36 /* NSData+CHExt.m in Sources */,
 				6DABBB212612BDFC00FCBDD3 /* CHThumbnailModel.m in Sources */,
@@ -3446,6 +3500,7 @@
 				6DC6C25325D112BB00512E36 /* CHLogger.m in Sources */,
 				6DC6C35C25D16B6A00512E36 /* NSPredicate+CHExt.m in Sources */,
 				6DC6C3B525D2193500512E36 /* CHMock.m in Sources */,
+				6DD56B5527F69E77004A12CF /* CHScriptModel.m in Sources */,
 				6D156037270195D60027E556 /* CHIconManager.m in Sources */,
 				6D4B262E265E292E00E0E2B1 /* CHDataItemsViewController.m in Sources */,
 				6DC6C1C425D0DCD100512E36 /* AppDelegate.m in Sources */,
@@ -3468,6 +3523,7 @@
 				6DDE056A26281F5C004336DD /* CHMessageCellView.m in Sources */,
 				6DC6C2E225D15E6B00512E36 /* CHChannelModel.m in Sources */,
 				6DC6C31125D1611200512E36 /* NSDictionary+CHExt.m in Sources */,
+				6D829E7427F6EF8C00ED4025 /* CHScriptCell.m in Sources */,
 				6D3F6287262FBB6400E122BC /* CHLogic+iOS.m in Sources */,
 				6DC6C1D525D0DCD200512E36 /* main.m in Sources */,
 				6DDC86B425E7446A00C26203 /* CHNodeTableViewCell.m in Sources */,
@@ -3658,7 +3714,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.3.10;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -3687,7 +3743,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.3.10;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -3713,7 +3769,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.3.10;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.widgetintents;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -3737,7 +3793,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.3.10;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.widgetintents;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -3772,7 +3828,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.3.10;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = macosx;
@@ -3806,7 +3862,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.3.10;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = macosx;
@@ -3831,7 +3887,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.3.10;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp.watchkitextension.watchnotificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3859,7 +3915,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.3.10;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp.watchkitextension.watchnotificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3889,7 +3945,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.3.10;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3922,7 +3978,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.3.10;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3946,7 +4002,7 @@
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				IBSC_MODULE = Watch_Extension;
 				INFOPLIST_FILE = Watch/Info.plist;
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.3.10;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -3969,7 +4025,7 @@
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				IBSC_MODULE = Watch_Extension;
 				INFOPLIST_FILE = Watch/Info.plist;
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.3.10;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -3999,7 +4055,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.3.10;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationcontent;
 				PRODUCT_NAME = NotificationContent;
 				SKIP_INSTALL = YES;
@@ -4022,7 +4078,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.3.10;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationcontent;
 				PRODUCT_NAME = NotificationContent;
 				SKIP_INSTALL = YES;
@@ -4173,7 +4229,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.3.10;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -4206,7 +4262,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.3.10;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -4230,7 +4286,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.3.10;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationservice;
 				PRODUCT_NAME = NotificationService;
 				SKIP_INSTALL = YES;
@@ -4256,7 +4312,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.3.10;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationservice;
 				PRODUCT_NAME = NotificationService;
 				SKIP_INSTALL = YES;

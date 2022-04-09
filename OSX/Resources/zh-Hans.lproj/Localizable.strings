@@ -79,6 +79,8 @@
 "Force data sync to watch"="强制数据同步到手表";
 "Send data to watch failed"="发送数据到手表失败";
 "Send data to watch success"="发送数据到手表成功";
+"PERSONALIZE"="个性化设置";
+"Action Scripts"="动作脚本";
 "HELP"="帮助";
 "Quick Start"="快速开始";
 "ABOUT"="关于";

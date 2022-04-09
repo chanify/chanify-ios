@@ -257,6 +257,14 @@
     };
     [section addFormItem:item];
     
+//    // PERSONALIZE
+//    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"PERSONALIZE".localized])];
+//    item = [CHFormValueItem itemWithName:@"actions" title:@"Action Scripts".localized];
+//    item.action = ^(CHFormItem *itm) {
+//        [CHRouter.shared routeTo:@"/page/action-scripts" withParams:@{ @"show": @"detail" }];
+//    };
+//    [section addFormItem:item];
+    
     // HELP
     [form addFormSection:(section = [CHFormSection sectionWithTitle:@"HELP".localized])];
     item = [CHFormValueItem itemWithName:@"quick" title:@"Quick Start".localized];

@@ -10,6 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class CHMessageModel;
+@class CHScriptManager;
 @class CHWebLinkManager;
 @class CHWebFileManager;
 @class CHWebImageManager;
@@ -34,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable, readonly, strong) CHWebFileManager *webFileManager;
 @property (nonatomic, nullable, readonly, strong) CHWebImageManager *webImageManager;
 @property (nonatomic, nullable, readonly, strong) CHWebAudioManager *webAudioManager;
+@property (nonatomic, nullable, readonly, strong) CHScriptManager *scriptManager;
 
 - (instancetype)initWithAppGroup:(NSString *)appGroup;
 // Messages

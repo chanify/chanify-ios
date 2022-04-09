@@ -24,6 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.title = @"Add Token To Blocklist".localized;
 
     CHTheme *theme = CHTheme.shared;

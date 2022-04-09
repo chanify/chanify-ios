@@ -13,6 +13,7 @@
 #import "CHWebFileManager.h"
 #import "CHWebImageManager.h"
 #import "CHWebAudioManager.h"
+#import "CHScriptManager.h"
 
 @interface CHAppLogic ()
 
@@ -118,6 +119,10 @@
         [self.webLinkManager close];
         _webLinkManager = nil;
     }
+    if (self.scriptManager != nil && ![self.scriptManager.uid isEqualToString:uid]) {
+        [self.scriptManager close];
+        _scriptManager = nil;
+    }
     if (uid.length > 0) {
         NSURL *basePath = [dbpath.URLByDeletingLastPathComponent URLByAppendingPathComponent:@kCHWebBasePath];
         if (_webImageManager == nil) {
@@ -135,6 +140,9 @@
         if (_webLinkManager == nil) {
             _webLinkManager = [CHWebLinkManager webLinkManagerWithURL:[basePath URLByAppendingPathComponent:@"links"]];
             self.webLinkManager.uid = uid;
+        }
+        if (_scriptManager == nil) {
+            _scriptManager = [CHScriptManager scriptManagerWithUID:uid datasource:self.userDataSource];
         }
     }
 }

@@ -26,7 +26,11 @@
 }
 
 - (NSString *)selectedText {
+#if TARGET_OS_OSX
     return [self.text substringWithRange:self.selectedRange];
+#else
+    return @"";
+#endif
 }
 
 #if TARGET_OS_OSX
