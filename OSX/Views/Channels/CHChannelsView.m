@@ -22,6 +22,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
 
 @interface CHChannelsView () <NSCollectionViewDelegate, NSCollectionViewDelegateFlowLayout, CHLogicDelegate>
 
+@property (nonatomic, assign) BOOL showAllChannels;
 @property (nonatomic, readonly, strong) CHScrollView *scrollView;
 @property (nonatomic, readonly, strong) CHCollectionView *listView;
 @property (nonatomic, readonly, strong) CHChannelDataSource *dataSource;
@@ -34,6 +35,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
 - (instancetype)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
         _selected = nil;
+        _showAllChannels = NO;
         
         CHTheme *theme = CHTheme.shared;
         self.backgroundColor = theme.groupedBackgroundColor;
@@ -86,7 +88,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
 }
 
 - (void)reloadData {
-    NSArray<CHChannelModel *> *items = [CHLogic.shared.userDataSource loadChannels];
+    NSArray<CHChannelModel *> *items = [CHLogic.shared.userDataSource loadChannelsIncludeHidden:self.showAllChannels];
     CHChannelDiffableSnapshot *snapshot = [CHChannelDiffableSnapshot new];
     [snapshot appendSectionsWithIdentifiers:@[@"main"]];
     [snapshot appendItemsWithIdentifiers:[items sortedArrayUsingSelector:@selector(channelCompare:)]];
