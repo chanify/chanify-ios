@@ -11,23 +11,14 @@
 #import "CHRouter.h"
 #import "CHTheme.h"
 
-#define kCHActionTitleHeight    26
-
-static CHEdgeInsets textInsets = { 8, 12, 8, 12 };
-
 @interface CHActionMsgCellConfiguration ()
 
-@property (nonatomic, readonly, strong) NSString *text;
-@property (nonatomic, readonly, assign) CGFloat textHeight;
-@property (nonatomic, readonly, nullable, strong) NSString *title;
 @property (nonatomic, readonly, nullable, strong) NSArray<CHActionItemModel *> *actions;
 
 @end
 
-@interface CHActionMsgCellContentView : CHBubbleMsgCellContentView<CHActionMsgCellConfiguration *>
+@interface CHActionMsgCellContentView : CHTextMsgCellContentView
 
-@property (nonatomic, readonly, strong) CHLabel *titleLabel;
-@property (nonatomic, readonly, strong) CHLabel *textLabel;
 @property (nonatomic, readonly, strong) CHActionGroup *actionGroup;
 
 @end
@@ -40,64 +31,18 @@ static CHEdgeInsets textInsets = { 8, 12, 8, 12 };
 
 - (void)setupViews {
     [super setupViews];
-    
-    CHTheme *theme = CHTheme.shared;
 
-    CHLabel *titleLabel = [CHLabel new];
-    [self.bubbleView addSubview:(_titleLabel = titleLabel)];
-    titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    titleLabel.backgroundColor = CHColor.clearColor;
-    titleLabel.textColor = theme.labelColor;
-    titleLabel.numberOfLines = 1;
-    titleLabel.font = theme.messageTitleFont;
-
-    CHLabel *textLabel = [CHLabel new];
-    [self.bubbleView addSubview:(_textLabel = textLabel)];
-    textLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    textLabel.backgroundColor = CHColor.clearColor;
-    textLabel.textColor = theme.labelColor;
-    textLabel.numberOfLines = 0;
-    textLabel.font = theme.messageTextFont;
-    
     CHActionGroup *actionGroup = [CHActionGroup new];
     [self.bubbleView addSubview:(_actionGroup = actionGroup)];
     actionGroup.delegate = self;
 }
 
 - (void)applyConfiguration:(CHActionMsgCellConfiguration *)configuration {
-    [super applyConfiguration:configuration];
-    if (configuration.title.length <= 0) {
-        self.titleLabel.attributedText = [NSAttributedString new];
-    } else {
-        NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:configuration.title];
-        [title addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlineStyleSingle) range:NSMakeRange(0, title.length)];
-        self.titleLabel.attributedText = title;
-    }
-    self.textLabel.text = configuration.text;
     self.actionGroup.actions = configuration.actions;
-
+    [super applyConfiguration:configuration];
     CGSize size = configuration.bubbleRect.size;
-    CGRect frame = CGRectMake(textInsets.left, textInsets.top, size.width - textInsets.left - textInsets.right, kCHActionTitleHeight);
-    if (configuration.title.length <= 0) {
-        frame.size.height = 0;
-        self.titleLabel.frame = frame;
-    } else {
-        frame.size.height = ceil([self.titleLabel sizeThatFits:frame.size].height);
-        self.titleLabel.frame = frame;
-        frame.origin.y += kCHActionTitleHeight;
-    }
-    frame.size.height = configuration.textHeight;
-    self.textLabel.frame = frame;
-    self.actionGroup.frame = CGRectMake(0, size.height - CHActionGroup.defaultHeight, size.width, CHActionGroup.defaultHeight);
-}
-
-- (NSArray<CHMenuItem *> *)menuActions {
-    NSMutableArray *items = [NSMutableArray arrayWithArray:@[
-        [[CHMenuItem alloc]initWithTitle:@"Copy".localized action:@selector(actionCopy:)],
-        [[CHMenuItem alloc]initWithTitle:@"Share".localized action:@selector(actionShare:)],
-    ]];
-    [items addObjectsFromArray:super.menuActions];
-    return items;
+    CGFloat defaultHeight = CHActionGroup.defaultHeight;
+    self.actionGroup.frame = CGRectMake(0, size.height - defaultHeight, size.width, defaultHeight);
 }
 
 - (BOOL)canGestureRecognizer:(CHGestureRecognizer *)recognizer {
@@ -117,37 +62,21 @@ static CHEdgeInsets textInsets = { 8, 12, 8, 12 };
     }
 }
 
-#pragma mark - Action Methods
-- (void)actionCopy:(id)sender {
-    NSMutableArray<NSString *> *items = [NSMutableArray new];
-    if (self.titleLabel.text.length > 0) {
-        [items addObject:self.titleLabel.text];
-    }
-    [items addObject:self.textLabel.text];
-    [CHPasteboard.shared copyWithName:@"Message".localized value:[items componentsJoinedByString:@"\n"]];
-}
-
-- (void)actionShare:(id)sender {
-    [CHRouter.shared showShareItem:@[[(CHActionMsgCellConfiguration *)self.configuration text]] sender:self.contentView handler:nil];
-}
 
 @end
 
 @implementation CHActionMsgCellConfiguration
 
 + (instancetype)cellConfiguration:(CHMessageModel *)model {
-    return [[self.class alloc] initWithMID:model.mid text:model.text title:model.title textHeight:0 actions:model.actions bubbleRect:CGRectZero];
+    return [[self.class alloc] initWithMID:model.mid text:model.text title:model.title textRect:CGRectZero titleRect:CGRectZero actions:model.actions bubbleRect:CGRectZero];
 }
 
 - (nonnull id)copyWithZone:(nullable NSZone *)zone {
-    return [[self.class allocWithZone:zone] initWithMID:self.mid text:self.text title:self.title textHeight:self.textHeight actions:self.actions bubbleRect:self.bubbleRect];
+    return [[self.class allocWithZone:zone] initWithMID:self.mid text:self.text title:self.title textRect:self.textRect titleRect:self.titleRect actions:self.actions bubbleRect:self.bubbleRect];
 }
 
-- (instancetype)initWithMID:(NSString *)mid text:(NSString * _Nullable)text title:(NSString * _Nullable)title textHeight:(CGFloat)textHeight actions:(NSArray<CHActionItemModel *> *)actions bubbleRect:(CGRect)bubbleRect {
-    if (self = [super initWithMID:mid bubbleRect:bubbleRect]) {
-        _text = (text ?: @"");
-        _title = title;
-        _textHeight = textHeight;
+- (instancetype)initWithMID:(NSString *)mid text:(NSString * _Nullable)text title:(NSString * _Nullable)title textRect:(CGRect)textRect titleRect:(CGRect)titleRect actions:(NSArray<CHActionItemModel *> *)actions bubbleRect:(CGRect)bubbleRect {
+    if (self = [super initWithMID:mid text:text title:title textRect:textRect titleRect:titleRect bubbleRect:bubbleRect]) {
         _actions = actions;
     }
     return self;
@@ -158,16 +87,11 @@ static CHEdgeInsets textInsets = { 8, 12, 8, 12 };
 }
 
 - (CGSize)calcContentSize:(CGSize)size {
-    if (self.textHeight == 0) {
-        NSAttributedString *text = [[NSAttributedString alloc] initWithString:self.text attributes:@{ NSFontAttributeName: CHTheme.shared.messageTextFont }];
-        CGRect rc = [text boundingRectWithSize:CGSizeMake(size.width - textInsets.left - textInsets.right, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
-        _textHeight = ceil(rc.size.height);
+    size = [super calcContentSize:CGSizeMake(MAX(size.width, 300), size.height)];
+    if (size.height > 0) {
+        size.height += CHActionGroup.defaultHeight;
     }
-    CGFloat height = self.textHeight + textInsets.top + textInsets.bottom + CHActionGroup.defaultHeight;
-    if (self.title.length > 0) {
-        height += kCHActionTitleHeight;
-    }
-    return CGSizeMake(MIN(size.width, 300), height);
+    return CGSizeMake(MAX(size.width, 300), size.height);
 }
 
 

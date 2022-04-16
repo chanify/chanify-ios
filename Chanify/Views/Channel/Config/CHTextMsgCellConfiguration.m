@@ -17,18 +17,6 @@ static CGFloat titleSpace = 4;
 
 @interface CHTextMsgCellConfiguration ()
 
-@property (nonatomic, readonly, strong) NSString *text;
-@property (nonatomic, readonly, assign) CGRect textRect;
-@property (nonatomic, readonly, nullable, strong) NSString *title;
-@property (nonatomic, readonly, assign) CGRect titleRect;
-
-@end
-
-@interface CHTextMsgCellContentView : CHBubbleMsgCellContentView<CHTextMsgCellConfiguration *>
-
-@property (nonatomic, readonly, strong) CHLinkLabel *textLabel;
-@property (nonatomic, readonly, strong) CHLabel *titleLabel;
-
 @end
 
 @implementation CHTextMsgCellContentView
