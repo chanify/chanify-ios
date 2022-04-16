@@ -40,7 +40,10 @@ typedef NS_OPTIONS(NSUInteger, CHUpsertMessageFlags) {
 - (BOOL)insertChannel:(CHChannelModel *)model;
 - (BOOL)updateChannel:(CHChannelModel *)model;
 - (BOOL)deleteChannel:(nullable NSString *)cid;
-- (NSArray<CHChannelModel *> *)loadChannels;
+- (BOOL)channelIsHidden:(nullable NSString *)cid;
+- (BOOL)updateChannelWithCID:(nullable NSString *)cid hidden:(BOOL)hidden;
+- (NSArray<CHChannelModel *> *)loadAllChannels;
+- (NSArray<CHChannelModel *> *)loadChannelsIncludeHidden:(BOOL)hidden;
 - (nullable CHChannelModel *)channelWithCID:(nullable NSString *)cid;
 - (NSInteger)unreadSumAllChannel;
 - (NSInteger)unreadWithChannel:(nullable NSString *)cid;

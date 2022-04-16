@@ -30,6 +30,7 @@ typedef void (^CHLogicResultBlock)(CHLCode result, NSDictionary *data);
 - (void)logicNodesUpdated:(NSArray<NSString *> *)nids;
 - (void)logicChannelUpdated:(NSString *)cid;
 - (void)logicChannelsUpdated:(NSArray<NSString *> *)cids;
+- (void)logicChannelListUpdated:(NSArray<NSString *> *)cids;
 - (void)logicBlockedTokenChanged;
 @end
 

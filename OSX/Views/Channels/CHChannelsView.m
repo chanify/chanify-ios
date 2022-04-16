@@ -89,7 +89,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
     NSArray<CHChannelModel *> *items = [CHLogic.shared.userDataSource loadChannels];
     CHChannelDiffableSnapshot *snapshot = [CHChannelDiffableSnapshot new];
     [snapshot appendSectionsWithIdentifiers:@[@"main"]];
-    [snapshot appendItemsWithIdentifiers:[items sortedArrayUsingSelector:@selector(messageCompare:)]];
+    [snapshot appendItemsWithIdentifiers:[items sortedArrayUsingSelector:@selector(channelCompare:)]];
     [self.dataSource applySnapshot:snapshot animatingDifferences:NO];
     [self fixSelectChannel];
 }
@@ -123,6 +123,10 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
     [self reloadData];
 }
 
+- (void)logicChannelListUpdated:(NSArray<NSString *> *)cids {
+    [self reloadData];
+}
+
 - (void)logicMessagesUpdated:(NSArray<NSString *> *)mids {
     CHUserDataSource *usrDS = CHLogic.shared.userDataSource;
     CHChannelDiffableSnapshot *snapshot = self.dataSource.snapshot;
@@ -143,7 +147,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHChannelModel *> CHChannelDiff
         // TODO: sort items
         [snapshot deleteSectionsWithIdentifiers:@[@"main"]];
         [snapshot appendSectionsWithIdentifiers:@[@"main"]];
-        [snapshot appendItemsWithIdentifiers:[items sortedArrayUsingSelector:@selector(messageCompare:)]];
+        [snapshot appendItemsWithIdentifiers:[items sortedArrayUsingSelector:@selector(channelCompare:)]];
     }
     [snapshot reloadItemsWithIdentifiers:reloadItems.allObjects];
     [self.dataSource applySnapshot:snapshot animatingDifferences:NO];

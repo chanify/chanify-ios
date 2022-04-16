@@ -9,6 +9,8 @@
 "Done"="完成";
 "Close"="关闭";
 "Cancel"="取消";
+"Hide"="隐藏";
+"Show"="显示";
 "Delete"="删除";
 "Enable"="启用";
 "Disable"="禁用";
@@ -25,6 +27,8 @@
 "Open Link"="打开链接";
 "Scan QR Code"="扫二维码";
 "New Channel"="添加频道";
+"Hide Channels"="隐藏频道";
+"Show Channels"="显示频道";
 "Code"="代号";
 "Name"="名称";
 "Icon"="图标";
@@ -120,6 +124,8 @@
 "Delete this audio or not?"="是否要删除这个音频？";
 "Delete this image or not?"="是否要删除这张图片？";
 "Delete this token or not?"="是否要删除这个令牌？";
+"Hide this channel or not?"="是否要隐藏这个频道？";
+"Show this channel or not?"="是否要显示这个频道？";
 "Logout or not?"="是否要退出登录？";
 "Add node failed"="添加节点失败";
 "Update node failed"="更新节点失败";

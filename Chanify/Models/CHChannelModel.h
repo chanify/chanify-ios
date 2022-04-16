@@ -25,7 +25,7 @@ typedef NS_ENUM(NSInteger, CHChanType) {
 
 + (nullable instancetype)modelWithCID:(nullable NSString *)cid name:(nullable NSString *)name icon:(nullable NSString *)icon;
 + (nullable instancetype)modelWithCode:(NSString *)code name:(nullable NSString *)name icon:(nullable NSString *)icon;
-- (NSComparisonResult)messageCompare:(CHChannelModel *)rhs;
+- (NSComparisonResult)channelCompare:(CHChannelModel *)rhs;
 - (NSString *)title;
 
 

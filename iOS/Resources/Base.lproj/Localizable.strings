@@ -9,6 +9,8 @@
 "Done"="Done";
 "Close"="Close";
 "Cancel"="Cancel";
+"Hide"="Hide";
+"Show"="Show";
 "Delete"="Delete";
 "Enable"="Enable";
 "Disable"="Disable";
@@ -25,6 +27,8 @@
 "Open Link"="Open Link";
 "Scan QR Code"="Scan QR Code";
 "New Channel"="New Channel";
+"Hide Channels"="Hide Channels";
+"Show Channels"="Show Channels";
 "Code"="Code";
 "Name"="Name";
 "Icon"="Icon";
@@ -126,6 +130,8 @@
 "Delete this audio or not?"="Delete this audio or not?";
 "Delete this image or not?"="Delete this image or not?";
 "Delete this token or not?"="Delete this token or not?";
+"Hide this channel or not?"="Hide this channel or not?";
+"Show this channel or not?"="Show this channel or not?";
 "Logout or not?"="Logout or not?";
 "Add node failed"="Add node failed";
 "Update node failed"="Update node failed";

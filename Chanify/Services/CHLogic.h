@@ -42,6 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)deleteMessage:(nullable NSString *)mid;
 - (BOOL)deleteMessages:(NSArray<NSString *> *)mids;
 - (BOOL)deleteMessagesWithCID:(nullable NSString *)cid;
+// Channel
+- (void)updateChannelHidden:(BOOL)hidden cid:(nullable NSString *)cid;
 // Read & Unread
 - (NSInteger)unreadSumAllChannel;
 - (NSInteger)unreadWithChannel:(nullable NSString *)cid;

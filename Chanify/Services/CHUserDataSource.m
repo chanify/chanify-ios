@@ -13,11 +13,11 @@
 #import "CHChannelModel.h"
 #import "CHNodeModel.h"
 
-#define kCHUserDBVersion    2
+#define kCHUserDBVersion    3
 #define kCHNSInitSql        \
     "CREATE TABLE IF NOT EXISTS `options`(`key` TEXT PRIMARY KEY,`value` BLOB);"   \
     "CREATE TABLE IF NOT EXISTS `messages`(`mid` TEXT PRIMARY KEY,`cid` BLOB,`from` TEXT,`raw` BLOB);"  \
-    "CREATE TABLE IF NOT EXISTS `channels`(`cid` BLOB PRIMARY KEY,`deleted` BOOLEAN DEFAULT 0,`name` TEXT,`icon` TEXT,`unread` UNSIGNED INTEGER DEFAULT 0,`mute` BOOLEAN,`mid` TEXT);"   \
+    "CREATE TABLE IF NOT EXISTS `channels`(`cid` BLOB PRIMARY KEY,`hidden` BOOLEAN DEFAULT 0,`deleted` BOOLEAN DEFAULT 0,`name` TEXT,`icon` TEXT,`unread` UNSIGNED INTEGER DEFAULT 0,`mute` BOOLEAN,`mid` TEXT);"   \
     "CREATE TABLE IF NOT EXISTS `nodes`(`nid` TEXT PRIMARY KEY,`deleted` BOOLEAN DEFAULT 0,`name` TEXT,`version` TEXT,`endpoint` TEXT,`pubkey` BLOB,`icon` TEXT,`flags` INTEGER DEFAULT 0,`features` TEXT,`secret` BLOB);" \
     "INSERT OR IGNORE INTO `channels`(`cid`) VALUES(X'0801');"      \
     "INSERT OR IGNORE INTO `channels`(`cid`) VALUES(X'08011001');"  \
@@ -62,6 +62,10 @@
                     }
                     if (![db columnExists:@"pubkey" inTableWithName:@"nodes"]
                         && ![db executeStatements:@"ALTER TABLE `nodes` ADD COLUMN `pubkey` BLOB;"]) {
+                        res = NO;
+                    }
+                    if (![db columnExists:@"hidden" inTableWithName:@"channels"]
+                        && ![db executeStatements:@"ALTER TABLE `channels` ADD COLUMN `hidden` BOOLEAN DEFAULT 0;"]) {
                         res = NO;
                     }
                 }
@@ -221,10 +225,37 @@
     return res;
 }
 
-- (NSArray<CHChannelModel *> *)loadChannels {
+- (BOOL)channelIsHidden:(nullable NSString *)cid {
+    __block BOOL res = NO;
+    NSData *ccid = [NSData dataFromBase64:cid];
+    if (ccid.length > 0) {
+        [self.dbQueue inDatabase:^(FMDatabase *db) {
+            res = [db boolForQuery:@"SELECT `hidden` FROM `channels` WHERE `cid`=? LIMIT 1;", ccid];
+        }];
+    }
+    return res;
+}
+
+- (BOOL)updateChannelWithCID:(nullable NSString *)cid hidden:(BOOL)hidden {
+    __block BOOL res = NO;
+    NSData *ccid = [NSData dataFromBase64:cid];
+    if (ccid.length > 0) {
+        [self.dbQueue inDatabase:^(FMDatabase *db) {
+            res = [db executeUpdate:@"UPDATE `channels` SET `hidden`=? WHERE `cid`=? LIMIT 1;", @(hidden), ccid];
+        }];
+    }
+    return res;
+}
+
+- (NSArray<CHChannelModel *> *)loadAllChannels {
+    return [self loadChannelsIncludeHidden:YES];
+}
+
+- (NSArray<CHChannelModel *> *)loadChannelsIncludeHidden:(BOOL)hidden {
     __block NSMutableArray<CHChannelModel *> *cids = [NSMutableArray new];
     [self.dbQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet *res = [db executeQuery:@"SELECT `cid`,`name`,`icon`,`mid` FROM `channels` WHERE `deleted`=0;"];
+        NSString *hidSql = (hidden ? @"" : @" AND `hidden`==0");
+        FMResultSet *res = [db executeQuery:[NSString stringWithFormat:@"SELECT `cid`,`name`,`icon`,`mid` FROM `channels` WHERE `deleted`=0%@;", hidSql]];
         while(res.next) {
             CHChannelModel *model = [CHChannelModel modelWithCID:[res dataForColumnIndex:0].base64 name:[res stringForColumnIndex:1] icon:[res stringForColumnIndex:2]];
             if (model != nil) {
@@ -388,7 +419,7 @@
                     NSString *oldMid = nil;
                     BOOL chanFound = NO;
                     int unread = (model.needNoAlert ? 0 : 1);
-                    FMResultSet *result = [db executeQuery:@"SELECT `mid` FROM `channels` WHERE `cid`=? AND `deleted`=0 LIMIT 1;", ccid];
+                    FMResultSet *result = [db executeQuery:@"SELECT `mid` FROM `channels` WHERE `cid`=? AND `deleted`=0 AND `hidden`=0 LIMIT 1;", ccid];
                     if (result.next) {
                         oldMid = [result stringForColumnIndex:0];
                         chanFound = YES;
@@ -396,7 +427,7 @@
                     [result close];
                     [result setParentDB:nil];
                     if (!chanFound) {
-                        if([db executeUpdate:@"INSERT INTO `channels`(`cid`,`mid`,`unread`) VALUES(?,?,1) ON CONFLICT(`cid`) DO UPDATE SET `mid`=excluded.`mid`,`unread`=IFNULL(`unread`,0)+?,`deleted`=0;", ccid, mid, @(unread)]) {
+                        if([db executeUpdate:@"INSERT INTO `channels`(`cid`,`mid`,`unread`) VALUES(?,?,1) ON CONFLICT(`cid`) DO UPDATE SET `mid`=excluded.`mid`,`unread`=IFNULL(`unread`,0)+?,`deleted`=0,`hidden`=0;", ccid, mid, @(unread)]) {
                             flags |= CHUpsertMessageFlagChannel;
                         }
                     }

@@ -101,13 +101,34 @@
 }
 
 + (UIContextualAction *)actionInfo:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath {
+    UIContextualAction *action = nil;
     CHChannelModel *model = [[tableView cellForRowAtIndexPath:indexPath] model];
-    UIContextualAction *action = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal title:nil handler:^(UIContextualAction *action, UIView *sourceView, void (^completionHandler)(BOOL)) {
-        [CHRouter.shared routeTo:@"/page/channel/detail" withParams:@{ @"cid": model.cid, @"show": @"detail" }];
-        completionHandler(YES);
-    }];
-    action.image = [CHImage systemImageNamed:@"info.circle.fill"];
-    action.backgroundColor = CHTheme.shared.secureColor;
+    if (model != nil) {
+        action = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal title:nil handler:^(UIContextualAction *action, UIView *sourceView, void (^completionHandler)(BOOL)) {
+            [CHRouter.shared routeTo:@"/page/channel/detail" withParams:@{ @"cid": model.cid, @"show": @"detail" }];
+            completionHandler(YES);
+        }];
+        action.image = [CHImage systemImageNamed:@"info.circle.fill"];
+        action.backgroundColor = CHTheme.shared.secureColor;
+    }
+    return action;
+}
+
++ (UIContextualAction *)actionHidden:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath {
+    UIContextualAction *action = nil;
+    CHChannelModel *model = [[tableView cellForRowAtIndexPath:indexPath] model];
+    if (model != nil) {
+        BOOL hidden = [CHLogic.shared.userDataSource channelIsHidden:model.cid];
+        action = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal title:nil handler:^(UIContextualAction *action, UIView *sourceView, void (^completionHandler)(BOOL)) {
+            NSString *name = (hidden ? @"Show" : @"Hide");
+            [CHRouter.shared showAlertWithTitle:[NSString stringWithFormat:@"%@ this channel or not?", name].localized action:name.localized handler:^{
+                [CHLogic.shared updateChannelHidden:!hidden cid:model.cid];
+            }];
+            completionHandler(YES);
+        }];
+        action.backgroundColor = CHTheme.shared.warnColor;
+        action.image = [CHImage systemImageNamed:(hidden ? @"eye.fill" : @"eye.slash.fill")];
+    }
     return action;
 }
 

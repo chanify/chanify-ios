@@ -448,7 +448,7 @@
 - (BOOL)insertChannel:(CHChannelModel *)model {
     BOOL res = [self.userDataSource insertChannel:model] && [self.nsDataSource upsertChannel:model uid:self.me.uid];
     if (res) {
-        [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[model.cid]];
+        [self sendNotifyWithSelector:@selector(logicChannelListUpdated:) withObject:@[model.cid]];
     }
     return res;
 }
@@ -464,7 +464,7 @@
 - (BOOL)deleteChannel:(nullable NSString *)cid {
     BOOL res = [self.userDataSource deleteChannel:cid] && [self.nsDataSource deleteChannel:cid uid:self.me.uid];
     if (res) {
-        [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:@[cid]];
+        [self sendNotifyWithSelector:@selector(logicChannelListUpdated:) withObject:@[cid]];
     }
     return res;
 }
@@ -590,7 +590,7 @@
                 break;
             }
         }
-        for (CHChannelModel *chan in [self.userDataSource loadChannels]) {
+        for (CHChannelModel *chan in [self.userDataSource loadAllChannels]) {
             if (![self.nsDataSource upsertChannel:chan uid:uid]) {
                 res = NO;
                 break;

@@ -63,7 +63,7 @@
     return model;
 }
 
-- (NSComparisonResult)messageCompare:(CHChannelModel *)rhs {
+- (NSComparisonResult)channelCompare:(CHChannelModel *)rhs {
     if (self.mid == nil) {
         if (rhs.mid == nil) {
             return NSOrderedSame;

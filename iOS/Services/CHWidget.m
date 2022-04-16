@@ -71,7 +71,7 @@
                 }
                 CHUserDataSource *userDataSource = CHLogic.shared.userDataSource;
                 if (n <= 0) {
-                    NSArray<CHChannelModel *> *channels = userDataSource.loadChannels;
+                    NSArray<CHChannelModel *> *channels = userDataSource.loadAllChannels;
                     for (CHChannelModel *model in channels) {
                         if (!upsertChannel(db, uid, model)) {
                             *rollback = YES;

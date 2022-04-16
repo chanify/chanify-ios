@@ -22,6 +22,7 @@ static NSString *const cellIdentifier = @"chan";
 
 @interface CHChannelsViewController () <UITableViewDelegate, CHLogicDelegate>
 
+@property (nonatomic, assign) BOOL showAllChannels;
 @property (nonatomic, readonly, strong) CHTableView *tableView;
 @property (nonatomic, readonly, strong) CHChannelDataSource *dataSource;
 
@@ -36,16 +37,26 @@ static NSString *const cellIdentifier = @"chan";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    _showAllChannels = NO;
+    
     self.navigationItem.titleView = [[CHNavigationTitleView alloc] initWithNavigationController:self.navigationController];
 
+    @weakify(self);
     NSArray *actions = @[
         [UIAction actionWithTitle:@"Scan QR Code".localized image:[UIImage systemImageNamed:@"qrcode.viewfinder"] identifier:@"scan" handler:^(UIAction *action) {
             [CHRouter.shared routeTo:@"/page/scan" withParams:@{ @"show": @"detail" }];
         }],
         [UIAction actionWithTitle:@"New Channel".localized image:[UIImage systemImageNamed:@"plus"] identifier:@"new" handler:^(UIAction *action) {
             [CHRouter.shared routeTo:@"/page/channel/new" withParams:@{ @"show": @"detail" }];
-        }]
+        }],
+        [UIAction actionWithTitle:@"" image:nil identifier:@"hidden" handler:^(__kindof UIAction * _Nonnull action) {
+            @strongify(self);
+            self.showAllChannels = !self.showAllChannels;
+            [self updateMenus];
+            [self reloadDataAnimated:YES];
+        }],
     ];
+    
     UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithPrimaryAction:actions[0]];
     barItem.menu = [UIMenu menuWithChildren:actions];
     self.navigationItem.rightBarButtonItem = barItem;
@@ -71,7 +82,8 @@ static NSString *const cellIdentifier = @"chan";
     CHLogic *logic = CHLogic.shared;
     [logic addDelegate:self];
     [self updateTitleWithUnread:logic.unreadSumAllChannel];
-    [self reloadData];
+    [self reloadDataAnimated:NO];
+    [self updateMenus];
 }
 
 #pragma mark - UITableViewDelegate
@@ -84,7 +96,9 @@ static NSString *const cellIdentifier = @"chan";
 }
 
 - (nullable UISwipeActionsConfiguration *)tableView:(UITableView *)tableView trailingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSMutableArray *actions = [NSMutableArray arrayWithObject:[CHChannelTableViewCell actionInfo:tableView indexPath:indexPath]];
+    NSMutableArray *actions = [NSMutableArray arrayWithCapacity:3];
+    [actions addObject:[CHChannelTableViewCell actionInfo:tableView indexPath:indexPath]];
+    [actions addObject:[CHChannelTableViewCell actionHidden:tableView indexPath:indexPath]];
     UIContextualAction *delete = [CHChannelTableViewCell actionDelete:tableView indexPath:indexPath];
     if (delete != nil) {
         [actions insertObject:delete atIndex:0];
@@ -96,11 +110,15 @@ static NSString *const cellIdentifier = @"chan";
 
 #pragma mark - CHLogicDelegate
 - (void)logicChannelUpdated:(NSString *)cid {
-    [self reloadData];
+    [self reloadDataAnimated:NO];
 }
 
 - (void)logicChannelsUpdated:(NSArray<NSString *> *)cids {
-    [self reloadData];
+    [self reloadDataAnimated:NO];
+}
+
+- (void)logicChannelListUpdated:(NSArray<NSString *> *)cids {
+    [self reloadDataAnimated:YES];
 }
 
 - (void)logicMessagesUpdated:(NSArray<NSString *> *)mids {
@@ -123,7 +141,7 @@ static NSString *const cellIdentifier = @"chan";
         // TODO: sort items
         [snapshot deleteSectionsWithIdentifiers:@[@"main"]];
         [snapshot appendSectionsWithIdentifiers:@[@"main"]];
-        [snapshot appendItemsWithIdentifiers:[items sortedArrayUsingSelector:@selector(messageCompare:)]];
+        [snapshot appendItemsWithIdentifiers:[items sortedArrayUsingSelector:@selector(channelCompare:)]];
     }
     [snapshot reloadItemsWithIdentifiers:reloadItems.allObjects];
     [self.dataSource applySnapshot:snapshot animatingDifferences:YES];
@@ -134,12 +152,12 @@ static NSString *const cellIdentifier = @"chan";
 }
 
 #pragma mark - Private Methods
-- (void)reloadData {
-    NSArray<CHChannelModel *> *items = [CHLogic.shared.userDataSource loadChannels];
+- (void)reloadDataAnimated:(BOOL)animated {
+    NSArray<CHChannelModel *> *items = [CHLogic.shared.userDataSource loadChannelsIncludeHidden:self.showAllChannels];
     CHChannelDiffableSnapshot *snapshot = [CHChannelDiffableSnapshot new];
     [snapshot appendSectionsWithIdentifiers:@[@"main"]];
-    [snapshot appendItemsWithIdentifiers:[items sortedArrayUsingSelector:@selector(messageCompare:)]];
-    [self.dataSource applySnapshot:snapshot animatingDifferences:NO];
+    [snapshot appendItemsWithIdentifiers:[items sortedArrayUsingSelector:@selector(channelCompare:)]];
+    [self.dataSource applySnapshot:snapshot animatingDifferences:animated];
 }
 
 - (void)updateTitleWithUnread:(NSInteger)unread {
@@ -151,6 +169,20 @@ static NSString *const cellIdentifier = @"chan";
     }
     [(CHNavigationTitleView *)self.navigationItem.titleView setTitle:title];
     self.tabBarItem.badgeValue = badge;
+}
+
+- (void)updateMenus {
+    for (UIMenuElement *item in self.navigationItem.rightBarButtonItem.menu.children) {
+        if ([item isKindOfClass:UIAction.class]) {
+            UIAction *action = (UIAction *)item;
+            if ([action.identifier isEqualToString:@"hidden"]) {
+                BOOL showAll = self.showAllChannels;
+                action.title = (showAll  ? @"Hide Channels" : @"Show Channels").localized;
+                action.image = [UIImage systemImageNamed:(showAll ? @"eye.slash" : @"eye")];
+                break;
+            }
+        }
+    }
 }
 
 

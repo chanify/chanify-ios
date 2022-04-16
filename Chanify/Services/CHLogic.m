@@ -65,6 +65,13 @@
     return res;
 }
 
+#pragma mark - Channel
+- (void)updateChannelHidden:(BOOL)hidden cid:(nullable NSString *)cid {
+    if ([self.userDataSource updateChannelWithCID:cid hidden:hidden]) {
+        [self sendNotifyWithSelector:@selector(logicChannelListUpdated:) withObject:@[]];
+    }
+}
+
 #pragma mark - Read & Unread
 - (NSInteger)unreadSumAllChannel {
     return [self.userDataSource unreadSumAllChannel];
