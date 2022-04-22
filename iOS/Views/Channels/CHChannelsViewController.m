@@ -49,7 +49,7 @@ static NSString *const cellIdentifier = @"chan";
         [UIAction actionWithTitle:@"New Channel".localized image:[UIImage systemImageNamed:@"plus"] identifier:@"new" handler:^(UIAction *action) {
             [CHRouter.shared routeTo:@"/page/channel/new" withParams:@{ @"show": @"detail" }];
         }],
-        [UIAction actionWithTitle:@"" image:nil identifier:@"hidden" handler:^(__kindof UIAction * _Nonnull action) {
+        [UIAction actionWithTitle:@"Show/Hide Channels".localized image:[UIImage systemImageNamed:@"eye"] identifier:@"hidden" handler:^(__kindof UIAction * _Nonnull action) {
             @strongify(self);
             self.showAllChannels = !self.showAllChannels;
             [self updateMenus];
@@ -172,8 +172,10 @@ static NSString *const cellIdentifier = @"chan";
 }
 
 - (void)updateMenus {
-    for (UIMenuElement *item in self.navigationItem.rightBarButtonItem.menu.children) {
-        if ([item isKindOfClass:UIAction.class]) {
+    Class immutableClz = NSClassFromString(@"_UIImmutableAction");
+    UIMenu *menu = self.navigationItem.rightBarButtonItem.menu;
+    for (UIMenuElement *item in menu.children) {
+        if ([item isKindOfClass:UIAction.class] && ![item isKindOfClass:immutableClz]) {
             UIAction *action = (UIAction *)item;
             if ([action.identifier isEqualToString:@"hidden"]) {
                 BOOL showAll = self.showAllChannels;

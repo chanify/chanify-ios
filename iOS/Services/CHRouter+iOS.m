@@ -298,8 +298,7 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
         BOOL res = NO;
         NSURL *url = parseURL([parameters valueForKey:@"url"]);
         if (url != nil) {
-            CHPreviewController *vc = [CHPreviewController previewFile:url];
-            [CHRouter.shared presentSystemViewController:vc animated:YES];
+            [CHRouter.shared pushViewController:[CHPreviewController previewFile:url] animated:YES];
             res = YES;
         }
         return res;
