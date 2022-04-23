@@ -7,10 +7,12 @@
 
 #import "CHActionScriptsViewController.h"
 #import <Masonry/Masonry.h>
+#import "CHScriptTableViewCell.h"
 #import "CHLoadMoreView.h"
-#import "CHScriptCell.h"
 #import "CHTableView.h"
+#import "CHUserDataSource.h"
 #import "CHRouter.h"
+#import "CHLogic.h"
 #import "CHTheme.h"
 
 static NSString *const cellIdentifier = @"cell";
@@ -18,7 +20,7 @@ static NSString *const cellIdentifier = @"cell";
 typedef UITableViewDiffableDataSource<NSString *, CHScriptModel *> CHScriptsDataSource;
 typedef NSDiffableDataSourceSnapshot<NSString *, CHScriptModel *> CHScriptsDiffableSnapshot;
 
-@interface CHActionScriptsViewController () <UITableViewDelegate>
+@interface CHActionScriptsViewController () <UITableViewDelegate, CHLogicDelegate>
 
 @property (nonatomic, readonly, strong) CHTableView *tableView;
 @property (nonatomic, readonly, strong) CHScriptsDataSource *dataSource;
@@ -27,6 +29,10 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHScriptModel *> CHScriptsDiffa
 @end
 
 @implementation CHActionScriptsViewController
+
+- (void)dealloc {
+    [CHLogic.shared removeDelegate:self];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -42,7 +48,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHScriptModel *> CHScriptsDiffa
         make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
         make.left.right.bottom.equalTo(self.view);
     }];
-    [tableView registerClass:CHScriptCell.class forCellReuseIdentifier:cellIdentifier];
+    [tableView registerClass:CHScriptTableViewCell.class forCellReuseIdentifier:cellIdentifier];
     tableView.tableFooterView = [CHLoadMoreView loadMoreWithStatus:CHLoadStatusFinish];
     tableView.rowHeight = 60;
     tableView.allowsSelectionDuringEditing = YES;
@@ -50,12 +56,14 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHScriptModel *> CHScriptsDiffa
     tableView.delegate = self;
  
     _dataSource = [[CHScriptsDataSource alloc] initWithTableView:tableView cellProvider:^UITableViewCell *(UITableView *tableView, NSIndexPath *indexPath, CHScriptModel *model) {
-        CHScriptCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+        CHScriptTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
         if (cell != nil) {
             cell.model = model;
         }
         return cell;
     }];
+    CHLogic *logic = CHLogic.shared;
+    [logic addDelegate:self];
     [self reloadData:NO];
 }
 
@@ -63,6 +71,10 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHScriptModel *> CHScriptsDiffa
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (!tableView.isEditing) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        CHScriptModel *model = [self.dataSource itemIdentifierForIndexPath:indexPath];
+        if (model != nil) {
+            [CHRouter.shared routeTo:@"/page/script" withParams:@{ @"name": model.name, @"show": @"detail" }];
+        }
     }
 }
 
@@ -74,6 +86,18 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHScriptModel *> CHScriptsDiffa
     [self setEditing:YES animated:YES];
 }
 
+- (nullable UISwipeActionsConfiguration *)tableView:(UITableView *)tableView trailingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSMutableArray *actions = [NSMutableArray arrayWithCapacity:3];
+    [actions addObject:[CHScriptTableViewCell actionInfo:tableView indexPath:indexPath]];
+    UIContextualAction *delete = [CHScriptTableViewCell actionDelete:tableView indexPath:indexPath];
+    if (delete != nil) {
+        [actions insertObject:delete atIndex:0];
+    }
+    UISwipeActionsConfiguration *configuration = [UISwipeActionsConfiguration configurationWithActions:actions];
+    configuration.performsFirstActionWithFullSwipe = NO;
+    return configuration;
+}
+
 #pragma mark - Action Methods
 - (void)actionDelete:(id)sender {
 }
@@ -83,7 +107,12 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHScriptModel *> CHScriptsDiffa
 }
 
 - (void)actionAddScript:(id)sender {
-    [CHRouter.shared routeTo:@"/page/script" withParams:@{ @"show": @"detail" }];
+    [CHRouter.shared routeTo:@"/page/script/new" withParams:@{ @"show": @"detail" }];
+}
+
+#pragma mark -
+- (void)logicScriptListUpdated:(NSArray<NSString *> *)snames {
+    [self reloadData:YES];
 }
 
 #pragma mark - Private Nethods
@@ -101,6 +130,11 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHScriptModel *> CHScriptsDiffa
 }
 
 - (void)reloadData:(BOOL)animated {
+    NSArray<CHScriptModel *> *items = [CHLogic.shared.userDataSource loadScripts];
+    CHScriptsDiffableSnapshot *snapshot = [CHScriptsDiffableSnapshot new];
+    [snapshot appendSectionsWithIdentifiers:@[@"main"]];
+    [snapshot appendItemsWithIdentifiers:items];
+    [self.dataSource applySnapshot:snapshot animatingDifferences:animated];
 }
 
 

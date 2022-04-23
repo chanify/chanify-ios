@@ -202,13 +202,15 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
 }
 
 - (void)makeToast:(NSString *)message {
-    dispatch_main_async(^{
-        NSWindow *window = CHRouter.shared.window;
-        if (window.sheets.count > 0) {
-            window = window.sheets.lastObject;
-        }
-        [CHToast showMessage:message inView:window.contentView];
-    });
+    if (message.length > 0) {
+        dispatch_main_async(^{
+            NSWindow *window = CHRouter.shared.window;
+            if (window.sheets.count > 0) {
+                window = window.sheets.lastObject;
+            }
+            [CHToast showMessage:message inView:window.contentView];
+        });
+    }
 }
 
 #pragma mark - NSWindowDelegate
@@ -333,10 +335,10 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
         showDetailPage(CHChannelViewPage.class, parameters, YES);
         return YES;
     }];
-    [routes addRoute:@"/page/:name(/:subname)" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
+    [routes addRoute:@"/page/:_name(/:_subname)" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
         BOOL res = NO;
-        NSString *name = [parameters valueForKey:@"name"];
-        NSString *subname = [parameters valueForKey:@"subname"];
+        NSString *name = [parameters valueForKey:@"_name"];
+        NSString *subname = [parameters valueForKey:@"_subname"];
         if (subname.length > 0) {
             name = [name stringByAppendingString:subname.code];
         }

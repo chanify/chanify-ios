@@ -15,6 +15,7 @@
 #import "CHWebViewController.h"
 #import "CHPreviewController.h"
 #import "CHIndicatorPanelView.h"
+#import "CHScriptManager.h"
 #import "CHPasteboard.h"
 #import "CHToken.h"
 #import "CHDevice.h"
@@ -257,10 +258,10 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
         setRootViewController(self.window, CHLoginViewController.class);
         return YES;
     }];
-    [routes addRoute:@"/page/:name(/:subname)" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
+    [routes addRoute:@"/page/:_name(/:_subname)" handler:^BOOL(NSDictionary<NSString *, id> *parameters) {
         BOOL res = NO;
-        NSString *name = [parameters valueForKey:@"name"];
-        NSString *subname = [parameters valueForKey:@"subname"];
+        NSString *name = [parameters valueForKey:@"_name"];
+        NSString *subname = [parameters valueForKey:@"_subname"];
         if (subname.length > 0) {
             name = [name stringByAppendingString:subname.code];
         }
@@ -335,6 +336,14 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     [chanify addRoute:@"/action/pasteboard" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
         NSString *text = [NSString stringWithFormat:@"%@", [parameters valueForKey:@"text"]];
         [CHPasteboard.shared copyWithName:@"Custom Value".localized value:text];
+        return YES;
+    }];
+    [chanify addRoute:@"/action/run-script/:name" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
+        NSString *name = [parameters valueForKey:@"name"];
+        NSURL *url = [parameters valueForKey:JLRouteURLKey];
+        if (![CHLogic.shared.scriptManager runScript:name url:url]) {
+            [CHRouter.shared makeToast:@"Run script failed".localized];
+        }
         return YES;
     }];
     // unmatched router

@@ -9,6 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class CHScriptModel;
 @class CHMessageModel;
 @class CHScriptManager;
 @class CHWebLinkManager;
@@ -23,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)logicMessagesCleared:(NSString *)cid;
 - (void)logicMessagesUpdated:(NSArray<NSString *> *)mids;
 - (void)logicMessagesUnreadChanged:(NSNumber *)unread;
+// Script
+- (void)logicScriptListUpdated:(NSArray<NSString *> *)snames;
 // iOS
 - (void)logicWatchStatusChanged API_AVAILABLE(ios(14.0));
 - (void)logicNotificationSoundChanged API_AVAILABLE(ios(14.0));
@@ -44,6 +47,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)deleteMessagesWithCID:(nullable NSString *)cid;
 // Channel
 - (void)updateChannelHidden:(BOOL)hidden cid:(nullable NSString *)cid;
+// Script
+- (BOOL)insertScript:(CHScriptModel *)model;
+- (BOOL)deleteScript:(NSString *)name;
+- (BOOL)updateScript:(NSString *)name content:(nullable NSString *)content;
 // Read & Unread
 - (NSInteger)unreadSumAllChannel;
 - (NSInteger)unreadWithChannel:(nullable NSString *)cid;

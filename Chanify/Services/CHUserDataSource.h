@@ -19,6 +19,7 @@ typedef NS_OPTIONS(NSUInteger, CHUpsertMessageFlags) {
 @class CHNodeModel;
 @class CHChannelModel;
 @class CHMessageModel;
+@class CHScriptModel;
 @class CHNSDataSource;
 @protocol CHKeyStorage;
 @protocol CHBlockedStorage;
@@ -54,6 +55,12 @@ typedef NS_OPTIONS(NSUInteger, CHUpsertMessageFlags) {
 - (NSArray<CHMessageModel *> *)messageWithCID:(nullable NSString *)cid from:(NSString *)from to:(NSString *)to count:(NSUInteger)count;
 - (nullable CHMessageModel *)messageWithMID:(nullable NSString *)mid;
 - (nullable CHMessageModel *)upsertMessageData:(NSData *)data nsDB:(id<CHKeyStorage, CHBlockedStorage>)nsDB uid:(NSString *)uid mid:(NSString *)mid checker:(BOOL (NS_NOESCAPE ^ _Nullable)(NSString * cid))checker flags:(CHUpsertMessageFlags *)pFlags;
+- (NSArray<CHScriptModel *> *)loadScripts;
+- (BOOL)insertScript:(CHScriptModel *)model;
+- (BOOL)deleteScript:(NSString *)name;
+- (nullable CHScriptModel *)scriptWithName:(nullable NSString *)name;
+- (NSString *)scriptContentWithName:(nullable NSString *)name;
+- (BOOL)updateScriptContent:(NSString *)content name:(NSString *)name;
 
 
 @end

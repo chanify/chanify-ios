@@ -40,6 +40,8 @@
 "Endpoint"="Endpoint";
 "Endpoint URL"="Endpoint URL";
 "Create channel failed"="Create channel failed";
+"Create script failed"="Create script failed";
+"Save script failed"="Save script failed";
 "Channel Detail"="Channel Detail";
 "Clear Messages"="Clear Messages";
 "Message"="Message";
@@ -92,6 +94,8 @@
 "Send data to watch success"="Send data to watch success";
 "PERSONALIZE"="PERSONALIZE";
 "Action Scripts"="Action Scripts";
+"New Script"="New Script";
+"Script"="Script";
 "HELP"="HELP";
 "Quick Start"="Quick Start";
 "ABOUT"="ABOUT";
@@ -131,6 +135,7 @@
 "Delete this audio or not?"="Delete this audio or not?";
 "Delete this image or not?"="Delete this image or not?";
 "Delete this token or not?"="Delete this token or not?";
+"Delete this script or not?"="Delete this script or not?";
 "Hide this channel or not?"="Hide this channel or not?";
 "Show this channel or not?"="Show this channel or not?";
 "Logout or not?"="Logout or not?";
@@ -143,6 +148,7 @@
 "URLScheme clicked"="Click this link to open other App and leave Chanify";
 "Download failed and click to retry"="Download failed and click to retry";
 "Copy token from pasteboard"="Copy token from pasteboard";
+"Run script failed"="Run script failed";
 "Invalid token"="Invalid token";
 "Delete items 3 days ago"="Delete items 3 days ago";
 "Delete items 1 week ago"="Delete items 1 week ago";

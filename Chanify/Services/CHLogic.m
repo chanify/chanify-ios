@@ -72,6 +72,34 @@
     }
 }
 
+#pragma mark - Script
+- (BOOL)insertScript:(CHScriptModel *)model {
+    BOOL res = NO;
+    if ([self.userDataSource insertScript:model]) {
+        [self sendNotifyWithSelector:@selector(logicScriptListUpdated:) withObject:@[]];
+        res = YES;
+    }
+    return res;
+}
+
+- (BOOL)deleteScript:(NSString *)name {
+    BOOL res = NO;
+    if ([self.userDataSource deleteScript:name]) {
+        [self sendNotifyWithSelector:@selector(logicScriptListUpdated:) withObject:@[]];
+        res = YES;
+    }
+    return res;
+}
+
+- (BOOL)updateScript:(NSString *)name content:(nullable NSString *)content {
+    BOOL res = NO;
+    if ([self.userDataSource updateScriptContent:(content?:@"") name:name]) {
+        [self sendNotifyWithSelector:@selector(logicScriptListUpdated:) withObject:@[]];
+        res = YES;
+    }
+    return res;
+}
+
 #pragma mark - Read & Unread
 - (NSInteger)unreadSumAllChannel {
     return [self.userDataSource unreadSumAllChannel];

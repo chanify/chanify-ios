@@ -9,6 +9,7 @@
 #import <FMDB/FMDB.h>
 #import <sqlite3.h>
 #import "CHNSDataSource.h"
+#import "CHScriptModel.h"
 #import "CHMessageModel.h"
 #import "CHChannelModel.h"
 #import "CHNodeModel.h"
@@ -19,6 +20,7 @@
     "CREATE TABLE IF NOT EXISTS `messages`(`mid` TEXT PRIMARY KEY,`cid` BLOB,`from` TEXT,`raw` BLOB);"  \
     "CREATE TABLE IF NOT EXISTS `channels`(`cid` BLOB PRIMARY KEY,`hidden` BOOLEAN DEFAULT 0,`deleted` BOOLEAN DEFAULT 0,`name` TEXT,`icon` TEXT,`unread` UNSIGNED INTEGER DEFAULT 0,`mute` BOOLEAN,`mid` TEXT);"   \
     "CREATE TABLE IF NOT EXISTS `nodes`(`nid` TEXT PRIMARY KEY,`deleted` BOOLEAN DEFAULT 0,`name` TEXT,`version` TEXT,`endpoint` TEXT,`pubkey` BLOB,`icon` TEXT,`flags` INTEGER DEFAULT 0,`features` TEXT,`secret` BLOB);" \
+    "CREATE TABLE IF NOT EXISTS `scripts`(`name` TEXT PRIMARY KEY,`type` TEXT,`script` BLOB,`lastupdate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,`createtime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP);"  \
     "INSERT OR IGNORE INTO `channels`(`cid`) VALUES(X'0801');"      \
     "INSERT OR IGNORE INTO `channels`(`cid`) VALUES(X'08011001');"  \
     "INSERT OR IGNORE INTO `channels`(`cid`) VALUES(X'08011002');"  \
@@ -450,6 +452,79 @@
         }
     }
     return msg;
+}
+
+- (NSArray<CHScriptModel *> *)loadScripts {
+    __block NSMutableArray<CHScriptModel *> *scripts = [NSMutableArray new];
+    [self.dbQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet *res = [db executeQuery:@"SELECT `name`,`type`,`lastupdate` FROM `scripts` ORDER BY `lastupdate` DESC;"];
+        while(res.next) {
+            CHScriptModel *model = [CHScriptModel modelWithName:[res stringForColumnIndex:0] type:[res stringForColumnIndex:1] lastupdate:[res dateForColumnIndex:2]];
+            if (model != nil) {
+                [scripts addObject:model];
+            }
+        }
+        [res close];
+        [res setParentDB:nil];
+    }];
+    return scripts;
+}
+
+- (BOOL)insertScript:(CHScriptModel *)model {
+    __block BOOL res = NO;
+    if (model != nil && model.name.length > 0) {
+        [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+            NSDate *now = model.lastupdate ?: NSDate.now;
+            res = [db executeUpdate:@"INSERT INTO `scripts`(`name`,`type`,`lastupdate`,`createtime`,`script`) VALUES(?,?,?,?,?);", model.name, model.type, now, now, model.content?:@""];
+        }];
+    }
+    return res;
+}
+
+- (BOOL)deleteScript:(NSString *)name {
+    __block BOOL res = YES;
+    if (name.length > 0) {
+        [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+            [db executeUpdate:@"DELETE FROM `scripts` WHERE `name`=? LIMIT 1;", name];
+            res = YES;
+        }];
+    }
+    return res;
+}
+
+- (nullable CHScriptModel *)scriptWithName:(nullable NSString *)name {
+    __block CHScriptModel *model = nil;
+    if (name.length > 0) {
+        [self.dbQueue inDatabase:^(FMDatabase *db) {
+            FMResultSet *res = [db executeQuery:@"SELECT `type`,`lastupdate` FROM `scripts` WHERE `name`=? LIMIT 1;", name];
+            while(res.next) {
+                model = [CHScriptModel modelWithName:name type:[res stringForColumnIndex:0] lastupdate:[res dateForColumnIndex:1]];
+            }
+            [res close];
+            [res setParentDB:nil];
+        }];
+    }
+    return model;
+}
+
+- (NSString *)scriptContentWithName:(nullable NSString *)name {
+    __block NSString *content = nil;
+    if (name.length > 0) {
+        [self.dbQueue inDatabase:^(FMDatabase *db) {
+            content = [db stringForQuery:@"SELECT `script` FROM `scripts` WHERE `name`=? LIMIT 1;", name];
+        }];
+    }
+    return content ?: @"";
+}
+
+- (BOOL)updateScriptContent:(NSString *)content name:(NSString *)name {
+    __block BOOL res = YES;
+    if (name.length > 0) {
+        [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+            res = [db executeUpdate:@"UPDATE `scripts` SET `script`=?,`lastupdate`=? WHERE `name`=? LIMIT 1;", content?: @"", NSDate.now, name];
+        }];
+    }
+    return res;
 }
 
 

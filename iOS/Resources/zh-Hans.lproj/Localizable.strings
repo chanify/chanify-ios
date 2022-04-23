@@ -40,6 +40,8 @@
 "Endpoint"="入口链接";
 "Endpoint URL"="入口链接";
 "Create channel failed"="创建频道失败";
+"Create script failed"="创建脚本失败";
+"Save script failed"="保存脚本失败";
 "Channel Detail"="频道详情";
 "Clear Messages"="清除消息";
 "Message"="消息";
@@ -92,6 +94,8 @@
 "Send data to watch success"="发送数据到手表成功";
 "PERSONALIZE"="个性化设置";
 "Action Scripts"="动作脚本";
+"New Script"="新建脚本";
+"Script"="脚本";
 "HELP"="帮助";
 "Quick Start"="快速开始";
 "ABOUT"="关于";
@@ -131,6 +135,7 @@
 "Delete this audio or not?"="是否要删除这个音频？";
 "Delete this image or not?"="是否要删除这张图片？";
 "Delete this token or not?"="是否要删除这个令牌？";
+"Delete this script or not?"="是否要删除这个脚本？";
 "Hide this channel or not?"="是否要隐藏这个频道？";
 "Show this channel or not?"="是否要显示这个频道？";
 "Logout or not?"="是否要退出登录？";
@@ -143,6 +148,7 @@
 "URLScheme clicked"="点击该链接将会打开其他App，并且离开Chanify";
 "Download failed and click to retry"="下载失败，点击重试";
 "Copy token from pasteboard"="从剪贴板复制令牌";
+"Run script failed"="运行脚本失败";
 "Invalid token"="无效的令牌";
 "Delete items 3 days ago"="删除三天前的数据";
 "Delete items 1 week ago"="删除一周前的数据";

@@ -13,7 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly, strong) NSString *name;
 @property (nonatomic, readonly, strong) NSString *type;
-@property (nonatomic, readonly, strong) NSDate *lastmodify;
+@property (nonatomic, readwrite, strong) NSDate *lastupdate;
+@property (nonatomic, nullable, strong) NSString *content;
+
++ (instancetype)modelWithName:(NSString *)name type:(NSString *)type lastupdate:(NSDate *)lastupdate;
 
 
 @end
