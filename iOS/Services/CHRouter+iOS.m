@@ -219,7 +219,26 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     }];
     [alert addAction:cancelAction];
     [alert addAction:deleteAction];
-    [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
+    [self showAlertView:alert];
+}
+
+- (void)showAlertWithTitle:(nullable NSString *)title message:(NSString *)message action:(nullable NSString *)action  handler:(void (^ __nullable)(void))handler {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:(title ?: @"") message:message preferredStyle:UIAlertControllerStyleAlert];
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    paragraphStyle.alignment = NSTextAlignmentLeft;
+    NSAttributedString *msg = [[NSAttributedString alloc] initWithString:message attributes:@{
+        NSParagraphStyleAttributeName: paragraphStyle,
+        NSFontAttributeName: CHTheme.shared.detailFont,
+    }];
+    [alert setValue:msg forKey:@"attributedMessage"];
+    if (action.length <= 0) action = @"OK".localized;
+    UIAlertAction* okAction = [UIAlertAction actionWithTitle:action style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        if (handler != nil) {
+            handler();
+        }
+    }];
+    [alert addAction:okAction];
+    [self showAlertView:alert];
 }
 
 - (void)showIndicator:(BOOL)show {

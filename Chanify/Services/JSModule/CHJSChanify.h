@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) NSDictionary *args;
 @property (nonatomic, nullable, strong) NSString *pasteboard;
 
+JSExportAs(alert, - (void)alert:(id)msg);
 JSExportAs(routeTo, - (BOOL)routeTo:(NSString *)url);
 
 @end

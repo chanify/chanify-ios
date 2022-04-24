@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)popToRootViewControllerAnimated:(BOOL)animated;
 - (void)showShareItem:(NSArray *)items sender:(id)sender handler:(void (^ __nullable)(BOOL completed, NSError *error))handler;
 - (void)showAlertWithTitle:(NSString *)title action:(NSString *)action handler:(void (^ __nullable)(void))handler;
+- (void)showAlertWithTitle:(nullable NSString *)title message:(NSString *)message action:(nullable NSString *)action  handler:(void (^ __nullable)(void))handler;
 - (void)makeToast:(NSString *)message;
 
 

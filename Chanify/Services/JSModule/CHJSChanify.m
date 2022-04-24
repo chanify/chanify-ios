@@ -40,6 +40,35 @@
     CHPasteboard.shared.stringValue = pasteboard;
 }
 
+- (void)alert:(id)msg {
+    if (msg != nil) {
+        NSString *title = nil;
+        NSString *message = nil;
+        NSString *action = nil;
+        JSValue *callback = nil;
+        if ([msg isKindOfClass:NSString.class]) {
+            message = (NSString *)msg;
+        } else if ([msg isKindOfClass:NSDictionary.class]) {
+            NSDictionary *options = (NSDictionary *)msg;
+            title = [options valueForKey:@"title"];
+            message = [options valueForKey:@"message"];
+            action = [options valueForKey:@"action"];
+        } else {
+            message = [msg description];
+        }
+        if (JSContext.currentArguments.count > 1) {
+            callback = [JSContext.currentArguments objectAtIndex:1];
+        }
+        if (message.length > 0) {
+            [CHRouter.shared showAlertWithTitle:title message:message action:action handler:^{
+                if (callback != nil && !callback.isNull) {
+                    [callback callWithArguments:@[]];
+                }
+            }];
+        }
+    }
+}
+
 - (BOOL)routeTo:(NSString *)url {
     return [CHRouter.shared routeTo:url];
 }
