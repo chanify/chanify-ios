@@ -167,6 +167,14 @@
 		6D833E9528138F0300B69200 /* CHScriptNewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD56B5127F69DD6004A12CF /* CHScriptNewViewController.m */; };
 		6D833E962813ACE300B69200 /* CHScriptModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD56B5427F69E77004A12CF /* CHScriptModel.m */; };
 		6D833E992813C41600B69200 /* CHScriptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D833E982813C41600B69200 /* CHScriptViewController.m */; };
+		6D833E9E2814E65000B69200 /* CHJSConsole.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D833E9D2814E65000B69200 /* CHJSConsole.m */; };
+		6D833E9F2814E65000B69200 /* CHJSConsole.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D833E9D2814E65000B69200 /* CHJSConsole.m */; };
+		6D833EA22814E8F300B69200 /* CHJSChanify.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D833EA12814E8F300B69200 /* CHJSChanify.m */; };
+		6D833EA32814E8F300B69200 /* CHJSChanify.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D833EA12814E8F300B69200 /* CHJSChanify.m */; };
+		6D833EA62815015D00B69200 /* CHJSHttp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D833EA52815015D00B69200 /* CHJSHttp.m */; };
+		6D833EA72815015D00B69200 /* CHJSHttp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D833EA52815015D00B69200 /* CHJSHttp.m */; };
+		6D833EAA2815607200B69200 /* CHJSBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D833EA92815607200B69200 /* CHJSBuffer.m */; };
+		6D833EAB2815607200B69200 /* CHJSBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D833EA92815607200B69200 /* CHJSBuffer.m */; };
 		6D8352322664C818005CE6D1 /* CHRouter+OSX.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8352312664C818005CE6D1 /* CHRouter+OSX.m */; };
 		6D8352362664D423005CE6D1 /* CHChannelsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8352352664D423005CE6D1 /* CHChannelsView.m */; };
 		6D83523A2664EDC0005CE6D1 /* CHTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C24125D1117A00512E36 /* CHTheme.m */; };
@@ -896,6 +904,14 @@
 		6D829E7327F6EF8C00ED4025 /* CHScriptTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHScriptTableViewCell.m; sourceTree = "<group>"; };
 		6D833E972813C41600B69200 /* CHScriptViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHScriptViewController.h; sourceTree = "<group>"; };
 		6D833E982813C41600B69200 /* CHScriptViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHScriptViewController.m; sourceTree = "<group>"; };
+		6D833E9C2814E65000B69200 /* CHJSConsole.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHJSConsole.h; sourceTree = "<group>"; };
+		6D833E9D2814E65000B69200 /* CHJSConsole.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHJSConsole.m; sourceTree = "<group>"; };
+		6D833EA02814E8F300B69200 /* CHJSChanify.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHJSChanify.h; sourceTree = "<group>"; };
+		6D833EA12814E8F300B69200 /* CHJSChanify.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHJSChanify.m; sourceTree = "<group>"; };
+		6D833EA42815015D00B69200 /* CHJSHttp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHJSHttp.h; sourceTree = "<group>"; };
+		6D833EA52815015D00B69200 /* CHJSHttp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHJSHttp.m; sourceTree = "<group>"; };
+		6D833EA82815607200B69200 /* CHJSBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHJSBuffer.h; sourceTree = "<group>"; };
+		6D833EA92815607200B69200 /* CHJSBuffer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHJSBuffer.m; sourceTree = "<group>"; };
 		6D8352302664C818005CE6D1 /* CHRouter+OSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CHRouter+OSX.h"; sourceTree = "<group>"; };
 		6D8352312664C818005CE6D1 /* CHRouter+OSX.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CHRouter+OSX.m"; sourceTree = "<group>"; };
 		6D8352342664D423005CE6D1 /* CHChannelsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelsView.h; sourceTree = "<group>"; };
@@ -1773,6 +1789,21 @@
 			path = Script;
 			sourceTree = "<group>";
 		};
+		6D833E9B2814E53200B69200 /* JSModule */ = {
+			isa = PBXGroup;
+			children = (
+				6D833E9C2814E65000B69200 /* CHJSConsole.h */,
+				6D833E9D2814E65000B69200 /* CHJSConsole.m */,
+				6D833EA02814E8F300B69200 /* CHJSChanify.h */,
+				6D833EA12814E8F300B69200 /* CHJSChanify.m */,
+				6D833EA82815607200B69200 /* CHJSBuffer.h */,
+				6D833EA92815607200B69200 /* CHJSBuffer.m */,
+				6D833EA42815015D00B69200 /* CHJSHttp.h */,
+				6D833EA52815015D00B69200 /* CHJSHttp.m */,
+			);
+			path = JSModule;
+			sourceTree = "<group>";
+		};
 		6D8352332664D411005CE6D1 /* Channels */ = {
 			isa = PBXGroup;
 			children = (
@@ -2479,6 +2510,7 @@
 		6DE7C082263D49030092D88D /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				6D833E9B2814E53200B69200 /* JSModule */,
 				6D3DC0842660A43000F42070 /* WebManager */,
 				6DC6C27225D13E5500512E36 /* CHLogicBase.h */,
 				6DC6C27325D13E5500512E36 /* CHLogicBase.m */,
@@ -3155,6 +3187,7 @@
 				6DE5C7E3270160A7004543D4 /* CHIconConfiguration.m in Sources */,
 				6D0384E326F5C786002C3BE1 /* CHListContentConfiguration.m in Sources */,
 				6DE7C07B263D48B80092D88D /* NSString+CHExt.m in Sources */,
+				6D833E9F2814E65000B69200 /* CHJSConsole.m in Sources */,
 				6DAD53F5266E004D0036B68F /* CHPasteboard.m in Sources */,
 				6DD56B4B27F68669004A12CF /* CHScriptManager.m in Sources */,
 				6DE5C7E5270160A7004543D4 /* CHColorConfiguration.m in Sources */,
@@ -3185,6 +3218,7 @@
 				6DAA0DD72711344B00481EB0 /* CHWebViewPage.m in Sources */,
 				6D8F427227003D340073D06B /* CHNodeNewViewPage.m in Sources */,
 				6D1B1F7B26FC6E0900041FAC /* CHFormHeaderView.m in Sources */,
+				6D833EA32814E8F300B69200 /* CHJSChanify.m in Sources */,
 				6DC7CF4026E5B447002F7869 /* CHContentItem.m in Sources */,
 				6D0384D726F5BFFB002C3BE1 /* CHFormSection.m in Sources */,
 				6DC7CF4626E5C575002F7869 /* NSImageView+CHExt.m in Sources */,
@@ -3241,6 +3275,7 @@
 				6DAA0DDC27140DF400481EB0 /* CHAcknowledgementsViewPage.m in Sources */,
 				6DAD5402266E19850036B68F /* CHLinkLabel.m in Sources */,
 				6DDD6B09263E314200684EE7 /* CHLogic+OSX.m in Sources */,
+				6D833EA72815015D00B69200 /* CHJSHttp.m in Sources */,
 				6D8F427F2700838F0073D06B /* NSURLComponents+CHExt.m in Sources */,
 				6D6F3CFA263D28EA00A2578B /* CHMainViewController.m in Sources */,
 				6DF611202665E32E00426830 /* CHContentView.m in Sources */,
@@ -3283,6 +3318,7 @@
 				6DE7C067263D47210092D88D /* CHLogger.m in Sources */,
 				6DE7C073263D48680092D88D /* CHThumbnailModel.m in Sources */,
 				6D156040270201C90027E556 /* CHChannelNewViewController.m in Sources */,
+				6D833EAB2815607200B69200 /* CHJSBuffer.m in Sources */,
 				6D8F37CF26D20832001A8884 /* CHTimelineModel.m in Sources */,
 				6D15604127022C080027E556 /* CHTokenViewController.m in Sources */,
 				6DE7C07D263D48CE0092D88D /* NSNumber+CHExt.m in Sources */,
@@ -3391,6 +3427,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D278E6925E222C300FC48CD /* CHCodeFormatter.m in Sources */,
+				6D833EA62815015D00B69200 /* CHJSHttp.m in Sources */,
 				6DDC86C425E74F0C00C26203 /* CHNodeViewController.m in Sources */,
 				6DC6C2CD25D15B6300512E36 /* CHScanViewController.m in Sources */,
 				6D67CBEA25D4298A00ECF655 /* CHCrpyto.m in Sources */,
@@ -3462,6 +3499,7 @@
 				6DC6C28925D1410D00512E36 /* UIViewController+CHExt.m in Sources */,
 				6D8F9EAC25EF45E800A8912C /* CHFormItem.m in Sources */,
 				6DD969CD25F47A6300EEEECF /* CHFormIconItem.m in Sources */,
+				6D833E9E2814E65000B69200 /* CHJSConsole.m in Sources */,
 				6DC6C39025D16EA200512E36 /* CHTextMsgCellConfiguration.m in Sources */,
 				6DA617AF267B3A46003F665B /* WidgetKit.swift in Sources */,
 				6D4416FE25F2655C0041EBA0 /* CHFormValueItem.m in Sources */,
@@ -3471,6 +3509,7 @@
 				6DBA92C525F60B3B00B792FE /* UIColor+CHExt.m in Sources */,
 				6D51563E266A186200137071 /* CHFormSectionHeaderView.m in Sources */,
 				6DC6C26A25D1159C00512E36 /* CHRouter+iOS.m in Sources */,
+				6D833EA22814E8F300B69200 /* CHJSChanify.m in Sources */,
 				6DC6C39525D16ECA00512E36 /* CHUnknownMsgCellConfiguration.m in Sources */,
 				6DF02ABA27DC53C3000BBDAA /* CHSoundCell.m in Sources */,
 				6DC6C36F25D16C4E00512E36 /* CHQrCodeView.m in Sources */,
@@ -3538,6 +3577,7 @@
 				6D5CE9C427DA1C77006FB659 /* UIImage+CHExt.m in Sources */,
 				6D909112265CAA8E0064A580 /* CHImageTableViewCell.m in Sources */,
 				6DD325F4265394DB00A5CEC4 /* CHImagesViewController.m in Sources */,
+				6D833EAA2815607200B69200 /* CHJSBuffer.m in Sources */,
 				6DDE056A26281F5C004336DD /* CHMessageCellView.m in Sources */,
 				6DC6C2E225D15E6B00512E36 /* CHChannelModel.m in Sources */,
 				6DC6C31125D1611200512E36 /* NSDictionary+CHExt.m in Sources */,
@@ -3723,7 +3763,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = iOS/Widgets/WidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 63;
+				CURRENT_PROJECT_VERSION = 64;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = "$(SRCROOT)/iOS/Widgets/Info.plist";
@@ -3732,7 +3772,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -3752,7 +3792,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = iOS/Widgets/WidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 63;
+				CURRENT_PROJECT_VERSION = 64;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = "$(SRCROOT)/iOS/Widgets/Info.plist";
@@ -3761,7 +3801,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -3778,7 +3818,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = iOS/WidgetIntents/WidgetIntents.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 63;
+				CURRENT_PROJECT_VERSION = 64;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = "$(SRCROOT)/iOS/WidgetIntents/Info.plist";
@@ -3787,7 +3827,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.widgetintents;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -3802,7 +3842,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = iOS/WidgetIntents/WidgetIntents.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 63;
+				CURRENT_PROJECT_VERSION = 64;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = "$(SRCROOT)/iOS/WidgetIntents/Info.plist";
@@ -3811,7 +3851,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.widgetintents;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -3831,7 +3871,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 63;
+				CURRENT_PROJECT_VERSION = 64;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
@@ -3846,7 +3886,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = macosx;
@@ -3865,7 +3905,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 63;
+				CURRENT_PROJECT_VERSION = 64;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
@@ -3880,7 +3920,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = macosx;
@@ -3895,7 +3935,7 @@
 				CODE_SIGN_ENTITLEMENTS = WatchNotificationService/WatchNotificationService.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 63;
+				CURRENT_PROJECT_VERSION = 64;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = WatchNotificationService/Info.plist;
@@ -3905,7 +3945,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp.watchkitextension.watchnotificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3923,7 +3963,7 @@
 				CODE_SIGN_ENTITLEMENTS = WatchNotificationService/WatchNotificationService.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 63;
+				CURRENT_PROJECT_VERSION = 64;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = WatchNotificationService/Info.plist;
@@ -3933,7 +3973,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp.watchkitextension.watchnotificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3953,7 +3993,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Watch Extension/Watch Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 63;
+				CURRENT_PROJECT_VERSION = 64;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				ENABLE_PREVIEWS = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
@@ -3963,7 +4003,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3986,7 +4026,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Watch Extension/Watch Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 63;
+				CURRENT_PROJECT_VERSION = 64;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				ENABLE_PREVIEWS = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
@@ -3996,7 +4036,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4016,11 +4056,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 63;
+				CURRENT_PROJECT_VERSION = 64;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				IBSC_MODULE = Watch_Extension;
 				INFOPLIST_FILE = Watch/Info.plist;
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -4039,11 +4079,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 63;
+				CURRENT_PROJECT_VERSION = 64;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				IBSC_MODULE = Watch_Extension;
 				INFOPLIST_FILE = Watch/Info.plist;
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -4059,7 +4099,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = iOS/NotificationContent/NotificationContent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 63;
+				CURRENT_PROJECT_VERSION = 64;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4073,7 +4113,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationcontent;
 				PRODUCT_NAME = NotificationContent;
 				SKIP_INSTALL = YES;
@@ -4086,7 +4126,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = iOS/NotificationContent/NotificationContent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 63;
+				CURRENT_PROJECT_VERSION = 64;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "CHUI_ENABLED=1";
@@ -4096,7 +4136,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationcontent;
 				PRODUCT_NAME = NotificationContent;
 				SKIP_INSTALL = YES;
@@ -4233,7 +4273,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Chanify.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 63;
+				CURRENT_PROJECT_VERSION = 64;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4247,7 +4287,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -4266,7 +4306,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Chanify.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 63;
+				CURRENT_PROJECT_VERSION = 64;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4280,7 +4320,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -4295,7 +4335,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 63;
+				CURRENT_PROJECT_VERSION = 64;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = "$(SRCROOT)/iOS/NotificationService/Info.plist";
@@ -4304,7 +4344,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationservice;
 				PRODUCT_NAME = NotificationService;
 				SKIP_INSTALL = YES;
@@ -4321,7 +4361,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 63;
+				CURRENT_PROJECT_VERSION = 64;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				INFOPLIST_FILE = "$(SRCROOT)/iOS/NotificationService/Info.plist";
@@ -4330,7 +4370,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.notificationservice;
 				PRODUCT_NAME = NotificationService;
 				SKIP_INSTALL = YES;
