@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)shared;
 - (nullable NSString *)stringValue;
+- (void)setStringValue:(nullable NSString *)value;
 - (void)copyWithName:(NSString *)name value:(nullable NSString *)value;
 
 

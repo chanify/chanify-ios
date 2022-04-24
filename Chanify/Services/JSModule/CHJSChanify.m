@@ -6,6 +6,7 @@
 //
 
 #import "CHJSChanify.h"
+#import "CHPasteboard.h"
 #import "CHRouter.h"
 
 @implementation CHJSChanify
@@ -29,6 +30,14 @@
         _args = args;
     }
     return self;
+}
+
+- (NSString *)pasteboard {
+    return CHPasteboard.shared.stringValue;
+}
+
+- (void)setPasteboard:(NSString *)pasteboard {
+    CHPasteboard.shared.stringValue = pasteboard;
 }
 
 - (BOOL)routeTo:(NSString *)url {

@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol CHJSIChanify <JSExport>
 
 @property (nonatomic, readonly, strong) NSDictionary *args;
+@property (nonatomic, nullable, strong) NSString *pasteboard;
 
 JSExportAs(routeTo, - (BOOL)routeTo:(NSString *)url);
 
