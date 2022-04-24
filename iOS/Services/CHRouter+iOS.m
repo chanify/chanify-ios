@@ -208,7 +208,24 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
 }
 
 - (void)showAlertWithTitle:(NSString *)title action:(NSString *)action handler:(void (^ __nullable)(void))handler {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:@"" preferredStyle:UIAlertControllerStyleAlert];
+    [self showAlertView:createAlert(nil, title, action, handler)];
+}
+
+
+- (void)showAlertWithTitle:(nullable NSString *)title message:(NSString *)message action:(nullable NSString *)action  handler:(void (^ __nullable)(void))handler {
+    UIAlertController *alert = createAlert(title, message, action, handler);
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    paragraphStyle.alignment = NSTextAlignmentLeft;
+    NSAttributedString *msg = [[NSAttributedString alloc] initWithString:message attributes:@{
+        NSParagraphStyleAttributeName: paragraphStyle,
+        NSFontAttributeName: CHTheme.shared.detailFont,
+    }];
+    [alert setValue:msg forKey:@"attributedMessage"];
+    [self showAlertView:alert];    
+}
+
+static inline UIAlertController *createAlert(NSString *title, NSString *message, NSString *action, void (^ __nullable handler)(void)) {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title?:@"" message:message?:@"" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel".localized style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
     if (action.length <= 0) action = @"OK".localized;
     UIAlertAction* deleteAction = [UIAlertAction actionWithTitle:action style:UIAlertActionStyleDestructive
@@ -219,26 +236,7 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     }];
     [alert addAction:cancelAction];
     [alert addAction:deleteAction];
-    [self showAlertView:alert];
-}
-
-- (void)showAlertWithTitle:(nullable NSString *)title message:(NSString *)message action:(nullable NSString *)action  handler:(void (^ __nullable)(void))handler {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:(title ?: @"") message:message preferredStyle:UIAlertControllerStyleAlert];
-    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
-    paragraphStyle.alignment = NSTextAlignmentLeft;
-    NSAttributedString *msg = [[NSAttributedString alloc] initWithString:message attributes:@{
-        NSParagraphStyleAttributeName: paragraphStyle,
-        NSFontAttributeName: CHTheme.shared.detailFont,
-    }];
-    [alert setValue:msg forKey:@"attributedMessage"];
-    if (action.length <= 0) action = @"OK".localized;
-    UIAlertAction* okAction = [UIAlertAction actionWithTitle:action style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        if (handler != nil) {
-            handler();
-        }
-    }];
-    [alert addAction:okAction];
-    [self showAlertView:alert];
+    return alert;
 }
 
 - (void)showIndicator:(BOOL)show {
