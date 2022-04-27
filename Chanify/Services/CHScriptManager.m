@@ -37,12 +37,17 @@
 }
 
 - (BOOL)runScript:(NSString *)name url:(NSURL *)url {
-    BOOL res = NO;
+    BOOL res = YES;
     NSString *script = [self.ds scriptContentWithName:name];
-    if (script.length > 0) {
+    if (script.length <= 0) {
+        res = NO;
+    } else {
         JSContext *context = [JSContext new];
         context[@"Buffer"] = CHJSBuffer.shared;
         context[@"console"] = CHJSConsole.shared;
+        context[@"sleep"] = ^(int ms) {
+            usleep(ms*1000);
+        };
         context[@"require"] = ^id (NSString *name) {
             return loadModule(name, url);
         };
@@ -50,7 +55,6 @@
         if (context.exception != nil) {
             [CHRouter.shared makeToast:context.exception.description];
         }
-        res = YES;
     }
     return res;
 }

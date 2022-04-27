@@ -179,6 +179,8 @@
 		6D8352362664D423005CE6D1 /* CHChannelsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8352352664D423005CE6D1 /* CHChannelsView.m */; };
 		6D83523A2664EDC0005CE6D1 /* CHTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C24125D1117A00512E36 /* CHTheme.m */; };
 		6D8352412665CFF8005CE6D1 /* CHViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8352402665CFF8005CE6D1 /* CHViewController.m */; };
+		6D83776928197AAE0070F503 /* JSValue+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D83776828197AAE0070F503 /* JSValue+CHExt.m */; };
+		6D83776A28197AAE0070F503 /* JSValue+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D83776828197AAE0070F503 /* JSValue+CHExt.m */; };
 		6D86A87127D9C55B00D9DA53 /* CHReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D86A87027D9C55B00D9DA53 /* CHReachability.m */; };
 		6D897D23262D6BFD0048D9A6 /* CHTP.proto in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C20D25D0F3EF00512E36 /* CHTP.proto */; };
 		6D897D5B262D77140048D9A6 /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D897D5A262D77140048D9A6 /* NotificationService.m */; };
@@ -917,6 +919,8 @@
 		6D8352342664D423005CE6D1 /* CHChannelsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChannelsView.h; sourceTree = "<group>"; };
 		6D8352352664D423005CE6D1 /* CHChannelsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChannelsView.m; sourceTree = "<group>"; };
 		6D8352402665CFF8005CE6D1 /* CHViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHViewController.m; sourceTree = "<group>"; };
+		6D83776728197AAE0070F503 /* JSValue+CHExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JSValue+CHExt.h"; sourceTree = "<group>"; };
+		6D83776828197AAE0070F503 /* JSValue+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "JSValue+CHExt.m"; sourceTree = "<group>"; };
 		6D86A86F27D9C55B00D9DA53 /* CHReachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHReachability.h; sourceTree = "<group>"; };
 		6D86A87027D9C55B00D9DA53 /* CHReachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHReachability.m; sourceTree = "<group>"; };
 		6D897CE6262D67D50048D9A6 /* Watch Extension-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Watch Extension-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -2503,6 +2507,8 @@
 				6DF70B89267BAC3100892B2E /* NSURLComponents+CHExt.m */,
 				6DBA92C325F60B3B00B792FE /* UIColor+CHExt.h */,
 				6DBA92C425F60B3B00B792FE /* UIColor+CHExt.m */,
+				6D83776728197AAE0070F503 /* JSValue+CHExt.h */,
+				6D83776828197AAE0070F503 /* JSValue+CHExt.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -3319,6 +3325,7 @@
 				6DE7C073263D48680092D88D /* CHThumbnailModel.m in Sources */,
 				6D156040270201C90027E556 /* CHChannelNewViewController.m in Sources */,
 				6D833EAB2815607200B69200 /* CHJSBuffer.m in Sources */,
+				6D83776A28197AAE0070F503 /* JSValue+CHExt.m in Sources */,
 				6D8F37CF26D20832001A8884 /* CHTimelineModel.m in Sources */,
 				6D15604127022C080027E556 /* CHTokenViewController.m in Sources */,
 				6DE7C07D263D48CE0092D88D /* NSNumber+CHExt.m in Sources */,
@@ -3434,6 +3441,7 @@
 				6DFDE2182634041000A4BE43 /* CHNotification+Badge.m in Sources */,
 				6DC6C26525D1151E00512E36 /* NSString+CHExt.m in Sources */,
 				6DAE516B26155C8C00AF9E90 /* CHPasteboard.m in Sources */,
+				6D83776928197AAE0070F503 /* JSValue+CHExt.m in Sources */,
 				6D515641266A286700137071 /* CHBlocklistViewController.m in Sources */,
 				6D833E992813C41600B69200 /* CHScriptViewController.m in Sources */,
 				6DC6C38625D16E4200512E36 /* CHDateCellConfiguration.m in Sources */,

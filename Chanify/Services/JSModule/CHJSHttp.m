@@ -6,6 +6,7 @@
 //
 
 #import "CHJSHttp.h"
+#import "JSValue+CHExt.h"
 
 @interface CHJSHttpBuffer : NSObject<CHJSIHttpBuffer>
 
@@ -112,7 +113,7 @@
 @implementation CHJSHttpClientTask
 
 - (id<CHJSIHttpClientTask>)on:(NSString *)event callback:(JSValue *)callback {
-    if (callback != nil && !callback.isNull) {
+    if (callback != nil && callback.isFunction) {
         if ([event isEqualToString:@"data"]) {
             self.dataCallback = [JSManagedValue managedValueWithValue:callback];
         } else if ([event isEqualToString:@"end"]) {
@@ -157,7 +158,7 @@
 }
 
 - (id<CHJSIHttpClientRequest>)on:(NSString *)event callback:(JSValue *)callback {
-    if (callback != nil && !callback.isNull) {
+    if (callback != nil && callback.isFunction) {
         if ([event isEqualToString:@"error"]) {
             self.task.errorCallback = [JSManagedValue managedValueWithValue:callback];
         }
@@ -218,7 +219,7 @@
     }
     if (index < args.count) {
         JSValue *opts = [args objectAtIndex:index];
-        if ([opts.toObject isKindOfClass:NSDictionary.class]) {
+        if (!opts.isFunction && [opts.toObject isKindOfClass:NSDictionary.class]) {
             index++;
             NSDictionary *options = (NSDictionary *)opts.toObject;
             NSString *hostname = [options valueForKey:@"hostname"];
