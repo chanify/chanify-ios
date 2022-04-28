@@ -45,9 +45,7 @@
         JSContext *context = [JSContext new];
         context[@"Buffer"] = CHJSBuffer.shared;
         context[@"console"] = CHJSConsole.shared;
-        context[@"sleep"] = ^(int ms) {
-            usleep(ms*1000);
-        };
+        context[@"sleep"] = ^(int ms) { usleep(ms*1000); };
         context[@"require"] = ^id (NSString *name) {
             return loadModule(name, url);
         };

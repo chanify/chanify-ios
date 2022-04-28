@@ -277,6 +277,7 @@
 		6DBDF93326FDC48A001F6F1B /* CHNodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDC86C325E74F0C00C26203 /* CHNodeViewController.m */; };
 		6DBDF93926FDCAD1001F6F1B /* UIBarButtonItem+CHExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBDF93826FDCAD1001F6F1B /* UIBarButtonItem+CHExt.m */; };
 		6DBDF93C26FDCC23001F6F1B /* CHBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBDF93B26FDCC23001F6F1B /* CHBarButtonItem.m */; };
+		6DBE5189281A7D3A00880961 /* editor in Resources */ = {isa = PBXBuildFile; fileRef = 6DBE5188281A7D3A00880961 /* editor */; };
 		6DBF865C261826E3006F108C /* CHLinkMsgCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBF865B261826E3006F108C /* CHLinkMsgCellConfiguration.m */; };
 		6DBF866326183E53006F108C /* CHWebLinkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBF866226183E53006F108C /* CHWebLinkManager.m */; };
 		6DC6C1C425D0DCD100512E36 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC6C1C325D0DCD100512E36 /* AppDelegate.m */; };
@@ -1018,6 +1019,7 @@
 		6DBDF93826FDCAD1001F6F1B /* UIBarButtonItem+CHExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+CHExt.m"; sourceTree = "<group>"; };
 		6DBDF93A26FDCC23001F6F1B /* CHBarButtonItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHBarButtonItem.h; sourceTree = "<group>"; };
 		6DBDF93B26FDCC23001F6F1B /* CHBarButtonItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHBarButtonItem.m; sourceTree = "<group>"; };
+		6DBE5188281A7D3A00880961 /* editor */ = {isa = PBXFileReference; lastKnownFileType = folder; path = editor; sourceTree = "<group>"; };
 		6DBF865A261826E3006F108C /* CHLinkMsgCellConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHLinkMsgCellConfiguration.h; sourceTree = "<group>"; };
 		6DBF865B261826E3006F108C /* CHLinkMsgCellConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHLinkMsgCellConfiguration.m; sourceTree = "<group>"; };
 		6DBF866126183E53006F108C /* CHWebLinkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHWebLinkManager.h; sourceTree = "<group>"; };
@@ -2117,6 +2119,7 @@
 		6DC6C1EA25D0DEB200512E36 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6DBE5188281A7D3A00880961 /* editor */,
 				6DC6C1F325D0E18600512E36 /* Settings.bundle */,
 				6DC6C1F625D0E1A100512E36 /* InfoPlist.strings */,
 				6DC6C1FC25D0E20200512E36 /* Localizable.strings */,
@@ -2949,6 +2952,7 @@
 				6DC6C1F825D0E1A100512E36 /* InfoPlist.strings in Resources */,
 				6DC6C1F425D0E18600512E36 /* Settings.bundle in Resources */,
 				6DC6C1CF25D0DCD200512E36 /* Assets.xcassets in Resources */,
+				6DBE5189281A7D3A00880961 /* editor in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

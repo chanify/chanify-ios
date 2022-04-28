@@ -1,0 +1,8 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" /><link href="./main.css" rel="stylesheet"></head><body><div class="editor language-js" /><script>
+window.onload = () => {
+    const editor = document.querySelector('.editor');
+    const jar = CodeJar(editor, withLineNumbers(Prism.highlightElement));
+    jar.updateCode(decodeURI(window.scriptCode));
+    //jar.onUpdate(code => { window.scriptCode = code; });
+};
+</script><script src="./codejar.js"></script><script src="./linenumbers.js"></script><script src="./prism.js"></script></body></html>

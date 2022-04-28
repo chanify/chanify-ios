@@ -6,6 +6,7 @@
 //
 
 #import "CHScriptViewController.h"
+#import <WebKit/WebKit.h>
 #import <Masonry/Masonry.h>
 #import "CHUserDataSource.h"
 #import "CHScriptModel.h"
@@ -13,12 +14,12 @@
 #import "CHLogic.h"
 #import "CHTheme.h"
 
-@interface CHScriptViewController () <UITextViewDelegate>
+@interface CHScriptViewController () <WKNavigationDelegate>
 
 @property (nonatomic, nullable, strong) CHScriptModel *model;
 @property (nonatomic, nullable, strong) NSString *scriptName;
 @property (nonatomic, nullable, strong) NSString *scriptContent;
-@property (nonatomic, readonly, strong) UITextView *contentView;
+@property (nonatomic, readonly, strong) WKWebView *webView;
 
 @end
 
@@ -34,73 +35,75 @@
 - (instancetype)initWithName:(NSString *)name script:(nullable NSString *)script {
     if (self = [super init]) {
         _model = nil;
-        _scriptName = name ?: @"";
-        _scriptContent = script ?: @"";
+        _scriptName = name;
+        _scriptContent = script;
     }
     return self;
 }
 
 - (void)dealloc {
-    [NSNotificationCenter.defaultCenter removeObserver:self];
+    self.webView.navigationDelegate = nil;
+    [self.webView stopLoading];
     if (self.delegate != nil) {
-        [self.delegate scriptViewController:self script:self.contentView.text];
+        [self.delegate scriptViewController:self script:self.scriptCode];
     }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    CHTheme *theme = CHTheme.shared;
-    
-    UITextView *contentView = [UITextView new];
-    [self.view addSubview:(_contentView = contentView)];
-    [contentView mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.view.backgroundColor = CHTheme.shared.backgroundColor;
+
+    WKWebViewConfiguration *configuration = [WKWebViewConfiguration new];
+    WKUserContentController *userContentController = configuration.userContentController;
+    WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:configuration];
+    [self.view addSubview:(_webView = webView)];
+    webView.scrollView.showsHorizontalScrollIndicator = NO;
+    webView.backgroundColor = self.view.backgroundColor;
+    webView.navigationDelegate = self;
+    webView.alpha = 0;
+    [webView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
         make.left.right.bottom.equalTo(self.view);
     }];
-    contentView.alwaysBounceVertical = YES;
-    contentView.font = theme.textFont;
-    contentView.textColor = theme.labelColor;
-    contentView.backgroundColor = theme.backgroundColor;
-    contentView.keyboardType = UIKeyboardTypeAlphabet;
-    contentView.delegate = self;
 
+    NSString *scriptCode = nil;
     if (self.model == nil) {
-        self.title = self.scriptName;
-        contentView.text = self.scriptContent;
+        self.title = self.scriptName ?: @"";
+        scriptCode = self.scriptContent;
     } else {
         self.title = self.model.name;
-        contentView.text = [CHLogic.shared.userDataSource scriptContentWithName:self.model.name];
-        
+        scriptCode = [CHLogic.shared.userDataSource scriptContentWithName:self.model.name];
         CHBarButtonItem *rightBarButtonItem = [CHBarButtonItem itemDoneWithTarget:self action:@selector(actionDone:)];
         self.navigationItem.rightBarButtonItem = rightBarButtonItem;
-    }
-
-    if (contentView.text.length <= 0) {
-        @weakify(self);
-        dispatch_main_after(kCHLoadingDuration, ^{
-            @strongify(self);
-            [self.contentView becomeFirstResponder];
-        });
     }
     
     if (self.title.length <= 0) {
         self.title = @"Script".localized;
     }
-    
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(keyboardDidChanged:) name:UIKeyboardDidChangeFrameNotification object:nil];
+
+    NSString *encodeString = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:@[scriptCode?:@""] options:0 error:nil] encoding:NSUTF8StringEncoding];
+    scriptCode = [encodeString substringWithRange:NSMakeRange(2, encodeString.length - 4)];
+    [userContentController addUserScript:[[WKUserScript alloc] initWithSource:[NSString stringWithFormat:@"window.scriptCode=\"%@\";", scriptCode] injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES]];
+    NSURL *url = [NSBundle.mainBundle URLForResource:@"index" withExtension:@"html" subdirectory:@"editor"];
+    [webView loadFileURL:url allowingReadAccessToURL:url.URLByDeletingLastPathComponent];
 }
 
-#pragma mark - UITextViewDelegate
-- (void)textViewDidChange:(UITextView *)textView {
-    
+#pragma mark - WKNavigationDelegate
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+    if (webView.alpha < 1.0) {
+        @weakify(self);
+        [UIViewPropertyAnimator runningPropertyAnimatorWithDuration:kCHAnimateMediumDuration delay:0 options:0 animations:^{
+            @strongify(self);
+            self.webView.alpha = 1;
+        } completion:nil];
+    }
 }
 
 #pragma mark - Action Methods
 - (void)actionDone:(id)sender {
-    [self.contentView resignFirstResponder];
     if (self.model != nil) {
-        if ([CHLogic.shared updateScript:self.model.name content:self.contentView.text]) {
+        if ([CHLogic.shared updateScript:self.model.name content:self.scriptCode]) {
             [self closeAnimated:YES completion:nil];
         } else {
             [CHRouter.shared makeToast:@"Save script failed".localized];
@@ -108,13 +111,20 @@
     }
 }
 
-- (void)keyboardDidChanged:(NSNotification *)notification {
-    CGRect rect = [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    CGPoint pt = [self.view convertPoint:CGPointMake(0, rect.origin.y) fromView:nil];
-    
-    [self.contentView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view).offset(MIN(pt.y - self.view.bounds.size.height, 0));
+#pragma mark - Private Methods
+- (NSString *)scriptCode {
+    __block BOOL finished = NO;
+    __block NSString *code = nil;
+    [self.webView evaluateJavaScript:@"document.querySelector('.editor').textContent" completionHandler:^(id value, NSError *error) {
+        if (error == nil && [value isKindOfClass:NSString.class]) {
+            code = value;
+        }
+        finished = YES;
     }];
+    while (!finished) {
+        [NSRunLoop.currentRunLoop runMode:NSDefaultRunLoopMode beforeDate:NSDate.distantFuture];
+    }
+    return code ?: @"";
 }
 
 
