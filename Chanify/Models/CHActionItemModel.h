@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) NSString *name;
 @property (nonatomic, readonly, nullable, strong) NSURL *link;
 
-+ (instancetype)actionItemWithName:(NSString *)name link:(nullable NSURL *)link;
++ (instancetype)actionItemWithName:(NSString *)name link:(nullable NSURL *)link mid:(nullable NSString *)mid;
 + (nullable instancetype)actionItemWithDictionary:(NSDictionary *)info;
 - (NSDictionary *)dictionary;
 

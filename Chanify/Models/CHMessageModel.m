@@ -168,7 +168,7 @@
                 case CHTPMsgType_File:
                     _type = CHMessageTypeFile;
                     _file = content.file;
-                    _actions = parseActions(content);
+                    _actions = parseActions(mid, content);
                     if (content.filename.length > 0) {
                         _filename = content.filename;
                     }
@@ -185,7 +185,7 @@
                         _title = content.title;
                     }
                     _text = [content.text stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
-                    _actions = parseActions(content);
+                    _actions = parseActions(mid, content);
                     break;
                 case CHTPMsgType_Timeline:
                     _type = CHMessageTypeTimeline;
@@ -360,7 +360,7 @@
     return self.mid.hash;
 }
 
-static inline NSArray<CHActionItemModel *> *parseActions(CHTPMsgContent *content) {
+static inline NSArray<CHActionItemModel *> *parseActions(NSString *mid, CHTPMsgContent *content) {
     NSMutableArray<CHActionItemModel *> *items = nil;
     if (content.actionsArray_Count > 0) {
         items = [NSMutableArray arrayWithCapacity:content.actionsArray_Count];
@@ -368,7 +368,7 @@ static inline NSArray<CHActionItemModel *> *parseActions(CHTPMsgContent *content
             if (item.type == CHTPActType_ActURL) {
                 NSURL *link = item.link.urlWithPercentEncoding;
                 if (link != nil) {
-                    [items addObject:[CHActionItemModel actionItemWithName:item.name link:link]];
+                    [items addObject:[CHActionItemModel actionItemWithName:item.name link:link mid:mid]];
                 }
             }
         }

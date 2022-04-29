@@ -84,7 +84,7 @@
 
     NSString *encodeString = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:@[scriptCode?:@""] options:0 error:nil] encoding:NSUTF8StringEncoding];
     scriptCode = [encodeString substringWithRange:NSMakeRange(2, encodeString.length - 4)];
-    [userContentController addUserScript:[[WKUserScript alloc] initWithSource:[NSString stringWithFormat:@"window.scriptCode=\"%@\";", scriptCode] injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES]];
+    [userContentController addUserScript:[[WKUserScript alloc] initWithSource:[NSString stringWithFormat:@"loadCode(\"%@\");", scriptCode] injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES]];
     NSURL *url = [NSBundle.mainBundle URLForResource:@"index" withExtension:@"html" subdirectory:@"editor"];
     [webView loadFileURL:url allowingReadAccessToURL:url.URLByDeletingLastPathComponent];
 }

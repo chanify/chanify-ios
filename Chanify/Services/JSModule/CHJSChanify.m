@@ -7,7 +7,51 @@
 
 #import "CHJSChanify.h"
 #import "CHPasteboard.h"
+#import "CHUserDataSource.h"
+#import "CHMessageModel.h"
+#import "CHLogic.h"
 #import "CHRouter.h"
+
+@interface CHJSMessage : NSObject<CHJSIMessage>
+
+@property (nonatomic, readonly, strong) CHMessageModel *model;
+
+@end
+
+@implementation CHJSMessage
+
+- (instancetype)initWithModel:(CHMessageModel *)model {
+    if (self = [super init]) {
+        _model = model;
+    }
+    return self;
+}
+
+- (NSDate *)timestamp {
+    return [NSDate dateFromMID:self.model.mid];
+}
+
+- (nullable NSString *)title {
+    return self.model.title;
+}
+
+- (nullable NSString *)text {
+    return self.model.text;
+}
+
+- (nullable NSString *)link {
+    return self.model.link.absoluteString;
+}
+
+- (nullable NSString *)sound {
+    return self.model.sound;
+}
+
+- (nullable NSString *)copytext {
+    return self.model.copytext;
+}
+
+@end
 
 @implementation CHJSChanify
 
@@ -71,6 +115,15 @@
 
 - (BOOL)routeTo:(NSString *)url {
     return [CHRouter.shared routeTo:url];
+}
+
+- (nullable id<CHJSIMessage>)loadMessage:(NSString *)mid {
+    CHJSMessage *message = nil;
+    CHMessageModel *model = [CHLogic.shared.userDataSource messageWithMID:mid];
+    if (model != nil) {
+        message = [[CHJSMessage alloc] initWithModel:model];
+    }
+    return message;
 }
 
 

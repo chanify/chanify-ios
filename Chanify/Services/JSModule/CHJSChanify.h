@@ -9,6 +9,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol CHJSIMessage <JSExport>
+
+@property (nonatomic, readonly, strong) NSDate *timestamp;
+@property (nonatomic, readonly, nullable, strong) NSString *title;
+@property (nonatomic, readonly, nullable, strong) NSString *text;
+@property (nonatomic, readonly, nullable, strong) NSString *link;
+@property (nonatomic, readonly, nullable, strong) NSString *sound;
+@property (nonatomic, readonly, nullable, strong) NSString *copytext;
+
+@end
+
 @protocol CHJSIChanify <JSExport>
 
 @property (nonatomic, readonly, strong) NSDictionary *args;
@@ -16,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 JSExportAs(alert, - (void)alert:(id)msg);
 JSExportAs(routeTo, - (BOOL)routeTo:(NSString *)url);
+JSExportAs(loadMessage, - (nullable id<CHJSIMessage>)loadMessage:(NSString *)mid);
 
 @end
 
