@@ -22,6 +22,7 @@
 @interface CHFormSelectorItem ()
 
 @property (nonatomic, readonly, strong) NSArray<CHFormOption *> *options;
+@property (nonatomic, nullable, strong) CHFormOption *selectedOption;
 
 @end
 
@@ -35,6 +36,7 @@
     if (self = [super initWithName:name title:title value:nil]) {
         _required = NO;
         _selected = nil;
+        _selectedOption = nil;
         _options = options;
         self.action = ^(CHFormSelectorItem *item) {
             [item doSelectItem];
@@ -53,11 +55,20 @@
         _selected = selected;
         for (CHFormOption *option in self.options) {
             if ([option.value isEqual:selected]) {
-                super.value = option.title;
+                _selectedOption = option;
+                super.value = option.value;
                 break;
             }
         }
     }
+}
+
+- (__kindof NSString *)textValue {
+    NSString *res = nil;
+    if (self.selectedOption != nil) {
+        res = self.selectedOption.title;
+    }
+    return res ?: @"";
 }
 
 - (void)doSelectItem {
@@ -82,6 +93,7 @@
     if (self.selected != option.value) {
         id oldValue = self.selected;
         self.selected = option.value;
+        self.selectedOption = option;
         [self.section.form notifyItemValueHasChanged:self oldValue:oldValue newValue:option.value];
         [self setSelected:option.value];
         [self.section.form.viewDelegate reloadItem:self];

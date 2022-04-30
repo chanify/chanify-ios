@@ -15,6 +15,7 @@
 
 @property (nonatomic, readonly, strong) UILabel *nameLabel;
 @property (nonatomic, readonly, strong) UILabel *dateLabel;
+@property (nonatomic, readonly, strong) UILabel *typeLabel;
 
 @end
 
@@ -44,6 +45,16 @@
         dateLabel.font = theme.detailFont;
         dateLabel.textColor = theme.lightLabelColor;
         dateLabel.numberOfLines = 1;
+        
+        UILabel *typeLabel = [UILabel new];
+        [self.contentView addSubview:(_typeLabel = typeLabel)];
+        [typeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.contentView).offset(-10);
+            make.right.equalTo(dateLabel);
+        }];
+        typeLabel.font = theme.detailFont;
+        typeLabel.textColor = theme.minorLabelColor;
+        typeLabel.numberOfLines = 1;
     }
     return self;
 }
@@ -52,6 +63,7 @@
     _model = model;
     
     self.nameLabel.text = model.name;
+    self.typeLabel.text = model.type.localized;
     self.dateLabel.text = model.lastupdate.shortFormat;
 }
 

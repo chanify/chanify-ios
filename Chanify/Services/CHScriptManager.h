@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)scriptManagerWithUID:(NSString *)uid datasource:(CHUserDataSource *)ds;
 - (void)close;
-- (BOOL)runScript:(NSString *)name url:(NSURL *)url;
+- (BOOL)runScript:(NSString *)name type:(NSString *)type url:(NSURL *)url;
 
 
 @end

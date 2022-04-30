@@ -246,7 +246,11 @@ static inline UIAlertController *createAlert(NSString *title, NSString *message,
 }
 
 - (void)makeToast:(NSString *)message {
-    [CHToast showMessage:message inView:CHRouter.shared.window];
+    [self makeToast:message color:nil];
+}
+
+- (void)makeToast:(NSString *)message color:(nullable CHColor *)color {
+    [CHToast showMessage:message color:color inView:CHRouter.shared.window];
 }
 
 #pragma mark - MFMailComposeViewControllerDelegate
@@ -358,7 +362,7 @@ static inline UIAlertController *createAlert(NSString *title, NSString *message,
     [chanify addRoute:@"/action/run-script/:name" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
         NSString *name = [parameters valueForKey:@"name"];
         NSURL *url = [parameters valueForKey:JLRouteURLKey];
-        if (![CHLogic.shared.scriptManager runScript:name url:url]) {
+        if (![CHLogic.shared.scriptManager runScript:name type:@"action" url:url]) {
             [CHRouter.shared makeToast:@"Run script failed".localized];
         }
         return YES;

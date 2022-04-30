@@ -507,11 +507,11 @@
     return model;
 }
 
-- (NSString *)scriptContentWithName:(nullable NSString *)name {
+- (NSString *)scriptContentWithName:(nullable NSString *)name type:(NSString *)type {
     __block NSString *content = nil;
     if (name.length > 0) {
         [self.dbQueue inDatabase:^(FMDatabase *db) {
-            content = [db stringForQuery:@"SELECT `script` FROM `scripts` WHERE `name`=? LIMIT 1;", name];
+            content = [db stringForQuery:@"SELECT `script` FROM `scripts` WHERE `name`=? AND `type`=? LIMIT 1;", name, type];
         }];
     }
     return content ?: @"";

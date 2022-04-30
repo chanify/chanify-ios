@@ -28,10 +28,10 @@
 
 #endif
 
-+ (void)showMessage:(nullable NSString *)message inView:(CHView *)view {
++ (void)showMessage:(nullable NSString *)message color:(nullable CHColor *)color inView:(CHView *)view {
     if (message.length > 0) {
         dispatch_main_async(^{
-            showToast(view, message);
+            showToast(view, color, message);
         });
     }
 }
@@ -55,7 +55,7 @@
     }];
 }
 
-static inline void showToast(CHView *view, NSString *message) {
+static inline void showToast(CHView *view, CHColor * _Nullable color, NSString *message) {
     static const CGFloat radius = 14.0;
     NSTimeInterval delay = 0;
     static __weak CHToast *lastToast = nil;
@@ -72,7 +72,7 @@ static inline void showToast(CHView *view, NSString *message) {
     toast.numberOfLines = 1;
     toast.textAlignment = NSTextAlignmentCenter;
     toast.font = CHTheme.shared.mediumFont;
-    toast.textColor = CHColor.whiteColor;
+    toast.textColor = color ?: CHColor.whiteColor;
     toast.backgroundColor = [CHColor colorWithWhite:0.3 alpha:0.8];
     toast.layer.cornerRadius = radius;
     toast.clipsToBounds = YES;

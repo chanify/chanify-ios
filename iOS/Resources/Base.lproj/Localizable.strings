@@ -178,6 +178,10 @@
 "LinkMsg"="[Link]";
 "FileMsg"="[File]";
 
+"type"="type";
+"action"="action";
+"module"="module";
+
 "sys.none"="Uncategorized";
 "sys.device"="Devices";
 "sys.timesets"="Timeline";

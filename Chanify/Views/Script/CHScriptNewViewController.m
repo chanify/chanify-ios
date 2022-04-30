@@ -51,6 +51,13 @@
     input.required = YES;
     [section addFormItem:input];
 
+    CHFormSelectorItem *selectItem = [CHFormSelectorItem itemWithName:@"type" title:@"type".localized options:@[
+        [CHFormOption formOptionWithValue:@"action" title:@"action".localized],
+        [CHFormOption formOptionWithValue:@"module" title:@"module".localized],
+    ]];
+    selectItem.selected = @"action";
+    [section addFormItem:selectItem];
+
     @weakify(self);
     CHFormItem *item = [CHFormValueItem itemWithName:@"script" title:@"Script".localized];
     item.action = ^(CHFormItem *itm) {
@@ -77,8 +84,9 @@
     if (self.form.errorItems.count <= 0) {
         NSDictionary *values = self.form.formValues;
         NSString *name = [values valueForKey:@"name"];
+        NSString *type = [values valueForKey:@"type"];
         if (name.length > 0) {
-            CHScriptModel *model = [CHScriptModel modelWithName:name type:@"action" lastupdate:NSDate.now];
+            CHScriptModel *model = [CHScriptModel modelWithName:name type:(type ?: @"action") lastupdate:NSDate.now];
             if (model != nil && [CHLogic.shared insertScript:model]) {
                 [CHLogic.shared updateScript:model.name content:self.script];
                 [self closeAnimated:YES completion:nil];

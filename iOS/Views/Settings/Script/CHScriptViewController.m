@@ -73,7 +73,7 @@
         scriptCode = self.scriptContent;
     } else {
         self.title = self.model.name;
-        scriptCode = [CHLogic.shared.userDataSource scriptContentWithName:self.model.name];
+        scriptCode = [CHLogic.shared.userDataSource scriptContentWithName:self.model.name type:self.model.type];
         CHBarButtonItem *rightBarButtonItem = [CHBarButtonItem itemDoneWithTarget:self action:@selector(actionDone:)];
         self.navigationItem.rightBarButtonItem = rightBarButtonItem;
     }

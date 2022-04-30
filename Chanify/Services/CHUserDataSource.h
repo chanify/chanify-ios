@@ -59,7 +59,7 @@ typedef NS_OPTIONS(NSUInteger, CHUpsertMessageFlags) {
 - (BOOL)insertScript:(CHScriptModel *)model;
 - (BOOL)deleteScript:(NSString *)name;
 - (nullable CHScriptModel *)scriptWithName:(nullable NSString *)name;
-- (NSString *)scriptContentWithName:(nullable NSString *)name;
+- (NSString *)scriptContentWithName:(nullable NSString *)name type:(NSString *)type;
 - (BOOL)updateScriptContent:(NSString *)content name:(NSString *)name;
 
 

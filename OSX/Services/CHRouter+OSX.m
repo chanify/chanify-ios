@@ -202,13 +202,17 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
 }
 
 - (void)makeToast:(NSString *)message {
+    [self makeToast:message color:nil];
+}
+
+- (void)makeToast:(NSString *)message color:(nullable CHColor *)color {
     if (message.length > 0) {
         dispatch_main_async(^{
             NSWindow *window = CHRouter.shared.window;
             if (window.sheets.count > 0) {
                 window = window.sheets.lastObject;
             }
-            [CHToast showMessage:message inView:window.contentView];
+            [CHToast showMessage:message color:color inView:window.contentView];
         });
     }
 }

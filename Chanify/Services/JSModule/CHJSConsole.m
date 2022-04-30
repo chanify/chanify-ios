@@ -7,6 +7,7 @@
 
 #import "CHJSConsole.h"
 #import "CHRouter.h"
+#import "CHTheme.h"
 
 @implementation CHJSConsole
 
@@ -21,37 +22,36 @@
 
 #pragma mark - JS Methods
 - (void)doLog:(id)msg {
-    outputLog(JSContext.currentArguments);
+    outputLog(nil, JSContext.currentArguments);
 }
 
 - (void)doInfo:(id)msg {
-    outputLog(JSContext.currentArguments);
+    outputLog(CHTheme.shared.tintColor, JSContext.currentArguments);
 }
 
 - (void)doWarn:(id)msg {
-    outputLog(JSContext.currentArguments);
+    outputLog(CHTheme.shared.warnColor, JSContext.currentArguments);
 }
 
 - (void)doDebug:(id)msg {
-    outputLog(JSContext.currentArguments);
+    outputLog(CHTheme.shared.secureColor, JSContext.currentArguments);
 }
 
 - (void)doError:(id)msg {
-    outputLog(JSContext.currentArguments);
+    outputLog(CHTheme.shared.alertColor, JSContext.currentArguments);
 }
 
 - (void)doAssert:(BOOL)flag {
     if (!flag) {
         NSArray *args = JSContext.currentArguments;
         if (args.count > 1) {
-            outputLog([args subarrayWithRange:NSMakeRange(1, args.count - 1)]);
+            outputLog(CHTheme.shared.alertColor, [args subarrayWithRange:NSMakeRange(1, args.count - 1)]);
         }
     }
-    outputLog(JSContext.currentArguments);
 }
 
 #pragma mark - Private Methods
-static inline void outputLog(NSArray<JSValue *> *args) {
+static inline void outputLog(CHColor * _Nullable color, NSArray<JSValue *> *args) {
     if (args.count > 0) {
         NSString *msg = [args.firstObject.toObject description];
         if (args.count > 1) {
@@ -90,7 +90,7 @@ static inline void outputLog(NSArray<JSValue *> *args) {
             }
             msg = str;
         }
-        [CHRouter.shared makeToast:msg];
+        [CHRouter.shared makeToast:msg color:color];
     }
 }
 

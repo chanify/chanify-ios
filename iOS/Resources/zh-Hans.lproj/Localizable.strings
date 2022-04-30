@@ -178,6 +178,10 @@
 "LinkMsg"="[链接]";
 "FileMsg"="[文件]";
 
+"type"="类型";
+"action"="动作";
+"module"="模块";
+
 "sys.none"="未分类消息";
 "sys.device"="设备消息";
 "sys.timesets"="时间线";

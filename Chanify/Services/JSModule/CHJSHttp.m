@@ -83,8 +83,9 @@
     [task resume];
     dispatch_semaphore_wait(sem, dispatch_time(DISPATCH_WALLTIME_NOW, 10*NSEC_PER_SEC));
     if (resError != nil) {
-        if (clientTask.errorCallback != nil) {
-            [clientTask.errorCallback.value callWithArguments:@[[resError description]]];
+        if (clientTask.errorCallback != nil && clientTask.errorCallback.value != nil) {
+            JSValue *error = [JSValue valueWithNewErrorFromMessage:resError.localizedDescription inContext:clientTask.errorCallback.value.context];
+            [clientTask.errorCallback.value callWithArguments:@[error]];
         }
     } else {
         if (clientTask.dataCallback != nil) {

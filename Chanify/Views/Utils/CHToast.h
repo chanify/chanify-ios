@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CHToast : CHLabel
 
-+ (void)showMessage:(nullable NSString *)message inView:(CHView *)view;
++ (void)showMessage:(nullable NSString *)message color:(nullable CHColor *)color inView:(CHView *)view;
 
 
 @end
