@@ -211,7 +211,6 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     [self showAlertView:createAlert(nil, title, action, handler)];
 }
 
-
 - (void)showAlertWithTitle:(nullable NSString *)title message:(NSString *)message action:(nullable NSString *)action  handler:(void (^ __nullable)(void))handler {
     UIAlertController *alert = createAlert(title, message, action, handler);
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
@@ -228,14 +227,14 @@ static inline UIAlertController *createAlert(NSString *title, NSString *message,
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title?:@"" message:message?:@"" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel".localized style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
     if (action.length <= 0) action = @"OK".localized;
-    UIAlertAction* deleteAction = [UIAlertAction actionWithTitle:action style:UIAlertActionStyleDestructive
+    UIAlertAction* doneAction = [UIAlertAction actionWithTitle:action style:UIAlertActionStyleDestructive
                    handler:^(UIAlertAction * action) {
         if (handler != nil) {
             handler();
         }
     }];
     [alert addAction:cancelAction];
-    [alert addAction:deleteAction];
+    [alert addAction:doneAction];
     return alert;
 }
 

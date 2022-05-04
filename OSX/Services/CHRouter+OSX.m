@@ -158,9 +158,16 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
 }
 
 - (void)showAlertWithTitle:(NSString *)title action:(NSString *)action handler:(void (^ __nullable)(void))handler {
+    [self showAlertWithTitle:nil message:title action:action handler:handler];
+}
+
+- (void)showAlertWithTitle:(nullable NSString *)title message:(NSString *)message action:(nullable NSString *)action  handler:(void (^ __nullable)(void))handler {
     NSAlert *alert = [NSAlert new];
     alert.alertStyle = NSAlertStyleWarning;
-    alert.messageText = title;
+    alert.messageText = message;
+    if (title.length > 0) {
+        alert.informativeText = title;
+    }
     if (action.length <= 0) {
         action = @"OK".localized;
     }

@@ -5,7 +5,7 @@
 //  Created by WizJin on 2022/4/23.
 //
 
-#import "CHViewController.h"
+#import "CHViewPage.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)scriptViewController:(CHScriptViewController *)vc script:(NSString *)script;
 @end
 
-@interface CHScriptViewController : CHViewController
+@interface CHScriptViewController : CHViewPage
 
 @property (nonatomic, nullable, weak) id<CHScriptViewControllerDelegate> delegate;
 
