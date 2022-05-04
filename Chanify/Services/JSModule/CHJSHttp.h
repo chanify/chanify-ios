@@ -11,7 +11,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol CHJSIHttpBuffer <JSExport>
 
+- (instancetype)initWithData:(NSData *)data;
 - (NSString *)toString;
+
+@end
+
+@interface CHJSHttpBuffer : NSObject<CHJSIHttpBuffer>
+
+@property (nonatomic, nullable, strong) NSData *data;
+
+- (instancetype)initWithData:(NSData *)data;
 
 @end
 

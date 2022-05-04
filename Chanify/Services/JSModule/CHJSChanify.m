@@ -7,10 +7,12 @@
 
 #import "CHJSChanify.h"
 #import "CHPasteboard.h"
+#import "CHWebFileManager.h"
 #import "CHUserDataSource.h"
 #import "CHMessageModel.h"
-#import "CHLogic.h"
+#import "CHJSHttp.h"
 #import "CHRouter.h"
+#import "CHLogic.h"
 
 @interface CHJSMessage : NSObject<CHJSIMessage>
 
@@ -25,6 +27,10 @@
         _model = model;
     }
     return self;
+}
+
+- (NSInteger)type {
+    return self.model.type;
 }
 
 - (NSDate *)timestamp {
@@ -49,6 +55,56 @@
 
 - (nullable NSString *)copytext {
     return self.model.copytext;
+}
+
++ (NSInteger)TEXT {
+    return CHMessageTypeText;
+}
+
++ (NSInteger)IMAGE {
+    return CHMessageTypeImage;
+}
+
++ (NSInteger)VIDEO {
+    return CHMessageTypeVideo;
+}
+
++ (NSInteger)AUDIO {
+    return CHMessageTypeAudio;
+}
+
++ (NSInteger)LINK {
+    return CHMessageTypeLink;
+}
+
++ (NSInteger)FILE {
+    return CHMessageTypeFile;
+}
+
++ (NSInteger)ACTION {
+    return CHMessageTypeAction;
+}
+
+- (void)readFile:(JSValue *)callback {
+    if (callback != nil && !callback.isNull) {
+        if (self.model.type != CHMessageTypeFile) {
+            [callback callWithArguments:@[
+                [JSValue valueWithNewErrorFromMessage:@"Not file type" inContext:callback.context],
+                [JSValue valueWithNullInContext:callback.context]]];
+        } else {
+            NSURL *url = [CHLogic.shared.webFileManager loadLocalFileURL:self.model.fileURL filename:self.model.filename];
+            if (url == nil) {
+                [callback callWithArguments:@[
+                    [JSValue valueWithNewErrorFromMessage:@"Invalid file path" inContext:callback.context],
+                    [JSValue valueWithNullInContext:callback.context]]];
+            } else {
+                NSData *data = [NSData dataFromNoCacheURL:url];
+                [callback callWithArguments:@[
+                    [JSValue valueWithNullInContext:callback.context],
+                    [[CHJSHttpBuffer alloc] initWithData:data]]];
+            }
+        }
+    }
 }
 
 @end

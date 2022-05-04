@@ -8,12 +8,6 @@
 #import "CHJSHttp.h"
 #import "JSValue+CHExt.h"
 
-@interface CHJSHttpBuffer : NSObject<CHJSIHttpBuffer>
-
-@property (nonatomic, nullable, strong) NSData *data;
-
-@end
-
 @implementation CHJSHttpBuffer
 
 - (instancetype)initWithData:(NSData *)data {

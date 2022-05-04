@@ -12,11 +12,22 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol CHJSIMessage <JSExport>
 
 @property (nonatomic, readonly, strong) NSDate *timestamp;
+@property (nonatomic, readonly, assign) NSInteger type;
 @property (nonatomic, readonly, nullable, strong) NSString *title;
 @property (nonatomic, readonly, nullable, strong) NSString *text;
 @property (nonatomic, readonly, nullable, strong) NSString *link;
 @property (nonatomic, readonly, nullable, strong) NSString *sound;
 @property (nonatomic, readonly, nullable, strong) NSString *copytext;
+
++ (NSInteger)TEXT;
++ (NSInteger)IMAGE;
++ (NSInteger)VIDEO;
++ (NSInteger)AUDIO;
++ (NSInteger)LINK;
++ (NSInteger)FILE;
++ (NSInteger)ACTION;
+
+JSExportAs(readFile, - (void)readFile:(JSValue *)callback);
 
 @end
 
