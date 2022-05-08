@@ -74,6 +74,8 @@
                 }
             }
         }
+        NSURL *fileUrl = [NSURL fileURLWithPath:dstPath];
+        fileUrl.dataProtoction = NSURLFileProtectionCompleteUntilFirstUserAuthentication;
     }
 }
 

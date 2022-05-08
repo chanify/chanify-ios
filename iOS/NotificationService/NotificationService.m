@@ -112,6 +112,7 @@ static inline NSURL *loadIconURL(NSString *icon) {
             res = url;
         }
     }
+    url.dataProtoction = NSURLFileProtectionCompleteUntilFirstUserAuthentication;
     return res;
 }
 
