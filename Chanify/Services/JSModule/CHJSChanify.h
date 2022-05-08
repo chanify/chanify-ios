@@ -19,14 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, nullable, strong) NSString *sound;
 @property (nonatomic, readonly, nullable, strong) NSString *copytext;
 
-+ (NSInteger)TEXT;
-+ (NSInteger)IMAGE;
-+ (NSInteger)VIDEO;
-+ (NSInteger)AUDIO;
-+ (NSInteger)LINK;
-+ (NSInteger)FILE;
-+ (NSInteger)ACTION;
-
 JSExportAs(readFile, - (void)readFile:(JSValue *)callback);
 
 @end
@@ -34,7 +26,9 @@ JSExportAs(readFile, - (void)readFile:(JSValue *)callback);
 @protocol CHJSIChanify <JSExport>
 
 @property (nonatomic, readonly, strong) NSDictionary *args;
+@property (nonatomic, readonly, strong) NSDictionary *messageType;
 @property (nonatomic, nullable, strong) NSString *pasteboard;
+
 
 JSExportAs(alert, - (void)alert:(id)msg);
 JSExportAs(routeTo, - (BOOL)routeTo:(NSString *)url);

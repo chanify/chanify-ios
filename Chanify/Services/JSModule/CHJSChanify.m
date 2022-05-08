@@ -57,34 +57,6 @@
     return self.model.copytext;
 }
 
-+ (NSInteger)TEXT {
-    return CHMessageTypeText;
-}
-
-+ (NSInteger)IMAGE {
-    return CHMessageTypeImage;
-}
-
-+ (NSInteger)VIDEO {
-    return CHMessageTypeVideo;
-}
-
-+ (NSInteger)AUDIO {
-    return CHMessageTypeAudio;
-}
-
-+ (NSInteger)LINK {
-    return CHMessageTypeLink;
-}
-
-+ (NSInteger)FILE {
-    return CHMessageTypeFile;
-}
-
-+ (NSInteger)ACTION {
-    return CHMessageTypeAction;
-}
-
 - (void)readFile:(JSValue *)callback {
     if (callback != nil && !callback.isNull) {
         if (self.model.type != CHMessageTypeFile) {
@@ -130,6 +102,23 @@
         _args = args;
     }
     return self;
+}
+
+- (NSDictionary *)messageType {
+    static NSDictionary *types = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        types = @{
+            @"TEXT": @(CHMessageTypeText),
+            @"IMAGE": @(CHMessageTypeImage),
+            @"VIDEO": @(CHMessageTypeVideo),
+            @"AUDIO": @(CHMessageTypeAudio),
+            @"LINK": @(CHMessageTypeLink),
+            @"FILE": @(CHMessageTypeFile),
+            @"ACTION": @(CHMessageTypeAction),
+        };
+    });
+    return types;
 }
 
 - (NSString *)pasteboard {
