@@ -171,7 +171,9 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     if (action.length <= 0) {
         action = @"OK".localized;
     }
-    [alert addButtonWithTitle:@"Cancel".localized];
+    if (handler != nil) {
+        [alert addButtonWithTitle:@"Cancel".localized];
+    }
     [[alert addButtonWithTitle:action] setTag:NSModalResponseOK];
 
     [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
@@ -424,6 +426,21 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     [chanify addRoute:@"/action/pasteboard" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
         NSString *text = [NSString stringWithFormat:@"%@", [parameters valueForKey:@"text"]];
         [CHPasteboard.shared copyWithName:@"Custom Value".localized value:text];
+        return YES;
+    }];
+    [chanify addRoute:@"/action/show-alert(/:message)" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
+        NSString *title = [parameters valueForKey:@"title"];
+        NSString *message = [parameters valueForKey:@"message"];
+        if (message.length > 0) {
+            [CHRouter.shared showAlertWithTitle:title message:message action:nil handler:nil];
+        }
+        return YES;
+    }];
+    [chanify addRoute:@"/action/show-toast(/:message)" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
+        NSString *message = [parameters valueForKey:@"message"];
+        if (message.length > 0) {
+            [CHRouter.shared makeToast:message];
+        }
         return YES;
     }];
     chanify.unmatchedURLHandler = ^(JLRoutes * _Nonnull routes, NSURL * _Nullable URL, NSDictionary<NSString *,id> * _Nullable parameters) {

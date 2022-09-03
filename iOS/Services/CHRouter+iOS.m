@@ -233,7 +233,9 @@ static inline UIAlertController *createAlert(NSString *title, NSString *message,
             handler();
         }
     }];
-    [alert addAction:cancelAction];
+    if (handler != nil) {
+        [alert addAction:cancelAction];
+    }
     [alert addAction:doneAction];
     return alert;
 }
@@ -363,6 +365,21 @@ static inline UIAlertController *createAlert(NSString *title, NSString *message,
         NSURL *url = [parameters valueForKey:JLRouteURLKey];
         if (![CHLogic.shared.scriptManager runScript:name type:@"action" url:url]) {
             [CHRouter.shared makeToast:@"Run script failed".localized];
+        }
+        return YES;
+    }];
+    [chanify addRoute:@"/action/show-alert(/:message)" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
+        NSString *title = [parameters valueForKey:@"title"];
+        NSString *message = [parameters valueForKey:@"message"];
+        if (message.length > 0) {
+            [CHRouter.shared showAlertWithTitle:title message:message action:nil handler:nil];
+        }
+        return YES;
+    }];
+    [chanify addRoute:@"/action/show-toast(/:message)" handler:^BOOL(NSDictionary<NSString *,id> *parameters) {
+        NSString *message = [parameters valueForKey:@"message"];
+        if (message.length > 0) {
+            [CHRouter.shared makeToast:message];
         }
         return YES;
     }];
