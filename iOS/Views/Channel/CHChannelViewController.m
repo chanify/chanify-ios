@@ -42,6 +42,7 @@
 @property (nonatomic, nullable, strong) UICollectionView *listView;
 @property (nonatomic, nullable, strong) CHBadgeView *badgeView;
 @property (nonatomic, readonly, strong) UIBarButtonItem *detailButtonItem;
+@property (nonatomic, readonly, strong) UIButton *gotoBottomButton;
 
 @end
 
@@ -110,7 +111,21 @@
     _dataSource = [CHMessagesDataSource dataSourceWithCollectionView:listView channelID:self.model.cid];
     
     [self setEditing:NO animated:NO];
-
+    
+    UIButton *gotoBottomButton = [UIButton systemButtonWithImage:[UIImage systemImageNamed:@"chevron.down.circle.fill"] target:self action:@selector(actionGotoBottom:)];
+    [self.view addSubview:(_gotoBottomButton = gotoBottomButton)];
+    gotoBottomButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
+    gotoBottomButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
+    gotoBottomButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
+    gotoBottomButton.tintColor = theme.labelColor;
+    gotoBottomButton.enabled = NO;
+    gotoBottomButton.alpha = 0;
+    [gotoBottomButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(36, 36));
+        make.right.equalTo(self.view).offset(-16);
+        make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom).offset(-120);
+    }];
+    
     [CHLogic.shared addDelegate:self];
 }
 
@@ -187,8 +202,23 @@
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [self.dataSource clearActivedCellItem];
-    if (scrollView.contentOffset.y <= 0) {
+    CGFloat yOffset = scrollView.contentOffset.y;
+    if (yOffset <= 0) {
         [self.dataSource scrollViewDidScroll];
+    }
+    CGFloat height = scrollView.bounds.size.height;
+    CGFloat offset = scrollView.contentSize.height- yOffset - height*2 ;
+    [self updateBottomButton:offset >= 0];
+}
+
+- (void)updateBottomButton:(BOOL)enabled {
+    if (self.gotoBottomButton.enabled != enabled) {
+        self.gotoBottomButton.enabled = enabled;
+        @weakify(self);
+        [UIViewPropertyAnimator runningPropertyAnimatorWithDuration:kCHAnimateMediumDuration delay:0 options:0 animations:^{
+            @strongify(self);
+            self.gotoBottomButton.alpha = (enabled ? 0.7 : 0);
+        } completion:nil];
     }
 }
 
@@ -196,6 +226,13 @@
 - (void)messagesDataSourceBeginEditing:(CHMessagesDataSource *)dataSource indexPath:(NSIndexPath *)indexPath {
     [self setEditing:YES animated:YES];
     [self.listView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionNone];
+}
+
+- (BOOL)messagesDataSourceReciveNewMessage {
+    if (self.gotoBottomButton.enabled) {
+        return YES;
+    }
+    return NO;
 }
 
 #pragma mark - CHLogicDelegate
@@ -256,6 +293,10 @@
 
 - (void)actionCancel:(id)sender {
     [self setEditing:NO animated:YES];
+}
+
+- (void)actionGotoBottom:(id)sender {
+    [self.dataSource scrollToBottom:YES];
 }
 
 #pragma mark - Private Methods
