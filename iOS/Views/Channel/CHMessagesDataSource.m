@@ -120,6 +120,14 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     }
 }
 
+- (void)scrollToBottom:(BOOL)animated {
+    NSInteger count = [self.collectionView numberOfItemsInSection:0];
+    if (count > 0) {
+        [self.collectionView layoutIfNeeded];
+        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:count-1 inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:animated];
+    }
+}
+
 - (void)loadEarlistMessage {
     if ([self.collectionView numberOfItemsInSection:0] <= 0) {
         [self loadLatestMessage:YES];
@@ -171,7 +179,12 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
         @weakify(self);
         dispatch_main_async(^{
             @strongify(self);
-            [self scrollToBottom:animated];
+            id delegate = self.collectionView.delegate;
+            if ([delegate conformsToProtocol:@protocol(CHMessagesDataSourceDelegate)]) {
+                if (![(id<CHMessagesDataSourceDelegate>)delegate messagesDataSourceReciveNewMessage]) {
+                    [self scrollToBottom:animated];
+                }
+            }
             [self updateHeaderView];
         });
     }
@@ -318,14 +331,6 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
 - (void)updateHeaderView {
     if (self.headerView != nil && self.headerView.status != CHLoadStatusLoading) {
         self.headerView.status = ([self.collectionView numberOfItemsInSection:0] < kCHMessageListPageSize ? CHLoadStatusFinish : CHLoadStatusNormal);
-    }
-}
-
-- (void)scrollToBottom:(BOOL)animated {
-    NSInteger count = [self.collectionView numberOfItemsInSection:0];
-    if (count > 0) {
-        [self.collectionView layoutIfNeeded];
-        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:count-1 inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:animated];
     }
 }
 

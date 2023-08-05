@@ -11,6 +11,7 @@
 #import "CHUserDataSource.h"
 #import "CHChannelModel.h"
 #import "CHNavigationTitleView.h"
+#import "CHGotoBottomButton.h"
 #import "CHBadgeView.h"
 #import "CHRouter.h"
 #import "CHLogic.h"
@@ -42,6 +43,7 @@
 @property (nonatomic, nullable, strong) UICollectionView *listView;
 @property (nonatomic, nullable, strong) CHBadgeView *badgeView;
 @property (nonatomic, readonly, strong) UIBarButtonItem *detailButtonItem;
+@property (nonatomic, readonly, strong) CHGotoBottomButton *gotoBottomButton;
 
 @end
 
@@ -110,7 +112,16 @@
     _dataSource = [CHMessagesDataSource dataSourceWithCollectionView:listView channelID:self.model.cid];
     
     [self setEditing:NO animated:NO];
-
+    
+    CHGotoBottomButton *gotoBottomButton = [[CHGotoBottomButton alloc] initWithTarget:self action:@selector(actionGotoBottom:)];
+    [self.view addSubview:(_gotoBottomButton = gotoBottomButton)];
+    gotoBottomButton.enabled = NO;
+    [gotoBottomButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(36, 36));
+        make.right.equalTo(self.view).offset(-16);
+        make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom).offset(-120);
+    }];
+    
     [CHLogic.shared addDelegate:self];
 }
 
@@ -187,8 +198,18 @@
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [self.dataSource clearActivedCellItem];
-    if (scrollView.contentOffset.y <= 0) {
+    CGFloat yOffset = scrollView.contentOffset.y;
+    if (yOffset <= 0) {
         [self.dataSource scrollViewDidScroll];
+    }
+    CGFloat height = scrollView.bounds.size.height;
+    CGFloat offset = scrollView.contentSize.height- yOffset - height*2 ;
+    [self updateBottomButton:offset >= 0];
+}
+
+- (void)updateBottomButton:(BOOL)enabled {
+    if (self.gotoBottomButton.enabled != enabled) {
+        self.gotoBottomButton.enabled = enabled;
     }
 }
 
@@ -196,6 +217,14 @@
 - (void)messagesDataSourceBeginEditing:(CHMessagesDataSource *)dataSource indexPath:(NSIndexPath *)indexPath {
     [self setEditing:YES animated:YES];
     [self.listView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionNone];
+}
+
+- (BOOL)messagesDataSourceReciveNewMessage {
+    if (self.gotoBottomButton.enabled) {
+        self.gotoBottomButton.hasUnread = YES;
+        return YES;
+    }
+    return NO;
 }
 
 #pragma mark - CHLogicDelegate
@@ -256,6 +285,10 @@
 
 - (void)actionCancel:(id)sender {
     [self setEditing:NO animated:YES];
+}
+
+- (void)actionGotoBottom:(id)sender {
+    [self.dataSource scrollToBottom:YES];
 }
 
 #pragma mark - Private Methods
