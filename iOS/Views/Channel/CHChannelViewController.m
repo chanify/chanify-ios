@@ -119,7 +119,7 @@
     [gotoBottomButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(36, 36));
         make.right.equalTo(self.view).offset(-16);
-        make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom).offset(-120);
+        make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom).offset(-40);
     }];
     
     [CHLogic.shared addDelegate:self];
