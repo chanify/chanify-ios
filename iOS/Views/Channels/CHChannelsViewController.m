@@ -128,7 +128,7 @@ static NSString *const cellIdentifier = @"chan";
     NSHashTable *reloadItems = [NSHashTable weakObjectsHashTable];
     for (NSString *mid in mids) {
         CHMessageModel *model = [usrDS messageWithMID:mid];
-        NSString *cid = model.channel.base64;
+        NSString *cid = model.channel.base64Code;
         for (CHChannelModel *c in items) {
             if ([c.cid isEqualToString:cid]) {
                 c.mid = mid;

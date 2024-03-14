@@ -259,7 +259,7 @@
         NSString *hidSql = (hidden ? @"" : @" AND `hidden`==0");
         FMResultSet *res = [db executeQuery:[NSString stringWithFormat:@"SELECT `cid`,`name`,`icon`,`mid` FROM `channels` WHERE `deleted`=0%@;", hidSql]];
         while(res.next) {
-            CHChannelModel *model = [CHChannelModel modelWithCID:[res dataForColumnIndex:0].base64 name:[res stringForColumnIndex:1] icon:[res stringForColumnIndex:2]];
+            CHChannelModel *model = [CHChannelModel modelWithCID:[res dataForColumnIndex:0].base64Code name:[res stringForColumnIndex:1] icon:[res stringForColumnIndex:2]];
             if (model != nil) {
                 model.mid = [res stringForColumnIndex:3];
                 [cids addObject:model];
@@ -278,7 +278,7 @@
     [self.dbQueue inDatabase:^(FMDatabase *db) {
         FMResultSet *res = [db executeQuery:@"SELECT `cid`,`name`,`icon`,`mid` FROM `channels` WHERE `cid`=? LIMIT 1;", ccid];
         if (res.next) {
-            model = [CHChannelModel modelWithCID:[res dataForColumnIndex:0].base64 name:[res stringForColumnIndex:1] icon:[res stringForColumnIndex:2]];
+            model = [CHChannelModel modelWithCID:[res dataForColumnIndex:0].base64Code name:[res stringForColumnIndex:1] icon:[res stringForColumnIndex:2]];
             if (model != nil) {
                 model.mid = [res stringForColumnIndex:3];
             }
@@ -433,7 +433,7 @@
                             flags |= CHUpsertMessageFlagChannel;
                         }
                     }
-                    if (changes > 0 && checker != nil && checker(ccid.base64)) {
+                    if (changes > 0 && checker != nil && checker(ccid.base64Code)) {
                         [db executeUpdate:@"UPDATE OR IGNORE `channels` SET `unread`=IFNULL(`unread`,0)+? WHERE `cid`=? LIMIT 1;", @(unread), ccid];
                         flags |= CHUpsertMessageFlagUnread;
                     }

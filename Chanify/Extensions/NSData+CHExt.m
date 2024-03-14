@@ -83,14 +83,14 @@
     return @"";
 }
 
-- (NSString *)base32 {
+- (NSString *)base32Code {
     NSMutableData *data = [NSMutableData dataWithLength:((self.length + 4)/5)*8 + 1];
     int len = base32_encode(self.bytes, self.length, data.mutableBytes, data.length);
     data.length = (len <= 0 ? 0 : len);
     return [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
 }
 
-- (NSString *)base64 {
+- (NSString *)base64Code {
     if (self.length > 0) {
         NSMutableData *data = [NSMutableData dataWithLength:((self.length + 2) / 3 * 4) + 1];
         int len = base64_encode(self.bytes, self.length, data.mutableBytes, data.length);

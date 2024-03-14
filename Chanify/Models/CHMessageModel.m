@@ -53,7 +53,7 @@
                         uFlags |= CHMessageProcessFlagBlocked;
                     } else {
                         if (msg.ciphertext.length > kCHAesGcmNonceBytes + kCHAesGcmTagBytes) {
-                            key = [storage keyForUID:[NSString stringWithFormat:@"%@.%@", uid, msg.from.base32]];
+                            key = [storage keyForUID:[NSString stringWithFormat:@"%@.%@", uid, msg.from.base32Code]];
                             if (key.length >= kCHAesGcmKeyBytes * 2) {
                                 NSData *outdata = [CHCrpyto aesOpenWithKey:[key subdataWithRange:NSMakeRange(0, kCHAesGcmKeyBytes)] data:msg.ciphertext auth:[key subdataWithRange:NSMakeRange(kCHAesGcmKeyBytes, kCHAesGcmKeyBytes)]];
                                 if (outdata.length <= 0) {
@@ -102,7 +102,7 @@
 - (instancetype)initWithID:(NSString *)mid packet:(CHTPMessage *)msg sign:(nullable NSData *)tokenHash {
     if (self = [super init]) {
         _mid = mid;
-        _from = msg.from.base32;
+        _from = msg.from.base32Code;
         _channel = msg.channel.length > 0 ? msg.channel : [NSData dataFromHex:@kCHDefChanCode];
         _interruptionLevel = msg.interruptionLevel;
 
@@ -233,7 +233,7 @@
         }
         content.userInfo = [content.userInfo dictionaryWithValue:actions forKey:@"actions"];
     }
-    content.threadIdentifier = self.channel.sha1.base64;
+    content.threadIdentifier = self.channel.sha1.base64Code;
     content.body = self.summaryBodyText;
     if (self.title.length > 0) {
         content.title = self.title;

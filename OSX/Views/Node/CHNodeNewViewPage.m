@@ -7,6 +7,8 @@
 
 #import "CHNodeNewViewPage.h"
 #import <AVFoundation/AVFoundation.h>
+#import <CoreImage/CIDetector.h>
+#import <CoreImage/CIFeature.h>
 #import <Masonry/Masonry.h>
 #import "CHRouter.h"
 #import "CHTheme.h"

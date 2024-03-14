@@ -7,6 +7,8 @@
 
 #import "CHLoginQrCodeView.h"
 #import <AVFoundation/AVFoundation.h>
+#import <CoreImage/CIDetector.h>
+#import <CoreImage/CIFeature.h>
 #import <Masonry/Masonry.h>
 #import "CHIndicatorView.h"
 #import "CHTheme.h"

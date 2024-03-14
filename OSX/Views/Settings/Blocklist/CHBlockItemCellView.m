@@ -115,7 +115,7 @@
 - (void)setModel:(CHBlockedModel *)model {
     _model = model;
     self.tokenLabel.text = [CHCodeFormatter.shared formatCode:self.model.raw length:32];
-    CHChannelModel *chan = [CHLogic.shared.userDataSource channelWithCID:self.model.channel.base64];
+    CHChannelModel *chan = [CHLogic.shared.userDataSource channelWithCID:self.model.channel.base64Code];
     if (chan == nil) {
         self.channelIconView.alpha = 0;
         self.channelTitleLabel.text = @"";

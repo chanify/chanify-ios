@@ -55,7 +55,7 @@
         chan.name = code;
 
         model = [self.class new];
-        model->_cid = chan.data.base64;
+        model->_cid = chan.data.base64Code;
         model->_code = code;
         model->_name = name;
         model->_icon = icon;

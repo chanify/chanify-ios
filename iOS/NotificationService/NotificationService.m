@@ -77,7 +77,7 @@
                     case CHBannerIconModeNone:
                         break;
                     case CHBannerIconModeChan:
-                        icon = [dbsrc channelIconWithCID:model.channel.base64 uid:uid];
+                        icon = [dbsrc channelIconWithCID:model.channel.base64Code uid:uid];
                         break;
                     case CHBannerIconModeNode:
                         icon = [dbsrc nodeIconWithNID:model.nodeId uid:uid];

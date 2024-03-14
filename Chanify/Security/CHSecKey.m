@@ -187,7 +187,7 @@
         data.length = 1;
         *(uint8_t *)data.mutableBytes = code;
         [data appendData:key];
-        res = data.base32;
+        res = data.base32Code;
     }
     return res;
 }

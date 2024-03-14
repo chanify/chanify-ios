@@ -274,7 +274,7 @@
         NSData *icon = [save objectForKey:@"icon-raw"];
         [save removeObjectForKey:@"icon-raw"];
         if (icon.length > 0) {
-            [save setObject:icon.base64 forKey:@"icon"];
+            [save setObject:icon.base64Code forKey:@"icon"];
         }
         NSURL *link = [save objectForKey:@"link"];
         [save removeObjectForKey:@"link"];
