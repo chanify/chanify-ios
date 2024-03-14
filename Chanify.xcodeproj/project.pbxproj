@@ -3888,7 +3888,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 70;
+				CURRENT_PROJECT_VERSION = 71;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
@@ -3903,7 +3903,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.7;
+				MARKETING_VERSION = 1.4.8;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = macosx;
@@ -3921,7 +3921,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 70;
+				CURRENT_PROJECT_VERSION = 71;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
@@ -3936,7 +3936,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.7;
+				MARKETING_VERSION = 1.4.8;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = macosx;
@@ -4009,7 +4009,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Watch Extension/Watch Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 70;
+				CURRENT_PROJECT_VERSION = 71;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				ENABLE_PREVIEWS = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
@@ -4019,7 +4019,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.7;
+				MARKETING_VERSION = 1.4.8;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4042,7 +4042,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Watch Extension/Watch Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 70;
+				CURRENT_PROJECT_VERSION = 71;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				ENABLE_PREVIEWS = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
@@ -4052,7 +4052,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.7;
+				MARKETING_VERSION = 1.4.8;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4072,11 +4072,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 70;
+				CURRENT_PROJECT_VERSION = 71;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				IBSC_MODULE = Watch_Extension;
 				INFOPLIST_FILE = Watch/Info.plist;
-				MARKETING_VERSION = 1.4.7;
+				MARKETING_VERSION = 1.4.8;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -4095,11 +4095,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 70;
+				CURRENT_PROJECT_VERSION = 71;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				IBSC_MODULE = Watch_Extension;
 				INFOPLIST_FILE = Watch/Info.plist;
-				MARKETING_VERSION = 1.4.7;
+				MARKETING_VERSION = 1.4.8;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -4289,7 +4289,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Chanify.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 70;
+				CURRENT_PROJECT_VERSION = 71;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4303,7 +4303,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.7;
+				MARKETING_VERSION = 1.4.8;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -4322,7 +4322,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = iOS/Chanify.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 70;
+				CURRENT_PROJECT_VERSION = 71;
 				DEVELOPMENT_TEAM = P4XS4AVCLW;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Classes/$(PROJECT_NAME).pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4336,7 +4336,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.7;
+				MARKETING_VERSION = 1.4.8;
 				PRODUCT_BUNDLE_IDENTIFIER = net.chanify.ios;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SWIFT_VERSION = 5.0;
