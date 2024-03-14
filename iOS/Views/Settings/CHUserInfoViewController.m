@@ -34,7 +34,7 @@
     [super viewDidLoad];
     CHUserModel *user = CHLogic.shared.me;
 
-    _url = [NSString stringWithFormat:@"chanify://offline/user?key=%@", user.key.seckey.base64];
+    _url = [NSString stringWithFormat:@"chanify://offline/user?key=%@", user.key.seckey.base64Code];
 
     self.title = @"Backup Account".localized;
 

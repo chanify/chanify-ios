@@ -107,7 +107,7 @@
         } flags:&flags];
         if (model != nil) {
             if (flags & CHUpsertMessageFlagChannel) {
-                [self sendNotifyWithSelector:@selector(logicChannelUpdated:) withObject:model.channel.base64];
+                [self sendNotifyWithSelector:@selector(logicChannelUpdated:) withObject:model.channel.base64Code];
             }
             [self sendNotifyWithSelector:@selector(logicMessagesUpdated:) withObject:@[mid]];
             if (flags & CHUpsertMessageFlagUnread) {
@@ -243,7 +243,7 @@
         [self recivePushMessage:info];
         CHMessageModel *model = [self.userDataSource messageWithMID:mid];
         if (model.channel.length > 0) {
-            NSString *cid = model.channel.base64;
+            NSString *cid = model.channel.base64Code;
             dispatch_main_async(^{
                 [CHRouter.shared routeTo:@"/page/channel" withParams:@{ @"cid": cid, @"singleton": @YES, @"show": @"detail" }];
             });
@@ -302,7 +302,7 @@
             } flags:&flags];
             if (model != nil) {
                 if (flags & CHUpsertMessageFlagChannel) {
-                    [cids addObject:model.channel.base64];
+                    [cids addObject:model.channel.base64Code];
                 }
                 if (flags & CHUpsertMessageFlagUnread) {
                     unreadChanged = YES;

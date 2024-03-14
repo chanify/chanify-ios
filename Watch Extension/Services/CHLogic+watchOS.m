@@ -112,7 +112,7 @@
         [self reloadUserDB:NO];
         
         if (self.me != nil) {
-            [self importAccount:self.me.key.seckey.base64 completion:nil];
+            [self importAccount:self.me.key.seckey.base64Code completion:nil];
         }
         updated = YES;
     }

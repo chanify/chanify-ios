@@ -51,7 +51,7 @@
             } flags:&flags];
             if (model != nil) {
                 if (flags & CHUpsertMessageFlagChannel) {
-                    [self sendNotifyWithSelector:@selector(logicChannelUpdated:) withObject:model.channel.base64];
+                    [self sendNotifyWithSelector:@selector(logicChannelUpdated:) withObject:model.channel.base64Code];
                 }
                 [self sendNotifyWithSelector:@selector(logicMessagesUpdated:) withObject:@[mid]];
                 if (flags & CHUpsertMessageFlagUnread) {

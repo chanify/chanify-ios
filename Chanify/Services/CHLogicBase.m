@@ -154,9 +154,9 @@
         data = [seckey encode:data];
     }
     if (device) {
-        [request setValue:[CHDevice.shared.key sign:data].base64 forHTTPHeaderField:@"CHDevSign"];
+        [request setValue:[CHDevice.shared.key sign:data].base64Code forHTTPHeaderField:@"CHDevSign"];
     }
-    [request setValue:[user.key sign:data].base64 forHTTPHeaderField:@"CHUserSign"];
+    [request setValue:[user.key sign:data].base64Code forHTTPHeaderField:@"CHUserSign"];
     [request setHTTPBody:data];
     
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -187,14 +187,14 @@
         NSDictionary *parameters = @{
             @"device": @{
                     @"uuid": device.uuid.hex,
-                    @"key": device.key.pubkey.base64,
+                    @"key": device.key.pubkey.base64Code,
                     @"name": device.name,
                     @"model": device.model,
                     @"type": @(device.type),
             },
             @"user": @{
                     @"uid": user.uid,
-                    @"key": user.key.pubkey.base64,
+                    @"key": user.key.pubkey.base64Code,
             },
         };
         @weakify(self);
@@ -371,7 +371,7 @@
         NSDictionary *parameters = @{
             @"user": @{
                     @"uid": user.uid,
-                    @"key": user.key.pubkey.base64,
+                    @"key": user.key.pubkey.base64Code,
             },
         };
         if (device) {
@@ -379,8 +379,8 @@
             NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:parameters];
             [params setValue:@{
                 @"uuid": dev.uuid.hex,
-                @"key": dev.key.pubkey.base64,
-                @"push-token": CHNotification.shared.pushToken.base64,
+                @"key": dev.key.pubkey.base64Code,
+                @"push-token": CHNotification.shared.pushToken.base64Code,
                 @"sandbox": @(kCHNotificationSandbox),
                 @"type": @(dev.type),
             } forKey:@"device"];
@@ -531,7 +531,7 @@
         NSDictionary *parameters = @{
             @"device": device.uuid.hex,
             @"user": self.me.uid,
-            @"token": pushToken.base64,
+            @"token": pushToken.base64Code,
             @"sandbox": @(kCHNotificationSandbox),
         };
         @weakify(self);

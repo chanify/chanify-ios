@@ -16,8 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)dataFromBase64:(nullable NSString *)str;
 + (instancetype)dataFromNoCacheURL:(NSURL *)url;
 - (NSString *)hex;
-- (NSString *)base32;
-- (NSString *)base64;
+- (NSString *)base32Code;
+- (NSString *)base64Code;
 - (NSData *)sha1;
 - (NSData *)sha256;
 
