@@ -106,7 +106,7 @@
     
     NSString *mid = model.mid;
     CHMessageModel *m = [logic.userDataSource messageWithMID:mid];
-    self.detailLabel.text = m.summaryText;
+    self.detailLabel.text = m.title.length > 0 ? m.title : m.summaryText;
     self.dateLabel.text = [NSDate dateFromMID:m.mid].shortFormat;
     
     // TODO: Fix sync when receive push message.
