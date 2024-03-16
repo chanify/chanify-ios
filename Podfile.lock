@@ -1,10 +1,10 @@
 PODS:
-  - FMDB (2.7.5):
-    - FMDB/standard (= 2.7.5)
-  - FMDB/standard (2.7.5)
+  - FMDB (2.7.9):
+    - FMDB/standard (= 2.7.9)
+  - FMDB/standard (2.7.9)
   - JLRoutes (2.1)
   - Masonry (1.1.0)
-  - Protobuf (3.24.0)
+  - Protobuf (3.26.0)
 
 DEPENDENCIES:
   - FMDB
@@ -20,10 +20,10 @@ SPEC REPOS:
     - Protobuf
 
 SPEC CHECKSUMS:
-  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  FMDB: aa44149f6fb634b1ac54f64f47064bb0d0c5a032
   JLRoutes: d755245322b94227662ea3e43492fdca94e05c5b
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  Protobuf: 74a8b46ebe3001096a6f4b624e9efbae8adb2edd
+  Protobuf: 5685c66a07eaad9d18ce5ab618e9ac01fd04b5aa
 
 PODFILE CHECKSUM: d771ddd0c19fd3c7c6f50b54bb6f4343b5ccb476
 

@@ -6,7 +6,7 @@
 //
 
 #import "CHTimelineDataSource.h"
-#import <FMDB.h>
+#import <FMDB/FMDB.h>
 #import <sqlite3.h>
 #import "CHTP.pbobjc.h"
 
