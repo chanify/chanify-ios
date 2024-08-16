@@ -81,7 +81,7 @@
 #pragma mark - CHNotificationMessageDelegate
 - (void)registerForRemoteNotifications {
     dispatch_main_async(^{
-        [WKExtension.sharedExtension registerForRemoteNotifications];
+        [WKApplication.sharedExtension registerForRemoteNotifications];
     });
 }
 
