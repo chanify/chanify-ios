@@ -55,6 +55,12 @@
     [self.dbQueue close];
 }
 
+- (void)repacking {
+    [self.dbQueue inDatabase:^(FMDatabase * _Nonnull db) {
+        [db executeStatements:@"VACUUM;"];
+    }];
+}
+
 - (nullable NSData *)keyForUID:(nullable NSString *)uid {
     __block NSData *key = nil;
     if (uid.length > 0) {

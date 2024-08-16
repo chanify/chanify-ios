@@ -103,6 +103,8 @@
 "Privacy Policy"="隐私协议";
 "Acknowledgements"="版权声明";
 "Contact Us"="联系我们";
+"UTILS"="辅助功能";
+"Repacking Database"="整理数据库";
 "Logout"="退出登录";
 "Feedback"="意见反馈";
 "None"="无";
@@ -138,6 +140,8 @@
 "Delete this script or not?"="是否要删除这个脚本？";
 "Hide this channel or not?"="是否要隐藏这个频道？";
 "Show this channel or not?"="是否要显示这个频道？";
+"Repacking database or not?"="是否要清理数据库？";
+"Database has been repacked!"="数据库清理完毕！";
 "Logout or not?"="是否要退出登录？";
 "Add node failed"="添加节点失败";
 "Update node failed"="更新节点失败";

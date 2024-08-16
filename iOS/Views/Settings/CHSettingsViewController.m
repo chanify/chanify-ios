@@ -294,6 +294,25 @@
     };
     [section addFormItem:item];
     
+    // UTILS
+    [form addFormSection:(section = [CHFormSection sectionWithTitle:@"UTILS".localized])];
+    item = [CHFormValueItem itemWithName:@"cleanup" title:@"Repacking Database".localized];
+    item.action = ^(CHFormItem *itm) {
+        [CHRouter.shared showAlertWithTitle:@"Repacking database or not?".localized action:@"OK".localized handler:^{
+            [CHRouter.shared showIndicator:YES];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                [CHLogic.shared.nsDataSource repacking];
+                dispatch_main_after(kCHAnimateSlowDuration, ^{
+                    [CHRouter.shared showIndicator:NO];
+                    dispatch_main_after(kCHAnimateSlowDuration, ^{
+                        [CHRouter.shared makeToast:@"Database has been repacked!".localized];
+                    });
+                });
+            });
+        }];
+    };
+    [section addFormItem:item];
+
     // LOGOUT
     [form addFormSection:(section = [CHFormSection section])];
     item = [CHFormButtonItem itemWithName:@"logout" title:@"Logout".localized action:^(CHFormItem *itm) {

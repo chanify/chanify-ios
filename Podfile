@@ -47,7 +47,7 @@ target 'WidgetIntents' do
 	pod 'FMDB'
 end
 
-target 'Watch Extension' do 
+target 'Watch' do 
 	platform :watchos, $watchos_version
 
 	pod 'FMDB'
