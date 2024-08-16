@@ -32,6 +32,7 @@ typedef NS_ENUM(NSInteger, CHBannerIconMode) {
 + (instancetype)dataSourceWithURL:(NSURL *)url;
 - (void)close;
 - (void)flush;
+- (void)repacking;
 - (nullable NSData *)keyForUID:(nullable NSString *)uid;
 - (void)updateKey:(nullable NSData *)key uid:(nullable NSString *)uid;
 - (NSInteger)syncVersionForUID:(nullable NSString *)uid;
