@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NS_OPTIONS(NSUInteger, CHUpsertMessageFlags) {
     CHUpsertMessageFlagUnread       = 1 << 0,
     CHUpsertMessageFlagChannel      = 1 << 1,
+    // Deliberately rejected by the blocklist; safe to remove from the inbox.
+    CHUpsertMessageFlagDiscarded    = 1 << 2,
 };
 
 @class CHNodeModel;

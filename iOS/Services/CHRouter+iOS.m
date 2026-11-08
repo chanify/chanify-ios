@@ -63,16 +63,13 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
     return MFMailComposeViewController.canSendMail;
 }
 
-- (BOOL)launchWithOptions:(NSDictionary *)options {
-    UIWindow *window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+- (void)connectToWindowScene:(UIWindowScene *)scene {
+    UIWindow *window = [[UIWindow alloc] initWithWindowScene:scene];
     self.window = window;
     window.backgroundColor = CHTheme.shared.backgroundColor;
 
-    [CHLogic.shared launch];
-
     [self routeTo:@"/page/main"];
     [window makeKeyAndVisible];
-    return YES;
 }
 
 - (BOOL)handleShortcut:(NSString *)type {

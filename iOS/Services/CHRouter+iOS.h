@@ -10,6 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class UIWindow;
+@class UIWindowScene;
 @class UIViewController;
 @class UIAlertController;
 
@@ -22,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)active;
 - (void)deactive;
 - (BOOL)canSendMail;
-- (BOOL)launchWithOptions:(NSDictionary *)options;
+- (void)connectToWindowScene:(UIWindowScene *)scene;
 - (BOOL)handleShortcut:(NSString *)type;
 - (void)shouldChangeDetailViewControllerTo:(UIViewController *)vc;
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated;

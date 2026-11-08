@@ -155,12 +155,13 @@ echo $response;
 
 Requirements:
 
-- protobuf
+- Xcode
+- protoc 36.2 (for the Objective-C code generated from `CHTP.proto`)
 
 Init project
 
 ```bash
-$ pod install
+$ open Chanify.xcworkspace
 ```
 
 Test push in simulator
@@ -182,3 +183,5 @@ Contributions are what make the open source community such an amazing place to b
 ## License
 
 Distributed under the MIT License. See [`LICENSE`](LICENSE) for more information.
+
+Dependency versions, offline source packages, and build requirements: [Dependencies](Packages/ChanifyDependencies/README.md).

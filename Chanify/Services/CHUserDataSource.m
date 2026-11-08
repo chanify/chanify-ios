@@ -404,54 +404,50 @@
 }
 
 - (nullable CHMessageModel *)upsertMessageData:(NSData *)data nsDB:(id<CHKeyStorage, CHBlockedStorage>)nsDB uid:(NSString *)uid mid:(NSString *)mid checker:(BOOL (NS_NOESCAPE ^ _Nullable)(NSString * cid))checker flags:(CHUpsertMessageFlags *)pFlags {
-    CHMessageModel *msg = nil;
-    if (mid.length > 0) {
-        NSData *raw = nil;
-        CHMessageModel *model = [CHMessageModel modelWithStorage:nsDB uid:uid mid:mid data:data raw:&raw flags:nil];
-        if (model != nil) {
-            __block BOOL res = NO;
-            __block CHUpsertMessageFlags flags = 0;
-            [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-                NSData *ccid = model.channel;
-                res = [db executeUpdate:@"INSERT OR IGNORE INTO `messages`(`mid`,`cid`,`from`,`raw`) VALUES(?,?,?,?);", mid, ccid, model.from, raw];
-                uint64_t changes = db.changes;
-                if (!res) {
-                    *rollback = YES;
-                } else {
-                    NSString *oldMid = nil;
-                    BOOL chanFound = NO;
-                    int unread = (model.needNoAlert ? 0 : 1);
-                    FMResultSet *result = [db executeQuery:@"SELECT `mid` FROM `channels` WHERE `cid`=? AND `deleted`=0 AND `hidden`=0 LIMIT 1;", ccid];
-                    if (result.next) {
-                        oldMid = [result stringForColumnIndex:0];
-                        chanFound = YES;
-                    }
-                    [result close];
-                    [result setParentDB:nil];
-                    if (!chanFound) {
-                        if([db executeUpdate:@"INSERT INTO `channels`(`cid`,`mid`,`unread`) VALUES(?,?,1) ON CONFLICT(`cid`) DO UPDATE SET `mid`=excluded.`mid`,`unread`=IFNULL(`unread`,0)+?,`deleted`=0,`hidden`=0;", ccid, mid, @(unread)]) {
-                            flags |= CHUpsertMessageFlagChannel;
-                        }
-                    }
-                    if (changes > 0 && checker != nil && checker(ccid.base64Code)) {
-                        [db executeUpdate:@"UPDATE OR IGNORE `channels` SET `unread`=IFNULL(`unread`,0)+? WHERE `cid`=? LIMIT 1;", @(unread), ccid];
-                        flags |= CHUpsertMessageFlagUnread;
-                    }
-                    if (oldMid.length <= 0 || [oldMid compare:mid] == NSOrderedAscending) {
-                        [db executeUpdate:@"UPDATE `channels` SET `mid`=? WHERE `cid`=?;", mid, ccid];
-                        flags |= CHUpsertMessageFlagChannel;
-                    }
-                }
-            }];
-            if (pFlags != nil) {
-                *pFlags = flags;
-            }
-            if (res) {
-                msg = model;
-            }
+    if (pFlags != nil) *pFlags = 0;
+    if (mid.length == 0) return nil;
+    NSData *raw = nil;
+    CHMessageProcessFlags processFlags = 0;
+    CHMessageModel *model = [CHMessageModel modelWithStorage:nsDB uid:uid mid:mid data:data raw:&raw flags:&processFlags];
+    if (model == nil) {
+        if (pFlags != nil && (processFlags & CHMessageProcessFlagBlocked) == CHMessageProcessFlagBlocked) {
+            *pFlags = CHUpsertMessageFlagDiscarded;
         }
+        return nil;
     }
-    return msg;
+    __block BOOL res = NO;
+    __block CHUpsertMessageFlags flags = 0;
+    [self.dbQueue inDatabase:^(FMDatabase *db) {
+        if (![db beginTransaction]) return;
+        NSData *ccid = model.channel;
+        BOOL success = [db executeUpdate:@"INSERT OR IGNORE INTO `messages`(`mid`,`cid`,`from`,`raw`) VALUES(?,?,?,?);", mid, ccid, model.from, raw];
+        BOOL inserted = success && db.changes > 0;
+        FMResultSet *result = success ? [db executeQuery:@"SELECT `mid`,`deleted`,`hidden` FROM `channels` WHERE `cid`=? LIMIT 1;", ccid] : nil;
+        success = success && result != nil;
+        NSString *oldMid = nil;
+        BOOL chanFound = NO;
+        if (result.next) {
+            oldMid = [result stringForColumnIndex:0];
+            chanFound = ![result boolForColumnIndex:1] && ![result boolForColumnIndex:2];
+        }
+        [result close];
+        if (success && !chanFound) {
+            success = [db executeUpdate:@"INSERT INTO `channels`(`cid`,`mid`,`unread`) VALUES(?,?,0) ON CONFLICT(`cid`) DO UPDATE SET `deleted`=0,`hidden`=0;", ccid, mid];
+            if (success) flags |= CHUpsertMessageFlagChannel;
+        }
+        if (success && inserted && !model.needNoAlert && checker != nil && checker(ccid.base64Code)) {
+            success = [db executeUpdate:@"UPDATE `channels` SET `unread`=IFNULL(`unread`,0)+1 WHERE `cid`=?;", ccid];
+            if (success) flags |= CHUpsertMessageFlagUnread;
+        }
+        if (success && (oldMid.length == 0 || [oldMid compare:mid] == NSOrderedAscending)) {
+            success = [db executeUpdate:@"UPDATE `channels` SET `mid`=? WHERE `cid`=?;", mid, ccid];
+            if (success) flags |= CHUpsertMessageFlagChannel;
+        }
+        if (success) res = [db commit];
+        if (!res) [db rollback];
+    }];
+    if (res && pFlags != nil) *pFlags = flags;
+    return res ? model : nil;
 }
 
 - (NSArray<CHScriptModel *> *)loadScripts {

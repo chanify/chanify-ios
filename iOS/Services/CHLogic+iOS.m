@@ -116,6 +116,9 @@
             }
             [self.timelineDataSource upsertUid:uid from:model.from model:model.timeline];
             res = YES;
+        } else if (!(flags & CHUpsertMessageFlagDiscarded)) {
+            // The service extension may not have run; retain a foreground delivery for retry.
+            [self.nsDataSource pushMessage:data mid:mid uid:uid flags:nil];
         }
     }
     return res;
@@ -235,11 +238,12 @@
 }
 
 - (void)receiveNotificationResponse:(UNNotificationResponse *)response {
+    if ([response.actionIdentifier isEqualToString:UNNotificationDismissActionIdentifier]) return;
     NSString *mid = nil;
     NSDictionary *info = try_mock_notification(response.notification.request.content.userInfo);
     NSString *uid = [CHMessageModel parsePacket:info mid:&mid data:nil];
-    if (uid.length > 0 && mid.length > 0) {
-        CHLogI("Launch with message %u", mid);
+    if (uid.length > 0 && [uid isEqualToString:self.me.uid] && mid.length > 0) {
+        CHLogI("Launch with message %s", mid.cstr);
         [self recivePushMessage:info];
         CHMessageModel *model = [self.userDataSource messageWithMID:mid];
         if (model.channel.length > 0) {
@@ -312,7 +316,8 @@
                 }
                 [self.timelineDataSource upsertUid:uid from:model.from model:model.timeline];
             }
-            if (mid.length > 0) {
+            // Keep recoverable failures in the inbox until decryption and commit succeed.
+            if (mid.length > 0 && (model != nil || (flags & CHUpsertMessageFlagDiscarded))) {
                 [mids addObject:mid];
             }
         }];

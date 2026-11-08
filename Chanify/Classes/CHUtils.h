@@ -36,12 +36,13 @@
 #endif /* objc_arc */
 
 #pragma mark - Time Helper
+#include <stdint.h>
 #import <sys/time.h>
 
 static inline uint64_t get_utc_time64(void) {
     struct timeval  tv;
     gettimeofday(&tv, NULL);
-    return (tv.tv_sec * 1e9) + tv.tv_usec;
+    return (uint64_t)tv.tv_sec * UINT64_C(1000000000) + (uint64_t)tv.tv_usec * UINT64_C(1000);
 }
 
 #pragma mark - Dispatch Helper

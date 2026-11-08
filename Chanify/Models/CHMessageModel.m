@@ -85,9 +85,16 @@
 }
 
 + (nullable NSString *)parsePacket:(NSDictionary *)info mid:(NSString * _Nullable * _Nullable)mid data:(NSData * _Nullable * _Nullable)data {
-    NSString *uid = [info valueForKey:@"uid"];
-    NSString *src = [info valueForKey:@"src"];
-    NSData *payload = [NSData dataFromBase64:[info valueForKey:@"msg"]];
+    if (mid != nil) *mid = nil;
+    if (data != nil) *data = nil;
+    if (![info isKindOfClass:NSDictionary.class]) return nil;
+    NSString *uid = info[@"uid"];
+    NSString *src = info[@"src"];
+    NSString *encoded = info[@"msg"];
+    if (![uid isKindOfClass:NSString.class] || uid.length == 0 ||
+        ![encoded isKindOfClass:NSString.class] ||
+        (src != nil && ![src isKindOfClass:NSString.class])) return nil;
+    NSData *payload = [NSData dataFromBase64:encoded];
     if (payload.length > kCHAesGcmNonceBytes + kCHAesGcmTagBytes) {
         if (mid != nil) {
             *mid = parseMID(payload.bytes, src);
@@ -115,6 +122,7 @@
         CHTPMsgContent *content = [CHTPMsgContent parseFromData:msg.content error:&error];
         if (error != nil) {
             CHLogE("Invalid message content: %s", error.description.cstr);
+            return nil;
         } else {
             _flags = (CHMessageFlags)content.flags;
             _fileSize = content.size;
@@ -388,7 +396,9 @@ static inline NSString *getSrcFromMID(NSString *mid) {
 }
 
 static inline NSString *parseMID(const uint8_t *ptr, NSString *str) {
-    uint64_t mid = CFSwapInt64BigToHost(*(uint64_t *)(ptr + 4));
+    uint64_t networkMID;
+    memcpy(&networkMID, ptr + 4, sizeof(networkMID));
+    uint64_t mid = CFSwapInt64BigToHost(networkMID);
     if (mid <= 0) {
         return @"";
     }

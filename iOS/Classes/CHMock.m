@@ -14,9 +14,21 @@
 #import "CHTP.pbobjc.h"
 
 NSDictionary *try_mock_notification(NSDictionary* info) {
+    // Production-format packets must not be re-encrypted as simulator fixtures.
+    if (![info isKindOfClass:NSDictionary.class] || info[@"msg"] != nil) return info;
+    NSDictionary *aps = info[@"aps"];
+    if (![aps isKindOfClass:NSDictionary.class]) return info;
+    NSDictionary *alert = aps[@"alert"];
+    if (![alert isKindOfClass:NSDictionary.class]) return info;
+    for (NSString *field in @[@"channel", @"text", @"title", @"image", @"audio", @"file", @"filename", @"link"]) {
+        if (alert[field] != nil && ![alert[field] isKindOfClass:NSString.class]) return info;
+    }
     CHUserModel *me = CHLogic.shared.me;
     NSString *uid = me.uid;
-    NSString *chn = [info valueForKeyPath:@"aps.alert.channel"];
+    CHNSDataSource *nsDS = CHLogic.shared.nsDataSource;
+    NSData *key = [nsDS keyForUID:uid];
+    if (uid.length == 0 || key.length < kCHAesGcmKeyBytes * 2) return info;
+    NSString *chn = alert[@"channel"];
     uint64_t mid = get_utc_time64();
     CHTPMsgContent *content = [CHTPMsgContent new];
     if ([[info valueForKeyPath:@"aps.alert.image"] length] > 0) {
@@ -53,15 +65,15 @@ NSDictionary *try_mock_notification(NSDictionary* info) {
     ptr[0] = 0x01;
     ptr[1] = 0x01;
     ptr[2] = 0x00;
-    ptr[2] = 0x08;
-    *(uint64_t *)(ptr + 4) = CFSwapInt64BigToHost(mid);
-    CHNSDataSource *nsDS = CHLogic.shared.nsDataSource;
-    NSData *key = [nsDS keyForUID:uid];
+    ptr[3] = 0x08;
+    uint64_t networkMID = CFSwapInt64HostToBig(mid);
+    memcpy(ptr + 4, &networkMID, sizeof(networkMID));
     NSData *data = [CHCrpyto aesSealWithKey:[key subdataWithRange:NSMakeRange(0, kCHAesGcmKeyBytes)] data:payload nonce:nonce auth:[key subdataWithRange:NSMakeRange(kCHAesGcmKeyBytes, key.length - kCHAesGcmKeyBytes)]];
+    if (data.length == 0) return info;
     [nsDS pushMessage:data mid:[NSString stringWithFormat:@"%016llX", mid] uid:uid flags:nil];
     return @{
         @"uid": uid,
-        @"msg": data.base64,
+        @"msg": data.base64Code,
     };
 }
 

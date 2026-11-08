@@ -73,6 +73,11 @@
 		<string>ShortcutsConfigurationIntent</string>
 		<string>INSendMessageIntent</string>
 	</array>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+	</dict>
 	<key>UIApplicationShortcutItems</key>
 	<array>
 		<dict>
