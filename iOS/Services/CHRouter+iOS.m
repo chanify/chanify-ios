@@ -187,14 +187,15 @@ typedef NS_ENUM(NSInteger, CHRouterShowMode) {
             handler(completed, error);
         }
     };
-    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+    if (vc.popoverPresentationController != nil) {
         if ([sender isKindOfClass:UIBarButtonItem.class]) {
             vc.popoverPresentationController.barButtonItem = sender;
         } else if ([sender isKindOfClass:UIView.class]) {
             vc.popoverPresentationController.sourceView = sender;
+            vc.popoverPresentationController.sourceRect = [(UIView *)sender bounds];
         } else {
-            // TODO: Fix pop share view.
-            return;
+            vc.popoverPresentationController.sourceView = self.window;
+            vc.popoverPresentationController.sourceRect = CGRectMake(CGRectGetMidX(self.window.bounds), CGRectGetMidY(self.window.bounds), 1, 1);
         }
     }
     [self presentSystemViewController:vc animated:YES];
@@ -575,7 +576,10 @@ static inline void showIndicator(BOOL show) {
     } else {
         if (alert == nil) {
             alert = [CHIndicatorPanelView new];
-            [CHRouter.shared.window addSubview:alert];
+            UIWindow *window = CHRouter.shared.window;
+            alert.frame = window.bounds;
+            alert.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+            [window addSubview:alert];
             [alert startAnimating];
         }
     }

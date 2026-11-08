@@ -12,15 +12,29 @@
 #import "CHNodeModel.h"
 #import "CHDevice.h"
 #import "CHCrpyto.h"
+#import <UserNotifications/UserNotifications.h>
 
 @interface CHLogicBase ()
 
 @property (nonatomic, readonly, strong) NSURLSession *session;
+@property (nonatomic, assign) NSUInteger accountGeneration;
 @property (nonatomic, readonly, strong) NSMutableSet<NSString *> *invalidNodes;
 
 @end
 
 @implementation CHLogicBase
+
+// Only explicit deletion uses this marker; ordinary login/logout stays unchanged.
+- (BOOL)isAccountDeletionPending:(NSString *)uid {
+    return uid.length > 0 && [[NSUserDefaults.standardUserDefaults stringArrayForKey:@"CHPendingAccountDeletions"] containsObject:uid];
+}
+
+- (void)setAccountDeletionPending:(BOOL)pending uid:(NSString *)uid {
+    NSMutableArray *accounts = [[NSUserDefaults.standardUserDefaults stringArrayForKey:@"CHPendingAccountDeletions"] mutableCopy] ?: [NSMutableArray new];
+    [accounts removeObject:uid];
+    if (pending) [accounts addObject:uid];
+    [NSUserDefaults.standardUserDefaults setObject:accounts forKey:@"CHPendingAccountDeletions"];
+}
 
 - (instancetype)initWithAppGroup:(NSString *)appGroup {
     if (self = [super init]) {
@@ -38,6 +52,7 @@
 - (void)launch {
     [CHNotification.shared checkAuth];
     [self reloadUserDB:NO];
+    if ([self isAccountDeletionPending:self.me.uid]) return;
     if (self.userDataSource.srvkey.length > 0) {
         if ([self.nsDataSource keyForUID:self.me.uid].length <= 0) {
             [self.nsDataSource updateKey:self.userDataSource.srvkey uid:self.me.uid];
@@ -181,7 +196,7 @@
 - (void)bindAccount:(nullable CHSecKey *)key completion:(nullable CHLogicBlock)completion {
     CHDevice *device = CHDevice.shared;
     CHUserModel *user = (key == nil ? self.me : [CHUserModel modelWithKey:key]);
-    if (user == nil) {
+    if (user == nil || [self isAccountDeletionPending:user.uid]) {
         call_completion(completion, CHLCodeFailed);
     } else {
         NSDictionary *parameters = @{
@@ -197,19 +212,29 @@
                     @"key": user.key.pubkey.base64Code,
             },
         };
+        NSUInteger generation = ++self.accountGeneration;
         @weakify(self);
         [self sendCmd:@"bind-user" user:user parameters:parameters completion:^(NSURLResponse *response, NSDictionary *result, NSError *error) {
             CHLCode ret = CHLCodeFailed;
-            if (error != nil) {
+            @strongify(self);
+            if (generation != self.accountGeneration) {
+                call_completion(completion, CHLCodeFailed);
+                return;
+            }
+            if (error != nil || [(NSHTTPURLResponse *)response statusCode] != 200) {
                 CHLogE("Bind account failed: %s", error.description.cstr);
             } else if ([[result valueForKey:@"res"] integerValue] >= 300) {
                 CHLogE("Bind account failed: %d/%s", [[result valueForKey:@"res"] integerValue], [[result valueForKey:@"msg"] cstr]);
             } else {
+                NSData *serverKey = [user.key decode:[NSData dataFromBase64:[result valueForKey:@"key"]]];
+                if (serverKey.length != 64) {
+                    call_completion(completion, CHLCodeFailed);
+                    return;
+                }
                 CHLogI("Bind account success.");
-                @strongify(self);
                 if ((self.me == user) // Note: is retry
                     || [user.key saveTo:@kCHUserSecKeyName device:NO]) {
-                    [self doLogin:user key:[user.key decode:[NSData dataFromBase64:[result valueForKey:@"key"]]]];
+                    [self doLogin:user key:serverKey];
                     ret = CHLCodeOK;
                 }
             }
@@ -239,31 +264,100 @@
 - (void)logoutWithCompletion:(nullable CHLogicBlock)completion {
     if (self.me == nil) {
         call_completion(completion, CHLCodeOK);
+    } else if ([self isAccountDeletionPending:self.me.uid]) {
+        // Keep the key and settings entry available for retrying deletion.
+        call_completion(completion, CHLCodeReject);
     } else {
-        for (CHNodeModel *node in self.userDataSource.loadNodes) {
-            [self unbindNode:node];
-        }
-        
+        NSUInteger generation = ++self.accountGeneration;
+        CHUserModel *account = self.me;
         CHDevice *device = CHDevice.shared;
         NSDictionary *parameters = @{
             @"device": device.uuid.hex,
-            @"user": self.me.uid,
+            @"user": account.uid,
         };
         @weakify(self);
-        [self sendCmd:@"unbind-user" user:self.me parameters:parameters completion:^(NSURLResponse *response,  NSDictionary *result, NSError *error) {
+        [self sendCmd:@"unbind-user" user:account parameters:parameters completion:^(NSURLResponse *response,  NSDictionary *result, NSError *error) {
             CHLCode ret = CHLCodeFailed;
             NSHTTPURLResponse *resp = (NSHTTPURLResponse *)response;
-            if (error != nil && resp.statusCode != 404) {
-                CHLogE("Unbind account failed:", error.description.cstr);
+            @strongify(self);
+            if (self.me != account || generation != self.accountGeneration) {
+                call_completion(completion, CHLCodeFailed);
+                return;
+            }
+            if (error != nil || resp.statusCode < 200 || resp.statusCode >= 300) {
+                CHLogE("Unbind account failed: %s", error.description.cstr);
             } else {
                 CHLogI("Unbind account success.");
-                @strongify(self);
+                for (CHNodeModel *node in self.userDataSource.loadNodes) [self unbindNode:node];
                 [self doLogout];
                 ret = CHLCodeOK;
             }
-            call_completion(completion, CHLCodeOK);
+            call_completion(completion, ret);
         }];
     }
+}
+
+// Delete nodes first and the center last. Keep the key on any failure so that
+// the idempotent operation can be retried after a lost response or offline node.
+- (void)deleteAccountWithCompletion:(nullable CHLogicBlock)completion {
+    CHUserModel *account = self.me;
+    if (account == nil) { call_completion(completion, CHLCodeFailed); return; }
+    ++self.accountGeneration;
+    [self setAccountDeletionPending:YES uid:account.uid];
+    [self deleteAccount:account nodes:self.userDataSource.loadNodes index:0 completion:completion];
+}
+
+- (void)deleteAccount:(CHUserModel *)account nodes:(NSArray<CHNodeModel *> *)nodes index:(NSUInteger)index completion:(nullable CHLogicBlock)completion {
+    if (self.me != account) { call_completion(completion, CHLCodeFailed); return; }
+    while (index < nodes.count && nodes[index].isSystem) ++index;
+    CHNodeModel *node = index < nodes.count ? nodes[index] : nil;
+    NSURL *endpoint = node == nil ? self.baseURL : node.apiURL;
+    NSDictionary *params = @{ @"user": account.uid, @"key": account.key.pubkey.base64Code };
+    [self sendToEndpoint:endpoint cmd:@"delete-user" device:YES seckey:node.requestChiper user:account parameters:params completion:^(NSURLResponse *response, NSDictionary *result, NSError *error) {
+        if (error != nil || [(NSHTTPURLResponse *)response statusCode] != 200 || ![result isKindOfClass:NSDictionary.class] || ![result[@"deleted"] isKindOfClass:NSNumber.class] || ![result[@"deleted"] boolValue] || ![result[@"uid"] isKindOfClass:NSString.class] || ![result[@"uid"] isEqualToString:account.uid] || self.me != account) {
+            call_completion(completion, CHLCodeFailed);
+            return;
+        }
+        if (node != nil) {
+            [self deleteAccount:account nodes:nodes index:index + 1 completion:completion];
+        } else if ([self deleteLocalAccountWithUID:account.uid]) {
+            call_completion(completion, CHLCodeOK);
+        } else {
+            call_completion(completion, CHLCodeFailed);
+        }
+    }];
+}
+
+- (BOOL)deleteLocalAccountWithUID:(NSString *)uid {
+    BOOL currentAccount = [self.me.uid isEqualToString:uid];
+    if (currentAccount) [self setAccountDeletionPending:YES uid:uid];
+    if (![self purgeLocalDataForUID:uid]) return NO;
+    if (currentAccount) {
+        if (![self.me.key deleteWithName:@kCHUserSecKeyName device:NO]) return NO;
+        [self doLogout];
+        [self setAccountDeletionPending:NO uid:uid];
+    }
+    return YES;
+}
+
+- (BOOL)purgeLocalDataForUID:(NSString *)uid {
+    if (uid.length == 0 || ![self.nsDataSource deleteDataForUID:uid]) return NO;
+    // Do not create directories for historical Watch accounts already removed.
+    NSURL *directory = [NSFileManager.defaultManager.URLForDocumentDirectory URLByAppendingPathComponent:uid];
+    if ([self.me.uid isEqualToString:uid]) [self.userDataSource close];
+    NSError *error = nil;
+    if (![NSFileManager.defaultManager removeItemAtURL:directory error:&error] && error.code != NSFileNoSuchFileError) return NO;
+    if ([self.me.uid isEqualToString:uid]) _userDataSource = nil;
+    UNUserNotificationCenter *center = UNUserNotificationCenter.currentNotificationCenter;
+    [center getDeliveredNotificationsWithCompletionHandler:^(NSArray<UNNotification *> *notifications) {
+        NSMutableArray<NSString *> *identifiers = [NSMutableArray new];
+        for (UNNotification *notification in notifications) {
+            NSString *notificationUID = [CHMessageModel parsePacket:notification.request.content.userInfo mid:nil data:nil];
+            if ([notificationUID isEqualToString:uid]) [identifiers addObject:notification.request.identifier];
+        }
+        [center removeDeliveredNotificationsWithIdentifiers:identifiers];
+    }];
+    return YES;
 }
 
 - (void)doLogin:(CHUserModel *)user key:(NSData *)key {
@@ -275,6 +369,7 @@
 }
 
 - (void)doLogout {
+    ++self.accountGeneration;
     [self.me.key deleteWithName:@kCHUserSecKeyName device:NO];
     [self.nsDataSource updateKey:nil uid:self.me.uid];
     [self.nsDataSource close];
@@ -368,6 +463,7 @@
         BOOL device = model.isStoreDevice;
         @weakify(self);
         CHUserModel *user = self.me;
+        NSUInteger generation = self.accountGeneration;
         NSDictionary *parameters = @{
             @"user": @{
                     @"uid": user.uid,
@@ -386,10 +482,15 @@
             } forKey:@"device"];
             parameters = params;
         }
+        if ([self isAccountDeletionPending:user.uid]) { call_completion(completion, CHLCodeFailed); return; }
         [self sendToEndpoint:model.apiURL cmd:@"bind-user" device:device seckey:model.requestChiper user:self.me parameters:parameters completion:^(NSURLResponse *response, NSDictionary *result, NSError *error) {
             @strongify(self);
             CHLCode ret = CHLCodeFailed;
             NSHTTPURLResponse *resp = (NSHTTPURLResponse *)response;
+            if (generation != self.accountGeneration || ![self.me.uid isEqualToString:user.uid] || [self isAccountDeletionPending:user.uid]) {
+                call_completion(completion, CHLCodeFailed);
+                return;
+            }
             if (error == nil && resp.statusCode < 300) {
                 CHLogI("Bind node user success.");
                 NSData *key = [user.key decode:[NSData dataFromBase64:[result valueForKey:@"key"]]];
@@ -526,6 +627,7 @@
 }
 
 - (void)updatePushToken:(NSData *)pushToken endpoint:(NSURL *)endpoint node:(nullable CHNodeModel *)node completion:(nullable CHLogicBlock)completion retry:(BOOL)retry {
+    if ([self isAccountDeletionPending:self.me.uid]) { call_completion(completion, CHLCodeFailed); return; }
     if (self.me != nil) {
         CHDevice *device = CHDevice.shared;
         NSDictionary *parameters = @{

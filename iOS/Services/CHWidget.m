@@ -32,6 +32,14 @@
 
 @implementation CHWidget
 
+- (BOOL)deleteDataForUID:(NSString *)uid {
+    __block BOOL success = NO;
+    [self.dbQueue inDatabase:^(FMDatabase *db) {
+        success = [db executeUpdate:@"DELETE FROM `channels` WHERE `uid`=?;", uid];
+    }];
+    return success;
+}
+
 + (instancetype)shared {
     static CHWidget *widget = nil;
     static dispatch_once_t onceToken;

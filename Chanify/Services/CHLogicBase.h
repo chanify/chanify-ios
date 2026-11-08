@@ -60,6 +60,9 @@ typedef void (^CHLogicResultBlock)(CHLCode result, NSDictionary *data);
 - (void)bindAccount:(nullable CHSecKey *)key completion:(nullable CHLogicBlock)completion;
 - (void)importAccount:(NSString *)key completion:(nullable CHLogicBlock)completion;
 - (void)logoutWithCompletion:(nullable CHLogicBlock)completion;
+- (void)deleteAccountWithCompletion:(nullable CHLogicBlock)completion;
+- (BOOL)purgeLocalDataForUID:(NSString *)uid;
+- (BOOL)deleteLocalAccountWithUID:(NSString *)uid;
 - (void)doLogin:(CHUserModel *)user key:(NSData *)key;
 - (void)doLogout;
 // Nodes
@@ -79,6 +82,7 @@ typedef void (^CHLogicResultBlock)(CHLCode result, NSDictionary *data);
 - (void)removeBlockedTokens:(NSArray<NSString *> *)tokens;
 - (NSArray<NSString *> *)blockedTokens;
 // Subclass
+- (BOOL)insertNode:(CHNodeModel *)model secret:(NSData *)secret;
 - (void)sendBlockTokenChanged;
 
 

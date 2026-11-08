@@ -50,20 +50,20 @@
     contentView.backgroundColor = theme.backgroundColor;
     [contentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
-        make.left.right.bottom.equalTo(self.view);
+        make.left.equalTo(self.view.mas_safeAreaLayoutGuideLeft);
+        make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight);
+        make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
     }];
 
-    CGSize size = UIScreen.mainScreen.bounds.size;
-    size.width = MIN(MAX(MIN(size.width, size.height) - 60, 300), 600);
-    size.height = size.width;
-    
     CHQrCodeView *qrCodeView = [CHQrCodeView new];
     [contentView addSubview:qrCodeView];
     qrCodeView.url = self.url;
     [qrCodeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(contentView).offset(80);
         make.centerX.equalTo(contentView);
-        make.size.mas_equalTo(size);
+        make.width.equalTo(contentView.mas_width).offset(-60).priorityHigh();
+        make.width.lessThanOrEqualTo(@600);
+        make.height.equalTo(qrCodeView.mas_width);
     }];
     
     UILabel *accountLabel = [UILabel new];
@@ -107,6 +107,7 @@
     [detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(titleLabel.mas_bottom).offset(16);
         make.left.right.equalTo(titleLabel);
+        make.bottom.equalTo(contentView).offset(-30);
     }];
 
 }

@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CHTimelineDataSource : NSObject
 
+- (BOOL)deleteDataForUID:(NSString *)uid;
 + (instancetype)dataSourceWithURL:(NSURL *)url;
 - (void)close;
 - (void)flush;

@@ -59,7 +59,12 @@
 }
 
 - (CHFormViewCellAccessoryType)accessoryType {
-    if (self.action != nil && self.configuration.textProperties.alignment == NSTextAlignmentLeft) {
+#if TARGET_OS_OSX
+    BOOL showsDisclosure = self.configuration.textProperties.alignment == NSTextAlignmentLeft;
+#else
+    BOOL showsDisclosure = self.configuration.textProperties.alignment == UIListContentTextAlignmentNatural;
+#endif
+    if (self.action != nil && showsDisclosure) {
         return CHFormViewCellAccessoryDisclosureIndicator;
     }
     return CHFormViewCellAccessoryNone;

@@ -22,6 +22,14 @@
 
 @implementation CHTimelineDataSource
 
+- (BOOL)deleteDataForUID:(NSString *)uid {
+    __block BOOL success = NO;
+    [self.dbQueue inDatabase:^(FMDatabase *db) {
+        success = [db executeUpdate:@"DELETE FROM `tspts` WHERE `uid`=?;", uid];
+    }];
+    return success;
+}
+
 + (instancetype)dataSourceWithURL:(NSURL *)url {
     return [[self.class alloc] initWithURL:url];
 }

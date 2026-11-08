@@ -18,6 +18,7 @@
 @interface CHLogic () <WCSessionDelegate, CHNotificationMessageDelegate>
 
 @property (nonatomic, readonly, strong) WCSession *watchSession;
+@property (nonatomic, copy) NSSet<NSString *> *syncedNodeIDs;
 
 @end
 
@@ -67,7 +68,9 @@
 
 #pragma mark - WCSessionDelegate
 - (void)session:(WCSession *)session activationDidCompleteWithState:(WCSessionActivationState)activationState error:(nullable NSError *)error {
-    [self updateContext:session];
+    if (error == nil && activationState == WCSessionActivationStateActivated) {
+        dispatch_main_async(^{ [self updateContext:session]; });
+    }
 }
 
 - (void)session:(WCSession *)session didReceiveApplicationContext:(NSDictionary<NSString *, id> *)applicationContext {
@@ -96,27 +99,49 @@
 #pragma mark - Private Methods
 - (void)updateContext:(WCSession *)session {
     NSData *data = [session.receivedApplicationContext objectForKey:@"data"];
+    // No context yet is different from an explicit empty account configuration.
+    if (![data isKindOfClass:NSData.class]) return;
     NSError *error = nil;
     CHUserModel *me = nil;
-    CHTPWatchConfig *cfg = [CHTPWatchConfig parseFromData:data ?: [NSData new] error:&error];
+    CHTPWatchConfig *cfg = [CHTPWatchConfig parseFromData:data error:&error];
+    if (error != nil || cfg == nil) return;
     if (error == nil) {
         me = [CHUserModel modelWithKey:[CHSecKey secKeyWithData:cfg.userKey]];
+    }
+    if (cfg.userKey.length > 0 && me == nil) return;
+    NSMutableSet<NSString *> *nodeIDs = [NSMutableSet new];
+    for (CHTPNode *node in cfg.nodesArray) [nodeIDs addObject:node.nid];
+    self.syncedNodeIDs = nodeIDs;
+    // Apply historical deletions even after switching to another account.
+    // An explicitly re-imported account in the current configuration wins.
+    id deletedAccounts = session.receivedApplicationContext[@"deletedAccounts"];
+    if ([deletedAccounts isKindOfClass:NSArray.class]) {
+        for (id uid in deletedAccounts) {
+            if (![uid isKindOfClass:NSString.class] || [uid length] == 0 || [uid isEqualToString:me.uid]) continue;
+            if (![[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"] isSupersetOfSet:[NSCharacterSet characterSetWithCharactersInString:uid]]) continue;
+            if (![self deleteLocalAccountWithUID:uid]) return;
+        }
     }
     BOOL updated = NO;
     if (self.me == nil || ![self.me.uid isEqualToString:me.uid]) {
         if (self.me != nil) {
-            [self logoutWithCompletion:nil];
+            // Replace local state synchronously. An old asynchronous unbind must not
+            // clear the newly imported account or unbind it on the server.
+            [self doLogout];
         }
         
         [self updateUserModel:me];
         [self reloadUserDB:NO];
         
-        if (self.me != nil) {
-            [self importAccount:self.me.key.seckey.base64Code completion:nil];
-        }
         updated = YES;
     }
     if (self.me != nil) {
+        if (self.userDataSource.srvkey.length == 0) {
+            [self importAccount:self.me.key.seckey.base64Code completion:nil];
+        }
+        for (CHNodeModel *node in self.userDataSource.loadNodes) {
+            if (!node.isSystem && ![nodeIDs containsObject:node.nid]) [self deleteNode:node.nid];
+        }
         for (CHTPNode *node in cfg.nodesArray) {
             [self bindNode:node];
         }
@@ -148,17 +173,24 @@
     }
 }
 
+// Check again at the actual database write, after the bind request returns.
+- (BOOL)insertNode:(CHNodeModel *)model secret:(NSData *)secret {
+    if (![self.syncedNodeIDs containsObject:model.nid]) return NO;
+    return [super insertNode:model secret:secret];
+}
+
 - (void)bindNode:(CHTPNode *)node {
     if (node.nid.length > 0 && ![node.nid isEqualToString:@"sys"]) {
         if ([self.userDataSource keyForNodeID:node.nid].length <= 0) {
+            NSString *accountID = self.me.uid;
             @weakify(self);
             [self loadNodeWitEndpoint:node.endpoint completion:^(CHLCode result, NSDictionary *data) {
-                if (result == CHLCodeOK) {
+                @strongify(self);
+                if (result == CHLCodeOK && [self.me.uid isEqualToString:accountID] && [self.syncedNodeIDs containsObject:node.nid]) {
                     CHNodeModel *model = [CHNodeModel modelWithNSDictionary:data];
                     if (model != nil) {
                         model.flags = (CHNodeModelFlags)node.flags;
                         model.icon = node.icon;
-                        @strongify(self);
                         [self insertNode:model completion:^(CHLCode result) {
                             if (result == CHLCodeOK && model.isStoreDevice) {
                                 @strongify(self);

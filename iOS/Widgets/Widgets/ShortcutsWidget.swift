@@ -123,12 +123,22 @@ struct ShortcutsEntryView : View {
     var entry: ShortcutsProvider.Entry
 
     var body: some View {
+        if #available(iOSApplicationExtension 17.0, *) {
+            content.containerBackground(for: .widget) { Color(.systemBackground) }
+                .colorScheme(colorScheme.withAppearance(entry.configuration.appearance))
+        } else {
+            content.background(Color(.systemBackground))
+                .colorScheme(colorScheme.withAppearance(entry.configuration.appearance))
+        }
+    }
+
+    @ViewBuilder
+    private var content: some View {
         if !CHWidgetManager.shared.isLogin {
             Text("Please login first to continue!").font(.footnote)
         } else {
             GeometryReader { geometry in
                 ZStack {
-                    Color(.systemBackground)
                     if let entries = entry.configuration.entries {
                         ForEach(0..<entries.count, id: \.self) { i in
                             let frame = LayoutItem(geometry, i, entry.configuration)
@@ -137,13 +147,13 @@ struct ShortcutsEntryView : View {
                                 .position(frame.origin)
                         }
                     }
-                }.colorScheme(colorScheme.withAppearance(entry.configuration.appearance))
+                }
             }
         }
     }
     
     private func LayoutItem(_ geometry: GeometryProxy, _ index: Int, _ configuration: ShortcutsConfigurationIntent) -> CGRect {
-        let size = geometry.size.height * 0.4
+        let size = min(geometry.size.height * 0.4, geometry.size.width / 4.5)
         var frame = CGRect(x: 0, y: 0, width: size, height: size);
         let margin = CGPoint(x: (geometry.size.width - size * 4.0)/5.0, y: (geometry.size.height - size * 2.0)/3.0)
         frame.size.width += margin.x

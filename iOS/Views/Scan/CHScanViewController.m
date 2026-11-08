@@ -84,9 +84,14 @@
     photoButton.layer.cornerRadius = radius;
     [photoButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom).offset(-64);
-        make.right.equalTo(self.view).offset(-24);
+        make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight).offset(-24);
         make.size.mas_equalTo(CGSizeMake(radius * 2, radius * 2));
     }];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.videoPreviewLayer.frame = self.view.bounds;
 }
 
 - (void)viewWillAppear:(BOOL)animated {

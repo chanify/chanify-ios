@@ -201,3 +201,9 @@
 "msg.audio"="发送音频消息";
 "msg.file"="发送文件消息";
 "msg.timeline"="发送时间线消息";
+
+"Delete Account" = "删除账号";
+"DeleteAccountConfirmation" = "永久删除中心服务和所有已配置节点中的账号与设备注册，并清除本机消息、密钥和缓存文件？请同时退出其他设备；已导出的备份不会删除。";
+"DeleteAccountFailed" = "账号删除未完成。请检查网络并确保所有服务端支持删除账号后重试；已保留账号密钥以便重试。";
+
+"FinishDeletionBeforeLogout" = "账号删除尚未完成，请先重试“删除账号”，完成后再退出。";

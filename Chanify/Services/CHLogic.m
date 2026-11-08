@@ -134,6 +134,17 @@
 }
 
 #pragma mark - Subclass Methods
+- (BOOL)purgeLocalDataForUID:(NSString *)uid {
+    if ([self.me.uid isEqualToString:uid]) {
+        [self.webImageManager close]; _webImageManager = nil;
+        [self.webAudioManager close]; _webAudioManager = nil;
+        [self.webFileManager close]; _webFileManager = nil;
+        [self.webLinkManager close]; _webLinkManager = nil;
+        [self.scriptManager close]; _scriptManager = nil;
+    }
+    return [super purgeLocalDataForUID:uid];
+}
+
 - (void)reloadUserDB:(BOOL)force {
     [super reloadUserDB:force];
     NSString *uid = self.me.uid;

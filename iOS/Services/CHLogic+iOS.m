@@ -170,6 +170,19 @@
     [self syncDataToWatch:NO];
 }
 
+- (BOOL)purgeLocalDataForUID:(NSString *)uid {
+    if (![self.timelineDataSource deleteDataForUID:uid] || ![CHWidget.shared deleteDataForUID:uid]) return NO;
+    BOOL success = [super purgeLocalDataForUID:uid];
+    if (success) {
+        // Keep the small deletion history across logins/restarts: application
+        // context replaces pending updates while the Watch is offline.
+        NSMutableArray *accounts = [[NSUserDefaults.standardUserDefaults stringArrayForKey:@"CHDeletedWatchAccounts"] mutableCopy] ?: [NSMutableArray new];
+        if (![accounts containsObject:uid]) [accounts addObject:uid];
+        [NSUserDefaults.standardUserDefaults setObject:accounts forKey:@"CHDeletedWatchAccounts"];
+    }
+    return success;
+}
+
 - (void)doLogout {
     [super doLogout];
     [self.timelineDataSource close];
@@ -204,6 +217,7 @@
         res = [self.watchSession updateApplicationContext:@{
             @"last": @(focus ? NSDate.date.timeIntervalSince1970 : 0),
             @"data": self.watchSyncedData,
+            @"deletedAccounts": [NSUserDefaults.standardUserDefaults stringArrayForKey:@"CHDeletedWatchAccounts"] ?: @[],
         } error:nil];
     }
     return res;
@@ -211,19 +225,26 @@
 
 #pragma mark - WCSessionDelegate
 - (void)session:(WCSession *)session activationDidCompleteWithState:(WCSessionActivationState)activationState error:(nullable NSError *)error {
+    if (error == nil && activationState == WCSessionActivationStateActivated) {
+        dispatch_main_async(^{
+            [self syncDataToWatch:NO];
+            [self sendNotifyWithSelector:@selector(logicWatchStatusChanged)];
+        });
+    }
 }
 
 - (void)sessionWatchStateDidChange:(WCSession *)session {
-    [self sendNotifyWithSelector:@selector(logicWatchStatusChanged)];
-    if (self.isWatchAppInstalled) {
+    dispatch_main_async(^{
+        [self sendNotifyWithSelector:@selector(logicWatchStatusChanged)];
         [self syncDataToWatch:NO];
-    }
+    });
 }
 
 - (void)sessionDidBecomeInactive:(WCSession *)session {
 }
 
 - (void)sessionDidDeactivate:(WCSession *)session {
+    [session activateSession];
 }
 
 #pragma mark - CHNotificationMessageDelegate

@@ -322,8 +322,25 @@
                 [CHRouter.shared showIndicator:NO];
                 if (result == CHLCodeOK) {
                     [CHRouter.shared routeTo:@"/page/main"];
+                } else if (result == CHLCodeReject) {
+                    [CHRouter.shared makeToast:@"FinishDeletionBeforeLogout".localized];
                 } else {
                     [CHRouter.shared makeToast:@"Logout failed".localized];
+                }
+            }];
+        }];
+    }];
+    [section addFormItem:item];
+
+    item = [CHFormButtonItem itemWithName:@"delete-account" title:@"Delete Account".localized action:^(CHFormItem *itm) {
+        [CHRouter.shared showAlertWithTitle:@"DeleteAccountConfirmation".localized action:@"Delete Account".localized handler:^{
+            [CHRouter.shared showIndicator:YES];
+            [CHLogic.shared deleteAccountWithCompletion:^(CHLCode result) {
+                [CHRouter.shared showIndicator:NO];
+                if (result == CHLCodeOK) {
+                    [CHRouter.shared routeTo:@"/page/main"];
+                } else {
+                    [CHRouter.shared makeToast:@"DeleteAccountFailed".localized];
                 }
             }];
         }];

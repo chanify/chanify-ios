@@ -27,6 +27,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Connect to your self-hosted Chanify server on your local network.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

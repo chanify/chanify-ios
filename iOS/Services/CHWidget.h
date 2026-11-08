@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CHWidget : NSObject
 
+- (BOOL)deleteDataForUID:(NSString *)uid;
 + (instancetype)shared;
 - (void)reloadDB:(nullable NSString *)uid;
 - (void)reloadIfNeeded;

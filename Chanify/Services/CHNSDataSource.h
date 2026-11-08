@@ -30,6 +30,7 @@ typedef NS_ENUM(NSInteger, CHBannerIconMode) {
 @interface CHNSDataSource : NSObject<CHKeyStorage, CHBlockedStorage>
 
 + (instancetype)dataSourceWithURL:(NSURL *)url;
+- (BOOL)deleteDataForUID:(NSString *)uid;
 - (void)close;
 - (void)flush;
 - (void)repacking;
