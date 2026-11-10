@@ -21,6 +21,9 @@ def read(path):
         return plistlib.load(source)
 
 main = read(root / "Info.plist")
+policy = root / "Settings.bundle/Privacy.html"
+if not policy.is_file() or not policy.stat().st_size:
+    raise SystemExit("FAIL: missing bundled offline privacy policy")
 version = (main["CFBundleShortVersionString"], main["CFBundleVersion"])
 bundles = [root] + sorted(p for p in root.rglob("*") if p.suffix in (".app", ".appex") and p.is_dir())
 for bundle in bundles:
