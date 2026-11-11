@@ -116,6 +116,9 @@
             }
             [self.timelineDataSource upsertUid:uid from:model.from model:model.timeline];
             res = YES;
+        } else if (!(flags & CHUpsertMessageFlagDiscarded)) {
+            // The service extension may not have run; retain a foreground delivery for retry.
+            [self.nsDataSource pushMessage:data mid:mid uid:uid flags:nil];
         }
     }
     return res;
@@ -167,6 +170,19 @@
     [self syncDataToWatch:NO];
 }
 
+- (BOOL)purgeLocalDataForUID:(NSString *)uid {
+    if (![self.timelineDataSource deleteDataForUID:uid] || ![CHWidget.shared deleteDataForUID:uid]) return NO;
+    BOOL success = [super purgeLocalDataForUID:uid];
+    if (success) {
+        // Keep the small deletion history across logins/restarts: application
+        // context replaces pending updates while the Watch is offline.
+        NSMutableArray *accounts = [[NSUserDefaults.standardUserDefaults stringArrayForKey:@"CHDeletedWatchAccounts"] mutableCopy] ?: [NSMutableArray new];
+        if (![accounts containsObject:uid]) [accounts addObject:uid];
+        [NSUserDefaults.standardUserDefaults setObject:accounts forKey:@"CHDeletedWatchAccounts"];
+    }
+    return success;
+}
+
 - (void)doLogout {
     [super doLogout];
     [self.timelineDataSource close];
@@ -201,6 +217,7 @@
         res = [self.watchSession updateApplicationContext:@{
             @"last": @(focus ? NSDate.date.timeIntervalSince1970 : 0),
             @"data": self.watchSyncedData,
+            @"deletedAccounts": [NSUserDefaults.standardUserDefaults stringArrayForKey:@"CHDeletedWatchAccounts"] ?: @[],
         } error:nil];
     }
     return res;
@@ -208,19 +225,26 @@
 
 #pragma mark - WCSessionDelegate
 - (void)session:(WCSession *)session activationDidCompleteWithState:(WCSessionActivationState)activationState error:(nullable NSError *)error {
+    if (error == nil && activationState == WCSessionActivationStateActivated) {
+        dispatch_main_async(^{
+            [self syncDataToWatch:NO];
+            [self sendNotifyWithSelector:@selector(logicWatchStatusChanged)];
+        });
+    }
 }
 
 - (void)sessionWatchStateDidChange:(WCSession *)session {
-    [self sendNotifyWithSelector:@selector(logicWatchStatusChanged)];
-    if (self.isWatchAppInstalled) {
+    dispatch_main_async(^{
+        [self sendNotifyWithSelector:@selector(logicWatchStatusChanged)];
         [self syncDataToWatch:NO];
-    }
+    });
 }
 
 - (void)sessionDidBecomeInactive:(WCSession *)session {
 }
 
 - (void)sessionDidDeactivate:(WCSession *)session {
+    [session activateSession];
 }
 
 #pragma mark - CHNotificationMessageDelegate
@@ -235,11 +259,12 @@
 }
 
 - (void)receiveNotificationResponse:(UNNotificationResponse *)response {
+    if ([response.actionIdentifier isEqualToString:UNNotificationDismissActionIdentifier]) return;
     NSString *mid = nil;
     NSDictionary *info = try_mock_notification(response.notification.request.content.userInfo);
     NSString *uid = [CHMessageModel parsePacket:info mid:&mid data:nil];
-    if (uid.length > 0 && mid.length > 0) {
-        CHLogI("Launch with message %u", mid);
+    if (uid.length > 0 && [uid isEqualToString:self.me.uid] && mid.length > 0) {
+        CHLogI("Launch with message %s", mid.cstr);
         [self recivePushMessage:info];
         CHMessageModel *model = [self.userDataSource messageWithMID:mid];
         if (model.channel.length > 0) {
@@ -312,7 +337,8 @@
                 }
                 [self.timelineDataSource upsertUid:uid from:model.from model:model.timeline];
             }
-            if (mid.length > 0) {
+            // Keep recoverable failures in the inbox until decryption and commit succeed.
+            if (mid.length > 0 && (model != nil || (flags & CHUpsertMessageFlagDiscarded))) {
                 [mids addObject:mid];
             }
         }];

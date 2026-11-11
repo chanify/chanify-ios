@@ -89,11 +89,20 @@
             }
         }
     }
-    self.contentHandler(notificationContent);
+    [self finishWithContent:notificationContent];
+}
+
+- (void)finishWithContent:(UNNotificationContent *)content {
+    void (^handler)(UNNotificationContent *);
+    @synchronized (self) {
+        handler = self.contentHandler;
+        self.contentHandler = nil;
+    }
+    if (handler != nil) handler(content);
 }
 
 - (void)serviceExtensionTimeWillExpire {
-    self.contentHandler(self.attemptContent);
+    [self finishWithContent:self.attemptContent];
 }
 
 static inline NSURL *loadIconURL(NSString *icon) {

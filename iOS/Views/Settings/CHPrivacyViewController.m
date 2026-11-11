@@ -16,6 +16,7 @@
 @property (nonatomic, readonly, strong) UIProgressView *progressView;
 @property (nonatomic, nullable, strong) UIView *emptyView;
 @property (nonatomic, readonly, strong) NSURL *url;
+@property (nonatomic, assign) BOOL showingOfflinePolicy;
 
 @end
 
@@ -54,10 +55,17 @@
         make.height.mas_equalTo(1);
     }];
     
-    [webView loadRequest:[NSURLRequest requestWithURL:self.url]];
+    [webView loadRequest:[NSURLRequest requestWithURL:self.url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15]];
 }
 
 #pragma mark - WKNavigationDelegate
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    if (navigationAction.targetFrame.mainFrame) {
+        self.showingOfflinePolicy = navigationAction.request.URL.isFileURL;
+    }
+    decisionHandler(WKNavigationActionPolicyAllow);
+}
+
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
     [self showEmpty:NO];
 }
@@ -73,7 +81,25 @@
 }
 
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
-    [self showEmpty:YES];
+    if (error.code != NSURLErrorCancelled) [self showOfflinePolicy];
+}
+
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    if (error.code != NSURLErrorCancelled) [self showOfflinePolicy];
+}
+
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler {
+    NSURLResponse *response = navigationResponse.response;
+    if (navigationResponse.forMainFrame && [response isKindOfClass:NSHTTPURLResponse.class] && [(NSHTTPURLResponse *)response statusCode] >= 400) {
+        decisionHandler(WKNavigationResponsePolicyCancel);
+        [self showOfflinePolicy];
+        return;
+    }
+    decisionHandler(WKNavigationResponsePolicyAllow);
+}
+
+- (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView {
+    [self showOfflinePolicy];
 }
 
 #pragma mark - Observe Methods
@@ -100,6 +126,20 @@
 }
 
 #pragma mark - Private Methods
+- (void)showOfflinePolicy {
+    if (self.showingOfflinePolicy) {
+        [self showEmpty:YES];
+        return;
+    }
+    NSURL *url = [NSBundle.mainBundle URLForResource:@"Privacy" withExtension:@"html" subdirectory:@"Settings.bundle"];
+    if (url == nil) {
+        [self showEmpty:YES];
+        return;
+    }
+    self.showingOfflinePolicy = YES;
+    [self.webView loadFileURL:url allowingReadAccessToURL:url];
+}
+
 - (void)showEmpty:(BOOL)show {
     if (!show) {
         if (self.emptyView != nil) {
@@ -144,7 +184,8 @@
 }
 
 - (void)actionReload:(id)sender {
-    [self.webView loadRequest:[NSURLRequest requestWithURL:self.url]];
+    self.showingOfflinePolicy = NO;
+    [self.webView loadRequest:[NSURLRequest requestWithURL:self.url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15]];
 }
 
 

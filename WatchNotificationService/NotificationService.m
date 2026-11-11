@@ -45,18 +45,25 @@
         }
     }
     if (!(flags&CHMessageProcessFlagNoAlert)) {
-        self.contentHandler(self.attemptContent);
+        [self finishWithContent:self.attemptContent];
     } else {
-        // TODO: Enable NSE
         UNMutableNotificationContent *content = [UNMutableNotificationContent new];
-        content.body = @"BlockedMsg".localized;
         content.sound = nil;
-        self.contentHandler(content);
+        [self finishWithContent:content];
     }
 }
 
+- (void)finishWithContent:(UNNotificationContent *)content {
+    void (^handler)(UNNotificationContent *);
+    @synchronized (self) {
+        handler = self.contentHandler;
+        self.contentHandler = nil;
+    }
+    if (handler != nil) handler(content);
+}
+
 - (void)serviceExtensionTimeWillExpire {
-    self.contentHandler(self.attemptContent);
+    [self finishWithContent:self.attemptContent];
 }
 
 

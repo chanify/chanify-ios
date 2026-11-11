@@ -10,7 +10,7 @@ import Combine
 
 @main
 struct ChanifyApp: App {
-    @WKExtensionDelegateAdaptor(ExtensionDelegate.self) var delegate
+    @WKApplicationDelegateAdaptor(ExtensionDelegate.self) var delegate
     @StateObject public var model = LogicModel()
     private let logic = LogicDelegate()
 
@@ -70,7 +70,7 @@ struct ChanifyApp: App {
         }
     }
 
-    class ExtensionDelegate : NSObject, WKExtensionDelegate {
+    class ExtensionDelegate : NSObject, WKApplicationDelegate {
         func applicationDidFinishLaunching() {
             CHLogic.shared.launch()
         }

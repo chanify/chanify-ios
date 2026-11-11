@@ -47,12 +47,40 @@
     return self;
 }
 
+- (BOOL)deleteDataForUID:(NSString *)uid {
+    if (uid.length == 0) return NO;
+    __block BOOL success = YES;
+    [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        for (NSString *table in @[@"keys", @"opts", @"badges", @"msgs", @"chans", @"nodes", @"blktks"]) {
+            NSString *sql = [NSString stringWithFormat:@"DELETE FROM `%@` WHERE `uid`=?;", table];
+            NSArray *arguments = @[uid];
+            if ([table isEqualToString:@"keys"]) {
+                NSString *prefix = [uid stringByAppendingString:@"."];
+                sql = @"DELETE FROM `keys` WHERE `uid`=? OR substr(`uid`,1,?)=?;";
+                arguments = @[uid, @(prefix.length), prefix];
+            }
+            if (![db executeUpdate:sql withArgumentsInArray:arguments]) {
+                *rollback = YES;
+                success = NO;
+                break;
+            }
+        }
+    }];
+    return success;
+}
+
 - (void)close {
     [self.dbQueue close];
 }
 
 - (void)flush {
     [self.dbQueue close];
+}
+
+- (void)repacking {
+    [self.dbQueue inDatabase:^(FMDatabase * _Nonnull db) {
+        [db executeStatements:@"VACUUM;"];
+    }];
 }
 
 - (nullable NSData *)keyForUID:(nullable NSString *)uid {

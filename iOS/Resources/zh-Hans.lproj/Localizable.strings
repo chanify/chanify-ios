@@ -103,6 +103,8 @@
 "Privacy Policy"="隐私协议";
 "Acknowledgements"="版权声明";
 "Contact Us"="联系我们";
+"UTILS"="辅助功能";
+"Repacking Database"="整理数据库";
 "Logout"="退出登录";
 "Feedback"="意见反馈";
 "None"="无";
@@ -138,6 +140,8 @@
 "Delete this script or not?"="是否要删除这个脚本？";
 "Hide this channel or not?"="是否要隐藏这个频道？";
 "Show this channel or not?"="是否要显示这个频道？";
+"Repacking database or not?"="是否要清理数据库？";
+"Database has been repacked!"="数据库清理完毕！";
 "Logout or not?"="是否要退出登录？";
 "Add node failed"="添加节点失败";
 "Update node failed"="更新节点失败";
@@ -197,3 +201,9 @@
 "msg.audio"="发送音频消息";
 "msg.file"="发送文件消息";
 "msg.timeline"="发送时间线消息";
+
+"Delete Account" = "删除账号";
+"DeleteAccountConfirmation" = "永久删除中心服务和所有已配置节点中的账号与设备注册，并清除本机消息、密钥和缓存文件？请同时退出其他设备；已导出的备份不会删除。";
+"DeleteAccountFailed" = "账号删除未完成。请检查网络并确保所有服务端支持删除账号后重试；已保留账号密钥以便重试。";
+
+"FinishDeletionBeforeLogout" = "账号删除尚未完成，请先重试“删除账号”，完成后再退出。";

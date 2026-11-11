@@ -155,13 +155,14 @@ echo $response;
 
 依赖第三方工具:
 
-- protobuf
+- Xcode
+- protoc 36.2（用于生成 Objective-C 消息代码）
 
 
-初始化项目依赖
+打开项目（依赖由本地 Swift Package 提供）
 
 ```bash
-$ pod install
+$ open Chanify.xcworkspace
 ```
 
 可以使用下列命令给模拟器发送推送用于测试
@@ -183,3 +184,5 @@ $ ./send.swift text=hello
 ## 许可证
 
 根据MIT许可证分发，详情查看[`LICENSE`](LICENSE)。
+
+依赖已迁移至本地 Swift Package，无需 CocoaPods。构建工具和版本说明见 [Dependencies](Packages/ChanifyDependencies/README.md)。

@@ -103,6 +103,8 @@
 "Privacy Policy"="Privacy Policy";
 "Acknowledgements"="Acknowledgements";
 "Contact Us"="Contact Us";
+"UTILS"="UTILS";
+"Repacking Database"="Repacking Database";
 "Logout"="Logout";
 "Feedback"="Feedback";
 "None"="None";
@@ -138,6 +140,8 @@
 "Delete this script or not?"="Delete this script or not?";
 "Hide this channel or not?"="Hide this channel or not?";
 "Show this channel or not?"="Show this channel or not?";
+"Repacking database or not?"="Repacking database or not?";
+"Database has been repacked!"="Database has been repacked!";
 "Logout or not?"="Logout or not?";
 "Add node failed"="Add node failed";
 "Update node failed"="Update node failed";
@@ -197,3 +201,9 @@
 "msg.audio"="Send audio message";
 "msg.file"="Send file message";
 "msg.timeline"="Send timeline message";
+
+"Delete Account" = "Delete Account";
+"DeleteAccountConfirmation" = "Permanently delete this account and its device registrations from the center and all configured nodes, then erase messages, keys and cached files on this device? Other devices must be signed out. Exported backups are not deleted.";
+"DeleteAccountFailed" = "Account deletion did not finish. Check connectivity and ensure every server supports account deletion, then retry. Your account key has been kept for retry.";
+
+"FinishDeletionBeforeLogout" = "Account deletion is unfinished. Retry Delete Account before logging out.";

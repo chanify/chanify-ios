@@ -21,7 +21,7 @@
 @implementation CHIndicatorPanelView
 
 - (instancetype)init {
-    if (self = [super initWithFrame:UIScreen.mainScreen.bounds]) {
+    if (self = [super initWithFrame:CGRectZero]) {
         UIView *panel = [UIView new];
         [self addSubview:panel];
         panel.backgroundColor = [UIColor colorWithWhite:0.3 alpha:0.9];

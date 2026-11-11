@@ -6,7 +6,8 @@
   
 */
 CFBundleDisplayName="Chanify";
-NSCameraUsageDescription="在您需要时，用来扫描二维码。";
-NSPhotoLibraryUsageDescription="在您需要时，从相册中获取二维码。";
-NSPhotoLibraryAddUsageDescription="在您需要时，将导出的二维码保存到照片库中。";
+NSCameraUsageDescription="扫描二维码以导入 Chanify 账号、频道或服务器。";
+NSPhotoLibraryUsageDescription="从相册中选择二维码图片，以导入 Chanify 账号、频道或服务器。";
+NSPhotoLibraryAddUsageDescription="将您导出的 Chanify 二维码保存到照片库中。";
+NSLocalNetworkUsageDescription="连接您在局域网中自行部署的 Chanify 服务器。";
 "Scan QR code"="扫一扫";

@@ -43,17 +43,24 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>To scan a QR code when you need it.</string>
+	<string>Scan QR codes to import a Chanify account, channel, or server.</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Connect to your self-hosted Chanify server on your local network.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>To save export QR code into photo library when you need it.</string>
+	<string>Save a Chanify QR code you export to your photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>To picker a QR code from photo when you need it.</string>
+	<string>Select a QR code image to import a Chanify account, channel, or server.</string>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>DashboardConfigurationIntent</string>
 		<string>ShortcutsConfigurationIntent</string>
 		<string>INSendMessageIntent</string>
 	</array>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+	</dict>
 	<key>UIApplicationShortcutItems</key>
 	<array>
 		<dict>
