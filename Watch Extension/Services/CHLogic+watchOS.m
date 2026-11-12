@@ -19,6 +19,9 @@
 
 @property (nonatomic, readonly, strong) WCSession *watchSession;
 @property (nonatomic, copy) NSSet<NSString *> *syncedNodeIDs;
+@property (nonatomic) NSUInteger nodeSyncGeneration;
+@property (nonatomic, strong) NSMapTable<CHNodeModel *, NSNumber *> *nodeBindGenerations;
+- (void)unbindNode:(CHNodeModel *)node;
 
 @end
 
@@ -112,6 +115,7 @@
     NSMutableSet<NSString *> *nodeIDs = [NSMutableSet new];
     for (CHTPNode *node in cfg.nodesArray) [nodeIDs addObject:node.nid];
     self.syncedNodeIDs = nodeIDs;
+    self.nodeSyncGeneration++;
     // Apply historical deletions even after switching to another account.
     // An explicitly re-imported account in the current configuration wins.
     id deletedAccounts = session.receivedApplicationContext[@"deletedAccounts"];
@@ -176,24 +180,49 @@
 // Check again at the actual database write, after the bind request returns.
 - (BOOL)insertNode:(CHNodeModel *)model secret:(NSData *)secret {
     if (![self.syncedNodeIDs containsObject:model.nid]) return NO;
+    NSNumber *generation = [self.nodeBindGenerations objectForKey:model];
+    if (generation != nil && generation.unsignedIntegerValue != self.nodeSyncGeneration) return NO;
     return [super insertNode:model secret:secret];
+}
+
+- (BOOL)deleteNode:(NSString *)nid {
+    if (nid.length == 0) return NO;
+    // A local deletion must also cancel writes already in flight for this node.
+    NSMutableSet *nodeIDs = [self.syncedNodeIDs mutableCopy];
+    [nodeIDs removeObject:nid];
+    self.syncedNodeIDs = nodeIDs;
+    return [super deleteNode:nid];
 }
 
 - (void)bindNode:(CHTPNode *)node {
     if (node.nid.length > 0 && ![node.nid isEqualToString:@"sys"]) {
-        if ([self.userDataSource keyForNodeID:node.nid].length <= 0) {
+        CHNodeModel *existing = [self.userDataSource nodeWithNID:node.nid];
+        // A deleted row can retain a decryption key. Only an active node is bound.
+        BOOL bound = existing != nil && [self.userDataSource keyForNodeID:node.nid].length > 0;
+        BOOL bindingChanged = ![existing.endpoint isEqualToString:node.endpoint] ||
+            ![existing.pubkey isEqualToData:node.pubkey] || existing.flags != node.flags;
+        if (bound && !bindingChanged) {
+            CHNodeModel *updated = [CHNodeModel modelWithNID:node.nid name:node.name version:node.version endpoint:node.endpoint pubkey:node.pubkey flags:(CHNodeModelFlags)node.flags features:[existing.features componentsJoinedByString:@","]];
+            updated.icon = node.icon;
+            if (![existing isEqual:updated] || ![existing.version isEqualToString:updated.version]) [self updateNode:updated];
+        } else {
             NSString *accountID = self.me.uid;
+            NSUInteger generation = self.nodeSyncGeneration;
             @weakify(self);
             [self loadNodeWitEndpoint:node.endpoint completion:^(CHLCode result, NSDictionary *data) {
                 @strongify(self);
-                if (result == CHLCodeOK && [self.me.uid isEqualToString:accountID] && [self.syncedNodeIDs containsObject:node.nid]) {
+                if (result == CHLCodeOK && generation == self.nodeSyncGeneration && [self.me.uid isEqualToString:accountID] && [self.syncedNodeIDs containsObject:node.nid]) {
                     CHNodeModel *model = [CHNodeModel modelWithNSDictionary:data];
-                    if (model != nil) {
-                        model.flags = (CHNodeModelFlags)node.flags;
+                    if ([model.nid isEqualToString:node.nid] && [model.pubkey isEqualToData:node.pubkey]) {
+                        model = [CHNodeModel modelWithNID:node.nid name:node.name version:model.version endpoint:node.endpoint pubkey:model.pubkey flags:(CHNodeModelFlags)node.flags features:[model.features componentsJoinedByString:@","]];
                         model.icon = node.icon;
+                        if (self.nodeBindGenerations == nil) self.nodeBindGenerations = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsWeakMemory | NSPointerFunctionsObjectPointerPersonality valueOptions:NSPointerFunctionsStrongMemory];
+                        [self.nodeBindGenerations setObject:@(generation) forKey:model];
                         [self insertNode:model completion:^(CHLCode result) {
+                            @strongify(self);
+                            if (result != CHLCodeOK || generation != self.nodeSyncGeneration || ![self.me.uid isEqualToString:accountID]) return;
+                            if (existing.isStoreDevice && !model.isStoreDevice) [self unbindNode:existing];
                             if (result == CHLCodeOK && model.isStoreDevice) {
-                                @strongify(self);
                                 [self updatePushToken:CHNotification.shared.pushToken node:[self nodeModelWithNID:model.nid] completion:nil];
                             }
                         }];

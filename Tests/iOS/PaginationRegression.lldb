@@ -1,0 +1,35 @@
+# Header reuse / real UICollectionView scrolling regression (iOS 18.6 or later).
+# Run each named phase separately with the debugger paused on the idle main thread.
+# Resume for at least 1 second between phases so UIKit and async reads can run.
+# Order: setup; ready; [scroll-start, scroll-check, bottom-start] x 8; finish-check;
+# reset-start; reset-check; scroll-start; scroll-check; cleanup; stop the app.
+# Only synthetic messages in a temporary database. Keep fixture objects alive with alloc.
+
+# Phase: setup
+expression -l objc++ -- @import UIKit
+expression -l objc++ -- id $pagingLogic = (id)[NSClassFromString(@"CHLogic") shared]; id $pagingOriginalDB = (id)[$pagingLogic valueForKey:@"userDataSource"]; NSURL *$pagingURL = [[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:[NSUUID.UUID.UUIDString stringByAppendingString:@".sqlite"]]]; id $pagingDB = (id)[[NSClassFromString(@"CHUserDataSource") alloc] initWithURL:$pagingURL];
+expression -l objc++ -O -- ({ NSObject *content=(id)[NSClassFromString(@"CHTPMsgContent") new]; [content setValue:@1 forKey:@"type"]; [content setValue:@"Pagination regression" forKey:@"title"]; [content setValue:@"Synthetic message for historical pagination and header reuse." forKey:@"text"]; NSObject *packet=(id)[NSClassFromString(@"CHTPMessage") new]; [packet setValue:(id)[content valueForKey:@"data"] forKey:@"content"]; NSData *raw=(id)[packet valueForKey:@"data"]; NSMutableString *hex=[NSMutableString string]; const unsigned char *bytes=(const unsigned char *)raw.bytes; for(NSUInteger i=0;i<raw.length;i++) [hex appendFormat:@"%02x",bytes[i]]; __block BOOL ok=YES; [(id)[$pagingDB valueForKey:@"dbQueue"] inDatabase:^(id sql){ for(int i=1;i<=100;i++) ok=(BOOL)[sql executeStatements:[NSString stringWithFormat:@"INSERT INTO messages(mid,cid,[from],raw) VALUES('%016X',X'0801','regression',X'%@');",i*256,hex]] && ok; }]; [$pagingLogic setValue:$pagingDB forKey:@"userDataSource"]; ok ? @"PASS: 100 synthetic messages" : @"FAIL: fixture"; })
+expression -l objc++ -- UIViewController *$pagingController = (id)[[NSClassFromString(@"CHChannelViewController") alloc] initWithParameters:@{@"cid":@"CAE"}]; UINavigationController *$pagingNavigation = [[UINavigationController alloc] initWithRootViewController:$pagingController]; UIWindow *$pagingWindow = ((UIWindowScene *)UIApplication.sharedApplication.connectedScenes.anyObject).windows.firstObject; (void)[$pagingWindow.rootViewController presentViewController:$pagingNavigation animated:NO completion:nil];
+# Phase: ready
+expression -l objc++ -- UICollectionView *$pagingList = (id)[$pagingController valueForKey:@"listView"]; id $pagingSource = (id)[$pagingController valueForKey:@"dataSource"];
+
+# Phase: scroll-start
+expression -l objc++ -- (void)[$pagingList setContentOffset:CGPointMake(0,-100) animated:YES];
+
+# Phase: scroll-check
+expression -l objc++ -O -- ({ NSArray *cells=(id)[(id)[$pagingSource snapshot] itemIdentifiers]; NSMutableSet *mids=[NSMutableSet new]; NSUInteger count=0; for(NSObject *cell in cells) if(![cell isKindOfClass:NSClassFromString(@"CHDateCellConfiguration")]) { count++; [mids addObject:[cell valueForKey:@"mid"]]; } BOOL ok=count==mids.count && count>16 && [mids containsObject:@"0000000000006400"]; [NSString stringWithFormat:@"%@: messages=%lu unique=%lu header=%@ offset=%@",ok?@"PASS":@"FAIL",(unsigned long)count,(unsigned long)mids.count,[(NSObject *)[$pagingSource valueForKey:@"headerView"] valueForKey:@"status"],NSStringFromCGPoint($pagingList.contentOffset)]; })
+
+# Phase: bottom-start
+expression -l objc++ -- (void)[$pagingSource scrollToBottom:NO];
+
+# Phase: finish-check
+expression -l objc++ -O -- ({ NSArray *cells=(id)[(id)[$pagingSource snapshot] itemIdentifiers]; NSMutableSet *mids=[NSMutableSet new]; for(NSObject *cell in cells) if(![cell isKindOfClass:NSClassFromString(@"CHDateCellConfiguration")]) [mids addObject:[cell valueForKey:@"mid"]]; BOOL all=mids.count==100; for(int i=1;i<=100;i++) all=all && [mids containsObject:[NSString stringWithFormat:@"%016X",i*256]]; BOOL finished=[(NSNumber *)[(NSObject *)[$pagingSource valueForKey:@"headerView"] valueForKey:@"status"] integerValue]==2; all && finished ? @"PASS: all 100 messages, no gaps, history finished" : @"FAIL: final history"; })
+
+# Phase: reset-start
+expression -l objc++ -- (void)[$pagingSource reset:NO];
+
+# Phase: reset-check
+expression -l objc++ -O -- ({ NSArray *cells=(id)[(id)[$pagingSource snapshot] itemIdentifiers]; cells.count==17 && [(NSString *)[(NSObject *)cells.lastObject valueForKey:@"mid"] isEqualToString:@"0000000000006400"] ? @"PASS: reset restores latest page" : @"FAIL: reset"; })
+
+# Phase: cleanup
+expression -l objc++ -- (void)[$pagingNavigation dismissViewControllerAnimated:NO completion:nil]; (void)[$pagingLogic setValue:$pagingOriginalDB forKey:@"userDataSource"]; (void)[$pagingDB close];

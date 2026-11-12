@@ -18,6 +18,16 @@
 }
 
 + (instancetype)modelWithNSDictionary:(NSDictionary *)info {
+    if (![info isKindOfClass:NSDictionary.class]) return nil;
+    for (NSString *key in @[@"nodeid", @"name", @"version", @"endpoint", @"pubkey"]) {
+        id value = info[key];
+        if (value != nil && ![value isKindOfClass:NSString.class]) return nil;
+    }
+    id features = info[@"features"];
+    if (features != nil) {
+        if (![features isKindOfClass:NSArray.class]) return nil;
+        for (id feature in features) if (![feature isKindOfClass:NSString.class]) return nil;
+    }
     if (info.count > 0) {
         NSString *nid = [info valueForKey:@"nodeid"];
         if (nid.length > 0) {

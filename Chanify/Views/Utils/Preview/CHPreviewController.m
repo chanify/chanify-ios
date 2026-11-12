@@ -61,6 +61,12 @@
     }
 }
 
+// Quick Look's iOS 18 zoom transition installs dismissal gestures that compete
+// with the navigation controller's interactive pop. Use standard navigation.
+- (nullable UIViewControllerTransition *)preferredTransition API_AVAILABLE(ios(18.0)) {
+    return nil;
+}
+
 #pragma mark - QLPreviewControllerDataSource
 - (NSInteger)numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller {
     return self.items.count;

@@ -7,6 +7,7 @@
 
 #import "CHLogicBase.h"
 #import "CHUserDataSource.h"
+#import "CHMessageSearch.h"
 #import "CHNSDataSource.h"
 #import "CHNotification.h"
 #import "CHNodeModel.h"
@@ -76,9 +77,11 @@
 - (void)active {
     [CHNotification.shared updateStatus];
     [self reloadUserDB:NO];
+    [self.userDataSource.messageSearch setActive:YES];
 }
 
 - (void)deactive {
+    [self.userDataSource.messageSearch setActive:NO];
     [self.nsDataSource flush];
     if (self.userDataSource != nil) {
         [self.userDataSource flush];
@@ -155,6 +158,10 @@
 }
 
 - (void)sendToEndpoint:(NSURL *)endpoint cmd:(NSString *)cmd device:(BOOL)device seckey:(nullable CHSecKey *)seckey user:(CHUserModel *)user parameters:(NSDictionary *)parameters completion:(nullable void (^)(NSURLResponse *response, NSDictionary *result, NSError *error))completion {
+    if (endpoint.host.length == 0 || ![@[@"http", @"https"] containsObject:endpoint.scheme.lowercaseString]) {
+        if (completion != nil) dispatch_main_async(^{ completion(nil, nil, [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorBadURL userInfo:nil]); });
+        return;
+    }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:parameters];
     [params setValue:@((uint64_t)(NSDate.date.timeIntervalSince1970 * 1000)) forKey:@"nonce"];
     NSData *data = params.json;
@@ -177,9 +184,18 @@
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (completion != nil) {
             NSDictionary *result = nil;
-            if (error == nil) {
-                result = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves) error:&error];
+            if (error == nil && data.length > 0 && [response isKindOfClass:NSHTTPURLResponse.class]) {
+                id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+                if ([json isKindOfClass:NSDictionary.class]) {
+                    result = json;
+                    for (NSString *key in @[@"key", @"msg"]) {
+                        if (result[key] != nil && ![result[key] isKindOfClass:NSString.class]) result = nil;
+                    }
+                    id status = result[@"res"];
+                    if (status != nil && ![status isKindOfClass:NSNumber.class] && ![status isKindOfClass:NSString.class]) result = nil;
+                }
             }
+            if (error == nil && result == nil) error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotParseResponse userInfo:nil];
             dispatch_main_async(^{
                 completion(response, result, error);
             });
@@ -380,7 +396,11 @@
 
 #pragma mark - Nodes
 - (void)loadNodeWitEndpoint:(NSString *)endpoint completion:(nullable CHLogicResultBlock)completion {
-    NSURL *url = [NSURL URLWithString:[endpoint stringByAppendingPathComponent:@"/rest/v1/info"]];
+    NSURL *url = [[NSURL URLWithString:endpoint] URLByAppendingPathComponent:@"rest/v1/info"];
+    if (url.host.length == 0 || ![@[@"http", @"https"] containsObject:url.scheme.lowercaseString]) {
+        call_completion_data(completion, CHLCodeFailed, nil);
+        return;
+    }
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setTimeoutInterval:kCHNodeServerRequestTimeout];
     [request setHTTPMethod:@"GET"];
@@ -389,9 +409,11 @@
     NSURLSessionDataTask *task = [self dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         CHLCode ret = CHLCodeFailed;
         NSDictionary *result = nil;
-        if (error == nil) {
-            result = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];;
-            if (result != nil) {
+        if (error == nil && data.length > 0 && [response isKindOfClass:NSHTTPURLResponse.class] && [(NSHTTPURLResponse *)response statusCode] == 200) {
+            id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            // Reject malformed field types before version/crypto or model parsing.
+            if ([CHNodeModel modelWithNSDictionary:json] != nil) {
+                result = json;
                 ret = CHLCodeOK;
             }
             if ([[result valueForKey:@"version"] compareAsVersion:@kCHNodeCanCipherVersion]) {
@@ -457,7 +479,7 @@
 }
 
 - (void)insertNode:(CHNodeModel *)model completion:(nullable CHLogicBlock)completion {
-    if (model.endpoint.length <= 0) {
+    if (model.endpoint.length <= 0 || self.me == nil) {
         call_completion(completion, CHLCodeFailed);
     } else {
         BOOL device = model.isStoreDevice;

@@ -207,3 +207,17 @@
 "DeleteAccountFailed" = "账号删除未完成。请检查网络并确保所有服务端支持删除账号后重试；已保留账号密钥以便重试。";
 
 "FinishDeletionBeforeLogout" = "账号删除尚未完成，请先重试“删除账号”，完成后再退出。";
+
+/* Message search */
+"Search messages" = "搜索消息";
+"Search message titles and text" = "搜索消息标题和正文";
+"Searching…" = "正在搜索…";
+"Message search is unavailable" = "消息搜索暂不可用";
+"Search could not finish. Try a longer keyword or try again." = "搜索未能完成，请使用更具体的关键词或重试。";
+"Some messages are not yet searchable" = "部分消息尚未加入搜索";
+"No matching messages" = "未找到匹配的消息";
+"This message is no longer available" = "该消息已不存在";
+"Use up to 256 characters to search" = "搜索内容请勿超过 256 个字符";
+"No matching messages in the current search index" = "已加入搜索的消息中未找到匹配结果，部分消息尚未加入搜索";
+"Could not load messages. Please try again." = "无法加载消息，请重试。";
+"Retry" = "重试";
