@@ -47,7 +47,7 @@ struct WatchWidgets: Widget {
             LauncherView()
         }
         .configurationDisplayName("Chanify")
-        .description("Open Chanify to view your messages.")
+        .description("Open Chanify on your Apple Watch.")
         .supportedFamilies([.accessoryCircular, .accessoryRectangular, .accessoryInline])
     }
 }

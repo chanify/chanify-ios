@@ -18,6 +18,7 @@ typedef NS_OPTIONS(NSUInteger, CHUpsertMessageFlags) {
     CHUpsertMessageFlagDiscarded    = 1 << 2,
 };
 
+@class CHMessageSearch;
 @class CHNodeModel;
 @class CHChannelModel;
 @class CHMessageModel;
@@ -26,12 +27,15 @@ typedef NS_OPTIONS(NSUInteger, CHUpsertMessageFlags) {
 @protocol CHKeyStorage;
 @protocol CHBlockedStorage;
 
+typedef void (^CHMessageLoadCompletion)(NSArray<CHMessageModel *> *messages, NSError * _Nullable error);
+
 @interface CHUserDataSource : NSObject
 
 @property (nonatomic, readonly, strong) NSURL *dsURL;
 @property (nonatomic, nullable, strong) NSData *srvkey;
 
 + (instancetype)dataSourceWithURL:(NSURL *)url;
+@property (nonatomic, readonly, nullable, strong) CHMessageSearch *messageSearch;
 - (void)close;
 - (void)flush;
 - (BOOL)insertNode:(CHNodeModel *)model secret:(NSData *)secret;
@@ -55,6 +59,10 @@ typedef NS_OPTIONS(NSUInteger, CHUpsertMessageFlags) {
 - (BOOL)deleteMessages:(NSArray<NSString *> *)mids;
 - (BOOL)deleteMessagesWithCID:(nullable NSString *)cid;
 - (NSArray<CHMessageModel *> *)messageWithCID:(nullable NSString *)cid from:(NSString *)from to:(NSString *)to count:(NSUInteger)count;
+- (void)loadMessagesNearMID:(NSString *)mid channelID:(NSString *)cid count:(NSUInteger)count completion:(CHMessageLoadCompletion)completion;
+- (void)loadMessagesWithCID:(NSString *)cid from:(NSString *)from to:(NSString *)to count:(NSUInteger)count ascending:(BOOL)ascending completion:(CHMessageLoadCompletion)completion;
+- (NSArray<CHMessageModel *> *)messagesNearMID:(NSString *)mid channelID:(NSString *)cid count:(NSUInteger)count;
+- (NSArray<CHMessageModel *> *)messagesAfterMID:(NSString *)mid channelID:(NSString *)cid count:(NSUInteger)count;
 - (nullable CHMessageModel *)messageWithMID:(nullable NSString *)mid;
 - (nullable CHMessageModel *)upsertMessageData:(NSData *)data nsDB:(id<CHKeyStorage, CHBlockedStorage>)nsDB uid:(NSString *)uid mid:(NSString *)mid checker:(BOOL (NS_NOESCAPE ^ _Nullable)(NSString * cid))checker flags:(CHUpsertMessageFlags *)pFlags;
 - (NSArray<CHScriptModel *> *)loadScripts;

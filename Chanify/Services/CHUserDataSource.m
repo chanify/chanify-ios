@@ -13,8 +13,9 @@
 #import "CHMessageModel.h"
 #import "CHChannelModel.h"
 #import "CHNodeModel.h"
+#import "CHMessageSearch.h"
 
-#define kCHUserDBVersion    3
+#define kCHUserDBBaseVersion    3
 #define kCHNSInitSql        \
     "CREATE TABLE IF NOT EXISTS `options`(`key` TEXT PRIMARY KEY,`value` BLOB);"   \
     "CREATE TABLE IF NOT EXISTS `messages`(`mid` TEXT PRIMARY KEY,`cid` BLOB,`from` TEXT,`raw` BLOB);"  \
@@ -29,9 +30,17 @@
 @interface CHUserDataSource ()
 
 @property (nonatomic, readonly, strong) FMDatabaseQueue *dbQueue;
+@property (nonatomic, strong) dispatch_queue_t messageReadQueue;
 @property (nonatomic, nullable, strong) NSData *srvkeyCache;
+@property (nonatomic, readwrite, nullable, strong) CHMessageSearch *messageSearch;
+@property (nonatomic) BOOL searchTrackingReady;
+@property (atomic) BOOL closed;
 
 @end
+
+static int CHMessageReadCancelled(void *context) {
+    return [(__bridge CHUserDataSource *)context closed];
+}
 
 @implementation CHUserDataSource
 
@@ -44,15 +53,17 @@
 - (instancetype)initWithURL:(NSURL *)url {
     if (self = [super init]) {
         _dsURL = url;
+        _messageReadQueue = dispatch_queue_create("net.chanify.messages.read", dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INITIATED, 0));
         _srvkeyCache = nil;
         _dbQueue = [FMDatabaseQueue databaseQueueWithURL:url flags:SQLITE_OPEN_READWRITE|SQLITE_OPEN_CREATE|kCHDBFileProtectionFlags];
         [self.dbQueue inDatabase:^(FMDatabase *db) {
+            if (![db beginTransaction]) return;
+            BOOL res = YES;
             if (db.applicationID > 0) {
                 db.userVersion = db.applicationID;
                 db.applicationID = 0;
             }
-            if (db.userVersion < kCHUserDBVersion) {
-                BOOL res = YES;
+            if (db.userVersion < kCHUserDBBaseVersion) {
                 if ([db tableExists:@"nodes"]) {
                     if (![db columnExists:@"version" inTableWithName:@"nodes"]
                         && ![db executeStatements:@"ALTER TABLE `nodes` ADD COLUMN `version` TEXT;"]) {
@@ -71,21 +82,48 @@
                         res = NO;
                     }
                 }
-                if (res) {
-                    db.userVersion = kCHUserDBVersion;
-                }
             }
-            if ([db executeStatements:@kCHNSInitSql]) {
+            res = res && [db executeStatements:@kCHNSInitSql];
+            if (res && db.userVersion < kCHUserDBBaseVersion) db.userVersion = kCHUserDBBaseVersion;
+            if (res) res = [db commit];
+            if (!res) [db rollback];
+            if (res) {
                 NSURL *dbURL = db.databaseURL;
                 dbURL.dataProtoction = NSURLFileProtectionCompleteUntilFirstUserAuthentication;
                 CHLogI("Open database: %s", dbURL.path.cstr);
             }
         }];
+#if TARGET_OS_IOS
+        // Add only lightweight tracking here. FTS initialization never runs in message writes.
+        [self.dbQueue inDatabase:^(FMDatabase *db) {
+            if (db.userVersion == 3 || db.userVersion == 4) self.searchTrackingReady = [CHMessageSearch prepareTrackingInDatabase:db];
+        }];
+        if (self.searchTrackingReady && url.isFileURL) {
+            __block BOOL wal = NO;
+            [self.dbQueue inDatabase:^(FMDatabase *db) {
+                // WAL allows the separate search reader to coexist with message writes.
+                wal = [[db stringForQuery:@"PRAGMA journal_mode=WAL;"] isEqualToString:@"wal"];
+            }];
+            if (wal) {
+                _messageSearch = [[CHMessageSearch alloc] initWithURL:url extractor:^NSDictionary *(NSData *data, NSString *mid) {
+                    CHMessageModel *model = [CHMessageModel modelWithData:data mid:mid];
+                    return model ? @{ @"title": model.title ?: @"", @"text": model.text ?: @"" } : nil;
+                }];
+            }
+        }
+#endif
     }
     return self;
 }
 
+- (void)dealloc {
+    [self.messageSearch close];
+}
+
 - (void)close {
+    self.closed = YES;
+    [self.messageSearch close];
+    self.messageSearch = nil;
     [self.dbQueue close];
 }
 
@@ -318,45 +356,39 @@
 }
 
 - (BOOL)deleteMessage:(NSString *)mid {
-    __block BOOL res = YES;
-    if (mid.length > 0) {
-        res = NO;
-        [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            NSData *cid = [db dataForQuery:@"SELECT `cid` FROM `channels` WHERE `mid`=? LIMIT 1;", mid];
-            [db executeUpdate:@"DELETE FROM `messages` WHERE `mid`=? LIMIT 1;", mid];
-            if (cid.length > 0) {
-                NSString *lastMid = [db stringForQuery:@"SELECT `mid` FROM `messages` WHERE `cid`=? AND `mid`<? ORDER BY `mid` DESC LIMIT 1;", cid, mid];
-                [db executeUpdate:@"UPDATE `channels` SET `mid`=? WHERE `cid`=?;", lastMid, cid];
-            }
-            res = YES;
-        }];
-    }
-    return res;
+    if (!mid.length) return YES;
+    __block BOOL success = NO;
+    [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        NSData *cid = [db dataForQuery:@"SELECT cid FROM channels WHERE mid=? LIMIT 1;", mid];
+        success = [db executeUpdate:@"DELETE FROM messages WHERE mid=?;", mid];
+        if (success && cid.length) {
+            NSString *latest = [db stringForQuery:@"SELECT mid FROM messages WHERE cid=? ORDER BY mid DESC LIMIT 1;", cid];
+            success = [db executeUpdate:@"UPDATE channels SET mid=? WHERE cid=?;", latest, cid];
+        }
+        *rollback = !success;
+    }];
+    if (success) [self.messageSearch requestIndexing];
+    return success;
 }
 
 - (BOOL)deleteMessages:(NSArray<NSString *> *)mids {
-    __block BOOL res = YES;
-    if (mids.count > 0) {
-        res = NO;
-        [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            NSMutableSet<NSData *> *cids = [NSMutableSet new];
-            for (NSString *mid in mids) {
-                NSData *cid = [db dataForQuery:@"SELECT `cid` FROM `channels` WHERE `mid`=? LIMIT 1;", mid];
-                if (cid.length > 0) {
-                    [cids addObject:cid];
-                }
-                [db executeUpdate:@"DELETE FROM `messages` WHERE `mid`=? LIMIT 1;", mid];
-            }
-            for (NSData *cid in cids) {
-                if (cid.length > 0) {
-                    NSString *lastMid = [db stringForQuery:@"SELECT `mid` FROM `messages` WHERE `cid`=? ORDER BY `mid` DESC LIMIT 1;", cid];
-                    [db executeUpdate:@"UPDATE `channels` SET `mid`=? WHERE `cid`=?;", lastMid, cid];
-                }
-            }
-            res = YES;
-        }];
-    }
-    return res;
+    if (!mids.count) return YES;
+    __block BOOL success = NO;
+    [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        NSMutableSet<NSData *> *channels = [NSMutableSet new];
+        for (NSString *mid in mids) {
+            NSData *cid = [db dataForQuery:@"SELECT cid FROM channels WHERE mid=? LIMIT 1;", mid];
+            if (cid.length) [channels addObject:cid];
+            if (![db executeUpdate:@"DELETE FROM messages WHERE mid=?;", mid]) { *rollback = YES; return; }
+        }
+        for (NSData *cid in channels) {
+            NSString *latest = [db stringForQuery:@"SELECT mid FROM messages WHERE cid=? ORDER BY mid DESC LIMIT 1;", cid];
+            if (![db executeUpdate:@"UPDATE channels SET mid=? WHERE cid=?;", latest, cid]) { *rollback = YES; return; }
+        }
+        success = YES;
+    }];
+    if (success) [self.messageSearch requestIndexing];
+    return success;
 }
 
 - (BOOL)deleteMessagesWithCID:(nullable NSString *)cid {
@@ -368,9 +400,10 @@
             *rollback = YES;
             return;
         }
-        [db executeUpdate:@"UPDATE `channels` SET `mid`=NULL,`unread`=0 WHERE `cid`=?;", ccid];
-        res = YES;
+        res = [db executeUpdate:@"UPDATE `channels` SET `mid`=NULL,`unread`=0 WHERE `cid`=?;", ccid];
+        *rollback = !res;
     }];
+    if (res) [self.messageSearch requestIndexing];
     return res;
 }
 
@@ -388,6 +421,85 @@
         }
         [res close];
         [res setParentDB:nil];
+    }];
+    return items;
+}
+
+- (void)readMessagesWithSQL:(NSString *)sql arguments:(NSArray *)arguments reverse:(BOOL)reverse completion:(CHMessageLoadCompletion)completion {
+    dispatch_async(self.messageReadQueue, ^{
+        if (self.closed) return;
+        NSMutableArray *items = [NSMutableArray new];
+        __block NSError *error = nil;
+        void (^read)(FMDatabase *) = ^(FMDatabase *db) {
+            if (self.closed) return;
+            sqlite3_progress_handler(db.sqliteHandle, 2000, CHMessageReadCancelled, (__bridge void *)self);
+            FMResultSet *result = [db executeQuery:sql withArgumentsInArray:arguments];
+            if (!result) error = db.lastError;
+            while ([result next] && !self.closed) {
+                CHMessageModel *model = [CHMessageModel modelWithData:[result dataForColumnIndex:1] mid:[result stringForColumnIndex:0]];
+                if (model) [items addObject:model];
+            }
+            if (db.lastErrorCode != SQLITE_OK && db.lastErrorCode != SQLITE_ROW && db.lastErrorCode != SQLITE_DONE) error = db.lastError;
+            [result close];
+            sqlite3_progress_handler(db.sqliteHandle, 0, NULL, NULL);
+        };
+        if (self.dsURL.isFileURL) {
+            // No work is submitted to the message writer's queue for on-disk paging.
+            FMDatabase *db = [FMDatabase databaseWithURL:self.dsURL];
+            if ([db openWithFlags:SQLITE_OPEN_READONLY]) {
+                db.maxBusyRetryTimeInterval = 0.1;
+                read(db);
+            } else {
+                error = db.lastError ?: [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadUnknownError userInfo:nil];
+            }
+            [db close];
+        } else {
+            // Isolated in-memory fixtures must use their original connection, off the UI thread.
+            [self.dbQueue inDatabase:read];
+        }
+        NSArray *messages = reverse ? items.reverseObjectEnumerator.allObjects : items.copy;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (!self.closed) completion(error ? @[] : messages, error);
+        });
+    });
+}
+
+- (void)loadMessagesNearMID:(NSString *)mid channelID:(NSString *)cid count:(NSUInteger)count completion:(CHMessageLoadCompletion)completion {
+    NSData *channel = [NSData dataFromBase64:cid] ?: [NSData dataFromHex:@kCHDefChanCode];
+    NSNumber *limit = @(MIN(MAX(count, 1), 128));
+    [self readMessagesWithSQL:@"SELECT mid,raw FROM (SELECT mid,raw FROM messages WHERE cid=? AND mid<=? ORDER BY mid DESC LIMIT ?) UNION ALL SELECT mid,raw FROM (SELECT mid,raw FROM messages WHERE cid=? AND mid>? ORDER BY mid ASC LIMIT ?) ORDER BY mid DESC;" arguments:@[channel, mid, limit, channel, mid, limit] reverse:NO completion:completion];
+}
+
+- (void)loadMessagesWithCID:(NSString *)cid from:(NSString *)from to:(NSString *)to count:(NSUInteger)count ascending:(BOOL)ascending completion:(CHMessageLoadCompletion)completion {
+    NSData *channel = [NSData dataFromBase64:cid] ?: [NSData dataFromHex:@kCHDefChanCode];
+    NSString *sql = ascending ? @"SELECT mid,raw FROM messages WHERE cid=? AND mid<? AND mid>? ORDER BY mid ASC LIMIT ?;" : @"SELECT mid,raw FROM messages WHERE cid=? AND mid<? AND mid>? ORDER BY mid DESC LIMIT ?;";
+    [self readMessagesWithSQL:sql arguments:@[channel, from, to, @(MIN(MAX(count, 1), 128))] reverse:ascending completion:completion];
+}
+
+- (NSArray<CHMessageModel *> *)messagesNearMID:(NSString *)mid channelID:(NSString *)cid count:(NSUInteger)count {
+    NSMutableArray *items = [NSMutableArray new];
+    NSData *channel = [NSData dataFromBase64:cid];
+    [self.dbQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet *result = [db executeQuery:@"SELECT mid,raw FROM (SELECT mid,raw FROM messages WHERE cid=? AND mid<=? ORDER BY mid DESC LIMIT ?) UNION ALL SELECT mid,raw FROM (SELECT mid,raw FROM messages WHERE cid=? AND mid>? ORDER BY mid ASC LIMIT ?) ORDER BY mid DESC;", channel, mid, @(count), channel, mid, @(count)];
+        while ([result next]) {
+            CHMessageModel *model = [CHMessageModel modelWithData:[result dataForColumnIndex:1] mid:[result stringForColumnIndex:0]];
+            if (model) [items addObject:model];
+        }
+        [result close];
+    }];
+    return items;
+}
+
+- (NSArray<CHMessageModel *> *)messagesAfterMID:(NSString *)mid channelID:(NSString *)cid count:(NSUInteger)count {
+    NSMutableArray *items = [NSMutableArray new];
+    NSData *channel = [NSData dataFromBase64:cid];
+    [self.dbQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet *result = [db executeQuery:@"SELECT mid,raw FROM messages WHERE cid=? AND mid>? ORDER BY mid ASC LIMIT ?;", channel, mid, @(count)];
+        while ([result next]) {
+            CHMessageModel *model = [CHMessageModel modelWithData:[result dataForColumnIndex:1] mid:[result stringForColumnIndex:0]];
+            if (model) [items insertObject:model atIndex:0];
+        }
+        [result close];
     }];
     return items;
 }
@@ -446,6 +558,7 @@
         if (success) res = [db commit];
         if (!res) [db rollback];
     }];
+    if (res) [self.messageSearch requestIndexing];
     if (res && pFlags != nil) *pFlags = flags;
     return res ? model : nil;
 }

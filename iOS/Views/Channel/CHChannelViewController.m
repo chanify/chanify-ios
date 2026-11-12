@@ -38,6 +38,7 @@
 
 @interface CHChannelViewController () <UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, CHMessagesDataSourceDelegate, CHLogicDelegate>
 
+@property (nonatomic, copy) NSString *targetMID;
 @property (nonatomic, readonly, strong) CHChannelModel *model;
 @property (nonatomic, readonly, strong) CHMessagesDataSource *dataSource;
 @property (nonatomic, nullable, strong) UICollectionView *listView;
@@ -52,6 +53,7 @@
 - (instancetype)initWithParameters:(NSDictionary *)params {
     if (self = [super init]) {
         _model = nil;
+        _targetMID = [params[@"mid"] copy];
         [self updateChannel:[params valueForKey:@"cid"]];
     }
     return self;
@@ -109,7 +111,7 @@
         make.left.right.bottom.equalTo(self.view);
     }];
     listView.delegate = self;
-    _dataSource = [CHMessagesDataSource dataSourceWithCollectionView:listView channelID:self.model.cid];
+    _dataSource = [CHMessagesDataSource dataSourceWithCollectionView:listView channelID:self.model.cid targetMID:self.targetMID];
     
     [self setEditing:NO animated:NO];
     
@@ -155,7 +157,7 @@
 }
 
 - (BOOL)isEqualWithParameters:(NSDictionary *)params {
-    return [self.model.cid isEqual:[params valueForKey:@"cid"]];
+    return ![params[@"mid"] length] && [self.model.cid isEqual:[params valueForKey:@"cid"]];
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
@@ -203,6 +205,9 @@
         [self.dataSource scrollViewDidScroll];
     }
     CGFloat height = scrollView.bounds.size.height;
+    if (scrollView.dragging && yOffset + height >= scrollView.contentSize.height - 150) {
+        [self.dataSource loadNextMessages];
+    }
     CGFloat offset = scrollView.contentSize.height- yOffset - height*2 ;
     [self updateBottomButton:offset >= 0];
 }
@@ -288,7 +293,7 @@
 }
 
 - (void)actionGotoBottom:(id)sender {
-    [self.dataSource scrollToBottom:YES];
+    [self.dataSource showLatestMessages];
 }
 
 #pragma mark - Private Methods

@@ -19,6 +19,16 @@
 @interface CHMessagesDataSource () <CHMessageSource>
 
 @property (nonatomic, readonly, strong) NSString *cid;
+@property (nonatomic, copy) NSString *targetMID;
+@property (nonatomic) BOOL browsingHistory;
+@property (nonatomic) BOOL loadingNext;
+@property (nonatomic) BOOL loadingEarlier;
+@property (nonatomic) BOOL loadingLatest;
+@property (nonatomic) BOOL latestRequested;
+@property (nonatomic) BOOL scrollAfterLatestLoad;
+@property (nonatomic) NSUInteger mutationRevision;
+@property (nonatomic) BOOL loadingTarget;
+@property (nonatomic) NSUInteger contextGeneration;
 @property (nonatomic, nullable, strong) CHLoadMoreView *headerView;
 @property (nonatomic, readonly, weak) UICollectionView *collectionView;
 @property (nonatomic, nullable, weak) UIMenuController *itemMenu;
@@ -31,10 +41,15 @@
 typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConversationDiffableSnapshot;
 
 + (instancetype)dataSourceWithCollectionView:(UICollectionView *)collectionView channelID:(NSString *)cid {
-    return [[self.class alloc] initWithCollectionView:collectionView channelID:cid];
+    return [self dataSourceWithCollectionView:collectionView channelID:cid targetMID:nil];
 }
 
-- (instancetype)initWithCollectionView:(UICollectionView *)collectionView channelID:(NSString *)cid {
++ (instancetype)dataSourceWithCollectionView:(UICollectionView *)collectionView channelID:(NSString *)cid targetMID:(NSString *)mid {
+    return [[self alloc] initWithCollectionView:collectionView channelID:cid targetMID:mid];
+}
+
+- (instancetype)initWithCollectionView:(UICollectionView *)collectionView channelID:(NSString *)cid targetMID:(NSString *)mid {
+    _targetMID = [mid copy];
     _cid = cid;
     _lastMsgCellItem = nil;
     NSDictionary<NSString *, UICollectionViewCellRegistration *> *cellRegistrations = [CHCellConfiguration cellRegistrations];
@@ -53,11 +68,14 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
         @weakify(self);
         self.supplementaryViewProvider = ^UICollectionReusableView *(UICollectionView *collectionView, NSString *elementKind, NSIndexPath *indexPath) {
             @strongify(self);
-            if (self.headerView == nil) {
-                self.headerView = [collectionView dequeueConfiguredReusableSupplementaryViewWithRegistration:supplementaryRegistration forIndexPath:indexPath];
-                [self updateHeaderView];
-            }
-            return self.headerView;
+            CHLoadStatus status = self.headerView ? self.headerView.status :
+                ([collectionView numberOfItemsInSection:0] < kCHMessageListPageSize ? CHLoadStatusFinish : CHLoadStatusNormal);
+            // Scrolling offscreen or resetting can return the header to the reuse
+            // queue. Dequeue on every request and preserve the pagination state.
+            CHLoadMoreView *header = [collectionView dequeueConfiguredReusableSupplementaryViewWithRegistration:supplementaryRegistration forIndexPath:indexPath];
+            self.headerView = header;
+            header.status = status;
+            return header;
         };
 
         [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(actionDidShowMenu:) name:UIMenuControllerDidShowMenuNotification object:nil];
@@ -72,11 +90,25 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
 }
 
 - (void)reset:(BOOL)animated {
+    self.contextGeneration++;
+    self.loadingTarget = NO;
+    self.loadingEarlier = NO;
+    self.loadingNext = NO;
+    self.loadingLatest = NO;
+    self.latestRequested = NO;
+    self.scrollAfterLatestLoad = NO;
+    self.headerView.status = CHLoadStatusNormal;
+    self.collectionView.backgroundView = nil;
     CHConversationDiffableSnapshot *snapshot = [CHConversationDiffableSnapshot new];
     [snapshot appendSectionsWithIdentifiers:@[@"main"]];
     [self applySnapshot:snapshot animatingDifferences:NO];
     
-    [self loadLatestMessage:animated];
+    if (self.targetMID.length) {
+        [self loadTargetMessage];
+    } else {
+        self.browsingHistory = NO;
+        [self loadLatestMessage:animated];
+    }
 }
 
 - (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -110,11 +142,14 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
 }
 
 - (void)scrollViewDidScroll {
+    if (self.loadingTarget || self.loadingEarlier) return;
     if (self.headerView != nil && self.headerView.status == CHLoadStatusNormal) {
         self.headerView.status = ([self.collectionView numberOfItemsInSection:0] > 0 ? CHLoadStatusLoading : CHLoadStatusFinish);
+        NSUInteger generation = self.contextGeneration;
         @weakify(self);
         dispatch_main_after(kCHLoadingDuration, ^{
             @strongify(self);
+            if (self.contextGeneration != generation) return;
             [self loadEarlistMessage];
         });
     }
@@ -129,73 +164,204 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
 }
 
 - (void)loadEarlistMessage {
-    if ([self.collectionView numberOfItemsInSection:0] <= 0) {
-        [self loadLatestMessage:YES];
-    } else {
-        CHCellConfiguration *item = [self itemIdentifierForIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-        NSArray<CHMessageModel *> *items = [CHLogic.shared.userDataSource messageWithCID:self.cid from:item.mid to:@"" count:kCHMessageListPageSize];
-        self.headerView.status = (items.count < kCHMessageListPageSize ? CHLoadStatusFinish : CHLoadStatusNormal);
-        if (items.count > 0) {
-            NSMutableArray<CHCellConfiguration *> *selectedCells = nil;
-            if (self.isEditing) {
-                NSArray<NSIndexPath *> *indexPaths = self.collectionView.indexPathsForSelectedItems;
-                if (indexPaths.count > 0) {
-                    selectedCells = [NSMutableArray arrayWithCapacity:indexPaths.count];
-                    for (NSIndexPath *indexPath in indexPaths) {
-                        [selectedCells addObject:[self itemIdentifierForIndexPath:indexPath]];
-                    }
-                }
-            }
-            [self performAndKeepOffset:^{
-                NSArray<CHCellConfiguration *> *cells = [self calcItems:items last:nil];
-                CHConversationDiffableSnapshot *snapshot = self.snapshot;
-                [snapshot insertItemsWithIdentifiers:cells beforeItemWithIdentifier:item];
-                [self applySnapshot:snapshot animatingDifferences:NO];
-            }];
-            if (selectedCells.count > 0) {
-                for (CHCellConfiguration *cell in selectedCells) {
-                    [self.collectionView selectItemAtIndexPath:[self indexPathForItemIdentifier:cell] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-                }
+    if (self.loadingTarget || self.loadingEarlier) return;
+    CHCellConfiguration *anchor = self.snapshot.itemIdentifiers.firstObject;
+    if (!anchor) { [self loadLatestMessage:YES]; return; }
+    self.loadingEarlier = YES;
+    self.headerView.status = CHLoadStatusLoading;
+    NSUInteger generation = self.contextGeneration;
+    NSUInteger revision = self.mutationRevision;
+    CHUserDataSource *account = CHLogic.shared.userDataSource;
+    __weak typeof(self) weakSelf = self;
+    [account loadMessagesWithCID:self.cid from:anchor.mid to:@"" count:kCHMessageListPageSize ascending:NO completion:^(NSArray<CHMessageModel *> *items, NSError *error) {
+        __strong typeof(weakSelf) self = weakSelf;
+        if (!self || generation != self.contextGeneration || account != CHLogic.shared.userDataSource) return;
+        self.loadingEarlier = NO;
+        if (revision != self.mutationRevision || [self.snapshot indexOfItemIdentifier:anchor] == NSNotFound) {
+            [self loadEarlistMessage];
+            return;
+        }
+        if (error) {
+            self.headerView.status = CHLoadStatusNormal;
+            [CHRouter.shared makeToast:@"Could not load messages. Please try again.".localized];
+            return;
+        }
+        self.headerView.status = items.count < kCHMessageListPageSize ? CHLoadStatusFinish : CHLoadStatusNormal;
+        if (!items.count) return;
+        NSMutableArray<CHCellConfiguration *> *selectedCells = [NSMutableArray new];
+        if (self.isEditing) {
+            for (NSIndexPath *path in self.collectionView.indexPathsForSelectedItems) {
+                CHCellConfiguration *cell = [self itemIdentifierForIndexPath:path];
+                if (cell) [selectedCells addObject:cell];
             }
         }
-    }
+        [self performAndKeepOffset:^{
+            CHConversationDiffableSnapshot *snapshot = self.snapshot;
+            [snapshot insertItemsWithIdentifiers:[self calcItems:items last:nil] beforeItemWithIdentifier:anchor];
+            [self applySnapshot:snapshot animatingDifferences:NO];
+        }];
+        for (CHCellConfiguration *cell in selectedCells) {
+            NSIndexPath *path = [self indexPathForItemIdentifier:cell];
+            if (path) [self.collectionView selectItemAtIndexPath:path animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+        }
+    }];
 }
 
 - (void)loadLatestMessage:(BOOL)animated {
-    NSDate *last = nil;
-    NSString *to = @"";
-    NSString *from = @"7FFFFFFFFFFFFFFF";
-    NSInteger count = [self.collectionView numberOfItemsInSection:0];
-    if (count > 0) {
-        CHCellConfiguration *item = [self itemIdentifierForIndexPath:[NSIndexPath indexPathForRow:count - 1 inSection:0]];
-        to = item.mid;
-        last = item.date;
-    }
-    NSArray<CHMessageModel *> *items = [CHLogic.shared.userDataSource messageWithCID:self.cid from:from to:to count:kCHMessageListPageSize];
-    if (items.count > 0) {
-        CHConversationDiffableSnapshot *snapshot = self.snapshot;
-        [snapshot appendItemsWithIdentifiers:[self calcItems:items last:last]];
-        [self applySnapshot:snapshot animatingDifferences:animated];
-        @weakify(self);
-        dispatch_main_async(^{
-            @strongify(self);
+    if (self.browsingHistory) return;
+    if (self.loadingLatest) { self.latestRequested = YES; return; }
+    self.loadingLatest = YES;
+    CHCellConfiguration *last = self.snapshot.itemIdentifiers.lastObject;
+    NSUInteger generation = self.contextGeneration;
+    NSUInteger revision = self.mutationRevision;
+    CHUserDataSource *account = CHLogic.shared.userDataSource;
+    __weak typeof(self) weakSelf = self;
+    // When catching up, load the nearest newer records so a burst cannot create a gap.
+    [account loadMessagesWithCID:self.cid from:@"7FFFFFFFFFFFFFFF" to:last.mid ?: @"" count:kCHMessageListPageSize ascending:last != nil completion:^(NSArray<CHMessageModel *> *items, NSError *error) {
+        __strong typeof(weakSelf) self = weakSelf;
+        if (!self || generation != self.contextGeneration || account != CHLogic.shared.userDataSource) return;
+        self.loadingLatest = NO;
+        BOOL requested = self.latestRequested;
+        self.latestRequested = NO;
+        if (revision != self.mutationRevision) { [self loadLatestMessage:animated]; return; }
+        if (error) {
+            [CHRouter.shared makeToast:@"Could not load messages. Please try again.".localized];
+            return;
+        }
+        if (items.count) {
+            CHConversationDiffableSnapshot *snapshot = self.snapshot;
+            [snapshot appendItemsWithIdentifiers:[self calcItems:items last:last.date]];
+            [self applySnapshot:snapshot animatingDifferences:animated];
             id delegate = self.collectionView.delegate;
-            if ([delegate conformsToProtocol:@protocol(CHMessagesDataSourceDelegate)]) {
-                if (![(id<CHMessagesDataSourceDelegate>)delegate messagesDataSourceReciveNewMessage]) {
-                    [self scrollToBottom:animated];
+            BOOL keepPosition = [delegate conformsToProtocol:@protocol(CHMessagesDataSourceDelegate)] && [(id<CHMessagesDataSourceDelegate>)delegate messagesDataSourceReciveNewMessage];
+            if (self.scrollAfterLatestLoad || !keepPosition) [self scrollToBottom:animated];
+        }
+        self.scrollAfterLatestLoad = NO;
+        [self updateHeaderView];
+        if (requested || (last && items.count == kCHMessageListPageSize)) [self loadLatestMessage:animated];
+    }];
+}
+
+- (void)loadTargetMessage {
+    if (self.loadingTarget) return;
+    NSString *mid = self.targetMID;
+    self.targetMID = nil;
+    self.browsingHistory = YES;
+    self.loadingTarget = YES;
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
+    [indicator startAnimating];
+    self.collectionView.backgroundView = indicator;
+    NSUInteger generation = self.contextGeneration;
+    NSUInteger revision = self.mutationRevision;
+    CHUserDataSource *account = CHLogic.shared.userDataSource;
+    __weak typeof(self) weakTargetSelf = self;
+    [account loadMessagesNearMID:mid channelID:self.cid count:kCHMessageListPageSize completion:^(NSArray<CHMessageModel *> *messages, NSError *error) {
+        __strong typeof(weakTargetSelf) self = weakTargetSelf;
+        if (!self || generation != self.contextGeneration || account != CHLogic.shared.userDataSource) return;
+        self.loadingTarget = NO;
+        self.collectionView.backgroundView = nil;
+        if (revision != self.mutationRevision) {
+            self.targetMID = mid;
+            [self loadTargetMessage];
+            return;
+        }
+        if (error) {
+            self.targetMID = mid;
+            UIButton *retry = [UIButton buttonWithType:UIButtonTypeSystem];
+            [retry setTitle:@"Retry".localized forState:UIControlStateNormal];
+            [retry addTarget:self action:@selector(retryTargetMessage:) forControlEvents:UIControlEventTouchUpInside];
+            self.collectionView.backgroundView = retry;
+            [CHRouter.shared makeToast:@"Could not load messages. Please try again.".localized];
+            return;
+        }
+        BOOL found = NO;
+        for (CHMessageModel *message in messages) if ([message.mid isEqualToString:mid]) found = YES;
+        if (!found) {
+            self.browsingHistory = NO;
+            [CHRouter.shared makeToast:@"This message is no longer available".localized];
+            [self loadLatestMessage:NO];
+            return;
+        }
+        self.browsingHistory = YES;
+        self.loadingTarget = YES;
+        CHConversationDiffableSnapshot *snapshot = self.snapshot;
+        NSArray *cells = [self calcItems:messages last:nil];
+        [snapshot appendItemsWithIdentifiers:cells];
+        __weak typeof(self) weakSelf = self;
+        [self applySnapshot:snapshot animatingDifferences:NO completion:^{
+            __strong typeof(weakSelf) self = weakSelf;
+            if (!self || generation != self.contextGeneration) return;
+            [self.collectionView layoutIfNeeded];
+            for (CHCellConfiguration *item in cells) {
+                if ([item.mid isEqualToString:mid] && ![item isKindOfClass:CHDateCellConfiguration.class]) {
+                    NSIndexPath *path = [self indexPathForItemIdentifier:item];
+                    if (!path) break;
+                    [self.collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:NO];
+                    [self.collectionView layoutIfNeeded];
+                    UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:path];
+                    UIView *highlight = [[UIView alloc] initWithFrame:cell.contentView.bounds];
+                    highlight.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+                    highlight.backgroundColor = [UIColor.systemYellowColor colorWithAlphaComponent:0.3];
+                    highlight.userInteractionEnabled = NO;
+                    [cell.contentView addSubview:highlight];
+                    [UIView animateWithDuration:0.5 delay:1 options:UIViewAnimationOptionCurveEaseOut animations:^{ highlight.alpha = 0; } completion:^(BOOL finished) { [highlight removeFromSuperview]; }];
+                    break;
                 }
             }
+            self.loadingTarget = NO;
             [self updateHeaderView];
-        });
+        }];
+    }];
+}
+
+- (void)retryTargetMessage:(id)sender { [self loadTargetMessage]; }
+
+- (void)loadNextMessages {
+    if (!self.browsingHistory || self.loadingNext || self.loadingTarget) return;
+    CHCellConfiguration *last = self.snapshot.itemIdentifiers.lastObject;
+    if (!last) return;
+    self.loadingNext = YES;
+    NSUInteger generation = self.contextGeneration;
+    NSUInteger revision = self.mutationRevision;
+    CHUserDataSource *account = CHLogic.shared.userDataSource;
+    __weak typeof(self) weakSelf = self;
+    [account loadMessagesWithCID:self.cid from:@"7FFFFFFFFFFFFFFF" to:last.mid count:kCHMessageListPageSize ascending:YES completion:^(NSArray<CHMessageModel *> *messages, NSError *error) {
+        __strong typeof(weakSelf) self = weakSelf;
+        if (!self || generation != self.contextGeneration || account != CHLogic.shared.userDataSource) return;
+        self.loadingNext = NO;
+        if (revision != self.mutationRevision) { [self loadNextMessages]; return; }
+        if (error) {
+            [CHRouter.shared makeToast:@"Could not load messages. Please try again.".localized];
+            return;
+        }
+        if (messages.count < kCHMessageListPageSize) self.browsingHistory = NO;
+        if (messages.count) {
+            CHConversationDiffableSnapshot *snapshot = self.snapshot;
+            [snapshot appendItemsWithIdentifiers:[self calcItems:messages last:last.date]];
+            [self applySnapshot:snapshot animatingDifferences:NO];
+        }
+    }];
+}
+
+- (void)showLatestMessages {
+    if (self.browsingHistory) {
+        self.targetMID = nil;
+        [self reset:NO];
+        self.scrollAfterLatestLoad = YES;
+    } else if (self.loadingLatest) {
+        self.scrollAfterLatestLoad = YES;
     }
+    [self scrollToBottom:YES];
 }
 
 - (void)deleteMessage:(nullable CHMessageModel *)model animated:(BOOL)animated {
     if (model != nil) {
+        self.mutationRevision++;
         CHConversationDiffableSnapshot *snapshot = self.snapshot;
         CHCellConfiguration *item = [CHCellConfiguration cellConfiguration:model];
         NSMutableArray<CHCellConfiguration *> *deleteItems = [NSMutableArray arrayWithObject:item];
         NSInteger idx = [snapshot indexOfItemIdentifier:item];
+        if (idx == NSNotFound) return;
         if (idx > 0) {
             NSArray<CHCellConfiguration *> *items = snapshot.itemIdentifiers;
             CHCellConfiguration *prev = [items objectAtIndex:idx - 1];
@@ -217,6 +383,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
 
 - (void)deleteMessages:(NSArray<NSString *> *)mids animated:(BOOL)animated {
     if (mids.count > 0) {
+        self.mutationRevision++;
         CHCellConfiguration *last = nil;
         CHConversationDiffableSnapshot *snapshot = self.snapshot;
         NSMutableArray<CHCellConfiguration *> *deleteItems = [NSMutableArray arrayWithCapacity:mids.count];

@@ -207,3 +207,17 @@
 "DeleteAccountFailed" = "Account deletion did not finish. Check connectivity and ensure every server supports account deletion, then retry. Your account key has been kept for retry.";
 
 "FinishDeletionBeforeLogout" = "Account deletion is unfinished. Retry Delete Account before logging out.";
+
+/* Message search */
+"Search messages" = "Search messages";
+"Search message titles and text" = "Search message titles and text";
+"Searching…" = "Searching…";
+"Message search is unavailable" = "Message search is unavailable";
+"Search could not finish. Try a longer keyword or try again." = "Search could not finish. Try a longer keyword or try again.";
+"Some messages are not yet searchable" = "Some messages are not yet searchable";
+"No matching messages" = "No matching messages";
+"This message is no longer available" = "This message is no longer available";
+"Use up to 256 characters to search" = "Use up to 256 characters to search";
+"No matching messages in the current search index" = "No matching messages in the current search index";
+"Could not load messages. Please try again." = "Could not load messages. Please try again.";
+"Retry" = "Retry";

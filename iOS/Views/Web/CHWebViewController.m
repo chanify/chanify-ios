@@ -21,6 +21,9 @@
 @property (nonatomic, nullable, strong) UIView *emptyView;
 @property (nonatomic, readonly, strong) NSURL *url;
 @property (nonatomic, nullable, strong) NSArray *leftItems;
+@property (nonatomic, nullable, weak) UIGestureRecognizer *managedPopGestureRecognizer;
+@property (nonatomic) BOOL popGestureWasEnabled;
+@property (nonatomic) BOOL navigationGesturesActive;
 
 @end
 
@@ -90,14 +93,37 @@
     [webView loadRequest:[NSURLRequest requestWithURL:self.url]];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (self.managedPopGestureRecognizer == nil) {
+        self.managedPopGestureRecognizer = self.navigationController.interactivePopGestureRecognizer;
+        self.popGestureWasEnabled = self.managedPopGestureRecognizer.enabled;
+    }
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    // Wait until an incoming interactive pop has finished before disabling it
+    // for web history. Changing enabled in viewWillAppear would cancel the pop.
+    self.navigationGesturesActive = YES;
+    [self updateNavigationGesture];
     self.webView.allowsBackForwardNavigationGestures = YES;
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated {
+    self.navigationGesturesActive = NO;
     self.webView.allowsBackForwardNavigationGestures = NO;
-    [super viewDidDisappear:animated];
+    // Restore before the next controller appears, including when another web
+    // controller is pushed. A cancelled transition acquires the state again.
+    self.managedPopGestureRecognizer.enabled = self.popGestureWasEnabled;
+    self.managedPopGestureRecognizer = nil;
+    [super viewWillDisappear:animated];
+}
+
+- (void)updateNavigationGesture {
+    // Hidden web views can still receive canGoBack KVO notifications.
+    if (!self.navigationGesturesActive) return;
+    self.managedPopGestureRecognizer.enabled = self.popGestureWasEnabled && !self.webView.canGoBack;
 }
 
 #pragma mark - WKNavigationDelegate
@@ -232,7 +258,7 @@
             return;
         } else if ([keyPath isEqualToString:@"canGoBack"]) {
             BOOL canGoBack = self.webView.canGoBack;
-            self.navigationController.interactivePopGestureRecognizer.enabled = !canGoBack;
+            [self updateNavigationGesture];
             if (canGoBack) {
                 self.navigationItem.leftBarButtonItems = self.leftItems;
             } else {

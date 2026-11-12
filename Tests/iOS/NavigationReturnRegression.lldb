@@ -1,0 +1,55 @@
+# Run in a clean simulator with no account. All files are synthetic and local.
+# Execute named phases individually with LLDB paused on the idle main thread.
+# Resume for at least one second after each phase for UIKit/WebKit callbacks.
+# After check-hidden-history, resume and run NavigationReturnRegression.swift's
+# testBackGestures (cancel then complete pop). Then check-return-to-web.
+# For a separate web-history run, use setup -> open-web -> check-first-and-load-history,
+# then testWebHistoryBack, and inspect URL= navigation-a.html / canGoBack=NO.
+# Stop the app after cleanup. Keep UI test targets outside the production project.
+
+# Phase: setup
+expression -l objc++ -- @import UIKit
+expression -l objc++ -- @import WebKit
+expression -l objc++ -- UIWindow *$navRegressionWindow=((UIWindowScene *)UIApplication.sharedApplication.connectedScenes.anyObject).windows.firstObject; NSURL *$navRegressionA=[[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"navigation-a.html"]]; NSURL *$navRegressionB=[[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"navigation-b.html"]]; NSURL *$navRegressionText=[[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"navigation-long.txt"]];
+expression -l objc++ -- (BOOL)[@"<html><title>Navigation A</title><body>Synthetic page A</body></html>" writeToURL:$navRegressionA atomically:YES encoding:NSUTF8StringEncoding error:nil]; (BOOL)[@"<html><title>Navigation B</title><body>Synthetic page B</body></html>" writeToURL:$navRegressionB atomically:YES encoding:NSUTF8StringEncoding error:nil]; (BOOL)[[@"Synthetic long text.\n" stringByPaddingToLength:50000 withString:@"Local navigation regression.\n" startingAtIndex:0] writeToURL:$navRegressionText atomically:YES encoding:NSUTF8StringEncoding error:nil];
+expression -l objc++ -- UIViewController *$navRegressionRoot=[UIViewController new]; $navRegressionRoot.title=@"Regression root"; UINavigationController *$navRegressionStack=[[UINavigationController alloc] initWithRootViewController:$navRegressionRoot]; $navRegressionStack.modalPresentationStyle=UIModalPresentationFullScreen; (void)[$navRegressionWindow.rootViewController presentViewController:$navRegressionStack animated:NO completion:nil]; UIViewController *$navRegressionWeb=(id)[[NSClassFromString(@"CHWebViewController") alloc] initWithUrl:$navRegressionA parameters:@{@"title":@"Navigation web"}];
+
+# Phase: open-web
+expression -l objc++ -- (void)[$navRegressionStack pushViewController:$navRegressionWeb animated:YES];
+
+# Phase: check-first-and-load-history
+expression -l objc++ -O -- $navRegressionStack.interactivePopGestureRecognizer.enabled ? @"PASS: first page allows navigation pop" : @"FAIL: first page"
+expression -l objc++ -- (id)[(WKWebView *)(id)[$navRegressionWeb valueForKey:@"webView"] loadRequest:[NSURLRequest requestWithURL:$navRegressionB]];
+
+# Phase: check-history-and-cover
+expression -l objc++ -O -- [(WKWebView *)(id)[$navRegressionWeb valueForKey:@"webView"] canGoBack] && !$navRegressionStack.interactivePopGestureRecognizer.enabled ? @"PASS: visible history uses web back" : @"FAIL: history"
+expression -l objc++ -- UIViewController *$navRegressionPreview=(id)[NSClassFromString(@"CHPreviewController") previewFile:$navRegressionText]; (void)[$navRegressionStack pushViewController:$navRegressionPreview animated:YES];
+
+# Phase: check-covered-and-change-history
+expression -l objc++ -O -- $navRegressionStack.interactivePopGestureRecognizer.enabled && $navRegressionPreview.preferredTransition==nil ? @"PASS: covered web restores gesture and preview uses normal transition" : @"FAIL: covered web/preview"
+expression -l objc++ -- (id)[(WKWebView *)(id)[$navRegressionWeb valueForKey:@"webView"] goBack];
+
+# Phase: check-hidden-and-forward
+expression -l objc++ -O -- ![(WKWebView *)(id)[$navRegressionWeb valueForKey:@"webView"] canGoBack] && $navRegressionStack.interactivePopGestureRecognizer.enabled ? @"PASS: hidden canGoBack=NO does not affect top page" : @"FAIL: hidden KVO"
+expression -l objc++ -- (id)[(WKWebView *)(id)[$navRegressionWeb valueForKey:@"webView"] goForward];
+
+# Phase: check-hidden-history
+expression -l objc++ -O -- [(WKWebView *)(id)[$navRegressionWeb valueForKey:@"webView"] canGoBack] && $navRegressionStack.interactivePopGestureRecognizer.enabled ? @"PASS: hidden canGoBack=YES does not disable top page" : @"FAIL: hidden KVO"
+
+# Phase: check-return-to-web
+expression -l objc++ -O -- $navRegressionStack.topViewController==$navRegressionWeb && !$navRegressionStack.interactivePopGestureRecognizer.enabled ? @"PASS: completed interactive return lets visible web reclaim history gesture" : @"FAIL: return to web"
+expression -l objc++ -- (id)[$navRegressionStack popViewControllerAnimated:YES];
+
+# Phase: check-exit-and-original-disabled
+expression -l objc++ -O -- $navRegressionStack.topViewController==$navRegressionRoot && $navRegressionStack.interactivePopGestureRecognizer.enabled ? @"PASS: web exit restored original enabled state" : @"FAIL: web exit"
+expression -l objc++ -- $navRegressionStack.interactivePopGestureRecognizer.enabled=NO; UIViewController *$navRegressionDisabledWeb=(id)[[NSClassFromString(@"CHWebViewController") alloc] initWithUrl:$navRegressionA parameters:nil]; (void)[$navRegressionStack pushViewController:$navRegressionDisabledWeb animated:YES];
+
+# Phase: check-disabled-entry
+expression -l objc++ -O -- !$navRegressionStack.interactivePopGestureRecognizer.enabled ? @"PASS: originally disabled stays disabled on entry" : @"FAIL: disabled entry"
+expression -l objc++ -- (id)[$navRegressionStack popViewControllerAnimated:YES];
+
+# Phase: check-disabled-exit
+expression -l objc++ -O -- !$navRegressionStack.interactivePopGestureRecognizer.enabled ? @"PASS: originally disabled stays disabled on exit" : @"FAIL: disabled exit"
+
+# Phase: cleanup
+expression -l objc++ -- (void)[$navRegressionStack dismissViewControllerAnimated:NO completion:nil];
