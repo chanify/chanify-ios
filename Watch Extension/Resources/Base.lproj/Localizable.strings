@@ -26,3 +26,35 @@
 "AudioMsg"="[Audio]";
 "LinkMsg"="[Link]";
 "FileMsg"="[File]";
+
+// Watch configuration and node operation feedback
+"Updating"="Updating…";
+"ManageNodesOnPhone"="Manage or remove nodes in Chanify on your iPhone.";
+"UpdateNodeRetryHint"="Check the Watch network connection and node availability, then try again.";
+"NoNodesHint"="No nodes yet. Add a Watch-compatible node in Chanify on your iPhone.";
+"ConfigurationFailed"="Could not apply configuration. Your previous account is kept when the configuration is invalid.";
+"RetryConfiguration"="Retry saved configuration";
+"ConfigurationReceived"="Configuration received";
+"WaitingForConfiguration"="Waiting for iPhone configuration";
+"ConfigurationProcessedAt"="Last configuration processed";
+"ConfigurationSyncHint"="Open Chanify on your iPhone to sync. Node connections may still be pending. Retry only reapplies the saved configuration.";
+"NotificationsDenied"="Notifications are off. Enable Chanify notifications in Settings.";
+"EnableNotifications"="Enable notifications";
+"WatchStatus"="Sync & Notifications";
+"ConfigurationFailedShort"="Configuration failed";
+"NotificationsEnabled"="Notifications enabled";
+
+// Local message summaries
+"RecentMessages"="Recent Messages";
+"MessageSummary"="Message Summary";
+"NoRecentMessages"="No messages received on this Watch yet.";
+"WatchMessagesScope"="Messages received on this Watch only. Attachments and actions are shown as text summaries.";
+"ReceivingMessages"="Updating messages…";
+"MessageLoadFailed"="Could not load messages. Please try refreshing.";
+"MessagesPendingHint"="Some messages are not ready. Refresh to retry.";
+"LoadMoreMessages"="Load older messages";
+"RefreshMessages"="Refresh";
+"MessageUnavailableHint"="This message is not available on your Watch yet. Try refreshing.";
+"LongMessageHint"="This summary is shortened. View the full message on your iPhone.";
+"Done"="Done";
+"MessagesUpdatedHint"="Messages may have changed. Refresh to see the latest.";

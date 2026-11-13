@@ -464,6 +464,106 @@ static int CHMessageReadCancelled(void *context) {
     });
 }
 
+#if TARGET_OS_WATCH
+- (nullable NSString *)repairWatchMessagesAfterMID:(NSString *)mid storage:(id<CHKeyStorage, CHBlockedStorage>)storage uid:(NSString *)uid limit:(NSUInteger)limit pending:(BOOL *)pending error:(NSError **)error {
+    if (error != nil) *error = nil;
+    __block NSError *failure = nil;
+    __block NSString *cursor = nil;
+    __block BOOL needsKey = *pending;
+    [self.dbQueue inDatabase:^(FMDatabase *db) {
+        // A completed repair is a read-only no-op, including while a page reader
+        // holds a snapshot. Take the write lock only when repair is still needed.
+        if ([db intForQuery:@"SELECT value FROM options WHERE key='watch-encrypted-cache-repaired-v1';"] == 1) return;
+        if (db.lastErrorCode != SQLITE_OK && db.lastErrorCode != SQLITE_ROW && db.lastErrorCode != SQLITE_DONE) {
+            failure = db.lastError;
+            return;
+        }
+        if (![db beginTransaction]) { failure = db.lastError; return; }
+        NSMutableArray *batch = [NSMutableArray new];
+        FMResultSet *rows = [db executeQuery:@"SELECT mid,raw FROM messages WHERE mid>? ORDER BY mid ASC LIMIT ?;", mid, @(MIN(MAX(limit, 1), 32))];
+        if (!rows) failure = db.lastError;
+        while ([rows next]) {
+            NSString *messageID = [rows stringForColumnIndex:0];
+            NSData *data = [rows dataForColumnIndex:1];
+            cursor = messageID;
+            if (messageID.length > 0 && data.length > 0) [batch addObject:@[messageID, data]];
+        }
+        if (db.lastErrorCode != SQLITE_OK && db.lastErrorCode != SQLITE_ROW && db.lastErrorCode != SQLITE_DONE) failure = db.lastError;
+        [rows close];
+        for (NSArray *row in batch) {
+            if (failure != nil) break;
+            NSData *resolved = nil;
+            CHMessageProcessFlags flags = 0;
+            CHMessageModel *model = [CHMessageModel modelWithWatchCachedData:row[1] mid:row[0] storage:storage uid:uid raw:&resolved flags:&flags];
+            if (model != nil && resolved.length > 0) {
+                if (![db executeUpdate:@"UPDATE messages SET raw=? WHERE mid=? AND raw=?;", resolved, row[0], row[1]]) failure = db.lastError;
+            } else if ((flags & CHMessageProcessFlagBlocked) == CHMessageProcessFlagBlocked) {
+                if (![db executeUpdate:@"DELETE FROM messages WHERE mid=? AND raw=?;", row[0], row[1]] ||
+                    ![db executeUpdate:@"UPDATE channels SET mid=(SELECT MAX(mid) FROM messages WHERE cid=channels.cid) WHERE mid=?;", row[0]]) failure = db.lastError;
+            } else if (flags & CHMessageProcessFlagNeedsKey) {
+                needsKey = YES;
+            }
+        }
+        if (!failure && cursor == nil && !needsKey) {
+            if (![db executeUpdate:@"INSERT INTO options(key,value) VALUES('watch-encrypted-cache-repaired-v1',1) ON CONFLICT(key) DO UPDATE SET value=1;"]) failure = db.lastError;
+        }
+        if (failure || ![db commit]) {
+            failure = failure ?: db.lastError;
+            [db rollback];
+        }
+    }];
+    if (error != nil) *error = failure;
+    *pending = needsKey || failure != nil;
+    return failure ? nil : cursor;
+}
+
+// Keep Watch browsing isolated from the existing iOS channel paging path.
+- (void)loadWatchMessagesBeforeMID:(nullable NSString *)mid count:(NSUInteger)count completion:(CHWatchMessageLoadCompletion)completion {
+    NSUInteger limit = MIN(MAX(count, 1), 32);
+    dispatch_async(self.messageReadQueue, ^{
+        if (self.closed) return;
+        NSMutableArray *messages = [NSMutableArray new];
+        __block NSString *cursor = nil;
+        __block BOOL hasMore = NO;
+        __block NSError *error = nil;
+        void (^read)(FMDatabase *) = ^(FMDatabase *db) {
+            if (self.closed) return;
+            sqlite3_progress_handler(db.sqliteHandle, 2000, CHMessageReadCancelled, (__bridge void *)self);
+            NSString *filter = mid.length > 0 ? @" AND m.mid<?" : @"";
+            NSString *sql = [NSString stringWithFormat:@"SELECT m.mid,m.raw FROM messages m INNER JOIN channels c ON c.cid=m.cid WHERE IFNULL(c.hidden,0)=0 AND IFNULL(c.deleted,0)=0%@ ORDER BY m.mid DESC LIMIT ?;", filter];
+            NSArray *arguments = mid.length > 0 ? @[mid, @(limit + 1)] : @[@(limit + 1)];
+            FMResultSet *rows = [db executeQuery:sql withArgumentsInArray:arguments];
+            if (!rows) error = db.lastError;
+            NSUInteger scanned = 0;
+            while ([rows next] && !self.closed) {
+                if (scanned++ >= limit) { hasMore = YES; break; }
+                cursor = [rows stringForColumnIndex:0];
+                CHMessageModel *message = [CHMessageModel modelWithData:[rows dataForColumnIndex:1] mid:cursor];
+                if (message) [messages addObject:message];
+            }
+            if (db.lastErrorCode != SQLITE_OK && db.lastErrorCode != SQLITE_ROW && db.lastErrorCode != SQLITE_DONE) error = db.lastError;
+            [rows close];
+            sqlite3_progress_handler(db.sqliteHandle, 0, NULL, NULL);
+        };
+        if (self.dsURL.isFileURL) {
+            FMDatabase *db = [FMDatabase databaseWithURL:self.dsURL];
+            if ([db openWithFlags:SQLITE_OPEN_READONLY]) {
+                db.maxBusyRetryTimeInterval = 0.1;
+                read(db);
+            } else {
+                error = db.lastError ?: [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadUnknownError userInfo:nil];
+            }
+            [db close];
+        } else {
+            [self.dbQueue inDatabase:read];
+        }
+        dispatch_main_async(^{
+            if (!self.closed) completion(error ? @[] : messages.copy, error ? nil : cursor, !error && hasMore, error);
+        });
+    });
+}
+#endif
+
 - (void)loadMessagesNearMID:(NSString *)mid channelID:(NSString *)cid count:(NSUInteger)count completion:(CHMessageLoadCompletion)completion {
     NSData *channel = [NSData dataFromBase64:cid] ?: [NSData dataFromHex:@kCHDefChanCode];
     NSNumber *limit = @(MIN(MAX(count, 1), 128));

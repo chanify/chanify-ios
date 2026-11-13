@@ -230,6 +230,32 @@
     }
 }
 
+#if TARGET_OS_WATCH
+- (nullable NSString *)enumerateWatchMessagesWithUID:(NSString *)uid afterMID:(NSString *)mid limit:(NSUInteger)limit error:(NSError * _Nullable * _Nullable)error block:(void (NS_NOESCAPE ^)(FMDatabase *db, NSString *mid, NSData *data))block {
+    if (error != nil) *error = nil;
+    if (uid.length == 0 || block == nil) return nil;
+    __block NSString *last = nil;
+    __block NSError *failure = nil;
+    [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        FMResultSet *rows = [db executeQuery:@"SELECT mid,data FROM msgs WHERE uid=? AND mid>? ORDER BY mid ASC LIMIT ?;", uid, mid, @(MIN(MAX(limit, 1), 32))];
+        if (!rows) failure = db.lastError;
+        while ([rows next]) {
+            last = [rows stringForColumnIndex:0];
+            NSData *data = [rows dataForColumnIndex:1];
+            if (last.length > 0 && data.length > 0) {
+                block(db, last, data);
+            } else {
+                failure = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:nil];
+            }
+        }
+        if (db.lastErrorCode != SQLITE_OK && db.lastErrorCode != SQLITE_ROW && db.lastErrorCode != SQLITE_DONE) failure = db.lastError;
+        [rows close];
+    }];
+    if (error != nil) *error = failure;
+    return last;
+}
+#endif
+
 - (void)removeMessages:(NSArray<NSString *> *)mids uid:(nullable NSString *)uid {
     if (uid.length > 0) {
         [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {

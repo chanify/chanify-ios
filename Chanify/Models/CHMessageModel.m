@@ -27,6 +27,10 @@
         if (error != nil) {
             CHLogE("Invalid message format: %s", error.description.cstr);
         } else {
+#if TARGET_OS_WATCH
+            // An encrypted cache row is pending, never a browsable placeholder.
+            if (msg.ciphertext.length > 0) return nil;
+#endif
             return [[self.class alloc] initWithID:mid packet:msg sign:msg.tokenHash];
         }
     }
@@ -34,6 +38,10 @@
 }
 
 + (nullable instancetype)modelWithStorage:(id<CHKeyStorage, CHBlockedStorage>)storage uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw flags:(CHMessageProcessFlags *_Nullable)flags {
+#if TARGET_OS_WATCH
+    if (raw != nil) *raw = nil;
+    if (flags != nil) *flags = 0;
+#endif
     id model = nil;
     CHMessageProcessFlags uFlags = 0;
     if (mid.length > 0) {
@@ -66,6 +74,12 @@
                                 }
                             }
                         }
+#if TARGET_OS_WATCH
+                        if (msg.ciphertext.length > 0) {
+                            if (flags != nil) *flags = CHMessageProcessFlagNeedsKey;
+                            return nil;
+                        }
+#endif
                         if (raw != nil) {
                             *raw = payload;
                         }
@@ -83,6 +97,34 @@
     }
     return model;
 }
+
+#if TARGET_OS_WATCH
++ (nullable instancetype)modelWithWatchCachedData:(NSData *)data mid:(NSString *)mid storage:(id<CHKeyStorage, CHBlockedStorage>)storage uid:(NSString *)uid raw:(NSData **)raw flags:(CHMessageProcessFlags *)flags {
+    if (raw != nil) *raw = nil;
+    if (flags != nil) *flags = 0;
+    NSError *error = nil;
+    CHTPMessage *packet = [CHTPMessage parseFromData:data error:&error];
+    if (error != nil || packet == nil || packet.ciphertext.length == 0) return nil;
+    if (packet.tokenHash.length > 0 && [storage checkBlockedTokenWithKey:packet.tokenHash.hex uid:uid]) {
+        if (flags != nil) *flags = CHMessageProcessFlagBlocked;
+        return nil;
+    }
+    if (flags != nil) *flags = CHMessageProcessFlagNeedsKey;
+    NSData *key = [storage keyForUID:[NSString stringWithFormat:@"%@.%@", uid, packet.from.base32Code]];
+    if (key.length < kCHAesGcmKeyBytes * 2 || packet.ciphertext.length <= kCHAesGcmNonceBytes + kCHAesGcmTagBytes) return nil;
+    NSData *content = [CHCrpyto aesOpenWithKey:[key subdataWithRange:NSMakeRange(0, kCHAesGcmKeyBytes)] data:packet.ciphertext auth:[key subdataWithRange:NSMakeRange(kCHAesGcmKeyBytes, kCHAesGcmKeyBytes)]];
+    if (content.length == 0) return nil;
+    packet.content = content;
+    packet.ciphertext = nil;
+    NSData *resolved = packet.data;
+    CHMessageModel *model = [self modelWithData:resolved mid:mid];
+    if (model != nil) {
+        if (raw != nil) *raw = resolved;
+        if (flags != nil) *flags = 0;
+    }
+    return model;
+}
+#endif
 
 + (nullable NSString *)parsePacket:(NSDictionary *)info mid:(NSString * _Nullable * _Nullable)mid data:(NSData * _Nullable * _Nullable)data {
     if (mid != nil) *mid = nil;
