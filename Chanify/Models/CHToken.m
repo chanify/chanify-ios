@@ -42,7 +42,24 @@
     return token;
 }
 
++ (nullable NSString *)serverTokenForNode:(CHNodeModel *)node date:(NSDate *)date {
+    if (!node.isSupportServerToken || date.timeIntervalSinceNow <= 0) return nil;
+    NSString *uid = CHLogic.shared.me.uid;
+    NSData *key = [CHLogic.shared.nsDataSource keyForUID:[uid stringByAppendingFormat:@".%@", node.nid]];
+    if (uid.length == 0 || key.length < 32) return nil;
+    CHToken *token = [self tokenWithDate:date];
+    token.node = node;
+    token.token.scope = CHTPTokenScope_ServerSend;
+    uuid_t identifier;
+    [NSUUID.UUID getUUIDBytes:identifier];
+    token.token.tokenId = [NSData dataWithBytes:identifier length:sizeof(identifier)];
+    // The prefix makes legacy servers reject this type instead of treating an empty channel as a channel token.
+    return [@"cst1:" stringByAppendingString:[token formatString:node.nid direct:YES]];
+}
+
 + (nullable instancetype)tokenWithString:(NSString *)value {
+    BOOL serverToken = [value hasPrefix:@"cst1:"];
+    if (serverToken) value = [value substringFromIndex:5];
     CHToken *token = nil;
     NSArray<NSString *> *items = [value componentsSeparatedByString:@"."];
     if (items.count > 0) {
@@ -50,7 +67,8 @@
         if (data.length > 0) {
             NSError *error = nil;
             CHTPToken *tk = [CHTPToken parseFromData:data error:&error];
-            if (error == nil) {
+            if (error == nil && ((serverToken && tk.scope == CHTPTokenScope_ServerSend && tk.channel.length == 0 && tk.tokenId.length == 16 && tk.nodeId.length > 0)
+                                 || (!serverToken && tk.scope == CHTPTokenScope_ChannelSend))) {
                 token = [[self.class alloc] initWithToken:tk];
             }
         }
@@ -84,6 +102,10 @@
 
 - (NSData *)channel {
     return self.token.channel;
+}
+
+- (NSString *)identifier {
+    return self.token.tokenId.hex.lowercaseString;
 }
 
 - (NSString *)nid {

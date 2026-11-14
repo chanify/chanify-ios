@@ -17,7 +17,7 @@ struct NotificationView: View {
                 if txt.count > 0 {
                     Text(txt)
                         .font(.headline)
-                        .lineLimit(1)
+                        .lineLimit(2)
                 }
             }
             Text(text ?? "NewMsg")

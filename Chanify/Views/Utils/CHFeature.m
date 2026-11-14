@@ -25,6 +25,7 @@
             @"store.device": @"externaldrive.badge.person.crop",
             @"platform.watchos": @"applewatch",
             @"register.limit": @"lock.shield",
+            @"auth.server-token": @"key",
         };
     });
     NSString *image = [iconTable objectForKey:name];

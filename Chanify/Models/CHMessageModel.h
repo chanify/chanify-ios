@@ -37,6 +37,9 @@ typedef NS_OPTIONS(NSUInteger, CHMessageFlags) {
 typedef NS_OPTIONS(NSUInteger, CHMessageProcessFlags) {
     CHMessageProcessFlagNoAlert   = 1 << 0,
     CHMessageProcessFlagBlocked   = (1 << 1 | CHMessageProcessFlagNoAlert),
+#if TARGET_OS_WATCH
+    CHMessageProcessFlagNeedsKey  = 1 << 2,
+#endif
 };
 
 @interface CHMessageModel : NSObject
@@ -61,6 +64,10 @@ typedef NS_OPTIONS(NSUInteger, CHMessageProcessFlags) {
 
 + (nullable instancetype)modelWithData:(nullable NSData *)data mid:(NSString *)mid;
 + (nullable instancetype)modelWithStorage:(id<CHKeyStorage, CHBlockedStorage>)storage uid:(NSString *)uid mid:(NSString *)mid data:(nullable NSData *)data raw:(NSData * _Nullable * _Nullable)raw flags:(CHMessageProcessFlags *_Nullable)flags;
+#if TARGET_OS_WATCH
+// Recover legacy cache rows containing an unresolved inner encrypted payload.
++ (nullable instancetype)modelWithWatchCachedData:(NSData *)data mid:(NSString *)mid storage:(id<CHKeyStorage, CHBlockedStorage>)storage uid:(NSString *)uid raw:(NSData * _Nullable * _Nullable)raw flags:(CHMessageProcessFlags *)flags;
+#endif
 + (nullable NSString *)parsePacket:(NSDictionary *)info mid:(NSString * _Nullable * _Nullable)mid data:(NSData * _Nullable * _Nullable)data;
 
 - (void)formatNotification:(UNMutableNotificationContent *)content sound:(NSString *(NS_NOESCAPE ^ _Nullable)(NSString *))soundFmt;

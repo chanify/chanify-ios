@@ -29,6 +29,10 @@ typedef NS_OPTIONS(NSUInteger, CHUpsertMessageFlags) {
 
 typedef void (^CHMessageLoadCompletion)(NSArray<CHMessageModel *> *messages, NSError * _Nullable error);
 
+#if TARGET_OS_WATCH
+typedef void (^CHWatchMessageLoadCompletion)(NSArray<CHMessageModel *> *messages, NSString * _Nullable nextMID, BOOL hasMore, NSError * _Nullable error);
+#endif
+
 @interface CHUserDataSource : NSObject
 
 @property (nonatomic, readonly, strong) NSURL *dsURL;
@@ -59,6 +63,11 @@ typedef void (^CHMessageLoadCompletion)(NSArray<CHMessageModel *> *messages, NSE
 - (BOOL)deleteMessages:(NSArray<NSString *> *)mids;
 - (BOOL)deleteMessagesWithCID:(nullable NSString *)cid;
 - (NSArray<CHMessageModel *> *)messageWithCID:(nullable NSString *)cid from:(NSString *)from to:(NSString *)to count:(NSUInteger)count;
+#if TARGET_OS_WATCH
+// Bounded, resumable repair; completed scans are persisted without a schema change.
+- (nullable NSString *)repairWatchMessagesAfterMID:(NSString *)mid storage:(id<CHKeyStorage, CHBlockedStorage>)storage uid:(NSString *)uid limit:(NSUInteger)limit pending:(BOOL *)pending error:(NSError * _Nullable * _Nullable)error;
+- (void)loadWatchMessagesBeforeMID:(nullable NSString *)mid count:(NSUInteger)count completion:(CHWatchMessageLoadCompletion)completion;
+#endif
 - (void)loadMessagesNearMID:(NSString *)mid channelID:(NSString *)cid count:(NSUInteger)count completion:(CHMessageLoadCompletion)completion;
 - (void)loadMessagesWithCID:(NSString *)cid from:(NSString *)from to:(NSString *)to count:(NSUInteger)count ascending:(BOOL)ascending completion:(CHMessageLoadCompletion)completion;
 - (NSArray<CHMessageModel *> *)messagesNearMID:(NSString *)mid channelID:(NSString *)cid count:(NSUInteger)count;

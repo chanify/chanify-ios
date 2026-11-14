@@ -37,6 +37,7 @@ typedef NS_OPTIONS(NSUInteger, CHNodeModelFlags) {
 - (nullable CHSecKey *)requestChiper;
 - (NSURL *)apiURL;
 - (BOOL)isSupportWatch;
+- (BOOL)isSupportServerToken;
 - (BOOL)isStoreDevice;
 - (BOOL)isSystem;
 

@@ -232,6 +232,17 @@ typedef NS_ENUM(NSInteger, CHNodeVCStatus) {
         }
     }
 
+    if (self.status == CHNodeVCStatusShow && self.model.isSupportServerToken) {
+        [form addFormSection:(section = [CHFormSection section])];
+        @weakify(self);
+        CHFormValueItem *tokens = [CHFormValueItem itemWithName:@"server-token" title:@"Sending Tokens".localized];
+        tokens.action = ^(CHFormItem *item) {
+            @strongify(self);
+            [CHRouter.shared routeTo:@"/page/token" withParams:@{ @"nid": self.model.nid }];
+        };
+        [section addFormItem:tokens];
+    }
+
     [form addFormSection:(section = [CHFormSection section])];
     @weakify(self);
     switch (self.status) {

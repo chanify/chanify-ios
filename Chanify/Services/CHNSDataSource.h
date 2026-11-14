@@ -47,6 +47,10 @@ typedef NS_ENUM(NSInteger, CHBannerIconMode) {
 - (void)updateBadge:(NSUInteger)badge uid:(nullable NSString *)uid;
 - (nullable CHMessageModel *)pushMessage:(NSData *)data mid:(NSString *)mid uid:(NSString *)uid flags:(CHMessageProcessFlags * _Nullable)flags;
 - (void)enumerateMessagesWithUID:(nullable NSString *)uid block:(void (NS_NOESCAPE ^)(FMDatabase *db, NSString *mid, NSData *data))block;
+#if TARGET_OS_WATCH
+// Bounded Watch inbox scan; failed packets remain available to later passes.
+- (nullable NSString *)enumerateWatchMessagesWithUID:(NSString *)uid afterMID:(NSString *)mid limit:(NSUInteger)limit error:(NSError * _Nullable * _Nullable)error block:(void (NS_NOESCAPE ^)(FMDatabase *db, NSString *mid, NSData *data))block;
+#endif
 - (void)removeMessages:(NSArray<NSString *> *)mids uid:(nullable NSString *)uid;
 - (BOOL)upsertBlockedToken:(nullable NSString *)token uid:(nullable NSString *)uid;
 - (BOOL)removeBlockedTokens:(NSArray<NSString *> *)tokens uid:(nullable NSString *)uid;

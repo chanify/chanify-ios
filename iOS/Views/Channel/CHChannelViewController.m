@@ -238,8 +238,7 @@
 }
 
 - (void)logicMessagesUpdated:(NSArray<NSString *> *)mids {
-    // TODO: Fix recive unordered messages.
-    [self.dataSource loadLatestMessage:YES];
+    [self.dataSource receiveMessages:mids];
 }
 
 - (void)logicMessageDeleted:(CHMessageModel *)model {

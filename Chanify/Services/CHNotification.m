@@ -73,7 +73,9 @@
             self.enabled = status;
         });
     }];
+#if !TARGET_OS_WATCH
     [self.center removeAllDeliveredNotifications];
+#endif
 }
 
 - (void)updateDeviceToken:(NSData *)deviceToken {
@@ -86,7 +88,11 @@
 #pragma mark - UNUserNotificationCenterDelegate
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
     [self.delegate receiveNotification:notification];
+#if TARGET_OS_WATCH
+    completionHandler(UNNotificationPresentationOptionBanner | UNNotificationPresentationOptionList | UNNotificationPresentationOptionSound);
+#else
     completionHandler(0);
+#endif
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)(void))completionHandler {

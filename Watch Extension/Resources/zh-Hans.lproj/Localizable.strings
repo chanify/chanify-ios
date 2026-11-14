@@ -26,3 +26,35 @@
 "AudioMsg"="[音频]";
 "LinkMsg"="[链接]";
 "FileMsg"="[文件]";
+
+// Watch configuration and node operation feedback
+"Updating"="正在更新…";
+"ManageNodesOnPhone"="请在 iPhone 的 Chanify 中管理或移除节点。";
+"UpdateNodeRetryHint"="请检查手表网络连接及节点是否可用，然后重试。";
+"NoNodesHint"="暂无节点。请在 iPhone 的 Chanify 中添加支持 Apple Watch 的节点。";
+"ConfigurationFailed"="配置处理失败。无效配置不会替换原账户。";
+"RetryConfiguration"="重试已有配置";
+"ConfigurationReceived"="已收到配置";
+"WaitingForConfiguration"="等待 iPhone 配置";
+"ConfigurationProcessedAt"="最近处理配置";
+"ConfigurationSyncHint"="请打开 iPhone 的 Chanify 同步配置。节点连接可能仍在处理中；重试仅重新处理已有配置。";
+"NotificationsDenied"="通知已关闭，请在设置中允许 Chanify 通知。";
+"EnableNotifications"="开启通知";
+"WatchStatus"="同步与通知";
+"ConfigurationFailedShort"="配置处理失败";
+"NotificationsEnabled"="通知已开启";
+
+// Local message summaries
+"RecentMessages"="最近消息";
+"MessageSummary"="消息摘要";
+"NoRecentMessages"="手表本机暂无收到的消息。";
+"WatchMessagesScope"="仅显示手表本机收到的消息；附件和操作消息仅展示文本摘要。";
+"ReceivingMessages"="正在更新消息…";
+"MessageLoadFailed"="消息读取失败，请重试刷新。";
+"MessagesPendingHint"="部分消息暂时无法读取，可刷新重试。";
+"LoadMoreMessages"="加载更早消息";
+"RefreshMessages"="刷新";
+"MessageUnavailableHint"="手表暂时无法读取这条消息，请尝试刷新。";
+"LongMessageHint"="摘要已截短，请在 iPhone 查看完整消息。";
+"Done"="完成";
+"MessagesUpdatedHint"="消息可能有更新，刷新可查看最新消息。";

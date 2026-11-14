@@ -13,24 +13,41 @@ struct ChanifyApp: App {
     @WKApplicationDelegateAdaptor(ExtensionDelegate.self) var delegate
     @StateObject public var model = LogicModel()
     private let logic = LogicDelegate()
+    @Environment(\.scenePhase) private var scenePhase
 
     @SceneBuilder var body: some Scene {
         WindowGroup {
             NavigationView {
                 if model.me == nil {
-                    Text("NotInit")
-                        .multilineTextAlignment(.center)
-                        .padding()
+                    ScrollView {
+                        VStack(spacing: 12) {
+                            Text("NotInit")
+                            WatchStatusView()
+                        }.padding()
+                    }.environmentObject(model)
                 }
                 if model.me != nil {
-                    ContentView().environmentObject(model)
+                    ContentView().environmentObject(model).id(model.me?.uid)
                 }
             }.onReceive(logic.userInfoUpdated, perform: { me in
-                model.me = me
+                model.updateAccount(me)
             }).onReceive(logic.nodesUpdated, perform: { nodes in
                 model.nodes = nodes
-            }).onAppear() {
+            }).onReceive(logic.messagesUpdated) { _ in
+                model.refreshMessageState(markUpdates: true)
+            }.onReceive(logic.openMessage) { mid in
+                model.openMessage(mid)
+            }.onReceive(logic.configurationUpdated) { _ in
+                model.refreshStatus()
+            }.onAppear {
                 logic.logicUserInfoChanged(CHLogic.shared.me)
+                model.refreshStatus()
+                model.refreshMessageState()
+            }.onChange(of: scenePhase) { phase in
+                if phase == .active {
+                    model.refreshStatus()
+                    model.refreshMessageState()
+                }
             }
         }
 
@@ -40,6 +57,9 @@ struct ChanifyApp: App {
     }
     
     class LogicDelegate : NSObject, CHLogicDelegate {
+        let messagesUpdated = PassthroughSubject<Void, Never>()
+        let openMessage = PassthroughSubject<String, Never>()
+        let configurationUpdated = PassthroughSubject<Void, Never>()
         let userInfoUpdated = PassthroughSubject<CHUserModel?, Never>()
         let nodesUpdated = PassthroughSubject<[NodeModel], Never>()
 
@@ -50,6 +70,18 @@ struct ChanifyApp: App {
 
         deinit {
             CHLogic.shared.removeDelegate(self)
+        }
+
+        @objc func logicWatchMessagesChanged() {
+            messagesUpdated.send(())
+        }
+
+        @objc func logicWatchOpenMessage(_ mid: String) {
+            openMessage.send(mid)
+        }
+
+        @objc func logicWatchConfigurationChanged() {
+            configurationUpdated.send(())
         }
 
         @objc func logicUserInfoChanged(_ me: CHUserModel?) {

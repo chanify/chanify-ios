@@ -170,6 +170,8 @@ Test push in simulator
 $ ./send.swift text=hello
 ```
 
+Release notes, supported feature scope, and submission checklist: [App Store release](Doc/AppStoreRelease.md). Simulator push tests do not validate production APNs or distribution signing.
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.

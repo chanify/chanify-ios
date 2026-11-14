@@ -19,6 +19,7 @@ typedef NS_ENUM(NSInteger, CHFormInputType) {
 @property (nonatomic, assign) BOOL required;
 @property (nonatomic, nullable, copy) CHFormItemOnChangedBlock onChanged;
 @property (nonatomic, assign) CHFormInputType inputType;
+@property (nonatomic, nullable, copy) CHFormItemActionBlock onEditingEnded;
 
 - (void)startEditing;
 - (__kindof CHView *)editView;

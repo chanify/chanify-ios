@@ -1,4 +1,7 @@
 #import <Foundation/Foundation.h>
+#import <TargetConditionals.h>
+#undef TARGET_OS_WATCH
+#define TARGET_OS_WATCH 1
 #import "NSData+CHExt.h"
 #import "NSString+CHExt.h"
 #import "NSString+CHLocalized.h"
