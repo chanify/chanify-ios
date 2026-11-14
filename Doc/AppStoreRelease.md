@@ -1,4 +1,4 @@
-# App Store release: 1.4.13 (77)
+# App Store release: 1.5.0 (78)
 
 ## Release notes — 简体中文
 
@@ -18,7 +18,7 @@
 
 ## Scope and release gate
 
-These are draft App Store Connect notes for 1.4.13 (77), not a record of approval or production deployment.
+These are draft App Store Connect notes for 1.5.0 (78), not a record of approval or production deployment.
 Historical search backfill is disabled by default, so older messages may not appear in search.
 Watch shows text summaries (up to 2048 characters); it does not download attachments,
 execute actions, or open message links. Server-wide sending tokens require a stateful
