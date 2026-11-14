@@ -25,6 +25,7 @@
 @property (nonatomic) BOOL loadingEarlier;
 @property (nonatomic) BOOL loadingLatest;
 @property (nonatomic) BOOL latestRequested;
+@property (nonatomic, strong) NSMutableSet<NSString *> *pendingReceivedMIDs;
 @property (nonatomic) BOOL scrollAfterLatestLoad;
 @property (nonatomic) NSUInteger mutationRevision;
 @property (nonatomic) BOOL loadingTarget;
@@ -96,6 +97,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     self.loadingNext = NO;
     self.loadingLatest = NO;
     self.latestRequested = NO;
+    self.pendingReceivedMIDs = [NSMutableSet new];
     self.scrollAfterLatestLoad = NO;
     self.headerView.status = CHLoadStatusNormal;
     self.collectionView.backgroundView = nil;
@@ -207,6 +209,68 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
     }];
 }
 
+- (void)receiveMessages:(NSArray<NSString *> *)mids {
+    if (self.loadingLatest || self.loadingTarget) {
+        [self.pendingReceivedMIDs addObjectsFromArray:mids];
+        return;
+    }
+    if (self.pendingReceivedMIDs.count) {
+        [self.pendingReceivedMIDs addObjectsFromArray:mids];
+        mids = self.pendingReceivedMIDs.allObjects;
+        [self.pendingReceivedMIDs removeAllObjects];
+    }
+    // Forward pagination alone cannot discover a late delivery inside the
+    // already loaded interval. Merge those records without resetting history.
+    NSArray<CHCellConfiguration *> *current = self.snapshot.itemIdentifiers;
+    NSMutableDictionary<NSString *, CHCellConfiguration *> *messages = [NSMutableDictionary new];
+    for (CHCellConfiguration *cell in current) {
+        if (![cell isKindOfClass:CHDateCellConfiguration.class]) messages[cell.mid] = cell;
+    }
+    NSArray<NSString *> *ordered = [messages.allKeys sortedArrayUsingSelector:@selector(compare:)];
+    NSString *first = ordered.firstObject;
+    NSString *last = ordered.lastObject;
+    BOOL changed = NO;
+    CHUserDataSource *account = CHLogic.shared.userDataSource;
+    for (NSString *mid in mids) {
+        if (!first || [mid compare:first] == NSOrderedAscending || [mid compare:last] == NSOrderedDescending || messages[mid]) continue;
+        CHMessageModel *model = [account messageWithMID:mid];
+        if (![model.channel.base64Code isEqualToString:self.cid]) continue;
+        messages[mid] = [CHCellConfiguration cellConfiguration:model];
+        changed = YES;
+    }
+    if (changed) {
+        self.mutationRevision++;
+        NSMutableArray<CHCellConfiguration *> *cells = [NSMutableArray new];
+        NSDate *date = nil;
+        for (NSString *mid in [messages.allKeys sortedArrayUsingSelector:@selector(compare:)]) {
+            CHCellConfiguration *cell = messages[mid];
+            if (!date || [cell.date timeIntervalSinceDate:date] > kCHMessageListDateDiff) {
+                [cells addObject:[CHDateCellConfiguration cellConfiguration:mid]];
+                date = cell.date;
+            }
+            [cells addObject:cell];
+        }
+        NSIndexPath *anchorPath = [[self.collectionView.indexPathsForVisibleItems sortedArrayUsingSelector:@selector(compare:)] firstObject];
+        CHCellConfiguration *anchor = anchorPath ? [self itemIdentifierForIndexPath:anchorPath] : nil;
+        UICollectionViewLayoutAttributes *before = anchorPath ? [self.collectionView layoutAttributesForItemAtIndexPath:anchorPath] : nil;
+        CGFloat anchorY = before.frame.origin.y;
+        CGPoint offset = self.collectionView.contentOffset;
+        [UIView performWithoutAnimation:^{
+            CHConversationDiffableSnapshot *snapshot = [CHConversationDiffableSnapshot new];
+            [snapshot appendSectionsWithIdentifiers:@[@"main"]];
+            [snapshot appendItemsWithIdentifiers:cells];
+            [self applySnapshot:snapshot animatingDifferences:NO];
+            [self.collectionView layoutIfNeeded];
+            NSIndexPath *path = anchor ? [self indexPathForItemIdentifier:anchor] : nil;
+            UICollectionViewLayoutAttributes *after = path ? [self.collectionView layoutAttributesForItemAtIndexPath:path] : nil;
+            CGPoint restored = offset;
+            if (before && after) restored.y += after.frame.origin.y - anchorY;
+            [self.collectionView setContentOffset:restored animated:NO];
+        }];
+    }
+    [self loadLatestMessage:YES];
+}
+
 - (void)loadLatestMessage:(BOOL)animated {
     if (self.browsingHistory) return;
     if (self.loadingLatest) { self.latestRequested = YES; return; }
@@ -238,6 +302,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
         }
         self.scrollAfterLatestLoad = NO;
         [self updateHeaderView];
+        if (self.pendingReceivedMIDs.count) [self receiveMessages:@[]];
         if (requested || (last && items.count == kCHMessageListPageSize)) [self loadLatestMessage:animated];
     }];
 }
@@ -310,6 +375,7 @@ typedef NSDiffableDataSourceSnapshot<NSString *, CHCellConfiguration *> CHConver
             }
             self.loadingTarget = NO;
             [self updateHeaderView];
+            if (self.pendingReceivedMIDs.count) [self receiveMessages:@[]];
         }];
     }];
 }

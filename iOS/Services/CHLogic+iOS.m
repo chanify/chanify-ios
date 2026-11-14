@@ -31,6 +31,8 @@
 @property (nonatomic, readonly, strong) CHReachability *reachability;
 @property (nonatomic, readonly, strong) CHTimelineDataSource *timelineDataSource;
 @property (nonatomic, readonly, strong) WCSession *watchSession;
+@property (nonatomic, assign) BOOL watchSyncRetryScheduled;
+@property (nonatomic, assign) NSUInteger watchSyncRetryCount;
 
 @end
 
@@ -77,6 +79,8 @@
     [super active];
     [self updatePushMessage:NO];
     [self reloadBadge];
+    self.watchSyncRetryCount = 0;
+    [self syncDataToWatch:NO];
     [self.reachability startNotifier];
 }
 
@@ -93,7 +97,7 @@
 }
 
 - (BOOL)recivePushMessage:(NSDictionary *)userInfo {
-    // TODO: Remove this update call.
+    // Drain packets saved by the service extension before handling this delivery.
     [self updatePushMessage:YES];
 
     BOOL res = NO;
@@ -111,8 +115,7 @@
             }
             [self sendNotifyWithSelector:@selector(logicMessagesUpdated:) withObject:@[mid]];
             if (flags & CHUpsertMessageFlagUnread) {
-                // TODO: Fix calc unread count
-                [self sendNotifyWithSelector:@selector(logicMessagesUnreadChanged:) withObject:@(self.userDataSource.unreadSumAllChannel)];
+                [self publishUnreadCount];
             }
             [self.timelineDataSource upsertUid:uid from:model.from model:model.timeline];
             res = YES;
@@ -166,7 +169,8 @@
 - (void)doLogin:(CHUserModel *)user key:(NSData *)key {
     [super doLogin:user key:key];
     [self updatePushMessage:NO];
-    // TODO: wait seckey sync to Apple Watch
+    // Login has installed the account key. Transfer the latest configuration;
+    // activation and foreground entry retry when the Watch session is unavailable.
     [self syncDataToWatch:NO];
 }
 
@@ -212,21 +216,36 @@
 }
 
 - (BOOL)syncDataToWatch:(BOOL)focus {
-    BOOL res = NO;
-    if (self.isWatchAppInstalled) {
-        res = [self.watchSession updateApplicationContext:@{
-            @"last": @(focus ? NSDate.date.timeIntervalSince1970 : 0),
-            @"data": self.watchSyncedData,
-            @"deletedAccounts": [NSUserDefaults.standardUserDefaults stringArrayForKey:@"CHDeletedWatchAccounts"] ?: @[],
-        } error:nil];
+    if (!self.isWatchAppInstalled) return NO;
+    NSData *data = self.watchSyncedData;
+    // An inaccessible private key is a transient error, not a logout command.
+    NSError *error = nil;
+    BOOL success = data != nil && [self.watchSession updateApplicationContext:@{
+        @"last": @(focus ? NSDate.date.timeIntervalSince1970 : 0),
+        @"data": data,
+        @"deletedAccounts": [NSUserDefaults.standardUserDefaults stringArrayForKey:@"CHDeletedWatchAccounts"] ?: @[],
+    } error:&error];
+    if (success) {
+        self.watchSyncRetryCount = 0;
+    } else if (!self.watchSyncRetryScheduled && self.watchSyncRetryCount < 3) {
+        self.watchSyncRetryScheduled = YES;
+        self.watchSyncRetryCount++;
+        @weakify(self);
+        dispatch_main_after(5, ^{
+            @strongify(self);
+            self.watchSyncRetryScheduled = NO;
+            // Serialize current state; a delayed retry must not restore a prior account.
+            [self syncDataToWatch:NO];
+        });
     }
-    return res;
+    return success;
 }
 
 #pragma mark - WCSessionDelegate
 - (void)session:(WCSession *)session activationDidCompleteWithState:(WCSessionActivationState)activationState error:(nullable NSError *)error {
     if (error == nil && activationState == WCSessionActivationStateActivated) {
         dispatch_main_async(^{
+            self.watchSyncRetryCount = 0;
             [self syncDataToWatch:NO];
             [self sendNotifyWithSelector:@selector(logicWatchStatusChanged)];
         });
@@ -297,6 +316,7 @@
     BOOL res = [super deleteChannel:cid];
     if (res) {
         [CHWidget.shared deleteChannel:cid];
+        [self publishUnreadCount];
     }
     return res;
 }
@@ -351,8 +371,7 @@
             [self sendNotifyWithSelector:@selector(logicChannelsUpdated:) withObject:cids.allObjects];
         }
         if (unreadChanged) {
-            // TODO: Fix calc unread count
-            [self sendNotifyWithSelector:@selector(logicMessagesUnreadChanged:) withObject:@(self.userDataSource.unreadSumAllChannel)];
+            [self publishUnreadCount];
         }
         if (alert && needAlertUnread) {
             [self sendAlertNewMessage];
@@ -360,11 +379,13 @@
     }
 }
 
-- (NSData *)watchSyncedData {
+- (nullable NSData *)watchSyncedData {
     CHTPWatchConfig *cfg = [CHTPWatchConfig new];
     CHUserModel *me = self.me;
     if (me != nil) {
-        cfg.userKey = me.key.seckey;
+        NSData *key = me.key.seckey;
+        if (key.length == 0) return nil;
+        cfg.userKey = key;
         for (CHNodeModel *node in self.userDataSource.loadNodes) {
             if (node.isSupportWatch && !node.isSystem) {
                 CHTPNode *n = [CHTPNode new];
@@ -388,6 +409,18 @@
         }
     }
     return cfg.data;
+}
+
+- (void)publishUnreadCount {
+    NSInteger unread = MAX(0, self.userDataSource.unreadSumAllChannel);
+    [self updateBadge:unread];
+    [self sendNotifyWithSelector:@selector(logicMessagesUnreadChanged:) withObject:@(unread)];
+}
+
+- (BOOL)deleteMessagesWithCID:(nullable NSString *)cid {
+    BOOL success = [super deleteMessagesWithCID:cid];
+    if (success) [self publishUnreadCount];
+    return success;
 }
 
 - (void)reloadBadge {
@@ -417,8 +450,7 @@
     BOOL res = [self.userDataSource clearUnreadWithChannel:cid];
     if (res) {
         [self sendNotifyWithSelector:@selector(logicChannelUpdated:) withObject:cid];
-        // TODO: Fix calc unread count
-        [self sendNotifyWithSelector:@selector(logicMessagesUnreadChanged:) withObject:@(self.userDataSource.unreadSumAllChannel)];
+        [self publishUnreadCount];
     }
     return res;
 }

@@ -259,7 +259,7 @@ static int CHMessageReadCancelled(void *context) {
     NSData *ccid = [NSData dataFromBase64:cid];
     if (ccid.length > 0) {
         [self.dbQueue inDatabase:^(FMDatabase *db) {
-            res = [db executeUpdate:@"UPDATE `channels` SET `deleted`=1 WHERE `cid`=? LIMIT 1;", ccid];
+            res = [db executeUpdate:@"UPDATE `channels` SET `deleted`=1,`unread`=0 WHERE `cid`=? LIMIT 1;", ccid];
         }];
     }
     return res;
@@ -330,7 +330,7 @@ static int CHMessageReadCancelled(void *context) {
 - (NSInteger)unreadSumAllChannel {
     __block NSInteger unread = 0;
     [self.dbQueue inDatabase:^(FMDatabase *db) {
-        unread = [db intForQuery:@"SELECT SUM(`unread`) FROM `channels`;"];
+        unread = [db intForQuery:@"SELECT SUM(`unread`) FROM `channels` WHERE IFNULL(`deleted`,0)=0;"];
     }];
     return unread;
 }
@@ -649,7 +649,7 @@ static int CHMessageReadCancelled(void *context) {
         }
         if (success && inserted && !model.needNoAlert && checker != nil && checker(ccid.base64Code)) {
             success = [db executeUpdate:@"UPDATE `channels` SET `unread`=IFNULL(`unread`,0)+1 WHERE `cid`=?;", ccid];
-            if (success) flags |= CHUpsertMessageFlagUnread;
+            if (success) flags |= CHUpsertMessageFlagUnread | CHUpsertMessageFlagChannel;
         }
         if (success && (oldMid.length == 0 || [oldMid compare:mid] == NSOrderedAscending)) {
             success = [db executeUpdate:@"UPDATE `channels` SET `mid`=? WHERE `cid`=?;", mid, ccid];

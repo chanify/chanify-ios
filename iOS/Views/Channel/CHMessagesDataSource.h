@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)scrollViewDidScroll;
 - (void)scrollToBottom:(BOOL)animated;
 - (void)loadLatestMessage:(BOOL)animated;
+- (void)receiveMessages:(NSArray<NSString *> *)mids;
 - (void)deleteMessage:(nullable CHMessageModel *)model animated:(BOOL)animated;
 - (void)deleteMessages:(NSArray<NSString *> *)mids animated:(BOOL)animated;
 - (void)selectItemWithIndexPath:(NSIndexPath *)indexPath;

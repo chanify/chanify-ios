@@ -221,3 +221,25 @@
 "No matching messages in the current search index" = "已加入搜索的消息中未找到匹配结果，部分消息尚未加入搜索";
 "Could not load messages. Please try again." = "无法加载消息，请重试。";
 "Retry" = "重试";
+
+// Server-scoped sending tokens
+"Generate Server Token"="生成服务器发送令牌";
+"auth.server-token"="服务器级发送令牌";
+"This token can send messages to different channels on this server. If no channel is specified, messages go to Uncategorized."="此令牌可向当前服务器的不同频道发送消息。未指定频道时发送到未分类频道。";
+"Server token unavailable. Refresh or reconnect this node."="无法生成服务器令牌，请刷新或重新连接此节点。";
+"Choose an expiry date, then tap Generate Token."="选择有效期后，点击“生成令牌”。";
+"Sending Tokens"="发送令牌";
+"Token Detail"="令牌详情";
+"Save Name"="保存名称";
+"Delete Token"="删除令牌";
+"No sending tokens"="暂无发送令牌";
+"Token unavailable"="令牌不可用";
+"Refresh"="刷新";
+"Could not update tokens. Please try again."="无法更新令牌，请重试。";
+"Create tokens with the add button. If no channel is specified, messages go to Uncategorized."="点击右上角添加按钮创建令牌。未指定频道时发送到未分类频道。";
+"Enter a token name (up to 128 UTF-8 bytes)."="请输入令牌名称（最多 128 个 UTF-8 字节）。";
+"Delete this token? It will stop working immediately."="删除此令牌？删除后将立即失效。";
+"Loading tokens…"="正在加载令牌…";
+"Please wait for the current operation, then try again."="请等待当前操作完成后重试。";
+
+"Generation has started. Retry with the same expiry date if the request fails." = "已开始生成。若请求失败，请使用相同有效期重试。";

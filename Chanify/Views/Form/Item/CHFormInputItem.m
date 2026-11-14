@@ -90,6 +90,7 @@
         cell.contentConfiguration = self.contentConfiguration;
         [cell setNeedsUpdateConfiguration];
     }
+    if (self.onEditingEnded != nil) self.onEditingEnded(self);
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

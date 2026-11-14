@@ -171,6 +171,8 @@ $ open Chanify.xcworkspace
 $ ./send.swift text=hello
 ```
 
+版本更新说明、功能范围及提审清单见 [App Store 发布说明](Doc/AppStoreRelease.md)。模拟器推送不能替代生产 APNs 和分发签名验收。
+
 ## 贡献
 
 贡献使开源社区成为了一个令人赞叹的学习，启发和创造场所。 **十分感谢**您做出的任何贡献。

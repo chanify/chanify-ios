@@ -1,4 +1,36 @@
-# App Store release: 1.4.11 (75)
+# App Store release: 1.4.13 (77)
+
+## Release notes — 简体中文
+
+- 新增消息搜索，支持关键词高亮、分页与跳转到消息上下文。
+- Apple Watch 新增最近消息、文本摘要详情与本地历史分页，改善通知定位和同步状态。
+- 自建服务器支持发送令牌的创建、列表、改名、复制及吊销；需要节点声明相应能力。
+- 修复迟到消息的列表显示与频道摘要刷新，改善未读角标同步。
+- 改善 Watch 账户密钥同步重试，以及缺少节点密钥时的消息保留和恢复。
+
+## What's New — English
+
+- Search messages with highlighted matches, pagination, and navigation to their context.
+- Browse recent messages and text summaries on Apple Watch, with local history pagination and improved notification navigation and sync status.
+- Create, list, rename, copy, and revoke sending tokens on supported self-hosted servers.
+- Fix late-arriving message display and channel previews, and improve unread badge updates.
+- Improve Watch account-key sync retries and message recovery while node keys are unavailable.
+
+## Scope and release gate
+
+These are draft App Store Connect notes for 1.4.13 (77), not a record of approval or production deployment.
+Historical search backfill is disabled by default, so older messages may not appear in search.
+Watch shows text summaries (up to 2048 characters); it does not download attachments,
+execute actions, or open message links. Server-wide sending tokens require a stateful
+self-hosted node advertising `auth.server-token`; the official service and legacy nodes
+keep their existing channel-token flow.
+
+Before submission, complete a signed Release Archive, packaged bundle checks,
+Organizer Validate, and TestFlight acceptance on physical devices. Record production
+APNs, paired Watch, iOS 15, iPad, and upgrade results separately from simulator tests.
+Generation fixes a server token's expiry at the first attempt; retry uses the same token
+and expiry so a lost response cannot silently create another credential. To choose a
+different expiry, finish/reconcile the existing attempt in the token list first.
 
 ## Build and package
 

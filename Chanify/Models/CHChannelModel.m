@@ -64,11 +64,9 @@
 }
 
 - (NSComparisonResult)channelCompare:(CHChannelModel *)rhs {
-    if (self.mid == nil) {
-        if (rhs.mid == nil) {
-            return NSOrderedSame;
-        }
-        return NSOrderedDescending;
+    if (self.mid.length == 0 || rhs.mid.length == 0) {
+        if (self.mid.length == rhs.mid.length) return [self.cid compare:rhs.cid];
+        return self.mid.length == 0 ? NSOrderedDescending : NSOrderedAscending;
     }
     switch ([self.mid compare:rhs.mid]) {
         case NSOrderedSame:

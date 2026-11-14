@@ -357,29 +357,9 @@ static NSString *const cellIdentifier = @"chan";
 }
 
 - (void)logicMessagesUpdated:(NSArray<NSString *> *)mids {
-    CHUserDataSource *usrDS = CHLogic.shared.userDataSource;
-    CHChannelDiffableSnapshot *snapshot = self.dataSource.snapshot;
-    NSArray<CHChannelModel *> *items = [snapshot itemIdentifiersInSectionWithIdentifier:@"main"];
-    NSHashTable *reloadItems = [NSHashTable weakObjectsHashTable];
-    for (NSString *mid in mids) {
-        CHMessageModel *model = [usrDS messageWithMID:mid];
-        NSString *cid = model.channel.base64Code;
-        for (CHChannelModel *c in items) {
-            if ([c.cid isEqualToString:cid]) {
-                c.mid = mid;
-                [reloadItems addObject:c];
-                break;
-            }
-        }
-    }
-    if (reloadItems.count != 1 || reloadItems.anyObject != items.firstObject) {
-        // TODO: sort items
-        [snapshot deleteSectionsWithIdentifiers:@[@"main"]];
-        [snapshot appendSectionsWithIdentifiers:@[@"main"]];
-        [snapshot appendItemsWithIdentifiers:[items sortedArrayUsingSelector:@selector(channelCompare:)]];
-    }
-    [snapshot reloadItemsWithIdentifiers:reloadItems.allObjects];
-    [self.dataSource applySnapshot:snapshot animatingDifferences:YES];
+    // The database owns the latest MID. Arrival order can differ from MID order,
+    // and a late message can change unread counts without changing that MID.
+    [self reloadDataAnimated:YES];
 }
 
 - (void)logicMessagesUnreadChanged:(NSNumber *)unread {
@@ -392,6 +372,14 @@ static NSString *const cellIdentifier = @"chan";
     CHChannelDiffableSnapshot *snapshot = [CHChannelDiffableSnapshot new];
     [snapshot appendSectionsWithIdentifiers:@[@"main"]];
     [snapshot appendItemsWithIdentifiers:[items sortedArrayUsingSelector:@selector(channelCompare:)]];
+    NSSet *previous = [NSSet setWithArray:self.dataSource.snapshot.itemIdentifiers];
+    NSMutableArray *reload = [NSMutableArray new];
+    for (CHChannelModel *item in items) {
+        if ([previous containsObject:item]) [reload addObject:item];
+    }
+    // Equal channel identifiers do not tell diffable data sources that the
+    // preview or unread count changed. Explicitly refresh existing cells.
+    [snapshot reloadItemsWithIdentifiers:reload];
     [self.dataSource applySnapshot:snapshot animatingDifferences:animated];
 }
 

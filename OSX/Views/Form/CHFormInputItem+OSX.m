@@ -104,6 +104,7 @@
             [cell setNeedsUpdateConfiguration];
         }
     }
+    if (self.onEditingEnded != nil) self.onEditingEnded(self);
 }
 
 - (void)controlTextDidChange:(NSNotification *)info {

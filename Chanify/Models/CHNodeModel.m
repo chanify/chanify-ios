@@ -129,6 +129,10 @@
     return [self.features containsObject:@"platform.watchos"];
 }
 
+- (BOOL)isSupportServerToken {
+    return !self.isSystem && self.isStoreDevice && [self.features containsObject:@"auth.server-token"];
+}
+
 - (BOOL)isStoreDevice {
     return (self != nil && self.flags&CHNodeModelFlagsStoreDevice);
 }

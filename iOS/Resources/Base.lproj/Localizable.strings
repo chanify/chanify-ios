@@ -221,3 +221,25 @@
 "No matching messages in the current search index" = "No matching messages in the current search index";
 "Could not load messages. Please try again." = "Could not load messages. Please try again.";
 "Retry" = "Retry";
+
+// Server-scoped sending tokens
+"Generate Server Token"="Generate Server Token";
+"auth.server-token"="Server-wide sending tokens";
+"This token can send messages to different channels on this server. If no channel is specified, messages go to Uncategorized."="This token can send messages to different channels on this server. If no channel is specified, messages go to Uncategorized.";
+"Server token unavailable. Refresh or reconnect this node."="Server token unavailable. Refresh or reconnect this node.";
+"Choose an expiry date, then tap Generate Token."="Choose an expiry date, then tap Generate Token.";
+"Sending Tokens"="Sending Tokens";
+"Token Detail"="Token Detail";
+"Save Name"="Save Name";
+"Delete Token"="Delete Token";
+"No sending tokens"="No sending tokens";
+"Token unavailable"="Token unavailable";
+"Refresh"="Refresh";
+"Could not update tokens. Please try again."="Could not update tokens. Please try again.";
+"Create tokens with the add button. If no channel is specified, messages go to Uncategorized."="Create tokens with the add button. If no channel is specified, messages go to Uncategorized.";
+"Enter a token name (up to 128 UTF-8 bytes)."="Enter a token name (up to 128 UTF-8 bytes).";
+"Delete this token? It will stop working immediately."="Delete this token? It will stop working immediately.";
+"Loading tokens…"="Loading tokens…";
+"Please wait for the current operation, then try again."="Please wait for the current operation, then try again.";
+
+"Generation has started. Retry with the same expiry date if the request fails." = "Generation has started. Retry with the same expiry date if the request fails.";
